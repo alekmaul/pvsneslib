@@ -1,0 +1,54 @@
+--------------------------------------------------------------------------
+  Copyright (C) 2012
+   Alekmaul
+
+  This software is provided 'as-is', without any express or implied
+  warranty.  In no event will the authors be held liable for any
+  damages arising from the use of this software.
+
+  Permission is granted to anyone to use this software for any
+  purpose, including commercial applications, and to alter it and
+  redistribute it freely, subject to the following restrictions:
+
+  1. The origin of this software must not be misrepresented; you
+     must not claim that you wrote the original software. If you use
+     this software in a product, an acknowledgment in the product
+     documentation would be appreciated but is not required.
+  2. Altered source versions must be plainly marked as such, and
+     must not be misrepresented as being the original software.
+  3. This notice may not be removed or altered from any source
+     distribution.
+--------------------------------------------------------------------------
+CHANGE LOG
+--------------------------------------------------------------------------
+V0.4.0 (xx, yyy, 2012)
+- add padsUp function to know if key just released
+- add bool typedef definition with true & false values
+- add NULL definition
+- add setPalette function
+- add bgInitTileSetData function
+- add test for bgInitMapSet & bgInitTileSetData to change or not bg tile/map adress
+- add oamInitGfxAttr to init only sprites size & address
+- add a flag (snes_50hz) to know if we are on a PAL snes (1=yes)
+- add sound management through shiru "christmass craze" example (thanks to him for tools)
+- add windows regions management
+
+V0.3.0 (01, May, 2012)
+- add paletteSize to bgInitTileSet to avoid pb with palette bigger than 16 colors for 16 colormode 
+- fix bug for REG_BG34NBA address
+- add setMode7 to initialize graphic mode 7 
+- add bgInitMapTileSet7 to initialize graphics & map for graphic mode 7
+- add dmaCopyVram7 to copy to VRAM with specfici value for VMAIN register
+- add mode7 example
+- add hdma gradient example
+- add WaitVBLFlag macro to wait VBLM before writing to VRAM
+- add likemario example to show how to handle collision map
+- consoleVblank draw text only if not currently writing a new one (two states flag)
+
+V0.2.1 (14, April, 2012)
+- change display text management to use a buffer map instead of direct vram access
+- Add rand function
+
+V0.2.0 (14, April, 2012)
+-Add Mode3 link in snes.h documentation
+-Change name to pvsneslib
