@@ -1,0 +1,70 @@
+#---------------------------------------------------------------------------------
+# path to tools
+#---------------------------------------------------------------------------------
+export PATH	:=	$(DEVKIT65XX)/bin:$(PATH)
+
+PVSNESLIB	:=	$(DEVKITSNES)/pvsneslib
+LIBDIRSOBJS = $(PVSNESLIB)/lib
+LIBOBJS :=	$(LIBDIRSOBJS)/crt0_snes.obj $(LIBDIRSOBJS)/libc.obj $(LIBDIRSOBJS)/libm.obj $(LIBDIRSOBJS)/libtcc.obj
+
+#---------------------------------------------------------------------------------
+# the compiler executables
+#---------------------------------------------------------------------------------
+
+export CC	:=	816-tcc
+export AS	:=	wla-65816
+export LD	:=	wlalink
+export PY	:=	816-opt.py
+export BS	:=	bass
+export OM	:=	optimore-816
+
+export CTF	:=	constify
+
+export GFXCONV	:=	$(DEVKIT65XX)/tools/gfx2snes
+
+#export EMU	:=	$(DEVKIT65XX)/../emulators/bsnes64bits/bsnes
+#export EMU	:=	$(DEVKIT65XX)/../emulators/bsnes/bsnes_debugger
+#export EMU	:=	$(DEVKIT65XX)/../emulators/nosns/NOSNS
+export EMU	:=	$(DEVKIT65XX)/../emulators/zsnes/ZSNESW
+
+#---------------------------------------------------------------------------------
+# Add default flag for compiling
+#---------------------------------------------------------------------------------
+CFLAGS += -I$(DEVKIT65XX)/include 
+
+#---------------------------------------------------------------------------------
+%.ps: %.c
+	@echo Compiling to .ps ... $(notdir $<)
+	$(CC) $(CFLAGS) -Wall -c $< -o $@
+
+#---------------------------------------------------------------------------------
+%.obj: %.asm
+	@echo Doing obj files ... $(notdir $<)
+	$(AS) -ivo $< $@  
+
+#---------------------------------------------------------------------------------
+%.asm: %.ps
+	@echo Assembling ... $(notdir $<)
+	$(PY) $< >$*.asp 
+#	@echo Optimizing ... $(notdir $<)
+#	$(OM) $*.asp $*.as1
+	@echo Moving constants ... $(notdir $<)
+#	$(CTF) $*.c $*.as1 $@
+	$(CTF) $*.c $*.asp $@
+#	@rm $*.asp $*.as1 
+	@rm $*.asp
+
+#---------------------------------------------------------------------------------
+#%.asm: %.as1
+#	@echo Optimizing ... $(notdir $<)
+#	$(OM) $< $@ 
+
+#---------------------------------------------------------------------------------
+%.sfc:
+	@echo Linking ... $(notdir $@)
+	$(LD) -dvSno $(OFILES) $(LIBOBJS) $@
+
+#---------------------------------------------------------------------------------
+%.pic: %.bmp
+	@echo convert bitmap ... $(notdir $<)
+	$(GFXCONV) -pr -pc16 -n -gs8 -pe0 -fbmp -m $<
