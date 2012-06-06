@@ -47,7 +47,7 @@ export SNESOBJS = crt0_snes.obj libm.obj libtcc.obj libc.obj
 
 all: $(SNESOBJS)
 	@mv *.obj ../lib
-	@rm *.ps
+	@rm -f *.ps
 
 #---------------------------------------------------------------------------------
 libc.obj: libc.asm libc_c.asm
