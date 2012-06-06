@@ -18,12 +18,15 @@ SPECIAL THANKS
   Neviksti for pcx2snes : <no URL>
   Shiru for snesbmp idea & sound tools : http://shiru.untergrund.net/
   Ulrich Hecht for SNES C SDK : http://code.google.com/p/snes-sdk/
-                
+  Mukunda for smconv tool : http://snes.mukunda.com/
+               
 CHANGE LOG
 ----------------------
-VERSION 0.40 (xx, xxxxx, 2012)
+VERSION 1.00 (06, June, 2012)
 - Add tools directory for each executable which are not for c / asm source compilation
 - Add constify tool in compilation , after python script
+- Add smconv tool to convert it files to be compatible with it sampling
+- Add snesbrr to convert wav file to brr format
 
 VERSION 0.30 (23, April, 2012)
 - Change all graphic tools for pvsneslib gfx2snes tool (based on pcx2snes by Neviksti)
