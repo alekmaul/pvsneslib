@@ -97,7 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <span class="comment"></span>
 <span class="comment"></span>
 <span class="comment">---------------------------------------------------------------------------------*/</span>
-<span class="preprocessor">#include &lt;<a class="code" href="a00021.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
+<span class="preprocessor">#include &lt;<a class="code" href="a00024.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
 
 <span class="keyword">extern</span> <span class="keywordtype">char</span> patterns, patterns_end;
 <span class="keyword">extern</span> <span class="keywordtype">char</span> palette;
@@ -107,24 +107,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <span class="comment">//---------------------------------------------------------------------------------</span>
 <span class="keywordtype">int</span> main(<span class="keywordtype">void</span>) {
-    <span class="keywordtype">short</span> scrX=0, scrY=0;
-    <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> pad0, move;
+    u16 scrX=0, scrY=0;
+    u16 pad0, move;
 
     <span class="comment">// Initialize SNES </span>
-    <a name="a0"></a><a class="code" href="a00016.html#a6047713bb5a73afd3cd1d77e336bcdad" title="Initialize console.">consoleInit</a>();
+    <a name="a0"></a><a class="code" href="a00019.html#a6047713bb5a73afd3cd1d77e336bcdad" title="Initialize console.">consoleInit</a>();
     
     <span class="comment">// Initialize text console with our font</span>
-    <a name="a1"></a><a class="code" href="a00016.html#a71d75ca1dc18e5bd167b221497c82090" title="Initialize the Text System.">consoleInitText</a>(0, 1, &amp;snesfont);
+    <a name="a1"></a><a class="code" href="a00019.html#a458fa049800e12429ca0ba401e513746" title="Initialize the Text System.">consoleInitText</a>(0, 1, &amp;snesfont);
 
     <span class="comment">// Copy tiles to VRAM</span>
-    <a name="a2"></a><a class="code" href="a00015.html#ae09a7ac09be78eef0f28a6c7aabc82ad" title="Initializes a Tile Set and Loads the Tile GFX into VRAM.">bgInitTileSet</a>(1, &amp;patterns, &amp;palette, 0, (&amp;patterns_end - &amp;patterns), 16*2, BG_16COLORS, 0x4000);
+    <a name="a2"></a><a class="code" href="a00018.html#ae09a7ac09be78eef0f28a6c7aabc82ad" title="Initializes a Tile Set and Loads the Tile GFX into VRAM.">bgInitTileSet</a>(1, &amp;patterns, &amp;palette, 0, (&amp;patterns_end - &amp;patterns), 16*2, BG_16COLORS, 0x4000);
 
     <span class="comment">// Copy Map to VRAM</span>
-    <a name="a3"></a><a class="code" href="a00015.html#a8e2ce68446b46a8bb6413785083c1c05" title="Initializes a Map Set and loads it into SNES VRAM.">bgInitMapSet</a>(1, &amp;map, (&amp;map_end - &amp;map),<a name="a4"></a><a class="code" href="a00015.html#a7afc211c644079338a1f032ea5e90460a5e4348685cadc60cf8333cc6b922331e" title="64 x 64 tile size">SC_64x64</a>, 0x1000);
+    <a name="a3"></a><a class="code" href="a00018.html#a8e2ce68446b46a8bb6413785083c1c05" title="Initializes a Map Set and loads it into SNES VRAM.">bgInitMapSet</a>(1, &amp;map, (&amp;map_end - &amp;map),<a name="a4"></a><a class="code" href="a00018.html#a7afc211c644079338a1f032ea5e90460a5e4348685cadc60cf8333cc6b922331e" title="64 x 64 tile size">SC_64x64</a>, 0x1000);
 
     <span class="comment">// Now Put in 16 color mode and disable last BG</span>
-    <a name="a5"></a><a class="code" href="a00025.html#ad38541ebb0ff0ae46d99f4c5d3288c4d" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a6"></a><a class="code" href="a00015.html#a7afc211c644079338a1f032ea5e90460adce05b1d024af3f279a6bc8050b76269" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0);  <a name="a7"></a><a class="code" href="a00015.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
-    
+    <a name="a5"></a><a class="code" href="a00028.html#ad38541ebb0ff0ae46d99f4c5d3288c4d" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a6"></a><a class="code" href="a00018.html#a7afc211c644079338a1f032ea5e90460adce05b1d024af3f279a6bc8050b76269" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0);  <a name="a7"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
     
     <span class="comment">// Wait for nothing :P</span>
     <span class="keywordflow">while</span>(1) {
@@ -132,24 +131,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
         move = 0;
         
         <span class="comment">// Refresh pad values</span>
-        <a name="a8"></a><a class="code" href="a00020.html#a4a6674dce70032b45e5b3ba10e515012" title="Wait for pad ready and read pad values in .">scanPads</a>();
+        <a name="a8"></a><a class="code" href="a00023.html#a4a6674dce70032b45e5b3ba10e515012" title="Wait for pad ready and read pad values in .">scanPads</a>();
         
         <span class="comment">// Get current #0 pad</span>
-        pad0 = <a name="a9"></a><a class="code" href="a00020.html#a5ff772be839fa2e5602e4aa9955ee0d7" title="Return current value of selected pad.">padsCurrent</a>(0);
+        pad0 = <a name="a9"></a><a class="code" href="a00023.html#a5ff772be839fa2e5602e4aa9955ee0d7" title="Return current value of selected pad.">padsCurrent</a>(0);
         
         <span class="comment">// Update scrolling with current pad</span>
         <span class="keywordflow">switch</span> (pad0) {
-            <span class="keywordflow">case</span> <a name="a10"></a><a class="code" href="a00020.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d" title="pad RIGHT button.">KEY_RIGHT</a>  : scrX+=2; move = 1; <span class="keywordflow">break</span>;
-            <span class="keywordflow">case</span> <a name="a11"></a><a class="code" href="a00020.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65" title="pad LEFT button.">KEY_LEFT</a>   : scrX-=2; move = 1; <span class="keywordflow">break</span>;
-            <span class="keywordflow">case</span> <a name="a12"></a><a class="code" href="a00020.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416" title="pad DOWN button.">KEY_DOWN</a>   : scrY+=2; move = 1; <span class="keywordflow">break</span>;
-            <span class="keywordflow">case</span> <a name="a13"></a><a class="code" href="a00020.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd" title="pad UP button.">KEY_UP</a>     : scrY-=2; move = 1; <span class="keywordflow">break</span>;
+            <span class="keywordflow">case</span> <a name="a10"></a><a class="code" href="a00023.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d" title="pad RIGHT button.">KEY_RIGHT</a>  : scrX+=2; move = 1; <span class="keywordflow">break</span>;
+            <span class="keywordflow">case</span> <a name="a11"></a><a class="code" href="a00023.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65" title="pad LEFT button.">KEY_LEFT</a>   : scrX-=2; move = 1; <span class="keywordflow">break</span>;
+            <span class="keywordflow">case</span> <a name="a12"></a><a class="code" href="a00023.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416" title="pad DOWN button.">KEY_DOWN</a>   : scrY+=2; move = 1; <span class="keywordflow">break</span>;
+            <span class="keywordflow">case</span> <a name="a13"></a><a class="code" href="a00023.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd" title="pad UP button.">KEY_UP</a>     : scrY-=2; move = 1; <span class="keywordflow">break</span>;
         }
-        <span class="keywordflow">if</span> (move) <a name="a14"></a><a class="code" href="a00015.html#a879e7c5fedf0dd6881e5de1e65dfa4cb" title="Sets the scroll hardware to the specified location.">bgSetScroll</a>(1, scrX,scrY);
+        <span class="keywordflow">if</span> (move) <a name="a14"></a><a class="code" href="a00018.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7" title="Sets the scroll hardware to the specified location.">bgSetScroll</a>(1, scrX,scrY);
         
         <span class="comment">// Just inform user</span>
-        <a name="a15"></a><a class="code" href="a00016.html#a7e52d15b5a1befa42f5758de19dfb70c" title="Output formatted string on a screen (tiles mode)">consoleDrawText</a>(0,0,<span class="stringliteral">&quot;SCR X=%d Y=%d&quot;</span>,scrX,scrY);
+        <a name="a15"></a><a class="code" href="a00019.html#a7e52d15b5a1befa42f5758de19dfb70c" title="Output formatted string on a screen (tiles mode)">consoleDrawText</a>(0,0,<span class="stringliteral">&quot;SCR X=%d Y=%d&quot;</span>,scrX,scrY);
 
-        <a name="a16"></a><a class="code" href="a00018.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
+        <a name="a16"></a><a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
     }
     <span class="keywordflow">return</span> 0;
 }
@@ -157,7 +156,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 20 2012 08:58:18 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 6 2012 08:22:04 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

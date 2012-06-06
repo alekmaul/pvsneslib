@@ -1,8 +1,8 @@
-# path to snesdev root directory (for emulators, devkitsnes, libsnes)
-export DEVKITSNES := /d/devperso/snesdevkit/
+# path to snesdev root directory (for emulators, devkitsnes, PVSNESLIB)
+export DEVKITSNES := /d/snesdev/
 
 # path to devkitsnes root directory for compiler
-export DEVKIT65XX := /d/devperso/snesdevkit/devkitsnes
+export DEVKIT65XX := /d/snesdev/devkitsnes
 
 #---------------------------------------------------------------------------------
 .SUFFIXES:
@@ -39,27 +39,26 @@ export OUTPUT	:=	$(CURDIR)/$(TARGET)
  
 CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.asm)))
-BMPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.bmp)))
  
 #---------------------------------------------------------------------------------
-export OFILES	:=	$(BINFILES:.bin=.obj) \
-					$(CFILES:.c=.obj) $(SFILES:.asm=.obj) $(BMPFILES:.bmp=.chr)
+export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
  
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
 					-I$(CURDIR)/$(BUILD)
- 
-export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
+GTITLE 		:= -ht"$(TARGET)"
+ 
+.PHONY: bitmaps all
+ 
 #---------------------------------------------------------------------------------
-all	:	$(OUTPUT).sfc
-	@echo build !
+all	:	bitmaps $(OUTPUT).sfc
+	$(SNTOOLS) -hi! $(GTITLE) $(TARGET).sfc
 
 clean:
 	@echo clean ...
-	@rm -f $(OFILES) $(TARGET).sfc
+	@rm -f $(OFILES) $(TARGET).sfc  *.pic *.pal *.map
+
 
 #---------------------------------------------------------------------------------
-$(OUTPUT).obj : $(OUTPUT).c  hdr.asm 
-
-$(OUTPUT).sfc	: 	$(OFILES)
+$(OUTPUT).sfc	: $(OFILES)

@@ -40,11 +40,11 @@
  - \ref sprites.h "2D Sprites"
 
  \section audio_api Audio API
- - \ref sound.h "Simple Sound Engine"
+ - \ref sound.h "Mod tracker and Sound Engine"
 
  \section memory_api Memory
  - \ref dma.h "Direct Memory Access"
-
+ 
  \section system_api System
  - \ref snestypes.h "Custom SNES types"
  - \ref interrupts.h "Interrupts"
@@ -63,6 +63,8 @@
  \section special_thanks Special Thanks
  - <a href="http://shiru.untergrund.net/">shiru for some source code and sound tools, which are parts of PVSnesLib.</a>
  - <a href="http://jiggawatt.org/badc0de/index.html">mic_ for some source code examples, parts of PVSnesLib are from them.</a>
+ - <a href="http://snes.mukunda.com/">mukunda for snesmod source code. </a>
+ - Kung Fu Furby for help on Snesmod convertion to PVSnesLib.
  - <a href="http://code.google.com/p/neo-myth-menu/">Neoflash Menu google code. </a>
  - <a href="http://www.devkitpro.org/">Devkitpro team for pvsneslib structure (lib, makefile, examples, and so on ...). </a>
 */
@@ -98,6 +100,9 @@
 	<!-- games -->
 	\example games/likemario/LikeMario.c
 
+    <!-- audio -->
+	\example audio/music/Music.c
+	\example audio/tada/Tada.c
 */
 
 #ifndef SNES_INCLUDE

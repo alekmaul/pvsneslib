@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>pvsneslib: console.h File Reference</title>
+<title>pvsneslib: brrsamples Struct Reference</title>
 
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="docs.css" rel="stylesheet" type="text/css" />
@@ -47,8 +47,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
-      <li class="current"><a href="files.html"><span>Files</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
       <li><a href="dirs.html"><span>Directories</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
       <li>
@@ -71,8 +71,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="files.html"><span>File&#160;List</span></a></li>
-      <li><a href="globals.html"><span>Globals</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
+      <li><a href="functions.html"><span>Data&#160;Fields</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -89,283 +90,155 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-  <div id="nav-path" class="navpath">
-    <ul>
-      <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a>      </li>
-      <li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a>      </li>
-    </ul>
-  </div>
 </div>
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">console.h File Reference</div>  </div>
+<div class="title">brrsamples Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>snes generic console support.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="a00022.html">snes/snestypes.h</a>&gt;</code><br/>
-<code>#include &lt;<a class="el" href="a00015.html">snes/background.h</a>&gt;</code><br/>
-<code>#include &lt;<a class="el" href="a00017.html">snes/dma.h</a>&gt;</code><br/>
-<code>#include &lt;<a class="el" href="a00018.html">snes/interrupts.h</a>&gt;</code><br/>
-<code>#include &lt;<a class="el" href="a00020.html">snes/pads.h</a>&gt;</code><br/>
-<code>#include &lt;<a class="el" href="a00024.html">snes/sprites.h</a>&gt;</code><br/>
-<code>#include &lt;<a class="el" href="a00023.html">snes/sound.h</a>&gt;</code><br/>
-<code>#include &lt;<a class="el" href="a00025.html">snes/video.h</a>&gt;</code><br/>
-</div><table class="memberdecls">
-<tr><td colspan="2"><h2><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a7e52d15b5a1befa42f5758de19dfb70c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a> (u16 x, u16 y, char *fmt,...)</td></tr>
-<tr class="memdesc:a7e52d15b5a1befa42f5758de19dfb70c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output formatted string on a screen (tiles mode)  <a href="#a7e52d15b5a1befa42f5758de19dfb70c"></a><br/></td></tr>
-<tr class="memitem:a6252f4f3ca306f4d43944fa0d741cc87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#a6252f4f3ca306f4d43944fa0d741cc87">consoleDrawTextMap</a> (u8 x, u8 y, unsigned char *map, char attributes, char *fmt,...)</td></tr>
-<tr class="memdesc:a6252f4f3ca306f4d43944fa0d741cc87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output formatted string on a screen (tiles mode)  <a href="#a6252f4f3ca306f4d43944fa0d741cc87"></a><br/></td></tr>
-<tr class="memitem:a6047713bb5a73afd3cd1d77e336bcdad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a> (void)</td></tr>
-<tr class="memdesc:a6047713bb5a73afd3cd1d77e336bcdad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize console.  <a href="#a6047713bb5a73afd3cd1d77e336bcdad"></a><br/></td></tr>
-<tr class="memitem:a71d75ca1dc18e5bd167b221497c82090"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#a71d75ca1dc18e5bd167b221497c82090">consoleInitText</a> (u8 bgNumber, u8 paletteNumber, unsigned char *gfxText)</td></tr>
-<tr class="memdesc:a71d75ca1dc18e5bd167b221497c82090"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the Text System.  <a href="#a71d75ca1dc18e5bd167b221497c82090"></a><br/></td></tr>
-<tr class="memitem:ac0993a72682f86d17784a7f4659562de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#ac0993a72682f86d17784a7f4659562de">consoleSetTextCol</a> (u16 colorChar, u16 colorBG)</td></tr>
-<tr class="memdesc:ac0993a72682f86d17784a7f4659562de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change Character and Background color of text.  <a href="#ac0993a72682f86d17784a7f4659562de"></a><br/></td></tr>
-<tr class="memitem:a0615d3903c2ad6faaed1443bd44c8ae2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0615d3903c2ad6faaed1443bd44c8ae2"></a>
-unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a> (void)</td></tr>
-<tr class="memdesc:a0615d3903c2ad6faaed1443bd44c8ae2"><td class="mdescLeft">&#160;</td><td class="mdescRight">return a randomized number <br/></td></tr>
-<tr><td colspan="2"><h2><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a150d9a489c86489d11f93533f8d8bd0c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a150d9a489c86489d11f93533f8d8bd0c"></a>
-unsigned short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#a150d9a489c86489d11f93533f8d8bd0c">snes_50hz</a></td></tr>
-<tr class="memdesc:a150d9a489c86489d11f93533f8d8bd0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 if on a PAL/50Hz SNES <br/></td></tr>
-<tr class="memitem:a813252296324fdf4ab9d4af6da43ba87"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a813252296324fdf4ab9d4af6da43ba87"></a>
-volatile unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#a813252296324fdf4ab9d4af6da43ba87">snes_vblank_count</a></td></tr>
-<tr class="memdesc:a813252296324fdf4ab9d4af6da43ba87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of VBL since consoleInit called. <br/></td></tr>
+<p>Sound header(8 bytes)  
+ <a href="a00016.html#details">More...</a></p>
+
+<p><code>#include &lt;sound.h&gt;</code></p>
+<table class="memberdecls">
+<tr><td colspan="2"><h2><a name="pub-attribs"></a>
+Data Fields</h2></td></tr>
+<tr class="memitem:a59ba4c3685f1ff631858af06a51c6672"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#a59ba4c3685f1ff631858af06a51c6672">addr1</a></td></tr>
+<tr class="memitem:a46ec973f7c37bb07422e909d087e174a"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#a46ec973f7c37bb07422e909d087e174a">addr2</a></td></tr>
+<tr class="memitem:ad37960d64ecbb142a50cd2e139b44d21"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#ad37960d64ecbb142a50cd2e139b44d21">bank</a></td></tr>
+<tr class="memitem:a88adcde351bda684d978194a6a2993d5"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#a88adcde351bda684d978194a6a2993d5">length1</a></td></tr>
+<tr class="memitem:a31a76cfd2811dac5df70684e6ab0beb3"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#a31a76cfd2811dac5df70684e6ab0beb3">length2</a></td></tr>
+<tr class="memitem:a8e61543808f3aed3dfcca0fd933bfe92"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#a8e61543808f3aed3dfcca0fd933bfe92">panning</a></td></tr>
+<tr class="memitem:a112d2def415a46e02e078f29fe89150d"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#a112d2def415a46e02e078f29fe89150d">pitch</a></td></tr>
+<tr class="memitem:a2cb1142e9dfc5abce53ef89387bbea32"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html#a2cb1142e9dfc5abce53ef89387bbea32">volume</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p>snes generic console support. </p>
-</div><hr/><h2>Function Documentation</h2>
-<a class="anchor" id="a7e52d15b5a1befa42f5758de19dfb70c"></a>
+<div class="textblock"><p>Sound header(8 bytes) </p>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00015.html#_a0">audio/tada/Tada.c</a>, and <a class="el" href="a00013.html#_a0">games/likemario/LikeMario.c</a>.</dd>
+</dl></div><hr/><h2>Field Documentation</h2>
+<a class="anchor" id="a59ba4c3685f1ff631858af06a51c6672"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="a00016.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a> </td>
-          <td>(</td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>fmt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">u8 <a class="el" href="a00016.html#a59ba4c3685f1ff631858af06a51c6672">brrsamples::addr1</a></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
+<p>address of BRR data low </p>
 
-<p>Output formatted string on a screen (tiles mode) </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">x</td><td>The X character number the string should start on </td></tr>
-    <tr><td class="paramname">y</td><td>The Y character number the string should start on </td></tr>
-    <tr><td class="paramname">fmt</td><td>The Format string (see printf() documentation in your local C tutorial)</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Output a text string to the screen. Before using this, you need to call <a class="el" href="a00016.html#a71d75ca1dc18e5bd167b221497c82090" title="Initialize the Text System.">consoleInitText()</a>. You can also print the value of variables this way, by putting a format string and additional parameters. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00013.html#a25">games/likemario/LikeMario.c</a>, <a class="el" href="a00003.html#a15">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="a00001.html#a5">hello_world/hello_world.c</a>, <a class="el" href="a00011.html#a2">input/input.c</a>, and <a class="el" href="a00012.html#a2">timer/timer.c</a>.</dd>
-</dl>
 </div>
 </div>
-<a class="anchor" id="a6252f4f3ca306f4d43944fa0d741cc87"></a>
+<a class="anchor" id="a46ec973f7c37bb07422e909d087e174a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="a00016.html#a6252f4f3ca306f4d43944fa0d741cc87">consoleDrawTextMap</a> </td>
-          <td>(</td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned char *&#160;</td>
-          <td class="paramname"><em>map</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char&#160;</td>
-          <td class="paramname"><em>attributes</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>fmt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">u8 <a class="el" href="a00016.html#a46ec973f7c37bb07422e909d087e174a">brrsamples::addr2</a></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Output formatted string on a screen (tiles mode) </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">x</td><td>The X character number the string should start on </td></tr>
-    <tr><td class="paramname">y</td><td>The Y character number the string should start on </td></tr>
-    <tr><td class="paramname">map</td><td>The 0x800 char map entry to put string </td></tr>
-    <tr><td class="paramname">attributes</td><td>attributes for tiles </td></tr>
-    <tr><td class="paramname">fmt</td><td>The Format string (see printf() documentation in your local C tutorial)</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Output a text string to the screen. Before using this, you need to call <a class="el" href="a00016.html#a71d75ca1dc18e5bd167b221497c82090" title="Initialize the Text System.">consoleInitText()</a>. You can also print the value of variables this way, by putting a format string and additional parameters. </p>
+<p>address of BRR data high </p>
 
 </div>
 </div>
-<a class="anchor" id="a6047713bb5a73afd3cd1d77e336bcdad"></a>
+<a class="anchor" id="ad37960d64ecbb142a50cd2e139b44d21"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a00016.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a> </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname">u8 <a class="el" href="a00016.html#ad37960d64ecbb142a50cd2e139b44d21">brrsamples::bank</a></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
+<p>bank of BRR data </p>
 
-<p>Initialize console. </p>
-<p>Generic init for SNES console. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00013.html#a10">games/likemario/LikeMario.c</a>, <a class="el" href="a00002.html#a0">graphics/Backgrounds/Mode1/Mode1.c</a>, <a class="el" href="a00004.html#a0">graphics/Backgrounds/Mode1MixedScroll/Mode1MixedScroll.c</a>, <a class="el" href="a00003.html#a0">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="a00005.html#a0">graphics/Backgrounds/Mode3/Mode3.c</a>, <a class="el" href="a00006.html#a0">graphics/Effects/HDMAGradient/HDMAGradient.c</a>, <a class="el" href="a00007.html#a0">graphics/Effects/MosaicShading/MosaicShading.c</a>, <a class="el" href="a00008.html#a0">graphics/Effects/Transparency/Transparency.c</a>, <a class="el" href="a00010.html#a0">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="a00009.html#a0">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="a00001.html#a0">hello_world/hello_world.c</a>, <a class="el" href="a00011.html#a0">input/input.c</a>, and <a class="el" href="a00012.html#a0">timer/timer.c</a>.</dd>
-</dl>
 </div>
 </div>
-<a class="anchor" id="a71d75ca1dc18e5bd167b221497c82090"></a>
+<a class="anchor" id="a88adcde351bda684d978194a6a2993d5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="a00016.html#a71d75ca1dc18e5bd167b221497c82090">consoleInitText</a> </td>
-          <td>(</td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>bgNumber</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>paletteNumber</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned char *&#160;</td>
-          <td class="paramname"><em>gfxText</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">u8 <a class="el" href="a00016.html#a88adcde351bda684d978194a6a2993d5">brrsamples::length1</a></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
+<p>number of BRR chunks (BYTELEN/9) (max 4kilobytes??) low </p>
 
-<p>Initialize the Text System. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">bgNumber</td><td>The BG number to show Text on. </td></tr>
-    <tr><td class="paramname">paletteNumber</td><td>Palette number (0..16). </td></tr>
-    <tr><td class="paramname">gfxText</td><td>Pointer to tiles gfx for printing</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Reserve a BG and load the font characters into VRAM. It will only work in tiled display modes. Also, please note that this function will overwrite BG palette number 0 and 1 to black and white, and set the Font to use these two colors. You can change colors by calling <a class="el" href="a00016.html#ac0993a72682f86d17784a7f4659562de" title="Change Character and Background color of text.">consoleSetTextCol()</a>. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00013.html#a11">games/likemario/LikeMario.c</a>, <a class="el" href="a00003.html#a1">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="a00001.html#a1">hello_world/hello_world.c</a>, <a class="el" href="a00011.html#a1">input/input.c</a>, and <a class="el" href="a00012.html#a1">timer/timer.c</a>.</dd>
-</dl>
 </div>
 </div>
-<a class="anchor" id="ac0993a72682f86d17784a7f4659562de"></a>
+<a class="anchor" id="a31a76cfd2811dac5df70684e6ab0beb3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a00016.html#ac0993a72682f86d17784a7f4659562de">consoleSetTextCol</a> </td>
-          <td>(</td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>colorChar</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>colorBG</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">u8 <a class="el" href="a00016.html#a31a76cfd2811dac5df70684e6ab0beb3">brrsamples::length2</a></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
+<p>number of BRR chunks (BYTELEN/9) (max 4kilobytes??) high </p>
 
-<p>Change Character and Background color of text. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">colorChar</td><td>The BG color palette with RGB5 values of text itself </td></tr>
-    <tr><td class="paramname">colorBG</td><td>The BG color palette with RGB5 values of text background </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00013.html#a12">games/likemario/LikeMario.c</a>.</dd>
-</dl>
 </div>
 </div>
+<a class="anchor" id="a8e61543808f3aed3dfcca0fd933bfe92"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">u8 <a class="el" href="a00016.html#a8e61543808f3aed3dfcca0fd933bfe92">brrsamples::panning</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>default PANNING (0..15) </p>
+
+</div>
+</div>
+<a class="anchor" id="a112d2def415a46e02e078f29fe89150d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">u8 <a class="el" href="a00016.html#a112d2def415a46e02e078f29fe89150d">brrsamples::pitch</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>default PITCH (1..6) (hz = PITCH * 2000) </p>
+
+</div>
+</div>
+<a class="anchor" id="a2cb1142e9dfc5abce53ef89387bbea32"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">u8 <a class="el" href="a00016.html#a2cb1142e9dfc5abce53ef89387bbea32">brrsamples::volume</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>default VOLUME (0..15) </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00026.html">sound.h</a></li>
+</ul>
 </div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 20 2012 08:58:18 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 6 2012 08:22:04 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

@@ -97,7 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <span class="comment"></span>
 <span class="comment"></span>
 <span class="comment">---------------------------------------------------------------------------------*/</span>
-<span class="preprocessor">#include &lt;<a class="code" href="a00021.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
+<span class="preprocessor">#include &lt;<a class="code" href="a00024.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
 
 <span class="keyword">extern</span> <span class="keywordtype">char</span> patterns, patterns_end;
 <span class="keyword">extern</span> <span class="keywordtype">char</span> palette, palette_end;
@@ -106,20 +106,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <span class="comment">//---------------------------------------------------------------------------------</span>
 <span class="keywordtype">int</span> main(<span class="keywordtype">void</span>) {
     <span class="comment">// Initialize SNES </span>
-    <a name="a0"></a><a class="code" href="a00016.html#a6047713bb5a73afd3cd1d77e336bcdad" title="Initialize console.">consoleInit</a>();
+    <a name="a0"></a><a class="code" href="a00019.html#a6047713bb5a73afd3cd1d77e336bcdad" title="Initialize console.">consoleInit</a>();
      
     <span class="comment">// Copy tiles to VRAM</span>
-    <a name="a1"></a><a class="code" href="a00015.html#ae09a7ac09be78eef0f28a6c7aabc82ad" title="Initializes a Tile Set and Loads the Tile GFX into VRAM.">bgInitTileSet</a>(0, &amp;patterns, &amp;palette, 0, (&amp;patterns_end - &amp;patterns), (&amp;palette_end - &amp;palette), BG_16COLORS, 0x4000);
+    <a name="a1"></a><a class="code" href="a00018.html#ae09a7ac09be78eef0f28a6c7aabc82ad" title="Initializes a Tile Set and Loads the Tile GFX into VRAM.">bgInitTileSet</a>(0, &amp;patterns, &amp;palette, 0, (&amp;patterns_end - &amp;patterns), (&amp;palette_end - &amp;palette), BG_16COLORS, 0x4000);
 
     <span class="comment">// Copy Map to VRAM</span>
-    <a name="a2"></a><a class="code" href="a00015.html#a8e2ce68446b46a8bb6413785083c1c05" title="Initializes a Map Set and loads it into SNES VRAM.">bgInitMapSet</a>(0, &amp;map, (&amp;map_end - &amp;map),<a name="a3"></a><a class="code" href="a00015.html#a7afc211c644079338a1f032ea5e90460a7a66107017c0fa48ea99ebe333e0cc80" title="32 x 32 tile size">SC_32x32</a>, 0x0000);
+    <a name="a2"></a><a class="code" href="a00018.html#a8e2ce68446b46a8bb6413785083c1c05" title="Initializes a Map Set and loads it into SNES VRAM.">bgInitMapSet</a>(0, &amp;map, (&amp;map_end - &amp;map),<a name="a3"></a><a class="code" href="a00018.html#a7afc211c644079338a1f032ea5e90460a7a66107017c0fa48ea99ebe333e0cc80" title="32 x 32 tile size">SC_32x32</a>, 0x0000);
 
     <span class="comment">// Now Put in 16 color mode and disable other BGs except 1st one</span>
-    <a name="a4"></a><a class="code" href="a00025.html#ad38541ebb0ff0ae46d99f4c5d3288c4d" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a5"></a><a class="code" href="a00015.html#a7afc211c644079338a1f032ea5e90460adce05b1d024af3f279a6bc8050b76269" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0);  <a name="a6"></a><a class="code" href="a00015.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1); <a class="code" href="a00015.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
+    <a name="a4"></a><a class="code" href="a00028.html#ad38541ebb0ff0ae46d99f4c5d3288c4d" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a5"></a><a class="code" href="a00018.html#a7afc211c644079338a1f032ea5e90460adce05b1d024af3f279a6bc8050b76269" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0);  <a name="a6"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1); <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
     
     <span class="comment">// Wait for nothing :P</span>
     <span class="keywordflow">while</span>(1) {
-        <a name="a7"></a><a class="code" href="a00018.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
+        <a name="a7"></a><a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
     }
     <span class="keywordflow">return</span> 0;
 }
@@ -127,7 +127,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 20 2012 08:58:18 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 6 2012 08:22:04 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

@@ -42,8 +42,8 @@
 #include <snes/sound.h>
 #include <snes/video.h>
 
-extern volatile unsigned int  snes_vblank_count; /*!< \brief Number of VBL since consoleInit called */
-extern unsigned short snes_50hz; /*!< \brief 1 if on a PAL/50Hz SNES */
+extern unsigned int  snes_vblank_count; /*!< \brief Number of VBL since consoleInit called */
+extern u16 snes_50hz; /*!< \brief 1 if on a PAL/50Hz SNES */
 
 /*! \fn rand(void)
 	\brief return a randomized number
@@ -56,6 +56,11 @@ unsigned int rand(void);
 	\param colorBG	The BG color palette with RGB5 values of text background
 */
 void consoleSetTextCol(u16  colorChar, u16 colorBG);
+
+/*! \fn consoleUpdate(void);
+	\brief Update current text buffer on screen
+*/
+void consoleUpdate(void);
 
 /*! \brief Output formatted string on a screen (tiles mode)
 	\param x 	The X character number the string should start on
@@ -77,7 +82,7 @@ void consoleDrawText(u16 x, u16 y, char *fmt, ...);
 	Output a text string to the screen. Before using this, you need to call consoleInitText().
 	You can also print the value of variables this way, by putting a format string and additional parameters.
 */
-void consoleDrawTextMap(u8 x, u8 y, unsigned char *map, char attributes, char *fmt, ...);
+void consoleDrawTextMap(u8 x, u8 y, u8 *map, u8 attributes, char *fmt, ...);
 
 /*! \brief Initialize the Text System
 	\param bgNumber	The BG number to show Text on.
@@ -88,7 +93,7 @@ void consoleDrawTextMap(u8 x, u8 y, unsigned char *map, char attributes, char *f
 	Also, please note that this function will overwrite BG palette number 0 and 1 to black and white, 
 	and set the Font to use these two colors. You can change colors by calling consoleSetTextCol().
 */
-void consoleInitText(u8 bgNumber,u8 paletteNumber, unsigned char *gfxText);
+void consoleInitText(u8 bgNumber,u8 paletteNumber, u8 *gfxText);
 
 /*! \fn  consoleInit()
 	\brief Initialize console

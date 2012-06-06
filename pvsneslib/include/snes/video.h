@@ -48,18 +48,16 @@ typedef enum
 	VRAM_ADRSTINC_32  = (1 << 0), /*!< \brief Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128) */
 	VRAM_ADRSTINC_128 = (2 << 0), /*!< \brief Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128) */
 	VRAM_ADRSTINC_128 = (3 << 0), /*!< \brief Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128) */
-	
-	FADE_IN  = 0,
-	FADE_OUT = 1,
-	
-	MOSAIC_IN  = 0,
-	MOSAIC_OUT = 1,
-	MOSAIC_BG1 = (1<<0),
-	MOSAIC_BG2 = (1<<1), 
-	MOSAIC_BG3 = (1<<2),
-	MOSAIC_BG4 = (1<<3),
-	
 }VideoControl;
+
+#define FADE_IN  2
+#define FADE_OUT 1
+#define MOSAIC_IN  2
+#define MOSAIC_OUT 1
+#define MOSAIC_BG1 (1<<0)
+#define MOSAIC_BG2 (1<<1) 
+#define MOSAIC_BG3 (1<<2)
+#define MOSAIC_BG4 (1<<3)
 
 #define CM_DIRCOLOR 				(1<<0) /*!< \brief  Color Math Control Register A & B bits */
 #define CM_SUBBGOBJ_ENABLE			(1<<1)
@@ -322,19 +320,18 @@ void setBrightness(u16 level);
 void setMode(u16 mode, u16 size);
 
 
-/*! \fn  setFadeEffect(u16 mode)
+/*! \fn  setFadeEffect(u8 mode)
 	\brief Do a fadein or fadeout effect.
 	\param mode	(FADE_IN  = black to complete light, FADE_OUT = light to black)
 */
-void setFadeEffect(u16 mode);
-//void setFadeEffectOut(void);
+void setFadeEffect(u8 mode);
 
-/*! \fn  setMosaicEffect(u16 mode, u8 bgNumbers)
+/*! \fn  setMosaicEffect(u8 mode, u8 bgNumbers)
 	\brief Do a mosaic in or out effect.
 	\param bgNumbers	(MOSAIC_BG1 to MOSAIC_BG4 depending of which background to use for effect)
 	\param mode	(MOSAIC_IN  = normal to mosaic, MOSAIC_OUT = mosaic to normal)
 */
-void setMosaicEffect(u16 mode, u8 bgNumbers);
+void setMosaicEffect(u8 mode, u8 bgNumbers);
 
 /*! \fn  setColorEffect(u8 colorMathA, u8 colorMathB)
 	\brief Do addition or other color effects.
@@ -343,13 +340,21 @@ void setMosaicEffect(u16 mode, u8 bgNumbers);
 */
 void setColorEffect(u8 colorMathA, u8 colorMathB);
 
-/*! \fn  setPalette(u8 *palette, u8 paletteEntry, u16 paletteSize)
+/*! \fn  setPalette(palette, paletteEntry, paletteSize)
 	\brief Change a palette in CGRAM.
 	\param palette	address of palette entry
 	\param paletteEntry palette number (0..16 for 16 colors mode) of the begining of each colors
 	\param paletteSize	size of palette
 */
-void setPalette(u8 *palette, u8 paletteEntry, u16 paletteSize);
+#define setPalette(palette, paletteEntry, paletteSize) 	dmaCopyCGram(palette, paletteEntry, paletteSize)
+//void setPalette(u8 *palette, u8 paletteEntry, u16 paletteSize);
+
+/*! \fn  setPaletteColor(paletteEntry, paletteColor)
+	\brief Change a color palette in CGRAM.
+	\param paletteEntry palette color numer (0..255)
+	\param paletteColor	RGB15 color
+*/
+#define setPaletteColor(paletteEntry, paletteColor) 	REG_CGADD = paletteEntry; *CGRAM_PALETTE = (paletteColor) & 0xFF; *CGRAM_PALETTE = (paletteColor)>>8;
 
 /*! \fn  setMode7(u16 mode)
 	\brief Put screen in mode 7 with generic init.

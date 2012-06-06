@@ -28,15 +28,15 @@
 #include <snes/console.h>
 
 char pvsneslibfont_map[0x800];
-char pvsneslibdirty;
+u8 pvsneslibdirty;
 
 char text_buffer[128];
 u16  maptext_adress;
 u8   palette_adress, palette_number;
 
-volatile unsigned int  snes_vblank_count;
+unsigned int  snes_vblank_count;
 
-unsigned short snes_50hz;
+u16 snes_50hz;
 
 //---------------------------------------------------------------------------------
 unsigned int  snes_rand_seed1;
@@ -50,13 +50,13 @@ unsigned int rand(void) {
 }
 
 //---------------------------------------------------------------------------------
-static void consoleVblank(void) {
+void consoleVblank(void) {
 	// Put oam to screen if needed
 	dmaCopyOAram((unsigned char *) &oamMemory,0,0x220);
 
 	// if buffer need to be update, do it !
 	if (pvsneslibdirty == 1) {
-		dmaCopyVram(pvsneslibfont_map, 0x800, 0x800);
+		dmaCopyVram((unsigned char *) &pvsneslibfont_map, 0x800, 0x800);
 		pvsneslibdirty = 0;
 	}
 	
@@ -93,7 +93,7 @@ void _print_screen(u8 x, u8 y, char *buffer) {
 #endif
 
 //---------------------------------------------------------------------------------
-void _print_screen_map(u16 x, u16 y, unsigned char  *map, char attributes, char *buffer) {
+void _print_screen_map(u16 x, u16 y, unsigned char  *map, u8 attributes, char *buffer) {
 	u8 lenght;
 	u16 x1; 
     
@@ -125,6 +125,16 @@ void consoleSetTextCol(u16  colorChar, u16 colorBG) {
 }
 
 //---------------------------------------------------------------------------------
+void consoleUpdate(void) {
+	// if buffer need to be update, do it !
+	if (pvsneslibdirty == 1) {
+		setBrightness(0); // Force VBkank
+		dmaCopyVram((unsigned char *) &pvsneslibfont_map, 0x800, 0x800);
+		pvsneslibdirty = 0;
+	}
+}
+
+//---------------------------------------------------------------------------------
 void consoleDrawText(u16 x, u16 y, char *fmt, ...) {
 	pvsneslibdirty = 2;
 	va_list ap;
@@ -137,7 +147,7 @@ void consoleDrawText(u16 x, u16 y, char *fmt, ...) {
 }
 
 //---------------------------------------------------------------------------------
-void consoleDrawTextMap(u8 x, u8 y, unsigned char *map, char attributes, char *fmt, ...) {
+void consoleDrawTextMap(u8 x, u8 y, u8 *map, u8 attributes, char *fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);
 	vsprintf(text_buffer, fmt, ap);
@@ -147,13 +157,13 @@ void consoleDrawTextMap(u8 x, u8 y, unsigned char *map, char attributes, char *f
 }
 
 //---------------------------------------------------------------------------------
-void consoleInitText(u8 bgNumber,u8 paletteNumber, unsigned char *gfxText) {
+void consoleInitText(u8 bgNumber,u8 paletteNumber, u8 *gfxText) {
 	u16 x;
 	
-    setBrightness(0x0);     // disable background
-
 	// Copy data to VRAM (also clear screen)
 	for (x=0;x<0x800;x++) pvsneslibfont_map[x] = 0x00;
+
+	setBrightness(0); // Force VBkank
 	dmaCopyVram(gfxText, 0x000, 3072); 
 	dmaCopyVram(pvsneslibfont_map, 0x800, 0x800);
 
@@ -189,7 +199,7 @@ void consoleInit(void) {
 	pvsneslibdirty = 0;    // Nothing to print on screen
 	snes_rand_seed1 = 1;   // For rand funciton
 	snes_rand_seed2 = 5;   // For rand funciton
-
+	
 	memset(bgState,0,sizeof(bgState));
 	
 	for(i=0;i<2;i++) { // Initialise joypads

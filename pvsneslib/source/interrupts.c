@@ -30,6 +30,7 @@ void nmiSet(VoidFn handler) {
 }
 
 //---------------------------------------------------------------------------------
+#if 0
 void WaitForVBlank(void) {
 	unsigned int tt=snes_vblank_count;
 	
@@ -39,3 +40,4 @@ void WaitForVBlank(void) {
 	//while (REG_RDNMI & 0x80);
 	//while (!(REG_RDNMI & 0x80));
 }
+#endif

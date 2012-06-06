@@ -25,7 +25,7 @@
 #include <snes/sprites.h>
 
 //oamEntry oamMemory[128+8];
-unsigned char oamMemory[128*4+8*4];
+u8 oamMemory[128*4+8*4];
 
 //---------------------------------------------------------------------------------
 void oamUpdate(u8 first, u8 numEntries) {

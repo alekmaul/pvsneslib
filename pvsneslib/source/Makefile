@@ -11,7 +11,7 @@ include $(DEVKIT65XX)/snes_rules
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-C_SRC	:=	malloc.c background.c console.c dma.c interrupts.c  pads.c sprites.c video.c
+C_SRC	:=	malloc.c background.c console.c dma.c interrupts.c  pads.c sound.c sprites.c video.c
 
 CFLAGS	:=	
 
