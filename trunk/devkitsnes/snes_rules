@@ -21,6 +21,9 @@ export OM	:=	optimore-816
 export CTF	:=	constify
 
 export GFXCONV	:=	$(DEVKIT65XX)/tools/gfx2snes
+export SNTOOLS	:=	$(DEVKIT65XX)/tools/snestools
+export SMCONV	:=	$(DEVKIT65XX)/tools/smconv
+export BRCONV	:=	$(DEVKIT65XX)/tools/snesbrr
 
 #export EMU	:=	$(DEVKIT65XX)/../emulators/bsnes64bits/bsnes
 #export EMU	:=	$(DEVKIT65XX)/../emulators/bsnes/bsnes_debugger
@@ -39,8 +42,8 @@ CFLAGS += -I$(DEVKIT65XX)/include
 
 #---------------------------------------------------------------------------------
 %.obj: %.asm
-	@echo Doing obj files ... $(notdir $<)
-	$(AS) -ivo $< $@  
+	@echo Doing obj files ... $(fname)
+	$(AS) -io $< $@  
 
 #---------------------------------------------------------------------------------
 %.asm: %.ps
@@ -62,9 +65,14 @@ CFLAGS += -I$(DEVKIT65XX)/include
 #---------------------------------------------------------------------------------
 %.sfc:
 	@echo Linking ... $(notdir $@)
-	$(LD) -dvSno $(OFILES) $(LIBOBJS) $@
+	$(LD) -dsno $(OFILES) $(LIBOBJS) $@
 
 #---------------------------------------------------------------------------------
 %.pic: %.bmp
 	@echo convert bitmap ... $(notdir $<)
 	$(GFXCONV) -pr -pc16 -n -gs8 -pe0 -fbmp -m $<
+
+#---------------------------------------------------------------------------------
+%.brr: %.wav
+	@echo convert wav file ... $(notdir $<)
+	$(BRCONV) -e $< $@
