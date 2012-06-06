@@ -10,7 +10,7 @@
 .ENDME          ; End MemoryMap definition
 
 .ROMBANKSIZE $8000              ; Every ROM bank is 32 KBytes in size
-.ROMBANKS 8                     ; 2 Mbits - Tell WLA we want to use 16 ROM Banks
+.ROMBANKS 8                     ; 2 Mbits - Tell WLA we want to use 8 ROM Banks
 
 .SNESHEADER
   ID "SNES"                     ; 1-4 letter string, just leave it as "SNES"
@@ -44,4 +44,3 @@
   RESET tcc__start                   ; where execution starts
   IRQBRK EmptyHandler
 .ENDEMUVECTOR
-

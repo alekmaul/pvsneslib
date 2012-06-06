@@ -24,14 +24,14 @@
 
 #include <snes/pads.h>
 
-unsigned short pad_keys[2] = {0,0};
-unsigned short pad_keysold[2]  = {0,0};
-unsigned short pad_keysrepeat[2]  = {0,0};
+u16 pad_keys[2] = {0,0};
+u16 pad_keysold[2]  = {0,0};
+u16 pad_keysrepeat[2]  = {0,0};
 
 //---------------------------------------------------------------------------------
 void scanPads(void) {
 	unsigned int i;
-	unsigned short pressed,released;
+	u16 pressed,released;
 
 	while(REG_HVBJOY & PAD_BUSY); // Wait Auto-Joypad-Read Busy Flag not set
 

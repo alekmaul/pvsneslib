@@ -41,8 +41,15 @@ void bgSetGfxPtr(u8 bgNumber, u16 address) {
 
 //---------------------------------------------------------------------------------
 void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize) { 
+	// Compute map address
+	u8 mapadr = ((address >> 8) & 0xfc) | (mapSize & 0x03);
 	bgState[bgNumber].mapaddr = ((address >> 8) & 0xfc) | (mapSize & 0x03);
-   *(vuint8*) (BG1SC_ADDR+bgNumber) = bgState[bgNumber].mapaddr;
+	
+	// Change it
+	if (bgNumber == 0) REG_BG1SC = mapadr; 
+	else if (bgNumber == 1) REG_BG2SC = mapadr; 
+	else if (bgNumber == 2) REG_BG3SC = mapadr; 
+	else if (bgNumber == 3) REG_BG4SC = mapadr; 
 }
 
 //---------------------------------------------------------------------------------
@@ -88,12 +95,23 @@ void bgInitTileSetData(u8 bgNumber, u8 *tileSource, u16 tileSize, u16 address) {
 }
 
 //---------------------------------------------------------------------------------
-void bgSetScroll(u8 bgNumber, short x, short y) {
-	*(vuint8 *) (REG_BGxHOFS+bgNumber*2) = (x & 255);
-	*(vuint8 *) (REG_BGxHOFS+bgNumber*2) = (x >> 8);
-	
-	*(vuint8 *) (REG_BGxVOFS+bgNumber*2) = (y & 255);
-	*(vuint8 *) (REG_BGxVOFS+bgNumber*2) = (y >> 8);
+void bgSetScroll(u8 bgNumber, u16 x, u16 y) {
+	if (bgNumber == 0) {
+		REG_BG1HOFS = (x & 255); REG_BG1HOFS = (x >> 8);
+		REG_BG1VOFS = (y & 255); REG_BG1VOFS = (y >> 8);
+	}
+	else if (bgNumber == 1) {
+		REG_BG2HOFS = (x & 255); REG_BG2HOFS = (x >> 8);
+		REG_BG2VOFS = (y & 255); REG_BG2VOFS = (y >> 8);
+	}
+	else if (bgNumber == 2) {
+		REG_BG3HOFS = (x & 255); REG_BG3HOFS = (x >> 8);
+		REG_BG3VOFS = (y & 255); REG_BG3VOFS = (y >> 8);
+	}
+	else if (bgNumber == 3) {
+		REG_BG4HOFS = (x & 255); REG_BG4HOFS = (x >> 8);
+		REG_BG4VOFS = (y & 255); REG_BG4VOFS = (y >> 8);
+	}
 }
 
 //---------------------------------------------------------------------------------

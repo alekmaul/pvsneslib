@@ -31,6 +31,11 @@
 	Really great thanks to shiru for sound engine and tools used in his Christmas Craze
 	homebrew
 	http://shiru.untergrund.net/
+	
+	Also great thanks for mukunda for snesmod sound engine
+	http://snes.mukunda.com/
+	
+	And special thanks to Kung Fu Furby for help debugging snesmod port with C interface
 */
 
 #ifndef SNES_SOUND_INCLUDE
@@ -38,6 +43,18 @@
 
 #include <snes/snestypes.h>
 #include <snes/interrupts.h>
+
+/*!	\brief Sound header(8 bytes) */
+typedef struct {
+	u8 pitch; 	/*!< default PITCH (1..6) (hz = PITCH * 2000) */
+	u8 panning; /*!< default PANNING (0..15) */
+	u8 volume; /*!< default VOLUME (0..15) */
+	u8 length1; /*!< number of BRR chunks (BYTELEN/9) (max 4kilobytes??) low */
+	u8 length2; /*!< number of BRR chunks (BYTELEN/9) (max 4kilobytes??) high */
+	u8 addr1; /*!< address of BRR data low */
+	u8 addr2; /*!< address of BRR data high */
+	u8 bank; /*!< bank of BRR data */
+} brrsamples;
 
 /*! \def REG_APU00
     \brief Main CPU to Sound CPU Communication Port 0 (R/W)
@@ -57,37 +74,142 @@
 #define REG_APU0001	(*(vuint16*)0x2140)
 #define REG_APU0203	(*(vuint16*)0x2142)
 
-//command codes
-#define SCMD_STEREO			0x0000
-#define SCMD_VOLUME			0x1000
-#define SCMD_MUSIC_STOP 	0x2000
-#define SCMD_MUSIC_PLAY 	0x3000
-#define SCMD_SFX_PLAY		0x4000
-#define SCMD_RELOAD			0x5000
-
-void soundCommand(unsigned int command,unsigned int param);
-
-/*! \brief Play a sound effect
-    \param channel number of channel where effect will be play (0..15) 
-    \param idEffect identifier of the sound effect (0..n)
-    \param pan panning effect (0..15)
+/*! \fn  spcBoot(void)
+	\brief boots the spc700 with sm-spc. call once at startup
 */
-#define soundEffect(channel,idEffect,pan)	(soundCommand(SCMD_SFX_PLAY|((channel)<<8),(idEffect)|((pan)<<8)))
+void spcBoot(void);
 
-/*! \brief Stop current music
+/*! \fn  spcSetBank(u8 *bank)
+	\brief set soundbank origin. soundbank must have dedicated bank(s)
+	\param bank	bank address
 */
-#define soundMusicStop()		(spc_command(SCMD_MUSIC_STOP,0))
+void spcSetBank(u8 *bank);
 
-/*! \brief Play current music
+/*! \fn  spcLoad(u16 musIndex)
+	\brief load module into sm-spc. this function may take some time to execute
+	\param musIndex	module_id
 */
-#define soundMusicPlay()		(spc_command(SCMD_MUSIC_PLAY,0))
+void spcLoad(u16 musIndex);
 
-/*! \brief Reload current music
+/*! \fn  spcLoadEffect(u16 sfxIndex)
+	\brief load sound effect into sm-spc. this function may take some time to execute
+	\param sfxIndex	sfx_id
 */
-#define soundMusicReload()		(spc_command(SCMD_RELOAD,0))
+void spcLoadEffect(u16 sfxIndex);
 
-/*! \brief Initializes SPC sound engine in SNES SPC700 memory
+/*! \fn  spcPlay(u8 startPos)
+	\brief play module. 
+	note: this simply queues a message, use spcFlush if you want
+	to wait until the message is processed
+	
+	another note: there may be a significant startup time from
+	after the message is processed to when the song starts playing...
+	to sync the program with the song start use spcFlush and then
+	wait until SPC_P of the status register is set.
+	\param startPos	starting position
 */
-void soundInit(void);
+void spcPlay(u8 startPos);
+
+/*! \fn  spcStop(void)
+	\brief stop playing the current module. 
+*/
+void spcStop(void);
+
+/*
+;*************************************************************************
+;* spcReadStatus
+;*
+;* returns:
+;*   a = status register
+;*
+;* read status register from sm-spc
+;*************************************************************************
+.import spcReadStatus
+
+;*************************************************************************
+;* spcGetCues
+;*
+;* returns:
+;*   a = (0..15) number of cues that occured since last call
+;*
+;* get number of cues that have passed (pattern effect SF1)
+;*************************************************************************
+.import spcGetCues
+*/
+
+/*! \fn  spcSetModuleVolume(u8 vol)
+	\brief set the module playback volume
+	\param vol	volume (0..255)
+*/
+void spcSetModuleVolume(u8 vol);
+
+/*! \fn  spcFadeModuleVolume(u16 vol, u16 fadespeed)
+	\brief fade the module volume towards the target
+	\param vol	volume (0..255)
+	\param fadespeed	fade speed (volume(0..255) += y every 32ms)
+*/
+void spcFadeModuleVolume(u16 vol, u16 fadespeed);
+
+/*! \fn  spcFlush(void)
+	\brief Flush message queue (force sync)
+*/
+void spcFlush(void);
+
+/*! \fn  spcProcess(void)
+	\brief Process messages
+	This function will try to give messages to the spc until a few
+	scanlines pass
+	
+	this function MUST be called every frame if you are using
+	streamed sounds
+*/
+void spcProcess(void);
+
+/*! \fn  spcEffect(u16 pitch,u16 sfxIndex, u8 volpan)
+	\brief Play sound effect (load with spcLoadEffect)
+	\param pitch	pitch (0-15, 8=32khz)
+	\param sfxIndex	effect index (0-15)
+	\param volpan	volume(0..15) AND panning(0..15) (volume*16+pan)
+*/
+void spcEffect(u16 pitch,u16 sfxIndex, u8 volpan);
+
+/*! \fn  spcSetSoundTable(u16 sndTableAddr,u8 sndTableBank)
+	\brief set the address of the SOUND TABLE
+	\param sndTableAddr	address of sound table
+	\param sndTableBank	bank of sound table
+*/
+void spcSetSoundTable(u16 sndTableAddr,u8 sndTableBank);
+
+/*! \fn spcSetSoundEntry(u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, brrsamples *ptr)
+	\brief set the address of the SOUND TABLE
+	\param vol	volume (0..15)
+	\param panning	panning (0..15)
+	\param pitch	PITCH (1..6) (hz = PITCH * 2000)
+	\param length	length of brr sample
+	\param sampleaddr	address of brr sample
+	\param ptr	address of variable where sounds values will be stored
+*/
+void spcSetSoundEntry(u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, brrsamples *ptr);
+
+/*! \fn  spcAllocateSoundRegion(u8 size);
+	\brief set the size of the sound region
+	(this must be big enough to hold your longest/largest sound)
+	this function will STOP module playback too
+	\param size	size of sound region (size*256 bytes)
+*/
+void spcAllocateSoundRegion(u8 size);
+
+/*! \fn  spcPlaySound(u8 sndIndex)
+	\brief Play sound from memory (using default arguments)
+	\param sndIndex	index in sound table
+*/
+void spcPlaySound(u8 sndIndex);
+
+/*! \fn  spcPlaySoundV(u8 sndIndex, u16 volume)
+	\brief Play sound from memory (using default arguments)
+	\param sndIndex	index in sound table
+	\param volume	volume (0..15)
+*/
+void spcPlaySoundV(u8 sndIndex, u16 volume);
 
 #endif //SNES_SOUND_INCLUDE

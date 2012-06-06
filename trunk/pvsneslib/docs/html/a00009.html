@@ -97,7 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <span class="comment"></span>
 <span class="comment"></span>
 <span class="comment">---------------------------------------------------------------------------------*/</span>
-<span class="preprocessor">#include &lt;<a class="code" href="a00021.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
+<span class="preprocessor">#include &lt;<a class="code" href="a00024.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
 
 <span class="keyword">extern</span> <span class="keywordtype">char</span> gfxpsrite, gfxpsrite_end;
 <span class="keyword">extern</span> <span class="keywordtype">char</span> palsprite;
@@ -105,22 +105,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <span class="comment">//---------------------------------------------------------------------------------</span>
 <span class="keywordtype">int</span> main(<span class="keywordtype">void</span>) {
     <span class="comment">// Initialize SNES </span>
-    <a name="a0"></a><a class="code" href="a00016.html#a6047713bb5a73afd3cd1d77e336bcdad" title="Initialize console.">consoleInit</a>();
+    <a name="a0"></a><a class="code" href="a00019.html#a6047713bb5a73afd3cd1d77e336bcdad" title="Initialize console.">consoleInit</a>();
     
     <span class="comment">// Init Sprites gfx and palette with default size of 32x32</span>
-    <a name="a1"></a><a class="code" href="a00024.html#af35cb9aafcffa5cce45c6c609950360d" title="Initializes a sprites Gfx and Loads the GFX into VRAM.">oamInitGfxSet</a>(&amp;gfxpsrite, (&amp;gfxpsrite_end-&amp;gfxpsrite), &amp;palsprite, 0, 0x4000, <a name="a2"></a><a class="code" href="a00024.html#abc6679a83d9647eac01c3d51ef37151a" title="default OAM size 32x32 pix for OBJSEL register">OBJ_SIZE32</a>);
+    <a name="a1"></a><a class="code" href="a00027.html#af35cb9aafcffa5cce45c6c609950360d" title="Initializes a sprites Gfx and Loads the GFX into VRAM.">oamInitGfxSet</a>(&amp;gfxpsrite, (&amp;gfxpsrite_end-&amp;gfxpsrite), &amp;palsprite, 0, 0x4000, <a name="a2"></a><a class="code" href="a00027.html#abc6679a83d9647eac01c3d51ef37151a" title="default OAM size 32x32 pix for OBJSEL register">OBJ_SIZE32</a>);
 
     <span class="comment">// Define sprites parmaters</span>
-    <a name="a3"></a><a class="code" href="a00024.html#af18394510c04f64df05cfa40f6ac2e82" title="sets an oam entry to the supplied values">oamSet</a>(0,  100, 100, 3, 0, 0, 0, 0); <span class="comment">// Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0</span>
-    <a name="a4"></a><a class="code" href="a00024.html#a5d4feec9383252798023c83f9a65e1ef" title="Put the correct size and hide or not a oam.">oamSetEx</a>(0, OBJ_SMALL, OBJ_SHOW);
+    <a name="a3"></a><a class="code" href="a00027.html#af18394510c04f64df05cfa40f6ac2e82" title="sets an oam entry to the supplied values">oamSet</a>(0,  100, 100, 3, 0, 0, 0, 0); <span class="comment">// Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0</span>
+    <a name="a4"></a><a class="code" href="a00027.html#a5d4feec9383252798023c83f9a65e1ef" title="Put the correct size and hide or not a oam.">oamSetEx</a>(0, OBJ_SMALL, OBJ_SHOW);
     
     <span class="comment">// Now Put in 16 color mode and disable all backgrounds</span>
-    <a name="a5"></a><a class="code" href="a00025.html#ad38541ebb0ff0ae46d99f4c5d3288c4d" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a6"></a><a class="code" href="a00015.html#a7afc211c644079338a1f032ea5e90460adce05b1d024af3f279a6bc8050b76269" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0); <a name="a7"></a><a class="code" href="a00015.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(0); <a class="code" href="a00015.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1); <a class="code" href="a00015.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
+    <a name="a5"></a><a class="code" href="a00028.html#ad38541ebb0ff0ae46d99f4c5d3288c4d" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a6"></a><a class="code" href="a00018.html#a7afc211c644079338a1f032ea5e90460adce05b1d024af3f279a6bc8050b76269" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0); <a name="a7"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(0); <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1); <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
     
     <span class="comment">// Wait for nothing :P</span>
     <span class="keywordflow">while</span>(1) {
         <span class="comment">// Wait VBL &#39;and update sprites too ;-) )</span>
-        <a name="a8"></a><a class="code" href="a00018.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
+        <a name="a8"></a><a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
     }
     <span class="keywordflow">return</span> 0;
 }
@@ -128,7 +128,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 20 2012 08:58:18 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 6 2012 08:22:04 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

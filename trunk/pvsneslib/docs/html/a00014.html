@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>pvsneslib: oamEntry Struct Reference</title>
+<title>pvsneslib: audio/music/Music.c</title>
 
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="docs.css" rel="stylesheet" type="text/css" />
@@ -47,7 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li><a href="dirs.html"><span>Directories</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
@@ -69,13 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
-  <div id="navrow2" class="tabs2">
-    <ul class="tablist">
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
-      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
-      <li><a href="functions.html"><span>Data&#160;Fields</span></a></li>
-    </ul>
-  </div>
+</div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -90,94 +84,78 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-</div>
 <div class="header">
-  <div class="summary">
-<a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">oamEntry Struct Reference</div>  </div>
+<div class="title">audio/music/Music.c</div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="fragment"><pre class="fragment"><span class="comment">/*---------------------------------------------------------------------------------</span>
+<span class="comment"></span>
+<span class="comment"></span>
+<span class="comment">    Simple console &#39;hello world&#39; demo</span>
+<span class="comment">    -- alekmaul</span>
+<span class="comment"></span>
+<span class="comment"></span>
+<span class="comment">---------------------------------------------------------------------------------*/</span>
+<span class="preprocessor">#include &lt;<a class="code" href="a00024.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
 
-<p>Sprite definition : OAM entry for DMA copy if needed.  
- <a href="a00014.html#details">More...</a></p>
+<span class="preprocessor">#include &quot;soundbank.h&quot;</span>
 
-<p><code>#include &lt;sprites.h&gt;</code></p>
-<table class="memberdecls">
-<tr><td colspan="2"><h2><a name="pub-attribs"></a>
-Data Fields</h2></td></tr>
-<tr class="memitem:a47445b1a2fc9e53538df39e90f8c29f2"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#a47445b1a2fc9e53538df39e90f8c29f2">attribute</a></td></tr>
-<tr class="memitem:a1139d7483cc3e82ef050e280e540e457"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#a1139d7483cc3e82ef050e280e540e457">tilenumber</a></td></tr>
-<tr class="memitem:aeeca126469595edf9755b99938f2f88e"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#aeeca126469595edf9755b99938f2f88e">x</a></td></tr>
-<tr class="memitem:a8702e01d6147efff82cd077f7329ed22"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#a8702e01d6147efff82cd077f7329ed22">y</a></td></tr>
-</table>
-<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p>Sprite definition : OAM entry for DMA copy if needed. </p>
-</div><hr/><h2>Field Documentation</h2>
-<a class="anchor" id="a47445b1a2fc9e53538df39e90f8c29f2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">u8 <a class="el" href="a00014.html#a47445b1a2fc9e53538df39e90f8c29f2">oamEntry::attribute</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num </p>
+<span class="keyword">extern</span> <span class="keywordtype">char</span> snesfont;
+<span class="keyword">extern</span> <span class="keywordtype">char</span> __SOUNDBANK__;
 
-</div>
-</div>
-<a class="anchor" id="a1139d7483cc3e82ef050e280e540e457"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">u8 <a class="el" href="a00014.html#a1139d7483cc3e82ef050e280e540e457">oamEntry::tilenumber</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>cccccccc Starting tile num </p>
+<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> bgcolor =0;
 
-</div>
-</div>
-<a class="anchor" id="aeeca126469595edf9755b99938f2f88e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">u8 <a class="el" href="a00014.html#aeeca126469595edf9755b99938f2f88e">oamEntry::x</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>xxxxxxxx X coordinate </p>
+<span class="comment">//---------------------------------------------------------------------------------</span>
+<span class="keywordtype">int</span> main(<span class="keywordtype">void</span>) {
+    
+    <span class="comment">// Initialize sound engine (take some time)</span>
+    <a name="a0"></a><a class="code" href="a00026.html#ad8753cb6edb38834257bbf0020700689" title="boots the spc700 with sm-spc. call once at startup">spcBoot</a>();
 
-</div>
-</div>
-<a class="anchor" id="a8702e01d6147efff82cd077f7329ed22"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">u8 <a class="el" href="a00014.html#a8702e01d6147efff82cd077f7329ed22">oamEntry::y</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>yyyyyyyy Y coordinate </p>
+    <span class="comment">// Initialize SNES </span>
+    <a name="a1"></a><a class="code" href="a00019.html#a6047713bb5a73afd3cd1d77e336bcdad" title="Initialize console.">consoleInit</a>();
 
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00024.html">sprites.h</a></li>
-</ul>
-</div><!-- contents -->
+    <span class="comment">// Set give soundbank</span>
+    <a name="a2"></a><a class="code" href="a00026.html#ab68840ba8aab786b8ea206ea077acaac" title="set soundbank origin. soundbank must have dedicated bank(s)">spcSetBank</a>(&amp;__SOUNDBANK__);
+    
+    <span class="comment">// allocate around 10K of sound ram (39 256-byte blocks)</span>
+    <a name="a3"></a><a class="code" href="a00026.html#a2113060be24b307d1e03f167eb241b90" title="set the size of the sound region (this must be big enough to hold your longest/largest sound) this fu...">spcAllocateSoundRegion</a>(39);
+
+    <span class="comment">// Load music</span>
+    <a name="a4"></a><a class="code" href="a00026.html#a313e30fb1962df9fb469f2fedd4d91e4" title="load module into sm-spc. this function may take some time to execute">spcLoad</a>(MOD_POLLEN8);
+    
+    <span class="comment">// Initialize text console with our font</span>
+    <a name="a5"></a><a class="code" href="a00019.html#a458fa049800e12429ca0ba401e513746" title="Initialize the Text System.">consoleInitText</a>(0, 0, &amp;snesfont);
+
+    <span class="comment">// Now Put in 16 color mode and disable Bgs except current</span>
+    <a name="a6"></a><a class="code" href="a00028.html#ad38541ebb0ff0ae46d99f4c5d3288c4d" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a7"></a><a class="code" href="a00018.html#a7afc211c644079338a1f032ea5e90460adce05b1d024af3f279a6bc8050b76269" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0);  <a name="a8"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1);  <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
+
+    <span class="comment">// Draw a wonderfull text :P</span>
+    <a name="a9"></a><a class="code" href="a00019.html#a7e52d15b5a1befa42f5758de19dfb70c" title="Output formatted string on a screen (tiles mode)">consoleDrawText</a>(5,10,<span class="stringliteral">&quot;Let&#39;s the music play !&quot;</span>);
+
+    <span class="comment">// Wait for nothing :P</span>
+    <a name="a10"></a><a class="code" href="a00028.html#ae1799b61e7648ee346dc602580d00133" title="sets the screens brightness.">setBrightness</a>(0xF);  
+
+    <span class="comment">// Play file from the beginning</span>
+    <a name="a11"></a><a class="code" href="a00026.html#aebf91de1df5e4fa83454a84bb0e60918" title="play module. note: this simply queues a message, use spcFlush if you want to wait until the message i...">spcPlay</a>(0);
+
+    <span class="comment">// Wait for nothing :D !</span>
+    <span class="keywordflow">while</span>(1) {
+        <span class="comment">// Update music / sfx stream and wait vbl</span>
+        <a name="a12"></a><a class="code" href="a00026.html#acab7d87110bac6baa9d74ab314772c98" title="Process messages This function will try to give messages to the spc until a few scanlines pass...">spcProcess</a>();
+        <a name="a13"></a><a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
+        
+        <span class="comment">// change background color</span>
+        bgcolor++;
+        <a name="a14"></a><a class="code" href="a00028.html#a549263481ac687a7e1d6f6cd5bd85d29" title="Change a color palette in CGRAM.">setPaletteColor</a>(0x00, bgcolor);
+    }
+    <span class="keywordflow">return</span> 0;
+}
+</pre></div> </div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 20 2012 08:58:18 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 6 2012 08:22:04 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

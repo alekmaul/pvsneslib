@@ -21,7 +21,7 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
-V0.4.0 (xx, yyy, 2012)
+V1.0.0 (06, June, 2012)
 - add padsUp function to know if key just released
 - add bool typedef definition with true & false values
 - add NULL definition
@@ -32,6 +32,13 @@ V0.4.0 (xx, yyy, 2012)
 - add a flag (snes_50hz) to know if we are on a PAL snes (1=yes)
 - add sound management through shiru "christmass craze" example (thanks to him for tools)
 - add windows regions management
+- change some functions to asm version (dma, vbl ...)
+- change spc700 data to asm section, avoid burning too much ram
+- fix bug in bgSetMapPtr, word access instead of byte, and register mapping not good (use if statement now)
+- remove verbose mode for wlalink and wla-65816, not really usefull
+- remove all signed variables for optmization purpose
+- split pvsneslib.asm into multiple files to be more easy to understand
+- add music and sfx via snesmod adaptation from mukunda (thanks also kung fu furby for help) 
 
 V0.3.0 (01, May, 2012)
 - add paletteSize to bgInitTileSet to avoid pb with palette bigger than 16 colors for 16 colormode 

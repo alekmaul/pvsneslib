@@ -112,9 +112,7 @@ typedef enum
 #define REG_BGMODE	(*(vuint8*)0x2105)
 
 /*! \def REG_MOSAIC
-
     \brief Mosaic Size and Mosaic Enable (W)
-
 	Allows to divide the BG layer into NxN pixel blocks, in each block, 
 	the hardware picks the upper-left pixel of each block, and fills the 
 	whole block by the color - thus effectively reducing the screen resolution.
@@ -356,7 +354,7 @@ void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u16 sizeMode, u16 add
 	\param x	the horizontal scroll
 	\param y	the vertical scroll
 */
-void bgSetScroll(u8 bgNumber, short x, short y);
+void bgSetScroll(u8 bgNumber, u16 x, u16 y);
 
 /*!	\brief Enable a BG in the actual SNES mode
 	\param bgNumber	background number (0 to 3 regarding current mode)
@@ -378,6 +376,12 @@ void bgSetEnableSub(u8 bgNumber);
 */
 void bgSetDisableSub(u8 bgNumber);
 
+/*!	\brief Define a region on screen where map / sprite can be disable
+	\param bgNumber	background number (0 to 3 regarding current mode)
+	\param winNumber	windows number (0 to 1 regarding current window)
+	\param xLeft	left value where we begin to add map/sprites
+	\param xRight	right value where we stop to add map/sprites
+*/
 void bgSetWindowsRegions(u8 bgNumber, u8 winNumber, u8 xLeft, u8 xRight);
 
 #endif //SNES_BACKGROUND_INCLUDE

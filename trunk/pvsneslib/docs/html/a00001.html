@@ -97,31 +97,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <span class="comment"></span>
 <span class="comment"></span>
 <span class="comment">---------------------------------------------------------------------------------*/</span>
-<span class="preprocessor">#include &lt;<a class="code" href="a00021.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
+<span class="preprocessor">#include &lt;<a class="code" href="a00024.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
 
 <span class="keyword">extern</span> <span class="keywordtype">char</span> snesfont;
 
 <span class="comment">//---------------------------------------------------------------------------------</span>
 <span class="keywordtype">int</span> main(<span class="keywordtype">void</span>) {
     <span class="comment">// Initialize SNES </span>
-    <a name="a0"></a><a class="code" href="a00016.html#a6047713bb5a73afd3cd1d77e336bcdad" title="Initialize console.">consoleInit</a>();
+    <a name="a0"></a><a class="code" href="a00019.html#a6047713bb5a73afd3cd1d77e336bcdad" title="Initialize console.">consoleInit</a>();
     
     <span class="comment">// Initialize text console with our font</span>
-    <a name="a1"></a><a class="code" href="a00016.html#a71d75ca1dc18e5bd167b221497c82090" title="Initialize the Text System.">consoleInitText</a>(0, 0, &amp;snesfont);
+    <a name="a1"></a><a class="code" href="a00019.html#a458fa049800e12429ca0ba401e513746" title="Initialize the Text System.">consoleInitText</a>(0, 0, &amp;snesfont);
 
     <span class="comment">// Now Put in 16 color mode and disable Bgs except current</span>
-    <a name="a2"></a><a class="code" href="a00025.html#ad38541ebb0ff0ae46d99f4c5d3288c4d" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a3"></a><a class="code" href="a00015.html#a7afc211c644079338a1f032ea5e90460adce05b1d024af3f279a6bc8050b76269" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0);  <a name="a4"></a><a class="code" href="a00015.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1);  <a class="code" href="a00015.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
+    <a name="a2"></a><a class="code" href="a00028.html#ad38541ebb0ff0ae46d99f4c5d3288c4d" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a3"></a><a class="code" href="a00018.html#a7afc211c644079338a1f032ea5e90460adce05b1d024af3f279a6bc8050b76269" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0);  <a name="a4"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1);  <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
 
     <span class="comment">// Draw a wonderfull text :P</span>
-    <a name="a5"></a><a class="code" href="a00016.html#a7e52d15b5a1befa42f5758de19dfb70c" title="Output formatted string on a screen (tiles mode)">consoleDrawText</a>(10,10,<span class="stringliteral">&quot;Hello World !&quot;</span>);
-    <a class="code" href="a00016.html#a7e52d15b5a1befa42f5758de19dfb70c" title="Output formatted string on a screen (tiles mode)">consoleDrawText</a>(7,14,<span class="stringliteral">&quot;WELCOME TO LIBSNES&quot;</span>);
-    <a class="code" href="a00016.html#a7e52d15b5a1befa42f5758de19dfb70c" title="Output formatted string on a screen (tiles mode)">consoleDrawText</a>(3,18,<span class="stringliteral">&quot;HTTP://WWW.PORTABLEDEV.COM&quot;</span>);
+    <a name="a5"></a><a class="code" href="a00019.html#a7e52d15b5a1befa42f5758de19dfb70c" title="Output formatted string on a screen (tiles mode)">consoleDrawText</a>(10,10,<span class="stringliteral">&quot;Hello World !&quot;</span>);
+    <a class="code" href="a00019.html#a7e52d15b5a1befa42f5758de19dfb70c" title="Output formatted string on a screen (tiles mode)">consoleDrawText</a>(7,14,<span class="stringliteral">&quot;WELCOME TO LIBSNES&quot;</span>);
+    <a class="code" href="a00019.html#a7e52d15b5a1befa42f5758de19dfb70c" title="Output formatted string on a screen (tiles mode)">consoleDrawText</a>(3,18,<span class="stringliteral">&quot;HTTP://WWW.PORTABLEDEV.COM&quot;</span>);
 
     <span class="comment">// Wait for nothing :P</span>
-    <a name="a6"></a><a class="code" href="a00025.html#ae1799b61e7648ee346dc602580d00133" title="sets the screens brightness.">setBrightness</a>(0xF);  
+    <a name="a6"></a><a class="code" href="a00028.html#ae1799b61e7648ee346dc602580d00133" title="sets the screens brightness.">setBrightness</a>(0xF);  
     
     <span class="keywordflow">while</span>(1) {
-        <a name="a7"></a><a class="code" href="a00018.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
+        <a name="a7"></a><a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
     }
     <span class="keywordflow">return</span> 0;
 }
@@ -129,7 +129,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 20 2012 08:58:18 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 6 2012 08:22:04 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

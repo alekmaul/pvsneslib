@@ -67,7 +67,6 @@ signed char _m7sin, _m7cos;
 
 //---------------------------------------------------------------------------------
 void setBrightness(u16 level) {
-
 	if (level == 0) 
 		level = DSP_FORCEVBL;
 	else
@@ -138,7 +137,7 @@ void setMode(u16 mode, u16 size) {
 //---------------------------------------------------------------------------------
 // Not used, in assembler files now
 #if 0
-void setFadeEffect(u16 mode) {
+void setFadeEffect(u8 mode) {
 	u16 i;
 
 	for (i == 1; i<16; i++) {
@@ -154,7 +153,9 @@ void setFadeEffect(u16 mode) {
 #endif
 
 //---------------------------------------------------------------------------------
-void setMosaicEffect(u16 mode,u8 bgNumbers) {
+// Not used, in assembler files now
+#if 0
+void setMosaicEffect(u8 mode,u8 bgNumbers) {
 	u16 i, fadeOutValue;
 
 	if (mode == MOSAIC_IN) {
@@ -173,8 +174,8 @@ void setMosaicEffect(u16 mode,u8 bgNumbers) {
 			WaitForVBlank(); 
 		}
 	}
-	
 }
+#endif
 
 //---------------------------------------------------------------------------------
 void setColorEffect(u8 colorMathA, u8 colorMathB) {
@@ -184,9 +185,12 @@ void setColorEffect(u8 colorMathA, u8 colorMathB) {
 }
 
 //---------------------------------------------------------------------------------
+//moved to define proc
+#if 0
 void setPalette(u8 *palette, u8 paletteEntry, u16 paletteSize) {
   	dmaCopyCGram(palette, paletteEntry, paletteSize);
 }
+#endif
 
 
 //--for pseudo3D effect
