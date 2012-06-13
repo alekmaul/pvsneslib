@@ -189,7 +189,7 @@ void oamClear(u8 first, u8 numEntries);
 	\param tileSource	address of sprites graphics entry
 	\param tileSize	size of sprites graphics
 	\param tilePalette	address of sprites palette entry
-	\param tilePaletteNumber	palette number (0..15)
+	\param tilePaletteNumber	palette number (0..8)
 	\param address	address of sprite graphics (8K-word steps)
 	\param oamsize	default OAM size (OBJ_SIZE8, OBJ_SIZE16 and OBJ_SIZE32)
 */
