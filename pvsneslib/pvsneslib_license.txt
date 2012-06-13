@@ -21,6 +21,9 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
+V1.0.1 (09, June, 2012)
+- fix bug in spcLoad, call spcFLush instead of xspcFlush
+
 V1.0.0 (06, June, 2012)
 - add padsUp function to know if key just released
 - add bool typedef definition with true & false values
