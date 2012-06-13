@@ -438,7 +438,7 @@ void m7_calchdma(void) {
 	REG_A1T3LH = data_to_transfert.mem.c.addr; // DMA channel x source address offset low $4312 and high $4313 optimisation)
 	REG_A1B3 = data_to_transfert.mem.c.bank; // DMA channel x source address bank
 
-	data_to_transfert.mem.p = (u8 *) m7_mb;
+	data_to_transfert.mem.p = (u8 *) m7_mc;
 	REG_A1T4LH = data_to_transfert.mem.c.addr; // DMA channel x source address offset low $4312 and high $4313 optimisation)
 	REG_A1B4 = data_to_transfert.mem.c.bank; // DMA channel x source address bank
 
@@ -446,17 +446,18 @@ void m7_calchdma(void) {
 	REG_A1T5LH = data_to_transfert.mem.c.addr; // DMA channel x source address offset low $4312 and high $4313 optimisation)
 	REG_A1B5 = data_to_transfert.mem.c.bank; // DMA channel x source address bank
 
-	data_to_transfert.mem.p = (u8 *) m7_ma;
+	data_to_transfert.mem.p = (u8 *) m7_md;
 	REG_A1T6LH = data_to_transfert.mem.c.addr; // DMA channel x source address offset low $4312 and high $4313 optimisation)
 	REG_A1B6 = data_to_transfert.mem.c.bank; // DMA channel x source address bank
 
 	REG_HDMAEN = (DMA_ENABLE<<3) | (DMA_ENABLE<<4) | (DMA_ENABLE<<5) | (DMA_ENABLE<<6); // Enable DMA channel 3 & 4
+//	REG_HDMAEN = (DMA_ENABLE<<3) | (DMA_ENABLE<<4); // Enable DMA channel 3 & 4
 }
 
 void calcmatrix(void) {
 	unsigned int i;
 	
-	for (i=0;i<192*3;i+=3) {
+	for (i=0;i<160*3;i+=3) {  // 224-160=64
 		REG_M7A=(_m7sx & 255); REG_M7A=(_m7sx>>8);
 		REG_M7B = _m7sin; _m7mb = REG_MPYMH;
 	
@@ -470,7 +471,7 @@ void calcmatrix(void) {
 		REG_M7B = _m7cos; _m7md = REG_MPYMH;
 
 		m7_ma[i+1] = _m7ma & 255;m7_mb[i+1] = _m7mb & 255;m7_mc[i+1] = _m7mc & 255;	m7_md[i+1] = _m7md & 255;
-		m7_ma[i+2] = _m7ma>>8;m7_mb[i+2] = _m7mb>>8;m7_mc[i+2] = _m7mc>>8;	m7_md[i+2] = _m7md>>8;
+		m7_ma[i+2] = _m7ma>>8;   m7_mb[i+2] = _m7mb>>8;   m7_mc[i+2] = _m7mc>>8;	m7_md[i+2] = _m7md>>8;
 	}
 }
 
