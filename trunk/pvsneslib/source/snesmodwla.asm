@@ -290,7 +290,7 @@ spcLoad:
 	sep #$20
 
 	phx				; flush fifo!
-	jsr	spcFlush		;
+	jsr	xspcFlush		;
 	plx				;
 	
 	phx
