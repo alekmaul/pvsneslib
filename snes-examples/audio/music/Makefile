@@ -43,7 +43,9 @@ SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.asm)))
 export AUDIOFILES :=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.it)))
 
 ifneq ($(AUDIOFILES),)
-SFILES		:=	soundbank.asm $(SFILES)
+ifeq ($(wildcard soundbank.asm),)
+	SFILES		:=	soundbank.asm $(SFILES)
+endif
 endif
 
 #---------------------------------------------------------------------------------
@@ -60,7 +62,7 @@ GTITLE 		:= -ht"$(TARGET)"
 .PHONY: bitmaps all
 
 #---------------------------------------------------------------------------------
-all	:	bitmaps $(OUTPUT).sfc
+all	: bitmaps $(OUTPUT).sfc
 	$(SNTOOLS) -hi! $(GTITLE) $(TARGET).sfc
 
 clean:
