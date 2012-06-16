@@ -22,7 +22,7 @@ int main(void) {
 	spcBoot();
 
     // Initialize SNES 
-	consoleInit();
+	consoleInit(); 
 
 	// Set give soundbank
 	spcSetBank(&__SOUNDBANK__);
