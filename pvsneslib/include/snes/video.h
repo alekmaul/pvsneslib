@@ -158,6 +158,7 @@ typedef enum
 */
 #define	REG_VMDATAL   		(*(vuint8*)0x2118)  /*!< \brief VRAM Data Write (lower 8bit) (W) */
 #define	REG_VMDATAH   		(*(vuint8*)0x2119)  /*!< \brief VRAM Data Write (upper 8bit) (W) */
+#define	REG_VMDATALH   		(*(vuint16*)0x2118) /*!< \brief VRAM Data Write (lower and upper 8bit) (W) */
 
 /*! \def REG_CGADD
 
@@ -296,13 +297,13 @@ The overflow flags are set (regardless of OBJ enable/disable in 212Ch), at follo
 extern u8 videoMode; /*!< \brief Current value of REG_TM */
 extern u8 videoModeSub; /*!< \brief Current value of REG_TS */
 
-/*! \fn  setBrightness(u16 level)
+/*! \fn  setBrightness(u8 level)
 	\brief sets the screens brightness.
 	\param level	15 = full brightness, 0= black
 */
-void setBrightness(u16 level);
+void setBrightness(u8 level);
 
-/*! \fn  setMode(u16 mode, u16 size)
+/*! \fn  setMode(u8 mode, u8 size)
 	\brief Set the SNES hardware to operate in new display mode.
 	\param mode	0..7 for available Snes display mode
 	\param size	Tile Size (8x8 or 16x16) of each BG in this mode (if available)
@@ -317,7 +318,7 @@ void setBrightness(u16 level);
 	6      16-color    -           (o.p.t)     -         ;512-pix plus Offs-p-t
 	7      256-color   EXTBG       -           -         ;Rotation/Scaling
 */
-void setMode(u16 mode, u16 size);
+void setMode(u8 mode, u8 size);
 
 
 /*! \fn  setFadeEffect(u8 mode)
@@ -347,7 +348,6 @@ void setColorEffect(u8 colorMathA, u8 colorMathB);
 	\param paletteSize	size of palette
 */
 #define setPalette(palette, paletteEntry, paletteSize) 	dmaCopyCGram(palette, paletteEntry, paletteSize)
-//void setPalette(u8 *palette, u8 paletteEntry, u16 paletteSize);
 
 /*! \fn  setPaletteColor(paletteEntry, paletteColor)
 	\brief Change a color palette in CGRAM.
@@ -356,11 +356,11 @@ void setColorEffect(u8 colorMathA, u8 colorMathB);
 */
 #define setPaletteColor(paletteEntry, paletteColor) 	REG_CGADD = paletteEntry; *CGRAM_PALETTE = (paletteColor) & 0xFF; *CGRAM_PALETTE = (paletteColor)>>8;
 
-/*! \fn  setMode7(u16 mode)
+/*! \fn  setMode7(u8 mode)
 	\brief Put screen in mode 7 with generic init.
 	\param mode	Rotation/Scaling Mode Settings (see REG_M7SEL)
 */
-void setMode7(u16 mode);
+void setMode7(u8 mode);
 
 /*! \fn  setMode7Angle(u8 angle)
 	\brief Changle angle view in mode 7 without changing matrix.

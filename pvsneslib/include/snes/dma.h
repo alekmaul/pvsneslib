@@ -213,6 +213,10 @@ typedef struct dmaMemory {
 */
 void dmaCopyVram(u8 * source, u16 address, u16 size);
 
+/*! \brief clear all vram data with #0  
+*/
+void dmaClearVram(void);
+
 /*! \brief copies Palette from source to destination using channel 0 of DMA available channels in half words  
 	\param source the source to copy from
 	\param address vram address to copy
