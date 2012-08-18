@@ -11,8 +11,8 @@ endif
 export TOPDIR	:=	$(CURDIR)
 
 export PVSNESLIB_MAJOR	:= 1
-export PVSNESLIB_MINOR	:= 0
-export PVSNESLIB_PATCH	:= 1
+export PVSNESLIB_MINOR	:= 1
+export PVSNESLIB_PATCH	:= 0
 
 
 VERSION	:=	$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
@@ -40,13 +40,13 @@ clean:
 #-------------------------------------------------------------------------------
 dist-src:
 #-------------------------------------------------------------------------------
-	@tar --exclude=*CVS* --exclude=.svn -cjf pvsneslib-src-$(VERSION).tar.bz2 source include template Makefile pvsneslib_license.txt pvsneslib.dox
+	@tar --exclude=*CVS* --exclude=.svn -cjf pvsneslib-src-$(VERSION).tar.bz2 source include template Makefile pvsneslib_license.txt pvsneslib_snesmod.txt pvsneslib.dox
 	@mv *.tar.bz2 ..
 
 #-------------------------------------------------------------------------------
 dist-bin: 
 #-------------------------------------------------------------------------------
-	@tar --exclude=*CVS* --exclude=.svn -cjf pvsneslib-$(VERSION).tar.bz2 include lib template pvsneslib_license.txt
+	@tar --exclude=*CVS* --exclude=.svn -cjf pvsneslib-$(VERSION).tar.bz2 include lib template pvsneslib_license.txt pvsneslib_snesmod.txt 
 	@tar --exclude=*CVS* --exclude=.svn -cjf devkitsnes-$(VERSION).tar.bz2 ../devkitsnes ../emulators/put_emulators_here.txt
 	@mv *.tar.bz2 ..
 
