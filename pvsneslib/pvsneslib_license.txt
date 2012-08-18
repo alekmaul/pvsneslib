@@ -21,6 +21,21 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
+V1.1.0 (xx, June, 2012)
+- change padsCurrent to define definition to speedup code
+- fix bug in input buttons (X / Y flipped)
+- add consoleDrawTextMapCenter to draw text with x centered axis
+- add spcSetSoundTableEntry and spcSetSoundDataEntry to manage sound values/table
+- add palettesize to oamInitGfxSet (WARNING ! not compatible with previous version !!!)
+- add oamGetX and oamGetY to get the sprite coordinates
+- add REG_VMDATALH define to access 16 bits data of VRAM
+- fix some variable size in lots of functions
+- add setBrightness(0); to initTileSet function to avoir problem when init occurs during VBLank
+- change setMode function, remove "switch/case" for "if" statement
+- add snesmod text explanation file
+- fix size bug of id in oamSetEx
+- add dmaClearVram function to init vram to #0
+
 V1.0.1 (09, June, 2012)
 - fix bug in spcLoad, call spcFLush instead of xspcFlush
 
