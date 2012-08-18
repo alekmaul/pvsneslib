@@ -42,9 +42,12 @@ void scanPads(void) {
 }
 
 //------------------------------------------------------------------------------
+// change to define
+#if 0
 unsigned short padsCurrent(unsigned short value) {
 	return (pad_keys[value]);
 }
+#endif
 
 //------------------------------------------------------------------------------
 unsigned short padsDown(unsigned short value) {

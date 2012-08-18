@@ -157,6 +157,20 @@ void consoleDrawTextMap(u8 x, u8 y, u8 *map, u8 attributes, char *fmt, ...) {
 }
 
 //---------------------------------------------------------------------------------
+void consoleDrawTextMapCenter(u8 y, u8 *map, u8 attributes, char *fmt, ...) {
+	unsigned char x;
+	
+	va_list ap;
+	va_start(ap, fmt);
+	vsprintf(text_buffer, fmt, ap);
+	va_end(ap);
+
+	x = 16 - strlen(text_buffer)/2;
+	
+	_print_screen_map(x*2,y*2, map, attributes, text_buffer);
+}
+
+//---------------------------------------------------------------------------------
 void consoleInitText(u8 bgNumber,u8 paletteNumber, u8 *gfxText) {
 	u16 x;
 	

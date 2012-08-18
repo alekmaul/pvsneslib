@@ -46,3 +46,32 @@ void spcSetSoundEntry(u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, 
 	data_to_transfert.mem.p = (u8 *) ptr;
 	spcSetSoundTable(data_to_transfert.mem.c.addr,data_to_transfert.mem.c.bank);
 }
+
+//---------------------------------------------------------------------------------
+void spcSetSoundDataEntry(u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, brrsamples *ptr) {
+	dmaMemory  data_to_transfert;
+	u16 brrlength,brraddr;
+	
+	// compute some values for sound
+	ptr->pitch = pitch;
+	ptr->panning=8;
+	ptr->volume=15;
+	brrlength = length/9;
+	data_to_transfert.mem.p = (u8 *) sampleaddr;
+	brraddr= data_to_transfert.mem.c.addr;
+	ptr->length1 = (brrlength & 0xFF);
+	ptr->length2 = (brrlength>>8);
+	ptr->addr1 = (brraddr & 0xFF);
+	ptr->addr2 = (brraddr>>8);
+	ptr->bank=data_to_transfert.mem.c.bank;
+}
+
+//---------------------------------------------------------------------------------
+void spcSetSoundTableEntry(brrsamples *ptr) {
+	dmaMemory  data_to_transfert;
+
+	// Send variable to sound memory
+	data_to_transfert.mem.p = (u8 *) ptr;
+	spcSetSoundTable(data_to_transfert.mem.c.addr,data_to_transfert.mem.c.bank);
+}
+
