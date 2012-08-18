@@ -24,7 +24,7 @@
 
 ---------------------------------------------------------------------------------*/
 /*! \file snestypes.h
-	\brief Custom types employed by libsnes
+	\brief Custom types used by libsnes
 */
 
 #ifndef _SNESTYPES_INCLUDE

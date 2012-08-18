@@ -54,9 +54,13 @@ typedef enum KEYPAD_BITS {
   KEY_UP     = BIT(11),  //!< pad UP button.
   KEY_R      = BIT(4),  //!< Right shoulder button.
   KEY_L      = BIT(5),  //!< Left shoulder button.
-  KEY_X      = BIT(14), //!< pad X button.
-  KEY_Y      = BIT(6), //!< pad Y button.
+  KEY_X      = BIT(6), //!< pad X button.
+  KEY_Y      = BIT(14), //!< pad Y button.
 } KEYPAD_BITS;
+
+extern u16 pad_keys[2];
+extern u16 pad_keysold[2];
+extern u16 pad_keysrepeat[2];
 
 /*! \def REG_JOYxLH
 
@@ -101,30 +105,36 @@ typedef enum KEYPAD_BITS {
 */
 #define REG_JOYxLH(a)	(((vuint16*)0x4218)[(a)])
 
-/*!\brief Wait for pad ready and read pad values in . 
+/*!	\fn scanPads()
+	\brief Wait for pad ready and read pad values in . 
 */
 void scanPads(void);
 
-/*!\brief Return current value of selected pad
+/*!	\fn  padsCurrent(value)
+	\brief Return current value of selected pad
 	\param value Address of the pad to use (0 or 1)
 	\return unsigned short of the current pad value
 */
-unsigned short padsCurrent(u16 value);
+//unsigned short padsCurrent(u16 value);
+#define padsCurrent(value) (pad_keys[value])
 
-/*!\brief Return value of down keys for selected pad
+/*!	\fn padsDown(u16 value)
+	\brief Return value of down keys for selected pad
 	\param value Address of the pad to use (0 or 1)
 	\return unsigned short of the current pad value
 */
 unsigned short padsDown(u16 value);
 
-/*!\brief Return value of up keys for selected pad
+/*!	\fn padsUp(u16 value)
+	\brief Return value of up keys for selected pad
 	\param value Address of the pad to use (0 or 1)
 	\return unsigned short of the current pad value
 */
 unsigned short padsUp(u16 value);
 
 
-/*!\brief Clear internal variables for selected pad
+/*!	\fn padsClear(u16 value)
+	\brief Clear internal variables for selected pad
 	\param value Address of the pad to use (0 or 1)
 */
 void padsClear(u16 value);

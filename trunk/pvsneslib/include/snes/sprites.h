@@ -142,7 +142,6 @@ void oamInit(void);
 	oamMemory[id+3] = (vflip<<7) | (hflip<<6) | (priority<<4) | (paletteoffset<<1) | ((gfxoffset>>8) & 1); \
 	}
 
-//void oamSet(u8 id,  char xspr, char yspr, char priority, char hflip, char vflip, short gfxoffset, char paletteoffset);
 void oamSet1(u8 id, oamEntry *sprite);
 
 /*! \brief sets an oam coordinate to the supplied values
@@ -150,23 +149,23 @@ void oamSet1(u8 id, oamEntry *sprite);
     \param xspr the x location of the sprite in pixels
     \param yspr the y location of the sprite in pixels
 */
-/*
-#define oamSetXY(id,  xspr, yspr) \
-	oamMemory[id].x = (xspr); \
-	oamMemory[id].y = (yspr);
-*/
 #define oamSetXY(id,  xspr, yspr) \
 	oamMemory[id+0] = (xspr); \
 	oamMemory[id+1] = (yspr);
 
+/*! \brief get the x oam coordinate to the supplied values
+    \param id the oam number to be set [0 - 127] * 4 because of oam structure
+*/
+#define oamGetX(id) (oamMemory[id+0])
+
+/*! \brief get the y oam coordinate to the supplied values
+    \param id the oam number to be set [0 - 127] * 4 because of oam structure
+*/
+#define oamGetY(id) (oamMemory[id+1])
+
 /*! \brief sets an oam graphic offset to the supplied values
     \param id the oam number to be set [0 - 127] * 4 because of oam structure
     \param gfxoffset tilenumber graphic offset
-*/
-/*
-#define oamSetGfxOffset(id,  gfxoffset) \
-	oamMemory[id].tilenumber = (gfxoffset); \
-	oamMemory[id].attribute = (oamMemory[id].attribute & 0xFE) | ((gfxoffset>>8) & 1);
 */
 #define oamSetGfxOffset(id,  gfxoffset) \
 	oamMemory[id+2] = (gfxoffset); \
@@ -177,7 +176,7 @@ void oamSet1(u8 id, oamEntry *sprite);
 	\param size	normal or large (OBJ_SMALL or OBJ_LARGE)
 	\param hide	0 or 1 to hide / see oam
 */
-void oamSetEx(u8 id, u8 size, u8 hide);
+void oamSetEx(u16 id, u8 size, u8 hide);
 
 /*! \brief Hides the sprites in the supplied range: if count is zero all 128 sprites will be hidden
 	\param first	number of 1st sprite to write * 4 because of oam structure
@@ -190,10 +189,11 @@ void oamClear(u8 first, u8 numEntries);
 	\param tileSize	size of sprites graphics
 	\param tilePalette	address of sprites palette entry
 	\param tilePaletteNumber	palette number (0..8)
+	\param paletteSize	size of palette
 	\param address	address of sprite graphics (8K-word steps)
 	\param oamsize	default OAM size (OBJ_SIZE8, OBJ_SIZE16 and OBJ_SIZE32)
 */
-void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u8 tilePaletteNumber, u16 address, u8 oamsize);
+void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize);
 
 /*!\brief Initializes the default sprite size and address in VRAM 
 	\param address	address of sprite graphics (8K-word steps)

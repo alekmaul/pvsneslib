@@ -46,38 +46,35 @@
 #define SC_TILE_BASE(base)  ((base) << SC_BASE_SHIFT)
 
 /*!	\brief Bit defines for the background control registers */
-typedef enum
-{
-   SC_32x32    =  (0 << 0), /*!< \brief 32 x 32 tile size */
-   SC_64x32    =  (1 << 0), /*!< \brief 64 x 32 tile size */
-   SC_32x64    =  (2 << 0), /*!< \brief 32 x 64 tile size */
-   SC_64x64    =  (3 << 0), /*!< \brief 64 x 64 tile size */
+#define  SC_32x32    (0 << 0) /*!< \brief 32 x 32 tile size */
+#define  SC_64x32    (1 << 0) /*!< \brief 64 x 32 tile size */
+#define  SC_32x64    (2 << 0) /*!< \brief 32 x 64 tile size */
+#define  SC_64x64    (3 << 0) /*!< \brief 64 x 64 tile size */
 
-   BG_MODE0 = (0 << 0), /*!< \brief 4-color     4-color     4-color     4-color   ;Normal */
-   BG_MODE1 = (1 << 0), /*!< \brief 16-color    16-color    4-color     -         ;Normal */
-   BG_MODE2 = (2 << 0), /*!< \brief 16-color    16-color    (o.p.t)     -         ;Offset-per-tile */
-   BG_MODE3 = (3 << 0), /*!< \brief 256-color   16-color    -           -         ;Normal */
-   BG_MODE4 = (4 << 0), /*!< \brief 256-color   4-color     (o.p.t)     -         ;Offset-per-tile */
-   BG_MODE5 = (5 << 0), /*!< \brief 16-color    4-color     -           -         ;512-pix-hires */
-   BG_MODE6 = (6 << 0), /*!< \brief 16-color    -           (o.p.t)     -         ;512-pix plus Offs-p-t */
-   BG_MODE7 = (7 << 0), /*!< \brief 256-color   EXTBG       -           -         ;Rotation/Scaling */
+#define  BG_MODE0 (0 << 0) /*!< \brief 4-color     4-color     4-color     4-color   ;Normal */
+#define  BG_MODE1 (1 << 0) /*!< \brief 16-color    16-color    4-color     -         ;Normal */
+#define  BG_MODE2 (2 << 0) /*!< \brief 16-color    16-color    (o.p.t)     -         ;Offset-per-tile */
+#define  BG_MODE3 (3 << 0) /*!< \brief 256-color   16-color    -           -         ;Normal */
+#define  BG_MODE4 (4 << 0) /*!< \brief 256-color   4-color     (o.p.t)     -         ;Offset-per-tile */
+#define  BG_MODE5 (5 << 0) /*!< \brief 16-color    4-color     -           -         ;512-pix-hires */
+#define  BG_MODE6 (6 << 0) /*!< \brief 16-color    -           (o.p.t)     -         ;512-pix plus Offs-p-t */
+#define  BG_MODE7 (7 << 0) /*!< \brief 256-color   EXTBG       -           -         ;Rotation/Scaling */
 
-   BG1_TSIZE8x8 = (0 << 4),
-   BG2_TSIZE8x8 = (0 << 5),
-   BG3_TSIZE8x8 = (0 << 6),
-   BG4_TSIZE8x8 = (0 << 7),
+#define  BG1_TSIZE8x8 (0 << 4)
+#define  BG2_TSIZE8x8 (0 << 5)
+#define  BG3_TSIZE8x8 (0 << 6)
+#define  BG4_TSIZE8x8 (0 << 7)
 
-   BG1_TSIZE16x16 = (1 << 4),
-   BG2_TSIZE16x16 = (1 << 5),
-   BG3_TSIZE16x16 = (1 << 6),
-   BG4_TSIZE16x16 = (1 << 7),
+#define  BG1_TSIZE16x16 (1 << 4)
+#define  BG2_TSIZE16x16 (1 << 5)
+#define  BG3_TSIZE16x16 (1 << 6)
+#define  BG4_TSIZE16x16 (1 << 7)
    
-   BG1_ENABLE = (1 << 0),
-   BG2_ENABLE = (1 << 1),
-   BG3_ENABLE = (1 << 2),
-   BG4_ENABLE = (1 << 3),
-   OBJ_ENABLE = (1 << 4),
-}BackgroundControl;
+#define  BG1_ENABLE (1 << 0)
+#define  BG2_ENABLE (1 << 1)
+#define  BG3_ENABLE (1 << 2)
+#define  BG4_ENABLE (1 << 3)
+#define  OBJ_ENABLE (1 << 4)
 
 #define    BG_4COLORS 4
 #define    BG_16COLORS 16
@@ -320,7 +317,6 @@ void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize);
 	\param colorMode	used for correct palette entry (BG_4COLORS, BG_16COLORS, BG_256COLORS)
 	\param address	address of tile graphics (4K aligned)
 */
-//void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 colorMode, u16 address);
 void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address);
 
 /*!\brief Add some Tile Set and Loads the Tile GFX into VRAM 
@@ -347,7 +343,7 @@ void bgInitMapTileSet7(u8 *tileSource,  u8 *mapSource, u8 *tilePalette, u16 tile
 	\param sizeMode	used for correct tile mapping (SC_32x32, SC_64x32, SC_32x64, SC_64x64)
 	\param address	address of map
 */
-void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u16 sizeMode, u16 address);
+void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address);
 
 /*!	\brief Sets the scroll hardware to the specified location
 	\param bgNumber	background number (0 to 3)
