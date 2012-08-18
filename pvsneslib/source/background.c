@@ -43,7 +43,7 @@ void bgSetGfxPtr(u8 bgNumber, u16 address) {
 void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize) { 
 	// Compute map address
 	u8 mapadr = ((address >> 8) & 0xfc) | (mapSize & 0x03);
-	bgState[bgNumber].mapaddr = ((address >> 8) & 0xfc) | (mapSize & 0x03);
+	bgState[bgNumber].mapaddr = mapadr; // ((address >> 8) & 0xfc) | (mapSize & 0x03);
 	
 	// Change it
 	if (bgNumber == 0) REG_BG1SC = mapadr; 
@@ -54,13 +54,51 @@ void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize) {
 
 //---------------------------------------------------------------------------------
 void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address) {
+	u16 palEntry;
+	
+	// If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
+	if (colorMode == BG_4COLORS)
+		palEntry = bgNumber*32 + paletteEntry*colorMode;
+	else
+		palEntry = paletteEntry*colorMode;
+		
 	setBrightness(0);  // Force VBlank Interrupt
-	//WaitForVBlank(); 
+	WaitForVBlank(); 
 
+	// Send to VRAM and CGRAM
 	dmaCopyVram(tileSource, address, tileSize);
-  	dmaCopyCGram(tilePalette, paletteEntry*colorMode, paletteSize);
+  	dmaCopyCGram(tilePalette, palEntry, paletteSize);
 	bgSetGfxPtr(bgNumber, address);
 }
+
+/*
+
+void Decode(void)
+{
+	int  i, j, k, r, c;
+	unsigned int  flags;
+	
+	for (i = 0; i < N - F; i++) text_buf[i] = ' ';
+	r = N - F;  flags = 0;
+	for ( ; ; ) {
+		if (((flags >>= 1) & 256) == 0) {
+			if ((c = getc(infile)) == EOF) break;
+			flags = c | 0xff00;		// uses higher byte cleverly to count eight 
+		if (flags & 1) {
+			if ((c = getc(infile)) == EOF) break;
+			putc(c, outfile);  text_buf[r++] = c;  r &= (N - 1);
+		} else {
+			if ((i = getc(infile)) == EOF) break;
+			if ((j = getc(infile)) == EOF) break;
+			i |= ((j & 0xf0) << 4);  j = (j & 0x0f) + THRESHOLD;
+			for (k = 0; k <= j; k++) {
+				c = text_buf[(i + k) & (N - 1)];
+				putc(c, outfile);  text_buf[r++] = c;  r &= (N - 1);
+			}
+		}
+	}
+}
+*/
 
 //---------------------------------------------------------------------------------
 void bgInitMapTileSet7(u8 *tileSource,  u8 *mapSource, u8 *tilePalette, u16 tileSize, u16 address) {
@@ -75,9 +113,9 @@ void bgInitMapTileSet7(u8 *tileSource,  u8 *mapSource, u8 *tilePalette, u16 tile
 }
 
 //---------------------------------------------------------------------------------
-void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u16 sizeMode, u16 address) {
-	setBrightness(0);  // Force VBlank Interrupt
-	//WaitForVBlank(); 
+void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address) {
+	//setBrightness(0);  // Force VBlank Interrupt
+	WaitForVBlank(); 
 		
 	dmaCopyVram(mapSource, address,mapSize);
 	if (bgNumber != 0xff)

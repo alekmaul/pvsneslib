@@ -26,7 +26,7 @@
 .define __sscanf_locals 6
 .define __bgSetGfxPtr_locals 0
 .define __bgSetMapPtr_locals 1
-.define __bgInitTileSet_locals 0
+.define __bgInitTileSet_locals 2
 .define __bgInitMapTileSet7_locals 0
 .define __bgInitMapSet_locals 0
 .define __bgInitTileSetData_locals 0
@@ -43,6 +43,7 @@
 .define __consoleUpdate_locals 0
 .define __consoleDrawText_locals 4
 .define __consoleDrawTextMap_locals 4
+.define __consoleDrawTextMapCenter_locals 8
 .define __consoleInitText_locals 2
 .define __consoleInit_locals 2
 .define __dmaCopyOAram_locals 4
@@ -52,20 +53,22 @@
 .define __setModeHdma3D_locals 4
 .define __nmiSet_locals 0
 .define __scanPads_locals 6
-.define __padsCurrent_locals 0
 .define __padsDown_locals 0
 .define __padsUp_locals 0
 .define __padsClear_locals 0
 .define __spcSetSoundEntry_locals 8
+.define __spcSetSoundDataEntry_locals 8
+.define __spcSetSoundTableEntry_locals 4
 .define __oamUpdate_locals 2
 .define __oamInit_locals 2
 .define __oamClear_locals 4
-.define __oamInitGfxSet_locals 0
+.define __oamInitGfxSet_locals 1
 .define __oamInitGfxAttr_locals 0
 .define __oamSet1_locals 4
 .define __oamSetEx_locals 8
+.define __oamSetXYEx_locals 8
 .define __setBrightness_locals 0
-.define __setMode_locals 4
+.define __setMode_locals 0
 .define __setColorEffect_locals 0
 .define ____tccs_consoleVblankMode7_locals 0
 .define __m7_calchdma_locals 4
@@ -7956,18 +7959,10 @@ adc.b tcc__r0
 clc
 adc.w #4
 sta.b tcc__r1
-lda 4 + __bgSetMapPtr_locals + 1,s
-xba
-and #$00ff
-and.w #252
-sta.b tcc__r0
 lda.w #0
 sep #$20
-lda 6 + __bgSetMapPtr_locals + 1,s
+lda -1 + __bgSetMapPtr_locals + 1,s
 rep #$20
-and.w #3
-sta.b tcc__r2
-ora.b tcc__r0
 sta.b [tcc__r1]
 lda.w #0
 sep #$20
@@ -8115,9 +8110,74 @@ sec
 sbc #__bgInitTileSet_locals
 tas
 .endif
-pea.w 0
+lda 17 + __bgInitTileSet_locals + 1,s
+sta.b tcc__r0
+ldx #1
+sec
+sbc #4
+tay
+beq +
+dex
++
+stx.b tcc__r5
+txa
+bne +
+brl __local_405
++
+lda.w #0
+sep #$20
+lda 3 + __bgInitTileSet_locals + 1,s
+rep #$20
+sta.b tcc__r0
+ldy.w #5
+-
+asl a
+dey
+bne -
++
+sta.b tcc__r0
+lda.w #0
+sep #$20
+lda 12 + __bgInitTileSet_locals + 1,s
+rep #$20
+sta.b tcc__r1
+lda 17 + __bgInitTileSet_locals + 1,s
+sta.b tcc__r2
+sta.b tcc__r9
+lda.b tcc__r1
+sta.b tcc__r10
+jsr.l tcc__mul
+sta.b tcc__r1
+clc
+adc.b tcc__r0
+sta.b tcc__r0
+sta -2 + __bgInitTileSet_locals + 1,s
+bra __local_406
+__local_405:
+lda.w #0
+sep #$20
+lda 12 + __bgInitTileSet_locals + 1,s
+rep #$20
+sta.b tcc__r0
+lda 17 + __bgInitTileSet_locals + 1,s
+sta.b tcc__r1
+sta.b tcc__r9
+lda.b tcc__r0
+sta.b tcc__r10
+jsr.l tcc__mul
+sta.b tcc__r0
+sta -2 + __bgInitTileSet_locals + 1,s
+__local_406:
+sep #$20
+lda #0
+pha
+rep #$20
 jsr.l setBrightness
-pla
+tsa
+clc
+adc #1
+tas
+jsr.l WaitForVBlank
 lda 13 + __bgInitTileSet_locals + 1,s
 pha
 lda 21 + __bgInitTileSet_locals + 1,s
@@ -8132,21 +8192,10 @@ tsa
 clc
 adc #8
 tas
-lda.w #0
-sep #$20
-lda 12 + __bgInitTileSet_locals + 1,s
-rep #$20
-sta.b tcc__r0
-lda 17 + __bgInitTileSet_locals + 1,s
-sta.b tcc__r1
-sta.b tcc__r9
-lda.b tcc__r0
-sta.b tcc__r10
-jsr.l tcc__mul
-sta.b tcc__r0
 lda 15 + __bgInitTileSet_locals + 1,s
 pha
-pei (tcc__r0)
+lda 0 + __bgInitTileSet_locals + 1,s
+pha
 lda 12 + __bgInitTileSet_locals + 1,s
 sta.b tcc__r0
 lda 14 + __bgInitTileSet_locals + 1,s
@@ -8185,9 +8234,15 @@ sec
 sbc #__bgInitMapTileSet7_locals
 tas
 .endif
-pea.w 0
+sep #$20
+lda #0
+pha
+rep #$20
 jsr.l setBrightness
-pla
+tsa
+clc
+adc #1
+tas
 pea.w 6144
 sep #$20
 lda #0
@@ -8279,12 +8334,10 @@ sec
 sbc #__bgInitMapSet_locals
 tas
 .endif
-pea.w 0
-jsr.l setBrightness
-pla
+jsr.l WaitForVBlank
 lda 8 + __bgInitMapSet_locals + 1,s
 pha
-lda 14 + __bgInitMapSet_locals + 1,s
+lda 13 + __bgInitMapSet_locals + 1,s
 pha
 lda 8 + __bgInitMapSet_locals + 1,s
 sta.b tcc__r0
@@ -8311,14 +8364,14 @@ dex
 stx.b tcc__r5
 txa
 bne +
-brl __local_405
+brl __local_407
 +
-lda 10 + __bgInitMapSet_locals + 1,s
-and.w #255
+lda.w #0
 sep #$20
+lda 10 + __bgInitMapSet_locals + 1,s
 pha
 rep #$20
-lda 13 + __bgInitMapSet_locals + 1,s
+lda 12 + __bgInitMapSet_locals + 1,s
 pha
 lda.w #0
 sep #$20
@@ -8330,7 +8383,7 @@ tsa
 clc
 adc #4
 tas
-__local_405:
+__local_407:
 .ifgr __bgInitMapSet_locals 0
 tsa
 clc
@@ -8347,9 +8400,15 @@ sec
 sbc #__bgInitTileSetData_locals
 tas
 .endif
-pea.w 0
+sep #$20
+lda #0
+pha
+rep #$20
 jsr.l setBrightness
-pla
+tsa
+clc
+adc #1
+tas
 lda 8 + __bgInitTileSetData_locals + 1,s
 pha
 lda 12 + __bgInitTileSetData_locals + 1,s
@@ -8379,7 +8438,7 @@ dex
 stx.b tcc__r5
 txa
 bne +
-brl __local_406
+brl __local_408
 +
 lda 10 + __bgInitTileSetData_locals + 1,s
 pha
@@ -8393,7 +8452,7 @@ tsa
 clc
 adc #3
 tas
-__local_406:
+__local_408:
 .ifgr __bgInitTileSetData_locals 0
 tsa
 clc
@@ -8425,77 +8484,12 @@ dex
 stx.b tcc__r5
 txa
 bne +
-brl __local_407
-+
-lda 4 + __bgSetScroll_locals + 1,s
-and.w #255
-sta.b tcc__r0
-lda.w #8461
-sta.b tcc__r9
-lda.w #0
-sta.b tcc__r9h
-sep #$20
-lda.b tcc__r0
-sta.b [tcc__r9]
-rep #$20
-lda 4 + __bgSetScroll_locals + 1,s
-xba
-and #$00ff
-sta.b tcc__r0
-lda.w #8461
-sta.b tcc__r9
-lda.w #0
-sta.b tcc__r9h
-sep #$20
-lda.b tcc__r0
-sta.b [tcc__r9]
-rep #$20
-lda 6 + __bgSetScroll_locals + 1,s
-and.w #255
-sta.b tcc__r0
-lda.w #8462
-sta.b tcc__r9
-lda.w #0
-sta.b tcc__r9h
-sep #$20
-lda.b tcc__r0
-sta.b [tcc__r9]
-rep #$20
-lda 6 + __bgSetScroll_locals + 1,s
-xba
-and #$00ff
-sta.b tcc__r0
-lda.w #8462
-sta.b tcc__r9
-lda.w #0
-sta.b tcc__r9h
-sep #$20
-lda.b tcc__r0
-sta.b [tcc__r9]
-rep #$20
-jmp.w __local_408
-__local_407:
-lda.w #0
-sep #$20
-lda 3 + __bgSetScroll_locals + 1,s
-rep #$20
-sta.b tcc__r0
-ldx #1
-sec
-sbc #1
-tay
-beq +
-dex
-+
-stx.b tcc__r5
-txa
-bne +
 brl __local_409
 +
 lda 4 + __bgSetScroll_locals + 1,s
 and.w #255
 sta.b tcc__r0
-lda.w #8463
+lda.w #8461
 sta.b tcc__r9
 lda.w #0
 sta.b tcc__r9h
@@ -8507,7 +8501,7 @@ lda 4 + __bgSetScroll_locals + 1,s
 xba
 and #$00ff
 sta.b tcc__r0
-lda.w #8463
+lda.w #8461
 sta.b tcc__r9
 lda.w #0
 sta.b tcc__r9h
@@ -8518,7 +8512,7 @@ rep #$20
 lda 6 + __bgSetScroll_locals + 1,s
 and.w #255
 sta.b tcc__r0
-lda.w #8464
+lda.w #8462
 sta.b tcc__r9
 lda.w #0
 sta.b tcc__r9h
@@ -8530,7 +8524,7 @@ lda 6 + __bgSetScroll_locals + 1,s
 xba
 and #$00ff
 sta.b tcc__r0
-lda.w #8464
+lda.w #8462
 sta.b tcc__r9
 lda.w #0
 sta.b tcc__r9h
@@ -8547,7 +8541,7 @@ rep #$20
 sta.b tcc__r0
 ldx #1
 sec
-sbc #2
+sbc #1
 tay
 beq +
 dex
@@ -8560,7 +8554,7 @@ brl __local_411
 lda 4 + __bgSetScroll_locals + 1,s
 and.w #255
 sta.b tcc__r0
-lda.w #8465
+lda.w #8463
 sta.b tcc__r9
 lda.w #0
 sta.b tcc__r9h
@@ -8572,7 +8566,7 @@ lda 4 + __bgSetScroll_locals + 1,s
 xba
 and #$00ff
 sta.b tcc__r0
-lda.w #8465
+lda.w #8463
 sta.b tcc__r9
 lda.w #0
 sta.b tcc__r9h
@@ -8583,7 +8577,7 @@ rep #$20
 lda 6 + __bgSetScroll_locals + 1,s
 and.w #255
 sta.b tcc__r0
-lda.w #8466
+lda.w #8464
 sta.b tcc__r9
 lda.w #0
 sta.b tcc__r9h
@@ -8595,7 +8589,7 @@ lda 6 + __bgSetScroll_locals + 1,s
 xba
 and #$00ff
 sta.b tcc__r0
-lda.w #8466
+lda.w #8464
 sta.b tcc__r9
 lda.w #0
 sta.b tcc__r9h
@@ -8612,7 +8606,7 @@ rep #$20
 sta.b tcc__r0
 ldx #1
 sec
-sbc #3
+sbc #2
 tay
 beq +
 dex
@@ -8625,6 +8619,71 @@ brl __local_413
 lda 4 + __bgSetScroll_locals + 1,s
 and.w #255
 sta.b tcc__r0
+lda.w #8465
+sta.b tcc__r9
+lda.w #0
+sta.b tcc__r9h
+sep #$20
+lda.b tcc__r0
+sta.b [tcc__r9]
+rep #$20
+lda 4 + __bgSetScroll_locals + 1,s
+xba
+and #$00ff
+sta.b tcc__r0
+lda.w #8465
+sta.b tcc__r9
+lda.w #0
+sta.b tcc__r9h
+sep #$20
+lda.b tcc__r0
+sta.b [tcc__r9]
+rep #$20
+lda 6 + __bgSetScroll_locals + 1,s
+and.w #255
+sta.b tcc__r0
+lda.w #8466
+sta.b tcc__r9
+lda.w #0
+sta.b tcc__r9h
+sep #$20
+lda.b tcc__r0
+sta.b [tcc__r9]
+rep #$20
+lda 6 + __bgSetScroll_locals + 1,s
+xba
+and #$00ff
+sta.b tcc__r0
+lda.w #8466
+sta.b tcc__r9
+lda.w #0
+sta.b tcc__r9h
+sep #$20
+lda.b tcc__r0
+sta.b [tcc__r9]
+rep #$20
+jmp.w __local_414
+__local_413:
+lda.w #0
+sep #$20
+lda 3 + __bgSetScroll_locals + 1,s
+rep #$20
+sta.b tcc__r0
+ldx #1
+sec
+sbc #3
+tay
+beq +
+dex
++
+stx.b tcc__r5
+txa
+bne +
+brl __local_415
++
+lda 4 + __bgSetScroll_locals + 1,s
+and.w #255
+sta.b tcc__r0
 lda.w #8467
 sta.b tcc__r9
 lda.w #0
@@ -8668,10 +8727,10 @@ sep #$20
 lda.b tcc__r0
 sta.b [tcc__r9]
 rep #$20
-__local_413:
+__local_415:
+__local_414:
 __local_412:
 __local_410:
-__local_408:
 .ifgr __bgSetScroll_locals 0
 tsa
 clc
@@ -9007,7 +9066,7 @@ sta.b tcc__r1
 sta.w snes_rand_seed2 + 0
 lda.w snes_rand_seed1 + 0
 sta.b tcc__r0
-__local_414:
+__local_416:
 .ifgr __rand_locals 0
 tsa
 clc
@@ -9048,7 +9107,7 @@ dex
 stx.b tcc__r5
 txa
 bne +
-brl __local_415
+brl __local_417
 +
 pea.w 2048
 pea.w 2048
@@ -9064,7 +9123,7 @@ sta.b tcc__r0
 sep #$20
 sta.w pvsneslibdirty + 0
 rep #$20
-__local_415:
+__local_417:
 lda.w snes_vblank_count + 0
 sta.b tcc__r0
 sta.b tcc__r1
@@ -9104,7 +9163,7 @@ clc
 adc.b tcc__r0
 sta.b tcc__r0
 sta -4 + ___print_screen_map_locals + 1,s
-__local_419:
+__local_421:
 lda 12 + ___print_screen_map_locals + 1,s
 sta.b tcc__r0
 lda 14 + ___print_screen_map_locals + 1,s
@@ -9121,7 +9180,7 @@ ora.w #$ff00
 sta.b tcc__r1
 lda.b tcc__r1 ; DON'T OPTIMIZE
 bne +
-brl __local_416
+brl __local_418
 +
 lda 12 + ___print_screen_map_locals + 1,s
 sta.b tcc__r0
@@ -9147,15 +9206,15 @@ dex
 stx.b tcc__r5
 txa
 bne +
-brl __local_417
+brl __local_419
 +
 lda -4 + ___print_screen_map_locals + 1,s
 clc
 adc.w #64
 sta.b tcc__r0
 sta -4 + ___print_screen_map_locals + 1,s
-jmp.w __local_418
-__local_417:
+jmp.w __local_420
+__local_419:
 lda 7 + ___print_screen_map_locals + 1,s
 sta.b tcc__r0
 lda 9 + ___print_screen_map_locals + 1,s
@@ -9207,7 +9266,7 @@ sta.b tcc__r1h
 inc.b tcc__r0
 lda.b tcc__r0
 sta -4 + ___print_screen_map_locals + 1,s
-__local_418:
+__local_420:
 lda 14 + ___print_screen_map_locals + 1,s
 sta.b tcc__r0h
 lda 12 + ___print_screen_map_locals + 1,s
@@ -9220,8 +9279,8 @@ lda.b tcc__r0
 sta 12 + ___print_screen_map_locals + 1,s
 lda.b tcc__r0h
 sta 14 + ___print_screen_map_locals + 1,s
-jmp.w __local_419
-__local_416:
+jmp.w __local_421
+__local_418:
 .ifgr ___print_screen_map_locals 0
 tsa
 clc
@@ -9350,11 +9409,17 @@ dex
 stx.b tcc__r5
 txa
 bne +
-brl __local_420
+brl __local_422
 +
-pea.w 0
+sep #$20
+lda #0
+pha
+rep #$20
 jsr.l setBrightness
-pla
+tsa
+clc
+adc #1
+tas
 pea.w 2048
 pea.w 2048
 pea.w :pvsneslibfont_map
@@ -9369,7 +9434,7 @@ sta.b tcc__r0
 sep #$20
 sta.w pvsneslibdirty + 0
 rep #$20
-__local_420:
+__local_422:
 .ifgr __consoleUpdate_locals 0
 tsa
 clc
@@ -9528,6 +9593,94 @@ tas
 rtl
 .ends
 .section ".text_0x2a" superfree
+consoleDrawTextMapCenter:
+.ifgr __consoleDrawTextMapCenter_locals 0
+tsa
+sec
+sbc #__consoleDrawTextMapCenter_locals
+tas
+.endif
+stz.b tcc__r0h
+tsa
+clc
+adc #(9 + __consoleDrawTextMapCenter_locals + 1)
+clc
+adc.w #4
+sta.b tcc__r0
+sta -8 + __consoleDrawTextMapCenter_locals + 1,s
+lda.b tcc__r0h
+sta -6 + __consoleDrawTextMapCenter_locals + 1,s
+lda -8 + __consoleDrawTextMapCenter_locals + 1,s
+sta.b tcc__r0
+lda -6 + __consoleDrawTextMapCenter_locals + 1,s
+pha
+pei (tcc__r0)
+lda 13 + __consoleDrawTextMapCenter_locals + 1,s
+sta.b tcc__r0
+lda 15 + __consoleDrawTextMapCenter_locals + 1,s
+pha
+pei (tcc__r0)
+pea.w :text_buffer
+pea.w text_buffer + 0
+jsr.l vsprintf
+tsa
+clc
+adc #12
+tas
+pea.w :text_buffer
+pea.w text_buffer + 0
+jsr.l strlen
+tsa
+clc
+adc #4
+tas
+lsr.b tcc__r0
+lda.w #16
+sec
+sbc.b tcc__r0
+sep #$20
+sta -1 + __consoleDrawTextMapCenter_locals + 1,s
+rep #$20
+lda.w #0
+sep #$20
+lda -1 + __consoleDrawTextMapCenter_locals + 1,s
+rep #$20
+asl a
+sta.b tcc__r0
+lda.w #0
+sep #$20
+lda 3 + __consoleDrawTextMapCenter_locals + 1,s
+rep #$20
+asl a
+sta.b tcc__r1
+pea.w :text_buffer
+pea.w text_buffer + 0
+lda.w #0
+sep #$20
+lda 12 + __consoleDrawTextMapCenter_locals + 1,s
+pha
+rep #$20
+lda 9 + __consoleDrawTextMapCenter_locals + 1,s
+sta.b tcc__r2
+lda 11 + __consoleDrawTextMapCenter_locals + 1,s
+pha
+pei (tcc__r2)
+pei (tcc__r1)
+pei (tcc__r0)
+jsr.l _print_screen_map
+tsa
+clc
+adc #13
+tas
+.ifgr __consoleDrawTextMapCenter_locals 0
+tsa
+clc
+adc #__consoleDrawTextMapCenter_locals
+tas
+.endif
+rtl
+.ends
+.section ".text_0x2b" superfree
 consoleInitText:
 .ifgr __consoleInitText_locals 0
 tsa
@@ -9538,7 +9691,7 @@ tas
 stz.b tcc__r0
 lda.b tcc__r0
 sta -2 + __consoleInitText_locals + 1,s
-__local_423:
+__local_425:
 lda -2 + __consoleInitText_locals + 1,s
 sta.b tcc__r0
 ldx #1
@@ -9551,10 +9704,10 @@ bcc ++
 stx.b tcc__r5
 txa
 bne +
-brl __local_421
+brl __local_423
 +
-bra __local_422
-__local_424:
+bra __local_424
+__local_426:
 lda -2 + __consoleInitText_locals + 1,s
 sta.b tcc__r0
 sta.b tcc__r1
@@ -9563,8 +9716,8 @@ sta.b tcc__r1h
 inc.b tcc__r0
 lda.b tcc__r0
 sta -2 + __consoleInitText_locals + 1,s
-bra __local_423
-__local_422:
+bra __local_425
+__local_424:
 lda.w #:pvsneslibfont_map
 sta.b tcc__r0h
 lda.w #pvsneslibfont_map + 0
@@ -9578,11 +9731,17 @@ sta.b tcc__r1
 sep #$20
 sta.b [tcc__r0]
 rep #$20
-bra __local_424
-__local_421:
-pea.w 0
+bra __local_426
+__local_423:
+sep #$20
+lda #0
+pha
+rep #$20
 jsr.l setBrightness
-pla
+tsa
+clc
+adc #1
+tas
 pea.w 3072
 pea.w 0
 lda 9 + __consoleInitText_locals + 1,s
@@ -9719,14 +9878,24 @@ sta.b tcc__r9h
 sep #$20
 lda.b tcc__r0
 sta.b [tcc__r9]
+lda #0
+pha
 rep #$20
-pea.w 0
 jsr.l setBrightness
-pla
+tsa
+clc
+adc #1
+tas
 jsr.l WaitForVBlank
-pea.w 15
+sep #$20
+lda #15
+pha
+rep #$20
 jsr.l setBrightness
-pla
+tsa
+clc
+adc #1
+tas
 .ifgr __consoleInitText_locals 0
 tsa
 clc
@@ -9735,7 +9904,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x2b" superfree
+.section ".text_0x2c" superfree
 consoleInit:
 .ifgr __consoleInit_locals 0
 tsa
@@ -9773,7 +9942,7 @@ tas
 stz.b tcc__r0
 lda.b tcc__r0
 sta -2 + __consoleInit_locals + 1,s
-__local_427:
+__local_429:
 lda -2 + __consoleInit_locals + 1,s
 sta.b tcc__r0
 ldx #1
@@ -9786,10 +9955,10 @@ bcc ++
 stx.b tcc__r5
 txa
 bne +
-brl __local_425
+brl __local_427
 +
-bra __local_426
-__local_428:
+bra __local_428
+__local_430:
 lda -2 + __consoleInit_locals + 1,s
 sta.b tcc__r0
 sta.b tcc__r1
@@ -9798,14 +9967,14 @@ sta.b tcc__r1h
 inc.b tcc__r0
 lda.b tcc__r0
 sta -2 + __consoleInit_locals + 1,s
-bra __local_427
-__local_426:
+bra __local_429
+__local_428:
 lda -2 + __consoleInit_locals + 1,s
 pha
 jsr.l padsClear
 pla
-bra __local_428
-__local_425:
+bra __local_430
+__local_427:
 lda.w #0
 sep #$20
 lda.l 8511
@@ -9814,17 +9983,17 @@ and.w #16
 sta.b tcc__r0
 lda.b tcc__r0 ; DON'T OPTIMIZE
 bne +
-brl __local_429
+brl __local_431
 +
-bra __local_430
-__local_429:
+bra __local_432
+__local_431:
 lda.w #0
 sta.b tcc__r0
-bra __local_431
-__local_430:
+bra __local_433
+__local_432:
 lda.w #1
 sta.b tcc__r0
-__local_431:
+__local_433:
 lda.b tcc__r0
 sta.w snes_50hz + 0
 jsr.l oamInit
@@ -9837,14 +10006,24 @@ sta.b tcc__r9h
 sep #$20
 lda.b tcc__r0
 sta.b [tcc__r9]
+lda #0
+pha
 rep #$20
-pea.w 0
 jsr.l setBrightness
-pla
+tsa
+clc
+adc #1
+tas
 jsr.l WaitForVBlank
-pea.w 15
+sep #$20
+lda #15
+pha
+rep #$20
 jsr.l setBrightness
-pla
+tsa
+clc
+adc #1
+tas
 .ifgr __consoleInit_locals 0
 tsa
 clc
@@ -9853,7 +10032,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x2c" superfree
+.section ".text_0x2d" superfree
 dmaCopyOAram:
 .ifgr __dmaCopyOAram_locals 0
 tsa
@@ -9946,7 +10125,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x2d" superfree
+.section ".text_0x2e" superfree
 dmaCopyVram7:
 .ifgr __dmaCopyVram7_locals 0
 tsa
@@ -10054,7 +10233,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x2e" superfree
+.section ".text_0x2f" superfree
 setModeHdmaGradient:
 .ifgr __setModeHdmaGradient_locals 0
 tsa
@@ -10092,7 +10271,7 @@ sta.b tcc__r0
 sep #$20
 sta -1 + __setModeHdmaGradient_locals + 1,s
 rep #$20
-__local_434:
+__local_436:
 lda.w #0
 sep #$20
 lda -1 + __setModeHdmaGradient_locals + 1,s
@@ -10112,10 +10291,10 @@ dex
 stx.b tcc__r5
 txa
 bne +
-brl __local_432
+brl __local_434
 +
-bra __local_433
-__local_435:
+bra __local_435
+__local_437:
 lda.w #0
 sep #$20
 lda -1 + __setModeHdmaGradient_locals + 1,s
@@ -10127,8 +10306,8 @@ sep #$20
 lda.b tcc__r0
 sta -1 + __setModeHdmaGradient_locals + 1,s
 rep #$20
-jmp.w __local_434
-__local_433:
+jmp.w __local_436
+__local_435:
 lda.w #0
 sep #$20
 lda -1 + __setModeHdmaGradient_locals + 1,s
@@ -10189,8 +10368,8 @@ sta.b tcc__r2
 sep #$20
 sta.b [tcc__r1]
 rep #$20
-jmp.w __local_435
-__local_432:
+jmp.w __local_437
+__local_434:
 stz.b tcc__r0
 lda.w #17200
 sta.b tcc__r9
@@ -10252,7 +10431,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x2f" superfree
+.section ".text_0x30" superfree
 setModeHdmaShadeUpDown:
 .ifgr __setModeHdmaShadeUpDown_locals 0
 tsa
@@ -10337,7 +10516,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x30" superfree
+.section ".text_0x31" superfree
 setModeHdma3D:
 .ifgr __setModeHdma3D_locals 0
 tsa
@@ -10469,7 +10648,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x31" superfree
+.section ".text_0x32" superfree
 nmiSet:
 .ifgr __nmiSet_locals 0
 tsa
@@ -10492,7 +10671,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x32" superfree
+.section ".text_0x33" superfree
 scanPads:
 .ifgr __scanPads_locals 0
 tsa
@@ -10500,7 +10679,7 @@ sec
 sbc #__scanPads_locals
 tas
 .endif
-__local_437:
+__local_439:
 lda.w #0
 sep #$20
 lda.l 16914
@@ -10509,14 +10688,14 @@ and.w #1
 sta.b tcc__r0
 lda.b tcc__r0 ; DON'T OPTIMIZE
 bne +
-brl __local_436
+brl __local_438
 +
-bra __local_437
-__local_436:
+bra __local_439
+__local_438:
 stz.b tcc__r0
 lda.b tcc__r0
 sta -2 + __scanPads_locals + 1,s
-__local_440:
+__local_442:
 lda -2 + __scanPads_locals + 1,s
 sta.b tcc__r0
 ldx #1
@@ -10529,10 +10708,10 @@ bcc ++
 stx.b tcc__r5
 txa
 bne +
-brl __local_438
+brl __local_440
 +
-bra __local_439
-__local_441:
+bra __local_441
+__local_443:
 lda -2 + __scanPads_locals + 1,s
 sta.b tcc__r0
 sta.b tcc__r1
@@ -10541,8 +10720,8 @@ sta.b tcc__r1h
 inc.b tcc__r0
 lda.b tcc__r0
 sta -2 + __scanPads_locals + 1,s
-bra __local_440
-__local_439:
+bra __local_442
+__local_441:
 lda -2 + __scanPads_locals + 1,s
 asl a
 sta.b tcc__r0
@@ -10584,40 +10763,12 @@ lda.b [tcc__r0]
 and.w #65520
 sta.b tcc__r2
 sta.b [tcc__r1]
-jmp.w __local_441
-__local_438:
+jmp.w __local_443
+__local_440:
 .ifgr __scanPads_locals 0
 tsa
 clc
 adc #__scanPads_locals
-tas
-.endif
-rtl
-.ends
-.section ".text_0x33" superfree
-padsCurrent:
-.ifgr __padsCurrent_locals 0
-tsa
-sec
-sbc #__padsCurrent_locals
-tas
-.endif
-lda 3 + __padsCurrent_locals + 1,s
-asl a
-sta.b tcc__r0
-lda.w #:pad_keys
-sta.b tcc__r1h
-lda.w #pad_keys + 0
-clc
-adc.b tcc__r0
-sta.b tcc__r1
-lda.b [tcc__r1]
-sta.b tcc__r0
-__local_442:
-.ifgr __padsCurrent_locals 0
-tsa
-clc
-adc #__padsCurrent_locals
 tas
 .endif
 rtl
@@ -10657,7 +10808,7 @@ sta.b tcc__r2
 sta.b tcc__r0
 lda.b tcc__r2h
 sta.b tcc__r0h
-__local_443:
+__local_444:
 .ifgr __padsDown_locals 0
 tsa
 clc
@@ -10713,7 +10864,7 @@ eor.w #65535
 sta.b tcc__r1
 and.b tcc__r0
 sta.b tcc__r0
-__local_444:
+__local_445:
 .ifgr __padsUp_locals 0
 tsa
 clc
@@ -10934,6 +11085,184 @@ tas
 rtl
 .ends
 .section ".text_0x38" superfree
+spcSetSoundDataEntry:
+.ifgr __spcSetSoundDataEntry_locals 0
+tsa
+sec
+sbc #__spcSetSoundDataEntry_locals
+tas
+.endif
+lda 12 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0
+lda 14 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0h
+lda.w #0
+sep #$20
+lda 5 + __spcSetSoundDataEntry_locals + 1,s
+sta.b [tcc__r0]
+rep #$20
+lda 14 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0h
+lda 12 + __spcSetSoundDataEntry_locals + 1,s
+inc a
+sta.b tcc__r0
+lda.w #8
+sep #$20
+sta.b [tcc__r0]
+rep #$20
+lda 14 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0h
+lda 12 + __spcSetSoundDataEntry_locals + 1,s
+inc a
+inc a
+sta.b tcc__r0
+lda.w #15
+sta.b tcc__r1
+sep #$20
+sta.b [tcc__r0]
+rep #$20
+lda 6 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0
+tax
+lda.w #9
+jsr.l tcc__udiv
+lda.b tcc__r9
+sta.b tcc__r0
+sta -6 + __spcSetSoundDataEntry_locals + 1,s
+lda 10 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0h
+lda 8 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0
+sta -4 + __spcSetSoundDataEntry_locals + 1,s
+lda.b tcc__r0h
+sta -2 + __spcSetSoundDataEntry_locals + 1,s
+lda -4 + __spcSetSoundDataEntry_locals + 1,s
+sta -8 + __spcSetSoundDataEntry_locals + 1,s
+lda 12 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0
+lda 14 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0h
+clc
+lda.b tcc__r0
+adc.w #3
+sta.b tcc__r0
+lda -6 + __spcSetSoundDataEntry_locals + 1,s
+and.w #255
+sep #$20
+sta.b [tcc__r0]
+rep #$20
+lda 12 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0
+lda 14 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0h
+clc
+lda.b tcc__r0
+adc.w #4
+sta.b tcc__r0
+lda -6 + __spcSetSoundDataEntry_locals + 1,s
+xba
+and #$00ff
+sep #$20
+sta.b [tcc__r0]
+rep #$20
+lda 12 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0
+lda 14 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0h
+clc
+lda.b tcc__r0
+adc.w #5
+sta.b tcc__r0
+lda -8 + __spcSetSoundDataEntry_locals + 1,s
+and.w #255
+sep #$20
+sta.b [tcc__r0]
+rep #$20
+lda 12 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0
+lda 14 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0h
+clc
+lda.b tcc__r0
+adc.w #6
+sta.b tcc__r0
+lda -8 + __spcSetSoundDataEntry_locals + 1,s
+xba
+and #$00ff
+sta.b tcc__r1
+sep #$20
+sta.b [tcc__r0]
+rep #$20
+lda 12 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0
+lda 14 + __spcSetSoundDataEntry_locals + 1,s
+sta.b tcc__r0h
+clc
+lda.b tcc__r0
+adc.w #7
+sta.b tcc__r0
+stz.b tcc__r1h
+tsa
+clc
+adc #(-4 + __spcSetSoundDataEntry_locals + 1) + 2
+sta.b tcc__r1
+lda.w #0
+sep #$20
+lda.b [tcc__r1]
+rep #$20
+sta.b tcc__r2
+sep #$20
+sta.b [tcc__r0]
+rep #$20
+.ifgr __spcSetSoundDataEntry_locals 0
+tsa
+clc
+adc #__spcSetSoundDataEntry_locals
+tas
+.endif
+rtl
+.ends
+.section ".text_0x39" superfree
+spcSetSoundTableEntry:
+.ifgr __spcSetSoundTableEntry_locals 0
+tsa
+sec
+sbc #__spcSetSoundTableEntry_locals
+tas
+.endif
+lda 5 + __spcSetSoundTableEntry_locals + 1,s
+sta.b tcc__r0h
+lda 3 + __spcSetSoundTableEntry_locals + 1,s
+sta.b tcc__r0
+sta -4 + __spcSetSoundTableEntry_locals + 1,s
+lda.b tcc__r0h
+sta -2 + __spcSetSoundTableEntry_locals + 1,s
+stz.b tcc__r0h
+tsa
+clc
+adc #(-4 + __spcSetSoundTableEntry_locals + 1) + 2
+sta.b tcc__r0
+lda.w #0
+sep #$20
+lda.b [tcc__r0]
+pha
+rep #$20
+lda -3 + __spcSetSoundTableEntry_locals + 1,s
+pha
+jsr.l spcSetSoundTable
+tsa
+clc
+adc #3
+tas
+.ifgr __spcSetSoundTableEntry_locals 0
+tsa
+clc
+adc #__spcSetSoundTableEntry_locals
+tas
+.endif
+rtl
+.ends
+.section ".text_0x3a" superfree
 oamUpdate:
 .ifgr __oamUpdate_locals 0
 tsa
@@ -10949,7 +11278,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x39" superfree
+.section ".text_0x3b" superfree
 oamInit:
 .ifgr __oamInit_locals 0
 tsa
@@ -10960,7 +11289,7 @@ tas
 stz.b tcc__r0
 lda.b tcc__r0
 sta -2 + __oamInit_locals + 1,s
-__local_447:
+__local_448:
 lda -2 + __oamInit_locals + 1,s
 sta.b tcc__r0
 ldx #1
@@ -10973,17 +11302,17 @@ bcc ++
 stx.b tcc__r5
 txa
 bne +
-brl __local_445
+brl __local_446
 +
-bra __local_446
-__local_448:
+bra __local_447
+__local_449:
 lda -2 + __oamInit_locals + 1,s
 clc
 adc.w #4
 sta.b tcc__r0
 sta -2 + __oamInit_locals + 1,s
-bra __local_447
-__local_446:
+bra __local_448
+__local_447:
 lda.w #:oamMemory
 sta.b tcc__r0h
 lda.w #oamMemory + 0
@@ -11039,12 +11368,12 @@ sta.b tcc__r0
 sep #$20
 sta.b [tcc__r1]
 rep #$20
-jmp.w __local_448
-__local_445:
+jmp.w __local_449
+__local_446:
 lda.w #512
 sta.b tcc__r0
 sta -2 + __oamInit_locals + 1,s
-__local_451:
+__local_452:
 lda -2 + __oamInit_locals + 1,s
 sta.b tcc__r0
 ldx #1
@@ -11057,17 +11386,17 @@ bcc ++
 stx.b tcc__r5
 txa
 bne +
-brl __local_449
+brl __local_450
 +
-bra __local_450
-__local_452:
+bra __local_451
+__local_453:
 lda -2 + __oamInit_locals + 1,s
 clc
 adc.w #4
 sta.b tcc__r0
 sta -2 + __oamInit_locals + 1,s
-bra __local_451
-__local_450:
+bra __local_452
+__local_451:
 lda.w #:oamMemory
 sta.b tcc__r0h
 lda.w #oamMemory + 0
@@ -11123,8 +11452,8 @@ sta.b tcc__r0
 sep #$20
 sta.b [tcc__r1]
 rep #$20
-jmp.w __local_452
-__local_449:
+jmp.w __local_453
+__local_450:
 .ifgr __oamInit_locals 0
 tsa
 clc
@@ -11133,7 +11462,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x3a" superfree
+.section ".text_0x3c" superfree
 oamClear:
 .ifgr __oamClear_locals 0
 tsa
@@ -11159,19 +11488,19 @@ dex
 stx.b tcc__r5
 txa
 bne +
-brl __local_453
+brl __local_454
 +
 lda.w #512
 sta.b tcc__r0
 sta -4 + __oamClear_locals + 1,s
-__local_453:
+__local_454:
 lda.w #0
 sep #$20
 lda 3 + __oamClear_locals + 1,s
 rep #$20
 sta.b tcc__r0
 sta -2 + __oamClear_locals + 1,s
-__local_456:
+__local_457:
 lda -2 + __oamClear_locals + 1,s
 sta.b tcc__r0
 lda -4 + __oamClear_locals + 1,s
@@ -11187,32 +11516,29 @@ bcc ++
 stx.b tcc__r5
 txa
 bne +
-brl __local_454
+brl __local_455
 +
-bra __local_455
-__local_457:
+bra __local_456
+__local_458:
 lda -2 + __oamClear_locals + 1,s
 clc
 adc.w #4
 sta.b tcc__r0
 sta -2 + __oamClear_locals + 1,s
-bra __local_456
-__local_455:
-lda -2 + __oamClear_locals + 1,s
-and.w #255
-sta.b tcc__r0
+bra __local_457
+__local_456:
 pea.w (1 * 256 + 0)
 sep #$20
-lda.b tcc__r0
-pha
 rep #$20
+lda 0 + __oamClear_locals + 1,s
+pha
 jsr.l oamSetEx
 tsa
 clc
-adc #3
+adc #4
 tas
-bra __local_457
-__local_454:
+bra __local_458
+__local_455:
 .ifgr __oamClear_locals 0
 tsa
 clc
@@ -11221,7 +11547,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x3b" superfree
+.section ".text_0x3d" superfree
 oamInitGfxSet:
 .ifgr __oamInitGfxSet_locals 0
 tsa
@@ -11229,7 +11555,8 @@ sec
 sbc #__oamInitGfxSet_locals
 tas
 .endif
-lda 14 + __oamInitGfxSet_locals + 1,s
+jsr.l WaitForVBlank
+lda 16 + __oamInitGfxSet_locals + 1,s
 sta.b tcc__r0
 lsr.b tcc__r0
 lda 7 + __oamInitGfxSet_locals + 1,s
@@ -11247,7 +11574,7 @@ adc #8
 tas
 lda.w #0
 sep #$20
-lda 13 + __oamInitGfxSet_locals + 1,s
+lda 15 + __oamInitGfxSet_locals + 1,s
 rep #$20
 asl a
 asl a
@@ -11255,8 +11582,16 @@ asl a
 asl a
 clc
 adc.w #128
+sep #$20
+sta -1 + __oamInitGfxSet_locals + 1,s
+rep #$20
+lda.w #0
+sep #$20
+lda -1 + __oamInitGfxSet_locals + 1,s
+rep #$20
 sta.b tcc__r0
-pea.w 32
+lda 13 + __oamInitGfxSet_locals + 1,s
+pha
 pei (tcc__r0)
 lda 13 + __oamInitGfxSet_locals + 1,s
 sta.b tcc__r0
@@ -11268,7 +11603,7 @@ tsa
 clc
 adc #8
 tas
-lda 14 + __oamInitGfxSet_locals + 1,s
+lda 16 + __oamInitGfxSet_locals + 1,s
 sta.b tcc__r0
 ldy.w #14
 -
@@ -11279,7 +11614,7 @@ bne -
 sta.b tcc__r0
 lda.w #0
 sep #$20
-lda 16 + __oamInitGfxSet_locals + 1,s
+lda 18 + __oamInitGfxSet_locals + 1,s
 rep #$20
 ora.b tcc__r0
 sta.b tcc__r1
@@ -11299,7 +11634,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x3c" superfree
+.section ".text_0x3e" superfree
 oamInitGfxAttr:
 .ifgr __oamInitGfxAttr_locals 0
 tsa
@@ -11338,7 +11673,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x3d" superfree
+.section ".text_0x3f" superfree
 oamSet1:
 .ifgr __oamSet1_locals 0
 tsa
@@ -11459,7 +11794,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x3e" superfree
+.section ".text_0x40" superfree
 oamSetEx:
 .ifgr __oamSetEx_locals 0
 tsa
@@ -11467,18 +11802,11 @@ sec
 sbc #__oamSetEx_locals
 tas
 .endif
-lda.w #0
-sep #$20
 lda 3 + __oamSetEx_locals + 1,s
-rep #$20
-cmp #$8000
-ror a
-cmp #$8000
-ror a
-cmp #$8000
-ror a
-cmp #$8000
-ror a
+lsr a
+lsr a
+lsr a
+lsr a
 sta.b tcc__r0
 sta -2 + __oamSetEx_locals + 1,s
 lda.w #:oamMemory
@@ -11508,21 +11836,16 @@ sta.b tcc__r1
 sep #$20
 sta -3 + __oamSetEx_locals + 1,s
 rep #$20
-lda.w #0
-sep #$20
 lda 3 + __oamSetEx_locals + 1,s
-rep #$20
 sta.b tcc__r0
-cmp #$8000
-ror.b tcc__r0
-cmp #$8000
-ror.b tcc__r0
+lsr.b tcc__r0
+lsr.b tcc__r0
 lda.b tcc__r0
 and.w #3
 sta.b tcc__r0
-bra __local_458
 bra __local_459
-__local_458:
+bra __local_460
+__local_459:
 ldx #1
 lda.b tcc__r0
 sec
@@ -11534,9 +11857,9 @@ dex
 stx.b tcc__r5
 txa
 bne +
-brl __local_460
+brl __local_461
 +
-__local_459:
+__local_460:
 lda.w #0
 sep #$20
 lda -3 + __oamSetEx_locals + 1,s
@@ -11545,14 +11868,14 @@ and.w #252
 sta.b tcc__r0
 lda.w #0
 sep #$20
-lda 4 + __oamSetEx_locals + 1,s
+lda 5 + __oamSetEx_locals + 1,s
 rep #$20
 asl a
 ora.b tcc__r0
 sta.b tcc__r0
 lda.w #0
 sep #$20
-lda 5 + __oamSetEx_locals + 1,s
+lda 6 + __oamSetEx_locals + 1,s
 rep #$20
 sta.b tcc__r1
 ora.b tcc__r0
@@ -11560,9 +11883,9 @@ sta.b tcc__r0
 sep #$20
 sta -3 + __oamSetEx_locals + 1,s
 rep #$20
-jmp.w __local_461
-bra __local_462
-__local_460:
+jmp.w __local_462
+bra __local_463
+__local_461:
 ldx #1
 lda.b tcc__r0
 sec
@@ -11574,9 +11897,9 @@ dex
 stx.b tcc__r5
 txa
 bne +
-brl __local_463
+brl __local_464
 +
-__local_462:
+__local_463:
 lda.w #0
 sep #$20
 lda -3 + __oamSetEx_locals + 1,s
@@ -11585,7 +11908,7 @@ and.w #243
 sta.b tcc__r0
 lda.w #0
 sep #$20
-lda 4 + __oamSetEx_locals + 1,s
+lda 5 + __oamSetEx_locals + 1,s
 rep #$20
 asl a
 asl a
@@ -11594,7 +11917,7 @@ ora.b tcc__r0
 sta.b tcc__r0
 lda.w #0
 sep #$20
-lda 5 + __oamSetEx_locals + 1,s
+lda 6 + __oamSetEx_locals + 1,s
 rep #$20
 asl a
 asl a
@@ -11604,9 +11927,9 @@ sta.b tcc__r0
 sep #$20
 sta -3 + __oamSetEx_locals + 1,s
 rep #$20
-jmp.w __local_464
-bra __local_465
-__local_463:
+jmp.w __local_465
+bra __local_466
+__local_464:
 ldx #1
 lda.b tcc__r0
 sec
@@ -11618,9 +11941,9 @@ dex
 stx.b tcc__r5
 txa
 bne +
-brl __local_466
+brl __local_467
 +
-__local_465:
+__local_466:
 lda.w #0
 sep #$20
 lda -3 + __oamSetEx_locals + 1,s
@@ -11629,7 +11952,7 @@ and.w #207
 sta.b tcc__r0
 lda.w #0
 sep #$20
-lda 4 + __oamSetEx_locals + 1,s
+lda 5 + __oamSetEx_locals + 1,s
 rep #$20
 sta.b tcc__r1
 ldy.w #5
@@ -11642,7 +11965,7 @@ ora.b tcc__r0
 sta.b tcc__r0
 lda.w #0
 sep #$20
-lda 5 + __oamSetEx_locals + 1,s
+lda 6 + __oamSetEx_locals + 1,s
 rep #$20
 asl a
 asl a
@@ -11654,9 +11977,9 @@ sta.b tcc__r0
 sep #$20
 sta -3 + __oamSetEx_locals + 1,s
 rep #$20
-jmp.w __local_467
-bra __local_468
-__local_466:
+jmp.w __local_468
+bra __local_469
+__local_467:
 ldx #1
 lda.b tcc__r0
 sec
@@ -11668,9 +11991,9 @@ dex
 stx.b tcc__r5
 txa
 bne +
-brl __local_469
+brl __local_470
 +
-__local_468:
+__local_469:
 lda.w #0
 sep #$20
 lda -3 + __oamSetEx_locals + 1,s
@@ -11679,7 +12002,7 @@ and.w #63
 sta.b tcc__r0
 lda.w #0
 sep #$20
-lda 4 + __oamSetEx_locals + 1,s
+lda 5 + __oamSetEx_locals + 1,s
 rep #$20
 sta.b tcc__r1
 ldy.w #7
@@ -11692,7 +12015,7 @@ ora.b tcc__r0
 sta.b tcc__r0
 lda.w #0
 sep #$20
-lda 5 + __oamSetEx_locals + 1,s
+lda 6 + __oamSetEx_locals + 1,s
 rep #$20
 sta.b tcc__r1
 ldy.w #6
@@ -11707,11 +12030,11 @@ sta.b tcc__r0
 sep #$20
 sta -3 + __oamSetEx_locals + 1,s
 rep #$20
-__local_469:
-__local_461:
-__local_464:
-__local_467:
 __local_470:
+__local_462:
+__local_465:
+__local_468:
+__local_471:
 lda -8 + __oamSetEx_locals + 1,s
 sta.b tcc__r0
 lda -6 + __oamSetEx_locals + 1,s
@@ -11732,7 +12055,157 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x3f" superfree
+.section ".text_0x41" superfree
+oamSetXYEx:
+.ifgr __oamSetXYEx_locals 0
+tsa
+sec
+sbc #__oamSetXYEx_locals
+tas
+.endif
+lda 5 + __oamSetXYEx_locals + 1,s
+and.w #255
+sta.b tcc__r0
+sep #$20
+sta -1 + __oamSetXYEx_locals + 1,s
+rep #$20
+lda.w #:oamMemory
+sta.b tcc__r0h
+lda.w #oamMemory + 0
+sta.b tcc__r0
+lda 3 + __oamSetXYEx_locals + 1,s
+clc
+adc.b tcc__r0
+sta.b tcc__r0
+lda.w #0
+sep #$20
+lda 5 + __oamSetXYEx_locals + 1,s
+rep #$20
+sta.b tcc__r1
+sep #$20
+sta.b [tcc__r0]
+rep #$20
+lda 3 + __oamSetXYEx_locals + 1,s
+inc a
+sta.b tcc__r0
+lda.w #:oamMemory
+sta.b tcc__r1h
+lda.w #oamMemory + 0
+clc
+adc.b tcc__r0
+sta.b tcc__r1
+lda.w #0
+sep #$20
+lda 7 + __oamSetXYEx_locals + 1,s
+sta.b [tcc__r1]
+rep #$20
+lda 3 + __oamSetXYEx_locals + 1,s
+sta.b tcc__r0
+lsr.b tcc__r0
+lsr.b tcc__r0
+lda.b tcc__r0
+and.w #255
+sep #$20
+sta -2 + __oamSetXYEx_locals + 1,s
+rep #$20
+lda.w #0
+sep #$20
+lda -2 + __oamSetXYEx_locals + 1,s
+rep #$20
+sta.b tcc__r0
+tax
+lda.w #4
+jsr.l tcc__div
+stx.b tcc__r0
+asl.b tcc__r0
+lda.b tcc__r0
+sta -4 + __oamSetXYEx_locals + 1,s
+lda.w #1
+sta.b tcc__r0
+lda -4 + __oamSetXYEx_locals + 1,s
+sta.b tcc__r1
+lda.b tcc__r0
+ldy.b tcc__r1
+beq +
+-
+asl a
+dey
+bne -
++
+sta -6 + __oamSetXYEx_locals + 1,s
+lda.w #0
+sep #$20
+lda -2 + __oamSetXYEx_locals + 1,s
+rep #$20
+sta.b tcc__r0
+tax
+lda.w #4
+jsr.l tcc__div
+lda.b tcc__r9
+clc
+adc.w #512
+sta.b tcc__r0
+sta -8 + __oamSetXYEx_locals + 1,s
+lda.w #:oamMemory
+sta.b tcc__r0h
+lda.w #oamMemory + 0
+sta.b tcc__r0
+lda -8 + __oamSetXYEx_locals + 1,s
+clc
+adc.b tcc__r0
+sta.b tcc__r0
+lda -6 + __oamSetXYEx_locals + 1,s
+eor.w #65535
+sta.b tcc__r1
+lda.w #0
+sep #$20
+lda.b [tcc__r0]
+rep #$20
+and.b tcc__r1
+sep #$20
+sta.b [tcc__r0]
+rep #$20
+lda.w #:oamMemory
+sta.b tcc__r0h
+lda.w #oamMemory + 0
+sta.b tcc__r0
+lda -8 + __oamSetXYEx_locals + 1,s
+clc
+adc.b tcc__r0
+sta.b tcc__r0
+lda 5 + __oamSetXYEx_locals + 1,s
+xba
+and #$00ff
+sta.b tcc__r1
+lda -4 + __oamSetXYEx_locals + 1,s
+sta.b tcc__r2
+lda.b tcc__r1
+ldy.b tcc__r2
+beq +
+-
+asl a
+dey
+bne -
++
+sta.b tcc__r1
+lda.w #0
+sep #$20
+lda.b [tcc__r0]
+rep #$20
+ora.b tcc__r1
+sta.b tcc__r2
+sep #$20
+sta.b [tcc__r0]
+rep #$20
+.ifgr __oamSetXYEx_locals 0
+tsa
+clc
+adc #__oamSetXYEx_locals
+tas
+.endif
+rtl
+.ends
+.section ".text_0x42" superfree
 setBrightness:
 .ifgr __setBrightness_locals 0
 tsa
@@ -11740,7 +12213,10 @@ sec
 sbc #__setBrightness_locals
 tas
 .endif
+lda.w #0
+sep #$20
 lda 3 + __setBrightness_locals + 1,s
+rep #$20
 sta.b tcc__r0
 ldx #1
 sec
@@ -11752,18 +12228,25 @@ dex
 stx.b tcc__r5
 txa
 bne +
-brl __local_471
+brl __local_472
 +
 lda.w #128
 sta.b tcc__r0
+sep #$20
 sta 3 + __setBrightness_locals + 1,s
-bra __local_472
-__local_471:
+rep #$20
+bra __local_473
+__local_472:
+lda.w #0
+sep #$20
 lda 3 + __setBrightness_locals + 1,s
+rep #$20
 and.w #15
 sta.b tcc__r0
+sep #$20
 sta 3 + __setBrightness_locals + 1,s
-__local_472:
+rep #$20
+__local_473:
 lda.w #0
 sep #$20
 lda 3 + __setBrightness_locals + 1,s
@@ -11785,7 +12268,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x40" superfree
+.section ".text_0x43" superfree
 setMode:
 .ifgr __setMode_locals 0
 tsa
@@ -11793,14 +12276,23 @@ sec
 sbc #__setMode_locals
 tas
 .endif
+lda.w #0
+sep #$20
 lda 3 + __setMode_locals + 1,s
+rep #$20
 and.w #3
+sep #$20
+sta.w __tccs__iloc + 0
+rep #$20
+lda.w #0
+sep #$20
+lda.w __tccs__iloc + 0
+rep #$20
 sta.b tcc__r0
-lda 3 + __setMode_locals + 1,s
-and.b tcc__r0
-sta 3 + __setMode_locals + 1,s
-sta.b tcc__r0
-lda 5 + __setMode_locals + 1,s
+lda.w #0
+sep #$20
+lda 4 + __setMode_locals + 1,s
+rep #$20
 sta.b tcc__r1
 ora.b tcc__r0
 sta.b tcc__r0
@@ -11812,13 +12304,12 @@ sep #$20
 lda.b tcc__r0
 sta.b [tcc__r9]
 rep #$20
-lda 3 + __setMode_locals + 1,s
+lda.w #0
+sep #$20
+lda.w __tccs__iloc + 0
+rep #$20
 sta.b tcc__r0
-bra __local_473
-bra __local_474
-__local_473:
 ldx #1
-lda.b tcc__r0
 sec
 sbc #0
 tay
@@ -11828,21 +12319,25 @@ dex
 stx.b tcc__r5
 txa
 bne +
-brl __local_475
+brl __local_474
 +
-__local_474:
 lda.w #31
 sep #$20
 sta.w videoMode + 0
 rep #$20
 lda.w #4
 sta.b tcc__r0
-sta -4 + __setMode_locals + 1,s
-jmp.w __local_476
-bra __local_477
-__local_475:
+sep #$20
+sta.w __tccs__bgCnt + 0
+rep #$20
+jmp.w __local_475
+__local_474:
+lda.w #0
+sep #$20
+lda.w __tccs__iloc + 0
+rep #$20
+sta.b tcc__r0
 ldx #1
-lda.b tcc__r0
 sec
 sbc #1
 tay
@@ -11851,22 +12346,15 @@ dex
 +
 stx.b tcc__r5
 txa
-bne +
-brl __local_478
+beq +
+brl __local_476
 +
-__local_477:
-lda.w #23
+lda.w #0
 sep #$20
-sta.w videoMode + 0
+lda.w __tccs__iloc + 0
 rep #$20
-lda.w #3
 sta.b tcc__r0
-sta -4 + __setMode_locals + 1,s
-jmp.w __local_479
-bra __local_480
-__local_478:
 ldx #1
-lda.b tcc__r0
 sec
 sbc #2
 tay
@@ -11875,46 +12363,16 @@ dex
 +
 stx.b tcc__r5
 txa
-bne +
-brl __local_481
-+
-__local_480:
-lda.w #23
-sep #$20
-sta.w videoMode + 0
-rep #$20
-lda.w #3
-sta.b tcc__r0
-sta -4 + __setMode_locals + 1,s
-jmp.w __local_482
-bra __local_483
-__local_481:
-ldx #1
-lda.b tcc__r0
-sec
-sbc #3
-tay
 beq +
-dex
+__local_476:
+brl __local_477
 +
-stx.b tcc__r5
-txa
-bne +
-brl __local_484
-+
-__local_483:
-lda.w #19
+lda.w #0
 sep #$20
-sta.w videoMode + 0
+lda.w __tccs__iloc + 0
 rep #$20
-lda.w #2
 sta.b tcc__r0
-sta -4 + __setMode_locals + 1,s
-jmp.w __local_485
-bra __local_486
-__local_484:
 ldx #1
-lda.b tcc__r0
 sec
 sbc #4
 tay
@@ -11923,98 +12381,34 @@ dex
 +
 stx.b tcc__r5
 txa
-bne +
-brl __local_487
+beq +
+__local_477:
+brl __local_478
 +
-__local_486:
+bra __local_479
+__local_478:
 lda.w #23
 sep #$20
 sta.w videoMode + 0
 rep #$20
 lda.w #3
 sta.b tcc__r0
-sta -4 + __setMode_locals + 1,s
-jmp.w __local_488
-bra __local_489
-__local_487:
-ldx #1
-lda.b tcc__r0
-sec
-sbc #5
-tay
-beq +
-dex
-+
-stx.b tcc__r5
-txa
-bne +
-brl __local_490
-+
-__local_489:
-lda.w #19
 sep #$20
-sta.w videoMode + 0
+sta.w __tccs__bgCnt + 0
 rep #$20
-lda.w #2
-sta.b tcc__r0
-sta -4 + __setMode_locals + 1,s
-jmp.w __local_491
-bra __local_492
-__local_490:
-ldx #1
-lda.b tcc__r0
-sec
-sbc #6
-tay
-beq +
-dex
-+
-stx.b tcc__r5
-txa
-bne +
-brl __local_493
-+
-__local_492:
-lda.w #21
-sep #$20
-sta.w videoMode + 0
-rep #$20
-lda.w #2
-sta.b tcc__r0
-sta -4 + __setMode_locals + 1,s
-bra __local_494
-bra __local_495
-__local_493:
-ldx #1
-lda.b tcc__r0
-sec
-sbc #7
-tay
-beq +
-dex
-+
-stx.b tcc__r5
-txa
-bne +
-brl __local_496
-+
-__local_495:
-lda.w #19
-sep #$20
-sta.w videoMode + 0
-rep #$20
-lda.w #2
-sta.b tcc__r0
-sta -4 + __setMode_locals + 1,s
-__local_496:
-__local_476:
+bra __local_480
 __local_479:
-__local_482:
-__local_485:
-__local_488:
-__local_491:
-__local_494:
-__local_497:
+lda.w #19
+sep #$20
+sta.w videoMode + 0
+rep #$20
+lda.w #2
+sta.b tcc__r0
+sep #$20
+sta.w __tccs__bgCnt + 0
+rep #$20
+__local_480:
+__local_475:
 lda.w #0
 sep #$20
 sta.w videoModeSub + 0
@@ -12045,46 +12439,61 @@ sep #$20
 lda.b tcc__r0
 sta.b [tcc__r9]
 rep #$20
-stz.b tcc__r0
-lda.b tcc__r0
-sta -2 + __setMode_locals + 1,s
-__local_500:
-lda -2 + __setMode_locals + 1,s
+lda.w #0
 sta.b tcc__r0
-lda -4 + __setMode_locals + 1,s
+sep #$20
+sta.w __tccs__iloc + 0
+rep #$20
+__local_483:
+lda.w #0
+sep #$20
+lda.w __tccs__iloc + 0
+rep #$20
+sta.b tcc__r0
+lda.w #0
+sep #$20
+lda.w __tccs__bgCnt + 0
+rep #$20
 sta.b tcc__r1
 ldx #1
 lda.b tcc__r0
 sec
 sbc.b tcc__r1
 tay
-bcc ++
-+ dex
+bvc +
+eor #$8000
++
+bmi +++
 ++
+dex
++++
 stx.b tcc__r5
 txa
 bne +
-brl __local_498
+brl __local_481
 +
-bra __local_499
-__local_501:
-lda -2 + __setMode_locals + 1,s
+bra __local_482
+__local_484:
+lda.w #0
+sep #$20
+lda.w __tccs__iloc + 0
+rep #$20
 sta.b tcc__r0
 sta.b tcc__r1
 lda.b tcc__r0h
 sta.b tcc__r1h
 inc.b tcc__r0
-lda.b tcc__r0
-sta -2 + __setMode_locals + 1,s
-bra __local_500
-__local_499:
-lda -2 + __setMode_locals + 1,s
-and.w #255
-sta.b tcc__r0
-pea.w 0
-pea.w 0
 sep #$20
 lda.b tcc__r0
+sta.w __tccs__iloc + 0
+rep #$20
+jmp.w __local_483
+__local_482:
+pea.w 0
+pea.w 0
+lda.w #0
+sep #$20
+lda.w __tccs__iloc + 0
 pha
 rep #$20
 jsr.l bgSetScroll
@@ -12092,8 +12501,8 @@ tsa
 clc
 adc #5
 tas
-bra __local_501
-__local_498:
+bra __local_484
+__local_481:
 lda.w #129
 sta.b tcc__r0
 lda.w #16896
@@ -12103,14 +12512,24 @@ sta.b tcc__r9h
 sep #$20
 lda.b tcc__r0
 sta.b [tcc__r9]
+lda #0
+pha
 rep #$20
-pea.w 0
 jsr.l setBrightness
-pla
+tsa
+clc
+adc #1
+tas
 jsr.l WaitForVBlank
-pea.w 15
+sep #$20
+lda #15
+pha
+rep #$20
 jsr.l setBrightness
-pla
+tsa
+clc
+adc #1
+tas
 .ifgr __setMode_locals 0
 tsa
 clc
@@ -12119,7 +12538,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x41" superfree
+.section ".text_0x44" superfree
 setColorEffect:
 .ifgr __setColorEffect_locals 0
 tsa
@@ -12161,7 +12580,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x42" superfree
+.section ".text_0x45" superfree
 __tccs_consoleVblankMode7:
 .ifgr ____tccs_consoleVblankMode7_locals 0
 tsa
@@ -12194,7 +12613,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x43" superfree
+.section ".text_0x46" superfree
 m7_calchdma:
 .ifgr __m7_calchdma_locals 0
 tsa
@@ -12323,9 +12742,9 @@ sep #$20
 lda.b tcc__r1
 sta.b [tcc__r9]
 rep #$20
-lda.w #:m7_mb
+lda.w #:m7_mc
 sta.b tcc__r0h
-lda.w #m7_mb + 0
+lda.w #m7_mc + 0
 sta.b tcc__r0
 sta -4 + __m7_calchdma_locals + 1,s
 lda.b tcc__r0h
@@ -12387,9 +12806,9 @@ sep #$20
 lda.b tcc__r1
 sta.b [tcc__r9]
 rep #$20
-lda.w #:m7_ma
+lda.w #:m7_md
 sta.b tcc__r0h
-lda.w #m7_ma + 0
+lda.w #m7_md + 0
 sta.b tcc__r0
 sta -4 + __m7_calchdma_locals + 1,s
 lda.b tcc__r0h
@@ -12437,7 +12856,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x44" superfree
+.section ".text_0x47" superfree
 calcmatrix:
 .ifgr __calcmatrix_locals 0
 tsa
@@ -12448,12 +12867,12 @@ tas
 stz.b tcc__r0
 lda.b tcc__r0
 sta -2 + __calcmatrix_locals + 1,s
-__local_504:
+__local_487:
 lda -2 + __calcmatrix_locals + 1,s
 sta.b tcc__r0
 ldx #1
 sec
-sbc.w #576
+sbc.w #480
 tay
 bcc ++
 + dex
@@ -12461,17 +12880,17 @@ bcc ++
 stx.b tcc__r5
 txa
 bne +
-brl __local_502
+brl __local_485
 +
-bra __local_503
-__local_505:
+bra __local_486
+__local_488:
 lda -2 + __calcmatrix_locals + 1,s
 clc
 adc.w #3
 sta.b tcc__r0
 sta -2 + __calcmatrix_locals + 1,s
-bra __local_504
-__local_503:
+bra __local_487
+__local_486:
 lda.w _m7sx + 0
 and.w #255
 sta.b tcc__r0
@@ -12772,8 +13191,8 @@ sta.b tcc__r0
 sep #$20
 sta.b [tcc__r1]
 rep #$20
-jmp.w __local_505
-__local_502:
+jmp.w __local_488
+__local_485:
 .ifgr __calcmatrix_locals 0
 tsa
 clc
@@ -12782,7 +13201,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x45" superfree
+.section ".text_0x48" superfree
 initm7_matric:
 .ifgr __initm7_matric_locals 0
 tsa
@@ -12809,7 +13228,7 @@ rep #$20
 lda.w #3
 sta.b tcc__r0
 sta -2 + __initm7_matric_locals + 1,s
-__local_508:
+__local_491:
 lda -2 + __initm7_matric_locals + 1,s
 sta.b tcc__r0
 ldx #1
@@ -12822,17 +13241,17 @@ bcc ++
 stx.b tcc__r5
 txa
 bne +
-brl __local_506
+brl __local_489
 +
-bra __local_507
-__local_509:
+bra __local_490
+__local_492:
 lda -2 + __initm7_matric_locals + 1,s
 clc
 adc.w #3
 sta.b tcc__r0
 sta -2 + __initm7_matric_locals + 1,s
-bra __local_508
-__local_507:
+bra __local_491
+__local_490:
 lda.w #:m7_ma
 sta.b tcc__r0h
 lda.w #m7_ma + 0
@@ -12991,8 +13410,8 @@ sta.b tcc__r0
 sep #$20
 sta.b [tcc__r1]
 rep #$20
-jmp.w __local_509
-__local_506:
+jmp.w __local_492
+__local_489:
 lda.w #0
 sep #$20
 sta.w m7_ma + 480
@@ -13018,7 +13437,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x46" superfree
+.section ".text_0x49" superfree
 setMode7:
 .ifgr __setMode7_locals 0
 tsa
@@ -13180,44 +13599,6 @@ sep #$20
 lda.b tcc__r0
 sta.b [tcc__r9]
 rep #$20
-lda.w #128
-sta.b tcc__r0
-lda.w #8479
-sta.b tcc__r9
-lda.w #0
-sta.b tcc__r9h
-sep #$20
-lda.b tcc__r0
-sta.b [tcc__r9]
-rep #$20
-stz.b tcc__r0
-lda.w #8479
-sta.b tcc__r9
-lda.w #0
-sta.b tcc__r9h
-sep #$20
-lda.b tcc__r0
-sta.b [tcc__r9]
-rep #$20
-lda.w #128
-sta.b tcc__r0
-lda.w #8480
-sta.b tcc__r9
-lda.w #0
-sta.b tcc__r9h
-sep #$20
-lda.b tcc__r0
-sta.b [tcc__r9]
-rep #$20
-stz.b tcc__r0
-lda.w #8480
-sta.b tcc__r9
-lda.w #0
-sta.b tcc__r9h
-sep #$20
-lda.b tcc__r0
-sta.b [tcc__r9]
-rep #$20
 stz.b tcc__r0
 lda.w #8461
 sta.b tcc__r9
@@ -13327,14 +13708,24 @@ sta.b tcc__r9h
 sep #$20
 lda.b tcc__r0
 sta.b [tcc__r9]
+lda #0
+pha
 rep #$20
-pea.w 0
 jsr.l setBrightness
-pla
+tsa
+clc
+adc #1
+tas
 jsr.l WaitForVBlank
-pea.w 15
+sep #$20
+lda #15
+pha
+rep #$20
 jsr.l setBrightness
-pla
+tsa
+clc
+adc #1
+tas
 .ifgr __setMode7_locals 0
 tsa
 clc
@@ -13343,7 +13734,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x47" superfree
+.section ".text_0x4a" superfree
 setMode7Angle:
 .ifgr __setMode7Angle_locals 0
 tsa
@@ -13420,7 +13811,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x48" superfree
+.section ".text_0x4b" superfree
 setMode7Rot:
 .ifgr __setMode7Rot_locals 0
 tsa
@@ -13767,7 +14158,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x49" superfree
+.section ".text_0x4c" superfree
 setMode7MoveForwardBack:
 .ifgr __setMode7MoveForwardBack_locals 0
 tsa
@@ -13833,7 +14224,7 @@ tas
 .endif
 rtl
 .ends
-.section ".text_0x4a" superfree
+.section ".text_0x4d" superfree
 setMode7MoveLeftRight:
 .ifgr __setMode7MoveLeftRight_locals 0
 tsa
@@ -13943,6 +14334,8 @@ snes_rand_seed2 dsb 2
 oamMemory dsb 544
 videoMode dsb 1
 videoModeSub dsb 1
+__tccs__bgCnt dsb 1
+__tccs__iloc dsb 1
 _m7ma dsb 2
 _m7mb dsb 2
 _m7mc dsb 2

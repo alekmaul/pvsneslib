@@ -72,10 +72,6 @@ void oamInit(void) {
 	oamMemory[i+2] = 0x55;
 	oamMemory[i+3] = 0x55;
   }
-
-  // Put them to OAM Ram
-  //dmaCopyOAram((unsigned char *) &oamMemory,0,0x220);
-  //oamUpdate(oamMemory,0,128);
 }
 
 //---------------------------------------------------------------------------------
@@ -86,36 +82,25 @@ void oamClear(u8 first, u8 numEntries) {
 	nbspr = numEntries*4;
 	if (nbspr == 0) nbspr = 128*4;
 	
-	/*
-	// All sprites are outside screen
-	for(i = first; i < numEntries; i++) {
-		oamMemory[i].y = ATTR2_DISABLED;
-	}
-	*/
 	// All sprites are outside screen
 	for(i = first; i < nbspr; i+=4) {
 		oamSetEx(i,OBJ_SMALL,OBJ_HIDE);
 	}
-  
-  // Highatble now
-  /*for (i=128+first;i<136;i++) {
-	oamMemory[i].x = 0x55;
-	oamMemory[i].y = 0x55;
-	oamMemory[i].tilenumber = 0x55;
-	oamMemory[i].attribute = 0x55;
-  }*/
-
-  // Put them to OAM Ram
-  //dmaCopyOAram((unsigned char *) &oamMemory,0,0x220);
 }
 
 //---------------------------------------------------------------------------------
-void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u8 tilePaletteNumber, u16 address, u8 oamsize) {
+void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize) {
+	unsigned char palEntry;
+
+	//setBrightness(0);  // Force VBlank Interrupt
+	WaitForVBlank(); 
+	
 	// Init tiles
 	dmaCopyVram(tileSource, (address >> 1), tileSize);
 	
 	// Init palette
-  	dmaCopyCGram(tilePalette, (128+tilePaletteNumber*16), 16*2);
+	palEntry = (128+tilePaletteNumber*16);
+  	dmaCopyCGram(tilePalette, palEntry, paletteSize);
 
 	// Update base adress if needed (16k aligned)
 	REG_OBSEL = oamsize | (address >> 14);
@@ -157,7 +142,7 @@ void oamSet1(u8 id, oamEntry *sprite) {
 }
 
 //---------------------------------------------------------------------------------
-void oamSetEx(u8 id, u8 size, u8 hide) {
+void oamSetEx(u16 id, u8 size, u8 hide) {
 	u16 idx;
 	u8 value;
 	u8 *ptrOam;
@@ -177,3 +162,25 @@ void oamSetEx(u8 id, u8 size, u8 hide) {
 	}
 	*ptrOam = value;
 }
+
+//---------------------------------------------------------------------------------
+void oamSetXYEx(unsigned int id, unsigned int x, unsigned char y) {
+#define OAM_HI_TABLE_START 128*4
+
+    // Set low byte of x position and y position:
+    unsigned char x_lo = (unsigned char)x;
+    oamSetXY(id,x,y);
+
+    // Note that id isn't the OAM id, but a direct index into OAM shadow memory;
+    // the result is that id/4 is the actual oam index, which is required for determining
+    // the OAM high table position.
+    unsigned char oam_id = (unsigned char)(id >> 2);
+
+    // Set highest bit of x position: Either at bit 0,2,4,6 depending on oam id,
+    // as 4 oam entries are merged into one byte of the OAM high table.
+    int bit_shift = 2*(oam_id % 4);
+    int in_byte_position = 1 << bit_shift;
+    int oam_high_table_pos = OAM_HI_TABLE_START + oam_id / 4;
+    oamMemory[oam_high_table_pos] &= ~in_byte_position; // Clear current high bit of x
+    oamMemory[oam_high_table_pos] |= (x>>8)<<bit_shift; // Fill in new high bit of x
+} 

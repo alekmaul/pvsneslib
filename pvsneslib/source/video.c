@@ -24,7 +24,8 @@
 
 #include <snes/video.h>
 
-u8 videoMode, videoModeSub;
+static u8 videoMode, videoModeSub;
+static u8 _bgCnt, _iloc;
 
 const signed char _m7sincos[256] = {
       0,  3,  6,  9,  12,  16,  19,  22,
@@ -66,7 +67,7 @@ u8 _m7angle;
 signed char _m7sin, _m7cos;
 
 //---------------------------------------------------------------------------------
-void setBrightness(u16 level) {
+void setBrightness(u8 level) {
 	if (level == 0) 
 		level = DSP_FORCEVBL;
 	else
@@ -76,55 +77,41 @@ void setBrightness(u16 level) {
 }
 
 //---------------------------------------------------------------------------------
-void setMode(u16 mode, u16 size) {
-	u16 i, bgCount;
+void setMode(u8 mode, u8 size) {
+	//u8 i, bgCount;
 
 	// Adjust mode to be ok
-	mode &= mode & 0x3;
+	_iloc = (mode & 0x03);
 	
 	// Change default mode 
-	REG_BGMODE = mode | size;  
+	REG_BGMODE = _iloc | size;  
 
 	// Regarding mode, ajust BGs
-	switch (mode) {
-	  case BG_MODE0 : // 4-color     4-color     4-color     4-color   ;Normal
+	if (_iloc == BG_MODE0) {
+		// Mode 0 : 4-color     4-color     4-color     4-color   ;Normal
 		videoMode = BG1_ENABLE | BG2_ENABLE | BG3_ENABLE | BG4_ENABLE | OBJ_ENABLE;
-		bgCount = 4;
-	    break;
-	  case BG_MODE1 : // 16-color    16-color    4-color     -         ;Normal
+		_bgCnt = 4;
+	}
+	else if (  (_iloc == BG_MODE1)  || (_iloc == BG_MODE2) || (_iloc == BG_MODE4) ) {
+		// Mode 1 : 16-color    16-color    4-color     -         ;Normal
+		// Mode 2 : 16-color    16-color    (o.p.t)     -         ;Offset-per-tile
+		// Mode 4 : 256-color   4-color     (o.p.t)     -         ;Offset-per-tile
 		videoMode = BG1_ENABLE | BG2_ENABLE | BG3_ENABLE | OBJ_ENABLE;    
-		bgCount = 3;
-	    break;
-	  case BG_MODE2 : // 16-color    16-color    (o.p.t)     -         ;Offset-per-tile
-		videoMode = BG1_ENABLE | BG2_ENABLE | BG3_ENABLE | OBJ_ENABLE;    
-		bgCount = 3;
-	    break;
-	  case BG_MODE3 : // 256-color   16-color    -           -         ;Normal
+		_bgCnt = 3;
+	 }
+	 else {
+		// Mode 3 : 256-color   16-color    -           -         ;Normal
+		// Mode 5 : 16-color    4-color     -           -         ;512-pix-hires
+		// Mode 6 : 16-color    -           (o.p.t)     -         ;512-pix plus Offs-p-t
+		// Mode 7 : 256-color   EXTBG       -           -         ;Rotation/Scaling
 		videoMode = BG1_ENABLE | BG2_ENABLE | OBJ_ENABLE;    
-		bgCount = 2;
-	    break;
-	  case BG_MODE4 : // 256-color   4-color     (o.p.t)     -         ;Offset-per-tile
-		videoMode = BG1_ENABLE | BG2_ENABLE | BG3_ENABLE | OBJ_ENABLE;    
-		bgCount = 3;
-	    break;
-	  case BG_MODE5 : // 16-color    4-color     -           -         ;512-pix-hires
-		videoMode = BG1_ENABLE | BG2_ENABLE | OBJ_ENABLE;    
-		bgCount = 2;
-	    break;
-	  case BG_MODE6 : // 16-color    -           (o.p.t)     -         ;512-pix plus Offs-p-t
-		videoMode = BG1_ENABLE | BG3_ENABLE | OBJ_ENABLE;    
-		bgCount = 2;
-	    break;
-	  case BG_MODE7 : // 256-color   EXTBG       -           -         ;Rotation/Scaling
-		videoMode = BG1_ENABLE | BG2_ENABLE | OBJ_ENABLE;    
-		bgCount = 2;
-	    break;
+		_bgCnt = 2;
 	}
 	videoModeSub = 0;
 	REG_TM = videoMode;
 	REG_TS = videoModeSub;
-	for(i=0;i<bgCount;i++) { // No Scroll
-		bgSetScroll(i,0,0);
+	for(_iloc=0;_iloc<_bgCnt;_iloc++) { // No Scroll
+		bgSetScroll(_iloc,0,0);
 	}
 	
 	REG_NMITIMEN = INT_VBLENABLE | INT_JOYPAD_ENABLE; // enable NMI, enable autojoy 
@@ -489,7 +476,7 @@ void initm7_matric(void) {
 }
 
 //---------------------------------------------------------------------------------
-void setMode7(u16 mode) {
+void setMode7(u8 mode) {
 	// Put video mode to 7
 	REG_BGMODE = BG_MODE7;
 	
@@ -512,10 +499,6 @@ void setMode7(u16 mode) {
 	REG_M7X=OFSX & 255; REG_M7X = OFSX>>8; // 0x200 = 512 -> 1024/2
 	REG_M7Y=OFSY & 255; REG_M7Y = OFSY>>8; // 0x200 = 512 -> 1024/2
 
-	REG_M7X=OFSX & 255; REG_M7X = OFSX>>8; // 0x200 = 512 -> 1024/2
-	REG_M7Y=OFSY & 255; REG_M7Y = OFSY>>8; // 0x200 = 512 -> 1024/2
-
-	
 	// Scroll to center
 	#define OFSX (0x0000)
 	#define OFSY (0x200-0x80)
