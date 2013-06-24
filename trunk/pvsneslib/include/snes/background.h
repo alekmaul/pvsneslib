@@ -76,6 +76,7 @@
 #define  BG4_ENABLE (1 << 3)
 #define  OBJ_ENABLE (1 << 4)
 
+#define    BG_4COLORS0 32
 #define    BG_4COLORS 4
 #define    BG_16COLORS 16
 #define    BG_256COLORS 256
@@ -186,26 +187,6 @@ Ignored in Mode 7 (Base is always zero)
 /*! \brief BG4 Vertical Scroll (Y) (W)*/
 #define	REG_BG4VOFS   		(*(vuint8*)0x2114)
 
-/*! \def REG_TM 
-	\def REG_TS
-    \brief  TM - Main Screen Designation (W)
-			TS - Sub Screen Designation (W)
-
-  7-5  Not used
-  4    OBJ (0=Disable, 1=Enable)
-  3    BG4 (0=Disable, 1=Enable)
-  2    BG3 (0=Disable, 1=Enable)
-  1    BG2 (0=Disable, 1=Enable)
-  0    BG1 (0=Disable, 1=Enable)
-  -    Backdrop (Always enabled)
-
-	Allows to enable/disable video layers. The Main screen is the "normal" display. 
-	The Sub screen is used only for Color Math and for 512-pixel Hires Mode.
-*/
-#define REG_TM	(*(vuint8*)0x212C)
-#define REG_TS	(*(vuint8*)0x212D)
-
-
 #define COLWIN_OB13W1ENABLEIN	(1<<0) /*!< \brief BG1   BG3   OBJ   Window-1 Area Inside */
 #define COLWIN_OB13W1ENABLEOUT	(2<<0) /*!< \brief BG1   BG3   OBJ   Window-1 Area Outside */
 #define COLWIN_OB13W2ENABLEIN	(1<<2) /*!< \brief BG1   BG3   OBJ   Window-2 Area Inside */
@@ -267,6 +248,25 @@ Ignored in Mode 7 (Base is always zero)
 */
 #define REG_WBGLOG		(*(vuint8*)0x212A)
 #define REG_WOBJLOG		(*(vuint8*)0x212B)
+
+/*! \def REG_TM 
+	\def REG_TS
+    \brief  TM - Main Screen Designation (W)
+			TS - Sub Screen Designation (W)
+
+  7-5  Not used
+  4    OBJ (0=Disable, 1=Enable)
+  3    BG4 (0=Disable, 1=Enable)
+  2    BG3 (0=Disable, 1=Enable)
+  1    BG2 (0=Disable, 1=Enable)
+  0    BG1 (0=Disable, 1=Enable)
+  -    Backdrop (Always enabled)
+
+	Allows to enable/disable video layers. The Main screen is the "normal" display. 
+	The Sub screen is used only for Color Math and for 512-pixel Hires Mode.
+*/
+#define REG_TM	(*(vuint8*)0x212C)
+#define REG_TS	(*(vuint8*)0x212D)
 
 /*! \def REG_TMW
     \brief Window Area Main Screen Disable (W)

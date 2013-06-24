@@ -34,7 +34,7 @@
 #include <snes/snestypes.h>
 
 #include <snes/background.h>
-#include <snes/sprites.h>
+#include <snes/sprite.h>
 #include <snes/video.h>
 
 /*!	\brief Bit defines for the DMA control registers */
