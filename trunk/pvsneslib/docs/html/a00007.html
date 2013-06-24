@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">pvsneslib
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.0.1</span>
    </div>
    
   </td>
@@ -112,35 +112,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <a name="a1"></a><a class="code" href="a00018.html#ae09a7ac09be78eef0f28a6c7aabc82ad" title="Initializes a Tile Set and Loads the Tile GFX into VRAM.">bgInitTileSet</a>(0, &amp;patterns, &amp;palette, 0, (&amp;patterns_end - &amp;patterns), (&amp;palette_end - &amp;palette), BG_16COLORS, 0x4000);
 
     <span class="comment">// Copy Map to VRAM</span>
-    <a name="a2"></a><a class="code" href="a00018.html#a8e2ce68446b46a8bb6413785083c1c05" title="Initializes a Map Set and loads it into SNES VRAM.">bgInitMapSet</a>(0, &amp;map, (&amp;map_end - &amp;map),<a name="a3"></a><a class="code" href="a00018.html#a7afc211c644079338a1f032ea5e90460a7a66107017c0fa48ea99ebe333e0cc80" title="32 x 32 tile size">SC_32x32</a>, 0x1000);
+    <a name="a2"></a><a class="code" href="a00018.html#acc385296e159449a81d18f5e219c8032" title="Initializes a Map Set and loads it into SNES VRAM.">bgInitMapSet</a>(0, &amp;map, (&amp;map_end - &amp;map),<a name="a3"></a><a class="code" href="a00018.html#a11724b6748ce0954e9b43819263537fc" title="Bit defines for the background control registers.">SC_32x32</a>, 0x1000);
 
     <span class="comment">// Now Put in 16 color mode and disable other BGs except 1st one</span>
-    <a name="a4"></a><a class="code" href="a00028.html#ad38541ebb0ff0ae46d99f4c5d3288c4d" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a5"></a><a class="code" href="a00018.html#a7afc211c644079338a1f032ea5e90460adce05b1d024af3f279a6bc8050b76269" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0); <a name="a6"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1); <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
+    <a name="a4"></a><a class="code" href="a00028.html#afd9e46ae627d055dd8c98a4b0ebb73b1" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a5"></a><a class="code" href="a00018.html#a05c862edb7f8f75036f10c04dcc3c2a6" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0); <a name="a6"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1); <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
     
     <span class="comment">// Wait for a key</span>
-    <a name="a7"></a><a class="code" href="a00023.html#a4a6674dce70032b45e5b3ba10e515012" title="Wait for pad ready and read pad values in .">scanPads</a>(); <span class="keywordflow">while</span> (!<a name="a8"></a><a class="code" href="a00023.html#a5ff772be839fa2e5602e4aa9955ee0d7" title="Return current value of selected pad.">padsCurrent</a>(0)) <a class="code" href="a00023.html#a4a6674dce70032b45e5b3ba10e515012" title="Wait for pad ready and read pad values in .">scanPads</a>(); 
+    <a name="a7"></a><a class="code" href="a00023.html#a42632e79292dc47a567aab4dc3e4407d" title="Wait for pad ready and read pad values in .">scanPads</a>(); <span class="keywordflow">while</span> (!<a name="a8"></a><a class="code" href="a00023.html#a6063e0eec9a36e437fc32951acafa44c" title="Return current value of selected pad.">padsCurrent</a>(0)) <a class="code" href="a00023.html#a42632e79292dc47a567aab4dc3e4407d" title="Wait for pad ready and read pad values in .">scanPads</a>(); 
     
     <span class="comment">// Now just play withj effects :P</span>
     <span class="keywordflow">while</span>(1) {
         <span class="comment">// Fade out so light to black</span>
         <a name="a9"></a><a class="code" href="a00028.html#ac34bd13a8556c8ac8e1eeeded15f7632" title="Do a fadein or fadeout effect.">setFadeEffect</a>(FADE_OUT);
         <a name="a10"></a><a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
-        <a class="code" href="a00023.html#a4a6674dce70032b45e5b3ba10e515012" title="Wait for pad ready and read pad values in .">scanPads</a>(); <span class="keywordflow">while</span> (!<a class="code" href="a00023.html#a5ff772be839fa2e5602e4aa9955ee0d7" title="Return current value of selected pad.">padsCurrent</a>(0)) <a class="code" href="a00023.html#a4a6674dce70032b45e5b3ba10e515012" title="Wait for pad ready and read pad values in .">scanPads</a>(); 
+        <a class="code" href="a00023.html#a42632e79292dc47a567aab4dc3e4407d" title="Wait for pad ready and read pad values in .">scanPads</a>(); <span class="keywordflow">while</span> (!<a class="code" href="a00023.html#a6063e0eec9a36e437fc32951acafa44c" title="Return current value of selected pad.">padsCurrent</a>(0)) <a class="code" href="a00023.html#a42632e79292dc47a567aab4dc3e4407d" title="Wait for pad ready and read pad values in .">scanPads</a>(); 
 
         <span class="comment">// Fade in now so black to light </span>
         <a class="code" href="a00028.html#ac34bd13a8556c8ac8e1eeeded15f7632" title="Do a fadein or fadeout effect.">setFadeEffect</a>(FADE_IN);
         <a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
-        <a class="code" href="a00023.html#a4a6674dce70032b45e5b3ba10e515012" title="Wait for pad ready and read pad values in .">scanPads</a>(); <span class="keywordflow">while</span> (!<a class="code" href="a00023.html#a5ff772be839fa2e5602e4aa9955ee0d7" title="Return current value of selected pad.">padsCurrent</a>(0)) <a class="code" href="a00023.html#a4a6674dce70032b45e5b3ba10e515012" title="Wait for pad ready and read pad values in .">scanPads</a>(); 
+        <a class="code" href="a00023.html#a42632e79292dc47a567aab4dc3e4407d" title="Wait for pad ready and read pad values in .">scanPads</a>(); <span class="keywordflow">while</span> (!<a class="code" href="a00023.html#a6063e0eec9a36e437fc32951acafa44c" title="Return current value of selected pad.">padsCurrent</a>(0)) <a class="code" href="a00023.html#a42632e79292dc47a567aab4dc3e4407d" title="Wait for pad ready and read pad values in .">scanPads</a>(); 
 
         <span class="comment">// And now restore screen to normal</span>
         <a name="a11"></a><a class="code" href="a00028.html#aa14785c4eb1ce08cc02eb98d26c98c44" title="Do a mosaic in or out effect.">setMosaicEffect</a>(MOSAIC_IN,MOSAIC_BG1);
         <a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
-        <a class="code" href="a00023.html#a4a6674dce70032b45e5b3ba10e515012" title="Wait for pad ready and read pad values in .">scanPads</a>(); <span class="keywordflow">while</span> (!<a class="code" href="a00023.html#a5ff772be839fa2e5602e4aa9955ee0d7" title="Return current value of selected pad.">padsCurrent</a>(0)) <a class="code" href="a00023.html#a4a6674dce70032b45e5b3ba10e515012" title="Wait for pad ready and read pad values in .">scanPads</a>(); 
+        <a class="code" href="a00023.html#a42632e79292dc47a567aab4dc3e4407d" title="Wait for pad ready and read pad values in .">scanPads</a>(); <span class="keywordflow">while</span> (!<a class="code" href="a00023.html#a6063e0eec9a36e437fc32951acafa44c" title="Return current value of selected pad.">padsCurrent</a>(0)) <a class="code" href="a00023.html#a42632e79292dc47a567aab4dc3e4407d" title="Wait for pad ready and read pad values in .">scanPads</a>(); 
 
         <span class="comment">// Now do some big pixels </span>
         <a class="code" href="a00028.html#aa14785c4eb1ce08cc02eb98d26c98c44" title="Do a mosaic in or out effect.">setMosaicEffect</a>(MOSAIC_OUT,MOSAIC_BG1);
         <a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
-        <a class="code" href="a00023.html#a4a6674dce70032b45e5b3ba10e515012" title="Wait for pad ready and read pad values in .">scanPads</a>(); <span class="keywordflow">while</span> (!<a class="code" href="a00023.html#a5ff772be839fa2e5602e4aa9955ee0d7" title="Return current value of selected pad.">padsCurrent</a>(0)) <a class="code" href="a00023.html#a4a6674dce70032b45e5b3ba10e515012" title="Wait for pad ready and read pad values in .">scanPads</a>(); 
+        <a class="code" href="a00023.html#a42632e79292dc47a567aab4dc3e4407d" title="Wait for pad ready and read pad values in .">scanPads</a>(); <span class="keywordflow">while</span> (!<a class="code" href="a00023.html#a6063e0eec9a36e437fc32951acafa44c" title="Return current value of selected pad.">padsCurrent</a>(0)) <a class="code" href="a00023.html#a42632e79292dc47a567aab4dc3e4407d" title="Wait for pad ready and read pad values in .">scanPads</a>(); 
     }
     <span class="keywordflow">return</span> 0;
 }
@@ -148,7 +148,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 6 2012 09:15:59 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 24 2013 11:13:28 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

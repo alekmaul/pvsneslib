@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['scanpads',['scanPads',['../a00023.html#a4a6674dce70032b45e5b3ba10e515012',1,'pads.h']]],
-  ['setbrightness',['setBrightness',['../a00028.html#ae1799b61e7648ee346dc602580d00133',1,'video.h']]],
+  ['scanpads',['scanPads',['../a00023.html#a42632e79292dc47a567aab4dc3e4407d',1,'pads.h']]],
+  ['setbrightness',['setBrightness',['../a00028.html#a4c257abebd75e4653441e8afe672bb5e',1,'video.h']]],
   ['setcoloreffect',['setColorEffect',['../a00028.html#a87d6cb8ec2433c908666a0a7f2306cb4',1,'video.h']]],
   ['setfadeeffect',['setFadeEffect',['../a00028.html#ac34bd13a8556c8ac8e1eeeded15f7632',1,'video.h']]],
-  ['setmode',['setMode',['../a00028.html#ad38541ebb0ff0ae46d99f4c5d3288c4d',1,'video.h']]],
-  ['setmode7',['setMode7',['../a00028.html#a8d21a805276ca5c593c39a696fb6e14f',1,'video.h']]],
+  ['setmode',['setMode',['../a00028.html#afd9e46ae627d055dd8c98a4b0ebb73b1',1,'video.h']]],
+  ['setmode7',['setMode7',['../a00028.html#af7e722fd2eba5682bc0eafa9d5a9c51a',1,'video.h']]],
   ['setmode7angle',['setMode7Angle',['../a00028.html#ac4b1645f376fa266f0e614a1d7903a31',1,'video.h']]],
   ['setmode7rot',['setMode7Rot',['../a00028.html#a4d332cdc88b26fc9ec2cdd4f6710ce8c',1,'video.h']]],
   ['setmodehdmagradient',['setModeHdmaGradient',['../a00020.html#ab112388971fc7e139bff7fe394cb49b7',1,'dma.h']]],
@@ -23,6 +23,7 @@ var searchData=
   ['spcprocess',['spcProcess',['../a00026.html#acab7d87110bac6baa9d74ab314772c98',1,'sound.h']]],
   ['spcsetbank',['spcSetBank',['../a00026.html#ab68840ba8aab786b8ea206ea077acaac',1,'sound.h']]],
   ['spcsetmodulevolume',['spcSetModuleVolume',['../a00026.html#ae2c8dfab62ceecf5c302c95f5453a752',1,'sound.h']]],
+  ['spcsetsounddataentry',['spcSetSoundDataEntry',['../a00026.html#a6febc2b960755ba902950ee9c93ab637',1,'sound.h']]],
   ['spcsetsoundentry',['spcSetSoundEntry',['../a00026.html#a4ef9d5d4b7618a2e091194b6c17f75a5',1,'sound.h']]],
   ['spcsetsoundtable',['spcSetSoundTable',['../a00026.html#ad1eb603fd2445102225319797d226fea',1,'sound.h']]],
   ['spcstop',['spcStop',['../a00026.html#af7366527acd378585446999f84d1c6d0',1,'sound.h']]]

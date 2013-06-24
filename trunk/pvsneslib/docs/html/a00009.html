@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">pvsneslib
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.0.1</span>
    </div>
    
   </td>
@@ -108,14 +108,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <a name="a0"></a><a class="code" href="a00019.html#a6047713bb5a73afd3cd1d77e336bcdad" title="Initialize console.">consoleInit</a>();
     
     <span class="comment">// Init Sprites gfx and palette with default size of 32x32</span>
-    <a name="a1"></a><a class="code" href="a00027.html#af35cb9aafcffa5cce45c6c609950360d" title="Initializes a sprites Gfx and Loads the GFX into VRAM.">oamInitGfxSet</a>(&amp;gfxpsrite, (&amp;gfxpsrite_end-&amp;gfxpsrite), &amp;palsprite, 0, 0x4000, <a name="a2"></a><a class="code" href="a00027.html#abc6679a83d9647eac01c3d51ef37151a" title="default OAM size 32x32 pix for OBJSEL register">OBJ_SIZE32</a>);
+    <a name="a1"></a><a class="code" href="a00027.html#a46e0be47f8fc865a7f43c1b0b126e59a" title="Initializes a sprites Gfx and Loads the GFX into VRAM.">oamInitGfxSet</a>(&amp;gfxpsrite, (&amp;gfxpsrite_end-&amp;gfxpsrite), &amp;palsprite, 0, 0x4000, <a name="a2"></a><a class="code" href="a00027.html#abc6679a83d9647eac01c3d51ef37151a" title="default OAM size 32x32 pix for OBJSEL register">OBJ_SIZE32</a>);
 
     <span class="comment">// Define sprites parmaters</span>
     <a name="a3"></a><a class="code" href="a00027.html#af18394510c04f64df05cfa40f6ac2e82" title="sets an oam entry to the supplied values">oamSet</a>(0,  100, 100, 3, 0, 0, 0, 0); <span class="comment">// Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0</span>
-    <a name="a4"></a><a class="code" href="a00027.html#a5d4feec9383252798023c83f9a65e1ef" title="Put the correct size and hide or not a oam.">oamSetEx</a>(0, OBJ_SMALL, OBJ_SHOW);
+    <a name="a4"></a><a class="code" href="a00027.html#a4120a8ff32c39973babeca3615a0a2fd" title="Put the correct size and hide or not a oam.">oamSetEx</a>(0, OBJ_SMALL, OBJ_SHOW);
     
     <span class="comment">// Now Put in 16 color mode and disable all backgrounds</span>
-    <a name="a5"></a><a class="code" href="a00028.html#ad38541ebb0ff0ae46d99f4c5d3288c4d" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a6"></a><a class="code" href="a00018.html#a7afc211c644079338a1f032ea5e90460adce05b1d024af3f279a6bc8050b76269" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0); <a name="a7"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(0); <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1); <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
+    <a name="a5"></a><a class="code" href="a00028.html#afd9e46ae627d055dd8c98a4b0ebb73b1" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a6"></a><a class="code" href="a00018.html#a05c862edb7f8f75036f10c04dcc3c2a6" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0); <a name="a7"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(0); <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1); <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
     
     <span class="comment">// Wait for nothing :P</span>
     <span class="keywordflow">while</span>(1) {
@@ -128,7 +128,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 6 2012 09:15:59 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 24 2013 11:13:28 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

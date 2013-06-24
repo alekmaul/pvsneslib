@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">pvsneslib
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.0.1</span>
    </div>
    
   </td>
@@ -168,8 +168,8 @@ u16 getCollisionTile(u16 x, u16 y) {
             <a name="a5"></a><a class="code" href="a00021.html#a03304aaf535795c2857e357e028cdebe" title="macro to wait the VBL flag OK">WaitVBLFlag</a>;
             <span class="keywordflow">for</span> (i=0;i&lt;16;i++) {
                 u16 value = *ptrMap;
-                *(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> *) 0x2116 = ptrVRAM;
-                *(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> *) 0x2118 = value ;
+                <a class="code" href="a00028.html#a962038681293a309df2c26f1e9a7d7e9" title="VMADDL - VRAM Address (lower 8bit) (W) VMADDH - VRAM Address (upper 8bit) (W)">REG_VMADDLH</a> = ptrVRAM;
+                <a name="a6"></a><a class="code" href="a00028.html#a2e1221b6655ab3ef51d4e0e465990e92" title="VRAM Data Write (lower and upper 8bit) (W)">REG_VMDATALH</a> = value ;
                 ptrVRAM += 32;
                 ptrMap += 300;
             }
@@ -191,8 +191,8 @@ u16 getCollisionTile(u16 x, u16 y) {
                 <a class="code" href="a00021.html#a03304aaf535795c2857e357e028cdebe" title="macro to wait the VBL flag OK">WaitVBLFlag</a>;
                 <span class="keywordflow">for</span> (i=0;i&lt;16;i++) {
                     u16 value = *ptrMap;
-                    *(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> *) 0x2116 = ptrVRAM;
-                    *(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> *) 0x2118 = value ;
+                    <a class="code" href="a00028.html#a962038681293a309df2c26f1e9a7d7e9" title="VMADDL - VRAM Address (lower 8bit) (W) VMADDH - VRAM Address (upper 8bit) (W)">REG_VMADDLH</a> = ptrVRAM;
+                    <a class="code" href="a00028.html#a2e1221b6655ab3ef51d4e0e465990e92" title="VRAM Data Write (lower and upper 8bit) (W)">REG_VMDATALH</a> = value ;
                     ptrVRAM += 32;
                     ptrMap += 300;
                 }
@@ -201,13 +201,13 @@ u16 getCollisionTile(u16 x, u16 y) {
     }
 
     <span class="comment">// now scroll with current value</span>
-    <a name="a6"></a><a class="code" href="a00018.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7" title="Sets the scroll hardware to the specified location.">bgSetScroll</a>(1,scrX,0);
+    <a name="a7"></a><a class="code" href="a00018.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7" title="Sets the scroll hardware to the specified location.">bgSetScroll</a>(1,scrX,0);
 }
 
 <span class="comment">//---------------------------------------------------------------------------------</span>
 <span class="keywordtype">void</span> moveMario(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> padvalue) {
     <span class="comment">// Update scrolling with current pad (left / right / jump can combine)</span>
-    <span class="keywordflow">if</span> (padvalue &amp; (<a name="a7"></a><a class="code" href="a00023.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d" title="pad RIGHT button.">KEY_RIGHT</a> | <a name="a8"></a><a class="code" href="a00023.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65" title="pad LEFT button.">KEY_LEFT</a> | <a name="a9"></a><a class="code" href="a00023.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc" title="pad A button.">KEY_A</a>) ) {
+    <span class="keywordflow">if</span> (padvalue &amp; (<a name="a8"></a><a class="code" href="a00023.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d" title="pad RIGHT button.">KEY_RIGHT</a> | <a name="a9"></a><a class="code" href="a00023.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65" title="pad LEFT button.">KEY_LEFT</a> | <a name="a10"></a><a class="code" href="a00023.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc" title="pad A button.">KEY_A</a>) ) {
         <span class="keywordflow">if</span> (padvalue &amp; <a class="code" href="a00023.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d" title="pad RIGHT button.">KEY_RIGHT</a>) { 
             <span class="comment">// if we can go right</span>
             <span class="keywordflow">if</span> (getCollisionTile(scrX+(mario.x&gt;&gt;8)+16, (mario.y&gt;&gt;8)) == 0) {
@@ -251,7 +251,7 @@ u16 getCollisionTile(u16 x, u16 y) {
             <span class="keywordflow">if</span> (getCollisionTile(scrX+(mario.x&gt;&gt;8), (mario.y&gt;&gt;8)+16) != 0) {
                 mario.jmpval = -JUMPVALUE;
                 mario.anim_frame = MARIOJUMPING;
-                <a name="a10"></a><a class="code" href="a00026.html#a8e5286554841ea48b028b4b782364ab0" title="Play sound from memory (using default arguments)">spcPlaySound</a>(0);
+                <a name="a11"></a><a class="code" href="a00026.html#a8e5286554841ea48b028b4b782364ab0" title="Play sound from memory (using default arguments)">spcPlaySound</a>(0);
             }
         }
 
@@ -267,7 +267,7 @@ u16 getCollisionTile(u16 x, u16 y) {
         }
     }
     <span class="comment">// down to have small mario</span>
-    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (padvalue &amp; <a name="a11"></a><a class="code" href="a00023.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416" title="pad DOWN button.">KEY_DOWN</a>) {
+    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (padvalue &amp; <a name="a12"></a><a class="code" href="a00023.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416" title="pad DOWN button.">KEY_DOWN</a>) {
         mario.anim_frame = MARIODOWN;
     }
     <span class="comment">// well, no pad value, so just standing !</span>
@@ -303,61 +303,61 @@ u16 getCollisionTile(u16 x, u16 y) {
     <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> pad0, move, i;
 
     <span class="comment">// Initialize sound engine (take some time)</span>
-    <a name="a12"></a><a class="code" href="a00026.html#ad8753cb6edb38834257bbf0020700689" title="boots the spc700 with sm-spc. call once at startup">spcBoot</a>();
+    <a name="a13"></a><a class="code" href="a00026.html#ad8753cb6edb38834257bbf0020700689" title="boots the spc700 with sm-spc. call once at startup">spcBoot</a>();
     
     <span class="comment">// Initialize SNES </span>
-    <a name="a13"></a><a class="code" href="a00019.html#a6047713bb5a73afd3cd1d77e336bcdad" title="Initialize console.">consoleInit</a>();
+    <a name="a14"></a><a class="code" href="a00019.html#a6047713bb5a73afd3cd1d77e336bcdad" title="Initialize console.">consoleInit</a>();
     
     <span class="comment">// Set give soundbank</span>
-    <a name="a14"></a><a class="code" href="a00026.html#ab68840ba8aab786b8ea206ea077acaac" title="set soundbank origin. soundbank must have dedicated bank(s)">spcSetBank</a>(&amp;__SOUNDBANK__);
+    <a name="a15"></a><a class="code" href="a00026.html#ab68840ba8aab786b8ea206ea077acaac" title="set soundbank origin. soundbank must have dedicated bank(s)">spcSetBank</a>(&amp;__SOUNDBANK__);
     
     <span class="comment">// allocate around 10K of sound ram (39 256-byte blocks)</span>
-    <a name="a15"></a><a class="code" href="a00026.html#a2113060be24b307d1e03f167eb241b90" title="set the size of the sound region (this must be big enough to hold your longest/largest sound) this fu...">spcAllocateSoundRegion</a>(39);
+    <a name="a16"></a><a class="code" href="a00026.html#a2113060be24b307d1e03f167eb241b90" title="set the size of the sound region (this must be big enough to hold your longest/largest sound) this fu...">spcAllocateSoundRegion</a>(39);
 
     <span class="comment">// Load music</span>
-    <a name="a16"></a><a class="code" href="a00026.html#a313e30fb1962df9fb469f2fedd4d91e4" title="load module into sm-spc. this function may take some time to execute">spcLoad</a>(MOD_OVERWORLD);
+    <a name="a17"></a><a class="code" href="a00026.html#a313e30fb1962df9fb469f2fedd4d91e4" title="load module into sm-spc. this function may take some time to execute">spcLoad</a>(MOD_OVERWORLD);
     
     <span class="comment">// Load sample</span>
-    <a name="a17"></a><a class="code" href="a00026.html#a4ef9d5d4b7618a2e091194b6c17f75a5" title="set the address of the SOUND TABLE">spcSetSoundEntry</a>(15, 8, 6, &amp;jumpsndend-&amp;jumpsnd, &amp;jumpsnd, &amp;Jump);
+    <a name="a18"></a><a class="code" href="a00026.html#a4ef9d5d4b7618a2e091194b6c17f75a5" title="set the values and address of the SOUND TABLE for a sound entry">spcSetSoundEntry</a>(15, 8, 6, &amp;jumpsndend-&amp;jumpsnd, &amp;jumpsnd, &amp;Jump);
     
     <span class="comment">// Initialize text console with our font and invert color (black with BG white)</span>
-    <a name="a18"></a><a class="code" href="a00019.html#a458fa049800e12429ca0ba401e513746" title="Initialize the Text System.">consoleInitText</a>(0, 1, &amp;snesfont);
-    <a name="a19"></a><a class="code" href="a00019.html#ac0993a72682f86d17784a7f4659562de" title="Change Character and Background color of text.">consoleSetTextCol</a>(<a name="a20"></a><a class="code" href="a00028.html#abd4530c7880d389c9ea70e2e3b84aa9d" title="Macro to convert 5 bit r g b components into a single 15 bit RGB triplet.">RGB15</a>(0,0,0), <a class="code" href="a00028.html#abd4530c7880d389c9ea70e2e3b84aa9d" title="Macro to convert 5 bit r g b components into a single 15 bit RGB triplet.">RGB15</a>(31,31,31));
+    <a name="a19"></a><a class="code" href="a00019.html#a458fa049800e12429ca0ba401e513746" title="Initialize the Text System.">consoleInitText</a>(0, 1, &amp;snesfont);
+    <a name="a20"></a><a class="code" href="a00019.html#ac0993a72682f86d17784a7f4659562de" title="Change Character and Background color of text.">consoleSetTextCol</a>(<a name="a21"></a><a class="code" href="a00028.html#abd4530c7880d389c9ea70e2e3b84aa9d" title="Macro to convert 5 bit r g b components into a single 15 bit RGB triplet.">RGB15</a>(0,0,0), <a class="code" href="a00028.html#abd4530c7880d389c9ea70e2e3b84aa9d" title="Macro to convert 5 bit r g b components into a single 15 bit RGB triplet.">RGB15</a>(31,31,31));
     
     <span class="comment">// Copy tiles to VRAM</span>
-    <a name="a21"></a><a class="code" href="a00018.html#ae09a7ac09be78eef0f28a6c7aabc82ad" title="Initializes a Tile Set and Loads the Tile GFX into VRAM.">bgInitTileSet</a>(1, &amp;mapgfx, &amp;mappal, 0, (&amp;mapgfx_end - &amp;mapgfx), 16*2, BG_16COLORS, 0x5000);
+    <a name="a22"></a><a class="code" href="a00018.html#ae09a7ac09be78eef0f28a6c7aabc82ad" title="Initializes a Tile Set and Loads the Tile GFX into VRAM.">bgInitTileSet</a>(1, &amp;mapgfx, &amp;mappal, 0, (&amp;mapgfx_end - &amp;mapgfx), 16*2, BG_16COLORS, 0x5000);
 
     <span class="comment">// Init Sprites gfx and palette with default size of 16x16</span>
-    <a name="a22"></a><a class="code" href="a00027.html#af35cb9aafcffa5cce45c6c609950360d" title="Initializes a sprites Gfx and Loads the GFX into VRAM.">oamInitGfxSet</a>(&amp;mariogfx, (&amp;mariogfx_end-&amp;mariogfx), &amp;mariopal, 0, 0x4000, <a name="a23"></a><a class="code" href="a00027.html#a35664c2c4a66c3bac8139ae093d7f3ac" title="default OAM size 16x16 pix for OBJSEL register">OBJ_SIZE16</a>);
+    <a name="a23"></a><a class="code" href="a00027.html#a46e0be47f8fc865a7f43c1b0b126e59a" title="Initializes a sprites Gfx and Loads the GFX into VRAM.">oamInitGfxSet</a>(&amp;mariogfx, (&amp;mariogfx_end-&amp;mariogfx), &amp;mariopal, 16*2, 0, 0x4000, <a name="a24"></a><a class="code" href="a00027.html#a35664c2c4a66c3bac8139ae093d7f3ac" title="default OAM size 16x16 pix for OBJSEL register">OBJ_SIZE16</a>);
 
     <span class="comment">// Init Map to address 0x1000 and Copy Map to VRAM</span>
-    <a name="a24"></a><a class="code" href="a00018.html#a4fcbdb4b2378a64e8db62a184ee1851e" title="Change Background Map address.">bgSetMapPtr</a>(1, 0x1000, <a name="a25"></a><a class="code" href="a00018.html#a7afc211c644079338a1f032ea5e90460a6018515bdd851349b699d0cb20dd23de" title="64 x 32 tile size">SC_64x32</a>);
+    <a name="a25"></a><a class="code" href="a00018.html#a4fcbdb4b2378a64e8db62a184ee1851e" title="Change Background Map address.">bgSetMapPtr</a>(1, 0x1000, <a name="a26"></a><a class="code" href="a00018.html#a6129b86a7c2913a31f1bca293fa7c1e7" title="64 x 32 tile size">SC_64x32</a>);
     <span class="keywordflow">for</span> (i=0;i&lt;31;i++) { <span class="comment">// 128 pixel height -&gt; 128/8 = 16 2400 / 8 = 300</span>
         u8 *ptrMap  = &amp;map + 300*i*2; <span class="comment">// 300 = map size x *2 because each entry is 16bits length</span>
         <span class="keywordflow">if</span> (i&gt;=16) ptrMap  = &amp;map + 300*5*2; <span class="comment">// Init anything else with white line</span>
         u16 ptrVRAM = 0x1000+i*32; <span class="comment">// screen begin to 0x1000</span>
-        <a name="a26"></a><a class="code" href="a00020.html#aaf545b3f811f6ef4b7c4be434701a77a" title="copies data from source to destination using channel 0 of DMA available channels in half words...">dmaCopyVram</a>(ptrMap, ptrVRAM, 32*2); <span class="comment">// copy row to VRAM </span>
+        <a name="a27"></a><a class="code" href="a00020.html#aaf545b3f811f6ef4b7c4be434701a77a" title="copies data from source to destination using channel 0 of DMA available channels in half words...">dmaCopyVram</a>(ptrMap, ptrVRAM, 32*2); <span class="comment">// copy row to VRAM </span>
         <a class="code" href="a00020.html#aaf545b3f811f6ef4b7c4be434701a77a" title="copies data from source to destination using channel 0 of DMA available channels in half words...">dmaCopyVram</a>((ptrMap+32*2), (ptrVRAM+32*32), 32*2); <span class="comment">// copy row to VRAM </span>
     }
 
     <span class="comment">// Show Mario</span>
     mario.x = 32&lt;&lt;8; mario.y = 96&lt;&lt;8; <span class="comment">// 128-16-16 = 96, 16 because map ground is 16 pix height, in fixed point</span>
     mario.anim_frame = MARIOSTAND; mario.flipx = 1; mario.jmpval = 0;
-    <a name="a27"></a><a class="code" href="a00027.html#af18394510c04f64df05cfa40f6ac2e82" title="sets an oam entry to the supplied values">oamSet</a>(0,  (mario.x&gt;&gt;8), (mario.y&gt;&gt;8), 3, mario.flipx, 0, mario.anim_frame*2, 0);  <span class="comment">// flip x and take 5th sprite</span>
-    <a name="a28"></a><a class="code" href="a00027.html#a5d4feec9383252798023c83f9a65e1ef" title="Put the correct size and hide or not a oam.">oamSetEx</a>(0, OBJ_SMALL, OBJ_SHOW);
+    <a name="a28"></a><a class="code" href="a00027.html#af18394510c04f64df05cfa40f6ac2e82" title="sets an oam entry to the supplied values">oamSet</a>(0,  (mario.x&gt;&gt;8), (mario.y&gt;&gt;8), 3, mario.flipx, 0, mario.anim_frame*2, 0);  <span class="comment">// flip x and take 5th sprite</span>
+    <a name="a29"></a><a class="code" href="a00027.html#a4120a8ff32c39973babeca3615a0a2fd" title="Put the correct size and hide or not a oam.">oamSetEx</a>(0, OBJ_SMALL, OBJ_SHOW);
     
     <span class="comment">// Now Put in 16 color mode and disable BG3</span>
-    <a name="a29"></a><a class="code" href="a00028.html#ad38541ebb0ff0ae46d99f4c5d3288c4d" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a30"></a><a class="code" href="a00018.html#a7afc211c644079338a1f032ea5e90460adce05b1d024af3f279a6bc8050b76269" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0);  <a name="a31"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
+    <a name="a30"></a><a class="code" href="a00028.html#afd9e46ae627d055dd8c98a4b0ebb73b1" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a31"></a><a class="code" href="a00018.html#a05c862edb7f8f75036f10c04dcc3c2a6" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0);  <a name="a32"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
     
     <span class="comment">// Put some text</span>
-    <a name="a32"></a><a class="code" href="a00019.html#a7e52d15b5a1befa42f5758de19dfb70c" title="Output formatted string on a screen (tiles mode)">consoleDrawText</a>(6,16,<span class="stringliteral">&quot;MARIOx00  WORLD TIME&quot;</span>);
+    <a name="a33"></a><a class="code" href="a00019.html#a7e52d15b5a1befa42f5758de19dfb70c" title="Output formatted string on a screen (tiles mode)">consoleDrawText</a>(6,16,<span class="stringliteral">&quot;MARIOx00  WORLD TIME&quot;</span>);
     <a class="code" href="a00019.html#a7e52d15b5a1befa42f5758de19dfb70c" title="Output formatted string on a screen (tiles mode)">consoleDrawText</a>(6,17,<span class="stringliteral">&quot; 00000 ox00 1-1  000&quot;</span>);
     
     <span class="comment">// Play file from the beginning</span>
-    <a name="a33"></a><a class="code" href="a00026.html#aebf91de1df5e4fa83454a84bb0e60918" title="play module. note: this simply queues a message, use spcFlush if you want to wait until the message i...">spcPlay</a>(0);<a name="a34"></a><a class="code" href="a00026.html#ae2c8dfab62ceecf5c302c95f5453a752" title="set the module playback volume">spcSetModuleVolume</a>(100);
+    <a name="a34"></a><a class="code" href="a00026.html#aebf91de1df5e4fa83454a84bb0e60918" title="play module. note: this simply queues a message, use spcFlush if you want to wait until the message i...">spcPlay</a>(0);<a name="a35"></a><a class="code" href="a00026.html#ae2c8dfab62ceecf5c302c95f5453a752" title="set the module playback volume">spcSetModuleVolume</a>(100);
     
     <span class="comment">// Wait VBL &#39;and update sprites too ;-) )</span>
-    <a name="a35"></a><a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
+    <a name="a36"></a><a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
     
     <span class="comment">// Wait for nothing :P</span>
     <span class="keywordflow">while</span>(1) {
@@ -365,10 +365,10 @@ u16 getCollisionTile(u16 x, u16 y) {
         move = 0;
         
         <span class="comment">// Refresh pad values</span>
-        <a name="a36"></a><a class="code" href="a00023.html#a4a6674dce70032b45e5b3ba10e515012" title="Wait for pad ready and read pad values in .">scanPads</a>();
+        <a name="a37"></a><a class="code" href="a00023.html#a42632e79292dc47a567aab4dc3e4407d" title="Wait for pad ready and read pad values in .">scanPads</a>();
         
         <span class="comment">// Get current #0 pad</span>
-        pad0 = <a name="a37"></a><a class="code" href="a00023.html#a5ff772be839fa2e5602e4aa9955ee0d7" title="Return current value of selected pad.">padsCurrent</a>(0);
+        pad0 = <a name="a38"></a><a class="code" href="a00023.html#a6063e0eec9a36e437fc32951acafa44c" title="Return current value of selected pad.">padsCurrent</a>(0);
         
         <span class="comment">// update mario regarding pad value</span>
         moveMario(pad0);
@@ -377,7 +377,7 @@ u16 getCollisionTile(u16 x, u16 y) {
         <a class="code" href="a00027.html#af18394510c04f64df05cfa40f6ac2e82" title="sets an oam entry to the supplied values">oamSet</a>(0,  (mario.x&gt;&gt;8), (mario.y&gt;&gt;8), 3, mario.flipx, 0, mario.anim_frame*2, 0);
         
         <span class="comment">// Update sound and wait VBL</span>
-        <a name="a38"></a><a class="code" href="a00026.html#acab7d87110bac6baa9d74ab314772c98" title="Process messages This function will try to give messages to the spc until a few scanlines pass...">spcProcess</a>();
+        <a name="a39"></a><a class="code" href="a00026.html#acab7d87110bac6baa9d74ab314772c98" title="Process messages This function will try to give messages to the spc until a few scanlines pass...">spcProcess</a>();
         <a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
     }
     <span class="keywordflow">return</span> 0;
@@ -386,7 +386,7 @@ u16 getCollisionTile(u16 x, u16 y) {
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 6 2012 09:15:59 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 24 2013 11:13:28 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

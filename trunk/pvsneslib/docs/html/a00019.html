@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">pvsneslib
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.0.1</span>
    </div>
    
   </td>
@@ -112,7 +112,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;<a class="el" href="a00020.html">snes/dma.h</a>&gt;</code><br/>
 <code>#include &lt;<a class="el" href="a00021.html">snes/interrupts.h</a>&gt;</code><br/>
 <code>#include &lt;<a class="el" href="a00023.html">snes/pads.h</a>&gt;</code><br/>
-<code>#include &lt;<a class="el" href="a00027.html">snes/sprites.h</a>&gt;</code><br/>
+<code>#include &lt;<a class="el" href="a00027.html">snes/sprite.h</a>&gt;</code><br/>
 <code>#include &lt;<a class="el" href="a00026.html">snes/sound.h</a>&gt;</code><br/>
 <code>#include &lt;<a class="el" href="a00028.html">snes/video.h</a>&gt;</code><br/>
 </div><table class="memberdecls">
@@ -121,11 +121,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a7e52d15b5a1befa42f5758de19dfb70c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00019.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a> (u16 x, u16 y, char *fmt,...)</td></tr>
 <tr class="memdesc:a7e52d15b5a1befa42f5758de19dfb70c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output formatted string on a screen (tiles mode)  <a href="#a7e52d15b5a1befa42f5758de19dfb70c"></a><br/></td></tr>
 <tr class="memitem:af4a32a4f79f7f382cd95e9bf9e8b7a40"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00019.html#af4a32a4f79f7f382cd95e9bf9e8b7a40">consoleDrawTextMap</a> (u8 x, u8 y, u8 *map, u8 attributes, char *fmt,...)</td></tr>
-<tr class="memdesc:af4a32a4f79f7f382cd95e9bf9e8b7a40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output formatted string on a screen (tiles mode)  <a href="#af4a32a4f79f7f382cd95e9bf9e8b7a40"></a><br/></td></tr>
+<tr class="memdesc:af4a32a4f79f7f382cd95e9bf9e8b7a40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output formatted string on a screen (2 colors tiles mode)  <a href="#af4a32a4f79f7f382cd95e9bf9e8b7a40"></a><br/></td></tr>
+<tr class="memitem:a6dd21f159f8388adf48398efe8faf758"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00019.html#a6dd21f159f8388adf48398efe8faf758">consoleDrawTextMapCenter</a> (u8 y, u8 *map, u8 attributes, char *fmt,...)</td></tr>
+<tr class="memdesc:a6dd21f159f8388adf48398efe8faf758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output formatted string on a screen, centered it (2 colors tiles mode)  <a href="#a6dd21f159f8388adf48398efe8faf758"></a><br/></td></tr>
 <tr class="memitem:a6047713bb5a73afd3cd1d77e336bcdad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00019.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a> (void)</td></tr>
 <tr class="memdesc:a6047713bb5a73afd3cd1d77e336bcdad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize console.  <a href="#a6047713bb5a73afd3cd1d77e336bcdad"></a><br/></td></tr>
 <tr class="memitem:a458fa049800e12429ca0ba401e513746"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00019.html#a458fa049800e12429ca0ba401e513746">consoleInitText</a> (u8 bgNumber, u8 paletteNumber, u8 *gfxText)</td></tr>
 <tr class="memdesc:a458fa049800e12429ca0ba401e513746"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the Text System.  <a href="#a458fa049800e12429ca0ba401e513746"></a><br/></td></tr>
+<tr class="memitem:ae05914ac61acdb7ac77c7496624f4303"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00019.html#ae05914ac61acdb7ac77c7496624f4303">consoleNocashMessage</a> (const char *message)</td></tr>
+<tr class="memdesc:ae05914ac61acdb7ac77c7496624f4303"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a message to the no$sns debug window.  <a href="#ae05914ac61acdb7ac77c7496624f4303"></a><br/></td></tr>
 <tr class="memitem:ac0993a72682f86d17784a7f4659562de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00019.html#ac0993a72682f86d17784a7f4659562de">consoleSetTextCol</a> (u16 colorChar, u16 colorBG)</td></tr>
 <tr class="memdesc:ac0993a72682f86d17784a7f4659562de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change Character and Background color of text.  <a href="#ac0993a72682f86d17784a7f4659562de"></a><br/></td></tr>
 <tr class="memitem:a9bfb9c53fa37e76873d14be4446e71e5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9bfb9c53fa37e76873d14be4446e71e5"></a>
@@ -136,9 +140,9 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memdesc:a0615d3903c2ad6faaed1443bd44c8ae2"><td class="mdescLeft">&#160;</td><td class="mdescRight">return a randomized number <br/></td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:acded4fcbb839df22a3b8bab2e5218260"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acded4fcbb839df22a3b8bab2e5218260"></a>
-u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00019.html#acded4fcbb839df22a3b8bab2e5218260">snes_50hz</a></td></tr>
-<tr class="memdesc:acded4fcbb839df22a3b8bab2e5218260"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 if on a PAL/50Hz SNES <br/></td></tr>
+<tr class="memitem:aef3bf9522613bca02b4a00ea910d492f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aef3bf9522613bca02b4a00ea910d492f"></a>
+u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00019.html#aef3bf9522613bca02b4a00ea910d492f">snes_50hz</a></td></tr>
+<tr class="memdesc:aef3bf9522613bca02b4a00ea910d492f"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 if on a PAL/50Hz SNES <br/></td></tr>
 <tr class="memitem:a2a077a98bab6ce2fc4327877384db63f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2a077a98bab6ce2fc4327877384db63f"></a>
 unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00019.html#a2a077a98bab6ce2fc4327877384db63f">snes_vblank_count</a></td></tr>
 <tr class="memdesc:a2a077a98bab6ce2fc4327877384db63f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of VBL since consoleInit called. <br/></td></tr>
@@ -193,7 +197,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 <p>Output a text string to the screen. Before using this, you need to call <a class="el" href="a00019.html#a458fa049800e12429ca0ba401e513746" title="Initialize the Text System.">consoleInitText()</a>. You can also print the value of variables this way, by putting a format string and additional parameters. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00014.html#a9">audio/music/Music.c</a>, <a class="el" href="a00015.html#a8">audio/tada/Tada.c</a>, <a class="el" href="a00013.html#a32">games/likemario/LikeMario.c</a>, <a class="el" href="a00003.html#a15">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="a00001.html#a5">hello_world/hello_world.c</a>, <a class="el" href="a00011.html#a2">input/input.c</a>, and <a class="el" href="a00012.html#a2">timer/timer.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00014.html#a9">audio/music/Music.c</a>, <a class="el" href="a00015.html#a8">audio/tada/Tada.c</a>, <a class="el" href="a00013.html#a33">games/likemario/LikeMario.c</a>, <a class="el" href="a00003.html#a15">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="a00001.html#a5">hello_world/hello_world.c</a>, <a class="el" href="a00011.html#a2">input/input.c</a>, and <a class="el" href="a00012.html#a2">timer/timer.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -246,7 +250,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </div>
 <div class="memdoc">
 
-<p>Output formatted string on a screen (tiles mode) </p>
+<p>Output formatted string on a screen (2 colors tiles mode) </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>The X character number the string should start on </td></tr>
@@ -258,6 +262,63 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 <p>Output a text string to the screen. Before using this, you need to call <a class="el" href="a00019.html#a458fa049800e12429ca0ba401e513746" title="Initialize the Text System.">consoleInitText()</a>. You can also print the value of variables this way, by putting a format string and additional parameters. </p>
+
+</div>
+</div>
+<a class="anchor" id="a6dd21f159f8388adf48398efe8faf758"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a00019.html#a6dd21f159f8388adf48398efe8faf758">consoleDrawTextMapCenter</a> </td>
+          <td>(</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>map</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>attributes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>fmt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Output formatted string on a screen, centered it (2 colors tiles mode) </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">y</td><td>The Y character number the string should start on </td></tr>
+    <tr><td class="paramname">map</td><td>The 0x800 char map entry to put string </td></tr>
+    <tr><td class="paramname">attributes</td><td>attributes for tiles </td></tr>
+    <tr><td class="paramname">fmt</td><td>The Format string (see printf() documentation in your local C tutorial)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Output a text string to the screen. Before using this, you need to call <a class="el" href="a00019.html#a458fa049800e12429ca0ba401e513746" title="Initialize the Text System.">consoleInitText()</a>. You can also print the value of variables this way, by putting a format string and additional parameters. The text will be centered on x axis. </p>
 
 </div>
 </div>
@@ -278,7 +339,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 
 <p>Initialize console. </p>
 <p>Generic init for SNES console. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00014.html#a1">audio/music/Music.c</a>, <a class="el" href="a00015.html#a2">audio/tada/Tada.c</a>, <a class="el" href="a00013.html#a13">games/likemario/LikeMario.c</a>, <a class="el" href="a00002.html#a0">graphics/Backgrounds/Mode1/Mode1.c</a>, <a class="el" href="a00004.html#a0">graphics/Backgrounds/Mode1MixedScroll/Mode1MixedScroll.c</a>, <a class="el" href="a00003.html#a0">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="a00005.html#a0">graphics/Backgrounds/Mode3/Mode3.c</a>, <a class="el" href="a00006.html#a0">graphics/Effects/HDMAGradient/HDMAGradient.c</a>, <a class="el" href="a00007.html#a0">graphics/Effects/MosaicShading/MosaicShading.c</a>, <a class="el" href="a00008.html#a0">graphics/Effects/Transparency/Transparency.c</a>, <a class="el" href="a00010.html#a0">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="a00009.html#a0">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="a00001.html#a0">hello_world/hello_world.c</a>, <a class="el" href="a00011.html#a0">input/input.c</a>, and <a class="el" href="a00012.html#a0">timer/timer.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00014.html#a1">audio/music/Music.c</a>, <a class="el" href="a00015.html#a2">audio/tada/Tada.c</a>, <a class="el" href="a00013.html#a14">games/likemario/LikeMario.c</a>, <a class="el" href="a00002.html#a0">graphics/Backgrounds/Mode1/Mode1.c</a>, <a class="el" href="a00004.html#a0">graphics/Backgrounds/Mode1MixedScroll/Mode1MixedScroll.c</a>, <a class="el" href="a00003.html#a0">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="a00005.html#a0">graphics/Backgrounds/Mode3/Mode3.c</a>, <a class="el" href="a00006.html#a0">graphics/Effects/HDMAGradient/HDMAGradient.c</a>, <a class="el" href="a00007.html#a0">graphics/Effects/MosaicShading/MosaicShading.c</a>, <a class="el" href="a00008.html#a0">graphics/Effects/Transparency/Transparency.c</a>, <a class="el" href="a00010.html#a0">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="a00009.html#a0">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="a00001.html#a0">hello_world/hello_world.c</a>, <a class="el" href="a00011.html#a0">input/input.c</a>, and <a class="el" href="a00012.html#a0">timer/timer.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -323,8 +384,33 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 <p>Reserve a BG and load the font characters into VRAM. It will only work in tiled display modes. Also, please note that this function will overwrite BG palette number 0 and 1 to black and white, and set the Font to use these two colors. You can change colors by calling <a class="el" href="a00019.html#ac0993a72682f86d17784a7f4659562de" title="Change Character and Background color of text.">consoleSetTextCol()</a>. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00014.html#a5">audio/music/Music.c</a>, <a class="el" href="a00015.html#a4">audio/tada/Tada.c</a>, <a class="el" href="a00013.html#a18">games/likemario/LikeMario.c</a>, <a class="el" href="a00003.html#a1">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="a00001.html#a1">hello_world/hello_world.c</a>, <a class="el" href="a00011.html#a1">input/input.c</a>, and <a class="el" href="a00012.html#a1">timer/timer.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00014.html#a5">audio/music/Music.c</a>, <a class="el" href="a00015.html#a4">audio/tada/Tada.c</a>, <a class="el" href="a00013.html#a19">games/likemario/LikeMario.c</a>, <a class="el" href="a00003.html#a1">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="a00001.html#a1">hello_world/hello_world.c</a>, <a class="el" href="a00011.html#a1">input/input.c</a>, and <a class="el" href="a00012.html#a1">timer/timer.c</a>.</dd>
 </dl>
+</div>
+</div>
+<a class="anchor" id="ae05914ac61acdb7ac77c7496624f4303"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a00019.html#ae05914ac61acdb7ac77c7496624f4303">consoleNocashMessage</a> </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>message</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Send a message to the no$sns debug window. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>The message to send </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="ac0993a72682f86d17784a7f4659562de"></a>
@@ -360,7 +446,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00013.html#a19">games/likemario/LikeMario.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00013.html#a20">games/likemario/LikeMario.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -368,7 +454,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 6 2012 09:15:59 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 24 2013 11:13:28 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

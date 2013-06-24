@@ -2,10 +2,10 @@ var searchData=
 [
   ['pad_5fbusy',['PAD_BUSY',['../a00021.html#a2094086b43aa835d241e35153f8ed1bc',1,'interrupts.h']]],
   ['pads_2eh',['pads.h',['../a00023.html',1,'']]],
-  ['padsclear',['padsClear',['../a00023.html#ab52729db4b5fceef50431edaf506d64c',1,'pads.h']]],
-  ['padscurrent',['padsCurrent',['../a00023.html#a5ff772be839fa2e5602e4aa9955ee0d7',1,'pads.h']]],
-  ['padsdown',['padsDown',['../a00023.html#a15b3017ba4f09fdd80f9446adb5d31cb',1,'pads.h']]],
-  ['padsup',['padsUp',['../a00023.html#a6d4b9bf393e927b514fa77fb509f4cdd',1,'pads.h']]],
+  ['padsclear',['padsClear',['../a00023.html#a283ec438fdbb3b6068afd2e50bc9211d',1,'pads.h']]],
+  ['padscurrent',['padsCurrent',['../a00023.html#a6063e0eec9a36e437fc32951acafa44c',1,'pads.h']]],
+  ['padsdown',['padsDown',['../a00023.html#a66237b0d7609c6f62d2234ef50abbd78',1,'pads.h']]],
+  ['padsup',['padsUp',['../a00023.html#a51de6b359e19a3a0279d42afc7fe6165',1,'pads.h']]],
   ['panning',['panning',['../a00016.html#a8e61543808f3aed3dfcca0fd933bfe92',1,'brrsamples']]],
   ['pitch',['pitch',['../a00016.html#a112d2def415a46e02e078f29fe89150d',1,'brrsamples']]],
   ['ppu_5f50hz',['PPU_50HZ',['../a00028.html#a142364f4707bee3366835d7d22494911',1,'video.h']]]
