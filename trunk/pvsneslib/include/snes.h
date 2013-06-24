@@ -37,7 +37,7 @@
  \section video_2D_api 2D engine API
  - \ref video.h "General video"
  - \ref background.h "2D Background Layers"
- - \ref sprites.h "2D Sprites"
+ - \ref sprite.h "2D Sprites"
 
  \section audio_api Audio API
  - \ref sound.h "Mod tracker and Sound Engine"
@@ -114,7 +114,7 @@
 #include "snes/interrupts.h"
 #include "snes/pads.h"
 #include "snes/sound.h"
-#include "snes/sprites.h"
+#include "snes/sprite.h"
 #include "snes/video.h"
 
 #endif // SNES_INCLUDE
