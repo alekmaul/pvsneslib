@@ -22,6 +22,12 @@ SPECIAL THANKS
                
 CHANGE LOG
 ----------------------
+VERSION 1.10 (xx, yyyy, 2012)
+- fix mode0 palette management in gfx2snes
+- add option for map priority in gfx2snes
+- add bin2txt tool
+- add tasm assembler for spc700 compilation
+
 VERSION 1.00 (06, June, 2012)
 - Add tools directory for each executable which are not for c / asm source compilation
 - Add constify tool in compilation , after python script

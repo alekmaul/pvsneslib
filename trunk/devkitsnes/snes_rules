@@ -12,6 +12,7 @@ LIBOBJS :=	$(LIBDIRSOBJS)/crt0_snes.obj $(LIBDIRSOBJS)/libc.obj $(LIBDIRSOBJS)/l
 #---------------------------------------------------------------------------------
 
 export CC	:=	816-tcc
+export TA	:=	tasm
 export AS	:=	wla-65816
 export LD	:=	wlalink
 export PY	:=	816-opt.py
@@ -24,6 +25,7 @@ export GFXCONV	:=	$(DEVKIT65XX)/tools/gfx2snes
 export SNTOOLS	:=	$(DEVKIT65XX)/tools/snestools
 export SMCONV	:=	$(DEVKIT65XX)/tools/smconv
 export BRCONV	:=	$(DEVKIT65XX)/tools/snesbrr
+export TXCONV	:=	$(DEVKIT65XX)/tools/bin2txt
 
 #export EMU	:=	$(DEVKIT65XX)/../emulators/bsnes64bits/bsnes
 #export EMU	:=	$(DEVKIT65XX)/../emulators/bsnes/bsnes_debugger
