@@ -25,52 +25,6 @@
 #include <snes/dma.h>
 
 //---------------------------------------------------------------------------------
-// Not used, now in assembler files
-#if 0
-void dmaCopyVram(u8 *source, u16 address, u16 size) {
-	dmaMemory  data_to_transfert;
-	data_to_transfert.mem.p = (u8 *) source;
-	
-	REG_VMAIN = VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1; // set address in VRam for read or write ($2116) + block size transfer ($2115)
-	REG_VMADDLH = address;
-
-	REG_DAS0LH = size; // DMA channel x transfer size  (low $4315 and high $4316 optimisation)
-	REG_A1T0LH = data_to_transfert.mem.c.addr; // DMA channel x source address offset low $4312 and high $4313 optimisation)
-	REG_A1B0 = data_to_transfert.mem.c.bank; // DMA channel x source address bank
-
-	REG_DMAP0 = 0x01; // set DMA control register (1 word inc) and destination ($21xx xx -> 0x18)
-	REG_BBAD0 = 0x18;
-
-	// Turn on DMA transfer for this channel
-	//WaitForVBlank();
-	//REG_INIDISP = DSP_FORCEVBL;
-	REG_MDMAEN = DMA_ENABLE;
-	//REG_INIDISP = 0x0F;
-}
-
-//---------------------------------------------------------------------------------
-void dmaCopyCGram(u8 *source, u16 address, u16 size) {
-	dmaMemory  data_to_transfert;
-	data_to_transfert.mem.p = (u8 *) source;
-	
-	REG_CGADD = address; // set address in VRam for read or write + block size
-
-	REG_DAS0LH = size; // DMA channel x transfer size  (low $4315 and high $4316 optimisation)
-	REG_A1T0LH = data_to_transfert.mem.c.addr; // DMA channel x source address offset low $4312 and high $4313 optimisation)
-	REG_A1B0 = data_to_transfert.mem.c.bank; // DMA channel x source address bank
-
-	REG_DMAP0 = 0x00; // set DMA control register (1 byte inc)  and destination ($21xx xx -> 022)
-	REG_BBAD0 = 0x22;
-
-	// Turn on DMA transfer for this channel
-	//WaitForVBlank();
-	//REG_INIDISP = DSP_FORCEVBL;
-	REG_MDMAEN = DMA_ENABLE;
-	//REG_INIDISP = 0x00;
-}
-#endif
-
-//---------------------------------------------------------------------------------
 void dmaCopyOAram(u8 *source, u16 address, u16 size) {
 	dmaMemory  data_to_transfert;
 	data_to_transfert.mem.p = (u8 *) source;
