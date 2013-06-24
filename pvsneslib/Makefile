@@ -77,4 +77,3 @@ include/snes/libversion.h : Makefile
 	@echo '#define _PVSNESLIB_STRING "libSNES Release '$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)'"' >> $@
 	@echo >> $@
 	@echo "#endif // __PVSNESLIBVERSION_H__" >> $@
-
