@@ -38,12 +38,12 @@
 #include <snes/dma.h>
 #include <snes/interrupts.h>
 #include <snes/pads.h>
-#include <snes/sprites.h>
+#include <snes/sprite.h>
 #include <snes/sound.h>
 #include <snes/video.h>
 
 extern unsigned int  snes_vblank_count; /*!< \brief Number of VBL since consoleInit called */
-extern u16 snes_50hz; /*!< \brief 1 if on a PAL/50Hz SNES */
+extern u8 snes_50hz; /*!< \brief 1 if on a PAL/50Hz SNES */
 
 /*! \fn rand(void)
 	\brief return a randomized number
@@ -114,5 +114,10 @@ void consoleInitText(u8 bgNumber,u8 paletteNumber, u8 *gfxText);
 
 */
 void consoleInit(void);
+
+/*! \brief Send a message to the no$sns debug window 
+	\param message The message to send
+*/
+void consoleNocashMessage(const char *message);
 
 #endif
