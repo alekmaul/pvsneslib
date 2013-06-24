@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">pvsneslib
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.0.1</span>
    </div>
    
   </td>
@@ -116,17 +116,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <a class="code" href="a00019.html#a7e52d15b5a1befa42f5758de19dfb70c" title="Output formatted string on a screen (tiles mode)">consoleDrawText</a>( 6,5,<span class="stringliteral">&quot;USE PAD TO SEE VALUE&quot;</span>);
 
     <span class="comment">// Now Put in 16 color mode</span>
-    <a name="a3"></a><a class="code" href="a00028.html#ad38541ebb0ff0ae46d99f4c5d3288c4d" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a4"></a><a class="code" href="a00018.html#a7afc211c644079338a1f032ea5e90460adce05b1d024af3f279a6bc8050b76269" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0); <a name="a5"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1); <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
+    <a name="a3"></a><a class="code" href="a00028.html#afd9e46ae627d055dd8c98a4b0ebb73b1" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a4"></a><a class="code" href="a00018.html#a05c862edb7f8f75036f10c04dcc3c2a6" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0); <a name="a5"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1); <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
 
     <span class="comment">// Wait for nothing :P</span>
-    <a name="a6"></a><a class="code" href="a00028.html#ae1799b61e7648ee346dc602580d00133" title="sets the screens brightness.">setBrightness</a>(0xF);  
+    <a name="a6"></a><a class="code" href="a00028.html#a4c257abebd75e4653441e8afe672bb5e" title="sets the screens brightness.">setBrightness</a>(0xF);  
     
     <span class="keywordflow">while</span>(1) {
         <span class="comment">// Refresh pad values</span>
-        <a name="a7"></a><a class="code" href="a00023.html#a4a6674dce70032b45e5b3ba10e515012" title="Wait for pad ready and read pad values in .">scanPads</a>();
+        <a name="a7"></a><a class="code" href="a00023.html#a42632e79292dc47a567aab4dc3e4407d" title="Wait for pad ready and read pad values in .">scanPads</a>();
         
         <span class="comment">// Get current #0 pad</span>
-        pad0 = <a name="a8"></a><a class="code" href="a00023.html#a5ff772be839fa2e5602e4aa9955ee0d7" title="Return current value of selected pad.">padsCurrent</a>(0);
+        pad0 = <a name="a8"></a><a class="code" href="a00023.html#a6063e0eec9a36e437fc32951acafa44c" title="Return current value of selected pad.">padsCurrent</a>(0);
         
         <span class="comment">// Update display with current pad</span>
         <span class="keywordflow">switch</span> (pad0) {
@@ -152,7 +152,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 6 2012 09:15:59 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 24 2013 11:13:28 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

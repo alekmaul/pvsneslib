@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['bginitmapset',['bgInitMapSet',['../a00018.html#a8e2ce68446b46a8bb6413785083c1c05',1,'background.h']]],
+  ['bginitmapset',['bgInitMapSet',['../a00018.html#acc385296e159449a81d18f5e219c8032',1,'background.h']]],
   ['bginitmaptileset7',['bgInitMapTileSet7',['../a00018.html#ae1fad909be4edf30a3cd08a0890361dc',1,'background.h']]],
   ['bginittileset',['bgInitTileSet',['../a00018.html#ae09a7ac09be78eef0f28a6c7aabc82ad',1,'background.h']]],
   ['bginittilesetdata',['bgInitTileSetData',['../a00018.html#a4ea396375d85e9f3d9af5072552819aa',1,'background.h']]],
