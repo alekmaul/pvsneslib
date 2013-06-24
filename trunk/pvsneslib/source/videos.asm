@@ -57,7 +57,7 @@ setMosaicEffect:
 	asl	a
 	asl	a
 	asl	a		; Mosaic size in d4-d7
-	ora	#1		; Enable effect for BG0
+	ora	#3		; Enable effect for BG0/1
 	sta.l	REG_MOSAIC
 	inx
 	cpx	#$10
