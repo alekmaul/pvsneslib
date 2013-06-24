@@ -8,7 +8,7 @@
 #include "interrupts.c"
 #include "pads.c"
 #include "sound.c"
-#include "sprites.c"
+#include "sprite.c"
 #include "video.c"
 
 

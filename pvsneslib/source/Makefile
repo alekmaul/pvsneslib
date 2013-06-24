@@ -11,7 +11,7 @@ include $(DEVKIT65XX)/snes_rules
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-C_SRC	:=	malloc.c background.c console.c dma.c interrupts.c  pads.c sound.c sprites.c video.c
+C_SRC	:=	malloc.c background.c console.c dma.c interrupts.c  pads.c sound.c sprite.c video.c
 
 CFLAGS	:=	
 
@@ -51,13 +51,22 @@ all: $(SNESOBJS)
 
 #---------------------------------------------------------------------------------
 libc.obj: libc.asm libc_c.asm
-libc_c.asm: libc_c.c $(C_SRC)
+libc_c.asm: libc_c.c $(C_SRC) sm_spc.asm
 libc_c.c: $(C_SRC)
 libm.obj: libm.asm libm_c.asm
 
 #---------------------------------------------------------------------------------
+sm_spc.asm : ../snesmod/sm_spc.as7
+	$(TA) -07 -b -l $< sm_spc.obj sm_spc.lst
+	$(TXCONV) -ca sm_spc.obj
+
+#	cp ../tasm07.tab tasm07.tab
+#	$(TASM) $(TASMFLAGS) $< ../SM_SPC.OBJ ../SM_SPC.LST
+#	../bin2h ../SM_SPC.OBJ ../../convert/include/spc_program.h spc_program
+
+#---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -f libc_c.ps libc_c.asm libm_c.asm
-	@rm -f *.obj *.ps
+	@rm -f libc_c.ps libc_c.asm libm_c.asm sm_spc.asm
+	@rm -f *.obj *.ps *.lst
 	@rm -f $(TOPDIR)/lib/*

@@ -440,8 +440,11 @@ exitl4:
 
 .include "libc_c.asm"
 
+.include "backgrounds.asm"
+.include "consoles.asm"
 .include "dmas.asm"
 .include "interrupts.asm"
 .include "snesmodwla.asm"
+.include "sprites.asm"
 .include "videos.asm"
 

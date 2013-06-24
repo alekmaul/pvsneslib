@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 
 	Copyright (C) 2012
-		Alemaul 
+		Alekmaul 
 
 	This software is provided 'as-is', without any express or implied
 	warranty.  In no event will the authors be held liable for any
@@ -57,8 +57,8 @@ void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry
 	u16 palEntry;
 	
 	// If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
-	if (colorMode == BG_4COLORS)
-		palEntry = bgNumber*32 + paletteEntry*colorMode;
+	if (colorMode == BG_4COLORS0)
+		palEntry = bgNumber*32 + paletteEntry*BG_4COLORS;
 	else
 		palEntry = paletteEntry*colorMode;
 		
@@ -70,35 +70,6 @@ void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry
   	dmaCopyCGram(tilePalette, palEntry, paletteSize);
 	bgSetGfxPtr(bgNumber, address);
 }
-
-/*
-
-void Decode(void)
-{
-	int  i, j, k, r, c;
-	unsigned int  flags;
-	
-	for (i = 0; i < N - F; i++) text_buf[i] = ' ';
-	r = N - F;  flags = 0;
-	for ( ; ; ) {
-		if (((flags >>= 1) & 256) == 0) {
-			if ((c = getc(infile)) == EOF) break;
-			flags = c | 0xff00;		// uses higher byte cleverly to count eight 
-		if (flags & 1) {
-			if ((c = getc(infile)) == EOF) break;
-			putc(c, outfile);  text_buf[r++] = c;  r &= (N - 1);
-		} else {
-			if ((i = getc(infile)) == EOF) break;
-			if ((j = getc(infile)) == EOF) break;
-			i |= ((j & 0xf0) << 4);  j = (j & 0x0f) + THRESHOLD;
-			for (k = 0; k <= j; k++) {
-				c = text_buf[(i + k) & (N - 1)];
-				putc(c, outfile);  text_buf[r++] = c;  r &= (N - 1);
-			}
-		}
-	}
-}
-*/
 
 //---------------------------------------------------------------------------------
 void bgInitMapTileSet7(u8 *tileSource,  u8 *mapSource, u8 *tilePalette, u16 tileSize, u16 address) {
@@ -130,26 +101,6 @@ void bgInitTileSetData(u8 bgNumber, u8 *tileSource, u16 tileSize, u16 address) {
 	dmaCopyVram(tileSource, address, tileSize);
 	if (bgNumber != 0xff)
 		bgSetGfxPtr(bgNumber, address);
-}
-
-//---------------------------------------------------------------------------------
-void bgSetScroll(u8 bgNumber, u16 x, u16 y) {
-	if (bgNumber == 0) {
-		REG_BG1HOFS = (x & 255); REG_BG1HOFS = (x >> 8);
-		REG_BG1VOFS = (y & 255); REG_BG1VOFS = (y >> 8);
-	}
-	else if (bgNumber == 1) {
-		REG_BG2HOFS = (x & 255); REG_BG2HOFS = (x >> 8);
-		REG_BG2VOFS = (y & 255); REG_BG2VOFS = (y >> 8);
-	}
-	else if (bgNumber == 2) {
-		REG_BG3HOFS = (x & 255); REG_BG3HOFS = (x >> 8);
-		REG_BG3VOFS = (y & 255); REG_BG3VOFS = (y >> 8);
-	}
-	else if (bgNumber == 3) {
-		REG_BG4HOFS = (x & 255); REG_BG4HOFS = (x >> 8);
-		REG_BG4VOFS = (y & 255); REG_BG4VOFS = (y >> 8);
-	}
 }
 
 //---------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 
 	Copyright (C) 2012
-		Alemaul 
+		Alekmaul 
 
 	This software is provided 'as-is', without any express or implied
 	warranty.  In no event will the authors be held liable for any
@@ -27,16 +27,16 @@
 
 #include <snes/console.h>
 
-char pvsneslibfont_map[0x800];
+unsigned char pvsneslibfont_map[0x800];
 u8 pvsneslibdirty;
 
-char text_buffer[128];
+unsigned char text_buffer[128];
 u16  maptext_adress;
 u8   palette_adress, palette_number;
 
 unsigned int  snes_vblank_count;
 
-u16 snes_50hz;
+u8 snes_50hz;
 
 //---------------------------------------------------------------------------------
 unsigned int  snes_rand_seed1;
@@ -93,7 +93,7 @@ void _print_screen(u8 x, u8 y, char *buffer) {
 #endif
 
 //---------------------------------------------------------------------------------
-void _print_screen_map(u16 x, u16 y, unsigned char  *map, u8 attributes, char *buffer) {
+void _print_screen_map(u16 x, u16 y, unsigned char  *map, u8 attributes, unsigned char *buffer) {
 	u8 lenght;
 	u16 x1; 
     
@@ -215,6 +215,8 @@ void consoleInit(void) {
 	snes_rand_seed2 = 5;   // For rand funciton
 	
 	memset(bgState,0,sizeof(bgState));
+	
+	dmaClearVram();
 	
 	for(i=0;i<2;i++) { // Initialise joypads
 		padsClear(i);
