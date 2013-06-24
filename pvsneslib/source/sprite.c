@@ -28,34 +28,6 @@
 u8 oamMemory[128*4+8*4];
 
 //---------------------------------------------------------------------------------
-#if 0
-void oamUpdate(u8 first, u8 numEntries) {
-	u16 i;
-	
-	/*
-	oamEntry *oamEntries;
-
-	// Init correct oamEntry
-	oamEntries = &oamMemory[first];
-	
-	// Prepare access to ram
-	first <<= 2;
-	REG_OAMADDL = (u8)first;
-	REG_OAMADDH = 0x80 | ((first >> 8) & 1);
-
-	for (i = 0; i < numEntries; i++) {
-		REG_OAMDATA = oamEntries->x;
-		REG_OAMDATA = oamEntries->y;
-		REG_OAMDATA = (u8)(oamEntries->tilenumber);
-		REG_OAMDATA = (u8)(oamEntries->attribute);
-		//((oamEntries->chr >> 8) & 1) | (oamEntries->palette << 1) | (oamEntries->prio << 4) | (oamEntries->flip << 6);
-		oamEntries++;
-	}
-	*/
-}
-#endif
-
-//---------------------------------------------------------------------------------
 void oamInit(void) {
 	u16 i;
 
@@ -113,22 +85,6 @@ void oamInitGfxAttr(u16 address, u8 oamsize) {
 	// Update base adress if needed (16k byte aligned)
 	REG_OBSEL = oamsize | (address >> 13);
 }
-
-//---------------------------------------------------------------------------------
-// Not used, too slow (stack problem ???)
-#if 0
-void oamSet(u8 id,  char xspr, char yspr, char priority, char hflip, char vflip, short gfxoffset, char paletteoffset) {
-	u8 *ptrOam;
-
-	ptrOam = (unsigned char *) oamMemory;
-	ptrOam = ptrOam + id;
-	
-	*ptrOam++ = xspr; 
-	*ptrOam++ = yspr; 
-	*ptrOam++ = gfxoffset; 
-	*ptrOam = (vflip<<7) | (hflip<<6) | (priority<<4) | (paletteoffset<<1) | ((gfxoffset>>8) & 1);
-}
-#endif
 
 //---------------------------------------------------------------------------------
 void oamSet1(u8 id, oamEntry *sprite) {
