@@ -50,7 +50,7 @@
  - \ref interrupts.h "Interrupts"
 
  \section user_io_api User Input/ouput
- - \ref pads.h "Keypad"
+ - \ref pad.h "Keypad"
  - \ref console.h "Console and Debug Printing"
 
 
@@ -112,7 +112,7 @@
 #include "snes/console.h"
 #include "snes/dma.h"
 #include "snes/interrupts.h"
-#include "snes/pads.h"
+#include "snes/pad.h"
 #include "snes/sound.h"
 #include "snes/sprite.h"
 #include "snes/video.h"
