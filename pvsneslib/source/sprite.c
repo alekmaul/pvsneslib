@@ -81,12 +81,6 @@ void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSiz
 }
 
 //---------------------------------------------------------------------------------
-void oamInitGfxAttr(u16 address, u8 oamsize) {
-	// Update base adress if needed (16k byte aligned)
-	REG_OBSEL = oamsize | (address >> 13);
-}
-
-//---------------------------------------------------------------------------------
 void oamSet1(u8 id, oamEntry *sprite) {
 	u8 *ptrOam;
 

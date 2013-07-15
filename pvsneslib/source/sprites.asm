@@ -22,11 +22,19 @@
 ;
 ;---------------------------------------------------------------------------------
 
+.equ REG_OBSEL		$2101
+
+.ramsection ".reg_sprites" bank 0 slot 1
+
+sprit_val1		dsb 1                         ; save value #1
+
+.ends
+
 .section ".sprites_text" superfree
 
 ;---------------------------------------------------------------------------
-; void oamHide(u16 id, u8 hide)
-oamHide:
+; void oamSetVisible(u16 id, u8 hide)
+oamSetVisible:
 	php
 	phb
 
@@ -91,4 +99,37 @@ oamHideand:
 oamHideshift: 
 	.db $01, $04, $10, $40
 
+;---------------------------------------------------------------------------
+; void oamInitGfxAttr(u16 address, u8 oamsize)
+oamInitGfxAttr:
+	php
+
+	rep #$20                     ; A 16 bits
+	lda	5,s                      ; address
+
+	lsr	a
+	lsr	a
+	lsr	a
+	lsr	a
+	lsr	a
+	lsr	a
+	lsr	a
+	lsr	a
+	lsr	a
+	lsr	a
+	lsr	a
+	lsr	a
+	lsr	a                       ; adress >> 13
+	
+	sep #$20
+	sta sprit_val1
+	
+	lda	7,s                      ; oamsize
+	ora sprit_val1               ; oamsize | (address >> 13)  
+	
+	sta.l	REG_OBSEL
+	
+	plp
+	rtl
+	
 .ends
