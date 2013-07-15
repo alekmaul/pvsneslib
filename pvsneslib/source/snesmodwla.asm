@@ -37,7 +37,7 @@
 .equ REG_APUIO1		2141h	; Sound Register			1B/RW
 .define REG_APUIO2		2142h	; Sound Register			1B/RW
 .define REG_APUIO3		2143h	; Sound Register			1B/RW
-.define REG_SLHV		2137h	; Sofware Latch For H/V Counter		1B/R
+;.define REG_SLHV		2137h	; Sofware Latch For H/V Counter		1B/R
 .define REG_OPVCT		213Dh	; Y Scanline Location			1B/R D
 
 .equ REG_NMI_TIMEN	$4200
