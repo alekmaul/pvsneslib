@@ -123,19 +123,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
     <span class="comment">// Wait for key to change gradient</span>
     <span class="keywordflow">while</span>(1) {
-        <span class="comment">// Refresh pad values</span>
-        <a name="a8"></a><a class="code" href="a00023.html#a42632e79292dc47a567aab4dc3e4407d" title="Wait for pad ready and read pad values in .">scanPads</a>();
-        
-        <span class="comment">// Get current #0 pad</span>
-        pad0 = <a name="a9"></a><a class="code" href="a00023.html#a6063e0eec9a36e437fc32951acafa44c" title="Return current value of selected pad.">padsCurrent</a>(0);
+        <span class="comment">// Refresh pad values in VBL and Get current #0 pad</span>
+        pad0 = <a name="a8"></a><a class="code" href="a00023.html#a6063e0eec9a36e437fc32951acafa44c" title="Return current value of selected pad.">padsCurrent</a>(0);
         
         <span class="comment">// Update gradient if A pressed</span>
-        <span class="keywordflow">if</span> (<a name="a10"></a><a class="code" href="a00023.html#a66237b0d7609c6f62d2234ef50abbd78" title="Return value of down keys for selected pad.">padsDown</a>(0) &amp; <a name="a11"></a><a class="code" href="a00023.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc" title="pad A button.">KEY_A</a>) {
-            <a name="a12"></a><a class="code" href="a00020.html#ab112388971fc7e139bff7fe394cb49b7" title="Do a brightness gradient on screen.">setModeHdmaGradient</a>(gradient);
+        <span class="keywordflow">if</span> (<a name="a9"></a><a class="code" href="a00023.html#a66237b0d7609c6f62d2234ef50abbd78" title="Return value of down keys for selected pad.">padsDown</a>(0) &amp; <a name="a10"></a><a class="code" href="a00023.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc" title="pad A button.">KEY_A</a>) {
+            <a name="a11"></a><a class="code" href="a00020.html#ab112388971fc7e139bff7fe394cb49b7" title="Do a brightness gradient on screen.">setModeHdmaGradient</a>(gradient);
             gradient = (gradient - 1) &amp; 15;
             <span class="keywordflow">if</span> (gradient == 1) gradient = 15;
         }
-        <a name="a13"></a><a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
+        <a name="a12"></a><a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
     }
     <span class="keywordflow">return</span> 0;
 }
@@ -143,7 +140,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 24 2013 11:13:28 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 13 2013 09:43:13 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

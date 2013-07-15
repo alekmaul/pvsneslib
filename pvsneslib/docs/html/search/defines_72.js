@@ -22,7 +22,7 @@ var searchData=
   ['reg_5fhdmaen',['REG_HDMAEN',['../a00020.html#a468ac9497087f0cbab21a3e0453f438b',1,'dma.h']]],
   ['reg_5fhvbjoy',['REG_HVBJOY',['../a00021.html#af25c0fcc5e2519aa98aebe289d391ca2',1,'interrupts.h']]],
   ['reg_5finidisp',['REG_INIDISP',['../a00028.html#abec6eb1bc9f87a1143464c7418c96388',1,'video.h']]],
-  ['reg_5fjoyxlh',['REG_JOYxLH',['../a00023.html#a3cae01317d787d65697fdf0543714272',1,'pads.h']]],
+  ['reg_5fjoyxlh',['REG_JOYxLH',['../a00023.html#a3cae01317d787d65697fdf0543714272',1,'pad.h']]],
   ['reg_5fm7a',['REG_M7A',['../a00028.html#a19771159f16c9467e0c0e039e5f88a87',1,'video.h']]],
   ['reg_5fm7b',['REG_M7B',['../a00028.html#acba1baa2a4883fa838cc3c0df3ef581e',1,'video.h']]],
   ['reg_5fm7c',['REG_M7C',['../a00028.html#ad689e6afbfd11537255885b989f0e9b0',1,'video.h']]],

@@ -7,7 +7,7 @@ var searchData=
   ['sc_5f64x64',['SC_64x64',['../a00018.html#ace76b0c992e2cba05f6da76f9825720a',1,'background.h']]],
   ['sc_5fbase_5fshift',['SC_BASE_SHIFT',['../a00018.html#ac18d207be95eb5d103907d106575e9ad',1,'background.h']]],
   ['sc_5ftile_5fbase',['SC_TILE_BASE',['../a00018.html#af6cde02aaf57795f0dff8cd45db5ce1d',1,'background.h']]],
-  ['scanpads',['scanPads',['../a00023.html#a42632e79292dc47a567aab4dc3e4407d',1,'pads.h']]],
+  ['scanpads',['scanPads',['../a00023.html#a42632e79292dc47a567aab4dc3e4407d',1,'pad.h']]],
   ['setbrightness',['setBrightness',['../a00028.html#a4c257abebd75e4653441e8afe672bb5e',1,'video.h']]],
   ['setcoloreffect',['setColorEffect',['../a00028.html#a87d6cb8ec2433c908666a0a7f2306cb4',1,'video.h']]],
   ['setfadeeffect',['setFadeEffect',['../a00028.html#ac34bd13a8556c8ac8e1eeeded15f7632',1,'video.h']]],
