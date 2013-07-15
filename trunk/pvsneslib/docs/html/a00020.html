@@ -142,6 +142,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a000
 <tr class="memdesc:aaf545b3f811f6ef4b7c4be434701a77a"><td class="mdescLeft">&#160;</td><td class="mdescRight">copies data from source to destination using channel 0 of DMA available channels in half words  <a href="#aaf545b3f811f6ef4b7c4be434701a77a"></a><br/></td></tr>
 <tr class="memitem:aa402636f351eb16696c9e6eb60626a0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00020.html#aa402636f351eb16696c9e6eb60626a0f">dmaCopyVram7</a> (u8 *source, u16 address, u16 size, u8 vrammodeinc, u16 dmacontrol)</td></tr>
 <tr class="memdesc:aa402636f351eb16696c9e6eb60626a0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">copies data from source to destination using channel 0 of DMA available channels in half words with VMAIN value  <a href="#aa402636f351eb16696c9e6eb60626a0f"></a><br/></td></tr>
+<tr class="memitem:ad0302d82f5e7cefca7ad90d49331cd39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00020.html#ad0302d82f5e7cefca7ad90d49331cd39">dmaFillVram</a> (u8 source, u16 address, u16 size)</td></tr>
+<tr class="memdesc:ad0302d82f5e7cefca7ad90d49331cd39"><td class="mdescLeft">&#160;</td><td class="mdescRight">fill the source data to destination using channel 0 of DMA available channels in half words  <a href="#ad0302d82f5e7cefca7ad90d49331cd39"></a><br/></td></tr>
 <tr class="memitem:ab112388971fc7e139bff7fe394cb49b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00020.html#ab112388971fc7e139bff7fe394cb49b7">setModeHdmaGradient</a> (u8 maxLevels)</td></tr>
 <tr class="memdesc:ab112388971fc7e139bff7fe394cb49b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a brightness gradient on screen.  <a href="#ab112388971fc7e139bff7fe394cb49b7"></a><br/></td></tr>
 </table>
@@ -385,6 +387,49 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a000
 
 </div>
 </div>
+<a class="anchor" id="ad0302d82f5e7cefca7ad90d49331cd39"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a00020.html#ad0302d82f5e7cefca7ad90d49331cd39">dmaFillVram</a> </td>
+          <td>(</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>address</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>fill the source data to destination using channel 0 of DMA available channels in half words </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>the value of source to copy from </td></tr>
+    <tr><td class="paramname">address</td><td>vram address to copy </td></tr>
+    <tr><td class="paramname">size</td><td>the size in bytes of the data to copy. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ab112388971fc7e139bff7fe394cb49b7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -407,7 +452,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a000
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00006.html#a12">graphics/Effects/HDMAGradient/HDMAGradient.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00006.html#a11">graphics/Effects/HDMAGradient/HDMAGradient.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -415,7 +460,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a000
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 24 2013 11:13:28 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 13 2013 09:43:13 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>
