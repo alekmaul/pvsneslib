@@ -49,7 +49,6 @@ bgSetScroll:
 	sep #$20
 	sta REG_BGxHOFS,y
 	rep #$20
-;	lda	8,s                     ; x scrolling offset
 	xba 
 	sep #$20
 	sta REG_BGxHOFS,y
@@ -59,7 +58,6 @@ bgSetScroll:
 	sep #$20
 	sta REG_BGyHOFS,y
 	rep #$20
-;	lda	10,s                     ; x scrolling offset
 	xba 
 	sep #$20
 	sta REG_BGyHOFS, y

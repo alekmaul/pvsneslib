@@ -444,6 +444,7 @@ exitl4:
 .include "consoles.asm"
 .include "dmas.asm"
 .include "interrupts.asm"
+.include "pads.asm"
 .include "snesmodwla.asm"
 .include "sprites.asm"
 .include "videos.asm"

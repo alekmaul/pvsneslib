@@ -51,6 +51,9 @@ unsigned int rand(void) {
 
 //---------------------------------------------------------------------------------
 void consoleVblank(void) {
+	// Read joysticks
+	scanPads();
+	
 	// Put oam to screen if needed
 	dmaCopyOAram((unsigned char *) &oamMemory,0,0x220);
 
@@ -216,6 +219,7 @@ void consoleInit(void) {
 	
 	memset(bgState,0,sizeof(bgState));
 	
+	// Clear all VRAM to avoid problem
 	dmaClearVram();
 	
 	for(i=0;i<2;i++) { // Initialise joypads

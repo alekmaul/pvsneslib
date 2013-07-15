@@ -57,6 +57,35 @@ dmaCopyVram:
 	rtl
 
 ;---------------------------------------------------------------------------
+dmaFillVram:
+	php
+
+;	jsr.w	_wait_nmid
+	lda	9,s	
+	sta.l	$2116           ; address for VRAM write(or read)
+
+	lda	11,s
+	sta.l	$4305           ; number of bytes to be copied
+	lda	5,s	
+	sta.l	$4302           ; data offset in memory
+
+	sep	#$20                ; 8bit A
+	lda	#$80
+	sta.l	$2115           ; VRAM address increment value designation
+	lda	7,s	                ; bank address of data in memory
+	sta.l	$4304
+	lda	#$09
+	sta.l	$4300           ; 1= word increment
+	lda	#$18
+	sta.l	$4301           ; 2118 is the VRAM gate
+
+	lda	#1                  ; turn on bit 1 (channel 0) of DMA
+	sta.l	$420b
+
+	plp
+	rtl
+	
+;---------------------------------------------------------------------------
 dmaClearVram:
 	php
 
