@@ -37,10 +37,12 @@
 #include <snes/background.h>
 #include <snes/dma.h>
 #include <snes/interrupts.h>
-#include <snes/pads.h>
+#include <snes/pad.h>
 #include <snes/sprite.h>
 #include <snes/sound.h>
 #include <snes/video.h>
+
+extern unsigned char pvsneslibfont_map[0x800];  /*!< \brief tilemap used for text display */
 
 extern unsigned int  snes_vblank_count; /*!< \brief Number of VBL since consoleInit called */
 extern u8 snes_50hz; /*!< \brief 1 if on a PAL/50Hz SNES */
