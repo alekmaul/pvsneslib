@@ -178,11 +178,11 @@ void oamSet1(u8 id, oamEntry *sprite);
 */
 void oamSetEx(u16 id, u8 size, u8 hide);
 
-/*! \brief Put the correct size and hide or not a oam
+/*! \brief Hide or not a oam
     \param id the oam number to be set [0 - 127] * 4 because of oam structure
 	\param hide	0 or 1 to hide / see oam
 */
-void oamHide(u16 id, u8 hide);
+void oamSetVisible(u16 id, u8 hide);
 
 /*! \brief Hides the sprites in the supplied range: if count is zero all 128 sprites will be hidden
 	\param first	number of 1st sprite to write * 4 because of oam structure
