@@ -6,7 +6,7 @@
 #include "console.c"
 #include "dma.c"
 #include "interrupts.c"
-#include "pads.c"
+#include "pad.c"
 #include "sound.c"
 #include "sprite.c"
 #include "video.c"
