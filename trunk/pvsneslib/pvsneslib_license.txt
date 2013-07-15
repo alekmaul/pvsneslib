@@ -39,7 +39,9 @@ V1.1.0 (xx, June, 2012)
 - Fixed : internal print buffer from char to unsigned char
 - Fixed : bug for sprite adress, used 14 shifted instead of 13 shifted
 - Added : no$sns debug message function consoleNocashMessage
-- Added : oamHide to only hide / see a sprite
+- Added : oamSetVisible to only hide / see a sprite
+- Updated : scanPads is now in ASM and automatically done in VBL function
+- Fixed : bug in fading and mosaic functions (regiters x and y not saved)
 
 V1.0.1 (09, June, 2012)
 - fix bug in spcLoad, call spcFLush instead of xspcFlush
