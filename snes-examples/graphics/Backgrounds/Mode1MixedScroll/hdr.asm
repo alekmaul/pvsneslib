@@ -20,9 +20,9 @@
   SLOWROM
   LOROM
 
-  CARTRIDGETYPE $00             ; $00 = ROM only, see WLA documentation for others
+  CARTRIDGETYPE $02             ; $02 = ROM+SRAM, see WLA documentation for others
   ROMSIZE $08                   ; $08 = 2 Mbits,  see WLA doc for more..
-  SRAMSIZE $00                  ; No SRAM         see WLA doc for more..
+  SRAMSIZE $01                  ; $01 = 16 kbits, see WLA doc for more..
   COUNTRY $01                   ; $01 = U.S.  $00 = Japan, that's all I know
   LICENSEECODE $00              ; Just use $00
   VERSION $00                   ; $00 = 1.00, $01 = 1.01, etc.
