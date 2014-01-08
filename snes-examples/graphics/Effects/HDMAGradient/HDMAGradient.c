@@ -29,13 +29,10 @@ int main(void) {
 
 	// Now Put in 256 color mode and disable other BGs except 1st one
 	setMode(BG_MODE3,0); bgSetDisable(1); 
-	
+
 	// Wait for key to change gradient
 	while(1) {
-		// Refresh pad values
-		scanPads();
-		
-		// Get current #0 pad
+		// Refresh pad values in VBL and Get current #0 pad
 		pad0 = padsCurrent(0);
 		
 		// Update gradient if A pressed
