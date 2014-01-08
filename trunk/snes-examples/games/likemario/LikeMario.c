@@ -77,8 +77,8 @@ void moveLevel(unsigned char direction) {
 			WaitVBLFlag;
 			for (i=0;i<16;i++) {
 				u16 value = *ptrMap;
-				*(unsigned short *) 0x2116 = ptrVRAM;
-				*(unsigned short *) 0x2118 = value ;
+				REG_VMADDLH = ptrVRAM;
+				REG_VMDATALH = value ;
 				ptrVRAM += 32;
 				ptrMap += 300;
 			}
@@ -100,8 +100,8 @@ void moveLevel(unsigned char direction) {
 				WaitVBLFlag;
 				for (i=0;i<16;i++) {
 					u16 value = *ptrMap;
-					*(unsigned short *) 0x2116 = ptrVRAM;
-					*(unsigned short *) 0x2118 = value ;
+					REG_VMADDLH = ptrVRAM;
+					REG_VMDATALH = value ;
 					ptrVRAM += 32;
 					ptrMap += 300;
 				}
@@ -234,10 +234,10 @@ int main(void) {
 	consoleSetTextCol(RGB15(0,0,0), RGB15(31,31,31));
 	
 	// Copy tiles to VRAM
-	bgInitTileSet(1, &mapgfx, &mappal, 0, (&mapgfx_end - &mapgfx), 16*2, BG_16COLORS, 0x5000);
+	bgInitTileSet(1, &mapgfx, &mappal, 0, (&mapgfx_end - &mapgfx), 16*2, BG_16COLORS, 0x6000);
 
 	// Init Sprites gfx and palette with default size of 16x16
-	oamInitGfxSet(&mariogfx, (&mariogfx_end-&mariogfx), &mariopal, 0, 0x4000, OBJ_SIZE16);
+	oamInitGfxSet(&mariogfx, (&mariogfx_end-&mariogfx), &mariopal, 16*2, 0, 0x4000, OBJ_SIZE16);
 
 	// Init Map to address 0x1000 and Copy Map to VRAM
 	bgSetMapPtr(1, 0x1000, SC_64x32);
