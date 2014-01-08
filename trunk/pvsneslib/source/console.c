@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-	Copyright (C) 2012
+	Copyright (C) 2012-2013
 		Alekmaul 
 
 	This software is provided 'as-is', without any express or implied
@@ -97,7 +97,6 @@ void _print_screen(u8 x, u8 y, char *buffer) {
 
 //---------------------------------------------------------------------------------
 void _print_screen_map(u16 x, u16 y, unsigned char  *map, u8 attributes, unsigned char *buffer) {
-	u8 lenght;
 	u16 x1; 
     
 	x1 = y * 0x20 + x;
@@ -204,8 +203,6 @@ void consoleInitText(u8 bgNumber,u8 paletteNumber, u8 *gfxText) {
 
 //---------------------------------------------------------------------------------
 void consoleInit(void) {
-	unsigned int i;
-	
 	// Init sound
 	//LoadSPC();
 
@@ -222,9 +219,9 @@ void consoleInit(void) {
 	// Clear all VRAM to avoid problem
 	dmaClearVram();
 	
-	for(i=0;i<2;i++) { // Initialise joypads
-		padsClear(i);
-	}
+	// Initialise joypads
+	padsClear(0);
+	padsClear(1);
 
 	// Get some flag values
 	snes_50hz=REG_STAT78 & PPU_50HZ ? 1 : 0;
@@ -239,3 +236,4 @@ void consoleInit(void) {
 	WaitForVBlank(); 
 	setBrightness(0xF);  // Screen with all brightness
 }
+

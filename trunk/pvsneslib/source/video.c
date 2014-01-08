@@ -27,7 +27,8 @@
 static u8 videoMode, videoModeSub;
 static u8 _bgCnt, _iloc;
 
-const signed char _m7sincos[256] = {
+const signed char _m7sincos[256] =
+{
       0,  3,  6,  9,  12,  16,  19,  22,
       25,  28,  31,  34,  37,  40,  43,  46,
       48,  51,  54,  57,  60,  62,  65,  68,
@@ -124,24 +125,6 @@ void setMode(u8 mode, u8 size) {
 //---------------------------------------------------------------------------------
 // Not used, in assembler files now
 #if 0
-void setFadeEffect(u8 mode) {
-	u16 i;
-
-	for (i == 1; i<16; i++) {
-		if (mode == FADE_IN) {
-			setBrightness(i);
-		}
-		else {
-			setBrightness(15-i);
-		}
-		WaitForVBlank();WaitForVBlank();
-	}
-}
-#endif
-
-//---------------------------------------------------------------------------------
-// Not used, in assembler files now
-#if 0
 void setMosaicEffect(u8 mode,u8 bgNumbers) {
 	u16 i, fadeOutValue;
 
@@ -172,16 +155,9 @@ void setColorEffect(u8 colorMathA, u8 colorMathB) {
 }
 
 //---------------------------------------------------------------------------------
-//moved to define proc
-#if 0
-void setPalette(u8 *palette, u8 paletteEntry, u16 paletteSize) {
-  	dmaCopyCGram(palette, paletteEntry, paletteSize);
-}
-#endif
-
-
 //--for pseudo3D effect
-const u8 HScl1[] = {
+const u8 HScl1[] = 
+{
     0x71 , 0xAA,0x01, 0x01 , 0xA5,0x01, // 72
     0x01 , 0xA0,0x01, 0x01 , 0x9B,0x01,
     0x01 , 0x96,0x01, 0x01 , 0x91,0x01,

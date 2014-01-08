@@ -36,7 +36,7 @@ export INCLUDE	:=	$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
 
 CFLAGS	+=	$(INCLUDE)
 
-export SNESOBJS = crt0_snes.obj libm.obj libtcc.obj libc.obj
+export SNESOBJS = crt0_snes.obj libm.obj libtcc.obj libc.obj 
 
 #---------------------------------------------------------------------------------
 %.ps: %.c
@@ -51,7 +51,7 @@ all: $(SNESOBJS)
 
 #---------------------------------------------------------------------------------
 libc.obj: libc.asm libc_c.asm
-libc_c.asm: libc_c.c $(C_SRC) sm_spc.asm
+libc_c.asm: libc_c.c $(C_SRC) sm_spc.asm 
 libc_c.c: $(C_SRC)
 libm.obj: libm.asm libm_c.asm
 

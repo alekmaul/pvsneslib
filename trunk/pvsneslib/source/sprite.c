@@ -70,7 +70,7 @@ void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSiz
 	WaitForVBlank(); 
 	
 	// Init tiles
-	dmaCopyVram(tileSource, (address >> 1), tileSize);
+	dmaCopyVram(tileSource, (address), tileSize);
 	
 	// Init palette
 	palEntry = (128+tilePaletteNumber*16);
