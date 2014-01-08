@@ -34,22 +34,22 @@ int main(void) {
 		// Fade out so light to black
 		setFadeEffect(FADE_OUT);
 		WaitForVBlank();
-		scanPads(); while (!padsCurrent(0)) scanPads(); 
+		while (!padsCurrent(0));
 
 		// Fade in now so black to light 
 		setFadeEffect(FADE_IN);
 		WaitForVBlank();
-		scanPads(); while (!padsCurrent(0)) scanPads(); 
+		while (!padsCurrent(0)) ;
 
 		// And now restore screen to normal
 		setMosaicEffect(MOSAIC_IN,MOSAIC_BG1);
 		WaitForVBlank();
-		scanPads(); while (!padsCurrent(0)) scanPads(); 
+		while (!padsCurrent(0)) ;
 
 		// Now do some big pixels 
 		setMosaicEffect(MOSAIC_OUT,MOSAIC_BG1);
 		WaitForVBlank();
-		scanPads(); while (!padsCurrent(0)) scanPads(); 
+		while (!padsCurrent(0)) ;
 	}
 	return 0;
 }
