@@ -11,6 +11,7 @@ var searchData=
   ['colwin_5fob13w2enablein',['COLWIN_OB13W2ENABLEIN',['../a00018.html#a8788aace2f7d5508738fdd0aaf54c346',1,'background.h']]],
   ['colwin_5fob13w2enableout',['COLWIN_OB13W2ENABLEOUT',['../a00018.html#a9b244a78c2d213c4f73c72734039aea1',1,'background.h']]],
   ['console_2eh',['console.h',['../a00019.html',1,'']]],
+  ['consolecopysram',['consoleCopySram',['../a00019.html#a7616ba131f9a33c5c1c51b3914df4f2a',1,'console.h']]],
   ['consoledrawtext',['consoleDrawText',['../a00019.html#a7e52d15b5a1befa42f5758de19dfb70c',1,'console.h']]],
   ['consoledrawtextmap',['consoleDrawTextMap',['../a00019.html#af4a32a4f79f7f382cd95e9bf9e8b7a40',1,'console.h']]],
   ['consoledrawtextmapcenter',['consoleDrawTextMapCenter',['../a00019.html#a6dd21f159f8388adf48398efe8faf758',1,'console.h']]],

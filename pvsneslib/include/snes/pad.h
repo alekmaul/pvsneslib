@@ -2,7 +2,7 @@
 
 	Pads registers
 
-	Copyright (C) 2012
+	Copyright (C) 2012-2013
 		Alekmaul
 
 	This software is provided 'as-is', without any express or implied
@@ -138,5 +138,10 @@ unsigned short padsUp(u16 value);
 	\param value Address of the pad to use (0 or 1)
 */
 void padsClear(u16 value);
+
+/*!	\fn scanScope()
+	\brief Wait for superscope ready and read values in. 
+*/
+void scanScope(void);
 
 #endif //SNES_PADS_INCLUDE

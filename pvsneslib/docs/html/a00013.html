@@ -325,7 +325,7 @@ u16 getCollisionTile(u16 x, u16 y) {
     <a name="a20"></a><a class="code" href="a00019.html#ac0993a72682f86d17784a7f4659562de" title="Change Character and Background color of text.">consoleSetTextCol</a>(<a name="a21"></a><a class="code" href="a00028.html#abd4530c7880d389c9ea70e2e3b84aa9d" title="Macro to convert 5 bit r g b components into a single 15 bit RGB triplet.">RGB15</a>(0,0,0), <a class="code" href="a00028.html#abd4530c7880d389c9ea70e2e3b84aa9d" title="Macro to convert 5 bit r g b components into a single 15 bit RGB triplet.">RGB15</a>(31,31,31));
     
     <span class="comment">// Copy tiles to VRAM</span>
-    <a name="a22"></a><a class="code" href="a00018.html#ae09a7ac09be78eef0f28a6c7aabc82ad" title="Initializes a Tile Set and Loads the Tile GFX into VRAM.">bgInitTileSet</a>(1, &amp;mapgfx, &amp;mappal, 0, (&amp;mapgfx_end - &amp;mapgfx), 16*2, BG_16COLORS, 0x5000);
+    <a name="a22"></a><a class="code" href="a00018.html#ae09a7ac09be78eef0f28a6c7aabc82ad" title="Initializes a Tile Set and Loads the Tile GFX into VRAM.">bgInitTileSet</a>(1, &amp;mapgfx, &amp;mappal, 0, (&amp;mapgfx_end - &amp;mapgfx), 16*2, BG_16COLORS, 0x6000);
 
     <span class="comment">// Init Sprites gfx and palette with default size of 16x16</span>
     <a name="a23"></a><a class="code" href="a00027.html#a46e0be47f8fc865a7f43c1b0b126e59a" title="Initializes a sprites Gfx and Loads the GFX into VRAM.">oamInitGfxSet</a>(&amp;mariogfx, (&amp;mariogfx_end-&amp;mariogfx), &amp;mariopal, 16*2, 0, 0x4000, <a name="a24"></a><a class="code" href="a00027.html#a35664c2c4a66c3bac8139ae093d7f3ac" title="default OAM size 16x16 pix for OBJSEL register">OBJ_SIZE16</a>);
@@ -386,7 +386,7 @@ u16 getCollisionTile(u16 x, u16 y) {
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 13 2013 09:43:12 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 5 2014 12:01:37 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

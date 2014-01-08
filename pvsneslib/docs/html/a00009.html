@@ -92,7 +92,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="fragment"><pre class="fragment"><span class="comment">/*---------------------------------------------------------------------------------</span>
 <span class="comment"></span>
 <span class="comment"></span>
-<span class="comment">    Simple tile mode 1 demo</span>
+<span class="comment">    Simple sprite demo in mode 1</span>
 <span class="comment">    -- alekmaul</span>
 <span class="comment"></span>
 <span class="comment"></span>
@@ -100,7 +100,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <span class="preprocessor">#include &lt;<a class="code" href="a00024.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
 
 <span class="keyword">extern</span> <span class="keywordtype">char</span> gfxpsrite, gfxpsrite_end;
-<span class="keyword">extern</span> <span class="keywordtype">char</span> palsprite;
+<span class="keyword">extern</span> <span class="keywordtype">char</span> palsprite, palsprite_end;
 
 <span class="comment">//---------------------------------------------------------------------------------</span>
 <span class="keywordtype">int</span> main(<span class="keywordtype">void</span>) {
@@ -108,7 +108,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <a name="a0"></a><a class="code" href="a00019.html#a6047713bb5a73afd3cd1d77e336bcdad" title="Initialize console.">consoleInit</a>();
     
     <span class="comment">// Init Sprites gfx and palette with default size of 32x32</span>
-    <a name="a1"></a><a class="code" href="a00027.html#a46e0be47f8fc865a7f43c1b0b126e59a" title="Initializes a sprites Gfx and Loads the GFX into VRAM.">oamInitGfxSet</a>(&amp;gfxpsrite, (&amp;gfxpsrite_end-&amp;gfxpsrite), &amp;palsprite, 0, 0x4000, <a name="a2"></a><a class="code" href="a00027.html#abc6679a83d9647eac01c3d51ef37151a" title="default OAM size 32x32 pix for OBJSEL register">OBJ_SIZE32</a>);
+    <a name="a1"></a><a class="code" href="a00027.html#a46e0be47f8fc865a7f43c1b0b126e59a" title="Initializes a sprites Gfx and Loads the GFX into VRAM.">oamInitGfxSet</a>(&amp;gfxpsrite, (&amp;gfxpsrite_end-&amp;gfxpsrite), &amp;palsprite, (&amp;palsprite_end-&amp;palsprite), 0, 0x0000, <a name="a2"></a><a class="code" href="a00027.html#abc6679a83d9647eac01c3d51ef37151a" title="default OAM size 32x32 pix for OBJSEL register">OBJ_SIZE32</a>);
 
     <span class="comment">// Define sprites parmaters</span>
     <a name="a3"></a><a class="code" href="a00027.html#af18394510c04f64df05cfa40f6ac2e82" title="sets an oam entry to the supplied values">oamSet</a>(0,  100, 100, 3, 0, 0, 0, 0); <span class="comment">// Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0</span>
@@ -128,7 +128,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 13 2013 09:43:13 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 5 2014 12:01:37 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>
