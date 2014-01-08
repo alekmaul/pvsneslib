@@ -31,9 +31,6 @@ int main(void) {
 	setBrightness(0xF);  
 	
 	while(1) {
-		// Refresh pad values
-		scanPads();
-		
 		// Get current #0 pad
 		pad0 = padsCurrent(0);
 		

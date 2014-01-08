@@ -54,6 +54,8 @@ GTITLE 		:= -ht"$(TARGET)"
 #---------------------------------------------------------------------------------
 all	:	bitmaps $(OUTPUT).sfc
 	$(SNTOOLS) -hi! $(GTITLE) $(TARGET).sfc
+	sed 's/://' <$(TARGET).sym >$(TARGET).tmp
+	mv $(TARGET).tmp $(TARGET).sym
 
 clean:
 	@echo clean ...
