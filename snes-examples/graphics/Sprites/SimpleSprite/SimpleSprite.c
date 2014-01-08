@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 
 
-	Simple tile mode 1 demo
+	Simple sprite demo in mode 1
 	-- alekmaul
 
 
@@ -9,7 +9,7 @@
 #include <snes.h>
 
 extern char gfxpsrite, gfxpsrite_end;
-extern char palsprite;
+extern char palsprite, palsprite_end;
 
 //---------------------------------------------------------------------------------
 int main(void) {
@@ -17,7 +17,7 @@ int main(void) {
 	consoleInit();
 	
 	// Init Sprites gfx and palette with default size of 32x32
-	oamInitGfxSet(&gfxpsrite, (&gfxpsrite_end-&gfxpsrite), &palsprite, 0, 0x4000, OBJ_SIZE32);
+	oamInitGfxSet(&gfxpsrite, (&gfxpsrite_end-&gfxpsrite), &palsprite, (&palsprite_end-&palsprite), 0, 0x0000, OBJ_SIZE32);
 
 	// Define sprites parmaters
 	oamSet(0,  100, 100, 3, 0, 0, 0, 0); // Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0
