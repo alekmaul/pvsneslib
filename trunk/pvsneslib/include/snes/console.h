@@ -2,7 +2,7 @@
 
 	Generic console functions.
 
-	Copyright (C) 2012
+	Copyright (C) 2012-2013
 		Alekmaul
 
 	This software is provided 'as-is', without any express or implied
@@ -43,6 +43,7 @@
 #include <snes/video.h>
 
 extern unsigned char pvsneslibfont_map[0x800];  /*!< \brief tilemap used for text display */
+extern u8 pvsneslibdirty; /*!< \brief flag to redraw text during vblank */
 
 extern unsigned int  snes_vblank_count; /*!< \brief Number of VBL since consoleInit called */
 extern u8 snes_50hz; /*!< \brief 1 if on a PAL/50Hz SNES */
@@ -121,5 +122,17 @@ void consoleInit(void);
 	\param message The message to send
 */
 void consoleNocashMessage(const char *message);
+
+/*! \brief Send data to SRAM
+	\param source the source to copy from
+	\param size the size in bytes of the data to copy.  
+*/
+void consoleCopySram(u8 * source, u16 size);
+
+/*! \brief Load data from SRAM
+	\param dest the destination to load into 
+	\param size the size in bytes of the data to copy.  
+*/
+void consoleLoadSram(u8 * dest, u16 size);
 
 #endif

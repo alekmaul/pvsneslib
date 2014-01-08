@@ -118,6 +118,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><table class="memberdecls">
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a7616ba131f9a33c5c1c51b3914df4f2a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00019.html#a7616ba131f9a33c5c1c51b3914df4f2a">consoleCopySram</a> (u8 *source, u16 address, u16 size)</td></tr>
+<tr class="memdesc:a7616ba131f9a33c5c1c51b3914df4f2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send data to SRAM.  <a href="#a7616ba131f9a33c5c1c51b3914df4f2a"></a><br/></td></tr>
 <tr class="memitem:a7e52d15b5a1befa42f5758de19dfb70c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00019.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a> (u16 x, u16 y, char *fmt,...)</td></tr>
 <tr class="memdesc:a7e52d15b5a1befa42f5758de19dfb70c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output formatted string on a screen (tiles mode)  <a href="#a7e52d15b5a1befa42f5758de19dfb70c"></a><br/></td></tr>
 <tr class="memitem:af4a32a4f79f7f382cd95e9bf9e8b7a40"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00019.html#af4a32a4f79f7f382cd95e9bf9e8b7a40">consoleDrawTextMap</a> (u8 x, u8 y, u8 *map, u8 attributes, char *fmt,...)</td></tr>
@@ -140,6 +142,9 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memdesc:a0615d3903c2ad6faaed1443bd44c8ae2"><td class="mdescLeft">&#160;</td><td class="mdescRight">return a randomized number <br/></td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a01a196c5c404d8e3d16ef799cc0b1653"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a01a196c5c404d8e3d16ef799cc0b1653"></a>
+u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00019.html#a01a196c5c404d8e3d16ef799cc0b1653">pvsneslibdirty</a></td></tr>
+<tr class="memdesc:a01a196c5c404d8e3d16ef799cc0b1653"><td class="mdescLeft">&#160;</td><td class="mdescRight">flag to redraw text during vblank <br/></td></tr>
 <tr class="memitem:abd115d9b6390513d58780a4a8afee21c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd115d9b6390513d58780a4a8afee21c"></a>
 unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00019.html#abd115d9b6390513d58780a4a8afee21c">pvsneslibfont_map</a> [0x800]</td></tr>
 <tr class="memdesc:abd115d9b6390513d58780a4a8afee21c"><td class="mdescLeft">&#160;</td><td class="mdescRight">tilemap used for text display <br/></td></tr>
@@ -153,6 +158,49 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>snes generic console support. </p>
 </div><hr/><h2>Function Documentation</h2>
+<a class="anchor" id="a7616ba131f9a33c5c1c51b3914df4f2a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a00019.html#a7616ba131f9a33c5c1c51b3914df4f2a">consoleCopySram</a> </td>
+          <td>(</td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>address</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Send data to SRAM. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>the source to copy from </td></tr>
+    <tr><td class="paramname">address</td><td>sram address to copy </td></tr>
+    <tr><td class="paramname">size</td><td>the size in bytes of the data to copy. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a7e52d15b5a1befa42f5758de19dfb70c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -457,7 +505,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 13 2013 09:43:13 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 5 2014 12:01:38 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

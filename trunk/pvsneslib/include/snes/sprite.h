@@ -2,7 +2,7 @@
 
 	sprite.h -- definitions for SNES sprites
 
-	Copyright (C) 2012
+	Copyright (C) 2012-2013
 		Alekmaul
 
 	This software is provided 'as-is', without any express or implied
