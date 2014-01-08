@@ -18,8 +18,7 @@ mariopal: .incbin "mario_sprite.pal"
 snesfont: .incbin "mariofont.pic"
 snesfont_end:
 
-jumpsnd:
-.incbin "mariojump.brr"
+jumpsnd: .incbin "mariojump.brr"
 jumpsndend:
 
 .ends
