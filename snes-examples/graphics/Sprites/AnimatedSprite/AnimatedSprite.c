@@ -10,7 +10,7 @@
 #include <snes.h>
 
 extern char gfxpsrite, gfxpsrite_end;
-extern char palsprite;
+extern char palsprite, palsprite_end;
 
 #define FRAMES_PER_ANIMATION 3 // 3 sprites per direction
 
@@ -47,11 +47,12 @@ int main(void) {
 	consoleInit();
 	
 	// Init Sprites gfx and palette with default size of 16x16
-	oamInitGfxSet(&gfxpsrite, (&gfxpsrite_end-&gfxpsrite), &palsprite, 0, 0x4000, OBJ_SIZE16);
+	oamInitGfxSet(&gfxpsrite, (&gfxpsrite_end-&gfxpsrite), &palsprite, (&palsprite_end-&palsprite), 0, 0x0000, OBJ_SIZE16);
 
 	// Define sprites parameters
 	oamSet(0,  monster.x, monster.y, 0, 0, 0, 0, 0); 
 	oamSetEx(0, OBJ_SMALL, OBJ_SHOW);
+	oamSetVisible(0,OBJ_SHOW);
 	
 	// Now Put in 16 color mode and disable all backgrounds
 	setMode(BG_MODE1,0); bgSetDisable(0); bgSetDisable(1); bgSetDisable(2);
@@ -61,10 +62,7 @@ int main(void) {
 		
 	// Wait for nothing :P
 	while(1) {
-		// Refresh pad values
-		scanPads();
-		
-		// Get current #0 pad
+		// Refresh pad values in VBL and Get current #0 pad
 		pad0 = padsCurrent(0);
 		
 		if (pad0) {
