@@ -7,7 +7,8 @@ dmaCopyCGram:
 	php
 
 ;	jsr.w	_wait_nmid
-
+	rep	#$20
+	
 	lda	11,s	; numBytes
 	sta.l	$4305
 	lda	5,s	; src (lower 16 bits)
@@ -32,6 +33,7 @@ dmaCopyVram:
 	php
 
 ;	jsr.w	_wait_nmid
+	rep	#$20
 	lda	9,s	
 	sta.l	$2116           ; address for VRAM write(or read)
 

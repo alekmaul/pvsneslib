@@ -23,6 +23,7 @@
 ;---------------------------------------------------------------------------------
 
 .equ REG_DEBUG	$21FC
+.equ BANK_SRAM	$70
 
 .section ".consoles_text" superfree
 
@@ -59,6 +60,103 @@ consoleNocashMessage:
 	plb
 	plp
 	rtl
-	
-.ends
 
+;---------------------------------------------------------------------------
+; void consoleCopySram(u8 * source, u16 size);
+consoleCopySram:
+	php
+	phb
+	
+-:  bra -
+	
+	sep #$20
+	lda #$0
+	pha
+	plb ; change bank address to 0
+
+	rep	#$20
+	phy
+	phx
+
+	; Let tcc__r2 point to the source
+	lda		10,s
+	sta		tcc__r2
+	lda		12,s
+	sta		tcc__r2h
+	
+	ldy #$0
+	
+	sep	#$20
+	lda #BANK_SRAM
+	pha
+	plb ; change bank address to sram bank
+	
+	rep	#$20
+	lda	14,s   ; size
+	tax
+	ldy #$0
+
+	sep	#$20
+-:	lda		[tcc__r2],y
+	sta		0,y
+	iny
+	dex
+	beq +
+	bra -
+	
++:	plx
+	ply
+	plb
+	plp
+	rtl
+
+;---------------------------------------------------------------------------
+; void consoleLoadSram(u8 * dest, u16 size);
+consoleLoadSram:
+	php
+	phb
+	
+-:  bra -
+	
+	sep #$20
+	lda #$0
+	pha
+	plb ; change bank address to 0
+
+	rep	#$20
+	phy
+	phx
+
+	; Let tcc__r2 point to the source
+	lda		10,s
+	sta		tcc__r2
+	lda		12,s
+	sta		tcc__r2h
+	
+	ldy #$0
+	
+	sep	#$20
+	lda #BANK_SRAM
+	pha
+	plb ; change bank address to sram bank
+	
+	rep	#$20
+	lda	14,s   ; size
+	tax
+	ldy #$0
+
+	sep	#$20
+-:	lda		0,y
+	sta		[tcc__r2],y
+	iny
+	dex
+	beq +
+	bra -
+	
++:	plx
+	ply
+	plb
+	plp
+	rtl
+
+.ends

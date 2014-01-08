@@ -3,7 +3,12 @@
 
 .section ".pvsneslib_text" superfree
 
+.accu 16
+.index 16
+.16bit
+
 ;---------------------------------------------------------------------------
+; void setFadeEffect(u8 mode)
 setFadeEffect:
 	php
 	
@@ -12,12 +17,12 @@ setFadeEffect:
 
 	sep	#$30
 	
-	lda	9,s
+	lda.b	9,s
 	tax
-	cpx #1	; FADE_OUT ?
+	cpx #$1	; FADE_OUT ?
 	beq _fadeouteffect
 
-	ldx	#0
+	ldx.b	#$0
 -:
 	jsr.w	_wait_nmi
 	txa
@@ -34,7 +39,7 @@ setFadeEffect:
 	rtl
 
 _fadeouteffect:
-	ldx	#15
+	ldx.b	#$F
 -:
 	jsr.w	_wait_nmi
 	txa
@@ -59,12 +64,12 @@ setMosaicEffect:
 	
 	sep	#$30
 
-	lda	9,s                                             ; mode
+	lda.b	9,s                                             ; mode
 	tax
-	cpx #1	; MOSAIC_OUT ?
+	cpx #$1	; MOSAIC_OUT ?
 	beq _mosaicouteffect
 
-	ldx	#0
+	ldx.b	#$0
 -:
 	jsr.w	_wait_nmi
 	jsr.w	_wait_nmi
@@ -89,8 +94,8 @@ setMosaicEffect:
 
 ;---------------------------------------------------------------------------
 _mosaicouteffect:
-	ldx	#14
-	
+	ldx.b	#$E
+
 -:	jsr.w	_wait_nmi
 	jsr.w	_wait_nmi
 	jsr.w	_wait_nmi
@@ -100,7 +105,6 @@ _mosaicouteffect:
 	asl	a
 	asl	a		; Mosaic size in d4-d7
 	ora	#$3		; Enable effect for BG0
-	nop			; if not here, wla add a brk instruction o_O ....
 	sta.l	REG_MOSAIC
 	dex
 	bpl	-

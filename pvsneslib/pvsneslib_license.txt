@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------
-  Copyright (C) 2012
+  Copyright (C) 2012-2013
    Alekmaul
 
   This software is provided 'as-is', without any express or implied
@@ -21,27 +21,33 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
-V1.1.0 (xx, June, 2012)
-- Updated : changed padsCurrent to define definition to speedup code
-- Fixed : bug in input buttons (X / Y flipped)
-- Added : consoleDrawTextMapCenter to draw text with x centered axis
-- Added : spcSetSoundTableEntry and spcSetSoundDataEntry to manage sound values/table
-- Added : palettesize to oamInitGfxSet (WARNING ! not compatible with previous version !!!)
-- Added : oamGetX and oamGetY to get the sprite coordinates
-- Added : REG_VMDATALH define to access 16 bits data of VRAM
-- Fixed : some variable size in lots of functions
-- Added : setBrightness(0); to initTileSet function to avoir problem when init occurs during VBLank
-- Updated : change setMode function, remove "switch/case" for "if" statement
-- Added : snesmod text explanation file
-- Fixed : size bug of id in oamSetEx
-- Added : dmaClearVram function to init vram to #0
-- Fixed : some rare problem in spc700 snesmod source when loading samples (thanks fixing it kungfufurby !)
-- Fixed : internal print buffer from char to unsigned char
-- Fixed : bug for sprite adress, used 14 shifted instead of 13 shifted
-- Added : no$sns debug message function consoleNocashMessage
-- Added : oamSetVisible to only hide / see a sprite
-- Updated : scanPads is now in ASM and automatically done in VBL function
-- Fixed : bug in fading and mosaic functions (regiters x and y not saved)
+V2.1.0 (xx, January, 2014) 
+- Removed: Neoflash intro screen
+- Added: SRAM managment (16kbits)  (WARNING ! header not compatible with previous version !!!)
+
+V2.0.0 (19, August, 2013) * NEOFLASH EDITION *
+- Updated: changed padsCurrent to define definition to speedup code
+- Fixed: bug in input buttons (X / Y flipped)
+- Added: consoleDrawTextMapCenter to draw text with x centered axis
+- Added: spcSetSoundTableEntry and spcSetSoundDataEntry to manage sound values/table
+- Added: palettesize to oamInitGfxSet (WARNING ! not compatible with previous version !!!)
+- Added: oamGetX and oamGetY to get the sprite coordinates
+- Added: REG_VMDATALH define to access 16 bits data of VRAM
+- Fixed: some variable size in lots of functions
+- Added: setBrightness(0); to initTileSet function to avoir problem when init occurs during VBLank
+- Updated: change setMode function, remove "switch/case" for "if" statement
+- Added: snesmod text explanation file
+- Fixed: size bug of id in oamSetEx
+- Added: dmaClearVram function to init vram to #0
+- Fixed: some rare problem in spc700 snesmod source when loading samples (thanks fixing it kungfufurby !)
+- Fixed: internal print buffer from char to unsigned char
+- Fixed: bug for sprite adress, used 14 shifted instead of 13 shifted
+- Added: no$sns debug message function consoleNocashMessage
+- Added: oamSetVisible to only hide / see a sprite
+- Updated: scanPads is now in ASM and automatically done in VBL function
+- Fixed: bug in fading and mosaic functions (regiters x and y not saved)
+- Fixed: all asm files, add specific size for instruction to avoid wla adding brk instructions
+
 
 V1.0.1 (09, June, 2012)
 - fix bug in spcLoad, call spcFLush instead of xspcFlush

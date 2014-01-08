@@ -32,6 +32,10 @@ sprit_val1		dsb 1                         ; save value #1
 
 .section ".sprites_text" superfree
 
+.accu 16
+.index 16
+.16bit
+
 ;---------------------------------------------------------------------------
 ; void oamSetVisible(u16 id, u8 hide)
 oamSetVisible:
@@ -46,7 +50,7 @@ oamSetVisible:
 	pha
 	plb
 
-	rep #$20                     ; A 16 bits
+	rep #$20                         ; A 16 bits
 	lda	10,s                     ; id
 	tay
 	lsr a
@@ -68,7 +72,7 @@ oamSetVisible:
 	and.l oamHideand,x
 	sta oamMemory,y              ; store new value in oam table #2
 	
-	lda 12,s                     ; hide
+	lda.b 12,s                     ; hide
 	beq oamHide1end              ; no, so bye bye
 	
 	lda.l oamHideshift,x         ; get shifted value of hide (<<1, <<2, <<4, <<6
@@ -76,14 +80,14 @@ oamSetVisible:
 	adc oamMemory,y
 	sta oamMemory,y              ; store new value in oam table #2
 
-	rep #$20                     ; A 16 bits
+	rep #$20                         ; A 16 bits
 	lda	10,s                     ; id
 	tay
-	sep #$20                     ; A 8 bits
-	lda #$1                      ; clear x entry (-255)
+	sep #$20                         ; A 8 bits
+	lda.b #$1                        ; clear x entry (-255)
 	sta oamMemory,y
 	iny
-	lda #$F0                     ; clear y entry
+	lda.b #$F0                       ; clear y entry
 	sta oamMemory,y
 
 oamHide1end:
@@ -103,8 +107,8 @@ oamHideshift:
 ; void oamInitGfxAttr(u16 address, u8 oamsize)
 oamInitGfxAttr:
 	php
-
-	rep #$20                     ; A 16 bits
+ 
+	rep #$20                         ; A 16 bits
 	lda	5,s                      ; address
 
 	lsr	a
@@ -119,12 +123,12 @@ oamInitGfxAttr:
 	lsr	a
 	lsr	a
 	lsr	a
-	lsr	a                       ; adress >> 13
+	lsr	a                           ; adress >> 13
 	
 	sep #$20
 	sta sprit_val1
 	
-	lda	7,s                      ; oamsize
+	lda.b	7,s                      ; oamsize
 	ora sprit_val1               ; oamsize | (address >> 13)  
 	
 	sta.l	REG_OBSEL
