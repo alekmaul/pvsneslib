@@ -67,8 +67,6 @@ consoleCopySram:
 	php
 	phb
 	
--:  bra -
-	
 	sep #$20
 	lda #$0
 	pha
@@ -115,8 +113,6 @@ consoleCopySram:
 consoleLoadSram:
 	php
 	phb
-	
--:  bra -
 	
 	sep #$20
 	lda #$0
