@@ -1,8 +1,8 @@
 # path to snesdev root directory (for emulators, devkitsnes)
-export DEVKITSNES := /g/snesdev
+export DEVKITSNES := /d/snesdev
 
 # path to devkitsnes root directory for compiler
-export DEVKIT65XX := /g/snesdev/devkitsnes
+export DEVKIT65XX := /d/snesdev/devkitsnes
 
 ifeq ($(strip $(DEVKITSNES)),)
 $(error "Please set DEVKITSNES in your environment. export DEVKITSNES=<path to>devkitSNES)
