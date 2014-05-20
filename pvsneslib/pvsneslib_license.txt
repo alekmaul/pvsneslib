@@ -21,6 +21,9 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
+V2.2.0 (xx, yyyy, 2014)
+- Added : dmaCopySpr32Vram to copy 32pix size sprite gaphics to vram (fasssst :D)
+
 V2.1.0 (xx, January, 2014) 
 - Removed: Neoflash intro screen
 - Added: SRAM managment (16kbits)  (WARNING ! header not compatible with previous version !!!)
