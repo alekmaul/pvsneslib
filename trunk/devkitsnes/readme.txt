@@ -22,6 +22,9 @@ SPECIAL THANKS
                
 CHANGE LOG
 ----------------------
+VERSION 1.20 (xx, yyyy, 2014)
+- Added : sed path to sym file to be ok with no$sns symbols reading
+
 VERSION 1.10 (xx, yyyy, 2012)
 - Fixed : mode0 palette management in gfx2snes
 - Added : option for map priority in gfx2snes

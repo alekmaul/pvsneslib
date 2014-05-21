@@ -45,7 +45,7 @@ CFLAGS += -I$(DEVKIT65XX)/include
 #---------------------------------------------------------------------------------
 %.obj: %.asm
 	@echo Doing obj files ... $(fname)
-#	@cp $< $<.titi 
+#	@cp $< $<.savasm 
 	$(AS) -io $< $@  
 
 #---------------------------------------------------------------------------------
@@ -58,8 +58,7 @@ CFLAGS += -I$(DEVKIT65XX)/include
 #	$(CTF) $*.c $*.as1 $@
 	$(CTF) $*.c $*.asp $@
 #	@rm $*.asp $*.as1 
-
-#	@rm $*.asp
+	@rm $*.asp
 
 #---------------------------------------------------------------------------------
 #%.asm: %.as1
@@ -70,7 +69,8 @@ CFLAGS += -I$(DEVKIT65XX)/include
 %.sfc:
 	@echo Linking ... $(notdir $@)
 	$(LD) -dsno $(OFILES) $(LIBOBJS) $@
-
+	@sed 's/://' <$(TARGET).sym >$(TARGET).tmp
+	@mv $(TARGET).tmp $(TARGET).sym
 #---------------------------------------------------------------------------------
 %.pic: %.bmp
 	@echo convert bitmap ... $(notdir $<)
