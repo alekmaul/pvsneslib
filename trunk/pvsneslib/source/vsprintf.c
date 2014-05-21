@@ -17,14 +17,6 @@
 #include <stdarg.h>
 #include <string.h>
 #include <limits.h>
-#if 0
-#include <linux/types.h>
-#include <linux/string.h>
-#include <linux/ctype.h>
-#include <linux/kernel.h>
-
-#include <asm/div64.h>
-#endif
 
 /**
  * strtoul - convert a string to an unsigned long

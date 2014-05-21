@@ -59,6 +59,129 @@ dmaCopyVram:
 	rtl
 
 ;---------------------------------------------------------------------------
+dmaCopySpr32Vram:
+	php
+
+;	jsr.w	_wait_nmid
+	rep	#$20
+	lda	9,s	
+	sta.l	$2116           ; address for VRAM write(or read)
+
+;	lda	11,s
+	lda #$80
+	sta.l	$4305           ; number of bytes to be copied
+	lda	5,s	
+	sta.l	$4302           ; data offset in memory
+
+	sep	#$20                ; 8bit A
+	lda	#$80
+	sta.l	$2115           ; VRAM address increment value designation
+	lda	7,s	                ; bank address of data in memory
+	sta.l	$4304
+	lda	#1
+	sta.l	$4300           ; 1= word increment
+	lda	#$18
+	sta.l	$4301           ; 2118 is the VRAM gate
+
+	lda	#1                  ; turn on bit 1 (channel 0) of DMA
+	sta.l	$420b
+
+; second step
+	rep	#$20
+	clc
+	lda	#$100
+	adc	9,s
+	sta.l	$2116           ; address for VRAM write(or read)
+	lda	#$200
+	adc	5,s
+	sta.l	$4302           ; data offset in memory
+	lda #$80
+	sta.l	$4305           ; number of bytes to be copied
+	sep	#$20                ; 8bit A
+	lda	#1                  ; turn on bit 1 (channel 0) of DMA
+	sta.l	$420b
+
+; third step
+;toto: bra toto
+	rep	#$20
+	clc
+	lda #$200
+	adc 9,s	
+	sta.l	$2116           ; address for VRAM write(or read)
+	lda #$400
+	adc	5,s	
+	sta.l	$4302           ; data offset in memory
+	lda #$80
+	sta.l	$4305           ; number of bytes to be copied
+	sep	#$20                ; 8bit A
+	lda	#1                  ; turn on bit 1 (channel 0) of DMA
+	sta.l	$420b
+
+; fourth step
+	rep	#$20
+	clc
+	lda #$300
+	adc	9,s	
+	sta.l	$2116           ; address for VRAM write(or read)
+	lda #$600
+	adc	5,s	
+	sta.l	$4302           ; data offset in memory
+	lda #$80
+	sta.l	$4305           ; number of bytes to be copied
+	sep	#$20                ; 8bit A
+	lda	#1                  ; turn on bit 1 (channel 0) of DMA
+	sta.l	$420b
+
+	plp
+	rtl
+
+;---------------------------------------------------------------------------
+dmaCopySpr16Vram:
+	php
+
+;	jsr.w	_wait_nmid
+	rep	#$20
+	lda	9,s	
+	sta.l	$2116           ; address for VRAM write(or read)
+
+;	lda	11,s
+	lda #$40
+	sta.l	$4305           ; number of bytes to be copied
+	lda	5,s	
+	sta.l	$4302           ; data offset in memory
+
+	sep	#$20                ; 8bit A
+	lda	#$80
+	sta.l	$2115           ; VRAM address increment value designation
+	lda	7,s	                ; bank address of data in memory
+	sta.l	$4304
+	lda	#1
+	sta.l	$4300           ; 1= word increment
+	lda	#$18
+	sta.l	$4301           ; 2118 is the VRAM gate
+
+	lda	#1                  ; turn on bit 1 (channel 0) of DMA
+	sta.l	$420b
+
+; second step
+	rep	#$20
+	clc
+	lda	#$100
+	adc	9,s	
+	sta.l	$2116           ; address for VRAM write(or read)
+	lda #$200
+	adc	5,s	
+	sta.l	$4302           ; data offset in memory
+	lda #$40
+	sta.l	$4305           ; number of bytes to be copied
+	sep	#$20                ; 8bit A
+	lda	#1                  ; turn on bit 1 (channel 0) of DMA
+	sta.l	$420b
+
+	plp
+	rtl
+
+;---------------------------------------------------------------------------
 dmaFillVram:
 	php
 
@@ -86,7 +209,7 @@ dmaFillVram:
 
 	plp
 	rtl
-	
+
 ;---------------------------------------------------------------------------
 dmaClearVram:
 	php
