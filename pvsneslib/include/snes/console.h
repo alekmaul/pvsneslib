@@ -135,4 +135,6 @@ void consoleCopySram(u8 * source, u16 size);
 */
 void consoleLoadSram(u8 * dest, u16 size);
 
+int sprintf(char * buf, const char *fmt, ...);
+
 #endif
