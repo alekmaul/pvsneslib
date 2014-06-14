@@ -22,7 +22,7 @@ var searchData=
   ['bgsetmapptr',['bgSetMapPtr',['../a00018.html#a4fcbdb4b2378a64e8db62a184ee1851e',1,'background.h']]],
   ['bgsetscroll',['bgSetScroll',['../a00018.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7',1,'background.h']]],
   ['bgsetwindowsregions',['bgSetWindowsRegions',['../a00018.html#a00671918b35ab20db7b3f6b71015ccfb',1,'background.h']]],
-  ['bit',['BIT',['../a00025.html#a3a8ea58898cb58fc96013383d39f482c',1,'snestypes.h']]],
-  ['bool',['bool',['../a00025.html#a97a80ca1602ebf2303258971a2c938e2',1,'snestypes.h']]],
+  ['bit',['BIT',['../a00026.html#a3a8ea58898cb58fc96013383d39f482c',1,'snestypes.h']]],
+  ['bool',['bool',['../a00026.html#a97a80ca1602ebf2303258971a2c938e2',1,'snestypes.h']]],
   ['brrsamples',['brrsamples',['../a00016.html',1,'']]]
 ];

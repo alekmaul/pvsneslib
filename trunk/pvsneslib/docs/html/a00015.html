@@ -97,7 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <span class="comment"></span>
 <span class="comment"></span>
 <span class="comment">---------------------------------------------------------------------------------*/</span>
-<span class="preprocessor">#include &lt;<a class="code" href="a00024.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
+<span class="preprocessor">#include &lt;<a class="code" href="a00025.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
 
 <span class="keyword">extern</span> <span class="keywordtype">char</span> soundbrr,soundbrrend;
 <a name="_a0"></a><a class="code" href="a00016.html" title="Sound header(8 bytes)">brrsamples</a> tadasound;
@@ -111,28 +111,28 @@ u8 keyapressed=0;
 <span class="keywordtype">int</span> main(<span class="keywordtype">void</span>) {
     
     <span class="comment">// Initialize sound engine (take some time)</span>
-    <a name="a1"></a><a class="code" href="a00026.html#ad8753cb6edb38834257bbf0020700689" title="boots the spc700 with sm-spc. call once at startup">spcBoot</a>();
+    <a name="a1"></a><a class="code" href="a00027.html#ad8753cb6edb38834257bbf0020700689" title="boots the spc700 with sm-spc. call once at startup">spcBoot</a>();
 
     <span class="comment">// Initialize SNES </span>
     <a name="a2"></a><a class="code" href="a00019.html#a6047713bb5a73afd3cd1d77e336bcdad" title="Initialize console.">consoleInit</a>();
 
     <span class="comment">// allocate around 10K of sound ram (39 256-byte blocks)</span>
-    <a name="a3"></a><a class="code" href="a00026.html#a2113060be24b307d1e03f167eb241b90" title="set the size of the sound region (this must be big enough to hold your longest/largest sound) this fu...">spcAllocateSoundRegion</a>(39);
+    <a name="a3"></a><a class="code" href="a00027.html#a2113060be24b307d1e03f167eb241b90" title="set the size of the sound region (this must be big enough to hold your longest/largest sound) this fu...">spcAllocateSoundRegion</a>(39);
 
     <span class="comment">// Initialize text console with our font</span>
     <a name="a4"></a><a class="code" href="a00019.html#a458fa049800e12429ca0ba401e513746" title="Initialize the Text System.">consoleInitText</a>(0, 0, &amp;snesfont);
 
     <span class="comment">// Now Put in 16 color mode and disable Bgs except current</span>
-    <a name="a5"></a><a class="code" href="a00028.html#afd9e46ae627d055dd8c98a4b0ebb73b1" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a6"></a><a class="code" href="a00018.html#a05c862edb7f8f75036f10c04dcc3c2a6" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0);  <a name="a7"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1);  <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
+    <a name="a5"></a><a class="code" href="a00029.html#afd9e46ae627d055dd8c98a4b0ebb73b1" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a6"></a><a class="code" href="a00018.html#a05c862edb7f8f75036f10c04dcc3c2a6" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0);  <a name="a7"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1);  <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
 
     <span class="comment">// Draw a wonderfull text :P</span>
     <a name="a8"></a><a class="code" href="a00019.html#a7e52d15b5a1befa42f5758de19dfb70c" title="Output formatted string on a screen (tiles mode)">consoleDrawText</a>(5,10,<span class="stringliteral">&quot;Press A to play effect !&quot;</span>);
 
     <span class="comment">// Wait for nothing :P</span>
-    <a name="a9"></a><a class="code" href="a00028.html#a4c257abebd75e4653441e8afe672bb5e" title="sets the screens brightness.">setBrightness</a>(0xF);  
+    <a name="a9"></a><a class="code" href="a00029.html#a4c257abebd75e4653441e8afe672bb5e" title="sets the screens brightness.">setBrightness</a>(0xF);  
 
     <span class="comment">// Load effect</span>
-    <a name="a10"></a><a class="code" href="a00026.html#a4ef9d5d4b7618a2e091194b6c17f75a5" title="set the values and address of the SOUND TABLE for a sound entry">spcSetSoundEntry</a>(15, 8, 4, &amp;soundbrrend-&amp;soundbrr, &amp;soundbrr, &amp;tadasound);
+    <a name="a10"></a><a class="code" href="a00027.html#a4ef9d5d4b7618a2e091194b6c17f75a5" title="set the values and address of the SOUND TABLE for a sound entry">spcSetSoundEntry</a>(15, 8, 4, &amp;soundbrrend-&amp;soundbrr, &amp;soundbrr, &amp;tadasound);
     
     <span class="comment">// Wait for nothing :D !</span>
     <span class="keywordflow">while</span>(1) {
@@ -142,18 +142,18 @@ u8 keyapressed=0;
             <span class="keywordflow">if</span> (keyapressed ==0) { 
                 keyapressed = 1;
                 <span class="comment">// Play effect</span>
-                <a name="a14"></a><a class="code" href="a00026.html#a8e5286554841ea48b028b4b782364ab0" title="Play sound from memory (using default arguments)">spcPlaySound</a>(0);
+                <a name="a14"></a><a class="code" href="a00027.html#a8e5286554841ea48b028b4b782364ab0" title="Play sound from memory (using default arguments)">spcPlaySound</a>(0);
 
                 <span class="comment">// change background color</span>
                 bgcolor+=16;
-                <a name="a15"></a><a class="code" href="a00028.html#a549263481ac687a7e1d6f6cd5bd85d29" title="Change a color palette in CGRAM.">setPaletteColor</a>(0x00, bgcolor);
+                <a name="a15"></a><a class="code" href="a00029.html#a549263481ac687a7e1d6f6cd5bd85d29" title="Change a color palette in CGRAM.">setPaletteColor</a>(0x00, bgcolor);
             }
         }
         <span class="keywordflow">else</span>
             keyapressed = 0;
             
         <span class="comment">// Update music / sfx stream and wait vbl</span>
-        <a name="a16"></a><a class="code" href="a00026.html#acab7d87110bac6baa9d74ab314772c98" title="Process messages This function will try to give messages to the spc until a few scanlines pass...">spcProcess</a>();
+        <a name="a16"></a><a class="code" href="a00027.html#acab7d87110bac6baa9d74ab314772c98" title="Process messages This function will try to give messages to the spc until a few scanlines pass...">spcProcess</a>();
         <a name="a17"></a><a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
     }
     <span class="keywordflow">return</span> 0;
@@ -162,7 +162,7 @@ u8 keyapressed=0;
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 5 2014 12:01:37 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 14 2014 07:54:47 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

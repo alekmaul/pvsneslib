@@ -37,6 +37,7 @@
  \section video_2D_api 2D engine API
  - \ref video.h "General video"
  - \ref background.h "2D Background Layers"
+ - \ref pixel.h "Pixel mode management"
  - \ref sprite.h "2D Sprites"
 
  \section audio_api Audio API
@@ -113,6 +114,7 @@
 #include "snes/dma.h"
 #include "snes/interrupts.h"
 #include "snes/pad.h"
+#include "snes/pixel.h"
 #include "snes/sound.h"
 #include "snes/sprite.h"
 #include "snes/video.h"
