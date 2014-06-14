@@ -97,7 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <span class="comment"></span>
 <span class="comment"></span>
 <span class="comment">---------------------------------------------------------------------------------*/</span>
-<span class="preprocessor">#include &lt;<a class="code" href="a00024.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
+<span class="preprocessor">#include &lt;<a class="code" href="a00025.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
 
 <span class="keyword">extern</span> <span class="keywordtype">char</span> patterns,patterns1;
 <span class="keyword">extern</span> <span class="keywordtype">char</span> palette;
@@ -113,13 +113,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     
     <span class="comment">// Read tiles to VRAM in 2 phases because we are more than 32k</span>
     <a name="a1"></a><a class="code" href="a00018.html#ae09a7ac09be78eef0f28a6c7aabc82ad" title="Initializes a Tile Set and Loads the Tile GFX into VRAM.">bgInitTileSet</a>(0, &amp;patterns, &amp;palette, 0, 0x8000, 256*2, BG_256COLORS, 0x1000);
-    <a name="a2"></a><a class="code" href="a00020.html#aaf545b3f811f6ef4b7c4be434701a77a" title="copies data from source to destination using channel 0 of DMA available channels in half words...">dmaCopyVram</a>(&amp;patterns1, 0x5000, 0x6000);
+    <a name="a2"></a><a class="code" href="a00020.html#aaf545b3f811f6ef4b7c4be434701a77a" title="copy data from source to destination using channel 0 of DMA available channels in half words...">dmaCopyVram</a>(&amp;patterns1, 0x5000, 0x6000);
 
     <span class="comment">// Copy Map to VRAM</span>
     <a name="a3"></a><a class="code" href="a00018.html#acc385296e159449a81d18f5e219c8032" title="Initializes a Map Set and loads it into SNES VRAM.">bgInitMapSet</a>(0, &amp;map, (&amp;map_end - &amp;map),<a name="a4"></a><a class="code" href="a00018.html#a11724b6748ce0954e9b43819263537fc" title="Bit defines for the background control registers.">SC_32x32</a>, 0x0000);
 
     <span class="comment">// Now Put in 256 color mode and disable other BGs except 1st one</span>
-    <a name="a5"></a><a class="code" href="a00028.html#afd9e46ae627d055dd8c98a4b0ebb73b1" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a6"></a><a class="code" href="a00018.html#ab74253172bcb87b7947118b746ab2849" title="256-color 16-color - - ;Normal">BG_MODE3</a>,0); <a name="a7"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1); 
+    <a name="a5"></a><a class="code" href="a00029.html#afd9e46ae627d055dd8c98a4b0ebb73b1" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a6"></a><a class="code" href="a00018.html#ab74253172bcb87b7947118b746ab2849" title="256-color 16-color - - ;Normal">BG_MODE3</a>,0); <a name="a7"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1); 
 
     <span class="comment">// Wait for key to change gradient</span>
     <span class="keywordflow">while</span>(1) {
@@ -140,7 +140,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 5 2014 12:01:37 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 14 2014 07:54:47 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

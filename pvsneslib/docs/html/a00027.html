@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>pvsneslib: sprite.h File Reference</title>
+<title>pvsneslib: sound.h File Reference</title>
 
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="docs.css" rel="stylesheet" type="text/css" />
@@ -102,357 +102,133 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#define-members">Defines</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">sprite.h File Reference</div>  </div>
+<div class="title">sound.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>snes sprites functionality.  
+<p>snes sound support.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="a00025.html">snes/snestypes.h</a>&gt;</code><br/>
+<div class="textblock"><code>#include &lt;<a class="el" href="a00026.html">snes/snestypes.h</a>&gt;</code><br/>
+<code>#include &lt;<a class="el" href="a00021.html">snes/interrupts.h</a>&gt;</code><br/>
 </div><table class="memberdecls">
 <tr><td colspan="2"><h2><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00017.html">oamEntry</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sprite definition : OAM entry for DMA copy if needed.  <a href="a00017.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00016.html">brrsamples</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sound header(8 bytes)  <a href="a00016.html#details">More...</a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="define-members"></a>
 Defines</h2></td></tr>
-<tr class="memitem:aefa2b9ce227904e69830a6ad981b1f19"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#aefa2b9ce227904e69830a6ad981b1f19">oamGetX</a>(id)&#160;&#160;&#160;(oamMemory[id+0])</td></tr>
-<tr class="memdesc:aefa2b9ce227904e69830a6ad981b1f19"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the x oam coordinate to the supplied values  <a href="#aefa2b9ce227904e69830a6ad981b1f19"></a><br/></td></tr>
-<tr class="memitem:af6b605303fc7a5caa3b97fd254b5d450"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#af6b605303fc7a5caa3b97fd254b5d450">oamGetY</a>(id)&#160;&#160;&#160;(oamMemory[id+1])</td></tr>
-<tr class="memdesc:af6b605303fc7a5caa3b97fd254b5d450"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the y oam coordinate to the supplied values  <a href="#af6b605303fc7a5caa3b97fd254b5d450"></a><br/></td></tr>
-<tr class="memitem:af18394510c04f64df05cfa40f6ac2e82"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#af18394510c04f64df05cfa40f6ac2e82">oamSet</a>(id,xspr, yspr, priority, hflip, vflip, gfxoffset, paletteoffset)</td></tr>
-<tr class="memdesc:af18394510c04f64df05cfa40f6ac2e82"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets an oam entry to the supplied values  <a href="#af18394510c04f64df05cfa40f6ac2e82"></a><br/></td></tr>
-<tr class="memitem:a470bbe50b45211672e7e92cbc1095a18"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a470bbe50b45211672e7e92cbc1095a18">oamSetGfxOffset</a>(id,gfxoffset)</td></tr>
-<tr class="memdesc:a470bbe50b45211672e7e92cbc1095a18"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets an oam graphic offset to the supplied values  <a href="#a470bbe50b45211672e7e92cbc1095a18"></a><br/></td></tr>
-<tr class="memitem:ad044aef8c96b5dabc7734b7ff7cc1a2e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#ad044aef8c96b5dabc7734b7ff7cc1a2e">oamSetXY</a>(id,xspr, yspr)</td></tr>
-<tr class="memdesc:ad044aef8c96b5dabc7734b7ff7cc1a2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets an oam coordinate to the supplied values  <a href="#ad044aef8c96b5dabc7734b7ff7cc1a2e"></a><br/></td></tr>
-<tr class="memitem:a35664c2c4a66c3bac8139ae093d7f3ac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a35664c2c4a66c3bac8139ae093d7f3ac"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a35664c2c4a66c3bac8139ae093d7f3ac">OBJ_SIZE16</a>&#160;&#160;&#160;(3&lt;&lt;5)</td></tr>
-<tr class="memdesc:a35664c2c4a66c3bac8139ae093d7f3ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">default OAM size 16x16 pix for OBJSEL register <br/></td></tr>
-<tr class="memitem:abc6679a83d9647eac01c3d51ef37151a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abc6679a83d9647eac01c3d51ef37151a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#abc6679a83d9647eac01c3d51ef37151a">OBJ_SIZE32</a>&#160;&#160;&#160;(5&lt;&lt;5)</td></tr>
-<tr class="memdesc:abc6679a83d9647eac01c3d51ef37151a"><td class="mdescLeft">&#160;</td><td class="mdescRight">default OAM size 32x32 pix for OBJSEL register <br/></td></tr>
-<tr class="memitem:a6b25da5746274a43b4ffec5876fe8d5b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6b25da5746274a43b4ffec5876fe8d5b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a6b25da5746274a43b4ffec5876fe8d5b">OBJ_SIZE8</a>&#160;&#160;&#160;(0&lt;&lt;5)</td></tr>
-<tr class="memdesc:a6b25da5746274a43b4ffec5876fe8d5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">default OAM size 8x8 pix for OBJSEL register <br/></td></tr>
-<tr class="memitem:ad8e30bb8ad62f2a58545ff770db95174"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#ad8e30bb8ad62f2a58545ff770db95174">REG_OAMADDH</a>&#160;&#160;&#160;(*(vuint8*)0x2103)</td></tr>
-<tr class="memdesc:ad8e30bb8ad62f2a58545ff770db95174"><td class="mdescLeft">&#160;</td><td class="mdescRight">OAM Address and Priority Rotation (W) 15 OAM Priority Rotation (0=OBJ num 0, 1=OBJ num N) (OBJ with highest priority) 9-14 Not used 7-1 OBJ Number num N (for OBJ Priority) ;bit7-1 are used for two purposes 8-0 OAM Address (for OAM read/write) ;.  <a href="#ad8e30bb8ad62f2a58545ff770db95174"></a><br/></td></tr>
-<tr class="memitem:ac7a5db74119e971459fad469a4caa92c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac7a5db74119e971459fad469a4caa92c"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#ac7a5db74119e971459fad469a4caa92c">REG_OAMDATA</a>&#160;&#160;&#160;(*(vuint8*)0x2104)</td></tr>
-<tr class="memdesc:ac7a5db74119e971459fad469a4caa92c"><td class="mdescLeft">&#160;</td><td class="mdescRight">OAM Data Write (W) <br/></td></tr>
-<tr class="memitem:aa54aeab41da41947862d2317074d500a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa54aeab41da41947862d2317074d500a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#aa54aeab41da41947862d2317074d500a">REG_OBSEL</a>&#160;&#160;&#160;(*(vuint8*)0x2101)</td></tr>
-<tr class="memdesc:aa54aeab41da41947862d2317074d500a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Object Size and Object Base (W) 7-5 OBJ Size Selection (0-5, see below) (6-7=Reserved) Val Small Large 0 = 8x8 16x16 ;Caution: 1 = 8x8 32x32 ;In 224-lines mode, OBJs with 64-pixel height 2 = 8x8 64x64 ;may wrap from lower to upper screen border. 3 = 16x16 32x32 ;In 239-lines mode, the same problem applies 4 = 16x16 64x64 ;also for OBJs with 32-pixel height. 5 = 32x32 64x64 6 = 16x32 32x64 (undocumented) 7 = 16x32 32x32 (undocumented) (Ie. a setting of 0 means Small OBJs=8x8, Large OBJs=16x16 pixels) (Whether an OBJ is "small" or "large" is selected by a bit in OAM) 4-3 Gap between OBJ 0FFh and 100h (0=None) (4K-word steps) (8K-byte steps) 2-0 Base Address for OBJ Tiles 000h..0FFh (8K-word steps) (16K-byte steps) <br/></td></tr>
-<tr class="memitem:ac815cf72d6b31fb9e38042a0eacee023"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac815cf72d6b31fb9e38042a0eacee023"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#ac815cf72d6b31fb9e38042a0eacee023">REG_RDOAM</a>&#160;&#160;&#160;(*(vuint8*)0x2138)</td></tr>
-<tr class="memdesc:ac815cf72d6b31fb9e38042a0eacee023"><td class="mdescLeft">&#160;</td><td class="mdescRight">OAM Data Read (R) <br/></td></tr>
+<tr class="memitem:a11d724391e894d7a876635ffb45e1fd9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a11d724391e894d7a876635ffb45e1fd9">REG_APU00</a>&#160;&#160;&#160;(*(vuint8*)0x2140)</td></tr>
+<tr class="memdesc:a11d724391e894d7a876635ffb45e1fd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main CPU to Sound CPU Communication Port 0 (R/W) 7-0 APU I/O Data (Write: Data to APU, Read: Data from APU) Caution: These registers should be written only in 8bit mode (there is a hardware glitch that can cause a 16bit write to [2140h..2141h] to destroy [2143h], this might happen only in some situations, like when the cartridge contains too many ROM chips which apply too much load on the bus).  <a href="#a11d724391e894d7a876635ffb45e1fd9"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a480021d319f990d930da8fc7fb11fce4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a480021d319f990d930da8fc7fb11fce4">oamClear</a> (u8 first, u8 numEntries)</td></tr>
-<tr class="memdesc:a480021d319f990d930da8fc7fb11fce4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hides the sprites in the supplied range: if count is zero all 128 sprites will be hidden.  <a href="#a480021d319f990d930da8fc7fb11fce4"></a><br/></td></tr>
-<tr class="memitem:a274b5d953c60f5455937be288f6652ee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a274b5d953c60f5455937be288f6652ee"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a274b5d953c60f5455937be288f6652ee">oamInit</a> (void)</td></tr>
-<tr class="memdesc:a274b5d953c60f5455937be288f6652ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the 2D sprite engine. <br/></td></tr>
-<tr class="memitem:ad28cccee6dcd379989a0361fe868bddb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#ad28cccee6dcd379989a0361fe868bddb">oamInitGfxAttr</a> (u16 address, u8 oamsize)</td></tr>
-<tr class="memdesc:ad28cccee6dcd379989a0361fe868bddb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the default sprite size and address in VRAM.  <a href="#ad28cccee6dcd379989a0361fe868bddb"></a><br/></td></tr>
-<tr class="memitem:a46e0be47f8fc865a7f43c1b0b126e59a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a> (u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize)</td></tr>
-<tr class="memdesc:a46e0be47f8fc865a7f43c1b0b126e59a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a sprites Gfx and Loads the GFX into VRAM.  <a href="#a46e0be47f8fc865a7f43c1b0b126e59a"></a><br/></td></tr>
-<tr class="memitem:a4120a8ff32c39973babeca3615a0a2fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a> (u16 id, u8 size, u8 hide)</td></tr>
-<tr class="memdesc:a4120a8ff32c39973babeca3615a0a2fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Put the correct size and hide or not a oam.  <a href="#a4120a8ff32c39973babeca3615a0a2fd"></a><br/></td></tr>
-<tr class="memitem:a35a0da9852240ef41b5030ed21b6eeb2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a35a0da9852240ef41b5030ed21b6eeb2">oamSetVisible</a> (u16 id, u8 hide)</td></tr>
-<tr class="memdesc:a35a0da9852240ef41b5030ed21b6eeb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hide or not a oam.  <a href="#a35a0da9852240ef41b5030ed21b6eeb2"></a><br/></td></tr>
-<tr class="memitem:a20d12ff39a82b0e4df0f20b6de38a101"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a20d12ff39a82b0e4df0f20b6de38a101">oamUpdate</a> (u8 first, u8 numEntries)</td></tr>
-<tr class="memdesc:a20d12ff39a82b0e4df0f20b6de38a101"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write one or more OBJ descriptors to OAM.  <a href="#a20d12ff39a82b0e4df0f20b6de38a101"></a><br/></td></tr>
+<tr class="memitem:a2113060be24b307d1e03f167eb241b90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a2113060be24b307d1e03f167eb241b90">spcAllocateSoundRegion</a> (u8 size)</td></tr>
+<tr class="memdesc:a2113060be24b307d1e03f167eb241b90"><td class="mdescLeft">&#160;</td><td class="mdescRight">set the size of the sound region (this must be big enough to hold your longest/largest sound) this function will STOP module playback too  <a href="#a2113060be24b307d1e03f167eb241b90"></a><br/></td></tr>
+<tr class="memitem:ad8753cb6edb38834257bbf0020700689"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad8753cb6edb38834257bbf0020700689"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#ad8753cb6edb38834257bbf0020700689">spcBoot</a> (void)</td></tr>
+<tr class="memdesc:ad8753cb6edb38834257bbf0020700689"><td class="mdescLeft">&#160;</td><td class="mdescRight">boots the spc700 with sm-spc. call once at startup <br/></td></tr>
+<tr class="memitem:a99af3b788490e155674f57f455c6be38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a99af3b788490e155674f57f455c6be38">spcEffect</a> (u16 pitch, u16 sfxIndex, u8 volpan)</td></tr>
+<tr class="memdesc:a99af3b788490e155674f57f455c6be38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Play sound effect (load with spcLoadEffect)  <a href="#a99af3b788490e155674f57f455c6be38"></a><br/></td></tr>
+<tr class="memitem:a57a421beca64a638a15579c6a465c522"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a57a421beca64a638a15579c6a465c522">spcFadeModuleVolume</a> (u16 vol, u16 fadespeed)</td></tr>
+<tr class="memdesc:a57a421beca64a638a15579c6a465c522"><td class="mdescLeft">&#160;</td><td class="mdescRight">fade the module volume towards the target  <a href="#a57a421beca64a638a15579c6a465c522"></a><br/></td></tr>
+<tr class="memitem:a43c7b104744ce3193cbd4b59ba5b8907"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a43c7b104744ce3193cbd4b59ba5b8907"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a43c7b104744ce3193cbd4b59ba5b8907">spcFlush</a> (void)</td></tr>
+<tr class="memdesc:a43c7b104744ce3193cbd4b59ba5b8907"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush message queue (force sync) <br/></td></tr>
+<tr class="memitem:a313e30fb1962df9fb469f2fedd4d91e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a313e30fb1962df9fb469f2fedd4d91e4">spcLoad</a> (u16 musIndex)</td></tr>
+<tr class="memdesc:a313e30fb1962df9fb469f2fedd4d91e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">load module into sm-spc. this function may take some time to execute  <a href="#a313e30fb1962df9fb469f2fedd4d91e4"></a><br/></td></tr>
+<tr class="memitem:a57d9e744cfa33d55d543b172df59d518"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a57d9e744cfa33d55d543b172df59d518">spcLoadEffect</a> (u16 sfxIndex)</td></tr>
+<tr class="memdesc:a57d9e744cfa33d55d543b172df59d518"><td class="mdescLeft">&#160;</td><td class="mdescRight">load sound effect into sm-spc. this function may take some time to execute  <a href="#a57d9e744cfa33d55d543b172df59d518"></a><br/></td></tr>
+<tr class="memitem:aebf91de1df5e4fa83454a84bb0e60918"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#aebf91de1df5e4fa83454a84bb0e60918">spcPlay</a> (u8 startPos)</td></tr>
+<tr class="memdesc:aebf91de1df5e4fa83454a84bb0e60918"><td class="mdescLeft">&#160;</td><td class="mdescRight">play module. note: this simply queues a message, use spcFlush if you want to wait until the message is processed  <a href="#aebf91de1df5e4fa83454a84bb0e60918"></a><br/></td></tr>
+<tr class="memitem:a8e5286554841ea48b028b4b782364ab0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a8e5286554841ea48b028b4b782364ab0">spcPlaySound</a> (u8 sndIndex)</td></tr>
+<tr class="memdesc:a8e5286554841ea48b028b4b782364ab0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Play sound from memory (using default arguments)  <a href="#a8e5286554841ea48b028b4b782364ab0"></a><br/></td></tr>
+<tr class="memitem:a6065e170a377a476c1bed7ac23e65d9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a6065e170a377a476c1bed7ac23e65d9f">spcPlaySoundV</a> (u8 sndIndex, u16 volume)</td></tr>
+<tr class="memdesc:a6065e170a377a476c1bed7ac23e65d9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Play sound from memory (using default arguments)  <a href="#a6065e170a377a476c1bed7ac23e65d9f"></a><br/></td></tr>
+<tr class="memitem:acab7d87110bac6baa9d74ab314772c98"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#acab7d87110bac6baa9d74ab314772c98">spcProcess</a> (void)</td></tr>
+<tr class="memdesc:acab7d87110bac6baa9d74ab314772c98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process messages This function will try to give messages to the spc until a few scanlines pass.  <a href="#acab7d87110bac6baa9d74ab314772c98"></a><br/></td></tr>
+<tr class="memitem:ab68840ba8aab786b8ea206ea077acaac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#ab68840ba8aab786b8ea206ea077acaac">spcSetBank</a> (u8 *bank)</td></tr>
+<tr class="memdesc:ab68840ba8aab786b8ea206ea077acaac"><td class="mdescLeft">&#160;</td><td class="mdescRight">set soundbank origin. soundbank must have dedicated bank(s)  <a href="#ab68840ba8aab786b8ea206ea077acaac"></a><br/></td></tr>
+<tr class="memitem:ae2c8dfab62ceecf5c302c95f5453a752"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#ae2c8dfab62ceecf5c302c95f5453a752">spcSetModuleVolume</a> (u8 vol)</td></tr>
+<tr class="memdesc:ae2c8dfab62ceecf5c302c95f5453a752"><td class="mdescLeft">&#160;</td><td class="mdescRight">set the module playback volume  <a href="#ae2c8dfab62ceecf5c302c95f5453a752"></a><br/></td></tr>
+<tr class="memitem:a6febc2b960755ba902950ee9c93ab637"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a6febc2b960755ba902950ee9c93ab637">spcSetSoundDataEntry</a> (u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, <a class="el" href="a00016.html">brrsamples</a> *ptr)</td></tr>
+<tr class="memdesc:a6febc2b960755ba902950ee9c93ab637"><td class="mdescLeft">&#160;</td><td class="mdescRight">set the values of a sound entry  <a href="#a6febc2b960755ba902950ee9c93ab637"></a><br/></td></tr>
+<tr class="memitem:a4ef9d5d4b7618a2e091194b6c17f75a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#a4ef9d5d4b7618a2e091194b6c17f75a5">spcSetSoundEntry</a> (u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, <a class="el" href="a00016.html">brrsamples</a> *ptr)</td></tr>
+<tr class="memdesc:a4ef9d5d4b7618a2e091194b6c17f75a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">set the values and address of the SOUND TABLE for a sound entry  <a href="#a4ef9d5d4b7618a2e091194b6c17f75a5"></a><br/></td></tr>
+<tr class="memitem:ad1eb603fd2445102225319797d226fea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#ad1eb603fd2445102225319797d226fea">spcSetSoundTable</a> (u16 sndTableAddr, u8 sndTableBank)</td></tr>
+<tr class="memdesc:ad1eb603fd2445102225319797d226fea"><td class="mdescLeft">&#160;</td><td class="mdescRight">set the address of the SOUND TABLE  <a href="#ad1eb603fd2445102225319797d226fea"></a><br/></td></tr>
+<tr class="memitem:af7366527acd378585446999f84d1c6d0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7366527acd378585446999f84d1c6d0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00027.html#af7366527acd378585446999f84d1c6d0">spcStop</a> (void)</td></tr>
+<tr class="memdesc:af7366527acd378585446999f84d1c6d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">stop playing the current module. <br/></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p>snes sprites functionality. </p>
+<div class="textblock"><p>snes sound support. </p>
+<p>Really great thanks to shiru for sound engine and tools used in his Christmas Craze homebrew <a href="http://shiru.untergrund.net/">http://shiru.untergrund.net/</a></p>
+<p>Also great thanks for mukunda for snesmod sound engine <a href="http://snes.mukunda.com/">http://snes.mukunda.com/</a></p>
+<p>And special thanks to Kung Fu Furby for help debugging snesmod port with C interface </p>
 </div><hr/><h2>Define Documentation</h2>
-<a class="anchor" id="aefa2b9ce227904e69830a6ad981b1f19"></a>
+<a class="anchor" id="a11d724391e894d7a876635ffb45e1fd9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define <a class="el" href="a00027.html#aefa2b9ce227904e69830a6ad981b1f19">oamGetX</a></td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">id</td><td>)</td>
-          <td>&#160;&#160;&#160;(oamMemory[id+0])</td>
+          <td class="memname">#define <a class="el" href="a00027.html#a11d724391e894d7a876635ffb45e1fd9">REG_APU00</a>&#160;&#160;&#160;(*(vuint8*)0x2140)</td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
-<p>get the x oam coordinate to the supplied values </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] * 4 because of oam structure </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="af6b605303fc7a5caa3b97fd254b5d450"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define <a class="el" href="a00027.html#af6b605303fc7a5caa3b97fd254b5d450">oamGetY</a></td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">id</td><td>)</td>
-          <td>&#160;&#160;&#160;(oamMemory[id+1])</td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>get the y oam coordinate to the supplied values </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] * 4 because of oam structure </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="af18394510c04f64df05cfa40f6ac2e82"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define <a class="el" href="a00027.html#af18394510c04f64df05cfa40f6ac2e82">oamSet</a></td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">id, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">xspr, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">yspr, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">priority, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">hflip, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">vflip, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">gfxoffset, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">paletteoffset&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<b>Value:</b><div class="fragment"><pre class="fragment">{ \
-    oamMemory[<span class="keywordtype">id</span>+0] = (xspr); \
-    oamMemory[<span class="keywordtype">id</span>+1] = (yspr); \
-    oamMemory[<span class="keywordtype">id</span>+2] = (gfxoffset); \
-    oamMemory[<span class="keywordtype">id</span>+3] = (vflip&lt;&lt;7) | (hflip&lt;&lt;6) | (priority&lt;&lt;4) | (paletteoffset&lt;&lt;1) | ((gfxoffset&gt;&gt;8) &amp; 1); \
-    }
-</pre></div>
-<p>sets an oam entry to the supplied values </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] * 4 because of oam structure </td></tr>
-    <tr><td class="paramname">xspr</td><td>the x location of the sprite in pixels </td></tr>
-    <tr><td class="paramname">yspr</td><td>the y location of the sprite in pixels </td></tr>
-    <tr><td class="paramname">priority</td><td>The sprite priority (0 to 3) </td></tr>
-    <tr><td class="paramname">vflip</td><td>flip the sprite vertically </td></tr>
-    <tr><td class="paramname">hflip</td><td>flip the sprite horizontally </td></tr>
-    <tr><td class="paramname">gfxoffset</td><td>tilenumber graphic offset </td></tr>
-    <tr><td class="paramname">paletteoffset</td><td>palette default offset for sprite </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00013.html#a28">games/likemario/LikeMario.c</a>, <a class="el" href="a00010.html#a3">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, and <a class="el" href="a00009.html#a3">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a class="anchor" id="a470bbe50b45211672e7e92cbc1095a18"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define <a class="el" href="a00027.html#a470bbe50b45211672e7e92cbc1095a18">oamSetGfxOffset</a></td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">id, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">gfxoffset&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<b>Value:</b><div class="fragment"><pre class="fragment">oamMemory[<span class="keywordtype">id</span>+2] = (gfxoffset); \
-    oamMemory[<span class="keywordtype">id</span>+3] = (oamMemory[<span class="keywordtype">id</span>+3] &amp; 0xFE) | ((gfxoffset&gt;&gt;8) &amp; 1);
-</pre></div>
-<p>sets an oam graphic offset to the supplied values </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] * 4 because of oam structure </td></tr>
-    <tr><td class="paramname">gfxoffset</td><td>tilenumber graphic offset </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="ad044aef8c96b5dabc7734b7ff7cc1a2e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define <a class="el" href="a00027.html#ad044aef8c96b5dabc7734b7ff7cc1a2e">oamSetXY</a></td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">id, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">xspr, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">yspr&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<b>Value:</b><div class="fragment"><pre class="fragment">oamMemory[<span class="keywordtype">id</span>+0] = (xspr); \
-    oamMemory[<span class="keywordtype">id</span>+1] = (yspr);
-</pre></div>
-<p>sets an oam coordinate to the supplied values </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] * 4 because of oam structure </td></tr>
-    <tr><td class="paramname">xspr</td><td>the x location of the sprite in pixels </td></tr>
-    <tr><td class="paramname">yspr</td><td>the y location of the sprite in pixels </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="ad8e30bb8ad62f2a58545ff770db95174"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define <a class="el" href="a00027.html#ad8e30bb8ad62f2a58545ff770db95174">REG_OAMADDH</a>&#160;&#160;&#160;(*(vuint8*)0x2103)</td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>OAM Address and Priority Rotation (W) 15 OAM Priority Rotation (0=OBJ num 0, 1=OBJ num N) (OBJ with highest priority) 9-14 Not used 7-1 OBJ Number num N (for OBJ Priority) ;bit7-1 are used for two purposes 8-0 OAM Address (for OAM read/write) ;. </p>
-<p>This register contains of a 9bit Reload value and a 10bit Address register (plus the priority flag). Writing to 2102h or 2103h does change the lower 8bit or upper 1bit of the Reload value, and does additionally copy the (whole) 9bit Reload value to the 10bit Address register (with address Bit0=0 so next access will be an even address). Caution: During rendering, the PPU is destroying the Address register (using it internally for whatever purposes), after rendering (at begin of Vblank, ie. at begin of line 225/240, but only if not in Forced Blank mode) it reinitializes the Address from the Reload value; the same reload occurs also when deactivating forced blank anytime during the first scanline of vblank (ie. during line 225/240). </p>
+<p>Main CPU to Sound CPU Communication Port 0 (R/W) 7-0 APU I/O Data (Write: Data to APU, Read: Data from APU) Caution: These registers should be written only in 8bit mode (there is a hardware glitch that can cause a 16bit write to [2140h..2141h] to destroy [2143h], this might happen only in some situations, like when the cartridge contains too many ROM chips which apply too much load on the bus). </p>
+<p>Same thing for REG_APU01, REG_APU02 and REG_APU03 for addr 2141h..2143h REG_APU0001 and REG_APU0203 for 16 bits read/write access </p>
 
 </div>
 </div>
 <hr/><h2>Function Documentation</h2>
-<a class="anchor" id="a480021d319f990d930da8fc7fb11fce4"></a>
+<a class="anchor" id="a2113060be24b307d1e03f167eb241b90"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="a00027.html#a480021d319f990d930da8fc7fb11fce4">oamClear</a> </td>
+          <td class="memname"><a class="el" href="a00027.html#a2113060be24b307d1e03f167eb241b90">spcAllocateSoundRegion</a> </td>
           <td>(</td>
           <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>first</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>size</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>numEntries</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
-<p>Hides the sprites in the supplied range: if count is zero all 128 sprites will be hidden. </p>
+<p>set the size of the sound region (this must be big enough to hold your longest/largest sound) this function will STOP module playback too </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">first</td><td>number of 1st sprite to write * 4 because of oam structure </td></tr>
-    <tr><td class="paramname">numEntries</td><td>total number of sprites to write </td></tr>
+    <tr><td class="paramname">size</td><td>size of sound region (size*256 bytes) </td></tr>
   </table>
   </dd>
 </dl>
-
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00014.html#a3">audio/music/Music.c</a>, <a class="el" href="a00015.html#a3">audio/tada/Tada.c</a>, and <a class="el" href="a00013.html#a16">games/likemario/LikeMario.c</a>.</dd>
+</dl>
 </div>
 </div>
-<a class="anchor" id="ad28cccee6dcd379989a0361fe868bddb"></a>
+<a class="anchor" id="a99af3b788490e155674f57f455c6be38"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="a00027.html#ad28cccee6dcd379989a0361fe868bddb">oamInitGfxAttr</a> </td>
+          <td class="memname"><a class="el" href="a00027.html#a99af3b788490e155674f57f455c6be38">spcEffect</a> </td>
           <td>(</td>
           <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>address</em>, </td>
+          <td class="paramname"><em>pitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>sfxIndex</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>oamsize</em>&#160;</td>
+          <td class="paramname"><em>volpan</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -463,62 +239,306 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a000
 </div>
 <div class="memdoc">
 
-<p>Initializes the default sprite size and address in VRAM. </p>
+<p>Play sound effect (load with spcLoadEffect) </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">address</td><td>address of sprite graphics (8K-word steps) </td></tr>
-    <tr><td class="paramname">oamsize</td><td>default OAM size (OBJ_SIZE8, OBJ_SIZE16 and OBJ_SIZE32) </td></tr>
+    <tr><td class="paramname">pitch</td><td>pitch (0-15, 8=32khz) </td></tr>
+    <tr><td class="paramname">sfxIndex</td><td>effect index (0-15) </td></tr>
+    <tr><td class="paramname">volpan</td><td>volume(0..15) AND panning(0..15) (volume*16+pan) </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="a46e0be47f8fc865a7f43c1b0b126e59a"></a>
+<a class="anchor" id="a57a421beca64a638a15579c6a465c522"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="a00027.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a> </td>
+          <td class="memname"><a class="el" href="a00027.html#a57a421beca64a638a15579c6a465c522">spcFadeModuleVolume</a> </td>
+          <td>(</td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>vol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>fadespeed</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>fade the module volume towards the target </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vol</td><td>volume (0..255) </td></tr>
+    <tr><td class="paramname">fadespeed</td><td>fade speed (volume(0..255) += y every 32ms) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a313e30fb1962df9fb469f2fedd4d91e4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00027.html#a313e30fb1962df9fb469f2fedd4d91e4">spcLoad</a> </td>
+          <td>(</td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>musIndex</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>load module into sm-spc. this function may take some time to execute </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">musIndex</td><td>module_id </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00014.html#a4">audio/music/Music.c</a>, and <a class="el" href="a00013.html#a17">games/likemario/LikeMario.c</a>.</dd>
+</dl>
+</div>
+</div>
+<a class="anchor" id="a57d9e744cfa33d55d543b172df59d518"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00027.html#a57d9e744cfa33d55d543b172df59d518">spcLoadEffect</a> </td>
+          <td>(</td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>sfxIndex</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>load sound effect into sm-spc. this function may take some time to execute </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sfxIndex</td><td>sfx_id </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="aebf91de1df5e4fa83454a84bb0e60918"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00027.html#aebf91de1df5e4fa83454a84bb0e60918">spcPlay</a> </td>
+          <td>(</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>startPos</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>play module. note: this simply queues a message, use spcFlush if you want to wait until the message is processed </p>
+<p>another note: there may be a significant startup time from after the message is processed to when the song starts playing... to sync the program with the song start use spcFlush and then wait until SPC_P of the status register is set. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">startPos</td><td>starting position </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00014.html#a11">audio/music/Music.c</a>, and <a class="el" href="a00013.html#a34">games/likemario/LikeMario.c</a>.</dd>
+</dl>
+</div>
+</div>
+<a class="anchor" id="a8e5286554841ea48b028b4b782364ab0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00027.html#a8e5286554841ea48b028b4b782364ab0">spcPlaySound</a> </td>
+          <td>(</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>sndIndex</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Play sound from memory (using default arguments) </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sndIndex</td><td>index in sound table </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00015.html#a14">audio/tada/Tada.c</a>, and <a class="el" href="a00013.html#a11">games/likemario/LikeMario.c</a>.</dd>
+</dl>
+</div>
+</div>
+<a class="anchor" id="a6065e170a377a476c1bed7ac23e65d9f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00027.html#a6065e170a377a476c1bed7ac23e65d9f">spcPlaySoundV</a> </td>
+          <td>(</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>sndIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>volume</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Play sound from memory (using default arguments) </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sndIndex</td><td>index in sound table </td></tr>
+    <tr><td class="paramname">volume</td><td>volume (0..15) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="acab7d87110bac6baa9d74ab314772c98"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00027.html#acab7d87110bac6baa9d74ab314772c98">spcProcess</a> </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Process messages This function will try to give messages to the spc until a few scanlines pass. </p>
+<p>this function MUST be called every frame if you are using streamed sounds </p>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00014.html#a12">audio/music/Music.c</a>, <a class="el" href="a00015.html#a16">audio/tada/Tada.c</a>, and <a class="el" href="a00013.html#a39">games/likemario/LikeMario.c</a>.</dd>
+</dl>
+</div>
+</div>
+<a class="anchor" id="ab68840ba8aab786b8ea206ea077acaac"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00027.html#ab68840ba8aab786b8ea206ea077acaac">spcSetBank</a> </td>
           <td>(</td>
           <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>tileSource</em>, </td>
+          <td class="paramname"><em>bank</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>set soundbank origin. soundbank must have dedicated bank(s) </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bank</td><td>bank address </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00014.html#a2">audio/music/Music.c</a>, and <a class="el" href="a00013.html#a15">games/likemario/LikeMario.c</a>.</dd>
+</dl>
+</div>
+</div>
+<a class="anchor" id="ae2c8dfab62ceecf5c302c95f5453a752"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00027.html#ae2c8dfab62ceecf5c302c95f5453a752">spcSetModuleVolume</a> </td>
+          <td>(</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>vol</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>set the module playback volume </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vol</td><td>volume (0..255) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00013.html#a35">games/likemario/LikeMario.c</a>.</dd>
+</dl>
+</div>
+</div>
+<a class="anchor" id="a6febc2b960755ba902950ee9c93ab637"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00027.html#a6febc2b960755ba902950ee9c93ab637">spcSetSoundDataEntry</a> </td>
+          <td>(</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>vol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>panning</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>pitch</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>tileSize</em>, </td>
+          <td class="paramname"><em>length</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>tilePalette</em>, </td>
+          <td class="paramname"><em>sampleaddr</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>paletteSize</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>tilePaletteNumber</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>oamsize</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="a00016.html">brrsamples</a> *&#160;</td>
+          <td class="paramname"><em>ptr</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -529,44 +549,62 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a000
 </div>
 <div class="memdoc">
 
-<p>Initializes a sprites Gfx and Loads the GFX into VRAM. </p>
+<p>set the values of a sound entry </p>
+<p>set the address of the SOUND TABLE for a sound entry</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">tileSource</td><td>address of sprites graphics entry </td></tr>
-    <tr><td class="paramname">tileSize</td><td>size of sprites graphics </td></tr>
-    <tr><td class="paramname">tilePalette</td><td>address of sprites palette entry </td></tr>
-    <tr><td class="paramname">tilePaletteNumber</td><td>palette number (0..8) </td></tr>
-    <tr><td class="paramname">paletteSize</td><td>size of palette </td></tr>
-    <tr><td class="paramname">address</td><td>address of sprite graphics (8K-word steps) </td></tr>
-    <tr><td class="paramname">oamsize</td><td>default OAM size (OBJ_SIZE8, OBJ_SIZE16 and OBJ_SIZE32) </td></tr>
+    <tr><td class="paramname">vol</td><td>volume (0..15) </td></tr>
+    <tr><td class="paramname">panning</td><td>panning (0..15) </td></tr>
+    <tr><td class="paramname">pitch</td><td>PITCH (1..6) (hz = PITCH * 2000) </td></tr>
+    <tr><td class="paramname">length</td><td>length of brr sample </td></tr>
+    <tr><td class="paramname">sampleaddr</td><td>address of brr sample </td></tr>
+    <tr><td class="paramname">ptr</td><td>address of variable where sounds values will be stored</td></tr>
+    <tr><td class="paramname">ptr</td><td>address of variable where sounds values will be stored </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00013.html#a23">games/likemario/LikeMario.c</a>, <a class="el" href="a00010.html#a1">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, and <a class="el" href="a00009.html#a1">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>.</dd>
-</dl>
+
 </div>
 </div>
-<a class="anchor" id="a4120a8ff32c39973babeca3615a0a2fd"></a>
+<a class="anchor" id="a4ef9d5d4b7618a2e091194b6c17f75a5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="a00027.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a> </td>
+          <td class="memname"><a class="el" href="a00027.html#a4ef9d5d4b7618a2e091194b6c17f75a5">spcSetSoundEntry</a> </td>
           <td>(</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>vol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>panning</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>pitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>id</em>, </td>
+          <td class="paramname"><em>length</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>sampleaddr</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>hide</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="a00016.html">brrsamples</a> *&#160;</td>
+          <td class="paramname"><em>ptr</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -577,34 +615,37 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a000
 </div>
 <div class="memdoc">
 
-<p>Put the correct size and hide or not a oam. </p>
+<p>set the values and address of the SOUND TABLE for a sound entry </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] * 4 because of oam structure </td></tr>
-    <tr><td class="paramname">size</td><td>normal or large (OBJ_SMALL or OBJ_LARGE) </td></tr>
-    <tr><td class="paramname">hide</td><td>0 or 1 to hide / see oam </td></tr>
+    <tr><td class="paramname">vol</td><td>volume (0..15) </td></tr>
+    <tr><td class="paramname">panning</td><td>panning (0..15) </td></tr>
+    <tr><td class="paramname">pitch</td><td>PITCH (1..6) (hz = PITCH * 2000) </td></tr>
+    <tr><td class="paramname">length</td><td>length of brr sample </td></tr>
+    <tr><td class="paramname">sampleaddr</td><td>address of brr sample </td></tr>
+    <tr><td class="paramname">ptr</td><td>address of variable where sounds values will be stored </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00013.html#a29">games/likemario/LikeMario.c</a>, <a class="el" href="a00010.html#a4">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, and <a class="el" href="a00009.html#a4">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00015.html#a10">audio/tada/Tada.c</a>, and <a class="el" href="a00013.html#a18">games/likemario/LikeMario.c</a>.</dd>
 </dl>
 </div>
 </div>
-<a class="anchor" id="a35a0da9852240ef41b5030ed21b6eeb2"></a>
+<a class="anchor" id="ad1eb603fd2445102225319797d226fea"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="a00027.html#a35a0da9852240ef41b5030ed21b6eeb2">oamSetVisible</a> </td>
+          <td class="memname"><a class="el" href="a00027.html#ad1eb603fd2445102225319797d226fea">spcSetSoundTable</a> </td>
           <td>(</td>
           <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>id</em>, </td>
+          <td class="paramname"><em>sndTableAddr</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>hide</em>&#160;</td>
+          <td class="paramname"><em>sndTableBank</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -615,48 +656,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a000
 </div>
 <div class="memdoc">
 
-<p>Hide or not a oam. </p>
+<p>set the address of the SOUND TABLE </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] * 4 because of oam structure </td></tr>
-    <tr><td class="paramname">hide</td><td>0 or 1 to hide / see oam </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00010.html#a5">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a class="anchor" id="a20d12ff39a82b0e4df0f20b6de38a101"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="a00027.html#a20d12ff39a82b0e4df0f20b6de38a101">oamUpdate</a> </td>
-          <td>(</td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>first</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>numEntries</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Write one or more OBJ descriptors to OAM. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">first</td><td>number of 1st sprite to write * 4 because of oam structure </td></tr>
-    <tr><td class="paramname">numEntries</td><td>total number of sprites to write </td></tr>
+    <tr><td class="paramname">sndTableAddr</td><td>address of sound table </td></tr>
+    <tr><td class="paramname">sndTableBank</td><td>bank of sound table </td></tr>
   </table>
   </dd>
 </dl>
@@ -667,7 +671,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a000
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 5 2014 12:01:38 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 14 2014 07:54:47 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

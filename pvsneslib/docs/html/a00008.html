@@ -97,7 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <span class="comment"></span>
 <span class="comment"></span>
 <span class="comment">---------------------------------------------------------------------------------*/</span>
-<span class="preprocessor">#include &lt;<a class="code" href="a00024.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
+<span class="preprocessor">#include &lt;<a class="code" href="a00025.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
 
 <span class="keyword">extern</span> <span class="keywordtype">char</span> LandTiles, LandTiles_end;
 <span class="keyword">extern</span> <span class="keywordtype">char</span> CloudTiles, CloudTiles_end;
@@ -122,13 +122,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <a class="code" href="a00018.html#acc385296e159449a81d18f5e219c8032" title="Initializes a Map Set and loads it into SNES VRAM.">bgInitMapSet</a>(2, &amp;Mapsc, (&amp;Mapsc_end - &amp;Mapsc),<a class="code" href="a00018.html#a11724b6748ce0954e9b43819263537fc" title="Bit defines for the background control registers.">SC_32x32</a>, 0x2400);
 
     <span class="comment">// Now Put in 16 color mode and put cloud on top of screen</span>
-    <a name="a4"></a><a class="code" href="a00028.html#afd9e46ae627d055dd8c98a4b0ebb73b1" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a5"></a><a class="code" href="a00018.html#a05c862edb7f8f75036f10c04dcc3c2a6" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,BG3_MODE1_PRORITY_HIGH); <a name="a6"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1);  
+    <a name="a4"></a><a class="code" href="a00029.html#afd9e46ae627d055dd8c98a4b0ebb73b1" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a5"></a><a class="code" href="a00018.html#a05c862edb7f8f75036f10c04dcc3c2a6" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,BG3_MODE1_PRORITY_HIGH); <a name="a6"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1);  
 
     <span class="comment">// Set BG3 SubScreen and </span>
     <a name="a7"></a><a class="code" href="a00018.html#a439e34ab400075fa7f12e6e559407e9b" title="Enable a BG from sub screen (translucent) in the actual SNES mode.">bgSetEnableSub</a>(2);
     
     <span class="comment">// enable Subscreen Color ADD/SUB and Color addition on BG1 and Backdrop color</span>
-    <a name="a8"></a><a class="code" href="a00028.html#a87d6cb8ec2433c908666a0a7f2306cb4" title="Do addition or other color effects.">setColorEffect</a>(CM_SUBBGOBJ_ENABLE, CM_MSCR_BACK | CM_MSCR_BG1);
+    <a name="a8"></a><a class="code" href="a00029.html#a87d6cb8ec2433c908666a0a7f2306cb4" title="Do addition or other color effects.">setColorEffect</a>(CM_SUBBGOBJ_ENABLE, CM_MSCR_BACK | CM_MSCR_BG1);
 
     <span class="comment">// Wait for nothing :P</span>
     <span class="keywordflow">while</span>(1) {
@@ -144,7 +144,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 5 2014 12:01:37 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 14 2014 07:54:47 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

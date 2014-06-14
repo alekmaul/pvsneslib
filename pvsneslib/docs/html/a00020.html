@@ -107,10 +107,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>Wrapper functions for direct memory access hardware.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="a00025.html">snes/snestypes.h</a>&gt;</code><br/>
+<div class="textblock"><code>#include &lt;<a class="el" href="a00026.html">snes/snestypes.h</a>&gt;</code><br/>
 <code>#include &lt;<a class="el" href="a00018.html">snes/background.h</a>&gt;</code><br/>
-<code>#include &lt;<a class="el" href="a00027.html">snes/sprite.h</a>&gt;</code><br/>
-<code>#include &lt;<a class="el" href="a00028.html">snes/video.h</a>&gt;</code><br/>
+<code>#include &lt;<a class="el" href="a00028.html">snes/sprite.h</a>&gt;</code><br/>
+<code>#include &lt;<a class="el" href="a00029.html">snes/video.h</a>&gt;</code><br/>
 </div><table class="memberdecls">
 <tr><td colspan="2"><h2><a name="define-members"></a>
 Defines</h2></td></tr>
@@ -138,8 +138,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a000
 <tr class="memdesc:a20f89d93d57e0f726ae6393c9a97ac00"><td class="mdescLeft">&#160;</td><td class="mdescRight">copies Palette from source to destination using channel 0 of DMA available channels in half words  <a href="#a20f89d93d57e0f726ae6393c9a97ac00"></a><br/></td></tr>
 <tr class="memitem:a2f9585bce8262424ff3e8121c6a9e44e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00020.html#a2f9585bce8262424ff3e8121c6a9e44e">dmaCopyOAram</a> (u8 *source, u16 address, u16 size)</td></tr>
 <tr class="memdesc:a2f9585bce8262424ff3e8121c6a9e44e"><td class="mdescLeft">&#160;</td><td class="mdescRight">copies Sprites from source to destination using channel 0 of DMA available channels in half words  <a href="#a2f9585bce8262424ff3e8121c6a9e44e"></a><br/></td></tr>
+<tr class="memitem:a4d1d327e4069519217eea680fedb3963"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00020.html#a4d1d327e4069519217eea680fedb3963">dmaCopySpr16Vram</a> (u8 *source, u16 address)</td></tr>
+<tr class="memdesc:a4d1d327e4069519217eea680fedb3963"><td class="mdescLeft">&#160;</td><td class="mdescRight">copy sprite 16pix size data from source to destination using channel 0 of DMA available channels in half words  <a href="#a4d1d327e4069519217eea680fedb3963"></a><br/></td></tr>
+<tr class="memitem:af6777b440b9ff8d081df38704863c57f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00020.html#af6777b440b9ff8d081df38704863c57f">dmaCopySpr32Vram</a> (u8 *source, u16 address)</td></tr>
+<tr class="memdesc:af6777b440b9ff8d081df38704863c57f"><td class="mdescLeft">&#160;</td><td class="mdescRight">copy sprite 32pix size data from source to destination using channel 0 of DMA available channels in half words  <a href="#af6777b440b9ff8d081df38704863c57f"></a><br/></td></tr>
 <tr class="memitem:aaf545b3f811f6ef4b7c4be434701a77a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00020.html#aaf545b3f811f6ef4b7c4be434701a77a">dmaCopyVram</a> (u8 *source, u16 address, u16 size)</td></tr>
-<tr class="memdesc:aaf545b3f811f6ef4b7c4be434701a77a"><td class="mdescLeft">&#160;</td><td class="mdescRight">copies data from source to destination using channel 0 of DMA available channels in half words  <a href="#aaf545b3f811f6ef4b7c4be434701a77a"></a><br/></td></tr>
+<tr class="memdesc:aaf545b3f811f6ef4b7c4be434701a77a"><td class="mdescLeft">&#160;</td><td class="mdescRight">copy data from source to destination using channel 0 of DMA available channels in half words  <a href="#aaf545b3f811f6ef4b7c4be434701a77a"></a><br/></td></tr>
 <tr class="memitem:aa402636f351eb16696c9e6eb60626a0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00020.html#aa402636f351eb16696c9e6eb60626a0f">dmaCopyVram7</a> (u8 *source, u16 address, u16 size, u8 vrammodeinc, u16 dmacontrol)</td></tr>
 <tr class="memdesc:aa402636f351eb16696c9e6eb60626a0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">copies data from source to destination using channel 0 of DMA available channels in half words with VMAIN value  <a href="#aa402636f351eb16696c9e6eb60626a0f"></a><br/></td></tr>
 <tr class="memitem:ad0302d82f5e7cefca7ad90d49331cd39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00020.html#ad0302d82f5e7cefca7ad90d49331cd39">dmaFillVram</a> (u8 source, u16 address, u16 size)</td></tr>
@@ -286,6 +290,78 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a000
 
 </div>
 </div>
+<a class="anchor" id="a4d1d327e4069519217eea680fedb3963"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a00020.html#a4d1d327e4069519217eea680fedb3963">dmaCopySpr16Vram</a> </td>
+          <td>(</td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>address</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>copy sprite 16pix size data from source to destination using channel 0 of DMA available channels in half words </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>the source to copy from </td></tr>
+    <tr><td class="paramname">address</td><td>vram address to copy </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="af6777b440b9ff8d081df38704863c57f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a00020.html#af6777b440b9ff8d081df38704863c57f">dmaCopySpr32Vram</a> </td>
+          <td>(</td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>address</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>copy sprite 32pix size data from source to destination using channel 0 of DMA available channels in half words </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>the source to copy from </td></tr>
+    <tr><td class="paramname">address</td><td>vram address to copy </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="aaf545b3f811f6ef4b7c4be434701a77a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -317,7 +393,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a000
 </div>
 <div class="memdoc">
 
-<p>copies data from source to destination using channel 0 of DMA available channels in half words </p>
+<p>copy data from source to destination using channel 0 of DMA available channels in half words </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">source</td><td>the source to copy from </td></tr>
@@ -460,7 +536,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a000
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 5 2014 12:01:38 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 14 2014 07:54:47 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

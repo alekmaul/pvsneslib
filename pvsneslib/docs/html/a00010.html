@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <span class="comment"> Sprite from Stephen &quot;Redshrike&quot; Challener), http://opengameart.org</span>
 <span class="comment"></span>
 <span class="comment">---------------------------------------------------------------------------------*/</span>
-<span class="preprocessor">#include &lt;<a class="code" href="a00024.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
+<span class="preprocessor">#include &lt;<a class="code" href="a00025.html" title="the master include file for snes applications.">snes.h</a>&gt;</span>
 
 <span class="keyword">extern</span> <span class="keywordtype">char</span> gfxpsrite, gfxpsrite_end;
 <span class="keyword">extern</span> <span class="keywordtype">char</span> palsprite, palsprite_end;
@@ -138,15 +138,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <a name="a0"></a><a class="code" href="a00019.html#a6047713bb5a73afd3cd1d77e336bcdad" title="Initialize console.">consoleInit</a>();
     
     <span class="comment">// Init Sprites gfx and palette with default size of 16x16</span>
-    <a name="a1"></a><a class="code" href="a00027.html#a46e0be47f8fc865a7f43c1b0b126e59a" title="Initializes a sprites Gfx and Loads the GFX into VRAM.">oamInitGfxSet</a>(&amp;gfxpsrite, (&amp;gfxpsrite_end-&amp;gfxpsrite), &amp;palsprite, (&amp;palsprite_end-&amp;palsprite), 0, 0x0000, <a name="a2"></a><a class="code" href="a00027.html#a35664c2c4a66c3bac8139ae093d7f3ac" title="default OAM size 16x16 pix for OBJSEL register">OBJ_SIZE16</a>);
+    <a name="a1"></a><a class="code" href="a00028.html#a46e0be47f8fc865a7f43c1b0b126e59a" title="Initializes a sprites Gfx and Loads the GFX into VRAM.">oamInitGfxSet</a>(&amp;gfxpsrite, (&amp;gfxpsrite_end-&amp;gfxpsrite), &amp;palsprite, (&amp;palsprite_end-&amp;palsprite), 0, 0x0000, <a name="a2"></a><a class="code" href="a00028.html#a35664c2c4a66c3bac8139ae093d7f3ac" title="default OAM size 16x16 pix for OBJSEL register">OBJ_SIZE16</a>);
 
     <span class="comment">// Define sprites parameters</span>
-    <a name="a3"></a><a class="code" href="a00027.html#af18394510c04f64df05cfa40f6ac2e82" title="sets an oam entry to the supplied values">oamSet</a>(0,  monster.x, monster.y, 0, 0, 0, 0, 0); 
-    <a name="a4"></a><a class="code" href="a00027.html#a4120a8ff32c39973babeca3615a0a2fd" title="Put the correct size and hide or not a oam.">oamSetEx</a>(0, OBJ_SMALL, OBJ_SHOW);
-    <a name="a5"></a><a class="code" href="a00027.html#a35a0da9852240ef41b5030ed21b6eeb2" title="Hide or not a oam.">oamSetVisible</a>(0,OBJ_SHOW);
+    <a name="a3"></a><a class="code" href="a00028.html#af18394510c04f64df05cfa40f6ac2e82" title="sets an oam entry to the supplied values">oamSet</a>(0,  monster.x, monster.y, 0, 0, 0, 0, 0); 
+    <a name="a4"></a><a class="code" href="a00028.html#a4120a8ff32c39973babeca3615a0a2fd" title="Put the correct size and hide or not a oam.">oamSetEx</a>(0, OBJ_SMALL, OBJ_SHOW);
+    <a name="a5"></a><a class="code" href="a00028.html#a35a0da9852240ef41b5030ed21b6eeb2" title="Hide or not a oam.">oamSetVisible</a>(0,OBJ_SHOW);
     
     <span class="comment">// Now Put in 16 color mode and disable all backgrounds</span>
-    <a name="a6"></a><a class="code" href="a00028.html#afd9e46ae627d055dd8c98a4b0ebb73b1" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a7"></a><a class="code" href="a00018.html#a05c862edb7f8f75036f10c04dcc3c2a6" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0); <a name="a8"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(0); <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1); <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
+    <a name="a6"></a><a class="code" href="a00029.html#afd9e46ae627d055dd8c98a4b0ebb73b1" title="Set the SNES hardware to operate in new display mode.">setMode</a>(<a name="a7"></a><a class="code" href="a00018.html#a05c862edb7f8f75036f10c04dcc3c2a6" title="16-color 16-color 4-color - ;Normal">BG_MODE1</a>,0); <a name="a8"></a><a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(0); <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(1); <a class="code" href="a00018.html#a4dbfb1b8854ff9ca4a7d11a899281bbb" title="Disable a BG in the actual SNES mode.">bgSetDisable</a>(2);
     
     <span class="comment">// Wait VBL &#39;and update sprites too ;-) )</span>
     <a name="a9"></a><a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
@@ -184,7 +184,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
         
         <span class="comment">// Now, get current sprite in current animation</span>
         monster.gfx_frame = sprTiles[monster.anim_frame + monster.state*FRAMES_PER_ANIMATION ];
-        <a class="code" href="a00027.html#af18394510c04f64df05cfa40f6ac2e82" title="sets an oam entry to the supplied values">oamSet</a>(0,  monster.x, monster.y, 3, monster.flipx, 0, monster.gfx_frame, 0);
+        <a class="code" href="a00028.html#af18394510c04f64df05cfa40f6ac2e82" title="sets an oam entry to the supplied values">oamSet</a>(0,  monster.x, monster.y, 3, monster.flipx, 0, monster.gfx_frame, 0);
         
         <span class="comment">// Wait VBL &#39;and update sprites too ;-) )</span>
         <a class="code" href="a00021.html#a815e2626bd26d0e936d507a363ecd723" title="Wait for vblank interrupt Waits for a vertical blank interrupt.">WaitForVBlank</a>();
@@ -195,7 +195,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 5 2014 12:01:37 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 14 2014 07:54:47 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

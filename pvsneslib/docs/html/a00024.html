@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>pvsneslib: snes.h File Reference</title>
+<title>pvsneslib: pixel.h File Reference</title>
 
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="docs.css" rel="stylesheet" type="text/css" />
@@ -92,32 +92,106 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="nav-path" class="navpath">
     <ul>
       <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a>      </li>
+      <li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a>      </li>
     </ul>
   </div>
 </div>
 <div class="header">
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">snes.h File Reference</div>  </div>
+<div class="title">pixel.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>the master include file for snes applications.  
+<p>contains the basic defnitions for doing a pixel per pixel mode for SNES.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00018.html">snes/background.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="a00019.html">snes/console.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="a00020.html">snes/dma.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="a00021.html">snes/interrupts.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="a00023.html">snes/pad.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="a00026.html">snes/sound.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="a00027.html">snes/sprite.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="a00028.html">snes/video.h</a>&quot;</code><br/>
-</div><hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p>the master include file for snes applications. </p>
-</div></div><!-- contents -->
+<div class="textblock"><code>#include &lt;<a class="el" href="a00026.html">snes/snestypes.h</a>&gt;</code><br/>
+</div><table class="memberdecls">
+<tr><td colspan="2"><h2><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a3343c49cdbe30c204e8bda550a492b88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00024.html#a3343c49cdbe30c204e8bda550a492b88">pixSetMode</a> (u8 *pixPalette)</td></tr>
+<tr class="memdesc:a3343c49cdbe30c204e8bda550a492b88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Init pixel mode with SNES mode 0.  <a href="#a3343c49cdbe30c204e8bda550a492b88"></a><br/></td></tr>
+<tr class="memitem:a0b844a87da0e6da9abe86ce79b97b6cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00024.html#a0b844a87da0e6da9abe86ce79b97b6cf">pixSetPixel</a> (u8 x, u8 y, u8 color)</td></tr>
+<tr class="memdesc:a0b844a87da0e6da9abe86ce79b97b6cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a dot.  <a href="#a0b844a87da0e6da9abe86ce79b97b6cf"></a><br/></td></tr>
+</table>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<div class="textblock"><p>contains the basic defnitions for doing a pixel per pixel mode for SNES. </p>
+<p>map entrgy is 0x5800 and tiles entry is 0x6000 for 14K bytes ! so don't use graphics after 0x5800 this pixel mode uses SNES mode 0 so only 3 colors can be used </p>
+</div><hr/><h2>Function Documentation</h2>
+<a class="anchor" id="a3343c49cdbe30c204e8bda550a492b88"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00024.html#a3343c49cdbe30c204e8bda550a492b88">pixSetMode</a> </td>
+          <td>(</td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>pixPalette</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Init pixel mode with SNES mode 0. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pixPalette</td><td>address of palette entry </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a0b844a87da0e6da9abe86ce79b97b6cf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00024.html#a0b844a87da0e6da9abe86ce79b97b6cf">pixSetPixel</a> </td>
+          <td>(</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>color</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Draw a dot. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>x coordinate of dot </td></tr>
+    <tr><td class="paramname">y</td><td>y coordinate of dot </td></tr>
+    <tr><td class="paramname">color</td><td>color of pixel (must be 1, 2 or 3) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 5 2014 12:01:38 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 14 2014 07:54:47 for pvsneslib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

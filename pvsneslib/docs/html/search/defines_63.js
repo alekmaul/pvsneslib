@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['cgram_5fpalette',['CGRAM_PALETTE',['../a00028.html#afe3cc8b2ea5f41a791be1b3a3cf04cb2',1,'video.h']]],
-  ['cm_5fdircolor',['CM_DIRCOLOR',['../a00028.html#afbe2b768602914630a49573d20359eb1',1,'video.h']]],
+  ['cgram_5fpalette',['CGRAM_PALETTE',['../a00029.html#afe3cc8b2ea5f41a791be1b3a3cf04cb2',1,'video.h']]],
+  ['cm_5fdircolor',['CM_DIRCOLOR',['../a00029.html#afbe2b768602914630a49573d20359eb1',1,'video.h']]],
   ['colwin_5fmb24w1enablein',['COLWIN_MB24W1ENABLEIN',['../a00018.html#a7f85311a4643785618d9ebc9dd047a44',1,'background.h']]],
   ['colwin_5fmb24w1enableout',['COLWIN_MB24W1ENABLEOUT',['../a00018.html#a6c5d3817485ae11899798a7e0a010ca7',1,'background.h']]],
   ['colwin_5fmb24w2enablein',['COLWIN_MB24W2ENABLEIN',['../a00018.html#a8f8c84ebe0a9545ea9c96b8abf19c7a4',1,'background.h']]],

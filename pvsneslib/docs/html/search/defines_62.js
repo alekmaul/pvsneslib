@@ -8,5 +8,5 @@ var searchData=
   ['bg_5fmode5',['BG_MODE5',['../a00018.html#aa1d65e002c63b60a2b8df95970572908',1,'background.h']]],
   ['bg_5fmode6',['BG_MODE6',['../a00018.html#a260fbcabdf73b2e049ae9fcd633b3ee2',1,'background.h']]],
   ['bg_5fmode7',['BG_MODE7',['../a00018.html#ac2995da5a6139bd6ca1091ae3358d4f3',1,'background.h']]],
-  ['bit',['BIT',['../a00025.html#a3a8ea58898cb58fc96013383d39f482c',1,'snestypes.h']]]
+  ['bit',['BIT',['../a00026.html#a3a8ea58898cb58fc96013383d39f482c',1,'snestypes.h']]]
 ];
