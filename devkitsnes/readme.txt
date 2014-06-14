@@ -22,6 +22,9 @@ SPECIAL THANKS
                
 CHANGE LOG
 ----------------------
+VERSION 1.30 (xx, yyyy, 2014)
+- Added : sram and country management in snestool
+
 VERSION 1.20 (xx, yyyy, 2014)
 - Added : sed path to sym file to be ok with no$sns symbols reading
 
