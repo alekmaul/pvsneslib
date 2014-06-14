@@ -71,6 +71,7 @@ CFLAGS += -I$(DEVKIT65XX)/include
 	$(LD) -dsno $(OFILES) $(LIBOBJS) $@
 	@sed 's/://' <$(TARGET).sym >$(TARGET).tmp
 	@mv $(TARGET).tmp $(TARGET).sym
+
 #---------------------------------------------------------------------------------
 %.pic: %.bmp
 	@echo convert bitmap ... $(notdir $<)
