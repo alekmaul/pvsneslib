@@ -1,9 +1,10 @@
 /***************************************************************************
 
-  gfx2snes.c
+	gfx2snes.c
 
-  Image converter for snes.
-  Parts from pcx2snes from Neviksti
+	Image converter for snes.
+	Parts from pcx2snes from Neviksti
+	palette rounded option from Artemio Urbina 
 
 ***************************************************************************/
 
@@ -141,6 +142,7 @@ int colortabinc=16;     // 16 for 16 color mode, 4 for 4 color mode
 int lzpacked=0;         // 1 = comrpess file with LZSS algorithm
 int highpriority=0;     // 1 = high priority for map
 int blanktile=0;        // 1 = blank tile generated
+int palette_rnd=1;      // 1 = round palette up & down
 
 //// F U N C T I O N S //////////////////////////////////////////////////////////
 
@@ -1181,43 +1183,57 @@ void ConvertPalette(RGB_color *palette, int *new_palette)
 	rounded=0;
 	for(i=0;i<256;i++)
 	{
-		data=0;
-
-		//get blue portion and round it off
-		temp = (palette[i].blue & 0x01);	//see if this needs rounding
-		if(palette[i].blue == 63)			//if value == 63, then we can't round up
+		if(palette_rnd)
 		{
-			temp = 0; 
-			rounded = 1;
-		}
-		data = (data<<5) + (palette[i].blue >> 1) 
-			+ (temp & rounded);				//round up if necessary
-		rounded = (temp ^ rounded);			//reset rounded down flag after rounding up
-
-		//get green portion and round it
-		temp = (palette[i].green & 0x01);	//see if this needs rounding
-		if(palette[i].green == 63)			//if value == 63, then we can't round up
-		{
-			temp = 0; 
-			rounded = 1;
-		}
-		data = (data<<5) + (palette[i].green >> 1) 
-			+ (temp & rounded);				//round up if necessary
-		rounded = (temp ^ rounded);			//reset rounded down flag after rounding up
-
-		//get red portion and round it
-		temp = (palette[i].red & 0x01);	//see if this needs rounding
-		if(palette[i].red == 63)			//if value == 63, then we can't round up
-		{
-			temp = 0; 
-			rounded = 1;
-		}
-		data = (data<<5) + (palette[i].red >> 1) 
-			+ (temp & rounded);				//round up if necessary
-		rounded = (temp ^ rounded);			//reset rounded down flag after rounding up
+			data=0;
 	
-		//store converted color
-		new_palette[i] = data;
+			//get blue portion and round it off
+			temp = (palette[i].blue & 0x01);	//see if this needs rounding
+			if(palette[i].blue == 63)			//if value == 63, then we can't round up
+			{
+				temp = 0; 
+				rounded = 1;
+			}
+			data = (data<<5) + (palette[i].blue >> 1)
+				+ (temp & rounded);				//round up if necessary
+			rounded = (temp ^ rounded);			//reset rounded down flag after rounding up
+	
+			//get green portion and round it
+			temp = (palette[i].green & 0x01);	//see if this needs rounding
+			if(palette[i].green == 63)			//if value == 63, then we can't round up
+			{
+				temp = 0; 
+				rounded = 1;
+			}
+			data = (data<<5) + (palette[i].green >> 1) 
+				+ (temp & rounded);				//round up if necessary
+			rounded = (temp ^ rounded);			//reset rounded down flag after rounding up
+	
+			//get red portion and round it
+			temp = (palette[i].red & 0x01);	//see if this needs rounding
+			if(palette[i].red == 63)			//if value == 63, then we can't round up
+			{
+				temp = 0; 
+				rounded = 1;
+			}
+			data = (data<<5) + (palette[i].red >> 1) 
+				+ (temp & rounded);				//round up if necessary
+			rounded = (temp ^ rounded);			//reset rounded down flag after rounding up
+		
+			//store converted color
+			new_palette[i] = data;
+		}
+		else
+		{
+			data=0;
+			
+			data = (data<<5) + (palette[i].blue >> 1);			
+			data = (data<<5) + (palette[i].green >> 1); 			
+			data = (data<<5) + (palette[i].red >> 1);
+		
+			//store converted color
+			new_palette[i] = data;
+		}
 	}//loop through all colors
 
 } //end of ConvertPalette
@@ -1253,6 +1269,7 @@ void PrintOptions(char *str)
 	printf("\n-po#              The number of colors to output (0 to 256) to the filename.pal");
 	printf("\n-pe#              The palette entry to add to map tiles (0 to 16)");
 	printf("\n-pr               Rearrange palette, and preserve palette numbers in the tilemap");
+	printf("\n-pR!              No palette rounding");
 	printf("\n\n--- File options ---");
 	printf("\n-f[bmp|pcx|tga]   convert a bmp or pcx file [bmp]");
 	printf("\n\n--- Misc options ---");
@@ -1410,6 +1427,10 @@ int main(int argc, char **arg)
 				{
 					savepalette=0;
 				}
+				else if( strcmp(&arg[i][1],"pR!") == 0)
+				{
+					palette_rnd=0;
+				}				
 				else if(arg[i][2]=='e') //palette entry specification
 				{
 					palette_entry=atoi(&arg[i][3]);
