@@ -13,7 +13,7 @@
 #include <memory.h>
 #include <malloc.h>
 #include <string.h>
-#include <ctype.h>
+//#include <ctype.h>
 
 //DEFINES
 #define SNESTOOLSVERSION __BUILD_VERSION
@@ -23,6 +23,9 @@
 #define HIROM_HEADER			0xffc0
 #define OFFSET_CHECKSUM			0x001c
 #define OFFSET_TITLE			0x0000
+#define OFFSET_CARDTYPE			0x0016
+#define OFFSET_SRAM				0x0018
+#define OFFSET_COUNTRY			0x0019
 
 #define UNK "Unknown"
 
@@ -186,6 +189,8 @@ int quietmode=0;		// 0 = not quiet, 1 = i can't say anything :P
 int showheader=1;		// 0 = don't display current header , 1 = display it
 int fixcrc=0;			// 1 = fix crc, 0 = don't fix it
 int changetitle=0;		// 1 = change game title, 0 = don't change it
+int changecountry=0;	// 1 = change game country, 0 = don't change it
+int nosram=0;           // 1 = change default pvsneslib with no sram support 
 
 int rom_has_header=0;	// 1 = rom with extra 512 bytes header
 snes_header snesheader; // content of all header
@@ -422,7 +427,7 @@ int show_header(char * filename, FILE *fp)
 			printf("\nVideo Type    : NTSC (60Hz)");
 		else
 			printf("\nVideo Type    : PAL (50Hz)");
-		printf("\nSRAM Size     : %dK",memory_amount[snesheader.SRAMsize]);
+		printf("\nSRAM Size     : %dK [%02X]",memory_amount[snesheader.SRAMsize],snesheader.SRAMsize);
 		printf("\nExp.RAM Size  : %dK",snesheader.license == 0x33 ? snesheader.extended[13] : 0);
 		printf("\nBattery       : %s",has_sram ?  "Yes" : "No");
 		printf("\nNMI Address   : %04Xh (native) %04Xh (emul.)", snesheader.nmi_vecs, snesheader.enmi_vecs );
@@ -558,6 +563,59 @@ int change_title(char * filename, FILE *fp, char *title)
 	return -1;
 }
 
+int change_country(char * filename, FILE *fp, char *country) 
+{
+	int cntry=0,addr;
+	
+	if (quietmode == 0)
+		printf("\nChange country to [%s] ...", country);
+
+	// Compute address of country entry.
+	addr = 512*rom_has_header + rom_is_lorom ? LOROM_HEADER + OFFSET_COUNTRY : HIROM_HEADER + OFFSET_COUNTRY;
+
+	// Go to country and change it
+	if ((country[0]>='0') && (country[0]<='9'))
+		cntry=(country[0]-'0')*10;
+	else if ((country[0]>='A') && (country[0]<='A'))
+		cntry=(country[0]-'A')*10+10;
+	if ((country[1]>='0') && (country[1]<='9'))
+		cntry+=(country[1]-'0')*10;
+	else if ((country[1]>='A') && (country[1]<='A'))
+		cntry+=(country[1]-'A')*10+10;
+	fseek(fp, addr, SEEK_SET);
+	fputc(cntry, fp);
+
+	// compute crc again to avoid problems
+	change_checksum(filename, fp) ;
+	
+	return -1;
+}
+
+int change_sram(char * filename, FILE *fp, char nosram) 
+{
+	int addr;
+
+	if (quietmode == 0)
+		printf("\nChange sram to [%s] ...", nosram ? "NOSRAM" : "SRAM");
+
+	// Compute address of title entry and Go to sram and change it
+	addr = 512*rom_has_header + rom_is_lorom ? LOROM_HEADER + OFFSET_SRAM : HIROM_HEADER + OFFSET_SRAM;
+	fseek(fp, addr, SEEK_SET);
+	if (nosram == 1)
+		fputc(0,fp);
+
+	// Compute address of title entry.
+	addr = 512*rom_has_header + rom_is_lorom ? LOROM_HEADER + OFFSET_CARDTYPE : HIROM_HEADER + OFFSET_CARDTYPE;
+	fseek(fp, addr, SEEK_SET);
+	if (nosram == 1)
+		fputc(0,fp);
+
+	// compute crc again to avoid problems
+	change_checksum(filename, fp) ;
+	
+	return -1;
+}
+
 //////////////////////////////////////////////////////////////////////////////
 
 void PrintOptions(char *str)
@@ -571,8 +629,10 @@ void PrintOptions(char *str)
 	printf("\n\nOptions are:");
 	printf("\n\n--- Header options ---");
 	printf("\n-hi!              Don't show current filename header information.");
-	printf("\n-hc               Fix hearder CRC.");
+	printf("\n-hf               Fix hearder CRC.");
 	printf("\n-ht[text]         Change game title.");
+	printf("\n-hc[country]      Change country (00 for NTSC,01 for PAL).");
+	printf("\n-hS!              No SRAM (default is on in pvsneslib).");
 	printf("\n\n--- Misc options ---");
 	printf("\n-q                quiet mode");
 	printf("\n");
@@ -587,15 +647,17 @@ int main(int argc, char **arg)
 
 	char filebase[256];
 	char programtitle[256];
+	char country[3];			// new country
+
 	int i, j;
 
 	// Show something to begin :)
 	if (quietmode == 0) {
-		printf("\n==============================");
+		printf("\n===============================");
 		printf("\n---snestools v"SNESTOOLSVERSION" "SNESTOOLSDATE"---");
-		printf("\n------------------------------");
-		printf("\n(c) 2012 Alekmaul ");
-		printf("\n==============================\n");
+		printf("\n-------------------------------");
+		printf("\n(c) 2014 Alekmaul ");
+		printf("\n===============================\n");
 	}
 	
 	// Init vars
@@ -619,9 +681,19 @@ int main(int argc, char **arg)
 				{
 					showheader=0;					
 				}
-				else if( strcmp(&arg[i][1],"hc") == 0)
+				else if( strcmp(&arg[i][1],"hf") == 0)
 				{
 					if (!changetitle) fixcrc=1; // because change_title does it too
+				}
+				else if(arg[i][2]=='c') // country
+				{
+					changecountry = 1;
+					fixcrc=0; // because we will do it
+					strcpy(country,&arg[i][3]);
+					if (strlen(country) != 2) {
+						PrintOptions(arg[i]);
+						return 1;	
+					}
 				}
 				else if(arg[i][2]=='t') // program title
 				{
@@ -633,6 +705,11 @@ int main(int argc, char **arg)
 						programtitle[21]='\0'; // to avoid problems
 					}
 					changetitle = 1;
+					fixcrc=0; // because we will do it
+				}
+				else if( strcmp(&arg[i][1],"hS!") == 0)
+				{
+					nosram=1;
 					fixcrc=0; // because we will do it
 				}
 				else
@@ -700,6 +777,20 @@ int main(int argc, char **arg)
 	// if needed, change some game information
 	if (changetitle) {
 		if (!change_title(filebase, fp, programtitle)) 
+		{
+			fclose(fp);
+			return 1;
+		}
+	}
+	if (changecountry) {
+		if (!change_country(filebase, fp, country)) 
+		{
+			fclose(fp);
+			return 1;
+		}
+	}
+	if (nosram) {
+		if (!change_sram(filebase, fp, 1)) 
 		{
 			fclose(fp);
 			return 1;
