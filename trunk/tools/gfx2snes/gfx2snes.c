@@ -142,7 +142,7 @@ int colortabinc=16;     // 16 for 16 color mode, 4 for 4 color mode
 int lzpacked=0;         // 1 = comrpess file with LZSS algorithm
 int highpriority=0;     // 1 = high priority for map
 int blanktile=0;        // 1 = blank tile generated
-int palette_rnd=1;      // 1 = round palette up & down
+int palette_rnd=0;      // 1 = round palette up & down
 
 //// F U N C T I O N S //////////////////////////////////////////////////////////
 
@@ -1269,7 +1269,7 @@ void PrintOptions(char *str)
 	printf("\n-po#              The number of colors to output (0 to 256) to the filename.pal");
 	printf("\n-pe#              The palette entry to add to map tiles (0 to 16)");
 	printf("\n-pr               Rearrange palette, and preserve palette numbers in the tilemap");
-	printf("\n-pR!              No palette rounding");
+	printf("\n-pR               Palette rounding");
 	printf("\n\n--- File options ---");
 	printf("\n-f[bmp|pcx|tga]   convert a bmp or pcx file [bmp]");
 	printf("\n\n--- Misc options ---");
@@ -1427,9 +1427,9 @@ int main(int argc, char **arg)
 				{
 					savepalette=0;
 				}
-				else if( strcmp(&arg[i][1],"pR!") == 0)
+				else if( strcmp(&arg[i][1],"pR") == 0)
 				{
-					palette_rnd=0;
+					palette_rnd=1;
 				}				
 				else if(arg[i][2]=='e') //palette entry specification
 				{
@@ -1614,17 +1614,17 @@ int main(int argc, char **arg)
 	//if its a full screen, determine the number of tiles
 	if(screen)
 	{
-		if(width>256)
+		//ALEK 09/08 if(width>256)
 			//tile_x=64;
 			tile_x=width/8;
-		else
-			tile_x=32;
+		//ALEK 09/08 else
+		//ALEK 09/08 	tile_x=32;
 
-		if(height>256)
+		//ALEK 09/08 if(height>256)
 			//tile_y=64;
 			tile_y=height/8;
-		else
-			tile_y=32;
+		//ALEK 09/08 else
+		//ALEK 09/08 	tile_y=32;
 
 		if(screen==7)
 		{
@@ -1857,6 +1857,7 @@ int main(int argc, char **arg)
 			for(i=0;i<tile_x*tile_y;i++)
 			{
 				if (tilemap[i]>=collisionsp) {
+					//printf("\ni=%d tile_x=%d collision=%d  %d %d\n",i,tile_x,i % tile_x, i / tile_x,tilemap[i]);
 					PutWord(tilemap[i],fp);  // Entry
 					PutWord(i % tile_x,fp);  // x coordinate
 					PutWord(i / tile_x,fp);  // y coordinate
