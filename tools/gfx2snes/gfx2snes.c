@@ -4,7 +4,7 @@
 
 	Image converter for snes.
 	Parts from pcx2snes from Neviksti
-	palette rounded option from Artemio Urbina 
+	palette rounded option from Artemio Urbina
 
 ***************************************************************************/
 
@@ -25,7 +25,7 @@
 #define HIGH(n)     ((int)n<<8)             // turn the char into high part of int
 
  #pragma pack(1)                            // for bmp header to avoid data alignment
- 
+
 //STRUCTURES
 
 typedef struct RGB_color_typ
@@ -34,7 +34,7 @@ typedef struct RGB_color_typ
 	unsigned char green;    //Green component of color 0-63
 	unsigned char blue;     //Blue component of color 0-63
 	} RGB_color, *RGB_color_ptr;
-	
+
 typedef struct pcx_header_typ
 	{
 	char manufacturer;
@@ -64,12 +64,12 @@ typedef struct pcx_header_typ
 	short bytes_per_line;
 		// Bytes per one horizontal line
 	short palette_type;
-		// 1 = Color or B&W   
-		// 2 = Grayscale		
+		// 1 = Color or B&W
+		// 2 = Grayscale
 	char padding[58];
 		// Extra bytes for a rainy day
 	} pcx_header, *pcx_header_ptr;
-	
+
 typedef struct pcx_picture_typ
 	{
 	pcx_header header;
@@ -126,7 +126,7 @@ typedef struct tga_hearder_type
 int	border=1;			//options and their defaults
 int	packed=0;			//
 int size=0;				//
-int screen=0;			//	
+int screen=0;			//
 int colors=0;			//
 int output_palette=-1;  //
 int rearrange=0;		//
@@ -187,7 +187,7 @@ int PCX_Load(char *filename, pcx_picture_ptr image)
 		fclose(fp);
 		return 0;
 	}
-	
+
 	//allocate memory for the picture + 64 empty lines
 	image->buffer = malloc( (size_t)(header->height+64)*header->width );
 	if(image->buffer == NULL)
@@ -198,7 +198,7 @@ int PCX_Load(char *filename, pcx_picture_ptr image)
 	}
 
 	//initally clear the memory (to make those extra lines be blank)
-	memset(image->buffer,0,(size_t)(header->height+64)*header->width);	
+	memset(image->buffer,0,(size_t)(header->height+64)*header->width);
 
 	// load the data and decompress into buffer
 	count=0;
@@ -216,7 +216,7 @@ int PCX_Load(char *filename, pcx_picture_ptr image)
 				// how many bytes in run?
 				num_bytes = data-192;
 				x += (num_bytes-1);
-	
+
 				// get the actual data for the run
 				data = getc(fp);
 
@@ -232,10 +232,10 @@ int PCX_Load(char *filename, pcx_picture_ptr image)
 			} // end else not rle
 
 		} //end of x loop
-	
+
 		//get rid of the padding byte if there is one
 		if( x < header->bytes_per_line)
-			data = getc(fp); 
+			data = getc(fp);
 
 	} //end of y loop
 
@@ -246,11 +246,11 @@ int PCX_Load(char *filename, pcx_picture_ptr image)
 		printf("\nERROR: Couldn't find palette header [%s]",filename);
 		free(image->buffer);
 		fclose(fp);
-		
+
 		return 0;
 	}
 
-	//get the pallete data 
+	//get the pallete data
 	for (index=0; index<256; index++)
     {
 	    image->palette[index].red   = (getc(fp) >> 2);
@@ -273,6 +273,95 @@ int PCX_Load(char *filename, pcx_picture_ptr image)
 
 } // end PCX_Load
 
+void BMP_BI_RLE8_Load(pcx_picture_ptr image,
+	const bmp_header* const bmphead, const bmp_info_header* const bmpinfohead,
+	FILE* fp)
+{
+	// BI_RLE8 decompress according to:
+	// https://technet.microsoft.com/ru-ru/dd183383
+
+	unsigned long line, i, count;
+	// offset in image buffer where current line starts
+	unsigned int pos;
+	unsigned char ch, ch2;
+
+	// start from bottom line
+	line = bmpinfohead->biHeight;
+	pos = (line-1) * bmpinfohead->biWidth;
+
+	count = 0;
+	// read all image bytes
+	while (count < bmpinfohead->biSizeImage)
+	{
+		ch = getc(fp);
+		++count;
+		if (ch)
+		{
+			// repeat byte
+			ch2 = getc(fp);
+			++count;
+			for (i = 0; i < ch; ++i) image->buffer[pos++] = ch2;
+			continue;
+		}
+
+		// escape char
+		ch = getc(fp);
+		++count;
+		if (ch == 0)
+		{
+			// End of line.
+
+			// go one line up
+			--line;
+			// start of this line.
+			pos = (line-1) * bmpinfohead->biWidth;
+		}
+		else if (ch == 1)
+		{
+			// End of bitmap.
+			break;
+		}
+		else if (ch == 2)
+		{
+			// Delta.
+			// The two bytes following the escape contain unsigned values
+			// indicating the horizontal and vertical offsets of the next pixel
+			// from the current position.
+
+			ch = getc(fp);
+			++count;
+			// go right in the buffer
+			pos += ch;
+
+			ch = getc(fp);
+			++count;
+			// go given lines up
+			line -= ch;
+			pos -= bmpinfohead->biWidth * ch;
+		}
+		else
+		{
+			// Absolute mode.
+			// The second byte represents the number of bytes that follow,
+			// each of which contains the color index of a single pixel.
+			ch = getc(fp);
+			++count;
+			for (i = 0; i < ch; ++i)
+			{
+				image->buffer[pos++] = getc(fp);
+				++count;
+			}
+			if (i%2)
+			{
+				// Each run must be aligned on a word boundary.
+				// Read and throw away the placeholder.
+				ch2 = getc(fp);
+				++count;
+			}
+		}
+	}
+} // end BMP_BI_RLE8_Load
+
 int BMP_Load(char *filename, pcx_picture_ptr image)
 {
 	// this function loads a bmp file into a picture structure, the actual image
@@ -286,7 +375,7 @@ int BMP_Load(char *filename, pcx_picture_ptr image)
 	pcx_header *header;
 	bmp_header bmphead;
 	bmp_info_header bmpinfohead;
-	
+
 	// open the file
 	fp = fopen(filename,"rb");
 	if(fp==NULL)
@@ -295,14 +384,14 @@ int BMP_Load(char *filename, pcx_picture_ptr image)
 		return 0;
 	}
 
-	// check to see if it is a valid bitmap file 
+	// check to see if it is a valid bitmap file
 	if (fread(&bmphead, sizeof(bmp_header), 1, fp)  < 1)
 	{
 		printf("\nERROR: File [%s] has no correct BMP header.",filename);
 		fclose(fp);
 		return 0;
 	}
-	
+
 	if (bmphead.bfType != BF_TYPE)
 	{
 		printf("\nERROR: File [%s] is not recognized as a BMP file.",filename);
@@ -310,7 +399,7 @@ int BMP_Load(char *filename, pcx_picture_ptr image)
 		return 0;
 	}
 
-	// check to see if it is a valid bitmap file 
+	// check to see if it is a valid bitmap file
 	if (fread(&bmpinfohead, sizeof(bmpinfohead), 1, fp)  < 1)
 	{
 		printf("\nERROR: File [%s] has no correct BMP info header.",filename);
@@ -318,31 +407,21 @@ int BMP_Load(char *filename, pcx_picture_ptr image)
 		return 0;
 	}
 
-	if (bmpinfohead.biBitCount != 8 || bmpinfohead.biCompression != 0)
+	if (bmpinfohead.biBitCount != 8 || (bmpinfohead.biCompression != 0 && bmpinfohead.biCompression != 1 /*BI_RLE8*/))
 	{
-		printf("\nERROR: File [%s] is not a valid non compressed 256 colors BMP file.",filename);
-		fclose(fp);
-		return 0;
-	}
-	
-	header = &image->header;
-	header->width = bmpinfohead.biWidth;
-	header->height = bmpinfohead.biHeight;
-
-	//allocate memory for the picture + 64 empty lines
-	image->buffer = malloc( (size_t)(header->height+64) * header->width );
-	if(image->buffer == NULL)
-	{
-		printf("\nERROR: Can't allocate enough memory for the picture.");
+		printf("\nERROR: File [%s] is not a valid BMP file: 256 colors, non-compressed or BI_RLE8 supported.",filename);
 		fclose(fp);
 		return 0;
 	}
 
-	//initally clear the memory (to make those extra lines be blank)
-	memset(image->buffer,0,(size_t)(header->height+64) * header->width);
-	
-	// read the palette information 
-	for(index=0;index<256;index++)
+	// seek to palette
+	fseek(fp, sizeof(bmp_header) + bmpinfohead.biSize, 0);
+
+	// initally clear the palette if there are less then 256 colors in the file
+	memset(image->palette, 0, (size_t)(256 * sizeof(RGB_color)));
+
+	// read the palette information
+	for (index = 0; index<256; index++)
 	{
 		image->palette[index].blue = getc(fp) >> 2;
 		image->palette[index].green = getc(fp) >> 2;
@@ -351,12 +430,39 @@ int BMP_Load(char *filename, pcx_picture_ptr image)
 		getc(fp);
 	}
 
-	// read the bitmap 
-	for(index=(header->height-1) * header->width;index>=0;index-=header->width)
-		for(i=0;i<header->width;i++)
-			image->buffer[index+i] = getc(fp);
+	header = &image->header;
+	header->width = bmpinfohead.biWidth;
+	header->height = bmpinfohead.biHeight;
 
-	//check to make sure there weren't errors while reading the file
+	// allocate memory for the picture + 64 empty lines
+	image->buffer = malloc( (size_t)(header->height+64) * header->width );
+	if(image->buffer == NULL)
+	{
+		printf("\nERROR: Can't allocate enough memory for the picture.");
+		fclose(fp);
+		return 0;
+	}
+
+	// initally clear the memory (to make those extra lines be blank)
+	memset(image->buffer,0,(size_t)(header->height+64) * header->width);
+
+	// seek to image data
+	fseek(fp, bmphead.bfOffBits, 0);
+
+	// read the bitmap
+	if (bmpinfohead.biCompression == 0)
+	{
+		for(index=(header->height-1) * header->width;index>=0;index-=header->width)
+			for(i=0;i<header->width;i++)
+				image->buffer[index+i] = getc(fp);
+	}
+	else if (bmpinfohead.biCompression == 1)
+	{
+		// BI_RLE8
+		BMP_BI_RLE8_Load(image, &bmphead, &bmpinfohead, fp);
+	}
+
+	// check to make sure there weren't errors while reading the file
 	if(ferror(fp))
 	{
 		printf("\nERROR: Error reading file [%s]",filename);
@@ -382,7 +488,7 @@ int TGA_Load(char *filename, pcx_picture_ptr image)
 	//unsigned char data;
 	tga_header tgahead;
 	pcx_header *header;
-	
+
 	// open the file
 	fp = fopen(filename,"rb");
 	if(fp==NULL)
@@ -391,15 +497,15 @@ int TGA_Load(char *filename, pcx_picture_ptr image)
 		return 0;
 	}
 
-	// check to see if it is a valid bitmap file 
+	// check to see if it is a valid bitmap file
 	if (fread(&tgahead, sizeof(tga_header), 1, fp)  < 1)
 	{
 		printf("\nERROR: File [%s] has no correct TGA header.",filename);
 		fclose(fp);
 		return 0;
 	}
-	
-	
+
+
 		//check to make sure there weren't errors while reading the file
 	if(ferror(fp))
 	{
@@ -416,7 +522,7 @@ int TGA_Load(char *filename, pcx_picture_ptr image)
 		fclose(fp);
 		return 0;
 	}
-	
+
 	header = &image->header;
 	header->width = tgahead.Width;
 	header->height = tgahead.Height;
@@ -432,8 +538,8 @@ int TGA_Load(char *filename, pcx_picture_ptr image)
 
 	//initally clear the memory (to make those extra lines be blank)
 	memset(image->buffer,0,(size_t)(header->height+64) * header->width);
-	
-	// read the palette information 
+
+	// read the palette information
 	for(index=0;index<256;index++)
 	{
 		image->palette[index].blue = getc(fp) >> 2;
@@ -441,7 +547,7 @@ int TGA_Load(char *filename, pcx_picture_ptr image)
 		image->palette[index].red = getc(fp) >> 2;
 	}
 
-	// read the bitmap 
+	// read the bitmap
 	for(index=(header->height-1) * header->width;index>=0;index-=header->width)
 		for(i=0;i<header->width;i++)
 			image->buffer[index+i] = getc(fp);
@@ -466,10 +572,10 @@ unsigned char *ArrangeBlocks( unsigned char *img, int width, int height,
 {
 	/*
 	** img = image buffer
-	** width = width (in pixels) of image buffer 
+	** width = width (in pixels) of image buffer
 	** height = height (in pixels) of image buffer
 	**
-	** size = size (in pixels) of image blocks in the image 
+	** size = size (in pixels) of image blocks in the image
 	** *xsize = number of image block horizontally in image block grid
 	** *ysize = number of image block vertically in image block grid
 	**
@@ -493,29 +599,29 @@ unsigned char *ArrangeBlocks( unsigned char *img, int width, int height,
 
 	//get number of full image block rows in the new buffer
 	rows = (*xsize)*(*ysize)/(new_width/size);   // rows = num_blocks / new_xsize
-	
+
 	//if it doesn't divide evenly, add another full row
 	if ( ((*xsize)*(*ysize))%(new_width/size) != 0 )
 		rows++;
 
 	if (quietmode == 0)
 		printf("\nrows=%d",rows);
-	
+
 	//get memory for the new buffer
 	buffer = malloc( (size_t) rows*size*new_width );
 	if(buffer == NULL) {
 		printf("\nERROR: Can't allocate enough memory for the buffer in ArrangeBlocks.");
 		return 0;
 	}
-	
+
 	//initially clear the buffer, so if there are empty image blocks
 	//or incomplete blocks, the empty parts will be blank
-	memset(buffer,0,(size_t) rows*size*new_width );	
+	memset(buffer,0,(size_t) rows*size*new_width );
 
 	//position in new buffer (x,y) where x and y are in pixel co-ordinates
 	x=0;
 	y=0;
-	
+
 	//go through each image block(i,j) where i and j are in block co-ordinates
 	for(j=0; j < *ysize; j++)
 	for(i=0; i < *xsize; i++)
@@ -526,7 +632,7 @@ unsigned char *ArrangeBlocks( unsigned char *img, int width, int height,
 		for(line=0;line<size;line++)
 		{
 			//find out how much to copy
-			//this is needed because the screen mode files may not be 
+			//this is needed because the screen mode files may not be
 			//a multiple of 8 pixels wide
 			//or no-border files may have the wrong width
 			num = width - (i*(size+border) + border);
@@ -549,13 +655,13 @@ unsigned char *ArrangeBlocks( unsigned char *img, int width, int height,
 
 	*xsize = new_width/size;
 	*ysize = rows;
-		
+
 	return buffer;
 } //end of ArrangeBlocks()
 
 //////////////////////////////////////////////////////////////////////////////
 
-int *MakeMap(unsigned char *img, int *num_tiles, 
+int *MakeMap(unsigned char *img, int *num_tiles,
 			 int xsize, int ysize, int tile_x, int tile_y, int colors, int rearrange, int pal_entry)
 {
 	int *map;
@@ -567,19 +673,19 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 	int i,t, palette;
 	int x,y;
 	//int x_offset, y_offset;
-	
-	//find x_offset,y_offset 
+
+	//find x_offset,y_offset
 	//don't center
 	//x_offset=0;
 	//y_offset=0;
-	
+
 	//allocate map
 	map=malloc((size_t)tile_x*tile_y*sizeof(int));
 	if(map==NULL) {
 		printf("\nERROR: Can't allocate enough memory for the map in MakeMap.");
 		return 0;
 	}
-	
+
 	//clear map
 	memset(map,0,tile_x*tile_y*sizeof(int));
 
@@ -626,17 +732,17 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 			//goto the next tile
 			current++;
 		}
-	
+
 	} //end of if(rearrange)
-	
-	
+
+
 	//truncate the colors if necessary
 	if(colors != 256)
 	{
 		t = colors - 1;	//color truncation mask
-		
+
 		for(i=0;i<xsize*ysize*64;i++)
-			img[i] = img[i] & t; 
+			img[i] = img[i] & t;
 	}
 
 	//make a blank tile
@@ -644,7 +750,7 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 
 	//I want tile #0 to be blank..
 	//is it?
-	if (blanktile==1 ) 
+	if (blanktile==1 )
 	{
 		if( memcmp(blank,img,64) == 0 )
 		{
@@ -668,7 +774,7 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 		t=0;
 		newtiles=1;
 	}
-	
+
 	//save the first tilemap piece
 	map[0] += t;
 
@@ -684,22 +790,22 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 			//is the current tile blank?
 			if( memcmp(blank,&img[current*64],64) == 0 )
 				t=0;
-			else 	
+			else
 			{
 				//check for matches with previous tiles if tile_reduction on
 				for(i=0;i<newtiles;i++)
 					if( memcmp(&img[i*64],&img[current*64],64) == 0 )
 						break;
-		
+
 				//is it a new tile?
-				if(i==newtiles) 
+				if(i==newtiles)
 				{
 					// yes -> add it
 					memcpy(&img[newtiles*64],&img[current*64],64);
 					t=newtiles+blank_absent;
 					newtiles++;
 				}
-				else 
+				else
 				{	// no -> find what tile number it is
 					t=i+blank_absent;
 				}
@@ -708,7 +814,7 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 		// else, always a new tile
 		else {
 			i = newtiles;
-		
+
 			// yes -> add it
 			memcpy(&img[newtiles*64],&img[current*64],64);
 			t=newtiles+blank_absent;
@@ -716,7 +822,7 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 		}
 
 
-	
+
 		//put tile number in map
 		if(tile_x==64 && tile_y==32) // 64x32 screen
 		{
@@ -757,10 +863,10 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 	return map;
 
 }//end of MakeMap
-		
+
 //////////////////////////////////////////////////////////////////////////////
 
-int RearrangePalette(unsigned char *buffer, int *palette, 
+int RearrangePalette(unsigned char *buffer, int *palette,
 					 int num_tiles, int colors)
 {
 	int final[8];
@@ -769,7 +875,7 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 	int *num;	//holds number of colors in each combo
 	int *list;	//for sorting combos
 	int n;
-	
+
 	int new_palette[256];
 	int color_table[256];
 
@@ -778,7 +884,7 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 	int num_miss;
 	int data;
 	int i,ii;
-	
+
 	//get memory
 	num=malloc(num_tiles*sizeof(int));
 	if(num==NULL)
@@ -811,7 +917,7 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 	for(i=0;i<num_tiles;i++)
 		num[i]=1;
 
-	//if two colors have the same RGB values... 
+	//if two colors have the same RGB values...
 	//replace all instances of the redundant color with the first color
 	for(i=0;i<256;i++)
 		for(ii=i+1;ii<256;ii++)
@@ -870,7 +976,7 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 		//if none... we're done
 		if(index==num_tiles)
 			break;
-		
+
 		// test = combo # of new 'final combo'
 		test=list[index];
 		last_index=index;
@@ -899,16 +1005,16 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 			//if already combined to someone... move on
 			if(num[test2]<0)
 				continue;
-		
+
 			//can it be combined?
 			num_miss = 0;
 			for(ii=test2*colortabinc;ii<test2*colortabinc+num[test2];ii++)
-			{  
+			{
 				//ii = index into the 'attempting to combine' combo
 				// i = index into the 'final combo'
 
 				//check for non-matched colors
-				for(i=test*colortabinc;i<test*colortabinc+num[test]+num_miss;i++) 
+				for(i=test*colortabinc;i<test*colortabinc+num[test]+num_miss;i++)
 					if(combos[ii]==combos[i])
 						break;
 
@@ -922,34 +1028,34 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 						num_miss=-1;
 						break;
 					}
-				
+
 					//temporarily add the missed color to the 'final combo'
 					combos[test*colortabinc + num[test] + num_miss] = combos[ii];
 					num_miss++;
 				}
-			}//loop - try to combine an individual combo 
-	
+			}//loop - try to combine an individual combo
+
 			//did we succeed?
 			if(num_miss>=0)
 			{
 				//permanently add in the new colors;
 				num[test] = num[test] + num_miss;
 
-				//save the final_num here, and make this negative to show it 
+				//save the final_num here, and make this negative to show it
 				//has been combined
-				num[test2] = num_final - 100;	
+				num[test2] = num_final - 100;
 			}
 
 		}//loop - sweep through combos, finding potential ones to combine
 
 	}//build up 8 palettes...
 
-	
-	//Yeah! ... if we made it here it worked! 
+
+	//Yeah! ... if we made it here it worked!
 	//(assuming my code is right)
 	if (quietmode == 0)
 		printf("\nRearrangement possible!! Accomplished in %d palettes...", num_final);
-	
+
 	//convert the image
 	for(i=0;i<num_tiles;i++)
 	{
@@ -973,7 +1079,7 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 			index = combos[ final[n]*colortabinc + ii ];
 			color_table[index] = n*colortabinc + ii;
 		}
-				
+
 		//convert the block
 		for(ii=64*i; ii<64*(i+1); ii++)
 			buffer[ii] = (unsigned char) color_table[ buffer[ii] ];
@@ -991,11 +1097,11 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 			new_palette[ i*colortabinc + ii ] = palette[index];
 		}
 	}
-	
+
 	//save back the palette
 	memcpy(palette, new_palette, 256*sizeof(int));
 
-	
+
 	//free up mem from the combo lists
 	free(list);
 	free(combos);
@@ -1003,10 +1109,10 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 
 	return -1;
 }//end of RearrangePalette()
-		
+
 //////////////////////////////////////////////////////////////////////////////
 extern int Convert2PicLZSS(int quietmode, unsigned char *bufin, int buflen, unsigned char *bufout);
-int Convert2Pic(char *filebase, unsigned char *buffer, 
+int Convert2Pic(char *filebase, unsigned char *buffer,
 				int num_tiles, int blank_absent, int colors, int packed, int lzsspacked)
 {
 	char filename[80];
@@ -1027,13 +1133,13 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
 	if (quietmode == 0)
 		printf("\nSaving graphics file: [%s]",filename);
 	fp = fopen(filename,"wb");
-	
+
 	if(fp==NULL)
 	{
 		printf("\nERROR: Can't open file [%s] for writing\n",filename);
 		return 0;
 	}
-	
+
 	if(packed)
 	{
 		//remember to add the blank if its needed....
@@ -1060,7 +1166,7 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
 	//else if (colors==256)
 	//	bitplanes=8;
 
-	// if lzss encoding begin with transferring data 
+	// if lzss encoding begin with transferring data
 	if (lzsspacked) {
 		bufsize=8*bitplanes+num_tiles*8*bitplanes;
 		buftolzin = malloc (bufsize);
@@ -1081,7 +1187,7 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
 		if(blank_absent)
 			for(i=0;i<8*bitplanes;i++, j++)
 				*(buftolzin+i) = 0;
-		
+
 		for(t=0;t<num_tiles;t++) { //loop through tiles
 			for(b=0;b<bitplanes;b+=2) { //loop through bitplane pairs
 				for(y=0;y<8;y++) {
@@ -1186,51 +1292,51 @@ void ConvertPalette(RGB_color *palette, int *new_palette)
 		if(palette_rnd)
 		{
 			data=0;
-	
+
 			//get blue portion and round it off
 			temp = (palette[i].blue & 0x01);	//see if this needs rounding
 			if(palette[i].blue == 63)			//if value == 63, then we can't round up
 			{
-				temp = 0; 
+				temp = 0;
 				rounded = 1;
 			}
 			data = (data<<5) + (palette[i].blue >> 1)
 				+ (temp & rounded);				//round up if necessary
 			rounded = (temp ^ rounded);			//reset rounded down flag after rounding up
-	
+
 			//get green portion and round it
 			temp = (palette[i].green & 0x01);	//see if this needs rounding
 			if(palette[i].green == 63)			//if value == 63, then we can't round up
 			{
-				temp = 0; 
+				temp = 0;
 				rounded = 1;
 			}
-			data = (data<<5) + (palette[i].green >> 1) 
+			data = (data<<5) + (palette[i].green >> 1)
 				+ (temp & rounded);				//round up if necessary
 			rounded = (temp ^ rounded);			//reset rounded down flag after rounding up
-	
+
 			//get red portion and round it
 			temp = (palette[i].red & 0x01);	//see if this needs rounding
 			if(palette[i].red == 63)			//if value == 63, then we can't round up
 			{
-				temp = 0; 
+				temp = 0;
 				rounded = 1;
 			}
-			data = (data<<5) + (palette[i].red >> 1) 
+			data = (data<<5) + (palette[i].red >> 1)
 				+ (temp & rounded);				//round up if necessary
 			rounded = (temp ^ rounded);			//reset rounded down flag after rounding up
-		
+
 			//store converted color
 			new_palette[i] = data;
 		}
 		else
 		{
 			data=0;
-			
-			data = (data<<5) + (palette[i].blue >> 1);			
-			data = (data<<5) + (palette[i].green >> 1); 			
+
+			data = (data<<5) + (palette[i].blue >> 1);
+			data = (data<<5) + (palette[i].green >> 1);
 			data = (data<<5) + (palette[i].red >> 1);
-		
+
 			//store converted color
 			new_palette[i] = data;
 		}
@@ -1244,10 +1350,10 @@ void PrintOptions(char *str)
 {
 	printf("\n\nUsage : gfx2snes [options] bmp/pcx/tga filename ...");
 	printf("\n  where filename is a 256 color BMP, PCX or TGA file");
-	
+
 	if(str[0]!=0)
 		printf("\nThe [%s] parameter is not recognized.",str);
-	
+
 	printf("\n\nOptions are:");
 	printf("\n\n--- Graphics options ---");
 	printf("\n-gb               add blank tile management (for multiple bgs)");
@@ -1276,7 +1382,7 @@ void PrintOptions(char *str)
 	printf("\n-n                no border");
 	printf("\n-q                quiet mode");
 	printf("\n");
-	
+
 } //end of PrintOptions()
 
 /// M A I N ////////////////////////////////////////////////////////////
@@ -1311,7 +1417,7 @@ int main(int argc, char **arg)
 		printf("\nBased on pcx2snes by Neviksti");
 		printf("\n==============================\n");
 	}
-	
+
 	//parse the arguments
 	for(i=1;i<argc;i++)
 	{
@@ -1353,36 +1459,36 @@ int main(int argc, char **arg)
 			{
 				if( strcmp(&arg[i][1],"m") == 0)
 				{
-					screen=1;					
+					screen=1;
 					border=0;
 				}
 				else if( strcmp(&arg[i][1],"mp") == 0)
 				{
-					screen=1;					
+					screen=1;
 					border=0;
 					highpriority=1;
 				}
 				else if( strcmp(&arg[i][1],"m!") == 0)
 				{
-					screen=1;					
+					screen=1;
 					border=0;
-					savemap=0;		
+					savemap=0;
 				}
 				else if( strcmp(&arg[i][1],"m7") == 0)
 				{
-					screen=7;					
+					screen=7;
 					border=0;
 					packed=1;
 				}
 				else if( strcmp(&arg[i][1],"mc") == 0)
 				{
-					screen=1;					
+					screen=1;
 					border=0;
 					collision=1;
 				}
 				else if(arg[i][2]=='s') //sprite entry location
 				{
-					screen=1;					
+					screen=1;
 					border=0;
 					collision=2;
 					collisionsp = atoi(&arg[i][3]);
@@ -1394,7 +1500,7 @@ int main(int argc, char **arg)
 				else
 				{
 					PrintOptions(arg[i]);
-					return 1;					
+					return 1;
 				}
 			}
 			else if(arg[i][1]=='p') //palette options
@@ -1430,7 +1536,7 @@ int main(int argc, char **arg)
 				else if( strcmp(&arg[i][1],"pR") == 0)
 				{
 					palette_rnd=1;
-				}				
+				}
 				else if(arg[i][2]=='e') //palette entry specification
 				{
 					palette_entry=atoi(&arg[i][3]);
@@ -1445,7 +1551,7 @@ int main(int argc, char **arg)
 			{
 				if( strcmp(&arg[i][1],"fpcx") == 0)
 				{
-					file_type = 2; // PCX, 
+					file_type = 2; // PCX,
 				}
 				else if( strcmp(&arg[i][1],"ftga") == 0)
 				{
@@ -1474,14 +1580,14 @@ int main(int argc, char **arg)
 	//make sure options are valid
 	if((colors==0) && screen)
 		colors=256;
-	
+
 	if( filebase[0] == 0 )
 	{
 		printf("\nERROR: You must specify a base filename.");
 		PrintOptions("");
 		return 1;
 	}
-	
+
 	if( colors == 0 )
 	{
 		printf("\nERROR: The Number of Colors parameter must be specified.");
@@ -1489,7 +1595,7 @@ int main(int argc, char **arg)
 		return 1;
 	}
 
-	if((size == 0) && (border == 0) && (screen == 0)) 
+	if((size == 0) && (border == 0) && (screen == 0))
 	{
 		printf("\nERROR: The Size parameter must be specified when the border is turned off.");
 		PrintOptions("");
@@ -1520,7 +1626,7 @@ int main(int argc, char **arg)
 		else
 			output_palette=i;
 	}
-	
+
 	if(output_palette==-1)
 		output_palette=256;
 
@@ -1563,7 +1669,7 @@ int main(int argc, char **arg)
 	{
 		if (quietmode == 0)
 			printf("\nAuto-detecting size of image blocks...");
-	
+
 		clr = image.buffer[0]; //get the border color
 		for(i=1; i<width; i++)
 			if(image.buffer[i]!=clr)
@@ -1576,13 +1682,13 @@ int main(int argc, char **arg)
 				break;
 
 		ysize = i-1; //if size = n, then xsize = multiple of (n+1)
-	
+
 		//look along line 1 until we hit the border color
 		//this should be the end of the first image block
 		for(i=1; i<width; i++)
 			if(image.buffer[i + width]==clr)
 				break;
-		
+
 		size = i-1;
 
 		if( (xsize%(size+1) != 0 ) || (ysize%(size+1) != 0 ) )
@@ -1590,7 +1696,7 @@ int main(int argc, char **arg)
 			printf("\nERROR : Border format is incorrect... autodetect size failed.\n");
 			return 1;
 		}
-	
+
 		xsize = xsize/(size+1); //the number of blocks across
 		ysize = ysize/(size+1); //the number of blocks down
 	}
@@ -1598,7 +1704,7 @@ int main(int argc, char **arg)
 	{
 		//determine the constants if in screen mode
 		//or image block mode with no borders
-		
+
 		printf("size=%d screen=%d\n",size,screen);
 		if(screen)
 			size=8;
@@ -1641,33 +1747,33 @@ int main(int argc, char **arg)
 		else
 			printf("\nborder=OFF");
 
-		if (highpriority) 
+		if (highpriority)
 			printf("\nhighpriority=ON");
 		else
 			printf("\nhighpriority=OFF");
-		
-		if (blanktile) 
+
+		if (blanktile)
 			printf("\nblanktile=ON");
 		else
 			printf("\nblanktile=OFF");
-		
+
 		if (collision)
 			printf("\ncollisionmap=ON");
 		else
 			printf("\ncollisionmap=OFF");
-		
+
 		if (tile_reduction)
 			printf("\nOptimize tilemap=ON");
 		else
 			printf("\nOptimize tilemap=OFF");
-				
+
 		if(packed)
 			printf("\npixel format = packed-bit");
 		else
 			printf("\npixel format = bit-plane");
 
 		printf(file_type == 2 ?  "\nPCX file: %dx%d pixels" : "\nBMP file: %dx%d pixels",width,height);
-		
+
 		if(screen)
 		{
 			printf("\nScreen mode selected: %dx%d tile map",tile_x,tile_y);
@@ -1682,24 +1788,24 @@ int main(int argc, char **arg)
 			printf("\n          image has: %dx%d blocks",xsize,ysize);
 		}
 		printf("\nTotal colors = %d", colors);
-		
+
 		if(output_palette)
 			printf("\nPalette section to convert: Color #0 to %d", output_palette-1);
-		
+
 		if(palette_entry)
 			printf("\nPalette entry to be for map tiles: Entry#%d", palette_entry);
-			
+
 		printf("\n************************************");
 	}
-	
+
 	//truncate the colors if necessary
 	if(colors == 128)
 	{
 		j = colors - 1;	//color truncation mask
 		temp = image.buffer;
-		
+
 		for(i=0;i<width*height;i++)
-			temp[i] = temp[i] & j; 
+			temp[i] = temp[i] & j;
 	}
 
 	//arrange the blocks according to how we would like them represented.
@@ -1712,13 +1818,13 @@ int main(int argc, char **arg)
 		buffer=ArrangeBlocks(image.buffer, width, height,
 							 size, &j, &num_tiles, 8, 0);
 		free(image.buffer);
-	
+
 		if(buffer==NULL)
 		{
 			printf("\nERROR:Not enough memory to do image operations...\n");
 			return 1;
 		}
-	
+
 		//if re-arranging is wanted, attempt it now
 		if(rearrange)
 		{
@@ -1730,7 +1836,7 @@ int main(int argc, char **arg)
 		}
 
 		//make the tile map now
-		tilemap=MakeMap(buffer, &num_tiles, xsize, ysize, 
+		tilemap=MakeMap(buffer, &num_tiles, xsize, ysize,
 					tile_x, tile_y, colors, rearrange, palette_entry);
 		if(tilemap==NULL)
 		{
@@ -1738,7 +1844,7 @@ int main(int argc, char **arg)
 			printf("\nERROR:Not enough memory to do tile map optimizations..\n");
 			return 1;
 		}
-	
+
 		if(num_tiles<0)
 		{
 			num_tiles = -num_tiles;
@@ -1766,7 +1872,7 @@ int main(int argc, char **arg)
 		buffer=ArrangeBlocks(image.buffer, width, height,
 							 size, &xsize, &ysize, 16*8, border);
 		free(image.buffer);
-		
+
 		if(buffer==NULL)
 		{
 			printf("\nERROR:Not enough memory to do image operations...\n");
@@ -1776,22 +1882,22 @@ int main(int argc, char **arg)
 		//now re-arrange into a list of 8x8 blocks for easy conversion
 		xsize *= size/8;
 		ysize *= size/8;
-		
+
 		temp=ArrangeBlocks(buffer, xsize*8, ysize*8,
 							 8, &xsize, &ysize, 8, 0);
 		free(buffer);
-		
+
 		if(temp==NULL)
 		{
 			printf("\nERROR:Not enough memory to do image operations...\n");
 			return 1;
 		}
-		
+
 		buffer=temp;
 		num_tiles=xsize*ysize;
 	}
 
-	//convert pictures and save to file	
+	//convert pictures and save to file
 	if (collision == 0)
 	{
 		if(!Convert2Pic(filebase, buffer, num_tiles, blank_absent, colors, packed, lzpacked))
@@ -1802,7 +1908,7 @@ int main(int argc, char **arg)
 			return 1;
 		}
 	}
-	
+
 	//free up image memory
 	free(buffer);
 
@@ -1817,39 +1923,39 @@ int main(int argc, char **arg)
 			else
 				sprintf(filename,"%s.map",filebase);
 		}
-		
+
 		if (quietmode == 0)
 			printf("\nSaving tile map file: [%s]",filename);
 		fp = fopen(filename,"wb");
 		if(fp==NULL)
-		{	
+		{
 			printf("\nERROR: Can't open file [%s] for writing\n",filename);
 			free(tilemap);
 			return 1;
 		}
-	
+
 		for(i=0;i<tile_x*tile_y;i++)
 		{
 			if(screen==7)
 				fputc(tilemap[i],fp);
 			else {
-				if (collision == 2) {  
+				if (collision == 2) {
 					if (tilemap[i]<collisionsp) PutWord(tilemap[i],fp); else PutWord(0,fp);
 				}
 				else PutWord(tilemap[i] | (highpriority<<13),fp);
 			}
 		}
 		fclose(fp);
-		
+
 		// save the sprite table if needed
 		if (collision == 2) {
 			sprintf(filename,"%s.spr",filebase);
-		
+
 			if (quietmode == 0)
 				printf("\nSaving sprite table for map file: [%s]",filename);
 			fp = fopen(filename,"wb");
 			if(fp==NULL)
-			{	
+			{
 				printf("\nERROR: Can't open file [%s] for writing\n",filename);
 				free(tilemap);
 				return 1;
@@ -1871,22 +1977,22 @@ int main(int argc, char **arg)
 	}
 
 	//convert and save the palette if necessary
-	if ((output_palette) && (collision == 0) && (savepalette)) 
+	if ((output_palette) && (collision == 0) && (savepalette))
 	{
 		sprintf(filename,"%s.pal",filebase);
 		if (quietmode == 0)
 			printf("\nSaving palette file: [%s]",filename);
 		fp = fopen(filename,"wb");
-	
+
 		if(fp==NULL)
-		{	
+		{
 			printf("\nERROR: Can't open file [%s] for writing\n",filename);
 			return 0;
 		}
 
 		for(i=0;i<output_palette;i++)
 			PutWord(palette[i],fp);
-		
+
 		fclose(fp);
 	}
 
