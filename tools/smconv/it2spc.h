@@ -156,7 +156,7 @@ namespace IT2SPC {
 		std::vector<Source*> Sources;
 		
 	public:
-		Bank( const ITLoader::Bank &, bool );
+		Bank( const ITLoader::Bank &, bool, bool );
 		~Bank();
 
 		void AddModule( const ITLoader::Module & );

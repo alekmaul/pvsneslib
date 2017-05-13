@@ -1,10 +1,11 @@
+export PATH	:=	/e/MinGW32/bin:$(PATH)
 VERSION = "0.1.0"
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-CC = gcc
-CP = g++
+CC = /e/MinGW32/bin/gcc
+CP = /e/MinGW32/bin/g++
 CFLAGS = -O2 -Wall -fpermissive -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 CXXFLAGS :=	$(CFLAGS) -fno-rtti -fno-exceptions
 LDFLAGS := 

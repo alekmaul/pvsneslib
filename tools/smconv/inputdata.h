@@ -96,6 +96,7 @@ namespace ConversionInput {
 		bool spc_mode;
 		bool verbose_mode;
 		bool show_help;
+		bool check_effect_size;
 		int banknumber;
 
 	};

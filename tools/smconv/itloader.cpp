@@ -345,7 +345,7 @@ namespace ITLoader {
 		unsigned int file_size;
 		unsigned int bit_depth = 8;
 		unsigned int hasformat = 0;
-		unsigned int hasdata = 0;
+		//unsigned int hasdata = 0;
 		unsigned int chunk_code;
 		unsigned int chunk_size;
 		unsigned int num_channels = 0;
@@ -442,7 +442,7 @@ namespace ITLoader {
 				
 				if( !hasformat )
 				{
-					printf(" CORRUPT WAV FILE....\n");
+					printf("\nERROR: CORRUPT WAV FILE....\n");
 					return;// LOADWAV_CORRUPT;
 				}
 				
@@ -484,7 +484,7 @@ namespace ITLoader {
 					}
 				}
 				
-				hasdata = 1;
+				//hasdata = 1;
 				
 				break;
 			}

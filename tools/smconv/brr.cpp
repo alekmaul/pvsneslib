@@ -233,8 +233,8 @@ namespace IT2SPC {
 		int b;					//
 		int w;					// write position
 		
-		int w_loop;				// loop start
-		int loop_v1;			// loop start values
+		int w_loop = 0;				// loop start
+		int loop_v1 = 0;			// loop start values
 		bool use_filter0=false;
 		bool redo_loopf=true;
 		
@@ -399,8 +399,8 @@ namespace IT2SPC {
 		int		block_datab[16];
 		int		block_samp[16];
 		int		block_sampb[18];
-		int		block_rangeb;
-		int		block_filterb;
+		int		block_rangeb = 0;
+		int		block_filterb = 0;
 		int		filter;
 		int		fmin;
 		int		fmax;
@@ -536,7 +536,7 @@ namespace IT2SPC {
 
 	int ComputeFilter( int x_2, int x_1, int filter )
 	{
-		int cp;
+		int cp = 0;
 		switch( filter )
 		{
 		case 0:											// 0, 0

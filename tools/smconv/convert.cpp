@@ -1,6 +1,7 @@
 /******************************************************************************
  * snesmod converter
  * (C) 2009 Mukunda Johnson
+ * Modifications by Alekmaul, 2012-2016
  ******************************************************************************/
  
 #include <string>
@@ -35,6 +36,7 @@ const char USAGE[] = {
 	"\n                  (Required for soundbank mode)\n"
 	"\n\n--- Memory options ---"
 	"\n-i                Use HIROM mapping mode for soundbank."
+	"\n-f								 Check size of IT files with 1st IT file (useful for effects\n"
 	"\n\n--- Misc options ---"
 	"\n-v                Enable verbose output."
 	"\n-h                Show Help"
@@ -67,10 +69,15 @@ int main( int argc, char *argv[] ) {
 	}
 
 	if( od.output.empty() ) {
-		printf( "\nERROR : Missing output file." );
+		printf( "\nERROR: Missing output file." );
 		return 0;
 	}
 
+	if( od.files.empty() ) {
+		printf( "\nERROR: Missing input file\n" );
+		return 0;
+	}
+	
 	if( VERBOSE )
 		printf( "\nLoading modules..." );
 
@@ -79,7 +86,7 @@ int main( int argc, char *argv[] ) {
 	if( VERBOSE )
 		printf( "\nStarting conversion..." );
 
-	IT2SPC::Bank result( bank, od.hirom );
+	IT2SPC::Bank result( bank, od.hirom, od.check_effect_size );
 	
 	// export products
 	if( od.spc_mode ) {

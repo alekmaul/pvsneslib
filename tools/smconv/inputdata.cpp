@@ -49,6 +49,7 @@ namespace ConversionInput {
 		show_help = false;
 		hirom = false;
 		verbose_mode = false;
+		check_effect_size = false;
 		banknumber = 5;
 		
 		// search for params
@@ -82,6 +83,8 @@ namespace ConversionInput {
 						verbose_mode = true;
 					} else if( TESTARG2( "--help", "-h" )) {
 						show_help = true;
+					} else if( TESTARG2( "--effectsize", "-f" )) {
+						check_effect_size = true;
 					} else if( strmatch( argv[arg], "-b" ) ) {
 						arg++;
 						if( arg == argc ) {

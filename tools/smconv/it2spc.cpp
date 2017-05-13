@@ -4,6 +4,28 @@
 
 #include <ctype.h>
 
+#include "spc_program.h"
+
+u8 CurrentInstrument = 0;
+u8 patch_byte = 0x3C;
+u8 max_instruments = 64; // changing these values breaks 
+u8 max_length = 200;     // everything even if the values
+u8 max_patterns = 64;    // of MOD_SEQU, MOD_PTABLE_L, etc,
+u8 max_samples = 64;     // in the sound driver are changed...
+u16 header_size = 616;
+u16 driver_base = 0x400;
+u16 module_base = 0x18ca;
+u16 sample_table_offset = 0x200;
+u16 spc_ram_size = 0;
+u16 totalsizem1 = 0;
+u32 totalitsize = 0;
+u32 totabanksize = 0;
+
+bool ChkSfx;
+
+//unsigned char* spc_program = (unsigned char*)spc_sm_program;
+int spc_program_size = sizeof( spc_program );
+
 extern bool VERBOSE;
 extern int BANKNUM;
 
@@ -14,7 +36,7 @@ enum {
 
 namespace IT2SPC {
 
-#include "spc_program.h"
+
 
 	/***********************************************************************************************
 	 *
@@ -22,15 +44,23 @@ namespace IT2SPC {
 	 *
 	 ***********************************************************************************************/
 
-	Bank::Bank( const ITLoader::Bank &bank, bool HIROM ) {
+	Bank::Bank( const ITLoader::Bank &bank, bool HIROM, bool CHKSFX ) {
 
 		HiROM = HIROM;
+		ChkSfx = CHKSFX;
+		
 		for( int i = 0, n = bank.modules.size(); i < n; i++ ) {
 			AddModule( *(bank.modules[i]) );
 		}
 		
 		for( int i = 0, n = bank.sounds.size(); i < n; i++ ) {
 			AddSource( *(bank.sounds[i]) );
+		}
+		
+		if ( VERBOSE ) {
+			printf( "\n-----------------------------------------------------------------------" );
+			printf( "\n  Total Modules Size: [%6i bytes]", totabanksize );
+			printf( "\n       Total IT Size: [%6i bytes]", totalitsize );
 		}
 	}
 
@@ -40,10 +70,14 @@ namespace IT2SPC {
 	
 	void Bank::AddModule( const ITLoader::Module &mod ) {
 
+		int size = IO::FileSize( mod.Filename.c_str() );
+
 		if( VERBOSE ) {
-			printf( "\n-------------------" );
-			printf( "\nAdding module, title=%s", mod.Title );
+			printf( "\n-----------------------------------------------------------------------" );
+			printf( "\nAdding module, Title: <%s>", mod.Title );
+			printf( "\n             IT Size: [%5i bytes]", size );
 		}
+		totalitsize += size;
 
 		std::vector<u16> source_list;
 		std::vector<u8>	directory;
@@ -126,7 +160,7 @@ namespace IT2SPC {
 			if( s[i] == '\\' ) s[i] = '/';
 		}
 		
-		int a = s.find_last_of( '/' );
+		u32 a = s.find_last_of( '/' );
 		if( a != std::string::npos ) {
 			s = s.substr( a+1 );
 		}
@@ -148,7 +182,7 @@ namespace IT2SPC {
 		const ITLoader::Module &mod,  
 		const std::vector<u16> &source_list,
 		const std::vector<u8> &directory,
-		const std::vector<Source*> &sources) {
+		const std::vector<Source*> &sources ) {
 
 		id = Path2ID( "MOD_", mod.Filename );
 //		id = cinput.id;
@@ -178,7 +212,7 @@ namespace IT2SPC {
 
 //		EchoEnable = cinput.EON;
 
-		for( int i = 0; i < 200; i++ )
+		for( int i = 0; i < max_length; i++ )
 			Sequence[i] = i < mod.Length ? mod.Orders[i] : 255;
 
 		for( int i = 0; i < mod.PatternCount; i++ ) {
@@ -208,37 +242,59 @@ namespace IT2SPC {
 			for( u32 i = 0; i < source_list.size(); i++ ) {
 				sampsize += sources[source_list[i]]->GetDataLength();
 			}
-			int othersize = 0;
+			int instrsize = 0;
 			for (u32 i = 0; i < Instruments.size(); i++ ) {
-				othersize += Instruments[i]->GetExportSize();
+				instrsize += Instruments[i]->GetExportSize();
 			}
-			othersize += GetExportSize_Header();
+			int envsize = 0;
+			for (u32 i = 0; i < Instruments.size(); i++ ) {
+				envsize += Instruments[i]->GetExportSize();
+			}
+			//othersize += GetExportSize_Header();
 
-			int echosize = EchoDelay * 2048;
-			int totalsize = pattsize + sampsize + othersize + echosize;
-			printf( 
-				"\nConversion report:\n"
-				"Length: %i\n"
-				"Patterns: %i\n"
-				"Instruments: %i\n"
-				"Samples: %i\n"
-				"Pattern data size: %i bytes\n"
-				"Sample data size: %i bytes\n"
-				"Instruments/Other data size: %i bytes\n"
-				"Echo region size: %i bytes\n"
-				"Total size: %i bytes\n"
-				,mod.Length,
-				mod.PatternCount,
-				mod.InstrumentCount,
-				mod.SampleCount,
-				pattsize,
-				sampsize,
-				othersize,
-				echosize,
-				totalsize
+			u32 echosize = EchoDelay * 2048;
+			u32 totalsize = pattsize + sampsize + instrsize + envsize + echosize;
+			spc_ram_size = 65535 - module_base - header_size;
+			u32 bytesfree = spc_ram_size - totalsize - header_size;
+			totabanksize = totabanksize + totalsize;
+			if (ChkSfx && (totalsizem1!=0) ) {
+				printf( 
+					"\nConversion report:\n"
+					"    Pattern data: [%5i bytes]   Module Length: [%i/%i]\n"
+					"     Sample data: [%5i bytes]        Patterns: [%i/%i]\n"
+					" Instrument data: [%5i bytes]     Instruments: [%i/%i]\n"
+					"   Envelope data: [%5i bytes]         Samples: [%i/%i]\n"
+					"     Echo region: [%5i bytes]\n"
+					"           Total: [%5i bytes]   *%i bytes free* *%i bytes free with 1st module*\n"
+					,pattsize, mod.Length, max_length,
+					sampsize, mod.PatternCount, max_patterns,
+					instrsize, mod.InstrumentCount, max_instruments,
+					envsize, mod.SampleCount, max_samples,
+					echosize,
+					totalsize, bytesfree, bytesfree-totalsizem1
 				);
-			if( totalsize > SPC_RAM_SIZE ) {
-				printf( "\ERROR: Module is too big. Maximum is %i bytes.", SPC_RAM_SIZE );
+			} else {
+				printf( 
+					"\nConversion report:\n"
+					"    Pattern data: [%5i bytes]   Module Length: [%i/%i]\n"
+					"     Sample data: [%5i bytes]        Patterns: [%i/%i]\n"
+					" Instrument data: [%5i bytes]     Instruments: [%i/%i]\n"
+					"   Envelope data: [%5i bytes]         Samples: [%i/%i]\n"
+					"     Echo region: [%5i bytes]\n"
+					"           Total: [%5i bytes]   *%i bytes free*\n"
+					,pattsize, mod.Length, max_length,
+					sampsize, mod.PatternCount, max_patterns,
+					instrsize, mod.InstrumentCount, max_instruments,
+					envsize, mod.SampleCount, max_samples,
+					echosize,
+					totalsize, bytesfree
+				);
+			}
+			if (totalsizem1==0)
+					totalsizem1=totalsize;
+
+			if( totalsize > spc_ram_size ) {
+				printf( "\ERROR: Module is too big. Maximum is %i bytes.", spc_ram_size );
 			}
 		}
 	}
@@ -521,6 +577,7 @@ namespace IT2SPC {
 		const ITLoader::Envelope &e = *source.VolumeEnvelope;
 
 		EnvelopeLength = e.Enabled ? e.Length*4 : 0;
+		CurrentInstrument++;
 
 		if( EnvelopeLength ) {
 			EnvelopeSustain = e.Sustain ? e.SustainStart*4 : 0xFF;
@@ -534,7 +591,13 @@ namespace IT2SPC {
 				if( i != (EnvelopeLength/4)-1 ) {
 					int duration = e.Nodes[i+1].x - e.Nodes[i].x;
 					ed.duration = duration;
-					ed.delta = ((e.Nodes[i+1].y - e.Nodes[i].y) * 256 + duration/2) / duration;
+					if( duration > 0 ) {
+					    ed.delta = ((e.Nodes[i+1].y - e.Nodes[i].y) * 256 + duration/2) / duration;
+					} else {
+					    ed.delta = 64;
+					    ed.duration = 255;
+					    printf("\nWARNING: Volume envelope for instrument %i must have more\n         than one node to play properly.\n\n", CurrentInstrument);
+					}
 				} else {
 					ed.delta = 0;
 					ed.duration = 0;
@@ -614,7 +677,7 @@ namespace IT2SPC {
 			file.Write8( 30 ); // version minor
 
 			// SPC700 registers
-			file.Write16( 0x400 );	// PC
+			file.Write16( driver_base );
 			file.Write8( 0 );		// A
 			file.Write8( 0 );		// X
 			file.Write8( 0 );		// Y
@@ -640,26 +703,26 @@ namespace IT2SPC {
 			//-------------------------------------------------------
 
 			// zero fill upto program block
-			file.ZeroFill( 0x400 );
+			file.ZeroFill( driver_base );
 
-			int SampleTableOffset = file.Tell() - 0x200;
+			int SampleTableOffset = file.Tell() - sample_table_offset;
 			
 			// write spc program
-			for( int i = 0; i < sizeof( spc_program ); i++ ) {
-				if( i == 0x3C || i == 0x3D ) // PATCH
+			for ( int i = 0; i < spc_program_size; i++ ) {
+				if( i == patch_byte || i == patch_byte+1 ) // PATCH
 					file.Write8( 0 );
 				else
 					file.Write8( spc_program[i] );
 			}
 			
 			// zero fill upto module base
-			file.ZeroFill( (MODULE_BASE - 0x400 - sizeof(spc_program)) );
+			file.ZeroFill( (module_base - driver_base - spc_program_size) );
 
 			int StartOfModule = file.Tell();
 			
 			Modules[0]->Export( file, false );
 
-			u16 source_table[2*64];
+			u16 source_table[2*max_samples];
 
 			//!!TODO export sample list and create sample table!
 			for( u32 i = 0; i < Modules[0]->SourceList.size(); i++ ) {
@@ -674,8 +737,9 @@ namespace IT2SPC {
 				file.Write16( source_table[i] );
 
 			file.Seek( EndOfData );
-
-			file.ZeroFill( 65536 - (EndOfData - StartOfModule-MODULE_BASE) );
+			
+			file.ZeroFill( 65792 - EndOfData );
+		//file.ZeroFill( 65536 - (EndOfData - StartOfModule-MODULE_BASE) );
 			
 			// DSP registers
 			for( int i = 0; i < 128; i++ )
@@ -930,7 +994,7 @@ namespace IT2SPC {
 
 		file.Write8( EchoEnable );
 
-		for( int i = 0; i < 200; i++ )
+		for( int i = 0; i < max_length; i++ )
 			file.Write8( Sequence[i] );
 		
 		std::vector<u16> pattern_ptr;
@@ -940,7 +1004,7 @@ namespace IT2SPC {
 		u32 start_of_tables = file.Tell();
 		
 		// reserve space for pointers
-		for( int i = 0; i < 64*3; i++ ) {
+		for( int i = 0; i < ( max_patterns + max_instruments + max_samples ); i++ ) {
 			file.Write16( 0xBAAA );
 		}
 
@@ -983,19 +1047,19 @@ namespace IT2SPC {
 
 		file.Seek( start_of_tables );
 
-		for( u32 i = 0; i < 64; i++ )
+		for( u32 i = 0; i < max_patterns; i++ )
 			file.Write8( i < Patterns.size() ? ((pattern_ptr[i] + MODULE_BASE) & 0xFF) : 0xFF );
-		for( u32 i = 0; i < 64; i++ )
+		for( u32 i = 0; i < max_patterns; i++ )
 			file.Write8( i < Patterns.size() ? ((pattern_ptr[i] + MODULE_BASE) >> 8) : 0xFF );
 
-		for( u32 i = 0; i < 64; i++ )
+		for( u32 i = 0; i < max_instruments; i++ )
 			file.Write8( i < Instruments.size() ? ((instrument_ptr[i] + MODULE_BASE) & 0xFF) : 0xFF );
-		for( u32 i = 0; i < 64; i++ )
+		for( u32 i = 0; i < max_instruments; i++ )
 			file.Write8( i < Instruments.size() ? ((instrument_ptr[i] + MODULE_BASE) >> 8) : 0xFF );
 
-		for( u32 i = 0; i < 64; i++ )
+		for( u32 i = 0; i < max_samples; i++ )
 			file.Write8( i < Samples.size() ? ((sample_ptr[i] + MODULE_BASE) & 0xFF) : 0xFF );
-		for( u32 i = 0; i < 64; i++ )
+		for( u32 i = 0; i < max_samples; i++ )
 			file.Write8( i < Samples.size() ? ((sample_ptr[i] + MODULE_BASE) >> 8) : 0xFF );
 
 		file.Seek( end_of_mod );
