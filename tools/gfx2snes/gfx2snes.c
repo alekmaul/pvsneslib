@@ -473,6 +473,9 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
   /*optionally customize the state*/
   lodepng_state_init(&state);
 
+  // no conversion of color (to keep palette mode)
+	state.decoder.color_convert = 0;
+
 	error = lodepng_load_file(&png, &pngsize, filename);
   if (!error)  {
 		error = lodepng_decode(&pngimage, &width, &height, &state, png, pngsize);
@@ -494,8 +497,7 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 		return 0;
 	}
 	
-	//if (state.info_raw.colortype != LCT_PALETTE)
-	if (state.info_png.color.colortype != LCT_PALETTE)
+	if (state.info_raw.colortype != LCT_PALETTE)
   {
 		printf("\nERROR: File [%s] is not a valid indexed palette mode (mode %d).",filename,state.info_raw.colortype);
 		free(png);
@@ -517,6 +519,8 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 	header->width = width;
 	header->height = height;
 
+	printf("\nWidth %d Height %d",header->width,header->height);
+
   //allocate memory for the picture + 64 empty lines
 	image->buffer = malloc( (size_t)(header->height+64) * header->width );
 	if(image->buffer == NULL)	{
@@ -527,16 +531,8 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 	//initally clear the memory (to make those extra lines be blank)
 	memset(image->buffer,0,(size_t)(header->height+64) * header->width);
 
-/*
-    // fix incorrect W align
-    if ((bpp == 4) && (wAlign < 2)) wAlign = 2;
-    else if (wAlign < 1) wAlign = 1;
-    // do size alignment
-    wAligned = ((w + (wAlign - 1)) / wAlign) * wAlign;
-    hAligned = ((h + (hAlign - 1)) / hAlign) * hAlign;
-*/
+	// 4 bpps conversion
 	if (bpp==4) {
-		printf("\nERROR: 4 bpps");
 		for (index = 0; index < header->height; index++) {
 			for(i=0;i<header->width;i++)
 				image->buffer[index+i] = pngimage[i +index*header->height];
@@ -570,27 +566,13 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 				memset(&result[i * (wAligned / 2)], 0, wAligned / 2);
 			*/
 	}
+	// 8 bpps conversion
 	else {
 		for (index = 0; index < header->height; index++) {
-			for(i=0;i<header->width;i++)
-				image->buffer[index+i] = pngimage[i +index*header->height];
+			for(i=0;i<header->width;i++) {
+				image->buffer[i+(header->width*index)] = pngimage[i+(header->width*index)];
+			}
 		}
-			/*
-      // get buffer size
-			*size = wAligned * hAligned;
-            // and alloc
-            result = malloc(*size);
-
-            for (i = 0; i < h; i++)
-            {
-                unsigned char *dst = &result[i * wAligned];
-
-                memset(dst, 0, wAligned);
-                memcpy(dst, &out[i * w], w);
-            }
-            for(;i < hAligned; i++)
-                memset(&result[i * wAligned], 0, wAligned);
-			*/
 	}
 			
 	free(png);
