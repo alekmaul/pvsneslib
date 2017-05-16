@@ -1,126 +1,34 @@
-/***************************************************************************
+/*---------------------------------------------------------------------------------
 
-	gfx2snes.c
+	Copyright (C) 2012-2017
+		Alekmaul 
+
+	This software is provided 'as-is', without any express or implied
+	warranty.  In no event will the authors be held liable for any
+	damages arising from the use of this software.
+
+	Permission is granted to anyone to use this software for any
+	purpose, including commercial applications, and to alter it and
+	redistribute it freely, subject to the following restrictions:
+
+	1.	The origin of this software must not be misrepresented; you
+		must not claim that you wrote the original software. If you use
+		this software in a product, an acknowledgment in the product
+		documentation would be appreciated but is not required.
+	2.	Altered source versions must be plainly marked as such, and
+		must not be misrepresented as being the original software.
+	3.	This notice may not be removed or altered from any source
+		distribution.
 
 	Image converter for snes.
 	Parts from pcx2snes from Neviksti
 	palette rounded option from Artemio Urbina
-
+  BMP BI_RLE8 compression support by Andrey Beletsky
+	
 ***************************************************************************/
 
 //INCLUDES
-#include <stdlib.h>
-#include <stdio.h>
-#include <memory.h>
-#include <malloc.h>
-#include <string.h>
-
-#define GFX2SNESVERSION __BUILD_VERSION
-#define GFX2SNESDATE __BUILD_DATE
-
-//MACROS
-#define HI_BYTE(n)  (((int)n>>8) & 0x00ff)  // extracts the hi-byte of a word
-#define LOW_BYTE(n) ((int)n & 0x00ff)       // extracts the low-byte of a word
-
-#define HIGH(n)     ((int)n<<8)             // turn the char into high part of int
-
- #pragma pack(1)                            // for bmp header to avoid data alignment
-
-//STRUCTURES
-
-typedef struct RGB_color_typ
-	{
-	unsigned char red;      //Red component if color 0-63
-	unsigned char green;    //Green component of color 0-63
-	unsigned char blue;     //Blue component of color 0-63
-	} RGB_color, *RGB_color_ptr;
-
-typedef struct pcx_header_typ
-	{
-	char manufacturer;
-		// Always 10.
-	char version;
-		// 0-Ver 2.5 Paintbrush, 2-Ver 2.8 with
-		// palette, 3-Ver 2.8 use the default palette,
-		// 5-Ver 3.0 or higher of Paintbrush
-	char encoding;
-		// Always 1, meaning RLE encoding.
-	char bits_per_pixel;
-		// Bits per pixel; in our case, eight
-	short x,y;
-		// Upper-left corner of the image
-	short width, height;
-		// Size of the image
-	short horv_res;
-		// Pixels in the x direction
-	short vert_res;
-		// Pixels in the y direction
-	char ega_palette[48];
-		// The EGA palette; we can ignore it
-	char reserved;
-		// Nothing
-	char num_color_planes;
-		// The number of planes in the image
-	short bytes_per_line;
-		// Bytes per one horizontal line
-	short palette_type;
-		// 1 = Color or B&W
-		// 2 = Grayscale
-	char padding[58];
-		// Extra bytes for a rainy day
-	} pcx_header, *pcx_header_ptr;
-
-typedef struct pcx_picture_typ
-	{
-	pcx_header header;
-		// The header
-	RGB_color palette[256];
-		// The VGA palette
-	unsigned char *buffer;
-		// The buffer to hold the image
-	} pcx_picture, *pcx_picture_ptr;
-
-typedef struct bmp_header_typ                      /**** BMP file header structure ****/
-    {
-    unsigned short bfType;           /* Magic number for file */
-    unsigned int   bfSize;           /* Size of file */
-    unsigned short bfReserved1;      /* Reserved */
-    unsigned short bfReserved2;      /* ... */
-    unsigned int   bfOffBits;        /* Offset to bitmap data */
-    } bmp_header;
-
-#  define BF_TYPE 0x4D42             /* "MB" */
-
-typedef struct bmp_info_header_typ
-	{
-    unsigned int   biSize;           /* Size of info header */
-    int            biWidth;          /* Width of image */
-    int            biHeight;         /* Height of image */
-    unsigned short biPlanes;         /* Number of color planes */
-    unsigned short biBitCount;       /* Number of bits per pixel */
-    unsigned int   biCompression;    /* Type of compression to use */
-    unsigned int   biSizeImage;      /* Size of image data */
-    int            biXPelsPerMeter;  /* X pixels per meter */
-    int            biYPelsPerMeter;  /* Y pixels per meter */
-    unsigned int   biClrUsed;        /* Number of colors used */
-    unsigned int   biClrImportant;   /* Number of important colors */
-	} bmp_info_header;
-
-typedef struct tga_hearder_type
-	{
-	unsigned char Offset; // Usually 0,  add 18 to this value to find the start of the palette/image data.
-	unsigned char ColorType; // Image type. 0 = RGB, 1 = Indexed.
-	unsigned char ImageType;// 0 = None, 1 = Indexed, 2 = RGB, 3 = Greyscale, +8 = RLE encoded.
- 	unsigned short PaletteStart; // Start of palette.
-  	unsigned short PaletteLen; // Number of palette entries.
-  	unsigned char PalBits; // Bits per colour entry.
-  	unsigned short XOrigin; // Image X Origin
- 	unsigned short YOrigin; // Image Y Origin
- 	unsigned short Width; // Image width (Pixels).
- 	unsigned short Height; // Image height (Pixels)
- 	unsigned char BPP; // Bits per pixel (8,16,24 or 32)
- 	unsigned char Orientation; // If Bit 5 is set, the image will be upside down (like BMP)
-	} tga_header;
+#include "gfx2snes.h"
 
 //// M A I N   V A R I A B L E S ////////////////////////////////////////////////
 int	border=1;			//options and their defaults
@@ -131,7 +39,7 @@ int colors=0;			//
 int output_palette=-1;  //
 int rearrange=0;		//
 int palette_entry=0;	//
-int file_type=1;		// 1 = bmp, 2 = pcx, 3 = tga
+int file_type=1;		// 1 = bmp, 2 = pcx, 3 = tga, 4 = png
 int quietmode=0;		// 0 = not quiet, 1 = i can't say anything :P
 int collision=0;		// 1 = generated only collision map
 int collisionsp=0;		// n = 1st sprite entry regarding the map (so remove it from colision map)
@@ -145,7 +53,6 @@ int blanktile=0;        // 1 = blank tile generated
 int palette_rnd=0;      // 1 = round palette up & down
 
 //// F U N C T I O N S //////////////////////////////////////////////////////////
-
 
 int PCX_Load(char *filename, pcx_picture_ptr image)
 {
@@ -369,9 +276,7 @@ int BMP_Load(char *filename, pcx_picture_ptr image)
 	// within the picture structure, the separate images can be grabbed from this
 	// buffer later.  also the header and palette are loaded
 	FILE *fp;
-	long index,i;
-	//short num_colors;
-	//unsigned char data;
+	unsigned index,i;
 	pcx_header *header;
 	bmp_header bmphead;
 	bmp_info_header bmpinfohead;
@@ -483,9 +388,7 @@ int TGA_Load(char *filename, pcx_picture_ptr image)
 	// within the picture structure, the separate images can be grabbed from this
 	// buffer later.  also the header and palette are loaded
 	FILE *fp;
-	long index,i;
-	//short num_colors;
-	//unsigned char data;
+	unsigned index,i;
 	tga_header tgahead;
 	pcx_header *header;
 
@@ -555,14 +458,154 @@ int TGA_Load(char *filename, pcx_picture_ptr image)
 	fclose(fp);
 
 	return -1;
-} // end BMP_Load
+} // end TGA_Load
+
+int PNG_Load(char *filename, pcx_picture_ptr image)
+{
+  unsigned error, index, i,sz,bpp;
+  unsigned char *pngimage;
+  unsigned char* png = 0;
+  size_t pngsize;
+  LodePNGState state;
+  size_t width, height, wal,hal;
+	pcx_header *header;
+
+  /*optionally customize the state*/
+  lodepng_state_init(&state);
+
+	error = lodepng_load_file(&png, &pngsize, filename);
+  if (!error)  {
+		error = lodepng_decode(&pngimage, &width, &height, &state, png, pngsize);
+	}
+	if(error) {
+		printf("\nERROR: Decoder error %u: %s\n", error, lodepng_error_text(error));
+		free(png);
+		lodepng_state_cleanup(&state);
+		free(pngimage);
+		return 0;
+	}
+
+	bpp = state.info_raw.bitdepth;
+	if ( (bpp  != 4) && (bpp != 8)) {
+		printf("\nERROR: File [%s] is not a valid bbp value (%d bpp).",filename,bpp);
+		free(png);
+		lodepng_state_cleanup(&state);
+		free(pngimage);
+		return 0;
+	}
+	
+	//if (state.info_raw.colortype != LCT_PALETTE)
+	if (state.info_png.color.colortype != LCT_PALETTE)
+  {
+		printf("\nERROR: File [%s] is not a valid indexed palette mode (mode %d).",filename,state.info_raw.colortype);
+		free(png);
+		lodepng_state_cleanup(&state);
+		free(pngimage);
+		return 0;
+	}
+
+	// read the palette information
+	sz=state.info_png.color.palettesize;
+	for(index=0;index<sz;index++) {
+		image->palette[index].red = state.info_png.color.palette[(index*4) + 0]>>2;
+		image->palette[index].green = state.info_png.color.palette[(index*4) + 1]>>2;
+		image->palette[index].blue = state.info_png.color.palette[(index*4) + 2]>>2;
+	}
+	
+	// get png information
+	header = &image->header;
+	header->width = width;
+	header->height = height;
+
+  //allocate memory for the picture + 64 empty lines
+	image->buffer = malloc( (size_t)(header->height+64) * header->width );
+	if(image->buffer == NULL)	{
+		printf("\nERROR: Can't allocate enough memory for the picture.");
+		return 0;
+	}
+
+	//initally clear the memory (to make those extra lines be blank)
+	memset(image->buffer,0,(size_t)(header->height+64) * header->width);
+
+/*
+    // fix incorrect W align
+    if ((bpp == 4) && (wAlign < 2)) wAlign = 2;
+    else if (wAlign < 1) wAlign = 1;
+    // do size alignment
+    wAligned = ((w + (wAlign - 1)) / wAlign) * wAlign;
+    hAligned = ((h + (hAlign - 1)) / hAlign) * hAlign;
+*/
+	if (bpp==4) {
+		printf("\nERROR: 4 bpps");
+		for (index = 0; index < header->height; index++) {
+			for(i=0;i<header->width;i++)
+				image->buffer[index+i] = pngimage[i +index*header->height];
+		}
+		/*
+      // get buffer size
+			*size = (wAligned / 2) * hAligned;
+			// and alloc
+			result = malloc(*size);
+
+			srcPix = 0;
+			for (i = 0; i < h; i++)
+			{
+				unsigned char *dst = &result[i * (wAligned / 2)];
+
+				memset(dst, 0, wAligned / 2);
+
+				for (j = 0; j < w; j++)
+				{
+						unsigned char v;
+
+						if (srcPix & 1) v = (out[srcPix / 2] >> 4) & 0xF;
+						else v =  (out[srcPix / 2] >> 0) & 0xF;
+						srcPix++;
+
+						if (j & 1) dst[j / 2] = (dst[j / 2] & 0x0F) | (v << 4);
+						else dst[j / 2] = (dst[j / 2] & 0xF0) | (v << 0);
+				}
+			}
+			for(;i < hAligned; i++)
+				memset(&result[i * (wAligned / 2)], 0, wAligned / 2);
+			*/
+	}
+	else {
+		for (index = 0; index < header->height; index++) {
+			for(i=0;i<header->width;i++)
+				image->buffer[index+i] = pngimage[i +index*header->height];
+		}
+			/*
+      // get buffer size
+			*size = wAligned * hAligned;
+            // and alloc
+            result = malloc(*size);
+
+            for (i = 0; i < h; i++)
+            {
+                unsigned char *dst = &result[i * wAligned];
+
+                memset(dst, 0, wAligned);
+                memcpy(dst, &out[i * w], w);
+            }
+            for(;i < hAligned; i++)
+                memset(&result[i * wAligned], 0, wAligned);
+			*/
+	}
+			
+	free(png);
+	lodepng_state_cleanup(&state);
+	free(pngimage);
+	
+	return -1;
+} // end PNG_Load
 
 //////////////////////////////////////////////////////////////////////////////
 
 void PutWord(int data, FILE *fp)
 {
-putc(LOW_BYTE(data),fp);
-putc(HI_BYTE(data),fp);
+	putc(LOW_BYTE(data),fp);
+	putc(HI_BYTE(data),fp);
 } //end of PutWord
 
 //////////////////////////////////////////////////////////////////////////////
@@ -1159,7 +1202,7 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
 		bitplanes=2;
 	else if(colors==16)
 		bitplanes=4;
-	else if(colors<128)
+	else if(colors<=128)
 		bitplanes=4;
 	//else if(colors==128)
 	//	bitplanes=8;
@@ -1230,7 +1273,7 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
 			for(i=0;i<8*bitplanes;i++)
 				fputc(0,fp);
 
-printf("\ndecode for %d tiles and %d bitplanes\n",num_tiles,bitplanes);
+		printf("\ndecode for %d tiles and %d bitplanes\n",num_tiles,bitplanes);
 
 		for(t=0;t<num_tiles;t++) //loop through tiles
 		for(b=0;b<bitplanes;b+=2) //loop through bitplane pairs
@@ -1377,7 +1420,7 @@ void PrintOptions(char *str)
 	printf("\n-pr               Rearrange palette, and preserve palette numbers in the tilemap");
 	printf("\n-pR               Palette rounding");
 	printf("\n\n--- File options ---");
-	printf("\n-f[bmp|pcx|tga]   convert a bmp or pcx file [bmp]");
+	printf("\n-f[bmp|pcx|tga|png]   convert a bmp or pcx or gta or png file [bmp]");
 	printf("\n\n--- Misc options ---");
 	printf("\n-n                no border");
 	printf("\n-q                quiet mode");
@@ -1413,7 +1456,7 @@ int main(int argc, char **arg)
 		printf("\n==============================");
 		printf("\n---gfx2snes v"GFX2SNESVERSION" "GFX2SNESDATE"---");
 		printf("\n------------------------------");
-		printf("\n(c) 2013 Alekmaul ");
+		printf("\n(c) 2013-2017 Alekmaul ");
 		printf("\nBased on pcx2snes by Neviksti");
 		printf("\n==============================\n");
 	}
@@ -1555,7 +1598,11 @@ int main(int argc, char **arg)
 				}
 				else if( strcmp(&arg[i][1],"ftga") == 0)
 				{
-					file_type = 3; // TGA, evething else is bmp
+					file_type = 3; // TGA
+				}
+				else if( strcmp(&arg[i][1],"fpng") == 0)
+				{
+					file_type = 4; // PNG, evething else is bmp
 				}
 			}
 			else //invalid option
@@ -1649,6 +1696,13 @@ int main(int argc, char **arg)
 			if(!TGA_Load(filename,(pcx_picture_ptr) &image))
 				return 1;
 			break;
+		case 4 : // PNG
+			sprintf(filename,"%s.png",filebase);
+			if (quietmode == 0)
+				printf("\nOpening graphics file: [%s]",filename);
+			if(!PNG_Load(filename,(pcx_picture_ptr) &image))
+				return 1;
+			break;
 		default : // BMP for everithing else
 			sprintf(filename,"%s.bmp",filebase);
 			if (quietmode == 0)
@@ -1705,7 +1759,7 @@ int main(int argc, char **arg)
 		//determine the constants if in screen mode
 		//or image block mode with no borders
 
-		printf("size=%d screen=%d\n",size,screen);
+		//printf("size=%d screen=%d\n",size,screen);
 		if(screen)
 			size=8;
 		xsize = width/size;
@@ -1766,13 +1820,25 @@ int main(int argc, char **arg)
 			printf("\nOptimize tilemap=ON");
 		else
 			printf("\nOptimize tilemap=OFF");
-
-		if(packed)
-			printf("\npixel format = packed-bit");
+		
+		if (lzpacked)
+			printf("\nLZSS compression=ON");
 		else
-			printf("\npixel format = bit-plane");
+			printf("\nLZSS compression=OFF");
+			
+		if(packed)
+			printf("\npixel format=packed-bit");
+		else
+			printf("\npixel format=bit-plane");
 
-		printf(file_type == 2 ?  "\nPCX file: %dx%d pixels" : "\nBMP file: %dx%d pixels",width,height);
+		if (file_type == 2)
+			printf("\nPCX file: %dx%d pixels",width,height);
+		else if (file_type == 3)
+			printf("\nTGA file: %dx%d pixels",width,height);
+		else if (file_type == 4)
+			printf("\nPNG file: %dx%d pixels",width,height);
+		else
+			printf("\nBMP file: %dx%d pixels",width,height);
 
 		if(screen)
 		{
@@ -1997,7 +2063,7 @@ int main(int argc, char **arg)
 	}
 
 	if (quietmode == 0)
-		printf("\nDone!\n\n");
+		printf("\nDone !\n\n");
 
 	return 0;
 }

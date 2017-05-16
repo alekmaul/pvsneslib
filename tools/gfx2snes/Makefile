@@ -1,4 +1,6 @@
-VERSION = "1.1.2"
+export PATH := /c/MinGW32/bin/:$(PATH)
+
+VERSION = "2.0.0"
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -6,8 +8,8 @@ VERSION = "1.1.2"
 CC=gcc
 CFLAGS=-g -O2 -Wall -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-SOURCES=gfx2snes.c lzss.c
-OBJS=gfx2snes.o  lzss.o
+SOURCES=gfx2snes.c lzss.c lodepng.c
+OBJS=gfx2snes.o  lzss.o lodepng.o
 EXE=gfx2snes.exe
 DEFINES =
 LIBS =
@@ -27,6 +29,10 @@ lzss.o : lzss.c
 	@echo make obj $(notdir $<)
 	$(CC) $(CFLAGS) -c $<
 
+lodepng.o : lodepng.c
+	@echo make obj $(notdir $<)
+	$(CC) $(CFLAGS) -c $<
+	
 #---------------------------------------------------------------------------------
 clean:
 	rm -f *.o *.exe *.tds
