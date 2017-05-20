@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-	Copyright (C) 2012
+	Copyright (C) 2012-2017
 		Alekmaul 
 
 	This software is provided 'as-is', without any express or implied
@@ -23,6 +23,8 @@
 ---------------------------------------------------------------------------------*/
 
 #include <snes/background.h>
+
+#include <snes/lzss.h>
 
 BgState bgState[4];  
 
@@ -67,14 +69,32 @@ void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry
 
 	// Send to VRAM and CGRAM
 	dmaCopyVram(tileSource, address, tileSize);
-  	dmaCopyCGram(tilePalette, palEntry, paletteSize);
+  dmaCopyCGram(tilePalette, palEntry, paletteSize);
+	bgSetGfxPtr(bgNumber, address);
+}
+
+//---------------------------------------------------------------------------------
+void bgInitTileSetLz(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address) {
+	u16 palEntry;
+	
+	// If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
+	if (colorMode == BG_4COLORS0)
+		palEntry = bgNumber*32 + paletteEntry*BG_4COLORS;
+	else
+		palEntry = paletteEntry*colorMode;
+		
+	setBrightness(0);  // Force VBlank Interrupt
+	WaitForVBlank(); 
+
+	// Send to VRAM and CGRAM
+	LzssDecodeVram(tileSource, address, tileSize);
+  dmaCopyCGram(tilePalette, palEntry, paletteSize);
 	bgSetGfxPtr(bgNumber, address);
 }
 
 //---------------------------------------------------------------------------------
 void bgInitMapTileSet7(u8 *tileSource,  u8 *mapSource, u8 *tilePalette, u16 tileSize, u16 address) {
 	setBrightness(0);  // Force VBlank Interrupt
-	//WaitForVBlank();  
 	
 	dmaCopyVram7(mapSource, address,0x4000, VRAM_INCLOW | VRAM_ADRTR_0B | VRAM_ADRSTINC_1,0x1800);
 	bgSetMapPtr(0, address, SC_32x32);
@@ -85,7 +105,6 @@ void bgInitMapTileSet7(u8 *tileSource,  u8 *mapSource, u8 *tilePalette, u16 tile
 
 //---------------------------------------------------------------------------------
 void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address) {
-	//setBrightness(0);  // Force VBlank Interrupt
 	WaitForVBlank(); 
 		
 	dmaCopyVram(mapSource, address,mapSize);
@@ -96,7 +115,6 @@ void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 addr
 //---------------------------------------------------------------------------------
 void bgInitTileSetData(u8 bgNumber, u8 *tileSource, u16 tileSize, u16 address) {
 	setBrightness(0);  // Force VBlank Interrupt
-	//WaitVBLFlag; 
 	
 	dmaCopyVram(tileSource, address, tileSize);
 	if (bgNumber != 0xff)
@@ -129,21 +147,14 @@ void bgSetDisableSub(u8 bgNumber) {
 
 //---------------------------------------------------------------------------------
 void bgSetWindowsRegions(u8 bgNumber, u8 winNumber, u8 xLeft, u8 xRight) {
-	// work on Window #1 ?
-	//if (winNumber == 1) {
-		// OK, klet's go with BG
-		//if (bgNumber < 2) {
-			REG_W12SEL = 0x03;
-			REG_WOBJSEL = 0x03;
+	REG_W12SEL = 0x03;
+	REG_WOBJSEL = 0x03;
 
-		REG_WH0 = xLeft;
-		REG_WH1 = xRight;
+	REG_WH0 = xLeft;
+	REG_WH1 = xRight;
 
-			REG_WBGLOG = 0x01;
-		REG_WOBJLOG = 0x01;
-		//}
-		REG_TMW = 0x11;
-	//}
-	//else {
-	//}
+	REG_WBGLOG = 0x01;
+	REG_WOBJLOG = 0x01;
+
+	REG_TMW = 0x11;
 }

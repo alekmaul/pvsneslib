@@ -2,7 +2,7 @@
 
 	background.h -- definitions for SNES backgrounds
 
-	Copyright (C) 2012-2013
+	Copyright (C) 2012-2017
 		Alekmaul
 
 	This software is provided 'as-is', without any express or implied
@@ -318,6 +318,18 @@ void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize);
 	\param address	address of tile graphics (4K aligned)
 */
 void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address);
+
+/*!\brief Initializes a Tile Set and Loads the Tile GFX compressed with LZ algo into VRAM 
+	\param bgNumber	background number (0 to 3)
+	\param tileSource	address of tile graphics entry compressed with LZ algo
+	\param tilePalette	address of palette entry
+	\param paletteEntry palette number (0..16 for 16 colors mode) of the begining of each colors
+	\param tileSize	size of tile graphics
+	\param paletteSize	size of palette
+	\param colorMode	used for correct palette entry (BG_4COLORS, BG_16COLORS, BG_256COLORS)
+	\param address	address of tile graphics (4K aligned)
+*/
+void bgInitTileSetLz(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address);
 
 /*!\brief Add some Tile Set and Loads the Tile GFX into VRAM 
 	\param bgNumber	background number (0 to 3, 0xff to not change gfx pointer)
