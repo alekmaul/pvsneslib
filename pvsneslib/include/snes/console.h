@@ -2,7 +2,7 @@
 
 	Generic console functions.
 
-	Copyright (C) 2012-2013
+	Copyright (C) 2012-2017
 		Alekmaul
 
 	This software is provided 'as-is', without any express or implied
@@ -42,16 +42,16 @@
 #include <snes/sound.h>
 #include <snes/video.h>
 
-extern unsigned char pvsneslibfont_map[0x800];  /*!< \brief tilemap used for text display */
+extern u8 pvsneslibfont_map[0x800];  /*!< \brief tilemap used for text display */
 extern u8 pvsneslibdirty; /*!< \brief flag to redraw text during vblank */
 
-extern unsigned int  snes_vblank_count; /*!< \brief Number of VBL since consoleInit called */
-extern u8 snes_50hz; /*!< \brief 1 if on a PAL/50Hz SNES */
+extern u16	snes_vblank_count; /*!< \brief Number of VBL since consoleInit called */
+extern u8	snes_50hz; /*!< \brief 1 if on a PAL/50Hz SNES */
 
 /*! \fn rand(void)
 	\brief return a randomized number
 */
-unsigned int rand(void);
+u16 rand(void);
 
 /*! \fn consoleSetTextCol(u16 colorChar, u16 colorBG)
 	\brief Change Character and Background color of text

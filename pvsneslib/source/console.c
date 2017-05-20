@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-	Copyright (C) 2012-2013
+	Copyright (C) 2012-2017
 		Alekmaul 
 
 	This software is provided 'as-is', without any express or implied
@@ -27,22 +27,21 @@
 
 #include <snes/console.h>
 
-unsigned char pvsneslibfont_map[0x800];
+u8 pvsneslibfont_map[0x800];
 u8 pvsneslibdirty;
 
-unsigned char text_buffer[128];
+u8 text_buffer[128];
 u16  maptext_adress;
 u8   palette_adress, palette_number;
 
-unsigned int  snes_vblank_count;
+u16  snes_vblank_count;
 
-u8 snes_50hz;
+u8	snes_50hz;
+u16	snes_rand_seed1;
+u16 snes_rand_seed2;
 
 //---------------------------------------------------------------------------------
-unsigned int  snes_rand_seed1;
-unsigned int  snes_rand_seed2;
-
-unsigned int rand(void) {
+u16 rand(void) {
 	snes_rand_seed1+=(snes_rand_seed2>>1);
 	snes_rand_seed2-=(15^snes_rand_seed1);
 
@@ -55,7 +54,7 @@ void consoleVblank(void) {
 	scanPads();
 	
 	// Put oam to screen if needed
-	dmaCopyOAram((unsigned char *) &oamMemory,0,0x220);
+	oamUpdate();
 
 	// if buffer need to be update, do it !
 	if (pvsneslibdirty == 1) {
@@ -66,34 +65,6 @@ void consoleVblank(void) {
 	// Count frame number
 	snes_vblank_count++;
 }
-
-//---------------------------------------------------------------------------------
-// Not used, too slow with VBL waiting
-#if 0
-void _print_screen(u8 x, u8 y, char *buffer) {
-	u16 x1; 
-    
-	x1 = y * 0x20 + x;
-
-    //WaitForVBlank();
-	while (*buffer) {
-		// Do a Carriage Return & Linefeed simulation
-		if (*buffer == '\n') {
-			x1+=32;
-		}
-		else {
-			// Write char to screen
-			REG_VMAIN = VRAM_INCHIGH;
-			REG_VMADDLH = (maptext_adress + x1);
-			REG_VMDATAL = (*buffer)-32; // Because we started with 'space' character for tiles
-			REG_VMDATAH = palette_adress;
-			x1++;
-		}
-		buffer++;
-    }
-    WaitForVBlank();
-}
-#endif
 
 //---------------------------------------------------------------------------------
 void _print_screen_map(u16 x, u16 y, unsigned char  *map, u8 attributes, unsigned char *buffer) {
