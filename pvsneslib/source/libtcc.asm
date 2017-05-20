@@ -7,17 +7,22 @@
 .16bit
 
 ; multiplication implementation lifted from WDC's "Programming the 65816"
+; multiplication implementation lifted from WDC's "Programming the 65816"
 tcc__mul:
-      lda #0
--     ldx.b tcc__r9
-      beq ++
-      lsr.b tcc__r9
-      bcc +
-      clc
-      adc.b tcc__r10
-+     asl.b tcc__r10
-      bra -
-++    rtl
+	lda #0
+	.repeat 4
+	.repeat 4
+	ldx.b tcc__r9
+	beq ++
+	lsr.b tcc__r9
+	bcc +
+	clc
+	adc.b tcc__r10
++   asl.b tcc__r10
+	.endr
+++
+	.endr
+  rtl
 
 ; adapted from 6502 16x16 mult (same manual)
 ; this is a 32x32 => 32 multiplication routine
