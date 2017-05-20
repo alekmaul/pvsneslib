@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-	Copyright (C) 2012-2013
+	Copyright (C) 2012-2017
 		Alekmaul
 
 
@@ -205,6 +205,13 @@ typedef struct dmaMemory {
 #define REG_DAS5LH	(*(vuint16*)0x4355)
 #define REG_DAS6LH	(*(vuint16*)0x4365)
 #define REG_DAS7LH	(*(vuint16*)0x4375)
+
+/*! \brief copy data from source to destination using channel 0 of DMA available channels in half words  
+	\param source the source to copy from
+	\param address cgram address to copy
+	\param size the size in bytes of the data to copy.  
+*/
+void dmaCopyCGram(u8 * source, u16 address, u16 size);
 
 /*! \brief copy data from source to destination using channel 0 of DMA available channels in half words  
 	\param source the source to copy from

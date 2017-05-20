@@ -1,8 +1,32 @@
+;---------------------------------------------------------------------------------
+;
+;	Copyright (C) 2013-2017
+;		Alekmaul 
+;
+;	This software is provided 'as-is', without any express or implied
+;	warranty.  In no event will the authors be held liable for any
+;	damages arising from the use of this software.
+;
+;	Permission is granted to anyone to use this software for any
+;	purpose, including commercial applications, and to alter it and
+;	redistribute it freely, subject to the following restrictions:
+;
+;	1.	The origin of this software must not be misrepresented; you
+;		must not claim that you wrote the original software. If you use
+;		this software in a product, an acknowledgment in the product
+;		documentation would be appreciated but is not required.
+;	2.	Altered source versions must be plainly marked as such, and
+;		must not be misrepresented as being the original software.
+;	3.	This notice may not be removed or altered from any source
+;		distribution.
+;
+;---------------------------------------------------------------------------------
 .equ REG_RDNMI		$4210
 
 .section ".dmas_text" superfree
 
 ;---------------------------------------------------------------------------
+; void dmaCopyCGram(u8 * source, u16 address, u16 size);
 dmaCopyCGram:
 	php
 
@@ -29,6 +53,7 @@ dmaCopyCGram:
 	rtl
 
 ;---------------------------------------------------------------------------
+; void dmaCopyVram(u8 * source, u16 address, u16 size);
 dmaCopyVram:
 	php
 
@@ -59,6 +84,7 @@ dmaCopyVram:
 	rtl
 
 ;---------------------------------------------------------------------------
+; void dmaCopySpr32Vram(u8 * source, u16 address);
 dmaCopySpr32Vram:
 	php
 
@@ -136,6 +162,7 @@ dmaCopySpr32Vram:
 	rtl
 
 ;---------------------------------------------------------------------------
+; void dmaCopySpr16Vram(u8 * source, u16 address);
 dmaCopySpr16Vram:
 	php
 
@@ -182,10 +209,11 @@ dmaCopySpr16Vram:
 	rtl
 
 ;---------------------------------------------------------------------------
+; void dmaFillVram(u8 source, u16 address, u16 size);
 dmaFillVram:
 	php
 
-;	jsr.w	_wait_nmid
+	jsr.w	_wait_nmid
 	lda	9,s	
 	sta.l	$2116           ; address for VRAM write(or read)
 
@@ -211,6 +239,7 @@ dmaFillVram:
 	rtl
 
 ;---------------------------------------------------------------------------
+; void dmaClearVram(void);
 dmaClearVram:
 	php
 
