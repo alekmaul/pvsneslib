@@ -36,7 +36,7 @@
 
 #include <snes/background.h>
 #include <snes/dma.h>
-#include <snes/interrupts.h>
+#include <snes/interrupt.h>
 #include <snes/pad.h>
 #include <snes/sprite.h>
 #include <snes/sound.h>
@@ -50,6 +50,7 @@ extern u8	snes_50hz; /*!< \brief 1 if on a PAL/50Hz SNES */
 
 /*! \fn rand(void)
 	\brief return a randomized number
+	\return unsigned short of a randozied number
 */
 u16 rand(void);
 

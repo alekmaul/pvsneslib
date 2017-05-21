@@ -24,7 +24,7 @@
 		distribution.
 
 ---------------------------------------------------------------------------------*/
-/*! \file dma.h
+/*! \file scores.h
 \brief Wrapper functions for score management
 
 */
