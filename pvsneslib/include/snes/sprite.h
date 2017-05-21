@@ -2,7 +2,7 @@
 
 	sprite.h -- definitions for SNES sprites
 
-	Copyright (C) 2012-2013
+	Copyright (C) 2012-2017
 		Alekmaul
 
 	This software is provided 'as-is', without any express or implied
@@ -45,7 +45,7 @@
 #define OBJ_SHOW	(0)
 #define OBJ_HIDE	(1)
 
-// Atribute 1 consists of 9 bits of X plus the following flags:
+// Attribute 1 consists of 9 bits of X plus the following flags:
 /*
 #define ATTR1_ROTDATA(n)      ((n)<<9)  // note: overlaps with flip flags
 #define ATTR1_FLIP_X          (1<<12)
@@ -64,8 +64,8 @@ typedef struct  {
   u8 attribute;	/*!< vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num */
 } oamEntry;
 
-//extern oamEntry oamMemory[128+8]; // to address oma table low and high
-extern unsigned char oamMemory[128*4+8*4]; // to address oma table low and high
+extern u8 oamMemory[128*4+8*4]; 										// to address oma table low and high
+
 
 /*! \def REG_OBSEL
     \brief Object Size and Object Base (W)
@@ -114,15 +114,29 @@ extern unsigned char oamMemory[128*4+8*4]; // to address oma table low and high
 #define REG_OAMDATA	(*(vuint8*)0x2104) /*!< \brief OAM Data Write (W) */
 #define REG_RDOAM	(*(vuint8*)0x2138) /*!< \brief OAM Data Read (R) */
 
-/*! \brief Write one or more OBJ descriptors to OAM
-	\param first	number of 1st sprite to write * 4 because of oam structure
-	\param numEntries	total number of sprites to write
-*/
-void oamUpdate( u8 first, u8 numEntries);
-
 /*! \brief Initializes the 2D sprite engine  
 */
 void oamInit(void);
+
+/*! \brief Write all OBJ descriptors to OAM
+*/
+void oamUpdate(void);
+
+/*! \brief sets an oam entry to the supplied values
+    \param id the oam number to be set [0 - 127] * 4 because of oam structure
+    \param xf x flipping [0 - 1]
+    \param yf y flipping [0 - 1]
+*/
+void oamFlip(u16 id, u8 xf, u8 yf);
+
+/*! \brief sets an oam entry to the supplied values
+    \param id the oam number to be set [0 - 127] * 4 because of oam structure
+    \param xspr the x location of the sprite in pixels
+    \param yspr the y location of the sprite in pixels
+    \param gfxoffset tilenumber graphic offset
+    \param attr (attributes with priority, flipping, palette)
+*/
+void oamSetAttr(u16 id, u16 xspr, u16 yspr, u16 gfxoffset, u8 attr);
 
 /*! \brief sets an oam entry to the supplied values
     \param id the oam number to be set [0 - 127] * 4 because of oam structure
@@ -149,9 +163,7 @@ void oamSet1(u8 id, oamEntry *sprite);
     \param xspr the x location of the sprite in pixels
     \param yspr the y location of the sprite in pixels
 */
-#define oamSetXY(id,  xspr, yspr) \
-	oamMemory[id+0] = (xspr); \
-	oamMemory[id+1] = (yspr);
+void oamSetXY(u16 id, u16 xspr, u16 yspr);
 
 /*! \brief get the x oam coordinate to the supplied values
     \param id the oam number to be set [0 - 127] * 4 because of oam structure
@@ -208,3 +220,4 @@ void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSiz
 void oamInitGfxAttr(u16 address, u8 oamsize);
 
 #endif //SNES_SPRITES_INCLUDE
+

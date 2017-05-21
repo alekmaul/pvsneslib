@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-	Copyright (C) 2012
+	Copyright (C) 2012-2017
 		Alekmaul 
 
 	This software is provided 'as-is', without any express or implied
@@ -24,9 +24,6 @@
 
 #include <snes/sprite.h>
 
-//oamEntry oamMemory[128+8];
-u8 oamMemory[128*4+8*4];
-
 //---------------------------------------------------------------------------------
 void oamInit(void) {
 	u16 i;
@@ -39,13 +36,13 @@ void oamInit(void) {
 		oamMemory[i+3] = 0;
 	}
   
-  // Highatble now
-  for (i=128*4;i<136*4;i+=4) {
-	oamMemory[i+0] = 0x55;
-	oamMemory[i+1] = 0x55;
-	oamMemory[i+2] = 0x55;
-	oamMemory[i+3] = 0x55;
-  }
+	// Highatble now
+	for (i=128*4;i<136*4;i+=4) {
+		oamMemory[i+0] = 0x55;
+		oamMemory[i+1] = 0x55;
+		oamMemory[i+2] = 0x55;
+		oamMemory[i+3] = 0x55;
+	}
 }
 
 //---------------------------------------------------------------------------------
@@ -91,26 +88,6 @@ void oamSet1(u8 id, oamEntry *sprite) {
 	*ptrOam++ = sprite->y;
 	*ptrOam++ = sprite->tilenumber;
 	*ptrOam = sprite->attribute;
-}
-
-//---------------------------------------------------------------------------------
-void oamSetEx(u16 id, u8 size, u8 hide) {
-	u8 value;
-	u8 *ptrOam;
-	
-	// Compute correct id
-	ptrOam = (unsigned char *) oamMemory;
-	ptrOam = ptrOam + (id >> 4) + 512;
-
-	// get current value and change value regarding correct bit
-	value = *ptrOam;
-	switch( (id>>2) & 3) {
-		case 0: value=(value&0xfc) | (size<<1) | (hide<<0); break; // 1111 1100
-		case 1: value=(value&0xf3) | (size<<3) | (hide<<2); break; // 1111 0011
-		case 2: value=(value&0xcf) | (size<<5) | (hide<<4); break; // 1100 1111 
-		case 3: value=(value&0x3f) | (size<<7) | (hide<<6); break; // 0011 1111
-	}
-	*ptrOam = value;
 }
 
 //---------------------------------------------------------------------------------
