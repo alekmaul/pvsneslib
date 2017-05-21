@@ -42,7 +42,7 @@
 #define SNES_SOUND_INCLUDE
 
 #include <snes/snestypes.h>
-#include <snes/interrupts.h>
+#include <snes/interrupt.h>
 
 /*!	\brief Sound header(8 bytes) */
 typedef struct {

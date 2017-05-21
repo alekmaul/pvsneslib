@@ -36,7 +36,7 @@
 #include <snes/snestypes.h>
 
 #include <snes/dma.h>
-#include <snes/interrupts.h>
+#include <snes/interrupt.h>
 #include <snes/video.h>
 
 /*! \brief The shift to apply to map base when storing it in a tile map location register */
