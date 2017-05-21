@@ -37,6 +37,7 @@
  \section video_2D_api 2D engine API
  - \ref video.h "General video"
  - \ref background.h "2D Background Layers"
+ - \ref lzss.h "LZ decompression routine"
  - \ref pixel.h "Pixel mode management"
  - \ref sprite.h "2D Sprites"
 
@@ -48,13 +49,14 @@
  
  \section system_api System
  - \ref snestypes.h "Custom SNES types"
- - \ref interrupts.h "Interrupts"
+ - \ref interrupt.h "Interrupts"
 
  \section user_io_api User Input/ouput
  - \ref pad.h "Keypad"
  - \ref console.h "Console and Debug Printing"
 
-
+ \section Miscellaneous functions
+ - \ref scores.h "Scoring management"
 
  \section external_links Usefull links
  - <a href="http://www.portabledev.com/wiki/doku.php">PVSnesLib wiki</a>
@@ -112,7 +114,7 @@
 #include "snes/background.h"
 #include "snes/console.h"
 #include "snes/dma.h"
-#include "snes/interrupts.h"
+#include "snes/interrupt.h"
 #include "snes/pad.h"
 #include "snes/pixel.h"
 #include "snes/sound.h"
