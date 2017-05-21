@@ -1,4 +1,4 @@
- DevkitSnes 0.40
+ DevkitSnes 2.00
  
  Programming Compiler and Tools for Snes
 
@@ -22,6 +22,9 @@ SPECIAL THANKS
                
 CHANGE LOG
 ----------------------
+VERSION 2.00 (13, may, 2017)
+- Added : png and bmp rle encoding in gfx2snes file format
+
 VERSION 1.30 (xx, yyyy, 2014)
 - Added : sram and country management in snestool
 - Added : palette rounded option from Artemio Urbina in gfx2snes
