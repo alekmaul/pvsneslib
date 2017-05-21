@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-	Copyright (C) 2012
+	Copyright (C) 2012-2017
 		Alekmaul 
 
 	This software is provided 'as-is', without any express or implied
@@ -117,41 +117,21 @@ void setMode(u8 mode, u8 size) {
 	
 	REG_NMITIMEN = INT_VBLENABLE | INT_JOYPAD_ENABLE; // enable NMI, enable autojoy 
 	
-	setBrightness(0);  // Force VBlank Interrupt
-	WaitForVBlank(); 
-	setBrightness(0xF);  // Screen with all brightness
+	//setBrightness(0);  // Force VBlank Interrupt
+	//WaitForVBlank(); 
+	//setBrightness(0xF);  // Screen with all brightness
 }
-
-//---------------------------------------------------------------------------------
-// Not used, in assembler files now
-#if 0
-void setMosaicEffect(u8 mode,u8 bgNumbers) {
-	u16 i, fadeOutValue;
-
-	if (mode == MOSAIC_IN) {
-		fadeOutValue = bgNumbers;
-		for (i == 0; i<16; i++) {
-			REG_MOSAIC = fadeOutValue;
-			fadeOutValue=fadeOutValue+0x10;
-			WaitForVBlank(); 
-		}
-	}
-	else {
-		fadeOutValue = (0xF0) | bgNumbers;
-		for (i == 0; i<16; i++) {
-			REG_MOSAIC = fadeOutValue;
-			fadeOutValue=fadeOutValue-0x10;
-			WaitForVBlank(); 
-		}
-	}
-}
-#endif
 
 //---------------------------------------------------------------------------------
 void setColorEffect(u8 colorMathA, u8 colorMathB) {
 	REG_CGWSEL = colorMathA;
 	
 	REG_CGADSUB = colorMathB;
+}
+
+//---------------------------------------------------------------------------------
+void setColorIntensity(u8 colorApply, u8 intensity) {
+	REG_COLDATA = colorApply | (intensity & 0x1F);
 }
 
 //---------------------------------------------------------------------------------

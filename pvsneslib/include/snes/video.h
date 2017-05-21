@@ -2,7 +2,7 @@
 
 	Video registers and defines
 
-	Copyright (C) 2012-2013
+	Copyright (C) 2012-2017
 		Alekmaul
 
 	This software is provided 'as-is', without any express or implied
@@ -78,6 +78,10 @@ typedef enum
 #define CM_MSCR_BG3			(1<<2)
 #define CM_MSCR_BG2			(1<<1)
 #define CM_MSCR_BG1			(1<<0)
+
+#define CM_APPLY_BLUE		(1<<7)
+#define CM_APPLY_GREEN		(1<<6)
+#define CM_APPLY_RED		(1<<5)
 
 #define M7_HFLIP	(1<<0)  /*!< \brief Mode7 screen H-Flip (0=Normal, 1=Flipped) flip 256x256 "screen"*/
 #define M7_VFLIP	(1<<1)  /*!< \brief Mode7 screen V-Flip (0=Normal, 1=Flipped) flip 256x256 "screen"*/
@@ -225,6 +229,17 @@ typedef enum
 */
 #define REG_CGADSUB (*(vuint8*)0x2131)
 
+/*! \def REG_COLDATA
+     \brief Color Math Sub Screen Backdrop Color (W)
+	This 8bit port allows to manipulate some (or all) bits 
+	of a 15bit RGB value. Examples: Black: write E0h (R,G,B=0), Cyan: write 20h (R=0) and DFh (G,B=1Fh).
+	7    Apply Blue  (0=No change, 1=Apply Intensity as Blue)
+	6    Apply Green (0=No change, 1=Apply Intensity as Green)
+	5    Apply Red   (0=No change, 1=Apply Intensity as Red)
+	4-0  Intensity   (0..31)
+*/
+#define REG_COLDATA (*(vuint8*)0x2132)
+
 /*! \def REG_M7SEL
     \brief Rotation/Scaling Mode Settings (W)
 	7-6   Screen Over (see below)
@@ -340,6 +355,13 @@ void setMosaicEffect(u8 mode, u8 bgNumbers);
 	\param colorMathB	value for color math B register
 */
 void setColorEffect(u8 colorMathA, u8 colorMathB);
+
+/*! \fn  setColorIntensity(u8 colorApply, u8 intensity)
+	\brief Change intensity for transparency
+	\param colorApply	with component is affect (red, green, blue)
+	\param intensity	value for intensity
+*/
+void setColorIntensity(u8 colorApply, u8 intensity);
 
 /*! \fn  setPalette(palette, paletteEntry, paletteSize)
 	\brief Change a palette in CGRAM.
