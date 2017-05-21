@@ -4,6 +4,7 @@
 ; snesmod spc driver
 ;
 ; (c) 2009 Mukunda Johnson
+; Bugfix by KungFuFurby 
 ;========================================================
 
 #define DEBUGINC inc debug \ mov SPC_PORT0, debug
@@ -1861,6 +1862,11 @@ vcmd_pan:
 	mov	a, y			;
 	sbc	a, #128			;
 	mov	ch_panning+x, a		;
+	
+	mov   a, ch_flags+x      ; Bugfix by KungFuFurby 12/20/15
+  and   a, #~CF_SURROUND   ; Surround should be disabled
+  mov   ch_flags+x, a      ; when panning is set via volume
+	
 	pop	a			;
 	ret				;
 

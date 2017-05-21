@@ -88,13 +88,13 @@ digi_src2:	DS 3
 
 SoundTable:	DS 3
 ;.ENDE
-.ends
+;260116.ends
 
 ;======================================================================
 ;bss
 ;======================================================================
 
-.ENUM $0100
+;260116.ENUM $0100
 spc_fifo:	DS 256	; 128-byte command fifo
 spc_sfx_next:	DS 1
 spc_q:		DS 1
@@ -105,7 +105,8 @@ digi_vp:	DS 1
 digi_remain:	DS 2
 digi_active:	DS 1
 digi_copyrate:	DS 1
-.ENDE
+;260116.ENDE
+.ends
 
 ;======================================================================
 ;.segment "RODATA"
@@ -300,6 +301,7 @@ spcLoad:
 ;----------------------------------------------------------------------
 	php 
 	phb
+	
 	sep #$20
 	lda #$0
 	pha
@@ -320,11 +322,13 @@ spcLoad:
 	jsr	get_address
 	rep	#$20
 	lda	[spc_ptr], y	; X = MODULE SIZE
+	;lda	spc_ptr, y	; X = MODULE SIZE
 	tax
 	
 	incptr
 	
 	lda	[spc_ptr], y	; read SOURCE LIST SIZE
+	;lda	spc_ptr, y	; read SOURCE LIST SIZE
 	
 	incptr
 	
@@ -604,10 +608,15 @@ spcFlush:
 spcFlush1:
 	lda	spc_fread		; call spcProcess until
 	cmp	spc_fwrite		; fifo becomes empty
-	beq	@exit			;
+	beq	@exit1			;
 	jsr	spcProcessMessages	;
 	bra	spcFlush1		;
 
+@exit1:
+	plb
+	plp
+	rtl
+	
 ;----------------------------------------------------------------------
 xspcFlush:
 ;----------------------------------------------------------------------
@@ -1235,4 +1244,3 @@ digi_rates:
 .ends
 
 .include "sm_spc.asm"
-
