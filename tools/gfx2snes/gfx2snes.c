@@ -276,7 +276,7 @@ int BMP_Load(char *filename, pcx_picture_ptr image)
 	// within the picture structure, the separate images can be grabbed from this
 	// buffer later.  also the header and palette are loaded
 	FILE *fp;
-	unsigned index,i;
+	int index,i;
 	pcx_header *header;
 	bmp_header bmphead;
 	bmp_info_header bmpinfohead;
@@ -358,7 +358,7 @@ int BMP_Load(char *filename, pcx_picture_ptr image)
 	if (bmpinfohead.biCompression == 0)
 	{
 		for(index=(header->height-1) * header->width;index>=0;index-=header->width)
-			for(i=0;i<header->width;i++)
+			for(i=0;i<header->width;i++) 
 				image->buffer[index+i] = getc(fp);
 	}
 	else if (bmpinfohead.biCompression == 1)
@@ -388,7 +388,7 @@ int TGA_Load(char *filename, pcx_picture_ptr image)
 	// within the picture structure, the separate images can be grabbed from this
 	// buffer later.  also the header and palette are loaded
 	FILE *fp;
-	unsigned index,i;
+	unsigned long index,i;
 	tga_header tgahead;
 	pcx_header *header;
 
