@@ -7,7 +7,7 @@ all: examples dist
 #---------------------------------------------------------------------------------
 	@rm -fr bin
 	@mkdir -p bin
-	/d/ndsdev/msys/bin/find . -name "*.sfc" -exec cp -fv {} bin \;
+	/c/msys/bin/find . -name "*.sfc" -exec cp -fv {} bin \;
 
 examples:
 	@for i in $(SUBDIRS); do if test -e $$i/Makefile ; then $(MAKE) -C $$i || { exit 1;} fi; done;
