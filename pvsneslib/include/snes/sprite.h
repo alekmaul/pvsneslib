@@ -138,6 +138,15 @@ void oamFlip(u16 id, u8 xf, u8 yf);
 */
 void oamSetAttr(u16 id, u16 xspr, u16 yspr, u16 gfxoffset, u8 attr);
 
+/*! \brief defined attribute of a sprite
+    \param priority The sprite priority (0 to 3)
+    \param vflip flip the sprite vertically
+    \param hflip flip the sprite horizontally
+    \param gfxoffset tilenumber graphic offset
+		\param paletteoffset palette default offset for sprite
+*/
+#define OAM_ATTR(priority, hflip, vflip, gfxoffset, paletteoffset) ((vflip<<7) | (hflip<<6) | (priority<<4) | (paletteoffset<<1) | ((gfxoffset>>8) & 1))
+
 /*! \brief sets an oam entry to the supplied values
     \param id the oam number to be set [0 - 127] * 4 because of oam structure
     \param xspr the x location of the sprite in pixels

@@ -1,6 +1,6 @@
 export PATH := /c/MinGW32/bin/:$(PATH)
 
-VERSION = "2.0.0"
+VERSION = "2.0.1"
 
 #---------------------------------------------------------------------------------
 # options for code generation
