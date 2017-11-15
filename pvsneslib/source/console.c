@@ -37,16 +37,9 @@ u8   palette_adress, palette_number;
 u16  snes_vblank_count;
 
 u8	snes_50hz;
-u16	snes_rand_seed1;
-u16 snes_rand_seed2;
 
-//---------------------------------------------------------------------------------
-u16 rand(void) {
-	snes_rand_seed1+=(snes_rand_seed2>>1);
-	snes_rand_seed2-=(15^snes_rand_seed1);
-
-	return snes_rand_seed1;
-}
+extern u16	snes_rand_seed1;
+extern u16 snes_rand_seed2;
 
 //---------------------------------------------------------------------------------
 void consoleVblank(void) {

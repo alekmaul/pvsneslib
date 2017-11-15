@@ -21,8 +21,12 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
-V2.3.0 (xx, yyyy, 2017)
--
+V2.3.1 (04, June, 2017)
+- Change rand function to assembly one
+
+V2.3.0 (05, May, 2017)
+- Update to last version
+
 V2.2.0 (xx, yyyy, 2014)
 - Added : dmaCopySpr32Vram to copy 32pix size sprite gaphics to vram (fasssst :D)
 - Added : dmaCopySpr16Vram to copy 16pix size sprite gaphics to vram (fasssst :D)

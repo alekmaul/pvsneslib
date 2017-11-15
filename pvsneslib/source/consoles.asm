@@ -25,7 +25,32 @@
 .equ REG_DEBUG	$21FC
 .equ BANK_SRAM	$70
 
+.ramsection ".consfp" bank 0 slot 1
+snes_rand_seed1:		dsb 2
+snes_rand_seed2:		dsb 2
+.ends
+
 .section ".consoles_text" superfree
+
+;---------------------------------------------------------------------------
+;u16 rand(void);
+rand:
+	php
+
+	rep #$30
+	
+	lda.w snes_rand_seed2
+	lsr a
+	adc.w snes_rand_seed1
+	sta.w snes_rand_seed1
+	eor.w #$00ff
+	sta.w tcc__r0
+	lda.w snes_rand_seed2
+	sbc.w tcc__r0
+	sta.w snes_rand_seed2
+
+	plp
+	rtl
 
 ;---------------------------------------------------------------------------
 ; void consoleNocashMessage(const char *message);
