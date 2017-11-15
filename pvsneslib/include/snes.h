@@ -77,13 +77,16 @@
 /*!
  <!-- EXAMPLES -->
     <!-- hello world -->
-	\example hello_world/hello_world.c
+		\example hello_world/hello_world.c
 
     <!-- backgrounds -->
+		\example graphics/Backgrounds/Mode0/Mode0.c
     \example graphics/Backgrounds/Mode1/Mode1.c
+		\example graphics/Backgrounds/Mode1Png/Mode1.c
     \example graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c
     \example graphics/Backgrounds/Mode1MixedScroll/Mode1MixedScroll.c
     \example graphics/Backgrounds/Mode3/Mode3.c
+		\example graphics/Backgrounds/Mode7/Mode7.c
 
     <!-- effects -->
     \example graphics/Effects/HDMAGradient/HDMAGradient.c
@@ -91,21 +94,35 @@
     \example graphics/Effects/Transparency/Transparency.c
 
     <!-- sprites -->
-    \example graphics/Sprites/SimpleSprite/SimpleSprite.c
-	\example graphics/Sprites/AnimatedSprite/AnimatedSprite.c
+		\example graphics/Sprites/SimpleSprite/SimpleSprite.c
+		\example graphics/Sprites/AnimatedSprite/AnimatedSprite.c
+		\example graphics/Sprites/DynamicSprite/DynamicSprite.c
 
-	<!-- keypad -->
-	\example input/input.c
+		<!-- keypad -->
+		\example input/input.c
 
-	<!-- timing -->
-	\example timer/timer.c
+		<!-- timing -->
+		\example timer/timer.c
 
-	<!-- games -->
-	\example games/likemario/LikeMario.c
+		<!-- games -->
+		\example games/likemario/LikeMario.c
 
-    <!-- audio -->
-	\example audio/music/Music.c
-	\example audio/tada/Tada.c
+		<!-- audio -->
+		\example audio/music/Music.c
+		\example audio/tada/Tada.c
+
+		<!-- debugging -->
+		\example debug/debug.c
+
+		<!-- random display -->
+		\example random/random.c
+
+		<!-- sram -->
+		\example sram/sram.c
+	
+		<!-- scoring -->
+		\example scoring/scoring.c
+
 */
 
 #ifndef SNES_INCLUDE
