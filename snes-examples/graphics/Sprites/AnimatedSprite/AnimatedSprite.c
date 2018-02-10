@@ -56,10 +56,8 @@ int main(void) {
 	
 	// Now Put in 16 color mode and disable all backgrounds
 	setMode(BG_MODE1,0); bgSetDisable(0); bgSetDisable(1); bgSetDisable(2);
+	setScreenOn();
 	
-	// Wait VBL 'and update sprites too ;-) )
-	WaitForVBlank();
-		
 	// Wait for nothing :P
 	while(1) {
 		// Refresh pad values in VBL and Get current #0 pad

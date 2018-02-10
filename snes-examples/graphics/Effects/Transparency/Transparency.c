@@ -32,6 +32,7 @@ int main(void) {
 
 	// Now Put in 16 color mode and put cloud on top of screen
 	setMode(BG_MODE1,BG3_MODE1_PRORITY_HIGH); bgSetDisable(1);  
+	setScreenOn();
 
 	// Set BG3 SubScreen and 
 	bgSetEnableSub(2);

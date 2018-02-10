@@ -379,8 +379,17 @@ oamSetEx:
 	sta oamMemory,y              ; store new value in oam table #2
 
 oamSetEx1nex:
-	lda.b 13,s                   ; hide
-	beq oamSetEx1end              ; no, so bye bye
+	lda.b 13,s                   ; hide ?
+	bne oamSetEx1hi	              ; yes, go below
+	lda oamMemory,y         			; get shifted value of show (<<0, <<2, <<4, <<6
+	and.l oamHideand,x
+	sta oamMemory,y              ; store new value in oam table #2
+	bra oamSetEx1end
+	
+oamSetEx1hi:
+	lda.l oamHideshift,x         ; get shifted value of hide (<<0, <<2, <<4, <<6
+	ora oamMemory,y
+
 	lda.l oamHideshift,x         ; get shifted value of hide (<<0, <<2, <<4, <<6
 	;clc
 	;adc __tccs_oamMemory,y

@@ -29,6 +29,7 @@ int main(void) {
 
 	// Now Put in 256 color mode and disable other BGs except 1st one
 	setMode(BG_MODE3,0); bgSetDisable(1); 
+	setScreenOn();
 
 	// Wait for key to change gradient
 	while(1) {

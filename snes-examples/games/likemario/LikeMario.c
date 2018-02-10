@@ -262,6 +262,9 @@ int main(void) {
 	consoleDrawText(6,16,"MARIOx00  WORLD TIME");
 	consoleDrawText(6,17," 00000 ox00 1-1  000");
 	
+	// Put screen on
+	setScreenOn();
+	
 	// Play file from the beginning
 	spcPlay(0);spcSetModuleVolume(100);
 	

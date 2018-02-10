@@ -78,6 +78,7 @@ int main(void) {
 	
 	// Now Put in 16 color mode and disable all backgrounds
 	setMode(BG_MODE1,0); bgSetDisable(0); bgSetDisable(1); bgSetDisable(2);
+	setScreenOn();
 
 	// add new sprite to queue
 	addSprite(&gfxpsrite, ADRGFXSPR);

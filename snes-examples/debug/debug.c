@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 
 
-	Simple timer demo
+	Simple debug demo
 	-- alekmaul
 
 
@@ -22,7 +22,7 @@ int main(void) {
 	setMode(BG_MODE1,0);  bgSetDisable(1);  bgSetDisable(2);
 
 	// Wait for nothing :P
-	setBrightness(0xF);  
+	setScreenOn();  
 	
 	while(1) {
 		sprintf(messtxt,"FPS=%d\r\n",snes_vblank_count);

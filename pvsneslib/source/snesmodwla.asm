@@ -1070,7 +1070,7 @@ spcPlaySoundEx:
 @direct_pitch:				;
 ;----------------------------------------------------------------------------
 	tax				; set transfer rate
-	lda	digi_rates.w, x		;
+	lda.l	digi_rates, x ;lda	digi_rates.w, x		; fixed by KunfuFurby 180210, tks !
 	sta	digi_copyrate		;
 ;----------------------------------------------------------------------------
 	iny				; [point to PAN]

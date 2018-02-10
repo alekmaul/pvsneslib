@@ -335,6 +335,10 @@ void setBrightness(u8 level);
 */
 void setMode(u8 mode, u8 size);
 
+/*! \fn  setScreenOn(void)
+	\brief Put screen On
+*/
+void setScreenOn(void);
 
 /*! \fn  setFadeEffect(u8 mode)
 	\brief Do a fadein or fadeout effect.

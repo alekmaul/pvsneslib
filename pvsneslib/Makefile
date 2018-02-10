@@ -1,9 +1,12 @@
-# path to snesdev root directory (for emulators, devkitsnes)
-export DEVKITSNES := /d/snesdev
+# path to snesdev root directory (for emulators, devkitsnes, libsnes)
+export DEVKITSNES := /c/snesdev/
+#export DEVKITSNES := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib
 
 # path to devkitsnes root directory for compiler
-export DEVKIT65XX := /d/snesdev/devkitsnes
+export DEVKIT65XX := /c/snesdev/devkitsnes
+#export DEVKIT65XX := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib/devkitsnes
 
+#---------------------------------------------------------------------------------
 ifeq ($(strip $(DEVKITSNES)),)
 $(error "Please set DEVKITSNES in your environment. export DEVKITSNES=<path to>devkitSNES)
 endif
@@ -11,8 +14,8 @@ endif
 export TOPDIR	:=	$(CURDIR)
 
 export PVSNESLIB_MAJOR	:= 2
-export PVSNESLIB_MINOR	:= 2
-export PVSNESLIB_PATCH	:= 0
+export PVSNESLIB_MINOR	:= 3
+export PVSNESLIB_PATCH	:= 2
 
 
 VERSION	:=	$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
@@ -25,7 +28,7 @@ all: include/snes/libversion.h release docs dist-bin
 #-------------------------------------------------------------------------------
 release: lib
 #-------------------------------------------------------------------------------
-	$(MAKE) -C source all
+	make -C source all
 
 #-------------------------------------------------------------------------------
 lib:
@@ -35,19 +38,20 @@ lib:
 #-------------------------------------------------------------------------------
 clean:
 #-------------------------------------------------------------------------------
-	@$(MAKE) -C source clean
+	make -C source clean
 
 #-------------------------------------------------------------------------------
 dist-src:
 #-------------------------------------------------------------------------------
-	@tar --exclude=*CVS* --exclude=.svn -cjf pvsneslib-src-$(VERSION).tar.bz2 source include template Makefile pvsneslib_license.txt pvsneslib_snesmod.txt pvsneslib.dox
-	@mv *.tar.bz2 ..
+	@tar -cjf pvsneslib-src-$(VERSION).tar.bz2 source include template Makefile pvsneslib_license.txt pvsneslib_snesmod.txt pvsneslib.dox
+	@mv *.tar.gz2 ..
 
 #-------------------------------------------------------------------------------
 dist-bin: 
 #-------------------------------------------------------------------------------
-	@tar --exclude=*CVS* --exclude=.svn -cjf pvsneslib-$(VERSION).tar.bz2 include lib template pvsneslib_license.txt pvsneslib_snesmod.txt 
-	@tar --exclude=*CVS* --exclude=.svn -cjf devkitsnes-$(VERSION).tar.bz2 ../devkitsnes ../emulators/put_emulators_here.txt
+	@tar -cjf pvsneslib-$(VERSION).tar.bz2 include lib template docs source pvsneslib_license.txt pvsneslib_snesmod.txt 
+	@tar -cjf devkitsnes-$(VERSION).tar.bz2 ../devkitsnes ../emulators/put_emulators_here.txt
+	@tar -cjf snesexamples-$(VERSION).tar.bz2 ../snes-examples
 	@mv *.tar.bz2 ..
 
 dist: dist-bin dist-src
@@ -74,6 +78,6 @@ include/snes/libversion.h : Makefile
 	@echo "#define _PVSNESLIB_MINOR_	$(PVSNESLIB_MINOR)" >> $@
 	@echo "#define _PVSNESLIB_PATCH_	$(PVSNESLIB_PATCH)" >> $@
 	@echo >> $@
-	@echo '#define _PVSNESLIB_STRING "libSNES Release '$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)'"' >> $@
+	@echo '#define _PVSNESLIB_STRING "PVSnesLib Release '$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)'"' >> $@
 	@echo >> $@
 	@echo "#endif // __PVSNESLIBVERSION_H__" >> $@

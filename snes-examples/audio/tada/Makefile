@@ -1,8 +1,12 @@
 # path to snesdev root directory (for emulators, devkitsnes, libsnes)
-export DEVKITSNES := /c/snesdev/
+#export DEVKITSNES := /c/snesdev/
+export DEVKITSNES := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib
 
 # path to devkitsnes root directory for compiler
-export DEVKIT65XX := /c/snesdev/devkitsnes
+export DEVKIT65XX := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib/devkitsnes
+#export DEVKIT65XX := /c/snesdev/devkitsnes
+
+export PATH	:=	/c/msys/bin:$(PATH)
 
 #---------------------------------------------------------------------------------
 .SUFFIXES:
@@ -20,7 +24,8 @@ include $(DEVKIT65XX)/snes_rules
 # SOURCES is a list of directories containing source code
 # INCLUDES is a list of directories containing extra header files
 #---------------------------------------------------------------------------------
-TARGET		:=	$(shell basename $(CURDIR))
+TARGET		:=	tada
+#$(shell basename $(CURDIR))
 SOURCES		:=	.
 
 #---------------------------------------------------------------------------------

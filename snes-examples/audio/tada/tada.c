@@ -38,7 +38,7 @@ int main(void) {
 	consoleDrawText(5,10,"Press A to play effect !");
 
 	// Wait for nothing :P
-	setBrightness(0xF);  
+	setScreenOn();  
 
 	// Load effect
 	spcSetSoundEntry(15, 8, 4, &soundbrrend-&soundbrr, &soundbrr, &tadasound);

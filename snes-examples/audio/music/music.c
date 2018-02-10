@@ -43,7 +43,7 @@ int main(void) {
 	consoleDrawText(5,10,"Let's the music play !");
 
 	// Wait for nothing :P
-	setBrightness(0xF);  
+	setScreenOn();  
 
 	// Play file from the beginning
 	spcPlay(0);

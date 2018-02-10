@@ -149,4 +149,20 @@ _wait_nmi:
 	bpl	-
 	rts
 
+;---------------------------------------------------------------------------
+; void setScreenOn(void)
+setScreenOn:
+	php
+	phb
+	
+	sep	#$20
+	lda #$f
+	wai
+	
+	sta.l REG_INIDISP
+	
+	plb
+	plp
+	rtl
+	
 .ends

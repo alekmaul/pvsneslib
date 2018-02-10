@@ -32,6 +32,7 @@ int main(void) {
 
 	// Now Put in 16 color mode and out text on top of screen
 	setMode(BG_MODE1,0);  bgSetDisable(2);
+	setScreenOn();
 
 	// Wait for nothing :P
 	while(1) {

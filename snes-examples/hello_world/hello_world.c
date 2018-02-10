@@ -27,7 +27,7 @@ int main(void) {
 	consoleDrawText(3,18,"HTTP://WWW.PORTABLEDEV.COM");
 
 	// Wait for nothing :P
-	setBrightness(0xF);  
+	setScreenOn();  
 	
 	while(1) {
 		WaitForVBlank();

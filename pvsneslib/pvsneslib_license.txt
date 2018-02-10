@@ -21,6 +21,11 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
+V2.3.2 (10, Februray, 2018)
+- Fixed: some rare problem in SNESMod source with bank 0 (thanks fixing it kungfufurby !)
+- Added: setScreenOn to display screen (removed from setMode)
+- Fixed: issue with hide/show sprite in oamSetEx
+
 V2.3.1 (04, June, 2017)
 - Change rand function to assembly one
 

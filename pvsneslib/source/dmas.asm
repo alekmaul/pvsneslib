@@ -213,7 +213,8 @@ dmaCopySpr16Vram:
 dmaFillVram:
 	php
 
-	jsr.w	_wait_nmid
+;	jsr.w	_wait_nmid
+	rep	#$20
 	lda	9,s	
 	sta.l	$2116           ; address for VRAM write(or read)
 

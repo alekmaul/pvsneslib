@@ -48,6 +48,7 @@ int main(void) {
 
 	// Now Put in 16 color mode and disable other BGs except 1st one
 	setMode(BG_MODE0,0);  
+	setScreenOn();
 	
 	// Wait for nothing :P
 	while(1) {
