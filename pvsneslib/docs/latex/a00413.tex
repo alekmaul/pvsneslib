@@ -1,0 +1,54 @@
+\hypertarget{a00413}{}\section{graphics/\+Backgrounds/\+Mode1\+Mixed\+Scroll/\+Mode1\+Mixed\+Scroll.\+c}
+
+\begin{DoxyCodeInclude}
+\textcolor{comment}{/*---------------------------------------------------------------------------------}
+\textcolor{comment}{}
+\textcolor{comment}{}
+\textcolor{comment}{    Simple tile mode 1 with midex background scrolling demo}
+\textcolor{comment}{    -- alekmaul}
+\textcolor{comment}{}
+\textcolor{comment}{}
+\textcolor{comment}{---------------------------------------------------------------------------------*/}
+\textcolor{preprocessor}{#include <\hyperlink{a00371}{snes.h}>}
+
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} patpvsneslib, patpvsneslib\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} patshader, patshader\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} palpvsneslib,palpvsneslib\_end,palshader,palshader\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} mappvsneslib, mappvsneslib\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} mapshader, mapshader\_end;
+
+\textcolor{comment}{//---------------------------------------------------------------------------------}
+\textcolor{keywordtype}{int} main(\textcolor{keywordtype}{void}) \{
+    \textcolor{keywordtype}{short} scrX=0, scrY=0;
+    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} pad0, move;
+
+    \textcolor{comment}{// Initialize SNES }
+    \hyperlink{a00335_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
+
+    \textcolor{comment}{// Copy tiles to VRAM}
+    \hyperlink{a00332_ae09a7ac09be78eef0f28a6c7aabc82ad}{bgInitTileSet}(1, &patpvsneslib, &palpvsneslib, 0, (&patpvsneslib\_end - &patpvsneslib), 16*
+      2, BG\_16COLORS, 0x5000);
+    \hyperlink{a00332_ae09a7ac09be78eef0f28a6c7aabc82ad}{bgInitTileSet}(0, &patshader, &palshader, 1, (&patshader\_end - &patshader),  16*2, 
+      BG\_16COLORS, 0x4000);
+
+    \textcolor{comment}{// Copy Map to VRAM}
+    \hyperlink{a00332_acc385296e159449a81d18f5e219c8032}{bgInitMapSet}(1, &mappvsneslib, (&mappvsneslib\_end - &mappvsneslib),
+      \hyperlink{a00332_a11724b6748ce0954e9b43819263537fc}{SC\_32x32}, 0x1400);
+    \hyperlink{a00332_acc385296e159449a81d18f5e219c8032}{bgInitMapSet}(0, &mapshader, (&mapshader\_end - &mapshader),
+      \hyperlink{a00332_a11724b6748ce0954e9b43819263537fc}{SC\_32x32}, 0x1800);
+
+    \textcolor{comment}{// Now Put in 16 color mode and out text on top of screen}
+    \hyperlink{a00368_afd9e46ae627d055dd8c98a4b0ebb73b1}{setMode}(\hyperlink{a00332_a05c862edb7f8f75036f10c04dcc3c2a6}{BG\_MODE1},0);  \hyperlink{a00332_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(2);
+
+    \textcolor{comment}{// Wait for nothing :P}
+    \textcolor{keywordflow}{while}(1) \{
+        \textcolor{comment}{// change scrolling }
+        scrX++; scrY++; 
+        \hyperlink{a00332_aa5e0112ea2d4b514c2dddc6ed2c7c3c7}{bgSetScroll}(0, scrX,scrY);
+
+        \hyperlink{a00341_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}(); 
+    \}
+    \textcolor{keywordflow}{return} 0;
+\}
+\end{DoxyCodeInclude}
+ 

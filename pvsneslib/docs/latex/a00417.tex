@@ -1,0 +1,56 @@
+\hypertarget{a00417}{}\section{graphics/\+Backgrounds/\+Mode7/\+Mode7.\+c}
+
+\begin{DoxyCodeInclude}
+\textcolor{comment}{/*---------------------------------------------------------------------------------}
+\textcolor{comment}{}
+\textcolor{comment}{}
+\textcolor{comment}{    Simple tile mode 3 demo with more than 32k tiles}
+\textcolor{comment}{    -- alekmaul}
+\textcolor{comment}{}
+\textcolor{comment}{}
+\textcolor{comment}{---------------------------------------------------------------------------------*/}
+\textcolor{preprocessor}{#include <\hyperlink{a00371}{snes.h}>}
+
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} patterns,patterns\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} palette;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} map, map\_end;
+
+\textcolor{comment}{//---------------------------------------------------------------------------------}
+\textcolor{keywordtype}{int} main(\textcolor{keywordtype}{void}) \{
+    u16 pad0;
+    u8 sz=0,sx=0,angle=0;
+    
+    \textcolor{comment}{// Initialize SNES }
+    \hyperlink{a00335_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
+    
+    \textcolor{comment}{// Read tiles & map to VRAM  (interlace for mode 7)}
+    \hyperlink{a00332_ae1fad909be4edf30a3cd08a0890361dc}{bgInitMapTileSet7}(&patterns,  &map, &palette, (&patterns\_end-&patterns), 0x0000);
+
+    \textcolor{comment}{// Now Put mode7 without anything else}
+    \hyperlink{a00368_af7e722fd2eba5682bc0eafa9d5a9c51a}{setMode7}(0); 
+    
+    \textcolor{comment}{// Wait for nothing :P}
+    \textcolor{keywordflow}{while}(1) \{
+        \textcolor{comment}{// Refresh pad values}
+        \hyperlink{a00350_a42632e79292dc47a567aab4dc3e4407d}{scanPads}();
+        
+        \textcolor{comment}{// Get current #0 pad}
+        pad0 = \hyperlink{a00350_a6063e0eec9a36e437fc32951acafa44c}{padsCurrent}(0);
+        
+        \textcolor{keywordflow}{if} (pad0) \{
+            \textcolor{comment}{// Update scrolling with current pad}
+            \textcolor{keywordflow}{switch} (pad0) \{
+                \textcolor{keywordflow}{case} \hyperlink{a00350_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc}{KEY\_A} : angle++; \hyperlink{a00368_a4d332cdc88b26fc9ec2cdd4f6710ce8c}{setMode7Rot}(angle); \textcolor{keywordflow}{break};
+                \textcolor{keywordflow}{case} \hyperlink{a00350_aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a}{KEY\_B} : angle--; \hyperlink{a00368_a4d332cdc88b26fc9ec2cdd4f6710ce8c}{setMode7Rot}(angle); \textcolor{keywordflow}{break};
+                \textcolor{keywordflow}{case} \hyperlink{a00350_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d}{KEY\_RIGHT} : sz++; \textcolor{keywordflow}{break};
+                \textcolor{keywordflow}{case} \hyperlink{a00350_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65}{KEY\_LEFT}   : \textcolor{keywordflow}{if} (sx) sx--; \textcolor{keywordflow}{break};
+                \textcolor{keywordflow}{case} \hyperlink{a00350_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416}{KEY\_DOWN}   : \textcolor{keywordflow}{if} (sz) sz--; \textcolor{keywordflow}{break};
+                \textcolor{keywordflow}{case} \hyperlink{a00350_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd}{KEY\_UP}       : sz++; \textcolor{keywordflow}{break};
+            \}
+        \}
+        \hyperlink{a00341_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}();
+    \}
+    \textcolor{keywordflow}{return} 0;
+\}
+\end{DoxyCodeInclude}
+ 

@@ -1,0 +1,41 @@
+\hypertarget{a00364}{}\section{graphics/\+Backgrounds/\+Mode1\+Png/\+Mode1.\+c}
+
+\begin{DoxyCodeInclude}
+\textcolor{comment}{/*---------------------------------------------------------------------------------}
+\textcolor{comment}{}
+\textcolor{comment}{}
+\textcolor{comment}{    Simple tile mode 1 demo with png graphic}
+\textcolor{comment}{    -- alekmaul}
+\textcolor{comment}{}
+\textcolor{comment}{}
+\textcolor{comment}{---------------------------------------------------------------------------------*/}
+\textcolor{preprocessor}{#include <\hyperlink{a00326}{snes.h}>}
+
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} patterns, patterns\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} palette, palette\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} map, map\_end;
+
+\textcolor{comment}{//---------------------------------------------------------------------------------}
+\textcolor{keywordtype}{int} main(\textcolor{keywordtype}{void}) \{
+    \textcolor{comment}{// Initialize SNES }
+    \hyperlink{a00290_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
+     
+    \textcolor{comment}{// Copy tiles to VRAM}
+    \hyperlink{a00287_ae09a7ac09be78eef0f28a6c7aabc82ad}{bgInitTileSet}(0, &patterns, &palette, 0, (&patterns\_end - &patterns), (&palette\_end - &
+      palette), BG\_16COLORS, 0x4000);
+
+    \textcolor{comment}{// Copy Map to VRAM}
+    \hyperlink{a00287_acc385296e159449a81d18f5e219c8032}{bgInitMapSet}(0, &map, (&map\_end - &map),\hyperlink{a00287_a11724b6748ce0954e9b43819263537fc}{SC\_32x32}, 0x0000);
+
+    \textcolor{comment}{// Now Put in 16 color mode and disable other BGs except 1st one}
+    \hyperlink{a00323_afd9e46ae627d055dd8c98a4b0ebb73b1}{setMode}(\hyperlink{a00287_a05c862edb7f8f75036f10c04dcc3c2a6}{BG\_MODE1},0);  \hyperlink{a00287_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(1); 
+      \hyperlink{a00287_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(2);
+    
+    \textcolor{comment}{// Wait for nothing :P}
+    \textcolor{keywordflow}{while}(1) \{
+        \hyperlink{a00296_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}();
+    \}
+    \textcolor{keywordflow}{return} 0;
+\}
+\end{DoxyCodeInclude}
+ 

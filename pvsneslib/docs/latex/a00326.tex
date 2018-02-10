@@ -1,0 +1,259 @@
+\hypertarget{a00326}{}\section{console.\+h File Reference}
+\label{a00326}\index{console.\+h@{console.\+h}}
+
+
+snes generic console support.  
+
+
+{\ttfamily \#include $<$snes/snestypes.\+h$>$}\newline
+{\ttfamily \#include $<$snes/background.\+h$>$}\newline
+{\ttfamily \#include $<$snes/dma.\+h$>$}\newline
+{\ttfamily \#include $<$snes/interrupt.\+h$>$}\newline
+{\ttfamily \#include $<$snes/pad.\+h$>$}\newline
+{\ttfamily \#include $<$snes/sprite.\+h$>$}\newline
+{\ttfamily \#include $<$snes/sound.\+h$>$}\newline
+{\ttfamily \#include $<$snes/video.\+h$>$}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{a00326_ac3c55f6e16ff70d19c046404b9aa8a9b}{console\+Copy\+Sram} (u8 $\ast$source, u16 size)
+\begin{DoxyCompactList}\small\item\em Send data to S\+R\+AM. \end{DoxyCompactList}\item 
+void \hyperlink{a00326_a7e52d15b5a1befa42f5758de19dfb70c}{console\+Draw\+Text} (u16 x, u16 y, char $\ast$fmt,...)
+\begin{DoxyCompactList}\small\item\em Output formatted string on a screen (tiles mode) \end{DoxyCompactList}\item 
+void \hyperlink{a00326_af4a32a4f79f7f382cd95e9bf9e8b7a40}{console\+Draw\+Text\+Map} (u8 x, u8 y, u8 $\ast$map, u8 attributes, char $\ast$fmt,...)
+\begin{DoxyCompactList}\small\item\em Output formatted string on a screen (2 colors tiles mode) \end{DoxyCompactList}\item 
+void \hyperlink{a00326_a6dd21f159f8388adf48398efe8faf758}{console\+Draw\+Text\+Map\+Center} (u8 y, u8 $\ast$map, u8 attributes, char $\ast$fmt,...)
+\begin{DoxyCompactList}\small\item\em Output formatted string on a screen, centered it (2 colors tiles mode) \end{DoxyCompactList}\item 
+void \hyperlink{a00326_a6047713bb5a73afd3cd1d77e336bcdad}{console\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Initialize console. \end{DoxyCompactList}\item 
+void \hyperlink{a00326_a458fa049800e12429ca0ba401e513746}{console\+Init\+Text} (u8 bg\+Number, u8 palette\+Number, u8 $\ast$gfx\+Text)
+\begin{DoxyCompactList}\small\item\em Initialize the Text System. \end{DoxyCompactList}\item 
+void \hyperlink{a00326_abe1fabedc24a3adef79f32e02c3bc2d5}{console\+Load\+Sram} (u8 $\ast$dest, u16 size)
+\begin{DoxyCompactList}\small\item\em Load data from S\+R\+AM. \end{DoxyCompactList}\item 
+void \hyperlink{a00326_ae05914ac61acdb7ac77c7496624f4303}{console\+Nocash\+Message} (const char $\ast$message)
+\begin{DoxyCompactList}\small\item\em Send a message to the no\$sns debug window. \end{DoxyCompactList}\item 
+void \hyperlink{a00326_ac0993a72682f86d17784a7f4659562de}{console\+Set\+Text\+Col} (u16 color\+Char, u16 color\+BG)
+\begin{DoxyCompactList}\small\item\em Change Character and Background color of text. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00326_a9bfb9c53fa37e76873d14be4446e71e5}\label{a00326_a9bfb9c53fa37e76873d14be4446e71e5}} 
+void \hyperlink{a00326_a9bfb9c53fa37e76873d14be4446e71e5}{console\+Update} (void)
+\begin{DoxyCompactList}\small\item\em Update current text buffer on screen. \end{DoxyCompactList}\item 
+u16 \hyperlink{a00326_a0615d3903c2ad6faaed1443bd44c8ae2}{rand} (void)
+\begin{DoxyCompactList}\small\item\em return a randomized number \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{a00326_a01a196c5c404d8e3d16ef799cc0b1653}\label{a00326_a01a196c5c404d8e3d16ef799cc0b1653}} 
+u8 \hyperlink{a00326_a01a196c5c404d8e3d16ef799cc0b1653}{pvsneslibdirty}
+\begin{DoxyCompactList}\small\item\em flag to redraw text during vblank \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00326_afb9f478403f30556d576a6fa54bc9073}\label{a00326_afb9f478403f30556d576a6fa54bc9073}} 
+u8 \hyperlink{a00326_afb9f478403f30556d576a6fa54bc9073}{pvsneslibfont\+\_\+map} \mbox{[}0x800\mbox{]}
+\begin{DoxyCompactList}\small\item\em tilemap used for text display \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00326_aef3bf9522613bca02b4a00ea910d492f}\label{a00326_aef3bf9522613bca02b4a00ea910d492f}} 
+u8 \hyperlink{a00326_aef3bf9522613bca02b4a00ea910d492f}{snes\+\_\+50hz}
+\begin{DoxyCompactList}\small\item\em 1 if on a P\+A\+L/50\+Hz S\+N\+ES \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00326_a5e14b74b621c822db9af978d0ad31d1a}\label{a00326_a5e14b74b621c822db9af978d0ad31d1a}} 
+u16 \hyperlink{a00326_a5e14b74b621c822db9af978d0ad31d1a}{snes\+\_\+vblank\+\_\+count}
+\begin{DoxyCompactList}\small\item\em Number of V\+BL since console\+Init called. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+snes generic console support. 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{a00326_ac3c55f6e16ff70d19c046404b9aa8a9b}\label{a00326_ac3c55f6e16ff70d19c046404b9aa8a9b}} 
+\index{console.\+h@{console.\+h}!console\+Copy\+Sram@{console\+Copy\+Sram}}
+\index{console\+Copy\+Sram@{console\+Copy\+Sram}!console.\+h@{console.\+h}}
+\subsubsection{\texorpdfstring{console\+Copy\+Sram()}{consoleCopySram()}}
+{\footnotesize\ttfamily void console\+Copy\+Sram (\begin{DoxyParamCaption}\item[{u8 $\ast$}]{source,  }\item[{u16}]{size }\end{DoxyParamCaption})}
+
+
+
+Send data to S\+R\+AM. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source} & the source to copy from \\
+\hline
+{\em size} & the size in bytes of the data to copy. \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00436}{sram/sram.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00326_a7e52d15b5a1befa42f5758de19dfb70c}\label{a00326_a7e52d15b5a1befa42f5758de19dfb70c}} 
+\index{console.\+h@{console.\+h}!console\+Draw\+Text@{console\+Draw\+Text}}
+\index{console\+Draw\+Text@{console\+Draw\+Text}!console.\+h@{console.\+h}}
+\subsubsection{\texorpdfstring{console\+Draw\+Text()}{consoleDrawText()}}
+{\footnotesize\ttfamily void console\+Draw\+Text (\begin{DoxyParamCaption}\item[{u16}]{x,  }\item[{u16}]{y,  }\item[{char $\ast$}]{fmt,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Output formatted string on a screen (tiles mode) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The X character number the string should start on \\
+\hline
+{\em y} & The Y character number the string should start on \\
+\hline
+{\em fmt} & The Format string (see printf() documentation in your local C tutorial)\\
+\hline
+\end{DoxyParams}
+Output a text string to the screen. Before using this, you need to call \hyperlink{a00326_a458fa049800e12429ca0ba401e513746}{console\+Init\+Text()}. You can also print the value of variables this way, by putting a format string and additional parameters. \begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00428}{audio/music/\+Music.\+c}, \hyperlink{a00430}{audio/tada/\+Tada.\+c}, \hyperlink{a00426}{games/likemario/\+Like\+Mario.\+c}, \hyperlink{a00402}{graphics/\+Backgrounds/\+Mode1\+Scroll/\+Mode1\+Scroll.\+c}, \hyperlink{a00394}{hello\+\_\+world/hello\+\_\+world.\+c}, \hyperlink{a00422}{input/input.\+c}, \hyperlink{a00434}{random/random.\+c}, \hyperlink{a00438}{scoring/scoring.\+c}, \hyperlink{a00436}{sram/sram.\+c}, and \hyperlink{a00424}{timer/timer.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00326_af4a32a4f79f7f382cd95e9bf9e8b7a40}\label{a00326_af4a32a4f79f7f382cd95e9bf9e8b7a40}} 
+\index{console.\+h@{console.\+h}!console\+Draw\+Text\+Map@{console\+Draw\+Text\+Map}}
+\index{console\+Draw\+Text\+Map@{console\+Draw\+Text\+Map}!console.\+h@{console.\+h}}
+\subsubsection{\texorpdfstring{console\+Draw\+Text\+Map()}{consoleDrawTextMap()}}
+{\footnotesize\ttfamily void console\+Draw\+Text\+Map (\begin{DoxyParamCaption}\item[{u8}]{x,  }\item[{u8}]{y,  }\item[{u8 $\ast$}]{map,  }\item[{u8}]{attributes,  }\item[{char $\ast$}]{fmt,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Output formatted string on a screen (2 colors tiles mode) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The X character number the string should start on \\
+\hline
+{\em y} & The Y character number the string should start on \\
+\hline
+{\em map} & The 0x800 char map entry to put string \\
+\hline
+{\em attributes} & attributes for tiles \\
+\hline
+{\em fmt} & The Format string (see printf() documentation in your local C tutorial)\\
+\hline
+\end{DoxyParams}
+Output a text string to the screen. Before using this, you need to call \hyperlink{a00326_a458fa049800e12429ca0ba401e513746}{console\+Init\+Text()}. You can also print the value of variables this way, by putting a format string and additional parameters. \mbox{\Hypertarget{a00326_a6dd21f159f8388adf48398efe8faf758}\label{a00326_a6dd21f159f8388adf48398efe8faf758}} 
+\index{console.\+h@{console.\+h}!console\+Draw\+Text\+Map\+Center@{console\+Draw\+Text\+Map\+Center}}
+\index{console\+Draw\+Text\+Map\+Center@{console\+Draw\+Text\+Map\+Center}!console.\+h@{console.\+h}}
+\subsubsection{\texorpdfstring{console\+Draw\+Text\+Map\+Center()}{consoleDrawTextMapCenter()}}
+{\footnotesize\ttfamily void console\+Draw\+Text\+Map\+Center (\begin{DoxyParamCaption}\item[{u8}]{y,  }\item[{u8 $\ast$}]{map,  }\item[{u8}]{attributes,  }\item[{char $\ast$}]{fmt,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Output formatted string on a screen, centered it (2 colors tiles mode) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em y} & The Y character number the string should start on \\
+\hline
+{\em map} & The 0x800 char map entry to put string \\
+\hline
+{\em attributes} & attributes for tiles \\
+\hline
+{\em fmt} & The Format string (see printf() documentation in your local C tutorial)\\
+\hline
+\end{DoxyParams}
+Output a text string to the screen. Before using this, you need to call \hyperlink{a00326_a458fa049800e12429ca0ba401e513746}{console\+Init\+Text()}. You can also print the value of variables this way, by putting a format string and additional parameters. The text will be centered on x axis. \mbox{\Hypertarget{a00326_a6047713bb5a73afd3cd1d77e336bcdad}\label{a00326_a6047713bb5a73afd3cd1d77e336bcdad}} 
+\index{console.\+h@{console.\+h}!console\+Init@{console\+Init}}
+\index{console\+Init@{console\+Init}!console.\+h@{console.\+h}}
+\subsubsection{\texorpdfstring{console\+Init()}{consoleInit()}}
+{\footnotesize\ttfamily console\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initialize console. 
+
+Generic init for S\+N\+ES console. \begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00428}{audio/music/\+Music.\+c}, \hyperlink{a00430}{audio/tada/\+Tada.\+c}, \hyperlink{a00432}{debug/debug.\+c}, \hyperlink{a00426}{games/likemario/\+Like\+Mario.\+c}, \hyperlink{a00396}{graphics/\+Backgrounds/\+Mode0/\+Mode0.\+c}, \hyperlink{a00398}{graphics/\+Backgrounds/\+Mode1/\+Mode1.\+c}, \hyperlink{a00404}{graphics/\+Backgrounds/\+Mode1\+Mixed\+Scroll/\+Mode1\+Mixed\+Scroll.\+c}, \hyperlink{a00400}{graphics/\+Backgrounds/\+Mode1\+Png/\+Mode1.\+c}, \hyperlink{a00402}{graphics/\+Backgrounds/\+Mode1\+Scroll/\+Mode1\+Scroll.\+c}, \hyperlink{a00406}{graphics/\+Backgrounds/\+Mode3/\+Mode3.\+c}, \hyperlink{a00408}{graphics/\+Backgrounds/\+Mode7/\+Mode7.\+c}, \hyperlink{a00410}{graphics/\+Effects/\+H\+D\+M\+A\+Gradient/\+H\+D\+M\+A\+Gradient.\+c}, \hyperlink{a00412}{graphics/\+Effects/\+Mosaic\+Shading/\+Mosaic\+Shading.\+c}, \hyperlink{a00414}{graphics/\+Effects/\+Transparency/\+Transparency.\+c}, \hyperlink{a00418}{graphics/\+Sprites/\+Animated\+Sprite/\+Animated\+Sprite.\+c}, \hyperlink{a00420}{graphics/\+Sprites/\+Dynamic\+Sprite/\+Dynamic\+Sprite.\+c}, \hyperlink{a00416}{graphics/\+Sprites/\+Simple\+Sprite/\+Simple\+Sprite.\+c}, \hyperlink{a00394}{hello\+\_\+world/hello\+\_\+world.\+c}, \hyperlink{a00422}{input/input.\+c}, \hyperlink{a00434}{random/random.\+c}, \hyperlink{a00438}{scoring/scoring.\+c}, \hyperlink{a00436}{sram/sram.\+c}, and \hyperlink{a00424}{timer/timer.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00326_a458fa049800e12429ca0ba401e513746}\label{a00326_a458fa049800e12429ca0ba401e513746}} 
+\index{console.\+h@{console.\+h}!console\+Init\+Text@{console\+Init\+Text}}
+\index{console\+Init\+Text@{console\+Init\+Text}!console.\+h@{console.\+h}}
+\subsubsection{\texorpdfstring{console\+Init\+Text()}{consoleInitText()}}
+{\footnotesize\ttfamily void console\+Init\+Text (\begin{DoxyParamCaption}\item[{u8}]{bg\+Number,  }\item[{u8}]{palette\+Number,  }\item[{u8 $\ast$}]{gfx\+Text }\end{DoxyParamCaption})}
+
+
+
+Initialize the Text System. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bg\+Number} & The BG number to show Text on. \\
+\hline
+{\em palette\+Number} & Palette number (0..16). \\
+\hline
+{\em gfx\+Text} & Pointer to tiles gfx for printing\\
+\hline
+\end{DoxyParams}
+Reserve a BG and load the font characters into V\+R\+AM. It will only work in tiled display modes. Also, please note that this function will overwrite BG palette number 0 and 1 to black and white, and set the Font to use these two colors. You can change colors by calling \hyperlink{a00326_ac0993a72682f86d17784a7f4659562de}{console\+Set\+Text\+Col()}. \begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00428}{audio/music/\+Music.\+c}, \hyperlink{a00430}{audio/tada/\+Tada.\+c}, \hyperlink{a00426}{games/likemario/\+Like\+Mario.\+c}, \hyperlink{a00402}{graphics/\+Backgrounds/\+Mode1\+Scroll/\+Mode1\+Scroll.\+c}, \hyperlink{a00394}{hello\+\_\+world/hello\+\_\+world.\+c}, \hyperlink{a00422}{input/input.\+c}, \hyperlink{a00434}{random/random.\+c}, \hyperlink{a00438}{scoring/scoring.\+c}, \hyperlink{a00436}{sram/sram.\+c}, and \hyperlink{a00424}{timer/timer.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00326_abe1fabedc24a3adef79f32e02c3bc2d5}\label{a00326_abe1fabedc24a3adef79f32e02c3bc2d5}} 
+\index{console.\+h@{console.\+h}!console\+Load\+Sram@{console\+Load\+Sram}}
+\index{console\+Load\+Sram@{console\+Load\+Sram}!console.\+h@{console.\+h}}
+\subsubsection{\texorpdfstring{console\+Load\+Sram()}{consoleLoadSram()}}
+{\footnotesize\ttfamily void console\+Load\+Sram (\begin{DoxyParamCaption}\item[{u8 $\ast$}]{dest,  }\item[{u16}]{size }\end{DoxyParamCaption})}
+
+
+
+Load data from S\+R\+AM. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & the destination to load into \\
+\hline
+{\em size} & the size in bytes of the data to copy. \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00436}{sram/sram.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00326_ae05914ac61acdb7ac77c7496624f4303}\label{a00326_ae05914ac61acdb7ac77c7496624f4303}} 
+\index{console.\+h@{console.\+h}!console\+Nocash\+Message@{console\+Nocash\+Message}}
+\index{console\+Nocash\+Message@{console\+Nocash\+Message}!console.\+h@{console.\+h}}
+\subsubsection{\texorpdfstring{console\+Nocash\+Message()}{consoleNocashMessage()}}
+{\footnotesize\ttfamily void console\+Nocash\+Message (\begin{DoxyParamCaption}\item[{const char $\ast$}]{message }\end{DoxyParamCaption})}
+
+
+
+Send a message to the no\$sns debug window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & The message to send \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00432}{debug/debug.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00326_ac0993a72682f86d17784a7f4659562de}\label{a00326_ac0993a72682f86d17784a7f4659562de}} 
+\index{console.\+h@{console.\+h}!console\+Set\+Text\+Col@{console\+Set\+Text\+Col}}
+\index{console\+Set\+Text\+Col@{console\+Set\+Text\+Col}!console.\+h@{console.\+h}}
+\subsubsection{\texorpdfstring{console\+Set\+Text\+Col()}{consoleSetTextCol()}}
+{\footnotesize\ttfamily console\+Set\+Text\+Col (\begin{DoxyParamCaption}\item[{u16}]{color\+Char,  }\item[{u16}]{color\+BG }\end{DoxyParamCaption})}
+
+
+
+Change Character and Background color of text. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em color\+Char} & The BG color palette with R\+G\+B5 values of text itself \\
+\hline
+{\em color\+BG} & The BG color palette with R\+G\+B5 values of text background \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00426}{games/likemario/\+Like\+Mario.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00326_a0615d3903c2ad6faaed1443bd44c8ae2}\label{a00326_a0615d3903c2ad6faaed1443bd44c8ae2}} 
+\index{console.\+h@{console.\+h}!rand@{rand}}
+\index{rand@{rand}!console.\+h@{console.\+h}}
+\subsubsection{\texorpdfstring{rand()}{rand()}}
+{\footnotesize\ttfamily rand (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+return a randomized number 
+
+\begin{DoxyReturn}{Returns}
+unsigned short of a randozied number 
+\end{DoxyReturn}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00434}{random/random.\+c}.\end{Desc}

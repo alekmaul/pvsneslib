@@ -1,0 +1,347 @@
+\hypertarget{a00377}{}\section{sound.\+h File Reference}
+\label{a00377}\index{sound.\+h@{sound.\+h}}
+
+
+snes sound support.  
+
+
+{\ttfamily \#include $<$snes/snestypes.\+h$>$}\newline
+{\ttfamily \#include $<$snes/interrupt.\+h$>$}\newline
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{a00412}{brrsamples}
+\begin{DoxyCompactList}\small\item\em Sound header(8 bytes) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{a00377_a11d724391e894d7a876635ffb45e1fd9}{R\+E\+G\+\_\+\+A\+P\+U00}~($\ast$(vuint8$\ast$)0x2140)
+\begin{DoxyCompactList}\small\item\em Main C\+PU to Sound C\+PU Communication Port 0 (R/W) 7-\/0 A\+PU I/O Data (Write\+: Data to A\+PU, Read\+: Data from A\+PU) Caution\+: These registers should be written only in 8bit mode (there is a hardware glitch that can cause a 16bit write to \mbox{[}2140h..2141h\mbox{]} to destroy \mbox{[}2143h\mbox{]}, this might happen only in some situations, like when the cartridge contains too many R\+OM chips which apply too much load on the bus). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{a00377_a2113060be24b307d1e03f167eb241b90}{spc\+Allocate\+Sound\+Region} (u8 size)
+\begin{DoxyCompactList}\small\item\em set the size of the sound region (this must be big enough to hold your longest/largest sound) this function will S\+T\+OP module playback too \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00377_ad8753cb6edb38834257bbf0020700689}\label{a00377_ad8753cb6edb38834257bbf0020700689}} 
+void \hyperlink{a00377_ad8753cb6edb38834257bbf0020700689}{spc\+Boot} (void)
+\begin{DoxyCompactList}\small\item\em boots the spc700 with sm-\/spc. call once at startup \end{DoxyCompactList}\item 
+void \hyperlink{a00377_a99af3b788490e155674f57f455c6be38}{spc\+Effect} (u16 pitch, u16 sfx\+Index, u8 volpan)
+\begin{DoxyCompactList}\small\item\em Play sound effect (load with spc\+Load\+Effect) \end{DoxyCompactList}\item 
+void \hyperlink{a00377_a57a421beca64a638a15579c6a465c522}{spc\+Fade\+Module\+Volume} (u16 vol, u16 fadespeed)
+\begin{DoxyCompactList}\small\item\em fade the module volume towards the target \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00377_a43c7b104744ce3193cbd4b59ba5b8907}\label{a00377_a43c7b104744ce3193cbd4b59ba5b8907}} 
+void \hyperlink{a00377_a43c7b104744ce3193cbd4b59ba5b8907}{spc\+Flush} (void)
+\begin{DoxyCompactList}\small\item\em Flush message queue (force sync) \end{DoxyCompactList}\item 
+void \hyperlink{a00377_a313e30fb1962df9fb469f2fedd4d91e4}{spc\+Load} (u16 mus\+Index)
+\begin{DoxyCompactList}\small\item\em load module into sm-\/spc. this function may take some time to execute \end{DoxyCompactList}\item 
+void \hyperlink{a00377_a57d9e744cfa33d55d543b172df59d518}{spc\+Load\+Effect} (u16 sfx\+Index)
+\begin{DoxyCompactList}\small\item\em load sound effect into sm-\/spc. this function may take some time to execute \end{DoxyCompactList}\item 
+void \hyperlink{a00377_aebf91de1df5e4fa83454a84bb0e60918}{spc\+Play} (u8 start\+Pos)
+\begin{DoxyCompactList}\small\item\em play module. note\+: this simply queues a message, use spc\+Flush if you want to wait until the message is processed \end{DoxyCompactList}\item 
+void \hyperlink{a00377_a8e5286554841ea48b028b4b782364ab0}{spc\+Play\+Sound} (u8 snd\+Index)
+\begin{DoxyCompactList}\small\item\em Play sound from memory (using default arguments) \end{DoxyCompactList}\item 
+void \hyperlink{a00377_a6065e170a377a476c1bed7ac23e65d9f}{spc\+Play\+SoundV} (u8 snd\+Index, u16 volume)
+\begin{DoxyCompactList}\small\item\em Play sound from memory (using default arguments) \end{DoxyCompactList}\item 
+void \hyperlink{a00377_acab7d87110bac6baa9d74ab314772c98}{spc\+Process} (void)
+\begin{DoxyCompactList}\small\item\em Process messages This function will try to give messages to the spc until a few scanlines pass. \end{DoxyCompactList}\item 
+void \hyperlink{a00377_ab68840ba8aab786b8ea206ea077acaac}{spc\+Set\+Bank} (u8 $\ast$bank)
+\begin{DoxyCompactList}\small\item\em set soundbank origin. soundbank must have dedicated bank(s) \end{DoxyCompactList}\item 
+void \hyperlink{a00377_ae2c8dfab62ceecf5c302c95f5453a752}{spc\+Set\+Module\+Volume} (u8 vol)
+\begin{DoxyCompactList}\small\item\em set the module playback volume \end{DoxyCompactList}\item 
+void \hyperlink{a00377_a6febc2b960755ba902950ee9c93ab637}{spc\+Set\+Sound\+Data\+Entry} (u8 vol, u8 panning, u8 pitch, u16 length, u8 $\ast$sampleaddr, \hyperlink{a00412}{brrsamples} $\ast$ptr)
+\begin{DoxyCompactList}\small\item\em set the values of a sound entry \end{DoxyCompactList}\item 
+void \hyperlink{a00377_a4ef9d5d4b7618a2e091194b6c17f75a5}{spc\+Set\+Sound\+Entry} (u8 vol, u8 panning, u8 pitch, u16 length, u8 $\ast$sampleaddr, \hyperlink{a00412}{brrsamples} $\ast$ptr)
+\begin{DoxyCompactList}\small\item\em set the values and address of the S\+O\+U\+ND T\+A\+B\+LE for a sound entry \end{DoxyCompactList}\item 
+void \hyperlink{a00377_ad1eb603fd2445102225319797d226fea}{spc\+Set\+Sound\+Table} (u16 snd\+Table\+Addr, u8 snd\+Table\+Bank)
+\begin{DoxyCompactList}\small\item\em set the address of the S\+O\+U\+ND T\+A\+B\+LE \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00377_af7366527acd378585446999f84d1c6d0}\label{a00377_af7366527acd378585446999f84d1c6d0}} 
+void \hyperlink{a00377_af7366527acd378585446999f84d1c6d0}{spc\+Stop} (void)
+\begin{DoxyCompactList}\small\item\em stop playing the current module. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+snes sound support. 
+
+Really great thanks to shiru for sound engine and tools used in his Christmas Craze homebrew \href{http://shiru.untergrund.net/}{\tt http\+://shiru.\+untergrund.\+net/}
+
+Also great thanks for mukunda for snesmod sound engine \href{http://snes.mukunda.com/}{\tt http\+://snes.\+mukunda.\+com/}
+
+And special thanks to Kung Fu Furby for help debugging snesmod port with C interface 
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{a00377_a11d724391e894d7a876635ffb45e1fd9}\label{a00377_a11d724391e894d7a876635ffb45e1fd9}} 
+\index{sound.\+h@{sound.\+h}!R\+E\+G\+\_\+\+A\+P\+U00@{R\+E\+G\+\_\+\+A\+P\+U00}}
+\index{R\+E\+G\+\_\+\+A\+P\+U00@{R\+E\+G\+\_\+\+A\+P\+U00}!sound.\+h@{sound.\+h}}
+\subsubsection{\texorpdfstring{R\+E\+G\+\_\+\+A\+P\+U00}{REG\_APU00}}
+{\footnotesize\ttfamily \#define R\+E\+G\+\_\+\+A\+P\+U00~($\ast$(vuint8$\ast$)0x2140)}
+
+
+
+Main C\+PU to Sound C\+PU Communication Port 0 (R/W) 7-\/0 A\+PU I/O Data (Write\+: Data to A\+PU, Read\+: Data from A\+PU) Caution\+: These registers should be written only in 8bit mode (there is a hardware glitch that can cause a 16bit write to \mbox{[}2140h..2141h\mbox{]} to destroy \mbox{[}2143h\mbox{]}, this might happen only in some situations, like when the cartridge contains too many R\+OM chips which apply too much load on the bus). 
+
+Same thing for R\+E\+G\+\_\+\+A\+P\+U01, R\+E\+G\+\_\+\+A\+P\+U02 and R\+E\+G\+\_\+\+A\+P\+U03 for addr 2141h..2143h R\+E\+G\+\_\+\+A\+P\+U0001 and R\+E\+G\+\_\+\+A\+P\+U0203 for 16 bits read/write access 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{a00377_a2113060be24b307d1e03f167eb241b90}\label{a00377_a2113060be24b307d1e03f167eb241b90}} 
+\index{sound.\+h@{sound.\+h}!spc\+Allocate\+Sound\+Region@{spc\+Allocate\+Sound\+Region}}
+\index{spc\+Allocate\+Sound\+Region@{spc\+Allocate\+Sound\+Region}!sound.\+h@{sound.\+h}}
+\subsubsection{\texorpdfstring{spc\+Allocate\+Sound\+Region()}{spcAllocateSoundRegion()}}
+{\footnotesize\ttfamily spc\+Allocate\+Sound\+Region (\begin{DoxyParamCaption}\item[{u8}]{size }\end{DoxyParamCaption})}
+
+
+
+set the size of the sound region (this must be big enough to hold your longest/largest sound) this function will S\+T\+OP module playback too 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & size of sound region (size$\ast$256 bytes) \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00452}{audio/music/\+Music.\+c}, \hyperlink{a00454}{audio/tada/\+Tada.\+c}, and \hyperlink{a00450}{games/likemario/\+Like\+Mario.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00377_a99af3b788490e155674f57f455c6be38}\label{a00377_a99af3b788490e155674f57f455c6be38}} 
+\index{sound.\+h@{sound.\+h}!spc\+Effect@{spc\+Effect}}
+\index{spc\+Effect@{spc\+Effect}!sound.\+h@{sound.\+h}}
+\subsubsection{\texorpdfstring{spc\+Effect()}{spcEffect()}}
+{\footnotesize\ttfamily spc\+Effect (\begin{DoxyParamCaption}\item[{u16}]{pitch,  }\item[{u16}]{sfx\+Index,  }\item[{u8}]{volpan }\end{DoxyParamCaption})}
+
+
+
+Play sound effect (load with spc\+Load\+Effect) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pitch} & pitch (0-\/15, 8=32khz) \\
+\hline
+{\em sfx\+Index} & effect index (0-\/15) \\
+\hline
+{\em volpan} & volume(0..15) A\+ND panning(0..15) (volume$\ast$16+pan) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00377_a57a421beca64a638a15579c6a465c522}\label{a00377_a57a421beca64a638a15579c6a465c522}} 
+\index{sound.\+h@{sound.\+h}!spc\+Fade\+Module\+Volume@{spc\+Fade\+Module\+Volume}}
+\index{spc\+Fade\+Module\+Volume@{spc\+Fade\+Module\+Volume}!sound.\+h@{sound.\+h}}
+\subsubsection{\texorpdfstring{spc\+Fade\+Module\+Volume()}{spcFadeModuleVolume()}}
+{\footnotesize\ttfamily spc\+Fade\+Module\+Volume (\begin{DoxyParamCaption}\item[{u16}]{vol,  }\item[{u16}]{fadespeed }\end{DoxyParamCaption})}
+
+
+
+fade the module volume towards the target 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vol} & volume (0..255) \\
+\hline
+{\em fadespeed} & fade speed (volume(0..255) += y every 32ms) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00377_a313e30fb1962df9fb469f2fedd4d91e4}\label{a00377_a313e30fb1962df9fb469f2fedd4d91e4}} 
+\index{sound.\+h@{sound.\+h}!spc\+Load@{spc\+Load}}
+\index{spc\+Load@{spc\+Load}!sound.\+h@{sound.\+h}}
+\subsubsection{\texorpdfstring{spc\+Load()}{spcLoad()}}
+{\footnotesize\ttfamily spc\+Load (\begin{DoxyParamCaption}\item[{u16}]{mus\+Index }\end{DoxyParamCaption})}
+
+
+
+load module into sm-\/spc. this function may take some time to execute 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mus\+Index} & module\+\_\+id \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00452}{audio/music/\+Music.\+c}, and \hyperlink{a00450}{games/likemario/\+Like\+Mario.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00377_a57d9e744cfa33d55d543b172df59d518}\label{a00377_a57d9e744cfa33d55d543b172df59d518}} 
+\index{sound.\+h@{sound.\+h}!spc\+Load\+Effect@{spc\+Load\+Effect}}
+\index{spc\+Load\+Effect@{spc\+Load\+Effect}!sound.\+h@{sound.\+h}}
+\subsubsection{\texorpdfstring{spc\+Load\+Effect()}{spcLoadEffect()}}
+{\footnotesize\ttfamily spc\+Load\+Effect (\begin{DoxyParamCaption}\item[{u16}]{sfx\+Index }\end{DoxyParamCaption})}
+
+
+
+load sound effect into sm-\/spc. this function may take some time to execute 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sfx\+Index} & sfx\+\_\+id \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00377_aebf91de1df5e4fa83454a84bb0e60918}\label{a00377_aebf91de1df5e4fa83454a84bb0e60918}} 
+\index{sound.\+h@{sound.\+h}!spc\+Play@{spc\+Play}}
+\index{spc\+Play@{spc\+Play}!sound.\+h@{sound.\+h}}
+\subsubsection{\texorpdfstring{spc\+Play()}{spcPlay()}}
+{\footnotesize\ttfamily spc\+Play (\begin{DoxyParamCaption}\item[{u8}]{start\+Pos }\end{DoxyParamCaption})}
+
+
+
+play module. note\+: this simply queues a message, use spc\+Flush if you want to wait until the message is processed 
+
+another note\+: there may be a significant startup time from after the message is processed to when the song starts playing... to sync the program with the song start use spc\+Flush and then wait until S\+P\+C\+\_\+P of the status register is set. 
+\begin{DoxyParams}{Parameters}
+{\em start\+Pos} & starting position \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00452}{audio/music/\+Music.\+c}, and \hyperlink{a00450}{games/likemario/\+Like\+Mario.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00377_a8e5286554841ea48b028b4b782364ab0}\label{a00377_a8e5286554841ea48b028b4b782364ab0}} 
+\index{sound.\+h@{sound.\+h}!spc\+Play\+Sound@{spc\+Play\+Sound}}
+\index{spc\+Play\+Sound@{spc\+Play\+Sound}!sound.\+h@{sound.\+h}}
+\subsubsection{\texorpdfstring{spc\+Play\+Sound()}{spcPlaySound()}}
+{\footnotesize\ttfamily spc\+Play\+Sound (\begin{DoxyParamCaption}\item[{u8}]{snd\+Index }\end{DoxyParamCaption})}
+
+
+
+Play sound from memory (using default arguments) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em snd\+Index} & index in sound table \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00454}{audio/tada/\+Tada.\+c}, and \hyperlink{a00450}{games/likemario/\+Like\+Mario.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00377_a6065e170a377a476c1bed7ac23e65d9f}\label{a00377_a6065e170a377a476c1bed7ac23e65d9f}} 
+\index{sound.\+h@{sound.\+h}!spc\+Play\+SoundV@{spc\+Play\+SoundV}}
+\index{spc\+Play\+SoundV@{spc\+Play\+SoundV}!sound.\+h@{sound.\+h}}
+\subsubsection{\texorpdfstring{spc\+Play\+Sound\+V()}{spcPlaySoundV()}}
+{\footnotesize\ttfamily spc\+Play\+SoundV (\begin{DoxyParamCaption}\item[{u8}]{snd\+Index,  }\item[{u16}]{volume }\end{DoxyParamCaption})}
+
+
+
+Play sound from memory (using default arguments) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em snd\+Index} & index in sound table \\
+\hline
+{\em volume} & volume (0..15) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00377_acab7d87110bac6baa9d74ab314772c98}\label{a00377_acab7d87110bac6baa9d74ab314772c98}} 
+\index{sound.\+h@{sound.\+h}!spc\+Process@{spc\+Process}}
+\index{spc\+Process@{spc\+Process}!sound.\+h@{sound.\+h}}
+\subsubsection{\texorpdfstring{spc\+Process()}{spcProcess()}}
+{\footnotesize\ttfamily spc\+Process (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Process messages This function will try to give messages to the spc until a few scanlines pass. 
+
+this function M\+U\+ST be called every frame if you are using streamed sounds \begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00452}{audio/music/\+Music.\+c}, \hyperlink{a00454}{audio/tada/\+Tada.\+c}, and \hyperlink{a00450}{games/likemario/\+Like\+Mario.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00377_ab68840ba8aab786b8ea206ea077acaac}\label{a00377_ab68840ba8aab786b8ea206ea077acaac}} 
+\index{sound.\+h@{sound.\+h}!spc\+Set\+Bank@{spc\+Set\+Bank}}
+\index{spc\+Set\+Bank@{spc\+Set\+Bank}!sound.\+h@{sound.\+h}}
+\subsubsection{\texorpdfstring{spc\+Set\+Bank()}{spcSetBank()}}
+{\footnotesize\ttfamily spc\+Set\+Bank (\begin{DoxyParamCaption}\item[{u8 $\ast$}]{bank }\end{DoxyParamCaption})}
+
+
+
+set soundbank origin. soundbank must have dedicated bank(s) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bank} & bank address \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00452}{audio/music/\+Music.\+c}, and \hyperlink{a00450}{games/likemario/\+Like\+Mario.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00377_ae2c8dfab62ceecf5c302c95f5453a752}\label{a00377_ae2c8dfab62ceecf5c302c95f5453a752}} 
+\index{sound.\+h@{sound.\+h}!spc\+Set\+Module\+Volume@{spc\+Set\+Module\+Volume}}
+\index{spc\+Set\+Module\+Volume@{spc\+Set\+Module\+Volume}!sound.\+h@{sound.\+h}}
+\subsubsection{\texorpdfstring{spc\+Set\+Module\+Volume()}{spcSetModuleVolume()}}
+{\footnotesize\ttfamily spc\+Set\+Module\+Volume (\begin{DoxyParamCaption}\item[{u8}]{vol }\end{DoxyParamCaption})}
+
+
+
+set the module playback volume 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vol} & volume (0..255) \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00450}{games/likemario/\+Like\+Mario.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00377_a6febc2b960755ba902950ee9c93ab637}\label{a00377_a6febc2b960755ba902950ee9c93ab637}} 
+\index{sound.\+h@{sound.\+h}!spc\+Set\+Sound\+Data\+Entry@{spc\+Set\+Sound\+Data\+Entry}}
+\index{spc\+Set\+Sound\+Data\+Entry@{spc\+Set\+Sound\+Data\+Entry}!sound.\+h@{sound.\+h}}
+\subsubsection{\texorpdfstring{spc\+Set\+Sound\+Data\+Entry()}{spcSetSoundDataEntry()}}
+{\footnotesize\ttfamily spc\+Set\+Sound\+Data\+Entry (\begin{DoxyParamCaption}\item[{u8}]{vol,  }\item[{u8}]{panning,  }\item[{u8}]{pitch,  }\item[{u16}]{length,  }\item[{u8 $\ast$}]{sampleaddr,  }\item[{\hyperlink{a00412}{brrsamples} $\ast$}]{ptr }\end{DoxyParamCaption})}
+
+
+
+set the values of a sound entry 
+
+set the address of the S\+O\+U\+ND T\+A\+B\+LE for a sound entry
+
+
+\begin{DoxyParams}{Parameters}
+{\em vol} & volume (0..15) \\
+\hline
+{\em panning} & panning (0..15) \\
+\hline
+{\em pitch} & P\+I\+T\+CH (1..6) (hz = P\+I\+T\+CH $\ast$ 2000) \\
+\hline
+{\em length} & length of brr sample \\
+\hline
+{\em sampleaddr} & address of brr sample \\
+\hline
+{\em ptr} & address of variable where sounds values will be stored\\
+\hline
+{\em ptr} & address of variable where sounds values will be stored \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00377_a4ef9d5d4b7618a2e091194b6c17f75a5}\label{a00377_a4ef9d5d4b7618a2e091194b6c17f75a5}} 
+\index{sound.\+h@{sound.\+h}!spc\+Set\+Sound\+Entry@{spc\+Set\+Sound\+Entry}}
+\index{spc\+Set\+Sound\+Entry@{spc\+Set\+Sound\+Entry}!sound.\+h@{sound.\+h}}
+\subsubsection{\texorpdfstring{spc\+Set\+Sound\+Entry()}{spcSetSoundEntry()}}
+{\footnotesize\ttfamily spc\+Set\+Sound\+Entry (\begin{DoxyParamCaption}\item[{u8}]{vol,  }\item[{u8}]{panning,  }\item[{u8}]{pitch,  }\item[{u16}]{length,  }\item[{u8 $\ast$}]{sampleaddr,  }\item[{\hyperlink{a00412}{brrsamples} $\ast$}]{ptr }\end{DoxyParamCaption})}
+
+
+
+set the values and address of the S\+O\+U\+ND T\+A\+B\+LE for a sound entry 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vol} & volume (0..15) \\
+\hline
+{\em panning} & panning (0..15) \\
+\hline
+{\em pitch} & P\+I\+T\+CH (1..6) (hz = P\+I\+T\+CH $\ast$ 2000) \\
+\hline
+{\em length} & length of brr sample \\
+\hline
+{\em sampleaddr} & address of brr sample \\
+\hline
+{\em ptr} & address of variable where sounds values will be stored \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00454}{audio/tada/\+Tada.\+c}, and \hyperlink{a00450}{games/likemario/\+Like\+Mario.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00377_ad1eb603fd2445102225319797d226fea}\label{a00377_ad1eb603fd2445102225319797d226fea}} 
+\index{sound.\+h@{sound.\+h}!spc\+Set\+Sound\+Table@{spc\+Set\+Sound\+Table}}
+\index{spc\+Set\+Sound\+Table@{spc\+Set\+Sound\+Table}!sound.\+h@{sound.\+h}}
+\subsubsection{\texorpdfstring{spc\+Set\+Sound\+Table()}{spcSetSoundTable()}}
+{\footnotesize\ttfamily spc\+Set\+Sound\+Table (\begin{DoxyParamCaption}\item[{u16}]{snd\+Table\+Addr,  }\item[{u8}]{snd\+Table\+Bank }\end{DoxyParamCaption})}
+
+
+
+set the address of the S\+O\+U\+ND T\+A\+B\+LE 
+
+
+\begin{DoxyParams}{Parameters}
+{\em snd\+Table\+Addr} & address of sound table \\
+\hline
+{\em snd\+Table\+Bank} & bank of sound table \\
+\hline
+\end{DoxyParams}

@@ -1,0 +1,109 @@
+\hypertarget{a00427}{}\section{graphics/\+Sprites/\+Animated\+Sprite/\+Animated\+Sprite.\+c}
+
+\begin{DoxyCodeInclude}
+\textcolor{comment}{/*---------------------------------------------------------------------------------}
+\textcolor{comment}{}
+\textcolor{comment}{}
+\textcolor{comment}{    Animated Sprite demo}
+\textcolor{comment}{    -- alekmaul}
+\textcolor{comment}{}
+\textcolor{comment}{ Sprite from Stephen "Redshrike" Challener), http://opengameart.org}
+\textcolor{comment}{}
+\textcolor{comment}{---------------------------------------------------------------------------------*/}
+\textcolor{preprocessor}{#include <\hyperlink{a00371}{snes.h}>}
+
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} gfxpsrite, gfxpsrite\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} palsprite, palsprite\_end;
+
+\textcolor{preprocessor}{#define FRAMES\_PER\_ANIMATION 3 // 3 sprites per direction}
+
+\textcolor{comment}{//---------------------------------------------------------------------}
+\textcolor{comment}{// The Monster sprite}
+\textcolor{comment}{//---------------------------------------------------------------------}
+\textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+\{
+    \textcolor{keywordtype}{short} x, y;
+    \textcolor{keywordtype}{int} gfx\_frame;
+    \textcolor{keywordtype}{int} state;
+    \textcolor{keywordtype}{int} anim\_frame;
+    \textcolor{keywordtype}{int} flipx;
+\} Monster;
+
+\textcolor{comment}{//---------------------------------------------------------------------}
+\textcolor{comment}{// The state of the sprite (which way it is walking)}
+\textcolor{comment}{//---------------------------------------------------------------------}
+\textcolor{keyword}{enum} SpriteState \{W\_DOWN = 0, W\_UP = 1, W\_RIGHT = 2,  W\_LEFT = 2\};
+
+\textcolor{comment}{//---------------------------------------------------------------------}
+\textcolor{comment}{// Screen dimentions}
+\textcolor{comment}{//---------------------------------------------------------------------}
+\textcolor{keyword}{enum} \{SCREEN\_TOP = 0, SCREEN\_BOTTOM = 224, SCREEN\_LEFT = 0, SCREEN\_RIGHT = 256\};
+
+\textcolor{keywordtype}{char} sprTiles[9]=\{0,2,4, 6,8,10, 12,14,32\};  \textcolor{comment}{// Remeber that sprites are interleave with 128 pix width,}
+
+\textcolor{comment}{//---------------------------------------------------------------------------------}
+\textcolor{keywordtype}{int} main(\textcolor{keywordtype}{void}) \{
+    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} pad0,i;
+    Monster monster = \{100,100\};
+    
+    \textcolor{comment}{// Initialize SNES }
+    \hyperlink{a00335_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
+    
+    \textcolor{comment}{// Init Sprites gfx and palette with default size of 16x16}
+    \hyperlink{a00365_a46e0be47f8fc865a7f43c1b0b126e59a}{oamInitGfxSet}(&gfxpsrite, (&gfxpsrite\_end-&gfxpsrite), &palsprite, (&palsprite\_end-&
+      palsprite), 0, 0x0000, \hyperlink{a00365_a35664c2c4a66c3bac8139ae093d7f3ac}{OBJ\_SIZE16});
+
+    \textcolor{comment}{// Define sprites parameters}
+    \hyperlink{a00365_a2f62a591672b786d90ebb03fdf25f159}{oamSet}(0,  monster.x, monster.y, 0, 0, 0, 0, 0); 
+    \hyperlink{a00365_a4120a8ff32c39973babeca3615a0a2fd}{oamSetEx}(0, OBJ\_SMALL, OBJ\_SHOW);
+    \hyperlink{a00365_a35a0da9852240ef41b5030ed21b6eeb2}{oamSetVisible}(0,OBJ\_SHOW);
+    
+    \textcolor{comment}{// Now Put in 16 color mode and disable all backgrounds}
+    \hyperlink{a00368_afd9e46ae627d055dd8c98a4b0ebb73b1}{setMode}(\hyperlink{a00332_a05c862edb7f8f75036f10c04dcc3c2a6}{BG\_MODE1},0); \hyperlink{a00332_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(0); 
+      \hyperlink{a00332_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(1); \hyperlink{a00332_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(2);
+    
+    \textcolor{comment}{// Wait VBL 'and update sprites too ;-) )}
+    \hyperlink{a00341_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}();
+        
+    \textcolor{comment}{// Wait for nothing :P}
+    \textcolor{keywordflow}{while}(1) \{
+        \textcolor{comment}{// Refresh pad values in VBL and Get current #0 pad}
+        pad0 = \hyperlink{a00350_a6063e0eec9a36e437fc32951acafa44c}{padsCurrent}(0);
+        
+        \textcolor{keywordflow}{if} (pad0) \{
+            \textcolor{comment}{// Update sprite with current pad}
+            \textcolor{keywordflow}{if}(pad0 & \hyperlink{a00350_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd}{KEY\_UP}) \{
+                \textcolor{keywordflow}{if}(monster.y >= SCREEN\_TOP) monster.y--;
+                monster.state = W\_UP;
+                monster.flipx = 0;
+            \}
+            \textcolor{keywordflow}{if}(pad0 & \hyperlink{a00350_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65}{KEY\_LEFT}) \{
+                \textcolor{keywordflow}{if}(monster.x >= SCREEN\_LEFT) monster.x--;
+                monster.state = W\_LEFT;
+                monster.flipx = 1;
+            \}
+            \textcolor{keywordflow}{if}(pad0 & \hyperlink{a00350_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d}{KEY\_RIGHT}) \{
+                \textcolor{keywordflow}{if}(monster.x <= SCREEN\_RIGHT) monster.x++;
+                monster.state = W\_LEFT;
+                monster.flipx = 0;
+            \}
+            \textcolor{keywordflow}{if}(pad0 & \hyperlink{a00350_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416}{KEY\_DOWN}) \{
+                \textcolor{keywordflow}{if}(monster.y <= SCREEN\_BOTTOM) monster.y++;
+                monster.state = W\_DOWN;
+                monster.flipx = 0;
+            \}
+            monster.anim\_frame++;
+            \textcolor{keywordflow}{if}(monster.anim\_frame >= FRAMES\_PER\_ANIMATION) monster.anim\_frame = 0;
+        \}
+        
+        \textcolor{comment}{// Now, get current sprite in current animation}
+        monster.gfx\_frame = sprTiles[monster.anim\_frame + monster.state*FRAMES\_PER\_ANIMATION ];
+        \hyperlink{a00365_a2f62a591672b786d90ebb03fdf25f159}{oamSet}(0,  monster.x, monster.y, 3, monster.flipx, 0, monster.gfx\_frame, 0);
+        
+        \textcolor{comment}{// Wait VBL 'and update sprites too ;-) )}
+        \hyperlink{a00341_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}();
+    \}
+    \textcolor{keywordflow}{return} 0;
+\}
+\end{DoxyCodeInclude}
+ 

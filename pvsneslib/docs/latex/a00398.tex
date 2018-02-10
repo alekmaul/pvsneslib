@@ -1,0 +1,222 @@
+\hypertarget{a00398}{}\section{pad.\+h File Reference}
+\label{a00398}\index{pad.\+h@{pad.\+h}}
+
+
+pad support.  
+
+
+{\ttfamily \#include $<$snes/snestypes.\+h$>$}\newline
+{\ttfamily \#include $<$snes/interrupt.\+h$>$}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{a00398_a6063e0eec9a36e437fc32951acafa44c}{pads\+Current}(value)~(pad\+\_\+keys\mbox{[}value\mbox{]})
+\begin{DoxyCompactList}\small\item\em Return current value of selected pad. \end{DoxyCompactList}\item 
+\#define \hyperlink{a00398_a3cae01317d787d65697fdf0543714272}{R\+E\+G\+\_\+\+J\+O\+Yx\+LH}(a)~(((vuint16$\ast$)0x4218)\mbox{[}(a)\mbox{]})
+\begin{DoxyCompactList}\small\item\em S\+N\+ES Controllers I/O Ports -\/ Automatic Reading. 4218h/4219h -\/ J\+O\+Y1\+L/\+J\+O\+Y1H -\/ Joypad 1 (gameport 1, pin 4) (R) 421\+Ah/421\+Bh -\/ J\+O\+Y2\+L/\+J\+O\+Y2H -\/ Joypad 2 (gameport 2, pin 4) (R) 421\+Ch/421\+Dh -\/ J\+O\+Y3\+L/\+J\+O\+Y3H -\/ Joypad 3 (gameport 1, pin 5) (R) 421\+Eh/421\+Fh -\/ J\+O\+Y4\+L/\+J\+O\+Y4H -\/ Joypad 4 (gameport 2, pin 5) (R) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{a00398_a9da1bea473d004dbce72074565771175}\label{a00398_a9da1bea473d004dbce72074565771175}} 
+typedef enum \hyperlink{a00398_aa27cad8fa018a58930b6622783a83072}{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS} \hyperlink{a00398_a9da1bea473d004dbce72074565771175}{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS}
+\begin{DoxyCompactList}\small\item\em enum values for the pad buttons. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{a00398_aa27cad8fa018a58930b6622783a83072}{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS} \{ \newline
+\hyperlink{a00398_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc}{K\+E\+Y\+\_\+A} = B\+IT(7), 
+\hyperlink{a00398_aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a}{K\+E\+Y\+\_\+B} = B\+IT(15), 
+\hyperlink{a00398_aa27cad8fa018a58930b6622783a83072a3b37a163628bc7015aac5efab4a66ef5}{K\+E\+Y\+\_\+\+S\+E\+L\+E\+CT} = B\+IT(13), 
+\hyperlink{a00398_aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b}{K\+E\+Y\+\_\+\+S\+T\+A\+RT} = B\+IT(12), 
+\newline
+\hyperlink{a00398_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d}{K\+E\+Y\+\_\+\+R\+I\+G\+HT} = B\+IT(8), 
+\hyperlink{a00398_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65}{K\+E\+Y\+\_\+\+L\+E\+FT} = B\+IT(9), 
+\hyperlink{a00398_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416}{K\+E\+Y\+\_\+\+D\+O\+WN} = B\+IT(10), 
+\hyperlink{a00398_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd}{K\+E\+Y\+\_\+\+UP} = B\+IT(11), 
+\newline
+\hyperlink{a00398_aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff}{K\+E\+Y\+\_\+R} = B\+IT(4), 
+\hyperlink{a00398_aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62}{K\+E\+Y\+\_\+L} = B\+IT(5), 
+\hyperlink{a00398_aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497}{K\+E\+Y\+\_\+X} = B\+IT(6), 
+\hyperlink{a00398_aa27cad8fa018a58930b6622783a83072a5d44524b2a6090fa97aa9353d69f67a3}{K\+E\+Y\+\_\+Y} = B\+IT(14)
+ \}\begin{DoxyCompactList}\small\item\em enum values for the pad buttons. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{a00398_a283ec438fdbb3b6068afd2e50bc9211d}{pads\+Clear} (u16 value)
+\begin{DoxyCompactList}\small\item\em Clear internal variables for selected pad. \end{DoxyCompactList}\item 
+unsigned short \hyperlink{a00398_a66237b0d7609c6f62d2234ef50abbd78}{pads\+Down} (u16 value)
+\begin{DoxyCompactList}\small\item\em Return value of down keys for selected pad. \end{DoxyCompactList}\item 
+unsigned short \hyperlink{a00398_a51de6b359e19a3a0279d42afc7fe6165}{pads\+Up} (u16 value)
+\begin{DoxyCompactList}\small\item\em Return value of up keys for selected pad. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00398_a42632e79292dc47a567aab4dc3e4407d}\label{a00398_a42632e79292dc47a567aab4dc3e4407d}} 
+void \hyperlink{a00398_a42632e79292dc47a567aab4dc3e4407d}{scan\+Pads} (void)
+\begin{DoxyCompactList}\small\item\em Wait for pad ready and read pad values in . \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00398_a72ab39cf95cf0d46d60e4d6835581ba6}\label{a00398_a72ab39cf95cf0d46d60e4d6835581ba6}} 
+void \hyperlink{a00398_a72ab39cf95cf0d46d60e4d6835581ba6}{scan\+Scope} (void)
+\begin{DoxyCompactList}\small\item\em Wait for superscope ready and read values in. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+pad support. 
+
+common values for pad input.
+
+common values that can be used to test auto pad. 
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{a00398_a6063e0eec9a36e437fc32951acafa44c}\label{a00398_a6063e0eec9a36e437fc32951acafa44c}} 
+\index{pad.\+h@{pad.\+h}!pads\+Current@{pads\+Current}}
+\index{pads\+Current@{pads\+Current}!pad.\+h@{pad.\+h}}
+\subsubsection{\texorpdfstring{pads\+Current}{padsCurrent}}
+{\footnotesize\ttfamily pads\+Current(\begin{DoxyParamCaption}\item[{}]{value }\end{DoxyParamCaption})~(pad\+\_\+keys\mbox{[}value\mbox{]})}
+
+
+
+Return current value of selected pad. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Address of the pad to use (0 or 1) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned short of the current pad value 
+\end{DoxyReturn}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00487}{audio/tada/\+Tada.\+c}, \hyperlink{a00483}{games/likemario/\+Like\+Mario.\+c}, \hyperlink{a00459}{graphics/\+Backgrounds/\+Mode1\+Scroll/\+Mode1\+Scroll.\+c}, \hyperlink{a00465}{graphics/\+Backgrounds/\+Mode7/\+Mode7.\+c}, \hyperlink{a00467}{graphics/\+Effects/\+H\+D\+M\+A\+Gradient/\+H\+D\+M\+A\+Gradient.\+c}, \hyperlink{a00469}{graphics/\+Effects/\+Mosaic\+Shading/\+Mosaic\+Shading.\+c}, \hyperlink{a00475}{graphics/\+Sprites/\+Animated\+Sprite/\+Animated\+Sprite.\+c}, \hyperlink{a00477}{graphics/\+Sprites/\+Dynamic\+Sprite/\+Dynamic\+Sprite.\+c}, \hyperlink{a00479}{input/input.\+c}, \hyperlink{a00491}{random/random.\+c}, and \hyperlink{a00493}{sram/sram.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00398_a3cae01317d787d65697fdf0543714272}\label{a00398_a3cae01317d787d65697fdf0543714272}} 
+\index{pad.\+h@{pad.\+h}!R\+E\+G\+\_\+\+J\+O\+Yx\+LH@{R\+E\+G\+\_\+\+J\+O\+Yx\+LH}}
+\index{R\+E\+G\+\_\+\+J\+O\+Yx\+LH@{R\+E\+G\+\_\+\+J\+O\+Yx\+LH}!pad.\+h@{pad.\+h}}
+\subsubsection{\texorpdfstring{R\+E\+G\+\_\+\+J\+O\+Yx\+LH}{REG\_JOYxLH}}
+{\footnotesize\ttfamily \#define R\+E\+G\+\_\+\+J\+O\+Yx\+LH(\begin{DoxyParamCaption}\item[{}]{a }\end{DoxyParamCaption})~(((vuint16$\ast$)0x4218)\mbox{[}(a)\mbox{]})}
+
+
+
+S\+N\+ES Controllers I/O Ports -\/ Automatic Reading. 4218h/4219h -\/ J\+O\+Y1\+L/\+J\+O\+Y1H -\/ Joypad 1 (gameport 1, pin 4) (R) 421\+Ah/421\+Bh -\/ J\+O\+Y2\+L/\+J\+O\+Y2H -\/ Joypad 2 (gameport 2, pin 4) (R) 421\+Ch/421\+Dh -\/ J\+O\+Y3\+L/\+J\+O\+Y3H -\/ Joypad 3 (gameport 1, pin 5) (R) 421\+Eh/421\+Fh -\/ J\+O\+Y4\+L/\+J\+O\+Y4H -\/ Joypad 4 (gameport 2, pin 5) (R) 
+
+Register Serial Default Bit Transfer Purpose Number\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+Order\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+(\+Joypads)\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+ 15 1st B Button (1=Low=Pressed) 14 2nd Y Button 13 3rd Select Button 12 4th Start Button 11 5th Up 10 6th Down 9 7th Left 8 8th Right 7 9th A Button 6 10th X Button 5 11th L Button 4 12th R Button 3 13th 0 (High) 2 14th 0 (High) 1 15th 0 (High) 0 16th 0 (High)
+
+When enabled, the S\+N\+ES will read 16 bits from each of the 4 controller port data lines into registers \$4218-\/f. This begins between H=32.\+5 and H=95.\+5 of the first V-\/\+Blank scanline, and ends 4224 master cycles later. Register \$4212 bit 0 is set during this time. Specifically, it begins at H=74.\+5 on the first frame, and thereafter some multiple of 256 cycles after the start of the previous read that falls within the observed range.
+
+Reading \$4218-\/f during this time will read back incorrect values. The only reliable value is that no buttons pressed will return 0 (however, if buttons are pressed 0 could still be returned incorrectly). Presumably reading \$4016/7 or writing \$4016 during this time will also screw things up. 
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{a00398_aa27cad8fa018a58930b6622783a83072}\label{a00398_aa27cad8fa018a58930b6622783a83072}} 
+\index{pad.\+h@{pad.\+h}!K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS@{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS}}
+\index{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS@{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS}!pad.\+h@{pad.\+h}}
+\subsubsection{\texorpdfstring{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS}{KEYPAD\_BITS}}
+{\footnotesize\ttfamily enum \hyperlink{a00398_aa27cad8fa018a58930b6622783a83072}{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS}}
+
+
+
+enum values for the pad buttons. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+A@{K\+E\+Y\+\_\+A}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+A@{K\+E\+Y\+\_\+A}}}\mbox{\Hypertarget{a00398_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc}\label{a00398_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc}} 
+K\+E\+Y\+\_\+A&pad A button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+B@{K\+E\+Y\+\_\+B}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+B@{K\+E\+Y\+\_\+B}}}\mbox{\Hypertarget{a00398_aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a}\label{a00398_aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a}} 
+K\+E\+Y\+\_\+B&pad B button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+\+S\+E\+L\+E\+CT@{K\+E\+Y\+\_\+\+S\+E\+L\+E\+CT}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+\+S\+E\+L\+E\+CT@{K\+E\+Y\+\_\+\+S\+E\+L\+E\+CT}}}\mbox{\Hypertarget{a00398_aa27cad8fa018a58930b6622783a83072a3b37a163628bc7015aac5efab4a66ef5}\label{a00398_aa27cad8fa018a58930b6622783a83072a3b37a163628bc7015aac5efab4a66ef5}} 
+K\+E\+Y\+\_\+\+S\+E\+L\+E\+CT&pad S\+E\+L\+E\+CT button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+\+S\+T\+A\+RT@{K\+E\+Y\+\_\+\+S\+T\+A\+RT}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+\+S\+T\+A\+RT@{K\+E\+Y\+\_\+\+S\+T\+A\+RT}}}\mbox{\Hypertarget{a00398_aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b}\label{a00398_aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b}} 
+K\+E\+Y\+\_\+\+S\+T\+A\+RT&pad S\+T\+A\+RT button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+\+R\+I\+G\+HT@{K\+E\+Y\+\_\+\+R\+I\+G\+HT}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+\+R\+I\+G\+HT@{K\+E\+Y\+\_\+\+R\+I\+G\+HT}}}\mbox{\Hypertarget{a00398_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d}\label{a00398_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d}} 
+K\+E\+Y\+\_\+\+R\+I\+G\+HT&pad R\+I\+G\+HT button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+\+L\+E\+FT@{K\+E\+Y\+\_\+\+L\+E\+FT}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+\+L\+E\+FT@{K\+E\+Y\+\_\+\+L\+E\+FT}}}\mbox{\Hypertarget{a00398_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65}\label{a00398_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65}} 
+K\+E\+Y\+\_\+\+L\+E\+FT&pad L\+E\+FT button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+\+D\+O\+WN@{K\+E\+Y\+\_\+\+D\+O\+WN}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+\+D\+O\+WN@{K\+E\+Y\+\_\+\+D\+O\+WN}}}\mbox{\Hypertarget{a00398_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416}\label{a00398_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416}} 
+K\+E\+Y\+\_\+\+D\+O\+WN&pad D\+O\+WN button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+\+UP@{K\+E\+Y\+\_\+\+UP}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+\+UP@{K\+E\+Y\+\_\+\+UP}}}\mbox{\Hypertarget{a00398_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd}\label{a00398_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd}} 
+K\+E\+Y\+\_\+\+UP&pad UP button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+R@{K\+E\+Y\+\_\+R}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+R@{K\+E\+Y\+\_\+R}}}\mbox{\Hypertarget{a00398_aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff}\label{a00398_aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff}} 
+K\+E\+Y\+\_\+R&Right shoulder button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+L@{K\+E\+Y\+\_\+L}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+L@{K\+E\+Y\+\_\+L}}}\mbox{\Hypertarget{a00398_aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62}\label{a00398_aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62}} 
+K\+E\+Y\+\_\+L&Left shoulder button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+X@{K\+E\+Y\+\_\+X}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+X@{K\+E\+Y\+\_\+X}}}\mbox{\Hypertarget{a00398_aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497}\label{a00398_aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497}} 
+K\+E\+Y\+\_\+X&pad X button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+Y@{K\+E\+Y\+\_\+Y}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+Y@{K\+E\+Y\+\_\+Y}}}\mbox{\Hypertarget{a00398_aa27cad8fa018a58930b6622783a83072a5d44524b2a6090fa97aa9353d69f67a3}\label{a00398_aa27cad8fa018a58930b6622783a83072a5d44524b2a6090fa97aa9353d69f67a3}} 
+K\+E\+Y\+\_\+Y&pad Y button. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{a00398_a283ec438fdbb3b6068afd2e50bc9211d}\label{a00398_a283ec438fdbb3b6068afd2e50bc9211d}} 
+\index{pad.\+h@{pad.\+h}!pads\+Clear@{pads\+Clear}}
+\index{pads\+Clear@{pads\+Clear}!pad.\+h@{pad.\+h}}
+\subsubsection{\texorpdfstring{pads\+Clear()}{padsClear()}}
+{\footnotesize\ttfamily pads\+Clear (\begin{DoxyParamCaption}\item[{u16}]{value }\end{DoxyParamCaption})}
+
+
+
+Clear internal variables for selected pad. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Address of the pad to use (0 or 1) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00398_a66237b0d7609c6f62d2234ef50abbd78}\label{a00398_a66237b0d7609c6f62d2234ef50abbd78}} 
+\index{pad.\+h@{pad.\+h}!pads\+Down@{pads\+Down}}
+\index{pads\+Down@{pads\+Down}!pad.\+h@{pad.\+h}}
+\subsubsection{\texorpdfstring{pads\+Down()}{padsDown()}}
+{\footnotesize\ttfamily pads\+Down (\begin{DoxyParamCaption}\item[{u16}]{value }\end{DoxyParamCaption})}
+
+
+
+Return value of down keys for selected pad. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Address of the pad to use (0 or 1) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned short of the current pad value 
+\end{DoxyReturn}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00467}{graphics/\+Effects/\+H\+D\+M\+A\+Gradient/\+H\+D\+M\+A\+Gradient.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00398_a51de6b359e19a3a0279d42afc7fe6165}\label{a00398_a51de6b359e19a3a0279d42afc7fe6165}} 
+\index{pad.\+h@{pad.\+h}!pads\+Up@{pads\+Up}}
+\index{pads\+Up@{pads\+Up}!pad.\+h@{pad.\+h}}
+\subsubsection{\texorpdfstring{pads\+Up()}{padsUp()}}
+{\footnotesize\ttfamily pads\+Up (\begin{DoxyParamCaption}\item[{u16}]{value }\end{DoxyParamCaption})}
+
+
+
+Return value of up keys for selected pad. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Address of the pad to use (0 or 1) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned short of the current pad value 
+\end{DoxyReturn}

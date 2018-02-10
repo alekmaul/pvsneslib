@@ -1,0 +1,92 @@
+\hypertarget{a00388}{}\section{brrsamples Struct Reference}
+\label{a00388}\index{brrsamples@{brrsamples}}
+
+
+Sound header(8 bytes)  
+
+
+
+
+{\ttfamily \#include $<$sound.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+u8 \hyperlink{a00388_a59ba4c3685f1ff631858af06a51c6672}{addr1}
+\item 
+u8 \hyperlink{a00388_a46ec973f7c37bb07422e909d087e174a}{addr2}
+\item 
+u8 \hyperlink{a00388_ad37960d64ecbb142a50cd2e139b44d21}{bank}
+\item 
+u8 \hyperlink{a00388_a88adcde351bda684d978194a6a2993d5}{length1}
+\item 
+u8 \hyperlink{a00388_a31a76cfd2811dac5df70684e6ab0beb3}{length2}
+\item 
+u8 \hyperlink{a00388_a8e61543808f3aed3dfcca0fd933bfe92}{panning}
+\item 
+u8 \hyperlink{a00388_a112d2def415a46e02e078f29fe89150d}{pitch}
+\item 
+u8 \hyperlink{a00388_a2cb1142e9dfc5abce53ef89387bbea32}{volume}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Sound header(8 bytes) \begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00430}{audio/tada/\+Tada.\+c}, and \hyperlink{a00426}{games/likemario/\+Like\+Mario.\+c}.\end{Desc}
+
+
+\subsection{Field Documentation}
+\mbox{\Hypertarget{a00388_a59ba4c3685f1ff631858af06a51c6672}\label{a00388_a59ba4c3685f1ff631858af06a51c6672}} 
+\index{brrsamples@{brrsamples}!addr1@{addr1}}
+\index{addr1@{addr1}!brrsamples@{brrsamples}}
+\subsubsection{\texorpdfstring{addr1}{addr1}}
+{\footnotesize\ttfamily u8 brrsamples\+::addr1}
+
+address of B\+RR data low \mbox{\Hypertarget{a00388_a46ec973f7c37bb07422e909d087e174a}\label{a00388_a46ec973f7c37bb07422e909d087e174a}} 
+\index{brrsamples@{brrsamples}!addr2@{addr2}}
+\index{addr2@{addr2}!brrsamples@{brrsamples}}
+\subsubsection{\texorpdfstring{addr2}{addr2}}
+{\footnotesize\ttfamily u8 brrsamples\+::addr2}
+
+address of B\+RR data high \mbox{\Hypertarget{a00388_ad37960d64ecbb142a50cd2e139b44d21}\label{a00388_ad37960d64ecbb142a50cd2e139b44d21}} 
+\index{brrsamples@{brrsamples}!bank@{bank}}
+\index{bank@{bank}!brrsamples@{brrsamples}}
+\subsubsection{\texorpdfstring{bank}{bank}}
+{\footnotesize\ttfamily u8 brrsamples\+::bank}
+
+bank of B\+RR data \mbox{\Hypertarget{a00388_a88adcde351bda684d978194a6a2993d5}\label{a00388_a88adcde351bda684d978194a6a2993d5}} 
+\index{brrsamples@{brrsamples}!length1@{length1}}
+\index{length1@{length1}!brrsamples@{brrsamples}}
+\subsubsection{\texorpdfstring{length1}{length1}}
+{\footnotesize\ttfamily u8 brrsamples\+::length1}
+
+number of B\+RR chunks (B\+Y\+T\+E\+L\+E\+N/9) (max 4kilobytes??) low \mbox{\Hypertarget{a00388_a31a76cfd2811dac5df70684e6ab0beb3}\label{a00388_a31a76cfd2811dac5df70684e6ab0beb3}} 
+\index{brrsamples@{brrsamples}!length2@{length2}}
+\index{length2@{length2}!brrsamples@{brrsamples}}
+\subsubsection{\texorpdfstring{length2}{length2}}
+{\footnotesize\ttfamily u8 brrsamples\+::length2}
+
+number of B\+RR chunks (B\+Y\+T\+E\+L\+E\+N/9) (max 4kilobytes??) high \mbox{\Hypertarget{a00388_a8e61543808f3aed3dfcca0fd933bfe92}\label{a00388_a8e61543808f3aed3dfcca0fd933bfe92}} 
+\index{brrsamples@{brrsamples}!panning@{panning}}
+\index{panning@{panning}!brrsamples@{brrsamples}}
+\subsubsection{\texorpdfstring{panning}{panning}}
+{\footnotesize\ttfamily u8 brrsamples\+::panning}
+
+default P\+A\+N\+N\+I\+NG (0..15) \mbox{\Hypertarget{a00388_a112d2def415a46e02e078f29fe89150d}\label{a00388_a112d2def415a46e02e078f29fe89150d}} 
+\index{brrsamples@{brrsamples}!pitch@{pitch}}
+\index{pitch@{pitch}!brrsamples@{brrsamples}}
+\subsubsection{\texorpdfstring{pitch}{pitch}}
+{\footnotesize\ttfamily u8 brrsamples\+::pitch}
+
+default P\+I\+T\+CH (1..6) (hz = P\+I\+T\+CH $\ast$ 2000) \mbox{\Hypertarget{a00388_a2cb1142e9dfc5abce53ef89387bbea32}\label{a00388_a2cb1142e9dfc5abce53ef89387bbea32}} 
+\index{brrsamples@{brrsamples}!volume@{volume}}
+\index{volume@{volume}!brrsamples@{brrsamples}}
+\subsubsection{\texorpdfstring{volume}{volume}}
+{\footnotesize\ttfamily u8 brrsamples\+::volume}
+
+default V\+O\+L\+U\+ME (0..15) 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{a00353}{sound.\+h}\end{DoxyCompactItemize}

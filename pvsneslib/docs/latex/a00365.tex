@@ -1,0 +1,376 @@
+\hypertarget{a00365}{}\section{sprite.\+h File Reference}
+\label{a00365}\index{sprite.\+h@{sprite.\+h}}
+
+
+snes sprites functionality.  
+
+
+{\ttfamily \#include $<$snes/snestypes.\+h$>$}\newline
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{a00401}{oam\+Entry}
+\begin{DoxyCompactList}\small\item\em Sprite definition \+: O\+AM entry for D\+MA copy if needed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{a00365_a3e2d51ca1a0ddadfbb339450c70f4f2f}{O\+A\+M\+\_\+\+A\+T\+TR}(priority,  hflip,  vflip,  gfxoffset,  paletteoffset)~((vflip$<$$<$7) $\vert$ (hflip$<$$<$6) $\vert$ (priority$<$$<$4) $\vert$ (paletteoffset$<$$<$1) $\vert$ ((gfxoffset$>$$>$8) \& 1))
+\begin{DoxyCompactList}\small\item\em defined attribute of a sprite \end{DoxyCompactList}\item 
+\#define \hyperlink{a00365_aefa2b9ce227904e69830a6ad981b1f19}{oam\+GetX}(id)~(oam\+Memory\mbox{[}id+0\mbox{]})
+\begin{DoxyCompactList}\small\item\em get the x oam coordinate to the supplied values \end{DoxyCompactList}\item 
+\#define \hyperlink{a00365_af6b605303fc7a5caa3b97fd254b5d450}{oam\+GetY}(id)~(oam\+Memory\mbox{[}id+1\mbox{]})
+\begin{DoxyCompactList}\small\item\em get the y oam coordinate to the supplied values \end{DoxyCompactList}\item 
+\#define \hyperlink{a00365_a2f62a591672b786d90ebb03fdf25f159}{oam\+Set}(id,  xspr,  yspr,  priority,  hflip,  vflip,  gfxoffset,  paletteoffset)
+\begin{DoxyCompactList}\small\item\em sets an oam entry to the supplied values \end{DoxyCompactList}\item 
+\#define \hyperlink{a00365_abec859fb490fe23b87fc34b75d8ce804}{oam\+Set\+Gfx\+Offset}(id,  gfxoffset)
+\begin{DoxyCompactList}\small\item\em sets an oam graphic offset to the supplied values \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00365_a35664c2c4a66c3bac8139ae093d7f3ac}\label{a00365_a35664c2c4a66c3bac8139ae093d7f3ac}} 
+\#define \hyperlink{a00365_a35664c2c4a66c3bac8139ae093d7f3ac}{O\+B\+J\+\_\+\+S\+I\+Z\+E16}~(3$<$$<$5)
+\begin{DoxyCompactList}\small\item\em default O\+AM size 16x16 pix for O\+B\+J\+S\+EL register \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00365_abc6679a83d9647eac01c3d51ef37151a}\label{a00365_abc6679a83d9647eac01c3d51ef37151a}} 
+\#define \hyperlink{a00365_abc6679a83d9647eac01c3d51ef37151a}{O\+B\+J\+\_\+\+S\+I\+Z\+E32}~(5$<$$<$5)
+\begin{DoxyCompactList}\small\item\em default O\+AM size 32x32 pix for O\+B\+J\+S\+EL register \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00365_a6b25da5746274a43b4ffec5876fe8d5b}\label{a00365_a6b25da5746274a43b4ffec5876fe8d5b}} 
+\#define \hyperlink{a00365_a6b25da5746274a43b4ffec5876fe8d5b}{O\+B\+J\+\_\+\+S\+I\+Z\+E8}~(0$<$$<$5)
+\begin{DoxyCompactList}\small\item\em default O\+AM size 8x8 pix for O\+B\+J\+S\+EL register \end{DoxyCompactList}\item 
+\#define \hyperlink{a00365_ad8e30bb8ad62f2a58545ff770db95174}{R\+E\+G\+\_\+\+O\+A\+M\+A\+D\+DH}~($\ast$(vuint8$\ast$)0x2103)
+\begin{DoxyCompactList}\small\item\em O\+AM Address and Priority Rotation (W) 15 O\+AM Priority Rotation (0=O\+BJ num 0, 1=O\+BJ num N) (O\+BJ with highest priority) 9-\/14 Not used 7-\/1 O\+BJ Number num N (for O\+BJ Priority) ;bit7-\/1 are used for two purposes 8-\/0 O\+AM Address (for O\+AM read/write) ;. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00365_ac7a5db74119e971459fad469a4caa92c}\label{a00365_ac7a5db74119e971459fad469a4caa92c}} 
+\#define \hyperlink{a00365_ac7a5db74119e971459fad469a4caa92c}{R\+E\+G\+\_\+\+O\+A\+M\+D\+A\+TA}~($\ast$(vuint8$\ast$)0x2104)
+\begin{DoxyCompactList}\small\item\em O\+AM Data Write (W) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00365_aa54aeab41da41947862d2317074d500a}\label{a00365_aa54aeab41da41947862d2317074d500a}} 
+\#define \hyperlink{a00365_aa54aeab41da41947862d2317074d500a}{R\+E\+G\+\_\+\+O\+B\+S\+EL}~($\ast$(vuint8$\ast$)0x2101)
+\begin{DoxyCompactList}\small\item\em Object Size and Object Base (W) 7-\/5 O\+BJ Size Selection (0-\/5, see below) (6-\/7=Reserved) Val Small Large 0 = 8x8 16x16 ;Caution\+: 1 = 8x8 32x32 ;In 224-\/lines mode, O\+B\+Js with 64-\/pixel height 2 = 8x8 64x64 ;may wrap from lower to upper screen border. 3 = 16x16 32x32 ;In 239-\/lines mode, the same problem applies 4 = 16x16 64x64 ;also for O\+B\+Js with 32-\/pixel height. 5 = 32x32 64x64 6 = 16x32 32x64 (undocumented) 7 = 16x32 32x32 (undocumented) (Ie. a setting of 0 means Small O\+B\+Js=8x8, Large O\+B\+Js=16x16 pixels) (Whether an O\+BJ is \char`\"{}small\char`\"{} or \char`\"{}large\char`\"{} is selected by a bit in O\+AM) 4-\/3 Gap between O\+BJ 0\+F\+Fh and 100h (0=None) (4\+K-\/word steps) (8\+K-\/byte steps) 2-\/0 Base Address for O\+BJ Tiles 000h..0\+F\+Fh (8\+K-\/word steps) (16\+K-\/byte steps) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00365_ac815cf72d6b31fb9e38042a0eacee023}\label{a00365_ac815cf72d6b31fb9e38042a0eacee023}} 
+\#define \hyperlink{a00365_ac815cf72d6b31fb9e38042a0eacee023}{R\+E\+G\+\_\+\+R\+D\+O\+AM}~($\ast$(vuint8$\ast$)0x2138)
+\begin{DoxyCompactList}\small\item\em O\+AM Data Read (R) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{a00365_a480021d319f990d930da8fc7fb11fce4}{oam\+Clear} (u8 first, u8 num\+Entries)
+\begin{DoxyCompactList}\small\item\em Hides the sprites in the supplied range\+: if count is zero all 128 sprites will be hidden. \end{DoxyCompactList}\item 
+void \hyperlink{a00365_af206f6568efabd13b1d65db1c2d4e24a}{oam\+Flip} (u16 id, u8 xf, u8 yf)
+\begin{DoxyCompactList}\small\item\em sets an oam entry to the supplied values \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00365_a274b5d953c60f5455937be288f6652ee}\label{a00365_a274b5d953c60f5455937be288f6652ee}} 
+void \hyperlink{a00365_a274b5d953c60f5455937be288f6652ee}{oam\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Initializes the 2D sprite engine. \end{DoxyCompactList}\item 
+void \hyperlink{a00365_ad28cccee6dcd379989a0361fe868bddb}{oam\+Init\+Gfx\+Attr} (u16 address, u8 oamsize)
+\begin{DoxyCompactList}\small\item\em Initializes the default sprite size and address in V\+R\+AM. \end{DoxyCompactList}\item 
+void \hyperlink{a00365_a46e0be47f8fc865a7f43c1b0b126e59a}{oam\+Init\+Gfx\+Set} (u8 $\ast$tile\+Source, u16 tile\+Size, u8 $\ast$tile\+Palette, u16 palette\+Size, u8 tile\+Palette\+Number, u16 address, u8 oamsize)
+\begin{DoxyCompactList}\small\item\em Initializes a sprites Gfx and Loads the G\+FX into V\+R\+AM. \end{DoxyCompactList}\item 
+void \hyperlink{a00365_a9a76e12af57f5debf4df08c98820a2a5}{oam\+Set\+Attr} (u16 id, u16 xspr, u16 yspr, u16 gfxoffset, u8 attr)
+\begin{DoxyCompactList}\small\item\em sets an oam entry to the supplied values \end{DoxyCompactList}\item 
+void \hyperlink{a00365_a4120a8ff32c39973babeca3615a0a2fd}{oam\+Set\+Ex} (u16 id, u8 size, u8 hide)
+\begin{DoxyCompactList}\small\item\em Put the correct size and hide or not a oam. \end{DoxyCompactList}\item 
+void \hyperlink{a00365_a35a0da9852240ef41b5030ed21b6eeb2}{oam\+Set\+Visible} (u16 id, u8 hide)
+\begin{DoxyCompactList}\small\item\em Hide or not a oam. \end{DoxyCompactList}\item 
+void \hyperlink{a00365_a4b8ea6388961b74cc228104a97eaecbd}{oam\+Set\+XY} (u16 id, u16 xspr, u16 yspr)
+\begin{DoxyCompactList}\small\item\em sets an oam coordinate to the supplied values \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00365_a880416b4272104d4e9b83ea5331b6260}\label{a00365_a880416b4272104d4e9b83ea5331b6260}} 
+void \hyperlink{a00365_a880416b4272104d4e9b83ea5331b6260}{oam\+Update} (void)
+\begin{DoxyCompactList}\small\item\em Write all O\+BJ descriptors to O\+AM. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+snes sprites functionality. 
+
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{a00365_a3e2d51ca1a0ddadfbb339450c70f4f2f}\label{a00365_a3e2d51ca1a0ddadfbb339450c70f4f2f}} 
+\index{sprite.\+h@{sprite.\+h}!O\+A\+M\+\_\+\+A\+T\+TR@{O\+A\+M\+\_\+\+A\+T\+TR}}
+\index{O\+A\+M\+\_\+\+A\+T\+TR@{O\+A\+M\+\_\+\+A\+T\+TR}!sprite.\+h@{sprite.\+h}}
+\subsubsection{\texorpdfstring{O\+A\+M\+\_\+\+A\+T\+TR}{OAM\_ATTR}}
+{\footnotesize\ttfamily \#define O\+A\+M\+\_\+\+A\+T\+TR(\begin{DoxyParamCaption}\item[{}]{priority,  }\item[{}]{hflip,  }\item[{}]{vflip,  }\item[{}]{gfxoffset,  }\item[{}]{paletteoffset }\end{DoxyParamCaption})~((vflip$<$$<$7) $\vert$ (hflip$<$$<$6) $\vert$ (priority$<$$<$4) $\vert$ (paletteoffset$<$$<$1) $\vert$ ((gfxoffset$>$$>$8) \& 1))}
+
+
+
+defined attribute of a sprite 
+
+
+\begin{DoxyParams}{Parameters}
+{\em priority} & The sprite priority (0 to 3) \\
+\hline
+{\em vflip} & flip the sprite vertically \\
+\hline
+{\em hflip} & flip the sprite horizontally \\
+\hline
+{\em gfxoffset} & tilenumber graphic offset \\
+\hline
+{\em paletteoffset} & palette default offset for sprite \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00365_aefa2b9ce227904e69830a6ad981b1f19}\label{a00365_aefa2b9ce227904e69830a6ad981b1f19}} 
+\index{sprite.\+h@{sprite.\+h}!oam\+GetX@{oam\+GetX}}
+\index{oam\+GetX@{oam\+GetX}!sprite.\+h@{sprite.\+h}}
+\subsubsection{\texorpdfstring{oam\+GetX}{oamGetX}}
+{\footnotesize\ttfamily \#define oam\+GetX(\begin{DoxyParamCaption}\item[{}]{id }\end{DoxyParamCaption})~(oam\+Memory\mbox{[}id+0\mbox{]})}
+
+
+
+get the x oam coordinate to the supplied values 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & the oam number to be set \mbox{[}0 -\/ 127\mbox{]} $\ast$ 4 because of oam structure \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00365_af6b605303fc7a5caa3b97fd254b5d450}\label{a00365_af6b605303fc7a5caa3b97fd254b5d450}} 
+\index{sprite.\+h@{sprite.\+h}!oam\+GetY@{oam\+GetY}}
+\index{oam\+GetY@{oam\+GetY}!sprite.\+h@{sprite.\+h}}
+\subsubsection{\texorpdfstring{oam\+GetY}{oamGetY}}
+{\footnotesize\ttfamily \#define oam\+GetY(\begin{DoxyParamCaption}\item[{}]{id }\end{DoxyParamCaption})~(oam\+Memory\mbox{[}id+1\mbox{]})}
+
+
+
+get the y oam coordinate to the supplied values 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & the oam number to be set \mbox{[}0 -\/ 127\mbox{]} $\ast$ 4 because of oam structure \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00365_a2f62a591672b786d90ebb03fdf25f159}\label{a00365_a2f62a591672b786d90ebb03fdf25f159}} 
+\index{sprite.\+h@{sprite.\+h}!oam\+Set@{oam\+Set}}
+\index{oam\+Set@{oam\+Set}!sprite.\+h@{sprite.\+h}}
+\subsubsection{\texorpdfstring{oam\+Set}{oamSet}}
+{\footnotesize\ttfamily \#define oam\+Set(\begin{DoxyParamCaption}\item[{}]{id,  }\item[{}]{xspr,  }\item[{}]{yspr,  }\item[{}]{priority,  }\item[{}]{hflip,  }\item[{}]{vflip,  }\item[{}]{gfxoffset,  }\item[{}]{paletteoffset }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\{ \(\backslash\)
+    oamMemory[\textcolor{keywordtype}{id}+0] = (xspr); \(\backslash\)
+    oamMemory[\textcolor{keywordtype}{id}+1] = (yspr); \(\backslash\)
+    oamMemory[\textcolor{keywordtype}{id}+2] = (gfxoffset); \(\backslash\)
+    oamMemory[\textcolor{keywordtype}{id}+3] = (vflip<<7) | (hflip<<6) | (priority<<4) | (paletteoffset<<1) | ((gfxoffset>>8) & 1); 
+      \(\backslash\)
+    \}
+\end{DoxyCode}
+
+
+sets an oam entry to the supplied values 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & the oam number to be set \mbox{[}0 -\/ 127\mbox{]} $\ast$ 4 because of oam structure \\
+\hline
+{\em xspr} & the x location of the sprite in pixels \\
+\hline
+{\em yspr} & the y location of the sprite in pixels \\
+\hline
+{\em priority} & The sprite priority (0 to 3) \\
+\hline
+{\em vflip} & flip the sprite vertically \\
+\hline
+{\em hflip} & flip the sprite horizontally \\
+\hline
+{\em gfxoffset} & tilenumber graphic offset \\
+\hline
+{\em paletteoffset} & palette default offset for sprite \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00435}{games/likemario/\+Like\+Mario.\+c}, \hyperlink{a00427}{graphics/\+Sprites/\+Animated\+Sprite/\+Animated\+Sprite.\+c}, \hyperlink{a00429}{graphics/\+Sprites/\+Dynamic\+Sprite/\+Dynamic\+Sprite.\+c}, and \hyperlink{a00425}{graphics/\+Sprites/\+Simple\+Sprite/\+Simple\+Sprite.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00365_abec859fb490fe23b87fc34b75d8ce804}\label{a00365_abec859fb490fe23b87fc34b75d8ce804}} 
+\index{sprite.\+h@{sprite.\+h}!oam\+Set\+Gfx\+Offset@{oam\+Set\+Gfx\+Offset}}
+\index{oam\+Set\+Gfx\+Offset@{oam\+Set\+Gfx\+Offset}!sprite.\+h@{sprite.\+h}}
+\subsubsection{\texorpdfstring{oam\+Set\+Gfx\+Offset}{oamSetGfxOffset}}
+{\footnotesize\ttfamily \#define oam\+Set\+Gfx\+Offset(\begin{DoxyParamCaption}\item[{}]{id,  }\item[{}]{gfxoffset }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+oamMemory[\textcolor{keywordtype}{id}+2] = (gfxoffset); \(\backslash\)
+    oamMemory[\textcolor{keywordtype}{id}+3] = (oamMemory[\textcolor{keywordtype}{id}+3] & 0xFE) | ((gfxoffset>>8) & 1);
+\end{DoxyCode}
+
+
+sets an oam graphic offset to the supplied values 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & the oam number to be set \mbox{[}0 -\/ 127\mbox{]} $\ast$ 4 because of oam structure \\
+\hline
+{\em gfxoffset} & tilenumber graphic offset \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00365_ad8e30bb8ad62f2a58545ff770db95174}\label{a00365_ad8e30bb8ad62f2a58545ff770db95174}} 
+\index{sprite.\+h@{sprite.\+h}!R\+E\+G\+\_\+\+O\+A\+M\+A\+D\+DH@{R\+E\+G\+\_\+\+O\+A\+M\+A\+D\+DH}}
+\index{R\+E\+G\+\_\+\+O\+A\+M\+A\+D\+DH@{R\+E\+G\+\_\+\+O\+A\+M\+A\+D\+DH}!sprite.\+h@{sprite.\+h}}
+\subsubsection{\texorpdfstring{R\+E\+G\+\_\+\+O\+A\+M\+A\+D\+DH}{REG\_OAMADDH}}
+{\footnotesize\ttfamily \#define R\+E\+G\+\_\+\+O\+A\+M\+A\+D\+DH~($\ast$(vuint8$\ast$)0x2103)}
+
+
+
+O\+AM Address and Priority Rotation (W) 15 O\+AM Priority Rotation (0=O\+BJ num 0, 1=O\+BJ num N) (O\+BJ with highest priority) 9-\/14 Not used 7-\/1 O\+BJ Number num N (for O\+BJ Priority) ;bit7-\/1 are used for two purposes 8-\/0 O\+AM Address (for O\+AM read/write) ;. 
+
+This register contains of a 9bit Reload value and a 10bit Address register (plus the priority flag). Writing to 2102h or 2103h does change the lower 8bit or upper 1bit of the Reload value, and does additionally copy the (whole) 9bit Reload value to the 10bit Address register (with address Bit0=0 so next access will be an even address). Caution\+: During rendering, the P\+PU is destroying the Address register (using it internally for whatever purposes), after rendering (at begin of Vblank, ie. at begin of line 225/240, but only if not in Forced Blank mode) it reinitializes the Address from the Reload value; the same reload occurs also when deactivating forced blank anytime during the first scanline of vblank (ie. during line 225/240). 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{a00365_a480021d319f990d930da8fc7fb11fce4}\label{a00365_a480021d319f990d930da8fc7fb11fce4}} 
+\index{sprite.\+h@{sprite.\+h}!oam\+Clear@{oam\+Clear}}
+\index{oam\+Clear@{oam\+Clear}!sprite.\+h@{sprite.\+h}}
+\subsubsection{\texorpdfstring{oam\+Clear()}{oamClear()}}
+{\footnotesize\ttfamily void oam\+Clear (\begin{DoxyParamCaption}\item[{u8}]{first,  }\item[{u8}]{num\+Entries }\end{DoxyParamCaption})}
+
+
+
+Hides the sprites in the supplied range\+: if count is zero all 128 sprites will be hidden. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em first} & number of 1st sprite to write $\ast$ 4 because of oam structure \\
+\hline
+{\em num\+Entries} & total number of sprites to write \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00365_af206f6568efabd13b1d65db1c2d4e24a}\label{a00365_af206f6568efabd13b1d65db1c2d4e24a}} 
+\index{sprite.\+h@{sprite.\+h}!oam\+Flip@{oam\+Flip}}
+\index{oam\+Flip@{oam\+Flip}!sprite.\+h@{sprite.\+h}}
+\subsubsection{\texorpdfstring{oam\+Flip()}{oamFlip()}}
+{\footnotesize\ttfamily void oam\+Flip (\begin{DoxyParamCaption}\item[{u16}]{id,  }\item[{u8}]{xf,  }\item[{u8}]{yf }\end{DoxyParamCaption})}
+
+
+
+sets an oam entry to the supplied values 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & the oam number to be set \mbox{[}0 -\/ 127\mbox{]} $\ast$ 4 because of oam structure \\
+\hline
+{\em xf} & x flipping \mbox{[}0 -\/ 1\mbox{]} \\
+\hline
+{\em yf} & y flipping \mbox{[}0 -\/ 1\mbox{]} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00365_ad28cccee6dcd379989a0361fe868bddb}\label{a00365_ad28cccee6dcd379989a0361fe868bddb}} 
+\index{sprite.\+h@{sprite.\+h}!oam\+Init\+Gfx\+Attr@{oam\+Init\+Gfx\+Attr}}
+\index{oam\+Init\+Gfx\+Attr@{oam\+Init\+Gfx\+Attr}!sprite.\+h@{sprite.\+h}}
+\subsubsection{\texorpdfstring{oam\+Init\+Gfx\+Attr()}{oamInitGfxAttr()}}
+{\footnotesize\ttfamily void oam\+Init\+Gfx\+Attr (\begin{DoxyParamCaption}\item[{u16}]{address,  }\item[{u8}]{oamsize }\end{DoxyParamCaption})}
+
+
+
+Initializes the default sprite size and address in V\+R\+AM. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em address} & address of sprite graphics (8\+K-\/word steps) \\
+\hline
+{\em oamsize} & default O\+AM size (O\+B\+J\+\_\+\+S\+I\+Z\+E8, O\+B\+J\+\_\+\+S\+I\+Z\+E16 and O\+B\+J\+\_\+\+S\+I\+Z\+E32) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00365_a46e0be47f8fc865a7f43c1b0b126e59a}\label{a00365_a46e0be47f8fc865a7f43c1b0b126e59a}} 
+\index{sprite.\+h@{sprite.\+h}!oam\+Init\+Gfx\+Set@{oam\+Init\+Gfx\+Set}}
+\index{oam\+Init\+Gfx\+Set@{oam\+Init\+Gfx\+Set}!sprite.\+h@{sprite.\+h}}
+\subsubsection{\texorpdfstring{oam\+Init\+Gfx\+Set()}{oamInitGfxSet()}}
+{\footnotesize\ttfamily void oam\+Init\+Gfx\+Set (\begin{DoxyParamCaption}\item[{u8 $\ast$}]{tile\+Source,  }\item[{u16}]{tile\+Size,  }\item[{u8 $\ast$}]{tile\+Palette,  }\item[{u16}]{palette\+Size,  }\item[{u8}]{tile\+Palette\+Number,  }\item[{u16}]{address,  }\item[{u8}]{oamsize }\end{DoxyParamCaption})}
+
+
+
+Initializes a sprites Gfx and Loads the G\+FX into V\+R\+AM. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tile\+Source} & address of sprites graphics entry \\
+\hline
+{\em tile\+Size} & size of sprites graphics \\
+\hline
+{\em tile\+Palette} & address of sprites palette entry \\
+\hline
+{\em tile\+Palette\+Number} & palette number (0..8) \\
+\hline
+{\em palette\+Size} & size of palette \\
+\hline
+{\em address} & address of sprite graphics (8\+K-\/word steps) \\
+\hline
+{\em oamsize} & default O\+AM size (O\+B\+J\+\_\+\+S\+I\+Z\+E8, O\+B\+J\+\_\+\+S\+I\+Z\+E16 and O\+B\+J\+\_\+\+S\+I\+Z\+E32) \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00435}{games/likemario/\+Like\+Mario.\+c}, \hyperlink{a00427}{graphics/\+Sprites/\+Animated\+Sprite/\+Animated\+Sprite.\+c}, \hyperlink{a00429}{graphics/\+Sprites/\+Dynamic\+Sprite/\+Dynamic\+Sprite.\+c}, and \hyperlink{a00425}{graphics/\+Sprites/\+Simple\+Sprite/\+Simple\+Sprite.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00365_a9a76e12af57f5debf4df08c98820a2a5}\label{a00365_a9a76e12af57f5debf4df08c98820a2a5}} 
+\index{sprite.\+h@{sprite.\+h}!oam\+Set\+Attr@{oam\+Set\+Attr}}
+\index{oam\+Set\+Attr@{oam\+Set\+Attr}!sprite.\+h@{sprite.\+h}}
+\subsubsection{\texorpdfstring{oam\+Set\+Attr()}{oamSetAttr()}}
+{\footnotesize\ttfamily void oam\+Set\+Attr (\begin{DoxyParamCaption}\item[{u16}]{id,  }\item[{u16}]{xspr,  }\item[{u16}]{yspr,  }\item[{u16}]{gfxoffset,  }\item[{u8}]{attr }\end{DoxyParamCaption})}
+
+
+
+sets an oam entry to the supplied values 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & the oam number to be set \mbox{[}0 -\/ 127\mbox{]} $\ast$ 4 because of oam structure \\
+\hline
+{\em xspr} & the x location of the sprite in pixels \\
+\hline
+{\em yspr} & the y location of the sprite in pixels \\
+\hline
+{\em gfxoffset} & tilenumber graphic offset \\
+\hline
+{\em attr} & (attributes with priority, flipping, palette) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00365_a4120a8ff32c39973babeca3615a0a2fd}\label{a00365_a4120a8ff32c39973babeca3615a0a2fd}} 
+\index{sprite.\+h@{sprite.\+h}!oam\+Set\+Ex@{oam\+Set\+Ex}}
+\index{oam\+Set\+Ex@{oam\+Set\+Ex}!sprite.\+h@{sprite.\+h}}
+\subsubsection{\texorpdfstring{oam\+Set\+Ex()}{oamSetEx()}}
+{\footnotesize\ttfamily void oam\+Set\+Ex (\begin{DoxyParamCaption}\item[{u16}]{id,  }\item[{u8}]{size,  }\item[{u8}]{hide }\end{DoxyParamCaption})}
+
+
+
+Put the correct size and hide or not a oam. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & the oam number to be set \mbox{[}0 -\/ 127\mbox{]} $\ast$ 4 because of oam structure \\
+\hline
+{\em size} & normal or large (O\+B\+J\+\_\+\+S\+M\+A\+LL or O\+B\+J\+\_\+\+L\+A\+R\+GE) \\
+\hline
+{\em hide} & 0 or 1 to hide / see oam \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00435}{games/likemario/\+Like\+Mario.\+c}, \hyperlink{a00427}{graphics/\+Sprites/\+Animated\+Sprite/\+Animated\+Sprite.\+c}, \hyperlink{a00429}{graphics/\+Sprites/\+Dynamic\+Sprite/\+Dynamic\+Sprite.\+c}, and \hyperlink{a00425}{graphics/\+Sprites/\+Simple\+Sprite/\+Simple\+Sprite.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00365_a35a0da9852240ef41b5030ed21b6eeb2}\label{a00365_a35a0da9852240ef41b5030ed21b6eeb2}} 
+\index{sprite.\+h@{sprite.\+h}!oam\+Set\+Visible@{oam\+Set\+Visible}}
+\index{oam\+Set\+Visible@{oam\+Set\+Visible}!sprite.\+h@{sprite.\+h}}
+\subsubsection{\texorpdfstring{oam\+Set\+Visible()}{oamSetVisible()}}
+{\footnotesize\ttfamily void oam\+Set\+Visible (\begin{DoxyParamCaption}\item[{u16}]{id,  }\item[{u8}]{hide }\end{DoxyParamCaption})}
+
+
+
+Hide or not a oam. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & the oam number to be set \mbox{[}0 -\/ 127\mbox{]} $\ast$ 4 because of oam structure \\
+\hline
+{\em hide} & 0 or 1 to hide / see oam \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00427}{graphics/\+Sprites/\+Animated\+Sprite/\+Animated\+Sprite.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00365_a4b8ea6388961b74cc228104a97eaecbd}\label{a00365_a4b8ea6388961b74cc228104a97eaecbd}} 
+\index{sprite.\+h@{sprite.\+h}!oam\+Set\+XY@{oam\+Set\+XY}}
+\index{oam\+Set\+XY@{oam\+Set\+XY}!sprite.\+h@{sprite.\+h}}
+\subsubsection{\texorpdfstring{oam\+Set\+X\+Y()}{oamSetXY()}}
+{\footnotesize\ttfamily void oam\+Set\+XY (\begin{DoxyParamCaption}\item[{u16}]{id,  }\item[{u16}]{xspr,  }\item[{u16}]{yspr }\end{DoxyParamCaption})}
+
+
+
+sets an oam coordinate to the supplied values 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & the oam number to be set \mbox{[}0 -\/ 127\mbox{]} $\ast$ 4 because of oam structure \\
+\hline
+{\em xspr} & the x location of the sprite in pixels \\
+\hline
+{\em yspr} & the y location of the sprite in pixels \\
+\hline
+\end{DoxyParams}
