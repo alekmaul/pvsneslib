@@ -49,7 +49,7 @@ dist-src:
 #-------------------------------------------------------------------------------
 dist-bin: 
 #-------------------------------------------------------------------------------
-	@tar -cjf pvsneslib-$(VERSION).tar.bz2 include lib template docs source pvsneslib_license.txt pvsneslib_snesmod.txt 
+	@tar -cjf pvsneslib-$(VERSION).tar.bz2 include lib template docs pvsneslib_license.txt pvsneslib_snesmod.txt 
 	@tar -cjf devkitsnes-$(VERSION).tar.bz2 ../devkitsnes ../emulators/put_emulators_here.txt
 	@tar -cjf snesexamples-$(VERSION).tar.bz2 ../snes-examples
 	@mv *.tar.bz2 ..
