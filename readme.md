@@ -12,7 +12,7 @@ GitHub page: https://github.com/alekmaul/pvsneslib
 Wiki page: https://github.com/alekmaul/pvsneslib/wiki
 
 You can find tutorials about how install and use PVSneslib on this page:  
-https://github.com/alekmaul/pvsneslib/Tuto-Intro
+https://github.com/alekmaul/pvsneslib/wiki/Introduction
 
 PVSneslib and affiliated tools are distributed under the MIT license (see pvsneslib_license.txt file)
 
