@@ -1,56 +1,117 @@
-\hypertarget{a00414}{}\section{graphics/\+Effects/\+Transparency/\+Transparency.\+c}
+\hypertarget{a00414}{}\section{graphics/\+Sprites/\+Dynamic\+Sprite/\+Dynamic\+Sprite.\+c}
 
 \begin{DoxyCodeInclude}
 \textcolor{comment}{/*---------------------------------------------------------------------------------}
 \textcolor{comment}{}
 \textcolor{comment}{}
-\textcolor{comment}{    Transparency between 2 BGs demo}
+\textcolor{comment}{    Dynamic sprite demo in mode 1}
 \textcolor{comment}{    -- alekmaul}
 \textcolor{comment}{}
 \textcolor{comment}{}
 \textcolor{comment}{---------------------------------------------------------------------------------*/}
-\textcolor{preprocessor}{#include <\hyperlink{a00362}{snes.h}>}
+\textcolor{preprocessor}{#include <\hyperlink{a00356}{snes.h}>}
 
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} LandTiles, LandTiles\_end;
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} CloudTiles, CloudTiles\_end;
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} LandPalette,LandPalette\_end, CloudPalette, CloudPalette\_end;
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} Maps, Maps\_end;
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} Mapsc, Mapsc\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} gfxpsrite, gfxpsrite\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} palsprite, palsprite\_end;
+
+\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} pad0, padkeya;
+\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} spr\_queue, spr\_mutex;
+
+\textcolor{preprocessor}{#define ADRGFXSPR 0x0000}
+
+\textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{
+    u8 *gfxoffset;
+    u16 adrgfxvram;
+\} spritequeue;
+
+spritequeue sprqueue[16];   \textcolor{comment}{// Max 16 entries in queue}
+
+\textcolor{comment}{//---------------------------------------------------------------------------------}
+\textcolor{keywordtype}{void} myconsoleVblank(\textcolor{keywordtype}{void}) \{
+    u8 *pgfx;
+    u16 padrgfx;
+    
+    \textcolor{comment}{// Refresh pad values}
+    \hyperlink{a00335_a42632e79292dc47a567aab4dc3e4407d}{scanPads}();
+
+    \textcolor{comment}{// if tile sprite queued }
+    \textcolor{keywordflow}{if} (spr\_queue != 0xff) \{
+        \textcolor{keywordflow}{if} (spr\_mutex == 0) \{ \textcolor{comment}{// if we have finished adding things }
+            \textcolor{comment}{// copy memory to vram (2 tiles of the 16x16 sprites)}
+            \textcolor{keywordflow}{while} (spr\_queue != 0xff) \{
+                pgfx = sprqueue[spr\_queue].gfxoffset;
+                padrgfx = sprqueue[spr\_queue].adrgfxvram;
+                \hyperlink{a00323_aaf545b3f811f6ef4b7c4be434701a77a}{dmaCopyVram}(pgfx, padrgfx, 8*4*2); \hyperlink{a00323_aaf545b3f811f6ef4b7c4be434701a77a}{dmaCopyVram}(pgfx+8*4*16, padrgfx+8
+      *4*8, 8*4*2);
+                spr\_queue--;
+            \}
+        \}
+    \}
+    
+    \textcolor{comment}{// Put oam to screen if needed}
+    \hyperlink{a00323_a2f9585bce8262424ff3e8121c6a9e44e}{dmaCopyOAram}((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *) &oamMemory,0,0x220);
+    
+    \textcolor{comment}{// count vbls}
+    \hyperlink{a00320_a5e14b74b621c822db9af978d0ad31d1a}{snes\_vblank\_count}++;
+\}
+
+\textcolor{comment}{//---------------------------------------------------------------------------------}
+\textcolor{keywordtype}{void} addSprite(u8 *pgfx, u16 adrspr) \{
+    spr\_mutex = 1; \textcolor{comment}{// to avoid vbl during queue management}
+    spr\_queue++;
+    sprqueue[spr\_queue].gfxoffset = pgfx;
+    sprqueue[spr\_queue].adrgfxvram = adrspr;
+    spr\_mutex = 0;
+\}
 
 \textcolor{comment}{//---------------------------------------------------------------------------------}
 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{void}) \{
-    \textcolor{keywordtype}{short} scrX=0, scrY=0;
-    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} pad0, move;
-
     \textcolor{comment}{// Initialize SNES }
-    \hyperlink{a00326_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
-
-    \textcolor{comment}{// Copy tiles to VRAM}
-    \hyperlink{a00323_ae09a7ac09be78eef0f28a6c7aabc82ad}{bgInitTileSet}(0, &LandTiles, &LandPalette, 1, (&LandTiles\_end - &LandTiles), (&
-      LandPalette\_end - &LandPalette), BG\_16COLORS, 0x0000);
-    \hyperlink{a00323_ae09a7ac09be78eef0f28a6c7aabc82ad}{bgInitTileSet}(2, &CloudTiles, &CloudPalette, 0, (&CloudTiles\_end - &CloudTiles), (&
-      CloudPalette\_end - &CloudPalette),  BG\_4COLORS, 0x1000);
-
-    \textcolor{comment}{// Copy Map to VRAM}
-    \hyperlink{a00323_acc385296e159449a81d18f5e219c8032}{bgInitMapSet}(0, &Maps, (&Maps\_end - &Maps),\hyperlink{a00323_a11724b6748ce0954e9b43819263537fc}{SC\_32x32}, 0x2000);
-    \hyperlink{a00323_acc385296e159449a81d18f5e219c8032}{bgInitMapSet}(2, &Mapsc, (&Mapsc\_end - &Mapsc),\hyperlink{a00323_a11724b6748ce0954e9b43819263537fc}{SC\_32x32}, 0x2400);
-
-    \textcolor{comment}{// Now Put in 16 color mode and put cloud on top of screen}
-    \hyperlink{a00359_afd9e46ae627d055dd8c98a4b0ebb73b1}{setMode}(\hyperlink{a00323_a05c862edb7f8f75036f10c04dcc3c2a6}{BG\_MODE1},BG3\_MODE1\_PRORITY\_HIGH); \hyperlink{a00323_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(1);  
-
-    \textcolor{comment}{// Set BG3 SubScreen and }
-    \hyperlink{a00323_a439e34ab400075fa7f12e6e559407e9b}{bgSetEnableSub}(2);
+    \hyperlink{a00320_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
     
-    \textcolor{comment}{// enable Subscreen Color ADD/SUB and Color addition on BG1 and Backdrop color}
-    \hyperlink{a00359_a87d6cb8ec2433c908666a0a7f2306cb4}{setColorEffect}(CM\_SUBBGOBJ\_ENABLE, CM\_MSCR\_BACK | CM\_MSCR\_BG1);
+    \textcolor{comment}{// Put current handler to our function}
+    spr\_queue = 0xff; spr\_mutex = 0;
+    \_\_nmi\_handler=myconsoleVblank; 
 
+    \textcolor{comment}{// Init Sprites gfx and palette with default size of 16x16 (and don't load sprite tiles)}
+    \hyperlink{a00350_a46e0be47f8fc865a7f43c1b0b126e59a}{oamInitGfxSet}(&gfxpsrite, 2, &palsprite, 16*2, 0, ADRGFXSPR, 
+      \hyperlink{a00350_a35664c2c4a66c3bac8139ae093d7f3ac}{OBJ\_SIZE16});
+
+    \textcolor{comment}{// Define sprites parmaters}
+    \hyperlink{a00350_a2f62a591672b786d90ebb03fdf25f159}{oamSet}(0,  100, 100, 3, 0, 0, 0, 0); \textcolor{comment}{// Put sprite in 100,100, with maximum priority 3 from tile
+       entry 0, palette 0}
+    \hyperlink{a00350_a4120a8ff32c39973babeca3615a0a2fd}{oamSetEx}(0, OBJ\_SMALL, OBJ\_SHOW);
+    
+    \textcolor{comment}{// Now Put in 16 color mode and disable all backgrounds}
+    \hyperlink{a00353_afd9e46ae627d055dd8c98a4b0ebb73b1}{setMode}(\hyperlink{a00317_a05c862edb7f8f75036f10c04dcc3c2a6}{BG\_MODE1},0); \hyperlink{a00317_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(0); 
+      \hyperlink{a00317_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(1); \hyperlink{a00317_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(2);
+    \hyperlink{a00353_abc7d4ef8ebc22f5b710927909bb3f144}{setScreenOn}();
+
+    \textcolor{comment}{// add new sprite to queue}
+    addSprite(&gfxpsrite, ADRGFXSPR);
+    
     \textcolor{comment}{// Wait for nothing :P}
     \textcolor{keywordflow}{while}(1) \{
-        \textcolor{comment}{// change scrolling }
-        scrX++; 
-        \hyperlink{a00323_aa5e0112ea2d4b514c2dddc6ed2c7c3c7}{bgSetScroll}(2, scrX,0);
-
-        \hyperlink{a00332_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}();
+            \textcolor{comment}{// Refresh pad values in VBL and Get current #0 pad}
+        pad0 = \hyperlink{a00335_a6063e0eec9a36e437fc32951acafa44c}{padsCurrent}(0);
+        
+        \textcolor{keywordflow}{if} (pad0) \{
+            \textcolor{comment}{// Key A pressed}
+            \textcolor{keywordflow}{if}(pad0 & \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc}{KEY\_A}) \{
+                \textcolor{comment}{// if not yet pressed}
+                \textcolor{keywordflow}{if} (padkeya == 0) \{
+                    padkeya=1;  \textcolor{comment}{// avoid adding new sprite continuisly}
+                    \textcolor{comment}{// add new sprite to queue}
+                    addSprite((&gfxpsrite)+8*4*2, ADRGFXSPR);
+                \}
+                
+            \}
+            \textcolor{keywordflow}{else}
+                padkeya=0;
+        \}
+        
+        \textcolor{comment}{// Wait VBL 'and update sprites too ;-) )}
+        \hyperlink{a00326_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}();
     \}
     \textcolor{keywordflow}{return} 0;
 \}

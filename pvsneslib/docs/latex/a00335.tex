@@ -1,259 +1,222 @@
-\hypertarget{a00335}{}\section{console.\+h File Reference}
-\label{a00335}\index{console.\+h@{console.\+h}}
+\hypertarget{a00335}{}\section{pad.\+h File Reference}
+\label{a00335}\index{pad.\+h@{pad.\+h}}
 
 
-snes generic console support.  
+pad support.  
 
 
 {\ttfamily \#include $<$snes/snestypes.\+h$>$}\newline
-{\ttfamily \#include $<$snes/background.\+h$>$}\newline
-{\ttfamily \#include $<$snes/dma.\+h$>$}\newline
 {\ttfamily \#include $<$snes/interrupt.\+h$>$}\newline
-{\ttfamily \#include $<$snes/pad.\+h$>$}\newline
-{\ttfamily \#include $<$snes/sprite.\+h$>$}\newline
-{\ttfamily \#include $<$snes/sound.\+h$>$}\newline
-{\ttfamily \#include $<$snes/video.\+h$>$}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{a00335_a6063e0eec9a36e437fc32951acafa44c}{pads\+Current}(value)~(pad\+\_\+keys\mbox{[}value\mbox{]})
+\begin{DoxyCompactList}\small\item\em Return current value of selected pad. \end{DoxyCompactList}\item 
+\#define \hyperlink{a00335_a3cae01317d787d65697fdf0543714272}{R\+E\+G\+\_\+\+J\+O\+Yx\+LH}(a)~(((vuint16$\ast$)0x4218)\mbox{[}(a)\mbox{]})
+\begin{DoxyCompactList}\small\item\em S\+N\+ES Controllers I/O Ports -\/ Automatic Reading. 4218h/4219h -\/ J\+O\+Y1\+L/\+J\+O\+Y1H -\/ Joypad 1 (gameport 1, pin 4) (R) 421\+Ah/421\+Bh -\/ J\+O\+Y2\+L/\+J\+O\+Y2H -\/ Joypad 2 (gameport 2, pin 4) (R) 421\+Ch/421\+Dh -\/ J\+O\+Y3\+L/\+J\+O\+Y3H -\/ Joypad 3 (gameport 1, pin 5) (R) 421\+Eh/421\+Fh -\/ J\+O\+Y4\+L/\+J\+O\+Y4H -\/ Joypad 4 (gameport 2, pin 5) (R) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{a00335_a9da1bea473d004dbce72074565771175}\label{a00335_a9da1bea473d004dbce72074565771175}} 
+typedef enum \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072}{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS} \hyperlink{a00335_a9da1bea473d004dbce72074565771175}{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS}
+\begin{DoxyCompactList}\small\item\em enum values for the pad buttons. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072}{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS} \{ \newline
+\hyperlink{a00335_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc}{K\+E\+Y\+\_\+A} = B\+IT(7), 
+\hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a}{K\+E\+Y\+\_\+B} = B\+IT(15), 
+\hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a3b37a163628bc7015aac5efab4a66ef5}{K\+E\+Y\+\_\+\+S\+E\+L\+E\+CT} = B\+IT(13), 
+\hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b}{K\+E\+Y\+\_\+\+S\+T\+A\+RT} = B\+IT(12), 
+\newline
+\hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d}{K\+E\+Y\+\_\+\+R\+I\+G\+HT} = B\+IT(8), 
+\hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65}{K\+E\+Y\+\_\+\+L\+E\+FT} = B\+IT(9), 
+\hyperlink{a00335_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416}{K\+E\+Y\+\_\+\+D\+O\+WN} = B\+IT(10), 
+\hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd}{K\+E\+Y\+\_\+\+UP} = B\+IT(11), 
+\newline
+\hyperlink{a00335_aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff}{K\+E\+Y\+\_\+R} = B\+IT(4), 
+\hyperlink{a00335_aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62}{K\+E\+Y\+\_\+L} = B\+IT(5), 
+\hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497}{K\+E\+Y\+\_\+X} = B\+IT(6), 
+\hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a5d44524b2a6090fa97aa9353d69f67a3}{K\+E\+Y\+\_\+Y} = B\+IT(14)
+ \}\begin{DoxyCompactList}\small\item\em enum values for the pad buttons. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{a00335_ac3c55f6e16ff70d19c046404b9aa8a9b}{console\+Copy\+Sram} (u8 $\ast$source, u16 size)
-\begin{DoxyCompactList}\small\item\em Send data to S\+R\+AM. \end{DoxyCompactList}\item 
-void \hyperlink{a00335_a7e52d15b5a1befa42f5758de19dfb70c}{console\+Draw\+Text} (u16 x, u16 y, char $\ast$fmt,...)
-\begin{DoxyCompactList}\small\item\em Output formatted string on a screen (tiles mode) \end{DoxyCompactList}\item 
-void \hyperlink{a00335_af4a32a4f79f7f382cd95e9bf9e8b7a40}{console\+Draw\+Text\+Map} (u8 x, u8 y, u8 $\ast$map, u8 attributes, char $\ast$fmt,...)
-\begin{DoxyCompactList}\small\item\em Output formatted string on a screen (2 colors tiles mode) \end{DoxyCompactList}\item 
-void \hyperlink{a00335_a6dd21f159f8388adf48398efe8faf758}{console\+Draw\+Text\+Map\+Center} (u8 y, u8 $\ast$map, u8 attributes, char $\ast$fmt,...)
-\begin{DoxyCompactList}\small\item\em Output formatted string on a screen, centered it (2 colors tiles mode) \end{DoxyCompactList}\item 
-void \hyperlink{a00335_a6047713bb5a73afd3cd1d77e336bcdad}{console\+Init} (void)
-\begin{DoxyCompactList}\small\item\em Initialize console. \end{DoxyCompactList}\item 
-void \hyperlink{a00335_a458fa049800e12429ca0ba401e513746}{console\+Init\+Text} (u8 bg\+Number, u8 palette\+Number, u8 $\ast$gfx\+Text)
-\begin{DoxyCompactList}\small\item\em Initialize the Text System. \end{DoxyCompactList}\item 
-void \hyperlink{a00335_abe1fabedc24a3adef79f32e02c3bc2d5}{console\+Load\+Sram} (u8 $\ast$dest, u16 size)
-\begin{DoxyCompactList}\small\item\em Load data from S\+R\+AM. \end{DoxyCompactList}\item 
-void \hyperlink{a00335_ae05914ac61acdb7ac77c7496624f4303}{console\+Nocash\+Message} (const char $\ast$message)
-\begin{DoxyCompactList}\small\item\em Send a message to the no\$sns debug window. \end{DoxyCompactList}\item 
-void \hyperlink{a00335_ac0993a72682f86d17784a7f4659562de}{console\+Set\+Text\+Col} (u16 color\+Char, u16 color\+BG)
-\begin{DoxyCompactList}\small\item\em Change Character and Background color of text. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00335_a9bfb9c53fa37e76873d14be4446e71e5}\label{a00335_a9bfb9c53fa37e76873d14be4446e71e5}} 
-void \hyperlink{a00335_a9bfb9c53fa37e76873d14be4446e71e5}{console\+Update} (void)
-\begin{DoxyCompactList}\small\item\em Update current text buffer on screen. \end{DoxyCompactList}\item 
-u16 \hyperlink{a00335_a0615d3903c2ad6faaed1443bd44c8ae2}{rand} (void)
-\begin{DoxyCompactList}\small\item\em return a randomized number \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-\mbox{\Hypertarget{a00335_a01a196c5c404d8e3d16ef799cc0b1653}\label{a00335_a01a196c5c404d8e3d16ef799cc0b1653}} 
-u8 \hyperlink{a00335_a01a196c5c404d8e3d16ef799cc0b1653}{pvsneslibdirty}
-\begin{DoxyCompactList}\small\item\em flag to redraw text during vblank \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00335_afb9f478403f30556d576a6fa54bc9073}\label{a00335_afb9f478403f30556d576a6fa54bc9073}} 
-u8 \hyperlink{a00335_afb9f478403f30556d576a6fa54bc9073}{pvsneslibfont\+\_\+map} \mbox{[}0x800\mbox{]}
-\begin{DoxyCompactList}\small\item\em tilemap used for text display \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00335_aef3bf9522613bca02b4a00ea910d492f}\label{a00335_aef3bf9522613bca02b4a00ea910d492f}} 
-u8 \hyperlink{a00335_aef3bf9522613bca02b4a00ea910d492f}{snes\+\_\+50hz}
-\begin{DoxyCompactList}\small\item\em 1 if on a P\+A\+L/50\+Hz S\+N\+ES \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00335_a5e14b74b621c822db9af978d0ad31d1a}\label{a00335_a5e14b74b621c822db9af978d0ad31d1a}} 
-u16 \hyperlink{a00335_a5e14b74b621c822db9af978d0ad31d1a}{snes\+\_\+vblank\+\_\+count}
-\begin{DoxyCompactList}\small\item\em Number of V\+BL since console\+Init called. \end{DoxyCompactList}\end{DoxyCompactItemize}
+void \hyperlink{a00335_a283ec438fdbb3b6068afd2e50bc9211d}{pads\+Clear} (u16 value)
+\begin{DoxyCompactList}\small\item\em Clear internal variables for selected pad. \end{DoxyCompactList}\item 
+unsigned short \hyperlink{a00335_a66237b0d7609c6f62d2234ef50abbd78}{pads\+Down} (u16 value)
+\begin{DoxyCompactList}\small\item\em Return value of down keys for selected pad. \end{DoxyCompactList}\item 
+unsigned short \hyperlink{a00335_a51de6b359e19a3a0279d42afc7fe6165}{pads\+Up} (u16 value)
+\begin{DoxyCompactList}\small\item\em Return value of up keys for selected pad. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00335_a42632e79292dc47a567aab4dc3e4407d}\label{a00335_a42632e79292dc47a567aab4dc3e4407d}} 
+void \hyperlink{a00335_a42632e79292dc47a567aab4dc3e4407d}{scan\+Pads} (void)
+\begin{DoxyCompactList}\small\item\em Wait for pad ready and read pad values in . \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00335_a72ab39cf95cf0d46d60e4d6835581ba6}\label{a00335_a72ab39cf95cf0d46d60e4d6835581ba6}} 
+void \hyperlink{a00335_a72ab39cf95cf0d46d60e4d6835581ba6}{scan\+Scope} (void)
+\begin{DoxyCompactList}\small\item\em Wait for superscope ready and read values in. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-snes generic console support. 
+pad support. 
+
+common values for pad input.
+
+common values that can be used to test auto pad. 
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{a00335_a6063e0eec9a36e437fc32951acafa44c}\label{a00335_a6063e0eec9a36e437fc32951acafa44c}} 
+\index{pad.\+h@{pad.\+h}!pads\+Current@{pads\+Current}}
+\index{pads\+Current@{pads\+Current}!pad.\+h@{pad.\+h}}
+\subsubsection{\texorpdfstring{pads\+Current}{padsCurrent}}
+{\footnotesize\ttfamily pads\+Current(\begin{DoxyParamCaption}\item[{}]{value }\end{DoxyParamCaption})~(pad\+\_\+keys\mbox{[}value\mbox{]})}
 
 
 
-\subsection{Function Documentation}
-\mbox{\Hypertarget{a00335_ac3c55f6e16ff70d19c046404b9aa8a9b}\label{a00335_ac3c55f6e16ff70d19c046404b9aa8a9b}} 
-\index{console.\+h@{console.\+h}!console\+Copy\+Sram@{console\+Copy\+Sram}}
-\index{console\+Copy\+Sram@{console\+Copy\+Sram}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Copy\+Sram()}{consoleCopySram()}}
-{\footnotesize\ttfamily void console\+Copy\+Sram (\begin{DoxyParamCaption}\item[{u8 $\ast$}]{source,  }\item[{u16}]{size }\end{DoxyParamCaption})}
-
-
-
-Send data to S\+R\+AM. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em source} & the source to copy from \\
-\hline
-{\em size} & the size in bytes of the data to copy. \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00445}{sram/sram.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00335_a7e52d15b5a1befa42f5758de19dfb70c}\label{a00335_a7e52d15b5a1befa42f5758de19dfb70c}} 
-\index{console.\+h@{console.\+h}!console\+Draw\+Text@{console\+Draw\+Text}}
-\index{console\+Draw\+Text@{console\+Draw\+Text}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Draw\+Text()}{consoleDrawText()}}
-{\footnotesize\ttfamily void console\+Draw\+Text (\begin{DoxyParamCaption}\item[{u16}]{x,  }\item[{u16}]{y,  }\item[{char $\ast$}]{fmt,  }\item[{}]{... }\end{DoxyParamCaption})}
-
-
-
-Output formatted string on a screen (tiles mode) 
+Return current value of selected pad. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em x} & The X character number the string should start on \\
-\hline
-{\em y} & The Y character number the string should start on \\
-\hline
-{\em fmt} & The Format string (see printf() documentation in your local C tutorial)\\
+{\em value} & Address of the pad to use (0 or 1) \\
 \hline
 \end{DoxyParams}
-Output a text string to the screen. Before using this, you need to call \hyperlink{a00335_a458fa049800e12429ca0ba401e513746}{console\+Init\+Text()}. You can also print the value of variables this way, by putting a format string and additional parameters. \begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00437}{audio/music/\+Music.\+c}, \hyperlink{a00439}{audio/tada/\+Tada.\+c}, \hyperlink{a00435}{games/likemario/\+Like\+Mario.\+c}, \hyperlink{a00411}{graphics/\+Backgrounds/\+Mode1\+Scroll/\+Mode1\+Scroll.\+c}, \hyperlink{a00403}{hello\+\_\+world/hello\+\_\+world.\+c}, \hyperlink{a00431}{input/input.\+c}, \hyperlink{a00443}{random/random.\+c}, \hyperlink{a00447}{scoring/scoring.\+c}, \hyperlink{a00445}{sram/sram.\+c}, and \hyperlink{a00433}{timer/timer.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00335_af4a32a4f79f7f382cd95e9bf9e8b7a40}\label{a00335_af4a32a4f79f7f382cd95e9bf9e8b7a40}} 
-\index{console.\+h@{console.\+h}!console\+Draw\+Text\+Map@{console\+Draw\+Text\+Map}}
-\index{console\+Draw\+Text\+Map@{console\+Draw\+Text\+Map}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Draw\+Text\+Map()}{consoleDrawTextMap()}}
-{\footnotesize\ttfamily void console\+Draw\+Text\+Map (\begin{DoxyParamCaption}\item[{u8}]{x,  }\item[{u8}]{y,  }\item[{u8 $\ast$}]{map,  }\item[{u8}]{attributes,  }\item[{char $\ast$}]{fmt,  }\item[{}]{... }\end{DoxyParamCaption})}
-
-
-
-Output formatted string on a screen (2 colors tiles mode) 
-
-
-\begin{DoxyParams}{Parameters}
-{\em x} & The X character number the string should start on \\
-\hline
-{\em y} & The Y character number the string should start on \\
-\hline
-{\em map} & The 0x800 char map entry to put string \\
-\hline
-{\em attributes} & attributes for tiles \\
-\hline
-{\em fmt} & The Format string (see printf() documentation in your local C tutorial)\\
-\hline
-\end{DoxyParams}
-Output a text string to the screen. Before using this, you need to call \hyperlink{a00335_a458fa049800e12429ca0ba401e513746}{console\+Init\+Text()}. You can also print the value of variables this way, by putting a format string and additional parameters. \mbox{\Hypertarget{a00335_a6dd21f159f8388adf48398efe8faf758}\label{a00335_a6dd21f159f8388adf48398efe8faf758}} 
-\index{console.\+h@{console.\+h}!console\+Draw\+Text\+Map\+Center@{console\+Draw\+Text\+Map\+Center}}
-\index{console\+Draw\+Text\+Map\+Center@{console\+Draw\+Text\+Map\+Center}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Draw\+Text\+Map\+Center()}{consoleDrawTextMapCenter()}}
-{\footnotesize\ttfamily void console\+Draw\+Text\+Map\+Center (\begin{DoxyParamCaption}\item[{u8}]{y,  }\item[{u8 $\ast$}]{map,  }\item[{u8}]{attributes,  }\item[{char $\ast$}]{fmt,  }\item[{}]{... }\end{DoxyParamCaption})}
-
-
-
-Output formatted string on a screen, centered it (2 colors tiles mode) 
-
-
-\begin{DoxyParams}{Parameters}
-{\em y} & The Y character number the string should start on \\
-\hline
-{\em map} & The 0x800 char map entry to put string \\
-\hline
-{\em attributes} & attributes for tiles \\
-\hline
-{\em fmt} & The Format string (see printf() documentation in your local C tutorial)\\
-\hline
-\end{DoxyParams}
-Output a text string to the screen. Before using this, you need to call \hyperlink{a00335_a458fa049800e12429ca0ba401e513746}{console\+Init\+Text()}. You can also print the value of variables this way, by putting a format string and additional parameters. The text will be centered on x axis. \mbox{\Hypertarget{a00335_a6047713bb5a73afd3cd1d77e336bcdad}\label{a00335_a6047713bb5a73afd3cd1d77e336bcdad}} 
-\index{console.\+h@{console.\+h}!console\+Init@{console\+Init}}
-\index{console\+Init@{console\+Init}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Init()}{consoleInit()}}
-{\footnotesize\ttfamily console\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
-
-
-
-Initialize console. 
-
-Generic init for S\+N\+ES console. \begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00437}{audio/music/\+Music.\+c}, \hyperlink{a00439}{audio/tada/\+Tada.\+c}, \hyperlink{a00441}{debug/debug.\+c}, \hyperlink{a00435}{games/likemario/\+Like\+Mario.\+c}, \hyperlink{a00405}{graphics/\+Backgrounds/\+Mode0/\+Mode0.\+c}, \hyperlink{a00407}{graphics/\+Backgrounds/\+Mode1/\+Mode1.\+c}, \hyperlink{a00413}{graphics/\+Backgrounds/\+Mode1\+Mixed\+Scroll/\+Mode1\+Mixed\+Scroll.\+c}, \hyperlink{a00409}{graphics/\+Backgrounds/\+Mode1\+Png/\+Mode1.\+c}, \hyperlink{a00411}{graphics/\+Backgrounds/\+Mode1\+Scroll/\+Mode1\+Scroll.\+c}, \hyperlink{a00415}{graphics/\+Backgrounds/\+Mode3/\+Mode3.\+c}, \hyperlink{a00417}{graphics/\+Backgrounds/\+Mode7/\+Mode7.\+c}, \hyperlink{a00419}{graphics/\+Effects/\+H\+D\+M\+A\+Gradient/\+H\+D\+M\+A\+Gradient.\+c}, \hyperlink{a00421}{graphics/\+Effects/\+Mosaic\+Shading/\+Mosaic\+Shading.\+c}, \hyperlink{a00423}{graphics/\+Effects/\+Transparency/\+Transparency.\+c}, \hyperlink{a00427}{graphics/\+Sprites/\+Animated\+Sprite/\+Animated\+Sprite.\+c}, \hyperlink{a00429}{graphics/\+Sprites/\+Dynamic\+Sprite/\+Dynamic\+Sprite.\+c}, \hyperlink{a00425}{graphics/\+Sprites/\+Simple\+Sprite/\+Simple\+Sprite.\+c}, \hyperlink{a00403}{hello\+\_\+world/hello\+\_\+world.\+c}, \hyperlink{a00431}{input/input.\+c}, \hyperlink{a00443}{random/random.\+c}, \hyperlink{a00447}{scoring/scoring.\+c}, \hyperlink{a00445}{sram/sram.\+c}, and \hyperlink{a00433}{timer/timer.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00335_a458fa049800e12429ca0ba401e513746}\label{a00335_a458fa049800e12429ca0ba401e513746}} 
-\index{console.\+h@{console.\+h}!console\+Init\+Text@{console\+Init\+Text}}
-\index{console\+Init\+Text@{console\+Init\+Text}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Init\+Text()}{consoleInitText()}}
-{\footnotesize\ttfamily void console\+Init\+Text (\begin{DoxyParamCaption}\item[{u8}]{bg\+Number,  }\item[{u8}]{palette\+Number,  }\item[{u8 $\ast$}]{gfx\+Text }\end{DoxyParamCaption})}
-
-
-
-Initialize the Text System. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em bg\+Number} & The BG number to show Text on. \\
-\hline
-{\em palette\+Number} & Palette number (0..16). \\
-\hline
-{\em gfx\+Text} & Pointer to tiles gfx for printing\\
-\hline
-\end{DoxyParams}
-Reserve a BG and load the font characters into V\+R\+AM. It will only work in tiled display modes. Also, please note that this function will overwrite BG palette number 0 and 1 to black and white, and set the Font to use these two colors. You can change colors by calling \hyperlink{a00335_ac0993a72682f86d17784a7f4659562de}{console\+Set\+Text\+Col()}. \begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00437}{audio/music/\+Music.\+c}, \hyperlink{a00439}{audio/tada/\+Tada.\+c}, \hyperlink{a00435}{games/likemario/\+Like\+Mario.\+c}, \hyperlink{a00411}{graphics/\+Backgrounds/\+Mode1\+Scroll/\+Mode1\+Scroll.\+c}, \hyperlink{a00403}{hello\+\_\+world/hello\+\_\+world.\+c}, \hyperlink{a00431}{input/input.\+c}, \hyperlink{a00443}{random/random.\+c}, \hyperlink{a00447}{scoring/scoring.\+c}, \hyperlink{a00445}{sram/sram.\+c}, and \hyperlink{a00433}{timer/timer.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00335_abe1fabedc24a3adef79f32e02c3bc2d5}\label{a00335_abe1fabedc24a3adef79f32e02c3bc2d5}} 
-\index{console.\+h@{console.\+h}!console\+Load\+Sram@{console\+Load\+Sram}}
-\index{console\+Load\+Sram@{console\+Load\+Sram}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Load\+Sram()}{consoleLoadSram()}}
-{\footnotesize\ttfamily void console\+Load\+Sram (\begin{DoxyParamCaption}\item[{u8 $\ast$}]{dest,  }\item[{u16}]{size }\end{DoxyParamCaption})}
-
-
-
-Load data from S\+R\+AM. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em dest} & the destination to load into \\
-\hline
-{\em size} & the size in bytes of the data to copy. \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00445}{sram/sram.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00335_ae05914ac61acdb7ac77c7496624f4303}\label{a00335_ae05914ac61acdb7ac77c7496624f4303}} 
-\index{console.\+h@{console.\+h}!console\+Nocash\+Message@{console\+Nocash\+Message}}
-\index{console\+Nocash\+Message@{console\+Nocash\+Message}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Nocash\+Message()}{consoleNocashMessage()}}
-{\footnotesize\ttfamily void console\+Nocash\+Message (\begin{DoxyParamCaption}\item[{const char $\ast$}]{message }\end{DoxyParamCaption})}
-
-
-
-Send a message to the no\$sns debug window. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em message} & The message to send \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00441}{debug/debug.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00335_ac0993a72682f86d17784a7f4659562de}\label{a00335_ac0993a72682f86d17784a7f4659562de}} 
-\index{console.\+h@{console.\+h}!console\+Set\+Text\+Col@{console\+Set\+Text\+Col}}
-\index{console\+Set\+Text\+Col@{console\+Set\+Text\+Col}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Set\+Text\+Col()}{consoleSetTextCol()}}
-{\footnotesize\ttfamily console\+Set\+Text\+Col (\begin{DoxyParamCaption}\item[{u16}]{color\+Char,  }\item[{u16}]{color\+BG }\end{DoxyParamCaption})}
-
-
-
-Change Character and Background color of text. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em color\+Char} & The BG color palette with R\+G\+B5 values of text itself \\
-\hline
-{\em color\+BG} & The BG color palette with R\+G\+B5 values of text background \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00435}{games/likemario/\+Like\+Mario.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00335_a0615d3903c2ad6faaed1443bd44c8ae2}\label{a00335_a0615d3903c2ad6faaed1443bd44c8ae2}} 
-\index{console.\+h@{console.\+h}!rand@{rand}}
-\index{rand@{rand}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{rand()}{rand()}}
-{\footnotesize\ttfamily rand (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
-
-
-
-return a randomized number 
-
 \begin{DoxyReturn}{Returns}
-unsigned short of a randozied number 
+unsigned short of the current pad value 
 \end{DoxyReturn}
 \begin{Desc}
 \item[Examples\+: ]\par
-\hyperlink{a00443}{random/random.\+c}.\end{Desc}
+\hyperlink{a00424}{audio/tada/\+Tada.\+c}, \hyperlink{a00420}{games/likemario/\+Like\+Mario.\+c}, \hyperlink{a00396}{graphics/\+Backgrounds/\+Mode1\+Scroll/\+Mode1\+Scroll.\+c}, \hyperlink{a00402}{graphics/\+Backgrounds/\+Mode7/\+Mode7.\+c}, \hyperlink{a00404}{graphics/\+Effects/\+H\+D\+M\+A\+Gradient/\+H\+D\+M\+A\+Gradient.\+c}, \hyperlink{a00406}{graphics/\+Effects/\+Mosaic\+Shading/\+Mosaic\+Shading.\+c}, \hyperlink{a00412}{graphics/\+Sprites/\+Animated\+Sprite/\+Animated\+Sprite.\+c}, \hyperlink{a00414}{graphics/\+Sprites/\+Dynamic\+Sprite/\+Dynamic\+Sprite.\+c}, \hyperlink{a00416}{input/input.\+c}, \hyperlink{a00428}{random/random.\+c}, and \hyperlink{a00430}{sram/sram.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00335_a3cae01317d787d65697fdf0543714272}\label{a00335_a3cae01317d787d65697fdf0543714272}} 
+\index{pad.\+h@{pad.\+h}!R\+E\+G\+\_\+\+J\+O\+Yx\+LH@{R\+E\+G\+\_\+\+J\+O\+Yx\+LH}}
+\index{R\+E\+G\+\_\+\+J\+O\+Yx\+LH@{R\+E\+G\+\_\+\+J\+O\+Yx\+LH}!pad.\+h@{pad.\+h}}
+\subsubsection{\texorpdfstring{R\+E\+G\+\_\+\+J\+O\+Yx\+LH}{REG\_JOYxLH}}
+{\footnotesize\ttfamily \#define R\+E\+G\+\_\+\+J\+O\+Yx\+LH(\begin{DoxyParamCaption}\item[{}]{a }\end{DoxyParamCaption})~(((vuint16$\ast$)0x4218)\mbox{[}(a)\mbox{]})}
+
+
+
+S\+N\+ES Controllers I/O Ports -\/ Automatic Reading. 4218h/4219h -\/ J\+O\+Y1\+L/\+J\+O\+Y1H -\/ Joypad 1 (gameport 1, pin 4) (R) 421\+Ah/421\+Bh -\/ J\+O\+Y2\+L/\+J\+O\+Y2H -\/ Joypad 2 (gameport 2, pin 4) (R) 421\+Ch/421\+Dh -\/ J\+O\+Y3\+L/\+J\+O\+Y3H -\/ Joypad 3 (gameport 1, pin 5) (R) 421\+Eh/421\+Fh -\/ J\+O\+Y4\+L/\+J\+O\+Y4H -\/ Joypad 4 (gameport 2, pin 5) (R) 
+
+Register Serial Default Bit Transfer Purpose Number\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+Order\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+(\+Joypads)\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+ 15 1st B Button (1=Low=Pressed) 14 2nd Y Button 13 3rd Select Button 12 4th Start Button 11 5th Up 10 6th Down 9 7th Left 8 8th Right 7 9th A Button 6 10th X Button 5 11th L Button 4 12th R Button 3 13th 0 (High) 2 14th 0 (High) 1 15th 0 (High) 0 16th 0 (High)
+
+When enabled, the S\+N\+ES will read 16 bits from each of the 4 controller port data lines into registers \$4218-\/f. This begins between H=32.\+5 and H=95.\+5 of the first V-\/\+Blank scanline, and ends 4224 master cycles later. Register \$4212 bit 0 is set during this time. Specifically, it begins at H=74.\+5 on the first frame, and thereafter some multiple of 256 cycles after the start of the previous read that falls within the observed range.
+
+Reading \$4218-\/f during this time will read back incorrect values. The only reliable value is that no buttons pressed will return 0 (however, if buttons are pressed 0 could still be returned incorrectly). Presumably reading \$4016/7 or writing \$4016 during this time will also screw things up. 
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{a00335_aa27cad8fa018a58930b6622783a83072}\label{a00335_aa27cad8fa018a58930b6622783a83072}} 
+\index{pad.\+h@{pad.\+h}!K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS@{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS}}
+\index{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS@{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS}!pad.\+h@{pad.\+h}}
+\subsubsection{\texorpdfstring{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS}{KEYPAD\_BITS}}
+{\footnotesize\ttfamily enum \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072}{K\+E\+Y\+P\+A\+D\+\_\+\+B\+I\+TS}}
+
+
+
+enum values for the pad buttons. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+A@{K\+E\+Y\+\_\+A}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+A@{K\+E\+Y\+\_\+A}}}\mbox{\Hypertarget{a00335_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc}\label{a00335_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc}} 
+K\+E\+Y\+\_\+A&pad A button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+B@{K\+E\+Y\+\_\+B}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+B@{K\+E\+Y\+\_\+B}}}\mbox{\Hypertarget{a00335_aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a}\label{a00335_aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a}} 
+K\+E\+Y\+\_\+B&pad B button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+\+S\+E\+L\+E\+CT@{K\+E\+Y\+\_\+\+S\+E\+L\+E\+CT}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+\+S\+E\+L\+E\+CT@{K\+E\+Y\+\_\+\+S\+E\+L\+E\+CT}}}\mbox{\Hypertarget{a00335_aa27cad8fa018a58930b6622783a83072a3b37a163628bc7015aac5efab4a66ef5}\label{a00335_aa27cad8fa018a58930b6622783a83072a3b37a163628bc7015aac5efab4a66ef5}} 
+K\+E\+Y\+\_\+\+S\+E\+L\+E\+CT&pad S\+E\+L\+E\+CT button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+\+S\+T\+A\+RT@{K\+E\+Y\+\_\+\+S\+T\+A\+RT}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+\+S\+T\+A\+RT@{K\+E\+Y\+\_\+\+S\+T\+A\+RT}}}\mbox{\Hypertarget{a00335_aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b}\label{a00335_aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b}} 
+K\+E\+Y\+\_\+\+S\+T\+A\+RT&pad S\+T\+A\+RT button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+\+R\+I\+G\+HT@{K\+E\+Y\+\_\+\+R\+I\+G\+HT}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+\+R\+I\+G\+HT@{K\+E\+Y\+\_\+\+R\+I\+G\+HT}}}\mbox{\Hypertarget{a00335_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d}\label{a00335_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d}} 
+K\+E\+Y\+\_\+\+R\+I\+G\+HT&pad R\+I\+G\+HT button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+\+L\+E\+FT@{K\+E\+Y\+\_\+\+L\+E\+FT}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+\+L\+E\+FT@{K\+E\+Y\+\_\+\+L\+E\+FT}}}\mbox{\Hypertarget{a00335_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65}\label{a00335_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65}} 
+K\+E\+Y\+\_\+\+L\+E\+FT&pad L\+E\+FT button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+\+D\+O\+WN@{K\+E\+Y\+\_\+\+D\+O\+WN}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+\+D\+O\+WN@{K\+E\+Y\+\_\+\+D\+O\+WN}}}\mbox{\Hypertarget{a00335_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416}\label{a00335_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416}} 
+K\+E\+Y\+\_\+\+D\+O\+WN&pad D\+O\+WN button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+\+UP@{K\+E\+Y\+\_\+\+UP}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+\+UP@{K\+E\+Y\+\_\+\+UP}}}\mbox{\Hypertarget{a00335_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd}\label{a00335_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd}} 
+K\+E\+Y\+\_\+\+UP&pad UP button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+R@{K\+E\+Y\+\_\+R}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+R@{K\+E\+Y\+\_\+R}}}\mbox{\Hypertarget{a00335_aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff}\label{a00335_aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff}} 
+K\+E\+Y\+\_\+R&Right shoulder button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+L@{K\+E\+Y\+\_\+L}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+L@{K\+E\+Y\+\_\+L}}}\mbox{\Hypertarget{a00335_aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62}\label{a00335_aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62}} 
+K\+E\+Y\+\_\+L&Left shoulder button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+X@{K\+E\+Y\+\_\+X}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+X@{K\+E\+Y\+\_\+X}}}\mbox{\Hypertarget{a00335_aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497}\label{a00335_aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497}} 
+K\+E\+Y\+\_\+X&pad X button. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K\+E\+Y\+\_\+Y@{K\+E\+Y\+\_\+Y}!pad.\+h@{pad.\+h}}\index{pad.\+h@{pad.\+h}!K\+E\+Y\+\_\+Y@{K\+E\+Y\+\_\+Y}}}\mbox{\Hypertarget{a00335_aa27cad8fa018a58930b6622783a83072a5d44524b2a6090fa97aa9353d69f67a3}\label{a00335_aa27cad8fa018a58930b6622783a83072a5d44524b2a6090fa97aa9353d69f67a3}} 
+K\+E\+Y\+\_\+Y&pad Y button. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{a00335_a283ec438fdbb3b6068afd2e50bc9211d}\label{a00335_a283ec438fdbb3b6068afd2e50bc9211d}} 
+\index{pad.\+h@{pad.\+h}!pads\+Clear@{pads\+Clear}}
+\index{pads\+Clear@{pads\+Clear}!pad.\+h@{pad.\+h}}
+\subsubsection{\texorpdfstring{pads\+Clear()}{padsClear()}}
+{\footnotesize\ttfamily pads\+Clear (\begin{DoxyParamCaption}\item[{u16}]{value }\end{DoxyParamCaption})}
+
+
+
+Clear internal variables for selected pad. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Address of the pad to use (0 or 1) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{a00335_a66237b0d7609c6f62d2234ef50abbd78}\label{a00335_a66237b0d7609c6f62d2234ef50abbd78}} 
+\index{pad.\+h@{pad.\+h}!pads\+Down@{pads\+Down}}
+\index{pads\+Down@{pads\+Down}!pad.\+h@{pad.\+h}}
+\subsubsection{\texorpdfstring{pads\+Down()}{padsDown()}}
+{\footnotesize\ttfamily pads\+Down (\begin{DoxyParamCaption}\item[{u16}]{value }\end{DoxyParamCaption})}
+
+
+
+Return value of down keys for selected pad. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Address of the pad to use (0 or 1) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned short of the current pad value 
+\end{DoxyReturn}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00404}{graphics/\+Effects/\+H\+D\+M\+A\+Gradient/\+H\+D\+M\+A\+Gradient.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00335_a51de6b359e19a3a0279d42afc7fe6165}\label{a00335_a51de6b359e19a3a0279d42afc7fe6165}} 
+\index{pad.\+h@{pad.\+h}!pads\+Up@{pads\+Up}}
+\index{pads\+Up@{pads\+Up}!pad.\+h@{pad.\+h}}
+\subsubsection{\texorpdfstring{pads\+Up()}{padsUp()}}
+{\footnotesize\ttfamily pads\+Up (\begin{DoxyParamCaption}\item[{u16}]{value }\end{DoxyParamCaption})}
+
+
+
+Return value of up keys for selected pad. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Address of the pad to use (0 or 1) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned short of the current pad value 
+\end{DoxyReturn}

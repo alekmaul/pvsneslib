@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>PVSnesLib: dma.h File Reference</title>
+<title>PVSnesLib: oamEntry Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -57,481 +57,97 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li>  </ul>
-</div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">dma.h File Reference</div>  </div>
+<div class="title">oamEntry Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Wrapper functions for direct memory access hardware.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="a00407_source.html">snes/snestypes.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="a00380_source.html">snes/background.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="a00413_source.html">snes/sprite.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="a00416_source.html">snes/video.h</a>&gt;</code><br />
-</div>
-<p><a href="a00386_source.html">Go to the source code of this file.</a></p>
+<p>Sprite definition : OAM entry for DMA copy if needed.  
+ <a href="a00386.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00350_source.html">sprite.h</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:af57b905f605a7fe58fc009025fb3d30b"><td class="memItemLeft" align="right" valign="top"><a id="af57b905f605a7fe58fc009025fb3d30b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#af57b905f605a7fe58fc009025fb3d30b">DMA_ENABLE</a>&#160;&#160;&#160;1</td></tr>
-<tr class="memdesc:af57b905f605a7fe58fc009025fb3d30b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit defines for the DMA control registers. <br /></td></tr>
-<tr class="separator:af57b905f605a7fe58fc009025fb3d30b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a384405596b1aadf2454e966455d74228"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#a384405596b1aadf2454e966455d74228">REG_A1B7</a>&#160;&#160;&#160;(*(vuint8*)0x4374)</td></tr>
-<tr class="memdesc:a384405596b1aadf2454e966455d74228"><td class="mdescLeft">&#160;</td><td class="mdescRight">A1TxL - HDMA Table Start Address (low) / DMA Current Addr (low) (R/W) A1TxH - HDMA Table Start Address (hi) / DMA Current Addr (hi) (R/W) A1Bx - HDMA Table Start Address (bank) / DMA Current Addr (bank) (R/W)  <a href="#a384405596b1aadf2454e966455d74228">More...</a><br /></td></tr>
-<tr class="separator:a384405596b1aadf2454e966455d74228"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2acebf455ea5a03345af0a3af2340a97"><td class="memItemLeft" align="right" valign="top"><a id="a2acebf455ea5a03345af0a3af2340a97"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#a2acebf455ea5a03345af0a3af2340a97">REG_BBAD7</a>&#160;&#160;&#160;(*(vuint8*)0x4371)</td></tr>
-<tr class="memdesc:a2acebf455ea5a03345af0a3af2340a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">DMA/HDMA I/O-Bus Address (PPU-Bus aka B-Bus) (R/W) For both DMA and HDMA: 7-0 B-Bus Address (selects an I/O Port which is mapped to 2100h-21FFh) <br /></td></tr>
-<tr class="separator:a2acebf455ea5a03345af0a3af2340a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9dca819788af60976b8d4956f76ead6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#ac9dca819788af60976b8d4956f76ead6">REG_DAS7LH</a>&#160;&#160;&#160;(*(vuint16*)0x4375)</td></tr>
-<tr class="memdesc:ac9dca819788af60976b8d4956f76ead6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indirect HDMA Address (low) / DMA Byte-Counter (low) (R/W) DASxL - Indirect HDMA Address (low) / DMA Byte-Counter (low) (R/W) DASxH - Indirect HDMA Address (hi) / DMA Byte-Counter (hi) (R/W) 43x7h - DASBx - Indirect HDMA Address (bank) (R/W)  <a href="#ac9dca819788af60976b8d4956f76ead6">More...</a><br /></td></tr>
-<tr class="separator:ac9dca819788af60976b8d4956f76ead6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a468ac9497087f0cbab21a3e0453f438b"><td class="memItemLeft" align="right" valign="top"><a id="a468ac9497087f0cbab21a3e0453f438b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#a468ac9497087f0cbab21a3e0453f438b">REG_HDMAEN</a>&#160;&#160;&#160;(*(vuint8*)0x420C)</td></tr>
-<tr class="memdesc:a468ac9497087f0cbab21a3e0453f438b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select H-Blank DMA (H-DMA) Channel(s) (W) 7-0 H-DMA Channel 7-0 Enable (0=Disable, 1=Enable) <br /></td></tr>
-<tr class="separator:a468ac9497087f0cbab21a3e0453f438b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abccd357db38cf6e7528e807b8692ef0f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#abccd357db38cf6e7528e807b8692ef0f">REG_MDMAEN</a>&#160;&#160;&#160;(*(vuint8*)0x420B)</td></tr>
-<tr class="memdesc:abccd357db38cf6e7528e807b8692ef0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select General Purpose DMA Channel(s) and Start Transfer (W) 7-0 General Purpose DMA Channel 7-0 Enable (0=Disable, 1=Enable)  <a href="#abccd357db38cf6e7528e807b8692ef0f">More...</a><br /></td></tr>
-<tr class="separator:abccd357db38cf6e7528e807b8692ef0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae4e12cfcb45d2b308eb558fcfe309737"><td class="memItemLeft" align="right" valign="top"><a id="ae4e12cfcb45d2b308eb558fcfe309737"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#ae4e12cfcb45d2b308eb558fcfe309737">dmaClearVram</a> (void)</td></tr>
-<tr class="memdesc:ae4e12cfcb45d2b308eb558fcfe309737"><td class="mdescLeft">&#160;</td><td class="mdescRight">clear all vram data with #0 <br /></td></tr>
-<tr class="separator:ae4e12cfcb45d2b308eb558fcfe309737"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20f89d93d57e0f726ae6393c9a97ac00"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#a20f89d93d57e0f726ae6393c9a97ac00">dmaCopyCGram</a> (u8 *source, u16 address, u16 size)</td></tr>
-<tr class="memdesc:a20f89d93d57e0f726ae6393c9a97ac00"><td class="mdescLeft">&#160;</td><td class="mdescRight">copy data from source to destination using channel 0 of DMA available channels in half words  <a href="#a20f89d93d57e0f726ae6393c9a97ac00">More...</a><br /></td></tr>
-<tr class="separator:a20f89d93d57e0f726ae6393c9a97ac00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f9585bce8262424ff3e8121c6a9e44e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#a2f9585bce8262424ff3e8121c6a9e44e">dmaCopyOAram</a> (u8 *source, u16 address, u16 size)</td></tr>
-<tr class="memdesc:a2f9585bce8262424ff3e8121c6a9e44e"><td class="mdescLeft">&#160;</td><td class="mdescRight">copies Sprites from source to destination using channel 0 of DMA available channels in half words  <a href="#a2f9585bce8262424ff3e8121c6a9e44e">More...</a><br /></td></tr>
-<tr class="separator:a2f9585bce8262424ff3e8121c6a9e44e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d1d327e4069519217eea680fedb3963"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#a4d1d327e4069519217eea680fedb3963">dmaCopySpr16Vram</a> (u8 *source, u16 address)</td></tr>
-<tr class="memdesc:a4d1d327e4069519217eea680fedb3963"><td class="mdescLeft">&#160;</td><td class="mdescRight">copy sprite 16pix size data from source to destination using channel 0 of DMA available channels in half words  <a href="#a4d1d327e4069519217eea680fedb3963">More...</a><br /></td></tr>
-<tr class="separator:a4d1d327e4069519217eea680fedb3963"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6777b440b9ff8d081df38704863c57f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#af6777b440b9ff8d081df38704863c57f">dmaCopySpr32Vram</a> (u8 *source, u16 address)</td></tr>
-<tr class="memdesc:af6777b440b9ff8d081df38704863c57f"><td class="mdescLeft">&#160;</td><td class="mdescRight">copy sprite 32pix size data from source to destination using channel 0 of DMA available channels in half words  <a href="#af6777b440b9ff8d081df38704863c57f">More...</a><br /></td></tr>
-<tr class="separator:af6777b440b9ff8d081df38704863c57f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf545b3f811f6ef4b7c4be434701a77a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#aaf545b3f811f6ef4b7c4be434701a77a">dmaCopyVram</a> (u8 *source, u16 address, u16 size)</td></tr>
-<tr class="memdesc:aaf545b3f811f6ef4b7c4be434701a77a"><td class="mdescLeft">&#160;</td><td class="mdescRight">copy data from source to destination using channel 0 of DMA available channels in half words  <a href="#aaf545b3f811f6ef4b7c4be434701a77a">More...</a><br /></td></tr>
-<tr class="separator:aaf545b3f811f6ef4b7c4be434701a77a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa402636f351eb16696c9e6eb60626a0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#aa402636f351eb16696c9e6eb60626a0f">dmaCopyVram7</a> (u8 *source, u16 address, u16 size, u8 vrammodeinc, u16 dmacontrol)</td></tr>
-<tr class="memdesc:aa402636f351eb16696c9e6eb60626a0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">copies data from source to destination using channel 0 of DMA available channels in half words with VMAIN value  <a href="#aa402636f351eb16696c9e6eb60626a0f">More...</a><br /></td></tr>
-<tr class="separator:aa402636f351eb16696c9e6eb60626a0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0302d82f5e7cefca7ad90d49331cd39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#ad0302d82f5e7cefca7ad90d49331cd39">dmaFillVram</a> (u8 source, u16 address, u16 size)</td></tr>
-<tr class="memdesc:ad0302d82f5e7cefca7ad90d49331cd39"><td class="mdescLeft">&#160;</td><td class="mdescRight">fill the source data to destination using channel 0 of DMA available channels in half words  <a href="#ad0302d82f5e7cefca7ad90d49331cd39">More...</a><br /></td></tr>
-<tr class="separator:ad0302d82f5e7cefca7ad90d49331cd39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab112388971fc7e139bff7fe394cb49b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#ab112388971fc7e139bff7fe394cb49b7">setModeHdmaGradient</a> (u8 maxLevels)</td></tr>
-<tr class="memdesc:ab112388971fc7e139bff7fe394cb49b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a brightness gradient on screen.  <a href="#ab112388971fc7e139bff7fe394cb49b7">More...</a><br /></td></tr>
-<tr class="separator:ab112388971fc7e139bff7fe394cb49b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Data Fields</h2></td></tr>
+<tr class="memitem:a47445b1a2fc9e53538df39e90f8c29f2"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#a47445b1a2fc9e53538df39e90f8c29f2">attribute</a></td></tr>
+<tr class="separator:a47445b1a2fc9e53538df39e90f8c29f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1139d7483cc3e82ef050e280e540e457"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#a1139d7483cc3e82ef050e280e540e457">tilenumber</a></td></tr>
+<tr class="separator:a1139d7483cc3e82ef050e280e540e457"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeca126469595edf9755b99938f2f88e"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#aeeca126469595edf9755b99938f2f88e">x</a></td></tr>
+<tr class="separator:aeeca126469595edf9755b99938f2f88e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8702e01d6147efff82cd077f7329ed22"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00386.html#a8702e01d6147efff82cd077f7329ed22">y</a></td></tr>
+<tr class="separator:a8702e01d6147efff82cd077f7329ed22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Wrapper functions for direct memory access hardware. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a384405596b1aadf2454e966455d74228"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a384405596b1aadf2454e966455d74228">&#9670;&nbsp;</a></span>REG_A1B7</h2>
+<div class="textblock"><p>Sprite definition : OAM entry for DMA copy if needed. </p>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="a47445b1a2fc9e53538df39e90f8c29f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47445b1a2fc9e53538df39e90f8c29f2">&#9670;&nbsp;</a></span>attribute</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define REG_A1B7&#160;&#160;&#160;(*(vuint8*)0x4374)</td>
+          <td class="memname">u8 oamEntry::attribute</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>A1TxL - HDMA Table Start Address (low) / DMA Current Addr (low) (R/W) A1TxH - HDMA Table Start Address (hi) / DMA Current Addr (hi) (R/W) A1Bx - HDMA Table Start Address (bank) / DMA Current Addr (bank) (R/W) </p>
-<p>For normal DMA: 23-16 CPU-Bus Data Address Bank (constant, not incremented/decremented) 15-0 CPU-Bus Data Address (incremented/decremented/fixed, as selected)</p>
-<p>For HDMA: 23-16 CPU-Bus Table Address Bank (constant, bank number for 43x8h/43x9h) 15-0 CPU-Bus Table Address (constant, reload value for 43x8h/43x9h) </p>
+<p>vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num </p>
 
 </div>
 </div>
-<a id="ac9dca819788af60976b8d4956f76ead6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9dca819788af60976b8d4956f76ead6">&#9670;&nbsp;</a></span>REG_DAS7LH</h2>
+<a id="a1139d7483cc3e82ef050e280e540e457"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1139d7483cc3e82ef050e280e540e457">&#9670;&nbsp;</a></span>tilenumber</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define REG_DAS7LH&#160;&#160;&#160;(*(vuint16*)0x4375)</td>
+          <td class="memname">u8 oamEntry::tilenumber</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Indirect HDMA Address (low) / DMA Byte-Counter (low) (R/W) DASxL - Indirect HDMA Address (low) / DMA Byte-Counter (low) (R/W) DASxH - Indirect HDMA Address (hi) / DMA Byte-Counter (hi) (R/W) 43x7h - DASBx - Indirect HDMA Address (bank) (R/W) </p>
-<p>For normal DMA: 23-16 Not used 15-0 Number of bytes to be transferred (1..FFFFh=1..FFFFh, or 0=10000h) (This is really a byte-counter; with a 4-byte "Transfer Unit", len=5 would transfer one whole Unit, plus the first byte of the second Unit.) (The 16bit value is decremented during transfer, and contains 0000h on end.) </p>
+<p>cccccccc Starting tile num </p>
 
 </div>
 </div>
-<a id="abccd357db38cf6e7528e807b8692ef0f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abccd357db38cf6e7528e807b8692ef0f">&#9670;&nbsp;</a></span>REG_MDMAEN</h2>
+<a id="aeeca126469595edf9755b99938f2f88e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeeca126469595edf9755b99938f2f88e">&#9670;&nbsp;</a></span>x</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define REG_MDMAEN&#160;&#160;&#160;(*(vuint8*)0x420B)</td>
+          <td class="memname">u8 oamEntry::x</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Select General Purpose DMA Channel(s) and Start Transfer (W) 7-0 General Purpose DMA Channel 7-0 Enable (0=Disable, 1=Enable) </p>
-<p>When writing a non-zero value to this register, general purpose DMA will be started immediately (after a few clk cycles). The CPU is paused during the transfer. The transfer can be interrupted by H-DMA transfers. If more than 1 bit is set in MDMAEN, then the separate transfers will be executed in WHICH? priority order. The MDMAEN bits are cleared automatically at transfer completion. Do not use channels for GP-DMA which are activated as H-DMA in HDMAEN. </p>
+<p>xxxxxxxx X coordinate </p>
 
 </div>
 </div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a20f89d93d57e0f726ae6393c9a97ac00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a20f89d93d57e0f726ae6393c9a97ac00">&#9670;&nbsp;</a></span>dmaCopyCGram()</h2>
+<a id="a8702e01d6147efff82cd077f7329ed22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8702e01d6147efff82cd077f7329ed22">&#9670;&nbsp;</a></span>y</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void dmaCopyCGram </td>
-          <td>(</td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>source</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">u8 oamEntry::y</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>copy data from source to destination using channel 0 of DMA available channels in half words </p>
-<p>copies Palette from source to destination using channel 0 of DMA available channels in half words</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">source</td><td>the source to copy from </td></tr>
-    <tr><td class="paramname">address</td><td>cgram address to copy </td></tr>
-    <tr><td class="paramname">size</td><td>the size in bytes of the data to copy.</td></tr>
-    <tr><td class="paramname">source</td><td>the source to copy from </td></tr>
-    <tr><td class="paramname">address</td><td>vram address to copy </td></tr>
-    <tr><td class="paramname">size</td><td>the size in bytes of the data to copy. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>yyyyyyyy Y coordinate </p>
 
 </div>
 </div>
-<a id="a2f9585bce8262424ff3e8121c6a9e44e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f9585bce8262424ff3e8121c6a9e44e">&#9670;&nbsp;</a></span>dmaCopyOAram()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dmaCopyOAram </td>
-          <td>(</td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>source</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>copies Sprites from source to destination using channel 0 of DMA available channels in half words </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">source</td><td>the source to copy from </td></tr>
-    <tr><td class="paramname">address</td><td>vram address to copy </td></tr>
-    <tr><td class="paramname">size</td><td>the size in bytes of the data to copy. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00477.html#a2">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a id="a4d1d327e4069519217eea680fedb3963"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d1d327e4069519217eea680fedb3963">&#9670;&nbsp;</a></span>dmaCopySpr16Vram()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dmaCopySpr16Vram </td>
-          <td>(</td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>source</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>address</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>copy sprite 16pix size data from source to destination using channel 0 of DMA available channels in half words </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">source</td><td>the source to copy from </td></tr>
-    <tr><td class="paramname">address</td><td>vram address to copy </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="af6777b440b9ff8d081df38704863c57f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6777b440b9ff8d081df38704863c57f">&#9670;&nbsp;</a></span>dmaCopySpr32Vram()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dmaCopySpr32Vram </td>
-          <td>(</td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>source</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>address</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>copy sprite 32pix size data from source to destination using channel 0 of DMA available channels in half words </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">source</td><td>the source to copy from </td></tr>
-    <tr><td class="paramname">address</td><td>vram address to copy </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="aaf545b3f811f6ef4b7c4be434701a77a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf545b3f811f6ef4b7c4be434701a77a">&#9670;&nbsp;</a></span>dmaCopyVram()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dmaCopyVram </td>
-          <td>(</td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>source</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>copy data from source to destination using channel 0 of DMA available channels in half words </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">source</td><td>the source to copy from </td></tr>
-    <tr><td class="paramname">address</td><td>vram address to copy </td></tr>
-    <tr><td class="paramname">size</td><td>the size in bytes of the data to copy. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00483.html#a27">games/likemario/LikeMario.c</a>, <a class="el" href="a00463.html#a3">graphics/Backgrounds/Mode3/Mode3.c</a>, <a class="el" href="a00467.html#a2">graphics/Effects/HDMAGradient/HDMAGradient.c</a>, and <a class="el" href="a00477.html#a1">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a id="aa402636f351eb16696c9e6eb60626a0f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa402636f351eb16696c9e6eb60626a0f">&#9670;&nbsp;</a></span>dmaCopyVram7()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dmaCopyVram7 </td>
-          <td>(</td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>source</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>vrammodeinc</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>dmacontrol</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>copies data from source to destination using channel 0 of DMA available channels in half words with VMAIN value </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">source</td><td>the source to copy from </td></tr>
-    <tr><td class="paramname">address</td><td>vram address to copy </td></tr>
-    <tr><td class="paramname">size</td><td>the size in bytes of the data to copy. </td></tr>
-    <tr><td class="paramname">vrammodeinc</td><td>the value of REG_VMAIN (incr or not incr). </td></tr>
-    <tr><td class="paramname">dmacontrol</td><td>the value of DMA control register (incr or not incr, $18 or $19, and so on). </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ad0302d82f5e7cefca7ad90d49331cd39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad0302d82f5e7cefca7ad90d49331cd39">&#9670;&nbsp;</a></span>dmaFillVram()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dmaFillVram </td>
-          <td>(</td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>source</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>fill the source data to destination using channel 0 of DMA available channels in half words </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">source</td><td>the value of source to copy from </td></tr>
-    <tr><td class="paramname">address</td><td>vram address to copy </td></tr>
-    <tr><td class="paramname">size</td><td>the size in bytes of the data to copy. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ab112388971fc7e139bff7fe394cb49b7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab112388971fc7e139bff7fe394cb49b7">&#9670;&nbsp;</a></span>setModeHdmaGradient()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void setModeHdmaGradient </td>
-          <td>(</td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>maxLevels</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Do a brightness gradient on screen. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">maxLevels</td><td>value between 1..15 for the maximum level of brightness (15=light, 1=near dark) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00467.html#a11">graphics/Effects/HDMAGradient/HDMAGradient.c</a>.</dd>
-</dl>
-</div>
-</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00350_source.html">sprite.h</a></li>
+</ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

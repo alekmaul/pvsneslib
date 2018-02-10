@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>PVSnesLib: console.h File Reference</title>
+<title>PVSnesLib: interrupt.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -64,489 +64,140 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">console.h File Reference</div>  </div>
+<div class="title">interrupt.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>snes generic console support.  
+<p>snes interrupt support.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="a00350_source.html">snes/snestypes.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="a00323_source.html">snes/background.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="a00329_source.html">snes/dma.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="a00332_source.html">snes/interrupt.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="a00341_source.html">snes/pad.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="a00356_source.html">snes/sprite.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="a00353_source.html">snes/sound.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="a00359_source.html">snes/video.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="a00344_source.html">snes/snestypes.h</a>&gt;</code><br />
 </div>
 <p><a href="a00326_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a88d83a889f8e1d016cedfbd0476db989"><td class="memItemLeft" align="right" valign="top"><a id="a88d83a889f8e1d016cedfbd0476db989"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a88d83a889f8e1d016cedfbd0476db989">HBL_READY</a>&#160;&#160;&#160;(1&lt;&lt;6)</td></tr>
+<tr class="memdesc:a88d83a889f8e1d016cedfbd0476db989"><td class="mdescLeft">&#160;</td><td class="mdescRight">H-Blank Period Flag (0=No, 1=HBlank) <br /></td></tr>
+<tr class="separator:a88d83a889f8e1d016cedfbd0476db989"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac352c6a25f2e170d7b2bf2236bd31427"><td class="memItemLeft" align="right" valign="top"><a id="ac352c6a25f2e170d7b2bf2236bd31427"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#ac352c6a25f2e170d7b2bf2236bd31427">INT_HVIRQ_H</a>&#160;&#160;&#160;(1&lt;&lt;4)</td></tr>
+<tr class="memdesc:ac352c6a25f2e170d7b2bf2236bd31427"><td class="mdescLeft">&#160;</td><td class="mdescRight">H/V IRQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) <br /></td></tr>
+<tr class="separator:ac352c6a25f2e170d7b2bf2236bd31427"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a062bd6ffa662638df005a03cd2c0a3fb"><td class="memItemLeft" align="right" valign="top"><a id="a062bd6ffa662638df005a03cd2c0a3fb"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a062bd6ffa662638df005a03cd2c0a3fb">INT_HVIRQ_HV</a>&#160;&#160;&#160;(2 &lt;&lt;4)</td></tr>
+<tr class="memdesc:a062bd6ffa662638df005a03cd2c0a3fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">H/V IRQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) <br /></td></tr>
+<tr class="separator:a062bd6ffa662638df005a03cd2c0a3fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54b588e60e5abfeaf59ba4c8fd826cfa"><td class="memItemLeft" align="right" valign="top"><a id="a54b588e60e5abfeaf59ba4c8fd826cfa"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a54b588e60e5abfeaf59ba4c8fd826cfa">INT_HVIRQ_V</a>&#160;&#160;&#160;(1&lt;&lt;5)</td></tr>
+<tr class="memdesc:a54b588e60e5abfeaf59ba4c8fd826cfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">H/V IRQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) <br /></td></tr>
+<tr class="separator:a54b588e60e5abfeaf59ba4c8fd826cfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4a66ed24f182a8d056f7db1cab6eb82"><td class="memItemLeft" align="right" valign="top"><a id="ab4a66ed24f182a8d056f7db1cab6eb82"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#ab4a66ed24f182a8d056f7db1cab6eb82">INT_JOYPAD_ENABLE</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="memdesc:ab4a66ed24f182a8d056f7db1cab6eb82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joypad Enable (0=Disable, 1=Enable Automatic Reading of Joypad) <br /></td></tr>
+<tr class="separator:ab4a66ed24f182a8d056f7db1cab6eb82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a435380b6460ebd669f2b344ea79316d6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a435380b6460ebd669f2b344ea79316d6">INT_VBLENABLE</a>&#160;&#160;&#160;(1&lt;&lt;7)</td></tr>
+<tr class="memdesc:a435380b6460ebd669f2b344ea79316d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit defines for the interrupt registers.  <a href="#a435380b6460ebd669f2b344ea79316d6">More...</a><br /></td></tr>
+<tr class="separator:a435380b6460ebd669f2b344ea79316d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2094086b43aa835d241e35153f8ed1bc"><td class="memItemLeft" align="right" valign="top"><a id="a2094086b43aa835d241e35153f8ed1bc"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a2094086b43aa835d241e35153f8ed1bc">PAD_BUSY</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="memdesc:a2094086b43aa835d241e35153f8ed1bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-Joypad-Read Busy Flag (1=Busy) (see 4200h, and 4218h..421Fh) <br /></td></tr>
+<tr class="separator:a2094086b43aa835d241e35153f8ed1bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af25c0fcc5e2519aa98aebe289d391ca2"><td class="memItemLeft" align="right" valign="top"><a id="af25c0fcc5e2519aa98aebe289d391ca2"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#af25c0fcc5e2519aa98aebe289d391ca2">REG_HVBJOY</a>&#160;&#160;&#160;(*(vuint8*)0x4212)</td></tr>
+<tr class="memdesc:af25c0fcc5e2519aa98aebe289d391ca2"><td class="mdescLeft">&#160;</td><td class="mdescRight">H/V-Blank flag and Joypad Busy flag (R). 7 V-Blank Period Flag (0=No, 1=VBlank) 6 H-Blank Period Flag (0=No, 1=HBlank) 5-1 Not used 0 Auto-Joypad-Read Busy Flag (1=Busy) (see 4200h, and 4218h..421Fh) The Hblank flag gets toggled in ALL scanlines (including during Vblank/Vsync). Both Vblank and Hblank are always toggling (even during Forced Blank, and no matter if IRQs or NMIs are enabled. <br /></td></tr>
+<tr class="separator:af25c0fcc5e2519aa98aebe289d391ca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8627bb48b8760c306190eb7ed050af73"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a8627bb48b8760c306190eb7ed050af73">REG_NMITIMEN</a>&#160;&#160;&#160;(*(vuint8*)0x4200)</td></tr>
+<tr class="memdesc:a8627bb48b8760c306190eb7ed050af73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Enable and Joypad Request (W). 7 VBlank NMI Enable (0=Disable, 1=Enable) (Initially disabled on reset) 6 Not used 5-4 H/V IRQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) 3-1 Not used 0 Joypad Enable (0=Disable, 1=Enable Automatic Reading of Joypad)  <a href="#a8627bb48b8760c306190eb7ed050af73">More...</a><br /></td></tr>
+<tr class="separator:a8627bb48b8760c306190eb7ed050af73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a29932a3a9cf7dbbf25a3a30c9e25fa"><td class="memItemLeft" align="right" valign="top"><a id="a3a29932a3a9cf7dbbf25a3a30c9e25fa"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a3a29932a3a9cf7dbbf25a3a30c9e25fa">REG_RDNMI</a>&#160;&#160;&#160;(*(vuint8*)0x4210)</td></tr>
+<tr class="memdesc:a3a29932a3a9cf7dbbf25a3a30c9e25fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">V-Blank NMI Flag and CPU Version Number (R) (Read/Ack) 7 Vblank NMI Flag (0=None, 1=Interrupt Request) (set on Begin of Vblank) 6-4 Not used 3-0 CPU 5A22 Version Number (version 2 exists) The NMI flag gets set at begin of Vblank (this happens even if NMIs are disabled). The flag gets reset automatically at end of Vblank, and gets also reset after reading from this register. The SNES has only one NMI source (vblank), and the NMI flag is automatically reset (on vblank end), so there's normally no need to read/acknowledge the flag, except one special case: If one does disable and re-enable NMIs, then an old NMI may be executed again; acknowledging avoids that effect. The CPU includes another internal NMI flag, which gets set when "[4200h].7 AND [4210h].7" changes from 0-to-1, and gets cleared when the NMI gets executed (which should happen around after the next opcode) (if a DMA transfer is in progress, then it is somewhere after the DMA, in that case the NMI can get executed outside of the Vblank period, ie. at a time when [4210h].7 is no longer set). <br /></td></tr>
+<tr class="separator:a3a29932a3a9cf7dbbf25a3a30c9e25fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1982e080d74da9e146881ca580ffec0d"><td class="memItemLeft" align="right" valign="top"><a id="a1982e080d74da9e146881ca580ffec0d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a1982e080d74da9e146881ca580ffec0d">VBL_READY</a>&#160;&#160;&#160;(1&lt;&lt;7)</td></tr>
+<tr class="memdesc:a1982e080d74da9e146881ca580ffec0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">V-Blank Period Flag (0=No, 1=VBlank) <br /></td></tr>
+<tr class="separator:a1982e080d74da9e146881ca580ffec0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03304aaf535795c2857e357e028cdebe"><td class="memItemLeft" align="right" valign="top"><a id="a03304aaf535795c2857e357e028cdebe"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a03304aaf535795c2857e357e028cdebe">WaitVBLFlag</a></td></tr>
+<tr class="memdesc:a03304aaf535795c2857e357e028cdebe"><td class="mdescLeft">&#160;</td><td class="mdescRight">macro to wait the VBL flag OK <br /></td></tr>
+<tr class="separator:a03304aaf535795c2857e357e028cdebe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac3c55f6e16ff70d19c046404b9aa8a9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#ac3c55f6e16ff70d19c046404b9aa8a9b">consoleCopySram</a> (u8 *source, u16 size)</td></tr>
-<tr class="memdesc:ac3c55f6e16ff70d19c046404b9aa8a9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send data to SRAM.  <a href="#ac3c55f6e16ff70d19c046404b9aa8a9b">More...</a><br /></td></tr>
-<tr class="separator:ac3c55f6e16ff70d19c046404b9aa8a9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e52d15b5a1befa42f5758de19dfb70c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a> (u16 x, u16 y, char *fmt,...)</td></tr>
-<tr class="memdesc:a7e52d15b5a1befa42f5758de19dfb70c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output formatted string on a screen (tiles mode)  <a href="#a7e52d15b5a1befa42f5758de19dfb70c">More...</a><br /></td></tr>
-<tr class="separator:a7e52d15b5a1befa42f5758de19dfb70c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4a32a4f79f7f382cd95e9bf9e8b7a40"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#af4a32a4f79f7f382cd95e9bf9e8b7a40">consoleDrawTextMap</a> (u8 x, u8 y, u8 *map, u8 attributes, char *fmt,...)</td></tr>
-<tr class="memdesc:af4a32a4f79f7f382cd95e9bf9e8b7a40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output formatted string on a screen (2 colors tiles mode)  <a href="#af4a32a4f79f7f382cd95e9bf9e8b7a40">More...</a><br /></td></tr>
-<tr class="separator:af4a32a4f79f7f382cd95e9bf9e8b7a40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6dd21f159f8388adf48398efe8faf758"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a6dd21f159f8388adf48398efe8faf758">consoleDrawTextMapCenter</a> (u8 y, u8 *map, u8 attributes, char *fmt,...)</td></tr>
-<tr class="memdesc:a6dd21f159f8388adf48398efe8faf758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output formatted string on a screen, centered it (2 colors tiles mode)  <a href="#a6dd21f159f8388adf48398efe8faf758">More...</a><br /></td></tr>
-<tr class="separator:a6dd21f159f8388adf48398efe8faf758"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6047713bb5a73afd3cd1d77e336bcdad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a> (void)</td></tr>
-<tr class="memdesc:a6047713bb5a73afd3cd1d77e336bcdad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize console.  <a href="#a6047713bb5a73afd3cd1d77e336bcdad">More...</a><br /></td></tr>
-<tr class="separator:a6047713bb5a73afd3cd1d77e336bcdad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a458fa049800e12429ca0ba401e513746"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a458fa049800e12429ca0ba401e513746">consoleInitText</a> (u8 bgNumber, u8 paletteNumber, u8 *gfxText)</td></tr>
-<tr class="memdesc:a458fa049800e12429ca0ba401e513746"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the Text System.  <a href="#a458fa049800e12429ca0ba401e513746">More...</a><br /></td></tr>
-<tr class="separator:a458fa049800e12429ca0ba401e513746"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe1fabedc24a3adef79f32e02c3bc2d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#abe1fabedc24a3adef79f32e02c3bc2d5">consoleLoadSram</a> (u8 *dest, u16 size)</td></tr>
-<tr class="memdesc:abe1fabedc24a3adef79f32e02c3bc2d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load data from SRAM.  <a href="#abe1fabedc24a3adef79f32e02c3bc2d5">More...</a><br /></td></tr>
-<tr class="separator:abe1fabedc24a3adef79f32e02c3bc2d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae05914ac61acdb7ac77c7496624f4303"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#ae05914ac61acdb7ac77c7496624f4303">consoleNocashMessage</a> (const char *message)</td></tr>
-<tr class="memdesc:ae05914ac61acdb7ac77c7496624f4303"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a message to the no$sns debug window.  <a href="#ae05914ac61acdb7ac77c7496624f4303">More...</a><br /></td></tr>
-<tr class="separator:ae05914ac61acdb7ac77c7496624f4303"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0993a72682f86d17784a7f4659562de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#ac0993a72682f86d17784a7f4659562de">consoleSetTextCol</a> (u16 colorChar, u16 colorBG)</td></tr>
-<tr class="memdesc:ac0993a72682f86d17784a7f4659562de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change Character and Background color of text.  <a href="#ac0993a72682f86d17784a7f4659562de">More...</a><br /></td></tr>
-<tr class="separator:ac0993a72682f86d17784a7f4659562de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bfb9c53fa37e76873d14be4446e71e5"><td class="memItemLeft" align="right" valign="top"><a id="a9bfb9c53fa37e76873d14be4446e71e5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a9bfb9c53fa37e76873d14be4446e71e5">consoleUpdate</a> (void)</td></tr>
-<tr class="memdesc:a9bfb9c53fa37e76873d14be4446e71e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update current text buffer on screen. <br /></td></tr>
-<tr class="separator:a9bfb9c53fa37e76873d14be4446e71e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0615d3903c2ad6faaed1443bd44c8ae2"><td class="memItemLeft" align="right" valign="top">u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a> (void)</td></tr>
-<tr class="memdesc:a0615d3903c2ad6faaed1443bd44c8ae2"><td class="mdescLeft">&#160;</td><td class="mdescRight">return a randomized number  <a href="#a0615d3903c2ad6faaed1443bd44c8ae2">More...</a><br /></td></tr>
-<tr class="separator:a0615d3903c2ad6faaed1443bd44c8ae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a01a196c5c404d8e3d16ef799cc0b1653"><td class="memItemLeft" align="right" valign="top"><a id="a01a196c5c404d8e3d16ef799cc0b1653"></a>
-u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a01a196c5c404d8e3d16ef799cc0b1653">pvsneslibdirty</a></td></tr>
-<tr class="memdesc:a01a196c5c404d8e3d16ef799cc0b1653"><td class="mdescLeft">&#160;</td><td class="mdescRight">flag to redraw text during vblank <br /></td></tr>
-<tr class="separator:a01a196c5c404d8e3d16ef799cc0b1653"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb9f478403f30556d576a6fa54bc9073"><td class="memItemLeft" align="right" valign="top"><a id="afb9f478403f30556d576a6fa54bc9073"></a>
-u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#afb9f478403f30556d576a6fa54bc9073">pvsneslibfont_map</a> [0x800]</td></tr>
-<tr class="memdesc:afb9f478403f30556d576a6fa54bc9073"><td class="mdescLeft">&#160;</td><td class="mdescRight">tilemap used for text display <br /></td></tr>
-<tr class="separator:afb9f478403f30556d576a6fa54bc9073"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef3bf9522613bca02b4a00ea910d492f"><td class="memItemLeft" align="right" valign="top"><a id="aef3bf9522613bca02b4a00ea910d492f"></a>
-u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#aef3bf9522613bca02b4a00ea910d492f">snes_50hz</a></td></tr>
-<tr class="memdesc:aef3bf9522613bca02b4a00ea910d492f"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 if on a PAL/50Hz SNES <br /></td></tr>
-<tr class="separator:aef3bf9522613bca02b4a00ea910d492f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e14b74b621c822db9af978d0ad31d1a"><td class="memItemLeft" align="right" valign="top"><a id="a5e14b74b621c822db9af978d0ad31d1a"></a>
-u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a5e14b74b621c822db9af978d0ad31d1a">snes_vblank_count</a></td></tr>
-<tr class="memdesc:a5e14b74b621c822db9af978d0ad31d1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of VBL since consoleInit called. <br /></td></tr>
-<tr class="separator:a5e14b74b621c822db9af978d0ad31d1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64d4258f3ba782ce6db9f940fc88cc21"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a64d4258f3ba782ce6db9f940fc88cc21">nmiSet</a> (<a class="el" href="a00344.html#a65983c92bfd6f87a74927ad398d4b271">VoidFn</a> handler)</td></tr>
+<tr class="memdesc:a64d4258f3ba782ce6db9f940fc88cc21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a handler for the given interrupt mask. Specify the handler to use for the nmi interrupt.  <a href="#a64d4258f3ba782ce6db9f940fc88cc21">More...</a><br /></td></tr>
+<tr class="separator:a64d4258f3ba782ce6db9f940fc88cc21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a815e2626bd26d0e936d507a363ecd723"><td class="memItemLeft" align="right" valign="top"><a id="a815e2626bd26d0e936d507a363ecd723"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00326.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a> (void)</td></tr>
+<tr class="memdesc:a815e2626bd26d0e936d507a363ecd723"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for vblank interrupt Waits for a vertical blank interrupt. <br /></td></tr>
+<tr class="separator:a815e2626bd26d0e936d507a363ecd723"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>snes generic console support. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a id="ac3c55f6e16ff70d19c046404b9aa8a9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3c55f6e16ff70d19c046404b9aa8a9b">&#9670;&nbsp;</a></span>consoleCopySram()</h2>
+<div class="textblock"><p>snes interrupt support. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a435380b6460ebd669f2b344ea79316d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a435380b6460ebd669f2b344ea79316d6">&#9670;&nbsp;</a></span>INT_VBLENABLE</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void consoleCopySram </td>
-          <td>(</td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>source</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">#define INT_VBLENABLE&#160;&#160;&#160;(1&lt;&lt;7)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Send data to SRAM. </p>
+<p>Bit defines for the interrupt registers. </p>
+<p>VBlank NMI Enable (0=Disable, 1=Enable) (Initially disabled on reset) </p>
+
+</div>
+</div>
+<a id="a8627bb48b8760c306190eb7ed050af73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8627bb48b8760c306190eb7ed050af73">&#9670;&nbsp;</a></span>REG_NMITIMEN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define REG_NMITIMEN&#160;&#160;&#160;(*(vuint8*)0x4200)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Interrupt Enable and Joypad Request (W). 7 VBlank NMI Enable (0=Disable, 1=Enable) (Initially disabled on reset) 6 Not used 5-4 H/V IRQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) 3-1 Not used 0 Joypad Enable (0=Disable, 1=Enable Automatic Reading of Joypad) </p>
+<p>Disabling IRQs (via bit4-5) does additionally acknowledge IRQs. There's no such effect when disabling NMIs (via bit7). </p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a64d4258f3ba782ce6db9f940fc88cc21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64d4258f3ba782ce6db9f940fc88cc21">&#9670;&nbsp;</a></span>nmiSet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">nmiSet </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00344.html#a65983c92bfd6f87a74927ad398d4b271">VoidFn</a>&#160;</td>
+          <td class="paramname"><em>handler</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a handler for the given interrupt mask. Specify the handler to use for the nmi interrupt. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">source</td><td>the source to copy from </td></tr>
-    <tr><td class="paramname">size</td><td>the size in bytes of the data to copy. </td></tr>
+    <tr><td class="paramname">handler</td><td>Address of the function to use as an interrupt service routine </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00436.html#a9">sram/sram.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a id="a7e52d15b5a1befa42f5758de19dfb70c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e52d15b5a1befa42f5758de19dfb70c">&#9670;&nbsp;</a></span>consoleDrawText()</h2>
 
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void consoleDrawText </td>
-          <td>(</td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>fmt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Output formatted string on a screen (tiles mode) </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">x</td><td>The X character number the string should start on </td></tr>
-    <tr><td class="paramname">y</td><td>The Y character number the string should start on </td></tr>
-    <tr><td class="paramname">fmt</td><td>The Format string (see printf() documentation in your local C tutorial)</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Output a text string to the screen. Before using this, you need to call <a class="el" href="a00326.html#a458fa049800e12429ca0ba401e513746" title="Initialize the Text System. ">consoleInitText()</a>. You can also print the value of variables this way, by putting a format string and additional parameters. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00428.html#a9">audio/music/Music.c</a>, <a class="el" href="a00430.html#a8">audio/tada/Tada.c</a>, <a class="el" href="a00426.html#a33">games/likemario/LikeMario.c</a>, <a class="el" href="a00402.html#a15">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="a00394.html#a5">hello_world/hello_world.c</a>, <a class="el" href="a00422.html#a2">input/input.c</a>, <a class="el" href="a00434.html#a2">random/random.c</a>, <a class="el" href="a00438.html#a3">scoring/scoring.c</a>, <a class="el" href="a00436.html#a2">sram/sram.c</a>, and <a class="el" href="a00424.html#a2">timer/timer.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a id="af4a32a4f79f7f382cd95e9bf9e8b7a40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4a32a4f79f7f382cd95e9bf9e8b7a40">&#9670;&nbsp;</a></span>consoleDrawTextMap()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void consoleDrawTextMap </td>
-          <td>(</td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>map</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>attributes</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>fmt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Output formatted string on a screen (2 colors tiles mode) </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">x</td><td>The X character number the string should start on </td></tr>
-    <tr><td class="paramname">y</td><td>The Y character number the string should start on </td></tr>
-    <tr><td class="paramname">map</td><td>The 0x800 char map entry to put string </td></tr>
-    <tr><td class="paramname">attributes</td><td>attributes for tiles </td></tr>
-    <tr><td class="paramname">fmt</td><td>The Format string (see printf() documentation in your local C tutorial)</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Output a text string to the screen. Before using this, you need to call <a class="el" href="a00326.html#a458fa049800e12429ca0ba401e513746" title="Initialize the Text System. ">consoleInitText()</a>. You can also print the value of variables this way, by putting a format string and additional parameters. </p>
-
-</div>
-</div>
-<a id="a6dd21f159f8388adf48398efe8faf758"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6dd21f159f8388adf48398efe8faf758">&#9670;&nbsp;</a></span>consoleDrawTextMapCenter()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void consoleDrawTextMapCenter </td>
-          <td>(</td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>map</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>attributes</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>fmt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Output formatted string on a screen, centered it (2 colors tiles mode) </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">y</td><td>The Y character number the string should start on </td></tr>
-    <tr><td class="paramname">map</td><td>The 0x800 char map entry to put string </td></tr>
-    <tr><td class="paramname">attributes</td><td>attributes for tiles </td></tr>
-    <tr><td class="paramname">fmt</td><td>The Format string (see printf() documentation in your local C tutorial)</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Output a text string to the screen. Before using this, you need to call <a class="el" href="a00326.html#a458fa049800e12429ca0ba401e513746" title="Initialize the Text System. ">consoleInitText()</a>. You can also print the value of variables this way, by putting a format string and additional parameters. The text will be centered on x axis. </p>
-
-</div>
-</div>
-<a id="a6047713bb5a73afd3cd1d77e336bcdad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6047713bb5a73afd3cd1d77e336bcdad">&#9670;&nbsp;</a></span>consoleInit()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">consoleInit </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Initialize console. </p>
-<p>Generic init for SNES console. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00428.html#a1">audio/music/Music.c</a>, <a class="el" href="a00430.html#a2">audio/tada/Tada.c</a>, <a class="el" href="a00432.html#a0">debug/debug.c</a>, <a class="el" href="a00426.html#a14">games/likemario/LikeMario.c</a>, <a class="el" href="a00396.html#a0">graphics/Backgrounds/Mode0/Mode0.c</a>, <a class="el" href="a00398.html#a0">graphics/Backgrounds/Mode1/Mode1.c</a>, <a class="el" href="a00404.html#a0">graphics/Backgrounds/Mode1MixedScroll/Mode1MixedScroll.c</a>, <a class="el" href="a00400.html#a0">graphics/Backgrounds/Mode1Png/Mode1.c</a>, <a class="el" href="a00402.html#a0">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="a00406.html#a0">graphics/Backgrounds/Mode3/Mode3.c</a>, <a class="el" href="a00408.html#a0">graphics/Backgrounds/Mode7/Mode7.c</a>, <a class="el" href="a00410.html#a0">graphics/Effects/HDMAGradient/HDMAGradient.c</a>, <a class="el" href="a00412.html#a0">graphics/Effects/MosaicShading/MosaicShading.c</a>, <a class="el" href="a00414.html#a0">graphics/Effects/Transparency/Transparency.c</a>, <a class="el" href="a00418.html#a0">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="a00420.html#a4">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="a00416.html#a0">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="a00394.html#a0">hello_world/hello_world.c</a>, <a class="el" href="a00422.html#a0">input/input.c</a>, <a class="el" href="a00434.html#a0">random/random.c</a>, <a class="el" href="a00438.html#a0">scoring/scoring.c</a>, <a class="el" href="a00436.html#a0">sram/sram.c</a>, and <a class="el" href="a00424.html#a0">timer/timer.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a id="a458fa049800e12429ca0ba401e513746"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a458fa049800e12429ca0ba401e513746">&#9670;&nbsp;</a></span>consoleInitText()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void consoleInitText </td>
-          <td>(</td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>bgNumber</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>paletteNumber</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>gfxText</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Initialize the Text System. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">bgNumber</td><td>The BG number to show Text on. </td></tr>
-    <tr><td class="paramname">paletteNumber</td><td>Palette number (0..16). </td></tr>
-    <tr><td class="paramname">gfxText</td><td>Pointer to tiles gfx for printing</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Reserve a BG and load the font characters into VRAM. It will only work in tiled display modes. Also, please note that this function will overwrite BG palette number 0 and 1 to black and white, and set the Font to use these two colors. You can change colors by calling <a class="el" href="a00326.html#ac0993a72682f86d17784a7f4659562de" title="Change Character and Background color of text. ">consoleSetTextCol()</a>. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00428.html#a5">audio/music/Music.c</a>, <a class="el" href="a00430.html#a4">audio/tada/Tada.c</a>, <a class="el" href="a00426.html#a19">games/likemario/LikeMario.c</a>, <a class="el" href="a00402.html#a1">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="a00394.html#a1">hello_world/hello_world.c</a>, <a class="el" href="a00422.html#a1">input/input.c</a>, <a class="el" href="a00434.html#a1">random/random.c</a>, <a class="el" href="a00438.html#a1">scoring/scoring.c</a>, <a class="el" href="a00436.html#a1">sram/sram.c</a>, and <a class="el" href="a00424.html#a1">timer/timer.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a id="abe1fabedc24a3adef79f32e02c3bc2d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe1fabedc24a3adef79f32e02c3bc2d5">&#9670;&nbsp;</a></span>consoleLoadSram()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void consoleLoadSram </td>
-          <td>(</td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>dest</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Load data from SRAM. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dest</td><td>the destination to load into </td></tr>
-    <tr><td class="paramname">size</td><td>the size in bytes of the data to copy. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00436.html#a11">sram/sram.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a id="ae05914ac61acdb7ac77c7496624f4303"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae05914ac61acdb7ac77c7496624f4303">&#9670;&nbsp;</a></span>consoleNocashMessage()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void consoleNocashMessage </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>message</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Send a message to the no$sns debug window. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">message</td><td>The message to send </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00432.html#a1">debug/debug.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a id="ac0993a72682f86d17784a7f4659562de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac0993a72682f86d17784a7f4659562de">&#9670;&nbsp;</a></span>consoleSetTextCol()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">consoleSetTextCol </td>
-          <td>(</td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>colorChar</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>colorBG</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Change Character and Background color of text. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">colorChar</td><td>The BG color palette with RGB5 values of text itself </td></tr>
-    <tr><td class="paramname">colorBG</td><td>The BG color palette with RGB5 values of text background </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00426.html#a20">games/likemario/LikeMario.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a id="a0615d3903c2ad6faaed1443bd44c8ae2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0615d3903c2ad6faaed1443bd44c8ae2">&#9670;&nbsp;</a></span>rand()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">rand </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>return a randomized number </p>
-<dl class="section return"><dt>Returns</dt><dd>unsigned short of a randozied number </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="a00434.html#a8">random/random.c</a>.</dd>
-</dl>
 </div>
 </div>
 </div><!-- contents -->

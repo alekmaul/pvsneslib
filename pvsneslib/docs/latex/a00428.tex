@@ -1,52 +1,43 @@
-\hypertarget{a00428}{}\section{graphics/\+Backgrounds/\+Mode1\+Mixed\+Scroll/\+Mode1\+Mixed\+Scroll.\+c}
+\hypertarget{a00428}{}\section{random/random.\+c}
 
 \begin{DoxyCodeInclude}
 \textcolor{comment}{/*---------------------------------------------------------------------------------}
 \textcolor{comment}{}
 \textcolor{comment}{}
-\textcolor{comment}{    Simple tile mode 1 with midex background scrolling demo}
+\textcolor{comment}{    Simple random generation demo}
 \textcolor{comment}{    -- alekmaul}
 \textcolor{comment}{}
 \textcolor{comment}{}
 \textcolor{comment}{---------------------------------------------------------------------------------*/}
-\textcolor{preprocessor}{#include <\hyperlink{a00386}{snes.h}>}
+\textcolor{preprocessor}{#include <\hyperlink{a00356}{snes.h}>}
 
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} patpvsneslib, patpvsneslib\_end;
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} patshader, patshader\_end;
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} palpvsneslib,palpvsneslib\_end,palshader,palshader\_end;
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} mappvsneslib, mappvsneslib\_end;
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} mapshader, mapshader\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} snesfont;
+
+\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} pad0;
 
 \textcolor{comment}{//---------------------------------------------------------------------------------}
 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{void}) \{
-    \textcolor{keywordtype}{short} scrX=0, scrY=0;
-    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} pad0, move;
-
     \textcolor{comment}{// Initialize SNES }
-    \hyperlink{a00350_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
+    \hyperlink{a00320_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
+    
+    \textcolor{comment}{// Initialize text console with our font}
+    \hyperlink{a00320_a458fa049800e12429ca0ba401e513746}{consoleInitText}(0, 0, &snesfont);
 
-    \textcolor{comment}{// Copy tiles to VRAM}
-    \hyperlink{a00347_ae09a7ac09be78eef0f28a6c7aabc82ad}{bgInitTileSet}(1, &patpvsneslib, &palpvsneslib, 0, (&patpvsneslib\_end - &patpvsneslib), 16*
-      2, BG\_16COLORS, 0x5000);
-    \hyperlink{a00347_ae09a7ac09be78eef0f28a6c7aabc82ad}{bgInitTileSet}(0, &patshader, &palshader, 1, (&patshader\_end - &patshader),  16*2, 
-      BG\_16COLORS, 0x4000);
+    \textcolor{comment}{// Draw a wonderfull text :P}
+    \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(5,8,\textcolor{stringliteral}{"JUST DO RANDOM NUMBERS"});
+    \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(3,10,\textcolor{stringliteral}{"PRESS KEY FOR ANOTHER ONE"});
 
-    \textcolor{comment}{// Copy Map to VRAM}
-    \hyperlink{a00347_acc385296e159449a81d18f5e219c8032}{bgInitMapSet}(1, &mappvsneslib, (&mappvsneslib\_end - &mappvsneslib),
-      \hyperlink{a00347_a11724b6748ce0954e9b43819263537fc}{SC\_32x32}, 0x1400);
-    \hyperlink{a00347_acc385296e159449a81d18f5e219c8032}{bgInitMapSet}(0, &mapshader, (&mapshader\_end - &mapshader),
-      \hyperlink{a00347_a11724b6748ce0954e9b43819263537fc}{SC\_32x32}, 0x1800);
-
-    \textcolor{comment}{// Now Put in 16 color mode and out text on top of screen}
-    \hyperlink{a00383_afd9e46ae627d055dd8c98a4b0ebb73b1}{setMode}(\hyperlink{a00347_a05c862edb7f8f75036f10c04dcc3c2a6}{BG\_MODE1},0);  \hyperlink{a00347_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(2);
+    \textcolor{comment}{// Now Put in 16 color mode and disable Bgs except current}
+    \hyperlink{a00353_afd9e46ae627d055dd8c98a4b0ebb73b1}{setMode}(\hyperlink{a00317_a05c862edb7f8f75036f10c04dcc3c2a6}{BG\_MODE1},0);  \hyperlink{a00317_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(1);  
+      \hyperlink{a00317_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(2);
 
     \textcolor{comment}{// Wait for nothing :P}
+    \hyperlink{a00353_a4c257abebd75e4653441e8afe672bb5e}{setBrightness}(0xF);  
+    
     \textcolor{keywordflow}{while}(1) \{
-        \textcolor{comment}{// change scrolling }
-        scrX++; scrY++; 
-        \hyperlink{a00347_aa5e0112ea2d4b514c2dddc6ed2c7c3c7}{bgSetScroll}(0, scrX,scrY);
-
-        \hyperlink{a00356_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}(); 
+        pad0 = \hyperlink{a00335_a6063e0eec9a36e437fc32951acafa44c}{padsCurrent}(0);
+        \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(6,12,\textcolor{stringliteral}{"RANDOM NUMBER=%04x"},\hyperlink{a00320_a0615d3903c2ad6faaed1443bd44c8ae2}{rand}() & 0xFFFF);
+        \textcolor{keywordflow}{while} (pad0 == 0) \{ pad0 = \hyperlink{a00335_a6063e0eec9a36e437fc32951acafa44c}{padsCurrent}(0); \hyperlink{a00326_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}(); \}
     \}
     \textcolor{keywordflow}{return} 0;
 \}

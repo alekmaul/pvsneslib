@@ -1,40 +1,40 @@
-\hypertarget{a00394}{}\section{hello\+\_\+world/hello\+\_\+world.\+c}
+\hypertarget{a00394}{}\section{graphics/\+Backgrounds/\+Mode1\+Png/\+Mode1.\+c}
 
 \begin{DoxyCodeInclude}
 \textcolor{comment}{/*---------------------------------------------------------------------------------}
 \textcolor{comment}{}
 \textcolor{comment}{}
-\textcolor{comment}{    Simple console 'hello world' demo}
+\textcolor{comment}{    Simple tile mode 1 demo with png graphic}
 \textcolor{comment}{    -- alekmaul}
 \textcolor{comment}{}
 \textcolor{comment}{}
 \textcolor{comment}{---------------------------------------------------------------------------------*/}
-\textcolor{preprocessor}{#include <\hyperlink{a00362}{snes.h}>}
+\textcolor{preprocessor}{#include <\hyperlink{a00356}{snes.h}>}
 
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} snesfont;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} patterns, patterns\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} palette, palette\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} map, map\_end;
 
 \textcolor{comment}{//---------------------------------------------------------------------------------}
 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{void}) \{
     \textcolor{comment}{// Initialize SNES }
-    \hyperlink{a00326_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
+    \hyperlink{a00320_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
+     
+    \textcolor{comment}{// Copy tiles to VRAM}
+    \hyperlink{a00317_ae09a7ac09be78eef0f28a6c7aabc82ad}{bgInitTileSet}(0, &patterns, &palette, 0, (&patterns\_end - &patterns), (&palette\_end - &
+      palette), BG\_16COLORS, 0x4000);
+
+    \textcolor{comment}{// Copy Map to VRAM}
+    \hyperlink{a00317_acc385296e159449a81d18f5e219c8032}{bgInitMapSet}(0, &map, (&map\_end - &map),\hyperlink{a00317_a11724b6748ce0954e9b43819263537fc}{SC\_32x32}, 0x0000);
+
+    \textcolor{comment}{// Now Put in 16 color mode and disable other BGs except 1st one}
+    \hyperlink{a00353_afd9e46ae627d055dd8c98a4b0ebb73b1}{setMode}(\hyperlink{a00317_a05c862edb7f8f75036f10c04dcc3c2a6}{BG\_MODE1},0);  \hyperlink{a00317_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(1); 
+      \hyperlink{a00317_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(2);
+    \hyperlink{a00353_abc7d4ef8ebc22f5b710927909bb3f144}{setScreenOn}();
     
-    \textcolor{comment}{// Initialize text console with our font}
-    \hyperlink{a00326_a458fa049800e12429ca0ba401e513746}{consoleInitText}(0, 0, &snesfont);
-
-    \textcolor{comment}{// Now Put in 16 color mode and disable Bgs except current}
-    \hyperlink{a00359_afd9e46ae627d055dd8c98a4b0ebb73b1}{setMode}(\hyperlink{a00323_a05c862edb7f8f75036f10c04dcc3c2a6}{BG\_MODE1},0);  \hyperlink{a00323_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(1);  
-      \hyperlink{a00323_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(2);
-
-    \textcolor{comment}{// Draw a wonderfull text :P}
-    \hyperlink{a00326_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(10,10,\textcolor{stringliteral}{"Hello World !"});
-    \hyperlink{a00326_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(7,14,\textcolor{stringliteral}{"WELCOME TO LIBSNES"});
-    \hyperlink{a00326_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(3,18,\textcolor{stringliteral}{"HTTP://WWW.PORTABLEDEV.COM"});
-
     \textcolor{comment}{// Wait for nothing :P}
-    \hyperlink{a00359_a4c257abebd75e4653441e8afe672bb5e}{setBrightness}(0xF);  
-    
     \textcolor{keywordflow}{while}(1) \{
-        \hyperlink{a00332_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}();
+        \hyperlink{a00326_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}();
     \}
     \textcolor{keywordflow}{return} 0;
 \}

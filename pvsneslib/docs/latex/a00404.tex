@@ -1,80 +1,53 @@
-\hypertarget{a00404}{}\section{scores.\+h File Reference}
-\label{a00404}\index{scores.\+h@{scores.\+h}}
+\hypertarget{a00404}{}\section{graphics/\+Effects/\+H\+D\+M\+A\+Gradient/\+H\+D\+M\+A\+Gradient.\+c}
 
+\begin{DoxyCodeInclude}
+\textcolor{comment}{/*---------------------------------------------------------------------------------}
+\textcolor{comment}{}
+\textcolor{comment}{}
+\textcolor{comment}{    Simple tile mode 3 demo with more than 32k tiles}
+\textcolor{comment}{    -- alekmaul}
+\textcolor{comment}{}
+\textcolor{comment}{}
+\textcolor{comment}{---------------------------------------------------------------------------------*/}
+\textcolor{preprocessor}{#include <\hyperlink{a00356}{snes.h}>}
 
-Wrapper functions for score management.  
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} patterns,patterns1;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} palette;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} map, map\_end;
 
+\textcolor{comment}{//---------------------------------------------------------------------------------}
+\textcolor{keywordtype}{int} main(\textcolor{keywordtype}{void}) \{
+    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} pad0, pad1=0;
+    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} gradient=15;
+    
+    \textcolor{comment}{// Initialize SNES }
+    \hyperlink{a00320_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
+    
+    \textcolor{comment}{// Read tiles to VRAM in 2 phases because we are more than 32k}
+    \hyperlink{a00317_ae09a7ac09be78eef0f28a6c7aabc82ad}{bgInitTileSet}(0, &patterns, &palette, 0, 0x8000, 256*2, BG\_256COLORS, 0x1000);
+    \hyperlink{a00323_aaf545b3f811f6ef4b7c4be434701a77a}{dmaCopyVram}(&patterns1, 0x5000, 0x6000);
 
-{\ttfamily \#include $<$snes/snestypes.\+h$>$}\newline
-\subsection*{Functions}
-\begin{DoxyCompactItemize}
-\item 
-void \hyperlink{a00404_a95d4103529817bc4d7efbaa7098ae2e5}{score\+Add} (sco\+Memory $\ast$source, u16 value)
-\begin{DoxyCompactList}\small\item\em add a value to a score memory \end{DoxyCompactList}\item 
-void \hyperlink{a00404_a610bffa01efc5915459764c57f0a7d32}{score\+Clear} (sco\+Memory $\ast$source)
-\begin{DoxyCompactList}\small\item\em clear a score memory \end{DoxyCompactList}\item 
-void \hyperlink{a00404_afc036e454a935daea483dc85ee1d95a8}{score\+Cpy} (sco\+Memory $\ast$source, sco\+Memory $\ast$dest)
-\begin{DoxyCompactList}\small\item\em copy a score memory to another score memory \end{DoxyCompactList}\end{DoxyCompactItemize}
+    \textcolor{comment}{// Copy Map to VRAM}
+    \hyperlink{a00317_acc385296e159449a81d18f5e219c8032}{bgInitMapSet}(0, &map, (&map\_end - &map),\hyperlink{a00317_a11724b6748ce0954e9b43819263537fc}{SC\_32x32}, 0x0000);
 
+    \textcolor{comment}{// Now Put in 256 color mode and disable other BGs except 1st one}
+    \hyperlink{a00353_afd9e46ae627d055dd8c98a4b0ebb73b1}{setMode}(\hyperlink{a00317_ab74253172bcb87b7947118b746ab2849}{BG\_MODE3},0); \hyperlink{a00317_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(1); 
+    \hyperlink{a00353_abc7d4ef8ebc22f5b710927909bb3f144}{setScreenOn}();
 
-\subsection{Detailed Description}
-Wrapper functions for score management. 
-
-
-
-\subsection{Function Documentation}
-\mbox{\Hypertarget{a00404_a95d4103529817bc4d7efbaa7098ae2e5}\label{a00404_a95d4103529817bc4d7efbaa7098ae2e5}} 
-\index{scores.\+h@{scores.\+h}!score\+Add@{score\+Add}}
-\index{score\+Add@{score\+Add}!scores.\+h@{scores.\+h}}
-\subsubsection{\texorpdfstring{score\+Add()}{scoreAdd()}}
-{\footnotesize\ttfamily void score\+Add (\begin{DoxyParamCaption}\item[{sco\+Memory $\ast$}]{source,  }\item[{u16}]{value }\end{DoxyParamCaption})}
-
-
-
-add a value to a score memory 
-
-
-\begin{DoxyParams}{Parameters}
-{\em source} & the source to clear from \\
-\hline
-{\em value} & the value to add \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00495}{scoring/scoring.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00404_a610bffa01efc5915459764c57f0a7d32}\label{a00404_a610bffa01efc5915459764c57f0a7d32}} 
-\index{scores.\+h@{scores.\+h}!score\+Clear@{score\+Clear}}
-\index{score\+Clear@{score\+Clear}!scores.\+h@{scores.\+h}}
-\subsubsection{\texorpdfstring{score\+Clear()}{scoreClear()}}
-{\footnotesize\ttfamily void score\+Clear (\begin{DoxyParamCaption}\item[{sco\+Memory $\ast$}]{source }\end{DoxyParamCaption})}
-
-
-
-clear a score memory 
-
-
-\begin{DoxyParams}{Parameters}
-{\em source} & the source to clear from \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00495}{scoring/scoring.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00404_afc036e454a935daea483dc85ee1d95a8}\label{a00404_afc036e454a935daea483dc85ee1d95a8}} 
-\index{scores.\+h@{scores.\+h}!score\+Cpy@{score\+Cpy}}
-\index{score\+Cpy@{score\+Cpy}!scores.\+h@{scores.\+h}}
-\subsubsection{\texorpdfstring{score\+Cpy()}{scoreCpy()}}
-{\footnotesize\ttfamily void score\+Cpy (\begin{DoxyParamCaption}\item[{sco\+Memory $\ast$}]{source,  }\item[{sco\+Memory $\ast$}]{dest }\end{DoxyParamCaption})}
-
-
-
-copy a score memory to another score memory 
-
-
-\begin{DoxyParams}{Parameters}
-{\em source} & the source to copy from \\
-\hline
-{\em dest} & the destination to copy to \\
-\hline
-\end{DoxyParams}
+    \textcolor{comment}{// Wait for key to change gradient}
+    \textcolor{keywordflow}{while}(1) \{
+        \textcolor{comment}{// Refresh pad values in VBL and Get current #0 pad}
+        pad0 = \hyperlink{a00335_a6063e0eec9a36e437fc32951acafa44c}{padsCurrent}(0);
+        
+        \textcolor{comment}{// Update gradient if A pressed}
+        \textcolor{keywordflow}{if} (\hyperlink{a00335_a66237b0d7609c6f62d2234ef50abbd78}{padsDown}(0) & \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc}{KEY\_A}) \{
+            \hyperlink{a00323_ab112388971fc7e139bff7fe394cb49b7}{setModeHdmaGradient}(gradient);
+            gradient = (gradient - 1) & 15;
+            \textcolor{keywordflow}{if} (gradient == 1) gradient = 15;
+        \}
+        \hyperlink{a00326_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}();
+    \}
+    \textcolor{keywordflow}{return} 0;
+\}
+\end{DoxyCodeInclude}
+ 

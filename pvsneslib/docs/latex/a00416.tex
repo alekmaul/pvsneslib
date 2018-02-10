@@ -1,523 +1,62 @@
-\hypertarget{a00416}{}\section{video.\+h File Reference}
-\label{a00416}\index{video.\+h@{video.\+h}}
-
-
-contains the basic defnitions for controlling the video hardware.  
-
-
-{\ttfamily \#include $<$snes/snestypes.\+h$>$}\newline
-\subsection*{Macros}
-\begin{DoxyCompactItemize}
-\item 
-\#define \hyperlink{a00416_afe3cc8b2ea5f41a791be1b3a3cf04cb2}{C\+G\+R\+A\+M\+\_\+\+P\+A\+L\+E\+T\+TE}~((u8$\ast$)0x2122)
-\begin{DoxyCompactList}\small\item\em Palette C\+G\+R\+AM Data Write (W) 1st Access\+: Lower 8 bits (even address) 2nd Access\+: Upper 7 bits (odd address) (upper 1bit = P\+P\+U2 open bus) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_afbe2b768602914630a49573d20359eb1}\label{a00416_afbe2b768602914630a49573d20359eb1}} 
-\#define \hyperlink{a00416_afbe2b768602914630a49573d20359eb1}{C\+M\+\_\+\+D\+I\+R\+C\+O\+L\+OR}~(1$<$$<$0)
-\begin{DoxyCompactList}\small\item\em Color Math Control Register A \& B bits. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a53bf3fddfc3db6007e1307d93a4b4efb}\label{a00416_a53bf3fddfc3db6007e1307d93a4b4efb}} 
-\#define \hyperlink{a00416_a53bf3fddfc3db6007e1307d93a4b4efb}{M7\+\_\+\+H\+F\+L\+IP}~(1$<$$<$0)
-\begin{DoxyCompactList}\small\item\em Mode7 screen H-\/\+Flip (0=Normal, 1=Flipped) flip 256x256 \char`\"{}screen\char`\"{}. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a2a7c7ad9daf88f746c861372d8e64bac}\label{a00416_a2a7c7ad9daf88f746c861372d8e64bac}} 
-\#define \hyperlink{a00416_a2a7c7ad9daf88f746c861372d8e64bac}{M7\+\_\+\+O\+U\+T\+T\+I\+LE}~(3$<$$<$6)
-\begin{DoxyCompactList}\small\item\em Outside 128x128 tile area is filled by Tile 00h. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a67dc02ed9e8789089ca9aafbca6b10a6}\label{a00416_a67dc02ed9e8789089ca9aafbca6b10a6}} 
-\#define \hyperlink{a00416_a67dc02ed9e8789089ca9aafbca6b10a6}{M7\+\_\+\+O\+U\+T\+T\+R\+A\+NS}~(2$<$$<$6)
-\begin{DoxyCompactList}\small\item\em Outside 128x128 tile area is Transparent. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_ada7f40c68deddd4f58d8703af158318d}\label{a00416_ada7f40c68deddd4f58d8703af158318d}} 
-\#define \hyperlink{a00416_ada7f40c68deddd4f58d8703af158318d}{M7\+\_\+\+V\+F\+L\+IP}~(1$<$$<$1)
-\begin{DoxyCompactList}\small\item\em Mode7 screen V-\/\+Flip (0=Normal, 1=Flipped) flip 256x256 \char`\"{}screen\char`\"{}. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a156adf50dbe992aa3dab774c37c8f52c}\label{a00416_a156adf50dbe992aa3dab774c37c8f52c}} 
-\#define \hyperlink{a00416_a156adf50dbe992aa3dab774c37c8f52c}{M7\+\_\+\+W\+R\+AP}~(1$<$$<$6)
-\begin{DoxyCompactList}\small\item\em Mode7 Wrap within 128x128 tile area. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a142364f4707bee3366835d7d22494911}\label{a00416_a142364f4707bee3366835d7d22494911}} 
-\#define \hyperlink{a00416_a142364f4707bee3366835d7d22494911}{P\+P\+U\+\_\+50\+HZ}~(1$<$$<$4)
-\begin{DoxyCompactList}\small\item\em Frame Rate (P\+P\+U2.\+Pin30) (0=N\+T\+S\+C/60\+Hz, 1=P\+A\+L/50\+Hz) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a47b1bf21d0ed441344efcaf573350c46}\label{a00416_a47b1bf21d0ed441344efcaf573350c46}} 
-\#define \hyperlink{a00416_a47b1bf21d0ed441344efcaf573350c46}{R\+E\+G\+\_\+\+C\+G\+A\+DD}~($\ast$(vuint8$\ast$)0x2121)
-\begin{DoxyCompactList}\small\item\em Palette C\+G\+R\+AM Address (Color Generator Memory) (W) Color index (0..255). This is a W\+O\+R\+D-\/address (2-\/byte steps), allowing to access 256 words (512 bytes). Writing to this register resets the 1st/2nd access flipflop (for 2122h/213\+Bh) to 1st access. \end{DoxyCompactList}\item 
-\#define \hyperlink{a00416_a4de43c070a90869390fca11731a2692e}{R\+E\+G\+\_\+\+C\+G\+A\+D\+S\+UB}~($\ast$(vuint8$\ast$)0x2131)
-\begin{DoxyCompactList}\small\item\em Color Math Control Register B (W) 7 Color Math Add/\+Subtract (0=Add; Main+\+Sub, 1=Subtract; Main-\/\+Sub) 6 Color Math \char`\"{}\+Div2\char`\"{} Half Result (0=No divide, 1=Divide result by 2) 5 Color Math when Main Screen = Backdrop (0=Off, 1=On) ;\textbackslash{} 4 Color Math when Main Screen = O\+B\+J/\+Palette4..7 (0=Off, 1=On) ; O\+FF\+: Show. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a31783a38f8bf7129cd0186641e598fe4}\label{a00416_a31783a38f8bf7129cd0186641e598fe4}} 
-\#define \hyperlink{a00416_a31783a38f8bf7129cd0186641e598fe4}{R\+E\+G\+\_\+\+C\+G\+W\+S\+EL}~($\ast$(vuint8$\ast$)0x2130)
-\begin{DoxyCompactList}\small\item\em Color Math Control Register A (W) 7-\/6 Force Main Screen Black (3=Always, 2=Math\+Window, 1=Not\+Math\+Win, 0=Never) 5-\/4 Color Math Enable (0=Always, 1=Math\+Window, 2=Not\+Math\+Win, 3=Never) 3-\/2 Not used 1 Sub Screen B\+G/\+O\+BJ Enable (0=No/\+Backdrop only, 1=Yes/\+Backdrop+\+B\+G+\+O\+BJ) 0 Direct Color (for 256-\/color B\+Gs) (0=Use Palette, 1=Direct Color) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a40b0af5f9d5abe1a520205d5a99c86ab}\label{a00416_a40b0af5f9d5abe1a520205d5a99c86ab}} 
-\#define \hyperlink{a00416_a40b0af5f9d5abe1a520205d5a99c86ab}{R\+E\+G\+\_\+\+C\+O\+L\+D\+A\+TA}~($\ast$(vuint8$\ast$)0x2132)
-\begin{DoxyCompactList}\small\item\em Color Math Sub Screen Backdrop Color (W) This 8bit port allows to manipulate some (or all) bits of a 15bit R\+GB value. Examples\+: Black\+: write E0h (R,G,B=0), Cyan\+: write 20h (R=0) and D\+Fh (G,B=1\+Fh). 7 Apply Blue (0=No change, 1=Apply Intensity as Blue) 6 Apply Green (0=No change, 1=Apply Intensity as Green) 5 Apply Red (0=No change, 1=Apply Intensity as Red) 4-\/0 Intensity (0..31) \end{DoxyCompactList}\item 
-\#define \hyperlink{a00416_abec6eb1bc9f87a1143464c7418c96388}{R\+E\+G\+\_\+\+I\+N\+I\+D\+I\+SP}~($\ast$(vuint8$\ast$)0x2100)
-\begin{DoxyCompactList}\small\item\em Display Control 1 (W) 7 Forced Blanking (0=Normal, 1=Screen Black) 6-\/4 Not used 3-\/0 Master Brightness (0=Screen Black, or N=1..15\+: Brightness$\ast$(N+1)/16) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a19771159f16c9467e0c0e039e5f88a87}\label{a00416_a19771159f16c9467e0c0e039e5f88a87}} 
-\#define \hyperlink{a00416_a19771159f16c9467e0c0e039e5f88a87}{R\+E\+G\+\_\+\+M7A}~($\ast$(vuint8$\ast$)0x211\+B)
-\begin{DoxyCompactList}\small\item\em Rotation/\+Scaling Parameter A (and Maths 16bit operand) (W) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_acba1baa2a4883fa838cc3c0df3ef581e}\label{a00416_acba1baa2a4883fa838cc3c0df3ef581e}} 
-\#define \hyperlink{a00416_acba1baa2a4883fa838cc3c0df3ef581e}{R\+E\+G\+\_\+\+M7B}~($\ast$(vuint8$\ast$)0x211\+C)
-\begin{DoxyCompactList}\small\item\em Rotation/\+Scaling Parameter B (and Maths 16bit operand) (W) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_ad689e6afbfd11537255885b989f0e9b0}\label{a00416_ad689e6afbfd11537255885b989f0e9b0}} 
-\#define \hyperlink{a00416_ad689e6afbfd11537255885b989f0e9b0}{R\+E\+G\+\_\+\+M7C}~($\ast$(vuint8$\ast$)0x211\+D)
-\begin{DoxyCompactList}\small\item\em Rotation/\+Scaling Parameter C (W) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_afe5d4d5ae1ad38d6409984087fa4888b}\label{a00416_afe5d4d5ae1ad38d6409984087fa4888b}} 
-\#define \hyperlink{a00416_afe5d4d5ae1ad38d6409984087fa4888b}{R\+E\+G\+\_\+\+M7D}~($\ast$(vuint8$\ast$)0x211\+E)
-\begin{DoxyCompactList}\small\item\em Rotation/\+Scaling Parameter D (W) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a149770d8a7300cb577f99ff1198978bc}\label{a00416_a149770d8a7300cb577f99ff1198978bc}} 
-\#define \hyperlink{a00416_a149770d8a7300cb577f99ff1198978bc}{R\+E\+G\+\_\+\+M7\+H\+O\+FS}~($\ast$(vuint8$\ast$)0x210\+D)
-\begin{DoxyCompactList}\small\item\em B\+G1 Horizontal Scroll (X) (W) \end{DoxyCompactList}\item 
-\#define \hyperlink{a00416_a68fd672e1ea4124fbb5a895c2bc551e7}{R\+E\+G\+\_\+\+M7\+S\+EL}~($\ast$(vuint8$\ast$)0x211\+A)
-\begin{DoxyCompactList}\small\item\em Rotation/\+Scaling Mode Settings (W) 7-\/6 Screen Over (see below) 5-\/2 Not used 1 Screen V-\/\+Flip (0=Normal, 1=Flipped) ; flip 256x256 \char`\"{}screen\char`\"{} 0 Screen H-\/\+Flip (0=Normal, 1=Flipped) ;. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a485cdf5dd265cf6d9a808550365da845}\label{a00416_a485cdf5dd265cf6d9a808550365da845}} 
-\#define \hyperlink{a00416_a485cdf5dd265cf6d9a808550365da845}{R\+E\+G\+\_\+\+M7\+V\+O\+FS}~($\ast$(vuint8$\ast$)0x210\+E)
-\begin{DoxyCompactList}\small\item\em B\+G1 Vertical Scroll (Y) (W) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a4545542b6058c4dfa9b60e85d398fbc0}\label{a00416_a4545542b6058c4dfa9b60e85d398fbc0}} 
-\#define \hyperlink{a00416_a4545542b6058c4dfa9b60e85d398fbc0}{R\+E\+G\+\_\+\+M7X}~($\ast$(vuint8$\ast$)0x211\+F)
-\begin{DoxyCompactList}\small\item\em Rotation/\+Scaling Center Coordinate X (W) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a78d50292f8ff3b205a5cf8c81f72060d}\label{a00416_a78d50292f8ff3b205a5cf8c81f72060d}} 
-\#define \hyperlink{a00416_a78d50292f8ff3b205a5cf8c81f72060d}{R\+E\+G\+\_\+\+M7Y}~($\ast$(vuint8$\ast$)0x2120)
-\begin{DoxyCompactList}\small\item\em Rotation/\+Scaling Center Coordinate Y (W) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_aef9f3266b8197a72f0e871c2cc70264b}\label{a00416_aef9f3266b8197a72f0e871c2cc70264b}} 
-\#define \hyperlink{a00416_aef9f3266b8197a72f0e871c2cc70264b}{R\+E\+G\+\_\+\+M\+P\+YH}~($\ast$(vuint8$\ast$) 0x2136)
-\begin{DoxyCompactList}\small\item\em Signed Multiply Result (upper 8bit) (R) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a78c534175ab6daa45014ae0042bc0bd9}\label{a00416_a78c534175ab6daa45014ae0042bc0bd9}} 
-\#define \hyperlink{a00416_a78c534175ab6daa45014ae0042bc0bd9}{R\+E\+G\+\_\+\+M\+P\+YL}~($\ast$(vuint8$\ast$) 0x2134)
-\begin{DoxyCompactList}\small\item\em Signed Multiply Result (lower 8bit) (R) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a901555f2a7b0b860781c51d0b9e4eaf2}\label{a00416_a901555f2a7b0b860781c51d0b9e4eaf2}} 
-\#define \hyperlink{a00416_a901555f2a7b0b860781c51d0b9e4eaf2}{R\+E\+G\+\_\+\+M\+P\+YM}~($\ast$(vuint8$\ast$) 0x2135)
-\begin{DoxyCompactList}\small\item\em Signed Multiply Result (middle 8bit) (R) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_aa31a9a2df80d490fd67a67f9a3d27215}\label{a00416_aa31a9a2df80d490fd67a67f9a3d27215}} 
-\#define \hyperlink{a00416_aa31a9a2df80d490fd67a67f9a3d27215}{R\+E\+G\+\_\+\+M\+P\+Y\+MH}~($\ast$(vuint16$\ast$) 0x2135)
-\begin{DoxyCompactList}\small\item\em Signed Multiply Result (middle +upper 8bit) (R) \end{DoxyCompactList}\item 
-\#define \hyperlink{a00416_a4e8398519a24701e4d3041e4f02edc00}{R\+E\+G\+\_\+\+S\+T\+A\+T77}~($\ast$(vuint8$\ast$)0x213\+E)
-\begin{DoxyCompactList}\small\item\em P\+P\+U1 Status and Version Number (R) 7 O\+BJ Time overflow (0=Okay, 1=More than 8x34 O\+BJ pixels per scanline) 6 O\+BJ Range overflow (0=Okay, 1=More than 32 O\+B\+Js per scanline) 5 Master/\+Slave Mode (P\+P\+U1.\+Pin25) (0=Normal=Master) 4 Not used (P\+P\+U1 open bus) (same as last value read from P\+P\+U1) 3-\/0 P\+P\+U1 5\+C77 Version Number (only version 1 exists as far as I know) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a4d49034fd405fed8f5f42df44fa2b3a8}\label{a00416_a4d49034fd405fed8f5f42df44fa2b3a8}} 
-\#define \hyperlink{a00416_a4d49034fd405fed8f5f42df44fa2b3a8}{R\+E\+G\+\_\+\+S\+T\+A\+T78}~($\ast$(vuint8$\ast$)0x213\+F)
-\begin{DoxyCompactList}\small\item\em P\+P\+U2 Status and Version Number (R) 7 Current Interlace-\/\+Frame (0=1st, 1=2nd Frame) 6 H/\+V-\/\+Counter/\+Lightgun/\+Joypad2.\+Pin6 Latch Flag (0=No, 1=New Data Latched) 5 Not used (P\+P\+U2 open bus) (same as last value read from P\+P\+U2) 4 Frame Rate (P\+P\+U2.\+Pin30) (0=N\+T\+S\+C/60\+Hz, 1=P\+A\+L/50\+Hz) 3-\/0 P\+P\+U2 5\+C78 Version Number (version 1..3 exist as far as I know) \end{DoxyCompactList}\item 
-\#define \hyperlink{a00416_a962038681293a309df2c26f1e9a7d7e9}{R\+E\+G\+\_\+\+V\+M\+A\+D\+D\+LH}~($\ast$(vuint16$\ast$)0x2116)
-\begin{DoxyCompactList}\small\item\em V\+M\+A\+D\+DL -\/ V\+R\+AM Address (lower 8bit) (W) V\+M\+A\+D\+DH -\/ V\+R\+AM Address (upper 8bit) (W) \end{DoxyCompactList}\item 
-\#define \hyperlink{a00416_a09d7fb089889aaa434f7c88ebccb5190}{R\+E\+G\+\_\+\+V\+M\+A\+IN}~($\ast$(vuint8$\ast$)0x2115)
-\begin{DoxyCompactList}\small\item\em V\+R\+AM Address Increment Mode (W) 7 Increment V\+R\+AM Address after accessing High/\+Low byte (0=Low, 1=High) 6-\/4 Not used 3-\/2 Address Translation (0..3 = 0bit/\+None, 8bit, 9bit, 10bit) 1-\/0 Address Increment Step (0..3 = Increment Word-\/\+Address by 1,32,128,128) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_aa8cd1d05c2abc19978d533f927f2e738}\label{a00416_aa8cd1d05c2abc19978d533f927f2e738}} 
-\#define \hyperlink{a00416_aa8cd1d05c2abc19978d533f927f2e738}{R\+E\+G\+\_\+\+V\+M\+D\+A\+T\+AH}~($\ast$(vuint8$\ast$)0x2119)
-\begin{DoxyCompactList}\small\item\em V\+R\+AM Data Write (upper 8bit) (W) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a1c64488065746dab4b05ad917c276841}\label{a00416_a1c64488065746dab4b05ad917c276841}} 
-\#define \hyperlink{a00416_a1c64488065746dab4b05ad917c276841}{R\+E\+G\+\_\+\+V\+M\+D\+A\+T\+AL}~($\ast$(vuint8$\ast$)0x2118)
-\begin{DoxyCompactList}\small\item\em V\+R\+AM Data Write (lower 8bit) (W) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a2e1221b6655ab3ef51d4e0e465990e92}\label{a00416_a2e1221b6655ab3ef51d4e0e465990e92}} 
-\#define \hyperlink{a00416_a2e1221b6655ab3ef51d4e0e465990e92}{R\+E\+G\+\_\+\+V\+M\+D\+A\+T\+A\+LH}~($\ast$(vuint16$\ast$)0x2118)
-\begin{DoxyCompactList}\small\item\em V\+R\+AM Data Write (lower and upper 8bit) (W) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_abd4530c7880d389c9ea70e2e3b84aa9d}\label{a00416_abd4530c7880d389c9ea70e2e3b84aa9d}} 
-\#define \hyperlink{a00416_abd4530c7880d389c9ea70e2e3b84aa9d}{R\+G\+B15}(r,  g,  b)~((r)$\vert$((g)$<$$<$5)$\vert$((b)$<$$<$10))
-\begin{DoxyCompactList}\small\item\em Macro to convert 5 bit r g b components into a single 15 bit R\+GB triplet. \end{DoxyCompactList}\item 
-\#define \hyperlink{a00416_ae29ed0390bca0390d3fdf55362a3663b}{set\+Palette}(palette,  palette\+Entry,  palette\+Size)~\hyperlink{a00386_a20f89d93d57e0f726ae6393c9a97ac00}{dma\+Copy\+C\+Gram}(palette, palette\+Entry, palette\+Size)
-\begin{DoxyCompactList}\small\item\em Change a palette in C\+G\+R\+AM. \end{DoxyCompactList}\item 
-\#define \hyperlink{a00416_a549263481ac687a7e1d6f6cd5bd85d29}{set\+Palette\+Color}(palette\+Entry,  palette\+Color)~\hyperlink{a00416_a47b1bf21d0ed441344efcaf573350c46}{R\+E\+G\+\_\+\+C\+G\+A\+DD} = palette\+Entry; $\ast$\hyperlink{a00416_afe3cc8b2ea5f41a791be1b3a3cf04cb2}{C\+G\+R\+A\+M\+\_\+\+P\+A\+L\+E\+T\+TE} = (palette\+Color) \& 0x\+F\+F; $\ast$\+C\+G\+R\+A\+M\+\_\+\+P\+A\+L\+E\+T\+T\+E = (palette\+Color)$>$$>$8;
-\begin{DoxyCompactList}\small\item\em Change a color palette in C\+G\+R\+AM. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Enumerations}
-\begin{DoxyCompactItemize}
-\item 
-enum \hyperlink{a00416_a5623bfd6fefb79d4f21d260b7e333523}{Video\+Control} \{ \newline
-\hyperlink{a00416_a5623bfd6fefb79d4f21d260b7e333523acef8d68eaf1d65e1bcf2ac9ee730c7d2}{D\+S\+P\+\_\+\+F\+O\+R\+C\+E\+V\+BL} = B\+IT(7), 
-\hyperlink{a00416_a5623bfd6fefb79d4f21d260b7e333523a241f6a2b06bbaa6eec82a145c866e313}{V\+R\+A\+M\+\_\+\+I\+N\+C\+L\+OW} = (0 $<$$<$ 7)
-, \hyperlink{a00416_a5623bfd6fefb79d4f21d260b7e333523acbbc69e337e06fc13a5f572284c5ddfe}{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+0B} = (0 $<$$<$ 2), 
-\hyperlink{a00416_a5623bfd6fefb79d4f21d260b7e333523a4f0d59c3d210f1962ae7080189338a04}{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+8B} = (1 $<$$<$ 2), 
-\newline
-\hyperlink{a00416_a5623bfd6fefb79d4f21d260b7e333523a186a04aac97f57626841934e087e19e5}{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+9B} = (2 $<$$<$ 2), 
-\hyperlink{a00416_a5623bfd6fefb79d4f21d260b7e333523abe5c38b32a13a2867e46de5995aed60d}{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+10B} = (3 $<$$<$ 2), 
-\hyperlink{a00416_a5623bfd6fefb79d4f21d260b7e333523acfee058cf30c9aacc05573725e3775d8}{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+1} = (0 $<$$<$ 0), 
-\hyperlink{a00416_a5623bfd6fefb79d4f21d260b7e333523a5adddf918b1602129ea6fe279f9d0a70}{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+32} = (1 $<$$<$ 0), 
-\newline
-\hyperlink{a00416_a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460}{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+128} = (2 $<$$<$ 0), 
-\hyperlink{a00416_a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460}{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+128} = (2 $<$$<$ 0)
- \}\begin{DoxyCompactList}\small\item\em Bit defines for the video control registers. \end{DoxyCompactList}
-\end{DoxyCompactItemize}
-\subsection*{Functions}
-\begin{DoxyCompactItemize}
-\item 
-void \hyperlink{a00416_a4c257abebd75e4653441e8afe672bb5e}{set\+Brightness} (u8 level)
-\begin{DoxyCompactList}\small\item\em sets the screens brightness. \end{DoxyCompactList}\item 
-void \hyperlink{a00416_a87d6cb8ec2433c908666a0a7f2306cb4}{set\+Color\+Effect} (u8 color\+MathA, u8 color\+MathB)
-\begin{DoxyCompactList}\small\item\em Do addition or other color effects. \end{DoxyCompactList}\item 
-void \hyperlink{a00416_aedc79f1675778d0573d181fe22a0902d}{set\+Color\+Intensity} (u8 color\+Apply, u8 intensity)
-\begin{DoxyCompactList}\small\item\em Change intensity for transparency. \end{DoxyCompactList}\item 
-void \hyperlink{a00416_ac34bd13a8556c8ac8e1eeeded15f7632}{set\+Fade\+Effect} (u8 mode)
-\begin{DoxyCompactList}\small\item\em Do a fadein or fadeout effect. \end{DoxyCompactList}\item 
-void \hyperlink{a00416_afd9e46ae627d055dd8c98a4b0ebb73b1}{set\+Mode} (u8 mode, u8 size)
-\begin{DoxyCompactList}\small\item\em Set the S\+N\+ES hardware to operate in new display mode. \end{DoxyCompactList}\item 
-void \hyperlink{a00416_af7e722fd2eba5682bc0eafa9d5a9c51a}{set\+Mode7} (u8 mode)
-\begin{DoxyCompactList}\small\item\em Put screen in mode 7 with generic init. \end{DoxyCompactList}\item 
-void \hyperlink{a00416_ac4b1645f376fa266f0e614a1d7903a31}{set\+Mode7\+Angle} (u8 angle)
-\begin{DoxyCompactList}\small\item\em Changle angle view in mode 7 without changing matrix. \end{DoxyCompactList}\item 
-void \hyperlink{a00416_a4d332cdc88b26fc9ec2cdd4f6710ce8c}{set\+Mode7\+Rot} (u8 angle)
-\begin{DoxyCompactList}\small\item\em Changle angle view in mode 7 with matrix transformation. \end{DoxyCompactList}\item 
-void \hyperlink{a00416_aa14785c4eb1ce08cc02eb98d26c98c44}{set\+Mosaic\+Effect} (u8 mode, u8 bg\+Numbers)
-\begin{DoxyCompactList}\small\item\em Do a mosaic in or out effect. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_abc7d4ef8ebc22f5b710927909bb3f144}\label{a00416_abc7d4ef8ebc22f5b710927909bb3f144}} 
-void \hyperlink{a00416_abc7d4ef8ebc22f5b710927909bb3f144}{set\+Screen\+On} (void)
-\begin{DoxyCompactList}\small\item\em Put screen On. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-\mbox{\Hypertarget{a00416_a156a14f040a0569d1c1b59c94669aa6f}\label{a00416_a156a14f040a0569d1c1b59c94669aa6f}} 
-u8 \hyperlink{a00416_a156a14f040a0569d1c1b59c94669aa6f}{video\+Mode}
-\begin{DoxyCompactList}\small\item\em Current value of R\+E\+G\+\_\+\+TM. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00416_a4da52999afa3808bd6e797c9fbf584aa}\label{a00416_a4da52999afa3808bd6e797c9fbf584aa}} 
-u8 \hyperlink{a00416_a4da52999afa3808bd6e797c9fbf584aa}{video\+Mode\+Sub}
-\begin{DoxyCompactList}\small\item\em Current value of R\+E\+G\+\_\+\+TS. \end{DoxyCompactList}\end{DoxyCompactItemize}
-
-
-\subsection{Detailed Description}
-contains the basic defnitions for controlling the video hardware. 
-
-
-
-\subsection{Macro Definition Documentation}
-\mbox{\Hypertarget{a00416_afe3cc8b2ea5f41a791be1b3a3cf04cb2}\label{a00416_afe3cc8b2ea5f41a791be1b3a3cf04cb2}} 
-\index{video.\+h@{video.\+h}!C\+G\+R\+A\+M\+\_\+\+P\+A\+L\+E\+T\+TE@{C\+G\+R\+A\+M\+\_\+\+P\+A\+L\+E\+T\+TE}}
-\index{C\+G\+R\+A\+M\+\_\+\+P\+A\+L\+E\+T\+TE@{C\+G\+R\+A\+M\+\_\+\+P\+A\+L\+E\+T\+TE}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{C\+G\+R\+A\+M\+\_\+\+P\+A\+L\+E\+T\+TE}{CGRAM\_PALETTE}}
-{\footnotesize\ttfamily \#define C\+G\+R\+A\+M\+\_\+\+P\+A\+L\+E\+T\+TE~((u8$\ast$)0x2122)}
-
-
-
-Palette C\+G\+R\+AM Data Write (W) 1st Access\+: Lower 8 bits (even address) 2nd Access\+: Upper 7 bits (odd address) (upper 1bit = P\+P\+U2 open bus) 
-
-Reads and Writes to E\+V\+EN and O\+DD byte-\/addresses work as follows\+: Write to E\+V\+EN address --$>$ set Cgram\+\_\+\+Lsb = Data ;memorize value Write to O\+DD address --$>$ set W\+O\+RD\mbox{[}addr-\/1\mbox{]} = Data$\ast$256 + Cgram\+\_\+\+Lsb Read from A\+NY address --$>$ return B\+Y\+TE\mbox{[}addr\mbox{]}
-
-The address is automatically incremented after every read or write access.
-
-256-\/\+Color Palette Entries 15 Not used (should be zero) (read\+: P\+P\+U2 Open Bus) 14-\/10 Blue 9-\/5 Green 4-\/0 Red
-
-Palette Indices 00h Main Backdrop color (used when all B\+G/\+O\+BJ pixels are transparent) 01h-\/\+F\+Fh 256-\/color BG palette (when not using direct-\/color mode) 01h-\/7\+Fh 128-\/color BG palette (B\+G2 in Mode 7) 01h-\/7\+Fh Eight 16-\/color BG palettes 01h-\/1\+Fh Eight 4-\/color BG palettes (except B\+G2-\/4 in Mode 0) 21h-\/3\+Fh Eight 4-\/color BG palettes (B\+G2 in Mode 0 only) 41h-\/5\+Fh Eight 4-\/color BG palettes (B\+G3 in Mode 0 only) 61h-\/7\+Fh Eight 4-\/color BG palettes (B\+G4 in Mode 0 only) 81h-\/\+F\+Fh Eight 16-\/color O\+BJ palettes (half of them with color-\/math disabled) N/A Sub Backdrop color (not in C\+G\+R\+AM, set via C\+O\+L\+D\+A\+TA, Port 2132h) \mbox{\Hypertarget{a00416_a4de43c070a90869390fca11731a2692e}\label{a00416_a4de43c070a90869390fca11731a2692e}} 
-\index{video.\+h@{video.\+h}!R\+E\+G\+\_\+\+C\+G\+A\+D\+S\+UB@{R\+E\+G\+\_\+\+C\+G\+A\+D\+S\+UB}}
-\index{R\+E\+G\+\_\+\+C\+G\+A\+D\+S\+UB@{R\+E\+G\+\_\+\+C\+G\+A\+D\+S\+UB}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{R\+E\+G\+\_\+\+C\+G\+A\+D\+S\+UB}{REG\_CGADSUB}}
-{\footnotesize\ttfamily \#define R\+E\+G\+\_\+\+C\+G\+A\+D\+S\+UB~($\ast$(vuint8$\ast$)0x2131)}
-
-
-
-Color Math Control Register B (W) 7 Color Math Add/\+Subtract (0=Add; Main+\+Sub, 1=Subtract; Main-\/\+Sub) 6 Color Math \char`\"{}\+Div2\char`\"{} Half Result (0=No divide, 1=Divide result by 2) 5 Color Math when Main Screen = Backdrop (0=Off, 1=On) ;\textbackslash{} 4 Color Math when Main Screen = O\+B\+J/\+Palette4..7 (0=Off, 1=On) ; O\+FF\+: Show. 
-
-
-\begin{DoxyItemize}
-\item Color Math when Main Screen = O\+B\+J/\+Palette0..3 (Always=Off) ; Raw Main, 3 Color Math when Main Screen = B\+G4 (0=Off, 1=On) ; or 2 Color Math when Main Screen = B\+G3 (0=Off, 1=On) ; ON\+: Show 1 Color Math when Main Screen = B\+G2 (0=Off, 1=On) ; Main+/-\/\+Sub 0 Color Math when Main Screen = B\+G1 (0=Off, 1=On) ;/ 
-\end{DoxyItemize}\mbox{\Hypertarget{a00416_abec6eb1bc9f87a1143464c7418c96388}\label{a00416_abec6eb1bc9f87a1143464c7418c96388}} 
-\index{video.\+h@{video.\+h}!R\+E\+G\+\_\+\+I\+N\+I\+D\+I\+SP@{R\+E\+G\+\_\+\+I\+N\+I\+D\+I\+SP}}
-\index{R\+E\+G\+\_\+\+I\+N\+I\+D\+I\+SP@{R\+E\+G\+\_\+\+I\+N\+I\+D\+I\+SP}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{R\+E\+G\+\_\+\+I\+N\+I\+D\+I\+SP}{REG\_INIDISP}}
-{\footnotesize\ttfamily \#define R\+E\+G\+\_\+\+I\+N\+I\+D\+I\+SP~($\ast$(vuint8$\ast$)0x2100)}
-
-
-
-Display Control 1 (W) 7 Forced Blanking (0=Normal, 1=Screen Black) 6-\/4 Not used 3-\/0 Master Brightness (0=Screen Black, or N=1..15\+: Brightness$\ast$(N+1)/16) 
-
-In Forced Blank, V\+R\+AM, O\+AM and C\+G\+R\+AM can be freely accessed (otherwise it\textquotesingle{}s accessible only during Vblank). Even when in forced blank, the TV Set keeps receiving Vsync/\+Hsync signals (thus producing a stable black picture). And, the C\+PU keeps receiving Hblank/\+Vblank signals (so any enabled video N\+M\+Is, I\+R\+Qs, H\+D\+M\+As are kept generated).
-
-Forced blank doesn\textquotesingle{}t apply immediately... so one must wait whatever (maybe a scanline) before V\+R\+AM can be freely accessed... or is it only vice-\/versa\+: disabling forced blank doesn\textquotesingle{}t apply immediately/shows garbage pixels? \mbox{\Hypertarget{a00416_a68fd672e1ea4124fbb5a895c2bc551e7}\label{a00416_a68fd672e1ea4124fbb5a895c2bc551e7}} 
-\index{video.\+h@{video.\+h}!R\+E\+G\+\_\+\+M7\+S\+EL@{R\+E\+G\+\_\+\+M7\+S\+EL}}
-\index{R\+E\+G\+\_\+\+M7\+S\+EL@{R\+E\+G\+\_\+\+M7\+S\+EL}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{R\+E\+G\+\_\+\+M7\+S\+EL}{REG\_M7SEL}}
-{\footnotesize\ttfamily \#define R\+E\+G\+\_\+\+M7\+S\+EL~($\ast$(vuint8$\ast$)0x211\+A)}
-
-
-
-Rotation/\+Scaling Mode Settings (W) 7-\/6 Screen Over (see below) 5-\/2 Not used 1 Screen V-\/\+Flip (0=Normal, 1=Flipped) ; flip 256x256 \char`\"{}screen\char`\"{} 0 Screen H-\/\+Flip (0=Normal, 1=Flipped) ;. 
-
-Screen Over (when exceeding the 128x128 tile BG Map size)\+: 0=Wrap within 128x128 tile area 1=Wrap within 128x128 tile area (same as 0) 2=Outside 128x128 tile area is Transparent 3=Outside 128x128 tile area is filled by Tile 00h \mbox{\Hypertarget{a00416_a4e8398519a24701e4d3041e4f02edc00}\label{a00416_a4e8398519a24701e4d3041e4f02edc00}} 
-\index{video.\+h@{video.\+h}!R\+E\+G\+\_\+\+S\+T\+A\+T77@{R\+E\+G\+\_\+\+S\+T\+A\+T77}}
-\index{R\+E\+G\+\_\+\+S\+T\+A\+T77@{R\+E\+G\+\_\+\+S\+T\+A\+T77}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{R\+E\+G\+\_\+\+S\+T\+A\+T77}{REG\_STAT77}}
-{\footnotesize\ttfamily \#define R\+E\+G\+\_\+\+S\+T\+A\+T77~($\ast$(vuint8$\ast$)0x213\+E)}
-
-
-
-P\+P\+U1 Status and Version Number (R) 7 O\+BJ Time overflow (0=Okay, 1=More than 8x34 O\+BJ pixels per scanline) 6 O\+BJ Range overflow (0=Okay, 1=More than 32 O\+B\+Js per scanline) 5 Master/\+Slave Mode (P\+P\+U1.\+Pin25) (0=Normal=Master) 4 Not used (P\+P\+U1 open bus) (same as last value read from P\+P\+U1) 3-\/0 P\+P\+U1 5\+C77 Version Number (only version 1 exists as far as I know) 
-
-The overflow flags are cleared at end of V-\/\+Blank, but N\+OT during forced blank! The overflow flags are set (regardless of O\+BJ enable/disable in 212\+Ch), at following times\+: Bit6 when V=O\+B\+J.\+Y\+L\+OC/H=O\+A\+M.\+I\+N\+D\+EX$\ast$2, bit7 when V=O\+B\+J.\+Y\+L\+OC+1/H=0. \mbox{\Hypertarget{a00416_a962038681293a309df2c26f1e9a7d7e9}\label{a00416_a962038681293a309df2c26f1e9a7d7e9}} 
-\index{video.\+h@{video.\+h}!R\+E\+G\+\_\+\+V\+M\+A\+D\+D\+LH@{R\+E\+G\+\_\+\+V\+M\+A\+D\+D\+LH}}
-\index{R\+E\+G\+\_\+\+V\+M\+A\+D\+D\+LH@{R\+E\+G\+\_\+\+V\+M\+A\+D\+D\+LH}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{R\+E\+G\+\_\+\+V\+M\+A\+D\+D\+LH}{REG\_VMADDLH}}
-{\footnotesize\ttfamily \#define R\+E\+G\+\_\+\+V\+M\+A\+D\+D\+LH~($\ast$(vuint16$\ast$)0x2116)}
-
-
-
-V\+M\+A\+D\+DL -\/ V\+R\+AM Address (lower 8bit) (W) V\+M\+A\+D\+DH -\/ V\+R\+AM Address (upper 8bit) (W) 
-
-V\+R\+AM Address for reading/writing. This is a W\+O\+RD address (2-\/byte steps), the P\+PU could theoretically address up to 64\+K-\/words (128\+K-\/bytes), in practice, only 32\+K-\/words (64\+K-\/bytes) are installed in S\+N\+ES consoles (V\+R\+AM address bit15 is not connected, so addresses 8000h-\/\+F\+F\+F\+Fh are mirrors of 0-\/7\+F\+F\+Fh). After reading/writing V\+R\+AM Data, the Word-\/address can be automatically incremented by 1,32,128 (depending on the Increment Mode in Port 2115h) (Note\+: the Address Translation feature is applied only \char`\"{}temporarily\char`\"{} upon memory accesses, it doesn\textquotesingle{}t affect the value in Port 2116h-\/17h). Writing to 2116h/2117h does prefetch 16bit data from the new address (for later reading). \begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00483}{games/likemario/\+Like\+Mario.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00416_a09d7fb089889aaa434f7c88ebccb5190}\label{a00416_a09d7fb089889aaa434f7c88ebccb5190}} 
-\index{video.\+h@{video.\+h}!R\+E\+G\+\_\+\+V\+M\+A\+IN@{R\+E\+G\+\_\+\+V\+M\+A\+IN}}
-\index{R\+E\+G\+\_\+\+V\+M\+A\+IN@{R\+E\+G\+\_\+\+V\+M\+A\+IN}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{R\+E\+G\+\_\+\+V\+M\+A\+IN}{REG\_VMAIN}}
-{\footnotesize\ttfamily \#define R\+E\+G\+\_\+\+V\+M\+A\+IN~($\ast$(vuint8$\ast$)0x2115)}
-
-
-
-V\+R\+AM Address Increment Mode (W) 7 Increment V\+R\+AM Address after accessing High/\+Low byte (0=Low, 1=High) 6-\/4 Not used 3-\/2 Address Translation (0..3 = 0bit/\+None, 8bit, 9bit, 10bit) 1-\/0 Address Increment Step (0..3 = Increment Word-\/\+Address by 1,32,128,128) 
-
-The address translation is intended for bitmap graphics (where one would have filled the BG Map by increasing Tile numbers), technically it does thrice left-\/rotate the lower 8, 9, or 10 bits of the Word-\/address\+: Translation Bitmap Type Port \mbox{[}2116h/17h\mbox{]} V\+R\+AM Word-\/\+Address 8bit rotate 4-\/color; 1 word/plane aaaaaaaa\+Y\+Y\+Yxxxxx --$>$ aaaaaaaaxxxxx\+Y\+YY 9bit rotate 16-\/color; 2 words/plane aaaaaaa\+Y\+Y\+YxxxxxP --$>$ aaaaaaaxxxxx\+P\+Y\+YY 10bit rotate 256-\/color; 4 words/plane aaaaaa\+Y\+Y\+Yxxxxx\+PP --$>$ aaaaaaxxxxx\+P\+P\+Y\+YY
-
-Where \char`\"{}aaaaa\char`\"{} would be the normal address M\+S\+Bs, \char`\"{}\+Y\+Y\+Y\char`\"{} is the Y-\/index (within a 8x8 tile), \char`\"{}xxxxx\char`\"{} selects one of the 32 tiles per line, \char`\"{}\+P\+P\char`\"{} is the bit-\/plane index (for B\+Gs with more than one Word per plane). For the intended result (writing rows of 256 pixels) the Translation should be combined with Increment Step=1. For Mode 7 bitmaps one could eventually combine step 32/128 with 8bit/10bit rotate\+:
-
-8bit-\/rotate/step32 aaaaaaaa\+X\+X\+Xxx\+Y\+YY --$>$ aaaaaaaaxx\+Y\+Y\+Y\+X\+XX 10bit-\/rotate/step128 aaaaaa\+X\+X\+Xxxxx\+Y\+YY --$>$ aaaaaaxxxx\+Y\+Y\+Y\+X\+XX
-
-Though the S\+N\+ES can\textquotesingle{}t access enought V\+R\+AM for fullscreen Mode 7 bitmaps. Step 32 (without translation) is useful for updating BG Map columns (eg. after horizontal scrolling). \begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00483}{games/likemario/\+Like\+Mario.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00416_ae29ed0390bca0390d3fdf55362a3663b}\label{a00416_ae29ed0390bca0390d3fdf55362a3663b}} 
-\index{video.\+h@{video.\+h}!set\+Palette@{set\+Palette}}
-\index{set\+Palette@{set\+Palette}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{set\+Palette}{setPalette}}
-{\footnotesize\ttfamily set\+Palette(\begin{DoxyParamCaption}\item[{}]{palette,  }\item[{}]{palette\+Entry,  }\item[{}]{palette\+Size }\end{DoxyParamCaption})~\hyperlink{a00386_a20f89d93d57e0f726ae6393c9a97ac00}{dma\+Copy\+C\+Gram}(palette, palette\+Entry, palette\+Size)}
-
-
-
-Change a palette in C\+G\+R\+AM. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em palette} & address of palette entry \\
-\hline
-{\em palette\+Entry} & palette number (0..16 for 16 colors mode) of the begining of each colors \\
-\hline
-{\em palette\+Size} & size of palette \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{a00416_a549263481ac687a7e1d6f6cd5bd85d29}\label{a00416_a549263481ac687a7e1d6f6cd5bd85d29}} 
-\index{video.\+h@{video.\+h}!set\+Palette\+Color@{set\+Palette\+Color}}
-\index{set\+Palette\+Color@{set\+Palette\+Color}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{set\+Palette\+Color}{setPaletteColor}}
-{\footnotesize\ttfamily set\+Palette\+Color(\begin{DoxyParamCaption}\item[{}]{palette\+Entry,  }\item[{}]{palette\+Color }\end{DoxyParamCaption})~\hyperlink{a00416_a47b1bf21d0ed441344efcaf573350c46}{R\+E\+G\+\_\+\+C\+G\+A\+DD} = palette\+Entry; $\ast$\hyperlink{a00416_afe3cc8b2ea5f41a791be1b3a3cf04cb2}{C\+G\+R\+A\+M\+\_\+\+P\+A\+L\+E\+T\+TE} = (palette\+Color) \& 0x\+F\+F; $\ast$\+C\+G\+R\+A\+M\+\_\+\+P\+A\+L\+E\+T\+T\+E = (palette\+Color)$>$$>$8;}
-
-
-
-Change a color palette in C\+G\+R\+AM. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em palette\+Entry} & palette color numer (0..255) \\
-\hline
-{\em palette\+Color} & R\+G\+B15 color \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00485}{audio/music/\+Music.\+c}, and \hyperlink{a00487}{audio/tada/\+Tada.\+c}.\end{Desc}
-
-
-\subsection{Enumeration Type Documentation}
-\mbox{\Hypertarget{a00416_a5623bfd6fefb79d4f21d260b7e333523}\label{a00416_a5623bfd6fefb79d4f21d260b7e333523}} 
-\index{video.\+h@{video.\+h}!Video\+Control@{Video\+Control}}
-\index{Video\+Control@{Video\+Control}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{Video\+Control}{VideoControl}}
-{\footnotesize\ttfamily enum \hyperlink{a00416_a5623bfd6fefb79d4f21d260b7e333523}{Video\+Control}}
-
-
-
-Bit defines for the video control registers. 
-
-\begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{D\+S\+P\+\_\+\+F\+O\+R\+C\+E\+V\+BL@{D\+S\+P\+\_\+\+F\+O\+R\+C\+E\+V\+BL}!video.\+h@{video.\+h}}\index{video.\+h@{video.\+h}!D\+S\+P\+\_\+\+F\+O\+R\+C\+E\+V\+BL@{D\+S\+P\+\_\+\+F\+O\+R\+C\+E\+V\+BL}}}\mbox{\Hypertarget{a00416_a5623bfd6fefb79d4f21d260b7e333523acef8d68eaf1d65e1bcf2ac9ee730c7d2}\label{a00416_a5623bfd6fefb79d4f21d260b7e333523acef8d68eaf1d65e1bcf2ac9ee730c7d2}} 
-D\+S\+P\+\_\+\+F\+O\+R\+C\+E\+V\+BL&Forced Blanking (0=Normal, 1=Screen Black) \\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{V\+R\+A\+M\+\_\+\+I\+N\+C\+L\+OW@{V\+R\+A\+M\+\_\+\+I\+N\+C\+L\+OW}!video.\+h@{video.\+h}}\index{video.\+h@{video.\+h}!V\+R\+A\+M\+\_\+\+I\+N\+C\+L\+OW@{V\+R\+A\+M\+\_\+\+I\+N\+C\+L\+OW}}}\mbox{\Hypertarget{a00416_a5623bfd6fefb79d4f21d260b7e333523a241f6a2b06bbaa6eec82a145c866e313}\label{a00416_a5623bfd6fefb79d4f21d260b7e333523a241f6a2b06bbaa6eec82a145c866e313}} 
-V\+R\+A\+M\+\_\+\+I\+N\+C\+L\+OW&Increment V\+R\+AM Address after accessing High/\+Low byte (0=Low, 1=High) \\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+0B@{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+0B}!video.\+h@{video.\+h}}\index{video.\+h@{video.\+h}!V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+0B@{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+0B}}}\mbox{\Hypertarget{a00416_a5623bfd6fefb79d4f21d260b7e333523acbbc69e337e06fc13a5f572284c5ddfe}\label{a00416_a5623bfd6fefb79d4f21d260b7e333523acbbc69e337e06fc13a5f572284c5ddfe}} 
-V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+0B&Address Translation (0..3 = 0bit/\+None, 8bit, 9bit, 10bit) \\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+8B@{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+8B}!video.\+h@{video.\+h}}\index{video.\+h@{video.\+h}!V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+8B@{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+8B}}}\mbox{\Hypertarget{a00416_a5623bfd6fefb79d4f21d260b7e333523a4f0d59c3d210f1962ae7080189338a04}\label{a00416_a5623bfd6fefb79d4f21d260b7e333523a4f0d59c3d210f1962ae7080189338a04}} 
-V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+8B&Address Translation (0..3 = 0bit/\+None, 8bit, 9bit, 10bit) \\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+9B@{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+9B}!video.\+h@{video.\+h}}\index{video.\+h@{video.\+h}!V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+9B@{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+9B}}}\mbox{\Hypertarget{a00416_a5623bfd6fefb79d4f21d260b7e333523a186a04aac97f57626841934e087e19e5}\label{a00416_a5623bfd6fefb79d4f21d260b7e333523a186a04aac97f57626841934e087e19e5}} 
-V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+9B&Address Translation (0..3 = 0bit/\+None, 8bit, 9bit, 10bit) \\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+10B@{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+10B}!video.\+h@{video.\+h}}\index{video.\+h@{video.\+h}!V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+10B@{V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+10B}}}\mbox{\Hypertarget{a00416_a5623bfd6fefb79d4f21d260b7e333523abe5c38b32a13a2867e46de5995aed60d}\label{a00416_a5623bfd6fefb79d4f21d260b7e333523abe5c38b32a13a2867e46de5995aed60d}} 
-V\+R\+A\+M\+\_\+\+A\+D\+R\+T\+R\+\_\+10B&Address Translation (0..3 = 0bit/\+None, 8bit, 9bit, 10bit) \\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+1@{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+1}!video.\+h@{video.\+h}}\index{video.\+h@{video.\+h}!V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+1@{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+1}}}\mbox{\Hypertarget{a00416_a5623bfd6fefb79d4f21d260b7e333523acfee058cf30c9aacc05573725e3775d8}\label{a00416_a5623bfd6fefb79d4f21d260b7e333523acfee058cf30c9aacc05573725e3775d8}} 
-V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+1&Address Increment Step (0..3 = Increment Word-\/\+Address by 1,32,128,128) \\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+32@{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+32}!video.\+h@{video.\+h}}\index{video.\+h@{video.\+h}!V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+32@{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+32}}}\mbox{\Hypertarget{a00416_a5623bfd6fefb79d4f21d260b7e333523a5adddf918b1602129ea6fe279f9d0a70}\label{a00416_a5623bfd6fefb79d4f21d260b7e333523a5adddf918b1602129ea6fe279f9d0a70}} 
-V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+32&Address Increment Step (0..3 = Increment Word-\/\+Address by 1,32,128,128) \\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+128@{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+128}!video.\+h@{video.\+h}}\index{video.\+h@{video.\+h}!V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+128@{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+128}}}\mbox{\Hypertarget{a00416_a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460}\label{a00416_a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460}} 
-V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+128&Address Increment Step (0..3 = Increment Word-\/\+Address by 1,32,128,128) \\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+128@{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+128}!video.\+h@{video.\+h}}\index{video.\+h@{video.\+h}!V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+128@{V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+128}}}\mbox{\Hypertarget{a00416_a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460}\label{a00416_a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460}} 
-V\+R\+A\+M\+\_\+\+A\+D\+R\+S\+T\+I\+N\+C\+\_\+128&Address Increment Step (0..3 = Increment Word-\/\+Address by 1,32,128,128) \\
-\hline
-
-\end{DoxyEnumFields}
-
-
-\subsection{Function Documentation}
-\mbox{\Hypertarget{a00416_a4c257abebd75e4653441e8afe672bb5e}\label{a00416_a4c257abebd75e4653441e8afe672bb5e}} 
-\index{video.\+h@{video.\+h}!set\+Brightness@{set\+Brightness}}
-\index{set\+Brightness@{set\+Brightness}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{set\+Brightness()}{setBrightness()}}
-{\footnotesize\ttfamily set\+Brightness (\begin{DoxyParamCaption}\item[{u8}]{level }\end{DoxyParamCaption})}
-
-
-
-sets the screens brightness. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em level} & 15 = full brightness, 0= black \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00485}{audio/music/\+Music.\+c}, \hyperlink{a00487}{audio/tada/\+Tada.\+c}, \hyperlink{a00489}{debug/debug.\+c}, \hyperlink{a00451}{hello\+\_\+world/hello\+\_\+world.\+c}, \hyperlink{a00479}{input/input.\+c}, \hyperlink{a00491}{random/random.\+c}, \hyperlink{a00495}{scoring/scoring.\+c}, \hyperlink{a00493}{sram/sram.\+c}, and \hyperlink{a00481}{timer/timer.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00416_a87d6cb8ec2433c908666a0a7f2306cb4}\label{a00416_a87d6cb8ec2433c908666a0a7f2306cb4}} 
-\index{video.\+h@{video.\+h}!set\+Color\+Effect@{set\+Color\+Effect}}
-\index{set\+Color\+Effect@{set\+Color\+Effect}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{set\+Color\+Effect()}{setColorEffect()}}
-{\footnotesize\ttfamily set\+Color\+Effect (\begin{DoxyParamCaption}\item[{u8}]{color\+MathA,  }\item[{u8}]{color\+MathB }\end{DoxyParamCaption})}
-
-
-
-Do addition or other color effects. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em color\+MathA} & value for color math A register \\
-\hline
-{\em color\+MathB} & value for color math B register \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00471}{graphics/\+Effects/\+Transparency/\+Transparency.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00416_aedc79f1675778d0573d181fe22a0902d}\label{a00416_aedc79f1675778d0573d181fe22a0902d}} 
-\index{video.\+h@{video.\+h}!set\+Color\+Intensity@{set\+Color\+Intensity}}
-\index{set\+Color\+Intensity@{set\+Color\+Intensity}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{set\+Color\+Intensity()}{setColorIntensity()}}
-{\footnotesize\ttfamily set\+Color\+Intensity (\begin{DoxyParamCaption}\item[{u8}]{color\+Apply,  }\item[{u8}]{intensity }\end{DoxyParamCaption})}
-
-
-
-Change intensity for transparency. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em color\+Apply} & with component is affect (red, green, blue) \\
-\hline
-{\em intensity} & value for intensity \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{a00416_ac34bd13a8556c8ac8e1eeeded15f7632}\label{a00416_ac34bd13a8556c8ac8e1eeeded15f7632}} 
-\index{video.\+h@{video.\+h}!set\+Fade\+Effect@{set\+Fade\+Effect}}
-\index{set\+Fade\+Effect@{set\+Fade\+Effect}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{set\+Fade\+Effect()}{setFadeEffect()}}
-{\footnotesize\ttfamily set\+Fade\+Effect (\begin{DoxyParamCaption}\item[{u8}]{mode }\end{DoxyParamCaption})}
-
-
-
-Do a fadein or fadeout effect. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em mode} & (F\+A\+D\+E\+\_\+\+IN = black to complete light, F\+A\+D\+E\+\_\+\+O\+UT = light to black) \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00469}{graphics/\+Effects/\+Mosaic\+Shading/\+Mosaic\+Shading.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00416_afd9e46ae627d055dd8c98a4b0ebb73b1}\label{a00416_afd9e46ae627d055dd8c98a4b0ebb73b1}} 
-\index{video.\+h@{video.\+h}!set\+Mode@{set\+Mode}}
-\index{set\+Mode@{set\+Mode}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{set\+Mode()}{setMode()}}
-{\footnotesize\ttfamily set\+Mode (\begin{DoxyParamCaption}\item[{u8}]{mode,  }\item[{u8}]{size }\end{DoxyParamCaption})}
-
-
-
-Set the S\+N\+ES hardware to operate in new display mode. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em mode} & 0..7 for available Snes display mode \\
-\hline
-{\em size} & Tile Size (8x8 or 16x16) of each BG in this mode (if available)\\
-\hline
-\end{DoxyParams}
-Mode B\+G1 B\+G2 B\+G3 B\+G4 0 4-\/color 4-\/color 4-\/color 4-\/color ;Normal 1 16-\/color 16-\/color 4-\/color -\/ ;Normal 2 16-\/color 16-\/color (o.\+p.\+t) -\/ ;Offset-\/per-\/tile 3 256-\/color 16-\/color -\/ -\/ ;Normal 4 256-\/color 4-\/color (o.\+p.\+t) -\/ ;Offset-\/per-\/tile 5 16-\/color 4-\/color -\/ -\/ ;512-\/pix-\/hires 6 16-\/color -\/ (o.\+p.\+t) -\/ ;512-\/pix plus Offs-\/p-\/t 7 256-\/color E\+X\+T\+BG -\/ -\/ ;Rotation/\+Scaling \begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00485}{audio/music/\+Music.\+c}, \hyperlink{a00487}{audio/tada/\+Tada.\+c}, \hyperlink{a00489}{debug/debug.\+c}, \hyperlink{a00483}{games/likemario/\+Like\+Mario.\+c}, \hyperlink{a00453}{graphics/\+Backgrounds/\+Mode0/\+Mode0.\+c}, \hyperlink{a00455}{graphics/\+Backgrounds/\+Mode1/\+Mode1.\+c}, \hyperlink{a00461}{graphics/\+Backgrounds/\+Mode1\+Mixed\+Scroll/\+Mode1\+Mixed\+Scroll.\+c}, \hyperlink{a00457}{graphics/\+Backgrounds/\+Mode1\+Png/\+Mode1.\+c}, \hyperlink{a00459}{graphics/\+Backgrounds/\+Mode1\+Scroll/\+Mode1\+Scroll.\+c}, \hyperlink{a00463}{graphics/\+Backgrounds/\+Mode3/\+Mode3.\+c}, \hyperlink{a00467}{graphics/\+Effects/\+H\+D\+M\+A\+Gradient/\+H\+D\+M\+A\+Gradient.\+c}, \hyperlink{a00469}{graphics/\+Effects/\+Mosaic\+Shading/\+Mosaic\+Shading.\+c}, \hyperlink{a00471}{graphics/\+Effects/\+Transparency/\+Transparency.\+c}, \hyperlink{a00475}{graphics/\+Sprites/\+Animated\+Sprite/\+Animated\+Sprite.\+c}, \hyperlink{a00477}{graphics/\+Sprites/\+Dynamic\+Sprite/\+Dynamic\+Sprite.\+c}, \hyperlink{a00473}{graphics/\+Sprites/\+Simple\+Sprite/\+Simple\+Sprite.\+c}, \hyperlink{a00451}{hello\+\_\+world/hello\+\_\+world.\+c}, \hyperlink{a00479}{input/input.\+c}, \hyperlink{a00491}{random/random.\+c}, \hyperlink{a00495}{scoring/scoring.\+c}, \hyperlink{a00493}{sram/sram.\+c}, and \hyperlink{a00481}{timer/timer.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00416_af7e722fd2eba5682bc0eafa9d5a9c51a}\label{a00416_af7e722fd2eba5682bc0eafa9d5a9c51a}} 
-\index{video.\+h@{video.\+h}!set\+Mode7@{set\+Mode7}}
-\index{set\+Mode7@{set\+Mode7}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{set\+Mode7()}{setMode7()}}
-{\footnotesize\ttfamily set\+Mode7 (\begin{DoxyParamCaption}\item[{u8}]{mode }\end{DoxyParamCaption})}
-
-
-
-Put screen in mode 7 with generic init. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em mode} & Rotation/\+Scaling Mode Settings (see R\+E\+G\+\_\+\+M7\+S\+EL) \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00465}{graphics/\+Backgrounds/\+Mode7/\+Mode7.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00416_ac4b1645f376fa266f0e614a1d7903a31}\label{a00416_ac4b1645f376fa266f0e614a1d7903a31}} 
-\index{video.\+h@{video.\+h}!set\+Mode7\+Angle@{set\+Mode7\+Angle}}
-\index{set\+Mode7\+Angle@{set\+Mode7\+Angle}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{set\+Mode7\+Angle()}{setMode7Angle()}}
-{\footnotesize\ttfamily set\+Mode7\+Angle (\begin{DoxyParamCaption}\item[{u8}]{angle }\end{DoxyParamCaption})}
-
-
-
-Changle angle view in mode 7 without changing matrix. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em angle} & \+: 0..255 value \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{a00416_a4d332cdc88b26fc9ec2cdd4f6710ce8c}\label{a00416_a4d332cdc88b26fc9ec2cdd4f6710ce8c}} 
-\index{video.\+h@{video.\+h}!set\+Mode7\+Rot@{set\+Mode7\+Rot}}
-\index{set\+Mode7\+Rot@{set\+Mode7\+Rot}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{set\+Mode7\+Rot()}{setMode7Rot()}}
-{\footnotesize\ttfamily set\+Mode7\+Rot (\begin{DoxyParamCaption}\item[{u8}]{angle }\end{DoxyParamCaption})}
-
-
-
-Changle angle view in mode 7 with matrix transformation. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em angle} & \+: 0..255 value \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00465}{graphics/\+Backgrounds/\+Mode7/\+Mode7.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00416_aa14785c4eb1ce08cc02eb98d26c98c44}\label{a00416_aa14785c4eb1ce08cc02eb98d26c98c44}} 
-\index{video.\+h@{video.\+h}!set\+Mosaic\+Effect@{set\+Mosaic\+Effect}}
-\index{set\+Mosaic\+Effect@{set\+Mosaic\+Effect}!video.\+h@{video.\+h}}
-\subsubsection{\texorpdfstring{set\+Mosaic\+Effect()}{setMosaicEffect()}}
-{\footnotesize\ttfamily set\+Mosaic\+Effect (\begin{DoxyParamCaption}\item[{u8}]{mode,  }\item[{u8}]{bg\+Numbers }\end{DoxyParamCaption})}
-
-
-
-Do a mosaic in or out effect. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em bg\+Numbers} & (M\+O\+S\+A\+I\+C\+\_\+\+B\+G1 to M\+O\+S\+A\+I\+C\+\_\+\+B\+G4 depending of which background to use for effect) \\
-\hline
-{\em mode} & (M\+O\+S\+A\+I\+C\+\_\+\+IN = normal to mosaic, M\+O\+S\+A\+I\+C\+\_\+\+O\+UT = mosaic to normal) \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00469}{graphics/\+Effects/\+Mosaic\+Shading/\+Mosaic\+Shading.\+c}.\end{Desc}
+\hypertarget{a00416}{}\section{input/input.\+c}
+
+\begin{DoxyCodeInclude}
+\textcolor{comment}{/*---------------------------------------------------------------------------------}
+\textcolor{comment}{}
+\textcolor{comment}{}
+\textcolor{comment}{     snes pad demo}
+\textcolor{comment}{    -- alekmaul}
+\textcolor{comment}{}
+\textcolor{comment}{}
+\textcolor{comment}{---------------------------------------------------------------------------------*/}
+\textcolor{preprocessor}{#include <\hyperlink{a00356}{snes.h}>}
+
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} snesfont;
+
+\textcolor{comment}{//---------------------------------------------------------------------------------}
+\textcolor{keywordtype}{int} main(\textcolor{keywordtype}{void}) \{
+    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} pad0;
+
+    \textcolor{comment}{// Initialize SNES }
+    \hyperlink{a00320_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
+
+    \textcolor{comment}{// Initialize console with our font}
+    \hyperlink{a00320_a458fa049800e12429ca0ba401e513746}{consoleInitText}(0, 0, &snesfont);
+
+    \textcolor{comment}{// Draw a wonderfull text :P}
+    \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(12,1,\textcolor{stringliteral}{"PAD TEST"});
+    \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}( 6,5,\textcolor{stringliteral}{"USE PAD TO SEE VALUE"});
+
+    \textcolor{comment}{// Now Put in 16 color mode}
+    \hyperlink{a00353_afd9e46ae627d055dd8c98a4b0ebb73b1}{setMode}(\hyperlink{a00317_a05c862edb7f8f75036f10c04dcc3c2a6}{BG\_MODE1},0); \hyperlink{a00317_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(1); 
+      \hyperlink{a00317_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(2);
+
+    \textcolor{comment}{// Wait for nothing :P}
+    \hyperlink{a00353_abc7d4ef8ebc22f5b710927909bb3f144}{setScreenOn}();  
+    
+    \textcolor{keywordflow}{while}(1) \{
+        \textcolor{comment}{// Get current #0 pad}
+        pad0 = \hyperlink{a00335_a6063e0eec9a36e437fc32951acafa44c}{padsCurrent}(0);
+        
+        \textcolor{comment}{// Update display with current pad}
+        \textcolor{keywordflow}{switch} (pad0) \{
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc}{KEY\_A}     : \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(9,10,\textcolor{stringliteral}{"A PRESSED"}); \textcolor{keywordflow}{break};
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a}{KEY\_B}     : \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(9,10,\textcolor{stringliteral}{"B PRESSED"}); \textcolor{keywordflow}{break};
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a3b37a163628bc7015aac5efab4a66ef5}{KEY\_SELECT}   : \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(9,10,\textcolor{stringliteral}{"SELECT PRESSED"}); \textcolor{keywordflow}{break};
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b}{KEY\_START} : \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(9,10,\textcolor{stringliteral}{"START PRESSED"}); \textcolor{keywordflow}{break};
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d}{KEY\_RIGHT} : \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(9,10,\textcolor{stringliteral}{"RIGHT PRESSED"}); \textcolor{keywordflow}{break};
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65}{KEY\_LEFT}   : \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(9,10,\textcolor{stringliteral}{"LEFT PRESSED"}); \textcolor{keywordflow}{break};
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416}{KEY\_DOWN}   : \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(9,10,\textcolor{stringliteral}{"DOWN PRESSED"}); \textcolor{keywordflow}{break};
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd}{KEY\_UP}       : \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(9,10,\textcolor{stringliteral}{"UP PRESSED"}); \textcolor{keywordflow}{break};
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff}{KEY\_R}     : \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(9,10,\textcolor{stringliteral}{"R PRESSED"}); \textcolor{keywordflow}{break};
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62}{KEY\_L}     : \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(9,10,\textcolor{stringliteral}{"L PRESSED"}); \textcolor{keywordflow}{break};
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497}{KEY\_X}     : \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(9,10,\textcolor{stringliteral}{"X PRESSED"}); \textcolor{keywordflow}{break};
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a5d44524b2a6090fa97aa9353d69f67a3}{KEY\_Y}     : \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(9,10,\textcolor{stringliteral}{"Y PRESSED"}); \textcolor{keywordflow}{break};
+            default         : \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(9,10,\textcolor{stringliteral}{"              "}); \textcolor{keywordflow}{break};
+        \}
+        \hyperlink{a00326_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}();
+    \}
+    \textcolor{keywordflow}{return} 0;
+\}
+\end{DoxyCodeInclude}
+ 

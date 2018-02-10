@@ -1,71 +1,68 @@
-\hypertarget{a00396}{}\section{graphics/\+Backgrounds/\+Mode0/\+Mode0.\+c}
+\hypertarget{a00396}{}\section{graphics/\+Backgrounds/\+Mode1\+Scroll/\+Mode1\+Scroll.\+c}
 
 \begin{DoxyCodeInclude}
 \textcolor{comment}{/*---------------------------------------------------------------------------------}
 \textcolor{comment}{}
 \textcolor{comment}{}
-\textcolor{comment}{    Simple tile mode 1 demo}
+\textcolor{comment}{    Simple tile mode 1 with scrolling demo}
 \textcolor{comment}{    -- alekmaul}
 \textcolor{comment}{}
 \textcolor{comment}{}
 \textcolor{comment}{---------------------------------------------------------------------------------*/}
-\textcolor{preprocessor}{#include <\hyperlink{a00362}{snes.h}>}
+\textcolor{preprocessor}{#include <\hyperlink{a00356}{snes.h}>}
 
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} m0, m0\_end, p0, p0\_end, t0, t0\_end;
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} m1, m1\_end, p1, p1\_end, t1, t1\_end;
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} m2, m2\_end, p2, p2\_end, t2, t2\_end;
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} m3, m3\_end, p3, p3\_end, t3, t3\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} patterns, patterns\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} palette;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} map, map\_end;
 
-\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} sxbg1=0,sxbg2=0,sxbg3=0, flip=0;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} snesfont;
 
 \textcolor{comment}{//---------------------------------------------------------------------------------}
 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{void}) \{
+    u16 scrX=0, scrY=0;
+    u16 pad0, move;
+
     \textcolor{comment}{// Initialize SNES }
-    \hyperlink{a00326_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
-     
-    \textcolor{comment}{// Copy tiles to VRAM, begin with adr=0x2000 for first BG }
-    \textcolor{comment}{// ALso, always use specific mode0 palette entry (ppp)}
-    \textcolor{comment}{// BG1 w/bits ppp=0 is entries 0-3 }
-    \textcolor{comment}{// BG1 w/bits ppp=1 is entries 4-7 }
-    \textcolor{comment}{// BG1 w/bits ppp=2 is entries 8-11 }
-    \textcolor{comment}{// BG1 w/bits ppp=3 is entries 12-15 }
-    \textcolor{comment}{// BG1 w/bits ppp=4 is entries 16-19 }
-    \textcolor{comment}{// BG1 w/bits ppp=5 is entries 20-23 }
-    \textcolor{comment}{// BG1 w/bits ppp=6 is entires 24-27 }
-    \textcolor{comment}{// BG1 w/bits ppp=7 is entires 28-31 }
-    \textcolor{comment}{// and then for BG2 ppp resets to 0 and resumes at 32... }
-    \textcolor{comment}{// BG2 w/bits ppp=0 is entries 32-35 }
-    \textcolor{comment}{// BG2 w/bits ppp=1 is entries 36-39 }
-    \textcolor{comment}{// BG2 w/bits ppp=2 is entries 40-43 }
-    \textcolor{comment}{// etc etc }
-    \hyperlink{a00323_ae09a7ac09be78eef0f28a6c7aabc82ad}{bgInitTileSet}(0, &t0, &p0, 0, (&t0\_end - &t0), 8, BG\_4COLORS0, 0x2000);
-    \hyperlink{a00323_ae09a7ac09be78eef0f28a6c7aabc82ad}{bgInitTileSet}(1, &t1, &p1, 0, (&t1\_end - &t1), 8, BG\_4COLORS0, 0x3000);
-    \hyperlink{a00323_ae09a7ac09be78eef0f28a6c7aabc82ad}{bgInitTileSet}(2, &t2, &p2, 0, (&t2\_end - &t2), 8, BG\_4COLORS0, 0x4000);
-    \hyperlink{a00323_ae09a7ac09be78eef0f28a6c7aabc82ad}{bgInitTileSet}(3, &t3, &p3, 0, (&t3\_end - &t3), 16, BG\_4COLORS0, 0x5000);
+    \hyperlink{a00320_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
+    
+    \textcolor{comment}{// Initialize text console with our font}
+    \hyperlink{a00320_a458fa049800e12429ca0ba401e513746}{consoleInitText}(0, 1, &snesfont);
+
+    \textcolor{comment}{// Copy tiles to VRAM}
+    \hyperlink{a00317_ae09a7ac09be78eef0f28a6c7aabc82ad}{bgInitTileSet}(1, &patterns, &palette, 0, (&patterns\_end - &patterns), 16*2, BG\_16COLORS, 0
+      x4000);
 
     \textcolor{comment}{// Copy Map to VRAM}
-    \hyperlink{a00323_acc385296e159449a81d18f5e219c8032}{bgInitMapSet}(0, &m0, (&m0\_end - &m0),\hyperlink{a00323_a11724b6748ce0954e9b43819263537fc}{SC\_32x32}, 0x0000);
-    \hyperlink{a00323_acc385296e159449a81d18f5e219c8032}{bgInitMapSet}(1, &m1, (&m1\_end - &m1),\hyperlink{a00323_a11724b6748ce0954e9b43819263537fc}{SC\_32x32}, 0x0400);
-    \hyperlink{a00323_acc385296e159449a81d18f5e219c8032}{bgInitMapSet}(2, &m2, (&m2\_end - &m2),\hyperlink{a00323_a11724b6748ce0954e9b43819263537fc}{SC\_32x32}, 0x0800);
-    \hyperlink{a00323_acc385296e159449a81d18f5e219c8032}{bgInitMapSet}(3, &m3, (&m3\_end - &m3),\hyperlink{a00323_a11724b6748ce0954e9b43819263537fc}{SC\_32x32}, 0x0C00);
+    \hyperlink{a00317_acc385296e159449a81d18f5e219c8032}{bgInitMapSet}(1, &map, (&map\_end - &map),\hyperlink{a00317_ace76b0c992e2cba05f6da76f9825720a}{SC\_64x64}, 0x1000);
 
-    \textcolor{comment}{// Now Put in 16 color mode and disable other BGs except 1st one}
-    \hyperlink{a00359_afd9e46ae627d055dd8c98a4b0ebb73b1}{setMode}(\hyperlink{a00323_a82bccfa80c8aa4ff5aa4e1416e0ade25}{BG\_MODE0},0);  
+    \textcolor{comment}{// Now Put in 16 color mode and disable last BG}
+    \hyperlink{a00353_afd9e46ae627d055dd8c98a4b0ebb73b1}{setMode}(\hyperlink{a00317_a05c862edb7f8f75036f10c04dcc3c2a6}{BG\_MODE1},0);  \hyperlink{a00317_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(2);
+    \hyperlink{a00353_abc7d4ef8ebc22f5b710927909bb3f144}{setScreenOn}();
     
     \textcolor{comment}{// Wait for nothing :P}
     \textcolor{keywordflow}{while}(1) \{
-        \textcolor{comment}{// Shcnage scrolling only each 3 frames}
-        flip++;
-        \textcolor{keywordflow}{if} (flip == 3) \{
-            flip=0;
-            sxbg3++;
-            sxbg2+=2;
-            sxbg1+=3;
-            \hyperlink{a00323_aa5e0112ea2d4b514c2dddc6ed2c7c3c7}{bgSetScroll}(1,sxbg1,0);
-            \hyperlink{a00323_aa5e0112ea2d4b514c2dddc6ed2c7c3c7}{bgSetScroll}(2,sxbg2,0);
-            \hyperlink{a00323_aa5e0112ea2d4b514c2dddc6ed2c7c3c7}{bgSetScroll}(3,sxbg3,0);
+        \textcolor{comment}{// no move currently}
+        move = 0;
+        
+        \textcolor{comment}{// Refresh pad values}
+        \hyperlink{a00335_a42632e79292dc47a567aab4dc3e4407d}{scanPads}();
+        
+        \textcolor{comment}{// Get current #0 pad}
+        pad0 = \hyperlink{a00335_a6063e0eec9a36e437fc32951acafa44c}{padsCurrent}(0);
+        
+        \textcolor{comment}{// Update scrolling with current pad}
+        \textcolor{keywordflow}{switch} (pad0) \{
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d}{KEY\_RIGHT} : scrX+=2; move = 1; \textcolor{keywordflow}{break};
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65}{KEY\_LEFT}   : scrX-=2; move = 1; \textcolor{keywordflow}{break};
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416}{KEY\_DOWN}   : scrY+=2; move = 1; \textcolor{keywordflow}{break};
+            \textcolor{keywordflow}{case} \hyperlink{a00335_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd}{KEY\_UP}       : scrY-=2; move = 1; \textcolor{keywordflow}{break};
         \}
-        \hyperlink{a00332_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}();
+        \textcolor{keywordflow}{if} (move) \hyperlink{a00317_aa5e0112ea2d4b514c2dddc6ed2c7c3c7}{bgSetScroll}(1, scrX,scrY);
+        
+        \textcolor{comment}{// Just inform user}
+        \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(0,0,\textcolor{stringliteral}{"SCR X=%d Y=%d"},scrX,scrY);
+
+        \hyperlink{a00326_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}();
     \}
     \textcolor{keywordflow}{return} 0;
 \}

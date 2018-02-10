@@ -1,259 +1,99 @@
-\hypertarget{a00326}{}\section{console.\+h File Reference}
-\label{a00326}\index{console.\+h@{console.\+h}}
+\hypertarget{a00326}{}\section{interrupt.\+h File Reference}
+\label{a00326}\index{interrupt.\+h@{interrupt.\+h}}
 
 
-snes generic console support.  
+snes interrupt support.  
 
 
 {\ttfamily \#include $<$snes/snestypes.\+h$>$}\newline
-{\ttfamily \#include $<$snes/background.\+h$>$}\newline
-{\ttfamily \#include $<$snes/dma.\+h$>$}\newline
-{\ttfamily \#include $<$snes/interrupt.\+h$>$}\newline
-{\ttfamily \#include $<$snes/pad.\+h$>$}\newline
-{\ttfamily \#include $<$snes/sprite.\+h$>$}\newline
-{\ttfamily \#include $<$snes/sound.\+h$>$}\newline
-{\ttfamily \#include $<$snes/video.\+h$>$}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{a00326_a88d83a889f8e1d016cedfbd0476db989}\label{a00326_a88d83a889f8e1d016cedfbd0476db989}} 
+\#define \hyperlink{a00326_a88d83a889f8e1d016cedfbd0476db989}{H\+B\+L\+\_\+\+R\+E\+A\+DY}~(1$<$$<$6)
+\begin{DoxyCompactList}\small\item\em H-\/\+Blank Period Flag (0=No, 1=H\+Blank) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00326_ac352c6a25f2e170d7b2bf2236bd31427}\label{a00326_ac352c6a25f2e170d7b2bf2236bd31427}} 
+\#define \hyperlink{a00326_ac352c6a25f2e170d7b2bf2236bd31427}{I\+N\+T\+\_\+\+H\+V\+I\+R\+Q\+\_\+H}~(1$<$$<$4)
+\begin{DoxyCompactList}\small\item\em H/V I\+RQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00326_a062bd6ffa662638df005a03cd2c0a3fb}\label{a00326_a062bd6ffa662638df005a03cd2c0a3fb}} 
+\#define \hyperlink{a00326_a062bd6ffa662638df005a03cd2c0a3fb}{I\+N\+T\+\_\+\+H\+V\+I\+R\+Q\+\_\+\+HV}~(2 $<$$<$4)
+\begin{DoxyCompactList}\small\item\em H/V I\+RQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00326_a54b588e60e5abfeaf59ba4c8fd826cfa}\label{a00326_a54b588e60e5abfeaf59ba4c8fd826cfa}} 
+\#define \hyperlink{a00326_a54b588e60e5abfeaf59ba4c8fd826cfa}{I\+N\+T\+\_\+\+H\+V\+I\+R\+Q\+\_\+V}~(1$<$$<$5)
+\begin{DoxyCompactList}\small\item\em H/V I\+RQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00326_ab4a66ed24f182a8d056f7db1cab6eb82}\label{a00326_ab4a66ed24f182a8d056f7db1cab6eb82}} 
+\#define \hyperlink{a00326_ab4a66ed24f182a8d056f7db1cab6eb82}{I\+N\+T\+\_\+\+J\+O\+Y\+P\+A\+D\+\_\+\+E\+N\+A\+B\+LE}~(1)
+\begin{DoxyCompactList}\small\item\em Joypad Enable (0=Disable, 1=Enable Automatic Reading of Joypad) \end{DoxyCompactList}\item 
+\#define \hyperlink{a00326_a435380b6460ebd669f2b344ea79316d6}{I\+N\+T\+\_\+\+V\+B\+L\+E\+N\+A\+B\+LE}~(1$<$$<$7)
+\begin{DoxyCompactList}\small\item\em Bit defines for the interrupt registers. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00326_a2094086b43aa835d241e35153f8ed1bc}\label{a00326_a2094086b43aa835d241e35153f8ed1bc}} 
+\#define \hyperlink{a00326_a2094086b43aa835d241e35153f8ed1bc}{P\+A\+D\+\_\+\+B\+U\+SY}~(1)
+\begin{DoxyCompactList}\small\item\em Auto-\/\+Joypad-\/\+Read Busy Flag (1=Busy) (see 4200h, and 4218h..421\+Fh) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00326_af25c0fcc5e2519aa98aebe289d391ca2}\label{a00326_af25c0fcc5e2519aa98aebe289d391ca2}} 
+\#define \hyperlink{a00326_af25c0fcc5e2519aa98aebe289d391ca2}{R\+E\+G\+\_\+\+H\+V\+B\+J\+OY}~($\ast$(vuint8$\ast$)0x4212)
+\begin{DoxyCompactList}\small\item\em H/\+V-\/\+Blank flag and Joypad Busy flag (R). 7 V-\/\+Blank Period Flag (0=No, 1=V\+Blank) 6 H-\/\+Blank Period Flag (0=No, 1=H\+Blank) 5-\/1 Not used 0 Auto-\/\+Joypad-\/\+Read Busy Flag (1=Busy) (see 4200h, and 4218h..421\+Fh) The Hblank flag gets toggled in A\+LL scanlines (including during Vblank/\+Vsync). Both Vblank and Hblank are always toggling (even during Forced Blank, and no matter if I\+R\+Qs or N\+M\+Is are enabled. \end{DoxyCompactList}\item 
+\#define \hyperlink{a00326_a8627bb48b8760c306190eb7ed050af73}{R\+E\+G\+\_\+\+N\+M\+I\+T\+I\+M\+EN}~($\ast$(vuint8$\ast$)0x4200)
+\begin{DoxyCompactList}\small\item\em Interrupt Enable and Joypad Request (W). 7 V\+Blank N\+MI Enable (0=Disable, 1=Enable) (Initially disabled on reset) 6 Not used 5-\/4 H/V I\+RQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) 3-\/1 Not used 0 Joypad Enable (0=Disable, 1=Enable Automatic Reading of Joypad) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00326_a3a29932a3a9cf7dbbf25a3a30c9e25fa}\label{a00326_a3a29932a3a9cf7dbbf25a3a30c9e25fa}} 
+\#define \hyperlink{a00326_a3a29932a3a9cf7dbbf25a3a30c9e25fa}{R\+E\+G\+\_\+\+R\+D\+N\+MI}~($\ast$(vuint8$\ast$)0x4210)
+\begin{DoxyCompactList}\small\item\em V-\/\+Blank N\+MI Flag and C\+PU Version Number (R) (Read/\+Ack) 7 Vblank N\+MI Flag (0=None, 1=Interrupt Request) (set on Begin of Vblank) 6-\/4 Not used 3-\/0 C\+PU 5\+A22 Version Number (version 2 exists) The N\+MI flag gets set at begin of Vblank (this happens even if N\+M\+Is are disabled). The flag gets reset automatically at end of Vblank, and gets also reset after reading from this register. The S\+N\+ES has only one N\+MI source (vblank), and the N\+MI flag is automatically reset (on vblank end), so there\textquotesingle{}s normally no need to read/acknowledge the flag, except one special case\+: If one does disable and re-\/enable N\+M\+Is, then an old N\+MI may be executed again; acknowledging avoids that effect. The C\+PU includes another internal N\+MI flag, which gets set when \char`\"{}\mbox{[}4200h\mbox{]}.\+7 A\+N\+D \mbox{[}4210h\mbox{]}.\+7\char`\"{} changes from 0-\/to-\/1, and gets cleared when the N\+MI gets executed (which should happen around after the next opcode) (if a D\+MA transfer is in progress, then it is somewhere after the D\+MA, in that case the N\+MI can get executed outside of the Vblank period, ie. at a time when \mbox{[}4210h\mbox{]}.7 is no longer set). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00326_a1982e080d74da9e146881ca580ffec0d}\label{a00326_a1982e080d74da9e146881ca580ffec0d}} 
+\#define \hyperlink{a00326_a1982e080d74da9e146881ca580ffec0d}{V\+B\+L\+\_\+\+R\+E\+A\+DY}~(1$<$$<$7)
+\begin{DoxyCompactList}\small\item\em V-\/\+Blank Period Flag (0=No, 1=V\+Blank) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00326_a03304aaf535795c2857e357e028cdebe}\label{a00326_a03304aaf535795c2857e357e028cdebe}} 
+\#define \hyperlink{a00326_a03304aaf535795c2857e357e028cdebe}{Wait\+V\+B\+L\+Flag}
+\begin{DoxyCompactList}\small\item\em macro to wait the V\+BL flag OK \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{a00326_ac3c55f6e16ff70d19c046404b9aa8a9b}{console\+Copy\+Sram} (u8 $\ast$source, u16 size)
-\begin{DoxyCompactList}\small\item\em Send data to S\+R\+AM. \end{DoxyCompactList}\item 
-void \hyperlink{a00326_a7e52d15b5a1befa42f5758de19dfb70c}{console\+Draw\+Text} (u16 x, u16 y, char $\ast$fmt,...)
-\begin{DoxyCompactList}\small\item\em Output formatted string on a screen (tiles mode) \end{DoxyCompactList}\item 
-void \hyperlink{a00326_af4a32a4f79f7f382cd95e9bf9e8b7a40}{console\+Draw\+Text\+Map} (u8 x, u8 y, u8 $\ast$map, u8 attributes, char $\ast$fmt,...)
-\begin{DoxyCompactList}\small\item\em Output formatted string on a screen (2 colors tiles mode) \end{DoxyCompactList}\item 
-void \hyperlink{a00326_a6dd21f159f8388adf48398efe8faf758}{console\+Draw\+Text\+Map\+Center} (u8 y, u8 $\ast$map, u8 attributes, char $\ast$fmt,...)
-\begin{DoxyCompactList}\small\item\em Output formatted string on a screen, centered it (2 colors tiles mode) \end{DoxyCompactList}\item 
-void \hyperlink{a00326_a6047713bb5a73afd3cd1d77e336bcdad}{console\+Init} (void)
-\begin{DoxyCompactList}\small\item\em Initialize console. \end{DoxyCompactList}\item 
-void \hyperlink{a00326_a458fa049800e12429ca0ba401e513746}{console\+Init\+Text} (u8 bg\+Number, u8 palette\+Number, u8 $\ast$gfx\+Text)
-\begin{DoxyCompactList}\small\item\em Initialize the Text System. \end{DoxyCompactList}\item 
-void \hyperlink{a00326_abe1fabedc24a3adef79f32e02c3bc2d5}{console\+Load\+Sram} (u8 $\ast$dest, u16 size)
-\begin{DoxyCompactList}\small\item\em Load data from S\+R\+AM. \end{DoxyCompactList}\item 
-void \hyperlink{a00326_ae05914ac61acdb7ac77c7496624f4303}{console\+Nocash\+Message} (const char $\ast$message)
-\begin{DoxyCompactList}\small\item\em Send a message to the no\$sns debug window. \end{DoxyCompactList}\item 
-void \hyperlink{a00326_ac0993a72682f86d17784a7f4659562de}{console\+Set\+Text\+Col} (u16 color\+Char, u16 color\+BG)
-\begin{DoxyCompactList}\small\item\em Change Character and Background color of text. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00326_a9bfb9c53fa37e76873d14be4446e71e5}\label{a00326_a9bfb9c53fa37e76873d14be4446e71e5}} 
-void \hyperlink{a00326_a9bfb9c53fa37e76873d14be4446e71e5}{console\+Update} (void)
-\begin{DoxyCompactList}\small\item\em Update current text buffer on screen. \end{DoxyCompactList}\item 
-u16 \hyperlink{a00326_a0615d3903c2ad6faaed1443bd44c8ae2}{rand} (void)
-\begin{DoxyCompactList}\small\item\em return a randomized number \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-\mbox{\Hypertarget{a00326_a01a196c5c404d8e3d16ef799cc0b1653}\label{a00326_a01a196c5c404d8e3d16ef799cc0b1653}} 
-u8 \hyperlink{a00326_a01a196c5c404d8e3d16ef799cc0b1653}{pvsneslibdirty}
-\begin{DoxyCompactList}\small\item\em flag to redraw text during vblank \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00326_afb9f478403f30556d576a6fa54bc9073}\label{a00326_afb9f478403f30556d576a6fa54bc9073}} 
-u8 \hyperlink{a00326_afb9f478403f30556d576a6fa54bc9073}{pvsneslibfont\+\_\+map} \mbox{[}0x800\mbox{]}
-\begin{DoxyCompactList}\small\item\em tilemap used for text display \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00326_aef3bf9522613bca02b4a00ea910d492f}\label{a00326_aef3bf9522613bca02b4a00ea910d492f}} 
-u8 \hyperlink{a00326_aef3bf9522613bca02b4a00ea910d492f}{snes\+\_\+50hz}
-\begin{DoxyCompactList}\small\item\em 1 if on a P\+A\+L/50\+Hz S\+N\+ES \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00326_a5e14b74b621c822db9af978d0ad31d1a}\label{a00326_a5e14b74b621c822db9af978d0ad31d1a}} 
-u16 \hyperlink{a00326_a5e14b74b621c822db9af978d0ad31d1a}{snes\+\_\+vblank\+\_\+count}
-\begin{DoxyCompactList}\small\item\em Number of V\+BL since console\+Init called. \end{DoxyCompactList}\end{DoxyCompactItemize}
+void \hyperlink{a00326_a64d4258f3ba782ce6db9f940fc88cc21}{nmi\+Set} (\hyperlink{a00344_a65983c92bfd6f87a74927ad398d4b271}{Void\+Fn} handler)
+\begin{DoxyCompactList}\small\item\em Add a handler for the given interrupt mask. Specify the handler to use for the nmi interrupt. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00326_a815e2626bd26d0e936d507a363ecd723}\label{a00326_a815e2626bd26d0e936d507a363ecd723}} 
+void \hyperlink{a00326_a815e2626bd26d0e936d507a363ecd723}{Wait\+For\+V\+Blank} (void)
+\begin{DoxyCompactList}\small\item\em Wait for vblank interrupt Waits for a vertical blank interrupt. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-snes generic console support. 
+snes interrupt support. 
 
 
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{a00326_a435380b6460ebd669f2b344ea79316d6}\label{a00326_a435380b6460ebd669f2b344ea79316d6}} 
+\index{interrupt.\+h@{interrupt.\+h}!I\+N\+T\+\_\+\+V\+B\+L\+E\+N\+A\+B\+LE@{I\+N\+T\+\_\+\+V\+B\+L\+E\+N\+A\+B\+LE}}
+\index{I\+N\+T\+\_\+\+V\+B\+L\+E\+N\+A\+B\+LE@{I\+N\+T\+\_\+\+V\+B\+L\+E\+N\+A\+B\+LE}!interrupt.\+h@{interrupt.\+h}}
+\subsubsection{\texorpdfstring{I\+N\+T\+\_\+\+V\+B\+L\+E\+N\+A\+B\+LE}{INT\_VBLENABLE}}
+{\footnotesize\ttfamily \#define I\+N\+T\+\_\+\+V\+B\+L\+E\+N\+A\+B\+LE~(1$<$$<$7)}
+
+
+
+Bit defines for the interrupt registers. 
+
+V\+Blank N\+MI Enable (0=Disable, 1=Enable) (Initially disabled on reset) \mbox{\Hypertarget{a00326_a8627bb48b8760c306190eb7ed050af73}\label{a00326_a8627bb48b8760c306190eb7ed050af73}} 
+\index{interrupt.\+h@{interrupt.\+h}!R\+E\+G\+\_\+\+N\+M\+I\+T\+I\+M\+EN@{R\+E\+G\+\_\+\+N\+M\+I\+T\+I\+M\+EN}}
+\index{R\+E\+G\+\_\+\+N\+M\+I\+T\+I\+M\+EN@{R\+E\+G\+\_\+\+N\+M\+I\+T\+I\+M\+EN}!interrupt.\+h@{interrupt.\+h}}
+\subsubsection{\texorpdfstring{R\+E\+G\+\_\+\+N\+M\+I\+T\+I\+M\+EN}{REG\_NMITIMEN}}
+{\footnotesize\ttfamily \#define R\+E\+G\+\_\+\+N\+M\+I\+T\+I\+M\+EN~($\ast$(vuint8$\ast$)0x4200)}
+
+
+
+Interrupt Enable and Joypad Request (W). 7 V\+Blank N\+MI Enable (0=Disable, 1=Enable) (Initially disabled on reset) 6 Not used 5-\/4 H/V I\+RQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) 3-\/1 Not used 0 Joypad Enable (0=Disable, 1=Enable Automatic Reading of Joypad) 
+
+Disabling I\+R\+Qs (via bit4-\/5) does additionally acknowledge I\+R\+Qs. There\textquotesingle{}s no such effect when disabling N\+M\+Is (via bit7). 
 
 \subsection{Function Documentation}
-\mbox{\Hypertarget{a00326_ac3c55f6e16ff70d19c046404b9aa8a9b}\label{a00326_ac3c55f6e16ff70d19c046404b9aa8a9b}} 
-\index{console.\+h@{console.\+h}!console\+Copy\+Sram@{console\+Copy\+Sram}}
-\index{console\+Copy\+Sram@{console\+Copy\+Sram}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Copy\+Sram()}{consoleCopySram()}}
-{\footnotesize\ttfamily void console\+Copy\+Sram (\begin{DoxyParamCaption}\item[{u8 $\ast$}]{source,  }\item[{u16}]{size }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{a00326_a64d4258f3ba782ce6db9f940fc88cc21}\label{a00326_a64d4258f3ba782ce6db9f940fc88cc21}} 
+\index{interrupt.\+h@{interrupt.\+h}!nmi\+Set@{nmi\+Set}}
+\index{nmi\+Set@{nmi\+Set}!interrupt.\+h@{interrupt.\+h}}
+\subsubsection{\texorpdfstring{nmi\+Set()}{nmiSet()}}
+{\footnotesize\ttfamily nmi\+Set (\begin{DoxyParamCaption}\item[{\hyperlink{a00344_a65983c92bfd6f87a74927ad398d4b271}{Void\+Fn}}]{handler }\end{DoxyParamCaption})}
 
 
 
-Send data to S\+R\+AM. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em source} & the source to copy from \\
-\hline
-{\em size} & the size in bytes of the data to copy. \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00436}{sram/sram.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00326_a7e52d15b5a1befa42f5758de19dfb70c}\label{a00326_a7e52d15b5a1befa42f5758de19dfb70c}} 
-\index{console.\+h@{console.\+h}!console\+Draw\+Text@{console\+Draw\+Text}}
-\index{console\+Draw\+Text@{console\+Draw\+Text}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Draw\+Text()}{consoleDrawText()}}
-{\footnotesize\ttfamily void console\+Draw\+Text (\begin{DoxyParamCaption}\item[{u16}]{x,  }\item[{u16}]{y,  }\item[{char $\ast$}]{fmt,  }\item[{}]{... }\end{DoxyParamCaption})}
-
-
-
-Output formatted string on a screen (tiles mode) 
+Add a handler for the given interrupt mask. Specify the handler to use for the nmi interrupt. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em x} & The X character number the string should start on \\
-\hline
-{\em y} & The Y character number the string should start on \\
-\hline
-{\em fmt} & The Format string (see printf() documentation in your local C tutorial)\\
+{\em handler} & Address of the function to use as an interrupt service routine \\
 \hline
 \end{DoxyParams}
-Output a text string to the screen. Before using this, you need to call \hyperlink{a00326_a458fa049800e12429ca0ba401e513746}{console\+Init\+Text()}. You can also print the value of variables this way, by putting a format string and additional parameters. \begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00428}{audio/music/\+Music.\+c}, \hyperlink{a00430}{audio/tada/\+Tada.\+c}, \hyperlink{a00426}{games/likemario/\+Like\+Mario.\+c}, \hyperlink{a00402}{graphics/\+Backgrounds/\+Mode1\+Scroll/\+Mode1\+Scroll.\+c}, \hyperlink{a00394}{hello\+\_\+world/hello\+\_\+world.\+c}, \hyperlink{a00422}{input/input.\+c}, \hyperlink{a00434}{random/random.\+c}, \hyperlink{a00438}{scoring/scoring.\+c}, \hyperlink{a00436}{sram/sram.\+c}, and \hyperlink{a00424}{timer/timer.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00326_af4a32a4f79f7f382cd95e9bf9e8b7a40}\label{a00326_af4a32a4f79f7f382cd95e9bf9e8b7a40}} 
-\index{console.\+h@{console.\+h}!console\+Draw\+Text\+Map@{console\+Draw\+Text\+Map}}
-\index{console\+Draw\+Text\+Map@{console\+Draw\+Text\+Map}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Draw\+Text\+Map()}{consoleDrawTextMap()}}
-{\footnotesize\ttfamily void console\+Draw\+Text\+Map (\begin{DoxyParamCaption}\item[{u8}]{x,  }\item[{u8}]{y,  }\item[{u8 $\ast$}]{map,  }\item[{u8}]{attributes,  }\item[{char $\ast$}]{fmt,  }\item[{}]{... }\end{DoxyParamCaption})}
-
-
-
-Output formatted string on a screen (2 colors tiles mode) 
-
-
-\begin{DoxyParams}{Parameters}
-{\em x} & The X character number the string should start on \\
-\hline
-{\em y} & The Y character number the string should start on \\
-\hline
-{\em map} & The 0x800 char map entry to put string \\
-\hline
-{\em attributes} & attributes for tiles \\
-\hline
-{\em fmt} & The Format string (see printf() documentation in your local C tutorial)\\
-\hline
-\end{DoxyParams}
-Output a text string to the screen. Before using this, you need to call \hyperlink{a00326_a458fa049800e12429ca0ba401e513746}{console\+Init\+Text()}. You can also print the value of variables this way, by putting a format string and additional parameters. \mbox{\Hypertarget{a00326_a6dd21f159f8388adf48398efe8faf758}\label{a00326_a6dd21f159f8388adf48398efe8faf758}} 
-\index{console.\+h@{console.\+h}!console\+Draw\+Text\+Map\+Center@{console\+Draw\+Text\+Map\+Center}}
-\index{console\+Draw\+Text\+Map\+Center@{console\+Draw\+Text\+Map\+Center}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Draw\+Text\+Map\+Center()}{consoleDrawTextMapCenter()}}
-{\footnotesize\ttfamily void console\+Draw\+Text\+Map\+Center (\begin{DoxyParamCaption}\item[{u8}]{y,  }\item[{u8 $\ast$}]{map,  }\item[{u8}]{attributes,  }\item[{char $\ast$}]{fmt,  }\item[{}]{... }\end{DoxyParamCaption})}
-
-
-
-Output formatted string on a screen, centered it (2 colors tiles mode) 
-
-
-\begin{DoxyParams}{Parameters}
-{\em y} & The Y character number the string should start on \\
-\hline
-{\em map} & The 0x800 char map entry to put string \\
-\hline
-{\em attributes} & attributes for tiles \\
-\hline
-{\em fmt} & The Format string (see printf() documentation in your local C tutorial)\\
-\hline
-\end{DoxyParams}
-Output a text string to the screen. Before using this, you need to call \hyperlink{a00326_a458fa049800e12429ca0ba401e513746}{console\+Init\+Text()}. You can also print the value of variables this way, by putting a format string and additional parameters. The text will be centered on x axis. \mbox{\Hypertarget{a00326_a6047713bb5a73afd3cd1d77e336bcdad}\label{a00326_a6047713bb5a73afd3cd1d77e336bcdad}} 
-\index{console.\+h@{console.\+h}!console\+Init@{console\+Init}}
-\index{console\+Init@{console\+Init}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Init()}{consoleInit()}}
-{\footnotesize\ttfamily console\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
-
-
-
-Initialize console. 
-
-Generic init for S\+N\+ES console. \begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00428}{audio/music/\+Music.\+c}, \hyperlink{a00430}{audio/tada/\+Tada.\+c}, \hyperlink{a00432}{debug/debug.\+c}, \hyperlink{a00426}{games/likemario/\+Like\+Mario.\+c}, \hyperlink{a00396}{graphics/\+Backgrounds/\+Mode0/\+Mode0.\+c}, \hyperlink{a00398}{graphics/\+Backgrounds/\+Mode1/\+Mode1.\+c}, \hyperlink{a00404}{graphics/\+Backgrounds/\+Mode1\+Mixed\+Scroll/\+Mode1\+Mixed\+Scroll.\+c}, \hyperlink{a00400}{graphics/\+Backgrounds/\+Mode1\+Png/\+Mode1.\+c}, \hyperlink{a00402}{graphics/\+Backgrounds/\+Mode1\+Scroll/\+Mode1\+Scroll.\+c}, \hyperlink{a00406}{graphics/\+Backgrounds/\+Mode3/\+Mode3.\+c}, \hyperlink{a00408}{graphics/\+Backgrounds/\+Mode7/\+Mode7.\+c}, \hyperlink{a00410}{graphics/\+Effects/\+H\+D\+M\+A\+Gradient/\+H\+D\+M\+A\+Gradient.\+c}, \hyperlink{a00412}{graphics/\+Effects/\+Mosaic\+Shading/\+Mosaic\+Shading.\+c}, \hyperlink{a00414}{graphics/\+Effects/\+Transparency/\+Transparency.\+c}, \hyperlink{a00418}{graphics/\+Sprites/\+Animated\+Sprite/\+Animated\+Sprite.\+c}, \hyperlink{a00420}{graphics/\+Sprites/\+Dynamic\+Sprite/\+Dynamic\+Sprite.\+c}, \hyperlink{a00416}{graphics/\+Sprites/\+Simple\+Sprite/\+Simple\+Sprite.\+c}, \hyperlink{a00394}{hello\+\_\+world/hello\+\_\+world.\+c}, \hyperlink{a00422}{input/input.\+c}, \hyperlink{a00434}{random/random.\+c}, \hyperlink{a00438}{scoring/scoring.\+c}, \hyperlink{a00436}{sram/sram.\+c}, and \hyperlink{a00424}{timer/timer.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00326_a458fa049800e12429ca0ba401e513746}\label{a00326_a458fa049800e12429ca0ba401e513746}} 
-\index{console.\+h@{console.\+h}!console\+Init\+Text@{console\+Init\+Text}}
-\index{console\+Init\+Text@{console\+Init\+Text}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Init\+Text()}{consoleInitText()}}
-{\footnotesize\ttfamily void console\+Init\+Text (\begin{DoxyParamCaption}\item[{u8}]{bg\+Number,  }\item[{u8}]{palette\+Number,  }\item[{u8 $\ast$}]{gfx\+Text }\end{DoxyParamCaption})}
-
-
-
-Initialize the Text System. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em bg\+Number} & The BG number to show Text on. \\
-\hline
-{\em palette\+Number} & Palette number (0..16). \\
-\hline
-{\em gfx\+Text} & Pointer to tiles gfx for printing\\
-\hline
-\end{DoxyParams}
-Reserve a BG and load the font characters into V\+R\+AM. It will only work in tiled display modes. Also, please note that this function will overwrite BG palette number 0 and 1 to black and white, and set the Font to use these two colors. You can change colors by calling \hyperlink{a00326_ac0993a72682f86d17784a7f4659562de}{console\+Set\+Text\+Col()}. \begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00428}{audio/music/\+Music.\+c}, \hyperlink{a00430}{audio/tada/\+Tada.\+c}, \hyperlink{a00426}{games/likemario/\+Like\+Mario.\+c}, \hyperlink{a00402}{graphics/\+Backgrounds/\+Mode1\+Scroll/\+Mode1\+Scroll.\+c}, \hyperlink{a00394}{hello\+\_\+world/hello\+\_\+world.\+c}, \hyperlink{a00422}{input/input.\+c}, \hyperlink{a00434}{random/random.\+c}, \hyperlink{a00438}{scoring/scoring.\+c}, \hyperlink{a00436}{sram/sram.\+c}, and \hyperlink{a00424}{timer/timer.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00326_abe1fabedc24a3adef79f32e02c3bc2d5}\label{a00326_abe1fabedc24a3adef79f32e02c3bc2d5}} 
-\index{console.\+h@{console.\+h}!console\+Load\+Sram@{console\+Load\+Sram}}
-\index{console\+Load\+Sram@{console\+Load\+Sram}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Load\+Sram()}{consoleLoadSram()}}
-{\footnotesize\ttfamily void console\+Load\+Sram (\begin{DoxyParamCaption}\item[{u8 $\ast$}]{dest,  }\item[{u16}]{size }\end{DoxyParamCaption})}
-
-
-
-Load data from S\+R\+AM. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em dest} & the destination to load into \\
-\hline
-{\em size} & the size in bytes of the data to copy. \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00436}{sram/sram.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00326_ae05914ac61acdb7ac77c7496624f4303}\label{a00326_ae05914ac61acdb7ac77c7496624f4303}} 
-\index{console.\+h@{console.\+h}!console\+Nocash\+Message@{console\+Nocash\+Message}}
-\index{console\+Nocash\+Message@{console\+Nocash\+Message}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Nocash\+Message()}{consoleNocashMessage()}}
-{\footnotesize\ttfamily void console\+Nocash\+Message (\begin{DoxyParamCaption}\item[{const char $\ast$}]{message }\end{DoxyParamCaption})}
-
-
-
-Send a message to the no\$sns debug window. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em message} & The message to send \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00432}{debug/debug.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00326_ac0993a72682f86d17784a7f4659562de}\label{a00326_ac0993a72682f86d17784a7f4659562de}} 
-\index{console.\+h@{console.\+h}!console\+Set\+Text\+Col@{console\+Set\+Text\+Col}}
-\index{console\+Set\+Text\+Col@{console\+Set\+Text\+Col}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{console\+Set\+Text\+Col()}{consoleSetTextCol()}}
-{\footnotesize\ttfamily console\+Set\+Text\+Col (\begin{DoxyParamCaption}\item[{u16}]{color\+Char,  }\item[{u16}]{color\+BG }\end{DoxyParamCaption})}
-
-
-
-Change Character and Background color of text. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em color\+Char} & The BG color palette with R\+G\+B5 values of text itself \\
-\hline
-{\em color\+BG} & The BG color palette with R\+G\+B5 values of text background \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00426}{games/likemario/\+Like\+Mario.\+c}.\end{Desc}
-\mbox{\Hypertarget{a00326_a0615d3903c2ad6faaed1443bd44c8ae2}\label{a00326_a0615d3903c2ad6faaed1443bd44c8ae2}} 
-\index{console.\+h@{console.\+h}!rand@{rand}}
-\index{rand@{rand}!console.\+h@{console.\+h}}
-\subsubsection{\texorpdfstring{rand()}{rand()}}
-{\footnotesize\ttfamily rand (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
-
-
-
-return a randomized number 
-
-\begin{DoxyReturn}{Returns}
-unsigned short of a randozied number 
-\end{DoxyReturn}
-\begin{Desc}
-\item[Examples\+: ]\par
-\hyperlink{a00434}{random/random.\+c}.\end{Desc}

@@ -1,54 +1,54 @@
-\hypertarget{a00432}{}\section{graphics/\+Backgrounds/\+Mode7/\+Mode7.\+c}
+\hypertarget{a00432}{}\section{scoring/scoring.\+c}
 
 \begin{DoxyCodeInclude}
 \textcolor{comment}{/*---------------------------------------------------------------------------------}
 \textcolor{comment}{}
 \textcolor{comment}{}
-\textcolor{comment}{    Simple tile mode 3 demo with more than 32k tiles}
+\textcolor{comment}{    Simple scoring demo}
 \textcolor{comment}{    -- alekmaul}
 \textcolor{comment}{}
 \textcolor{comment}{}
 \textcolor{comment}{---------------------------------------------------------------------------------*/}
-\textcolor{preprocessor}{#include <\hyperlink{a00386}{snes.h}>}
+\textcolor{preprocessor}{#include <\hyperlink{a00356}{snes.h}>}
 
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} patterns,patterns\_end;
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} palette;
-\textcolor{keyword}{extern} \textcolor{keywordtype}{char} map, map\_end;
+\textcolor{keyword}{extern} \textcolor{keywordtype}{char} snesfont;
+
+scoMemory scoretst;
+\textcolor{keywordtype}{char} sz[128];
 
 \textcolor{comment}{//---------------------------------------------------------------------------------}
 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{void}) \{
-    u16 pad0;
-    u8 sz=0,sx=0,angle=0;
-    
     \textcolor{comment}{// Initialize SNES }
-    \hyperlink{a00350_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
+    \hyperlink{a00320_a6047713bb5a73afd3cd1d77e336bcdad}{consoleInit}();
     
-    \textcolor{comment}{// Read tiles & map to VRAM  (interlace for mode 7)}
-    \hyperlink{a00347_ae1fad909be4edf30a3cd08a0890361dc}{bgInitMapTileSet7}(&patterns,  &map, &palette, (&patterns\_end-&patterns), 0x0000);
+    \textcolor{comment}{// Initialize text console with our font}
+    \hyperlink{a00320_a458fa049800e12429ca0ba401e513746}{consoleInitText}(0, 0, &snesfont);
 
-    \textcolor{comment}{// Now Put mode7 without anything else}
-    \hyperlink{a00383_af7e722fd2eba5682bc0eafa9d5a9c51a}{setMode7}(0); 
+    \textcolor{comment}{// Clear the score}
+    scoretst.scohi=18;scoretst.scolo=900;
+    \hyperlink{a00341_a610bffa01efc5915459764c57f0a7d32}{scoreClear}(&scoretst);
+    sprintf(sz,\textcolor{stringliteral}{"score hi %04x score lo %04x"},(u16) scoretst.scohi,(u16) scoretst.scolo);
+    \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(2,8,sz);
     
+    \textcolor{comment}{// Add a value}
+    \hyperlink{a00341_a95d4103529817bc4d7efbaa7098ae2e5}{scoreAdd}(&scoretst,0x4DB);
+    sprintf(sz,\textcolor{stringliteral}{"score hi %04x score lo %04x"},(u16) scoretst.scohi,(u16) scoretst.scolo);
+    \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(2,9,sz);
+
+    \textcolor{comment}{// Add more than 10000}
+    \hyperlink{a00341_a95d4103529817bc4d7efbaa7098ae2e5}{scoreAdd}(&scoretst,0x2710);
+    sprintf(sz,\textcolor{stringliteral}{"score hi %04x score lo %04x"},(u16) scoretst.scohi,(u16) scoretst.scolo);
+    \hyperlink{a00320_a7e52d15b5a1befa42f5758de19dfb70c}{consoleDrawText}(2,10,sz);
+
+    \textcolor{comment}{// Now Put in 16 color mode and disable Bgs except current}
+    \hyperlink{a00353_afd9e46ae627d055dd8c98a4b0ebb73b1}{setMode}(\hyperlink{a00317_a05c862edb7f8f75036f10c04dcc3c2a6}{BG\_MODE1},0);  \hyperlink{a00317_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(1);  
+      \hyperlink{a00317_a4dbfb1b8854ff9ca4a7d11a899281bbb}{bgSetDisable}(2);
+
     \textcolor{comment}{// Wait for nothing :P}
+    \hyperlink{a00353_a4c257abebd75e4653441e8afe672bb5e}{setBrightness}(0xF);  
+    
     \textcolor{keywordflow}{while}(1) \{
-        \textcolor{comment}{// Refresh pad values}
-        \hyperlink{a00365_a42632e79292dc47a567aab4dc3e4407d}{scanPads}();
-        
-        \textcolor{comment}{// Get current #0 pad}
-        pad0 = \hyperlink{a00365_a6063e0eec9a36e437fc32951acafa44c}{padsCurrent}(0);
-        
-        \textcolor{keywordflow}{if} (pad0) \{
-            \textcolor{comment}{// Update scrolling with current pad}
-            \textcolor{keywordflow}{switch} (pad0) \{
-                \textcolor{keywordflow}{case} \hyperlink{a00365_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc}{KEY\_A} : angle++; \hyperlink{a00383_a4d332cdc88b26fc9ec2cdd4f6710ce8c}{setMode7Rot}(angle); \textcolor{keywordflow}{break};
-                \textcolor{keywordflow}{case} \hyperlink{a00365_aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a}{KEY\_B} : angle--; \hyperlink{a00383_a4d332cdc88b26fc9ec2cdd4f6710ce8c}{setMode7Rot}(angle); \textcolor{keywordflow}{break};
-                \textcolor{keywordflow}{case} \hyperlink{a00365_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d}{KEY\_RIGHT} : sz++; \textcolor{keywordflow}{break};
-                \textcolor{keywordflow}{case} \hyperlink{a00365_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65}{KEY\_LEFT}   : \textcolor{keywordflow}{if} (sx) sx--; \textcolor{keywordflow}{break};
-                \textcolor{keywordflow}{case} \hyperlink{a00365_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416}{KEY\_DOWN}   : \textcolor{keywordflow}{if} (sz) sz--; \textcolor{keywordflow}{break};
-                \textcolor{keywordflow}{case} \hyperlink{a00365_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd}{KEY\_UP}       : sz++; \textcolor{keywordflow}{break};
-            \}
-        \}
-        \hyperlink{a00356_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}();
+        \hyperlink{a00326_a815e2626bd26d0e936d507a363ecd723}{WaitForVBlank}();
     \}
     \textcolor{keywordflow}{return} 0;
 \}

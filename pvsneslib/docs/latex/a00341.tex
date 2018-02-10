@@ -1,99 +1,80 @@
-\hypertarget{a00341}{}\section{interrupt.\+h File Reference}
-\label{a00341}\index{interrupt.\+h@{interrupt.\+h}}
+\hypertarget{a00341}{}\section{scores.\+h File Reference}
+\label{a00341}\index{scores.\+h@{scores.\+h}}
 
 
-snes interrupt support.  
+Wrapper functions for score management.  
 
 
 {\ttfamily \#include $<$snes/snestypes.\+h$>$}\newline
-\subsection*{Macros}
-\begin{DoxyCompactItemize}
-\item 
-\mbox{\Hypertarget{a00341_a88d83a889f8e1d016cedfbd0476db989}\label{a00341_a88d83a889f8e1d016cedfbd0476db989}} 
-\#define \hyperlink{a00341_a88d83a889f8e1d016cedfbd0476db989}{H\+B\+L\+\_\+\+R\+E\+A\+DY}~(1$<$$<$6)
-\begin{DoxyCompactList}\small\item\em H-\/\+Blank Period Flag (0=No, 1=H\+Blank) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00341_ac352c6a25f2e170d7b2bf2236bd31427}\label{a00341_ac352c6a25f2e170d7b2bf2236bd31427}} 
-\#define \hyperlink{a00341_ac352c6a25f2e170d7b2bf2236bd31427}{I\+N\+T\+\_\+\+H\+V\+I\+R\+Q\+\_\+H}~(1$<$$<$4)
-\begin{DoxyCompactList}\small\item\em H/V I\+RQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00341_a062bd6ffa662638df005a03cd2c0a3fb}\label{a00341_a062bd6ffa662638df005a03cd2c0a3fb}} 
-\#define \hyperlink{a00341_a062bd6ffa662638df005a03cd2c0a3fb}{I\+N\+T\+\_\+\+H\+V\+I\+R\+Q\+\_\+\+HV}~(2 $<$$<$4)
-\begin{DoxyCompactList}\small\item\em H/V I\+RQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00341_a54b588e60e5abfeaf59ba4c8fd826cfa}\label{a00341_a54b588e60e5abfeaf59ba4c8fd826cfa}} 
-\#define \hyperlink{a00341_a54b588e60e5abfeaf59ba4c8fd826cfa}{I\+N\+T\+\_\+\+H\+V\+I\+R\+Q\+\_\+V}~(1$<$$<$5)
-\begin{DoxyCompactList}\small\item\em H/V I\+RQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00341_ab4a66ed24f182a8d056f7db1cab6eb82}\label{a00341_ab4a66ed24f182a8d056f7db1cab6eb82}} 
-\#define \hyperlink{a00341_ab4a66ed24f182a8d056f7db1cab6eb82}{I\+N\+T\+\_\+\+J\+O\+Y\+P\+A\+D\+\_\+\+E\+N\+A\+B\+LE}~(1)
-\begin{DoxyCompactList}\small\item\em Joypad Enable (0=Disable, 1=Enable Automatic Reading of Joypad) \end{DoxyCompactList}\item 
-\#define \hyperlink{a00341_a435380b6460ebd669f2b344ea79316d6}{I\+N\+T\+\_\+\+V\+B\+L\+E\+N\+A\+B\+LE}~(1$<$$<$7)
-\begin{DoxyCompactList}\small\item\em Bit defines for the interrupt registers. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00341_a2094086b43aa835d241e35153f8ed1bc}\label{a00341_a2094086b43aa835d241e35153f8ed1bc}} 
-\#define \hyperlink{a00341_a2094086b43aa835d241e35153f8ed1bc}{P\+A\+D\+\_\+\+B\+U\+SY}~(1)
-\begin{DoxyCompactList}\small\item\em Auto-\/\+Joypad-\/\+Read Busy Flag (1=Busy) (see 4200h, and 4218h..421\+Fh) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00341_af25c0fcc5e2519aa98aebe289d391ca2}\label{a00341_af25c0fcc5e2519aa98aebe289d391ca2}} 
-\#define \hyperlink{a00341_af25c0fcc5e2519aa98aebe289d391ca2}{R\+E\+G\+\_\+\+H\+V\+B\+J\+OY}~($\ast$(vuint8$\ast$)0x4212)
-\begin{DoxyCompactList}\small\item\em H/\+V-\/\+Blank flag and Joypad Busy flag (R). 7 V-\/\+Blank Period Flag (0=No, 1=V\+Blank) 6 H-\/\+Blank Period Flag (0=No, 1=H\+Blank) 5-\/1 Not used 0 Auto-\/\+Joypad-\/\+Read Busy Flag (1=Busy) (see 4200h, and 4218h..421\+Fh) The Hblank flag gets toggled in A\+LL scanlines (including during Vblank/\+Vsync). Both Vblank and Hblank are always toggling (even during Forced Blank, and no matter if I\+R\+Qs or N\+M\+Is are enabled. \end{DoxyCompactList}\item 
-\#define \hyperlink{a00341_a8627bb48b8760c306190eb7ed050af73}{R\+E\+G\+\_\+\+N\+M\+I\+T\+I\+M\+EN}~($\ast$(vuint8$\ast$)0x4200)
-\begin{DoxyCompactList}\small\item\em Interrupt Enable and Joypad Request (W). 7 V\+Blank N\+MI Enable (0=Disable, 1=Enable) (Initially disabled on reset) 6 Not used 5-\/4 H/V I\+RQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) 3-\/1 Not used 0 Joypad Enable (0=Disable, 1=Enable Automatic Reading of Joypad) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00341_a3a29932a3a9cf7dbbf25a3a30c9e25fa}\label{a00341_a3a29932a3a9cf7dbbf25a3a30c9e25fa}} 
-\#define \hyperlink{a00341_a3a29932a3a9cf7dbbf25a3a30c9e25fa}{R\+E\+G\+\_\+\+R\+D\+N\+MI}~($\ast$(vuint8$\ast$)0x4210)
-\begin{DoxyCompactList}\small\item\em V-\/\+Blank N\+MI Flag and C\+PU Version Number (R) (Read/\+Ack) 7 Vblank N\+MI Flag (0=None, 1=Interrupt Request) (set on Begin of Vblank) 6-\/4 Not used 3-\/0 C\+PU 5\+A22 Version Number (version 2 exists) The N\+MI flag gets set at begin of Vblank (this happens even if N\+M\+Is are disabled). The flag gets reset automatically at end of Vblank, and gets also reset after reading from this register. The S\+N\+ES has only one N\+MI source (vblank), and the N\+MI flag is automatically reset (on vblank end), so there\textquotesingle{}s normally no need to read/acknowledge the flag, except one special case\+: If one does disable and re-\/enable N\+M\+Is, then an old N\+MI may be executed again; acknowledging avoids that effect. The C\+PU includes another internal N\+MI flag, which gets set when \char`\"{}\mbox{[}4200h\mbox{]}.\+7 A\+N\+D \mbox{[}4210h\mbox{]}.\+7\char`\"{} changes from 0-\/to-\/1, and gets cleared when the N\+MI gets executed (which should happen around after the next opcode) (if a D\+MA transfer is in progress, then it is somewhere after the D\+MA, in that case the N\+MI can get executed outside of the Vblank period, ie. at a time when \mbox{[}4210h\mbox{]}.7 is no longer set). \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00341_a1982e080d74da9e146881ca580ffec0d}\label{a00341_a1982e080d74da9e146881ca580ffec0d}} 
-\#define \hyperlink{a00341_a1982e080d74da9e146881ca580ffec0d}{V\+B\+L\+\_\+\+R\+E\+A\+DY}~(1$<$$<$7)
-\begin{DoxyCompactList}\small\item\em V-\/\+Blank Period Flag (0=No, 1=V\+Blank) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00341_a03304aaf535795c2857e357e028cdebe}\label{a00341_a03304aaf535795c2857e357e028cdebe}} 
-\#define \hyperlink{a00341_a03304aaf535795c2857e357e028cdebe}{Wait\+V\+B\+L\+Flag}
-\begin{DoxyCompactList}\small\item\em macro to wait the V\+BL flag OK \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{a00341_a64d4258f3ba782ce6db9f940fc88cc21}{nmi\+Set} (\hyperlink{a00359_a65983c92bfd6f87a74927ad398d4b271}{Void\+Fn} handler)
-\begin{DoxyCompactList}\small\item\em Add a handler for the given interrupt mask. Specify the handler to use for the nmi interrupt. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{a00341_a815e2626bd26d0e936d507a363ecd723}\label{a00341_a815e2626bd26d0e936d507a363ecd723}} 
-void \hyperlink{a00341_a815e2626bd26d0e936d507a363ecd723}{Wait\+For\+V\+Blank} (void)
-\begin{DoxyCompactList}\small\item\em Wait for vblank interrupt Waits for a vertical blank interrupt. \end{DoxyCompactList}\end{DoxyCompactItemize}
+void \hyperlink{a00341_a95d4103529817bc4d7efbaa7098ae2e5}{score\+Add} (sco\+Memory $\ast$source, u16 value)
+\begin{DoxyCompactList}\small\item\em add a value to a score memory \end{DoxyCompactList}\item 
+void \hyperlink{a00341_a610bffa01efc5915459764c57f0a7d32}{score\+Clear} (sco\+Memory $\ast$source)
+\begin{DoxyCompactList}\small\item\em clear a score memory \end{DoxyCompactList}\item 
+void \hyperlink{a00341_afc036e454a935daea483dc85ee1d95a8}{score\+Cpy} (sco\+Memory $\ast$source, sco\+Memory $\ast$dest)
+\begin{DoxyCompactList}\small\item\em copy a score memory to another score memory \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-snes interrupt support. 
+Wrapper functions for score management. 
 
 
-
-\subsection{Macro Definition Documentation}
-\mbox{\Hypertarget{a00341_a435380b6460ebd669f2b344ea79316d6}\label{a00341_a435380b6460ebd669f2b344ea79316d6}} 
-\index{interrupt.\+h@{interrupt.\+h}!I\+N\+T\+\_\+\+V\+B\+L\+E\+N\+A\+B\+LE@{I\+N\+T\+\_\+\+V\+B\+L\+E\+N\+A\+B\+LE}}
-\index{I\+N\+T\+\_\+\+V\+B\+L\+E\+N\+A\+B\+LE@{I\+N\+T\+\_\+\+V\+B\+L\+E\+N\+A\+B\+LE}!interrupt.\+h@{interrupt.\+h}}
-\subsubsection{\texorpdfstring{I\+N\+T\+\_\+\+V\+B\+L\+E\+N\+A\+B\+LE}{INT\_VBLENABLE}}
-{\footnotesize\ttfamily \#define I\+N\+T\+\_\+\+V\+B\+L\+E\+N\+A\+B\+LE~(1$<$$<$7)}
-
-
-
-Bit defines for the interrupt registers. 
-
-V\+Blank N\+MI Enable (0=Disable, 1=Enable) (Initially disabled on reset) \mbox{\Hypertarget{a00341_a8627bb48b8760c306190eb7ed050af73}\label{a00341_a8627bb48b8760c306190eb7ed050af73}} 
-\index{interrupt.\+h@{interrupt.\+h}!R\+E\+G\+\_\+\+N\+M\+I\+T\+I\+M\+EN@{R\+E\+G\+\_\+\+N\+M\+I\+T\+I\+M\+EN}}
-\index{R\+E\+G\+\_\+\+N\+M\+I\+T\+I\+M\+EN@{R\+E\+G\+\_\+\+N\+M\+I\+T\+I\+M\+EN}!interrupt.\+h@{interrupt.\+h}}
-\subsubsection{\texorpdfstring{R\+E\+G\+\_\+\+N\+M\+I\+T\+I\+M\+EN}{REG\_NMITIMEN}}
-{\footnotesize\ttfamily \#define R\+E\+G\+\_\+\+N\+M\+I\+T\+I\+M\+EN~($\ast$(vuint8$\ast$)0x4200)}
-
-
-
-Interrupt Enable and Joypad Request (W). 7 V\+Blank N\+MI Enable (0=Disable, 1=Enable) (Initially disabled on reset) 6 Not used 5-\/4 H/V I\+RQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) 3-\/1 Not used 0 Joypad Enable (0=Disable, 1=Enable Automatic Reading of Joypad) 
-
-Disabling I\+R\+Qs (via bit4-\/5) does additionally acknowledge I\+R\+Qs. There\textquotesingle{}s no such effect when disabling N\+M\+Is (via bit7). 
 
 \subsection{Function Documentation}
-\mbox{\Hypertarget{a00341_a64d4258f3ba782ce6db9f940fc88cc21}\label{a00341_a64d4258f3ba782ce6db9f940fc88cc21}} 
-\index{interrupt.\+h@{interrupt.\+h}!nmi\+Set@{nmi\+Set}}
-\index{nmi\+Set@{nmi\+Set}!interrupt.\+h@{interrupt.\+h}}
-\subsubsection{\texorpdfstring{nmi\+Set()}{nmiSet()}}
-{\footnotesize\ttfamily nmi\+Set (\begin{DoxyParamCaption}\item[{\hyperlink{a00359_a65983c92bfd6f87a74927ad398d4b271}{Void\+Fn}}]{handler }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{a00341_a95d4103529817bc4d7efbaa7098ae2e5}\label{a00341_a95d4103529817bc4d7efbaa7098ae2e5}} 
+\index{scores.\+h@{scores.\+h}!score\+Add@{score\+Add}}
+\index{score\+Add@{score\+Add}!scores.\+h@{scores.\+h}}
+\subsubsection{\texorpdfstring{score\+Add()}{scoreAdd()}}
+{\footnotesize\ttfamily void score\+Add (\begin{DoxyParamCaption}\item[{sco\+Memory $\ast$}]{source,  }\item[{u16}]{value }\end{DoxyParamCaption})}
 
 
 
-Add a handler for the given interrupt mask. Specify the handler to use for the nmi interrupt. 
+add a value to a score memory 
 
 
 \begin{DoxyParams}{Parameters}
-{\em handler} & Address of the function to use as an interrupt service routine \\
+{\em source} & the source to clear from \\
+\hline
+{\em value} & the value to add \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00432}{scoring/scoring.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00341_a610bffa01efc5915459764c57f0a7d32}\label{a00341_a610bffa01efc5915459764c57f0a7d32}} 
+\index{scores.\+h@{scores.\+h}!score\+Clear@{score\+Clear}}
+\index{score\+Clear@{score\+Clear}!scores.\+h@{scores.\+h}}
+\subsubsection{\texorpdfstring{score\+Clear()}{scoreClear()}}
+{\footnotesize\ttfamily void score\+Clear (\begin{DoxyParamCaption}\item[{sco\+Memory $\ast$}]{source }\end{DoxyParamCaption})}
+
+
+
+clear a score memory 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source} & the source to clear from \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples\+: ]\par
+\hyperlink{a00432}{scoring/scoring.\+c}.\end{Desc}
+\mbox{\Hypertarget{a00341_afc036e454a935daea483dc85ee1d95a8}\label{a00341_afc036e454a935daea483dc85ee1d95a8}} 
+\index{scores.\+h@{scores.\+h}!score\+Cpy@{score\+Cpy}}
+\index{score\+Cpy@{score\+Cpy}!scores.\+h@{scores.\+h}}
+\subsubsection{\texorpdfstring{score\+Cpy()}{scoreCpy()}}
+{\footnotesize\ttfamily void score\+Cpy (\begin{DoxyParamCaption}\item[{sco\+Memory $\ast$}]{source,  }\item[{sco\+Memory $\ast$}]{dest }\end{DoxyParamCaption})}
+
+
+
+copy a score memory to another score memory 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source} & the source to copy from \\
+\hline
+{\em dest} & the destination to copy to \\
 \hline
 \end{DoxyParams}

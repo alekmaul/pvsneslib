@@ -1,57 +1,30 @@
-\hypertarget{a00344}{}\section{pixel.\+h File Reference}
-\label{a00344}\index{pixel.\+h@{pixel.\+h}}
+\hypertarget{a00344}{}\section{snestypes.\+h File Reference}
+\label{a00344}\index{snestypes.\+h@{snestypes.\+h}}
 
 
-contains the basic defnitions for doing a pixel per pixel mode for S\+N\+ES.  
+Custom types used by libsnes.  
 
 
-{\ttfamily \#include $<$snes/snestypes.\+h$>$}\newline
-\subsection*{Functions}
+\subsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{a00344_a3343c49cdbe30c204e8bda550a492b88}{pix\+Set\+Mode} (u8 $\ast$pix\+Palette)
-\begin{DoxyCompactList}\small\item\em Init pixel mode with S\+N\+ES mode 0. \end{DoxyCompactList}\item 
-void \hyperlink{a00344_a0b844a87da0e6da9abe86ce79b97b6cf}{pix\+Set\+Pixel} (u8 x, u8 y, u8 color)
-\begin{DoxyCompactList}\small\item\em Draw a dot. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\mbox{\Hypertarget{a00344_a3a8ea58898cb58fc96013383d39f482c}\label{a00344_a3a8ea58898cb58fc96013383d39f482c}} 
+\#define \hyperlink{a00344_a3a8ea58898cb58fc96013383d39f482c}{B\+IT}(n)~(1$<$$<$n)
+\begin{DoxyCompactList}\small\item\em bit field \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{a00344_a97a80ca1602ebf2303258971a2c938e2}\label{a00344_a97a80ca1602ebf2303258971a2c938e2}} 
+typedef unsigned char \hyperlink{a00344_a97a80ca1602ebf2303258971a2c938e2}{bool}
+\begin{DoxyCompactList}\small\item\em boolean definitions \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00344_a151f780fb455885061d3b77ec1c90c03}\label{a00344_a151f780fb455885061d3b77ec1c90c03}} 
+typedef signed char \hyperlink{a00344_a151f780fb455885061d3b77ec1c90c03}{s8}
+\begin{DoxyCompactList}\small\item\em 8 bit volatile unsigned integer. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{a00344_a65983c92bfd6f87a74927ad398d4b271}\label{a00344_a65983c92bfd6f87a74927ad398d4b271}} 
+typedef void($\ast$ \hyperlink{a00344_a65983c92bfd6f87a74927ad398d4b271}{Void\+Fn}) (void)
+\begin{DoxyCompactList}\small\item\em a function pointer that takes no arguments and doesn\textquotesingle{}t return anything. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-contains the basic defnitions for doing a pixel per pixel mode for S\+N\+ES. 
+Custom types used by libsnes. 
 
-map entrgy is 0x5800 and tiles entry is 0x6000 for 14K bytes ! so don\textquotesingle{}t use graphics after 0x5800 this pixel mode uses S\+N\+ES mode 0 so only 3 colors can be used 
-
-\subsection{Function Documentation}
-\mbox{\Hypertarget{a00344_a3343c49cdbe30c204e8bda550a492b88}\label{a00344_a3343c49cdbe30c204e8bda550a492b88}} 
-\index{pixel.\+h@{pixel.\+h}!pix\+Set\+Mode@{pix\+Set\+Mode}}
-\index{pix\+Set\+Mode@{pix\+Set\+Mode}!pixel.\+h@{pixel.\+h}}
-\subsubsection{\texorpdfstring{pix\+Set\+Mode()}{pixSetMode()}}
-{\footnotesize\ttfamily pix\+Set\+Mode (\begin{DoxyParamCaption}\item[{u8 $\ast$}]{pix\+Palette }\end{DoxyParamCaption})}
-
-
-
-Init pixel mode with S\+N\+ES mode 0. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em pix\+Palette} & address of palette entry \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{a00344_a0b844a87da0e6da9abe86ce79b97b6cf}\label{a00344_a0b844a87da0e6da9abe86ce79b97b6cf}} 
-\index{pixel.\+h@{pixel.\+h}!pix\+Set\+Pixel@{pix\+Set\+Pixel}}
-\index{pix\+Set\+Pixel@{pix\+Set\+Pixel}!pixel.\+h@{pixel.\+h}}
-\subsubsection{\texorpdfstring{pix\+Set\+Pixel()}{pixSetPixel()}}
-{\footnotesize\ttfamily pix\+Set\+Pixel (\begin{DoxyParamCaption}\item[{u8}]{x,  }\item[{u8}]{y,  }\item[{u8}]{color }\end{DoxyParamCaption})}
-
-
-
-Draw a dot. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em x} & x coordinate of dot \\
-\hline
-{\em y} & y coordinate of dot \\
-\hline
-{\em color} & color of pixel (must be 1, 2 or 3) \\
-\hline
-\end{DoxyParams}
