@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 
 	Copyright (C) 2012-2017
-		Alekmaul 
+		Alekmaul
 
 	This software is provided 'as-is', without any express or implied
 	warranty.  In no event will the authors be held liable for any
@@ -24,7 +24,7 @@
 	Parts from pcx2snes from Neviksti
 	palette rounded option from Artemio Urbina
   BMP BI_RLE8 compression support by Andrey Beletsky
-	
+
 ***************************************************************************/
 
 //INCLUDES
@@ -51,6 +51,7 @@ int lzpacked=0;         // 1 = comrpess file with LZSS algorithm
 int highpriority=0;     // 1 = high priority for map
 int blanktile=0;        // 1 = blank tile generated
 int palette_rnd=0;      // 1 = round palette up & down
+int pagemap32 = 0;      // 1 = create tile maps organized in 32x32 pages
 
 //// F U N C T I O N S //////////////////////////////////////////////////////////
 
@@ -358,7 +359,7 @@ int BMP_Load(char *filename, pcx_picture_ptr image)
 	if (bmpinfohead.biCompression == 0)
 	{
 		for(index=(header->height-1) * header->width;index>=0;index-=header->width)
-			for(i=0;i<header->width;i++) 
+			for(i=0;i<header->width;i++)
 				image->buffer[index+i] = getc(fp);
 	}
 	else if (bmpinfohead.biCompression == 1)
@@ -496,7 +497,7 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 		free(pngimage);
 		return 0;
 	}
-	
+
 	if (state.info_raw.colortype != LCT_PALETTE)
   {
 		printf("\nERROR: File [%s] is not a valid indexed palette mode (mode %d).",filename,state.info_raw.colortype);
@@ -513,7 +514,7 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 		image->palette[index].green = state.info_png.color.palette[(index*4) + 1]>>2;
 		image->palette[index].blue = state.info_png.color.palette[(index*4) + 2]>>2;
 	}
-	
+
 	// get png information
 	header = &image->header;
 	header->width = width;
@@ -574,11 +575,11 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 			}
 		}
 	}
-			
+
 	free(png);
 	lodepng_state_cleanup(&state);
 	free(pngimage);
-	
+
 	return -1;
 } // end PNG_Load
 
@@ -750,9 +751,18 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 						map[(y+64-32)*32+x]=t;
 					else
 						map[(y+96-32)*32+x-32]=t;
+			} else if (pagemap32 == 1) {
+                //create pages of 32x32
+                int x_mult = (x)/32;
+                int new_x = x - x_mult * 32;
+                int idx = x_mult*1024 + y*32+new_x;
+                map[idx]=t;
 			}
-			else //32x32 or 128x128 screen
-				map[y*tile_x+x]=t;
+			else {
+               //32x32 or 128x128 screen
+			  map[y*tile_x+x]=t;
+			}
+
 
 			//goto the next tile
 			current++;
@@ -871,8 +881,20 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 				else
 					map[(y+96-32)*32+x-32] += t;
 		}
+		else if (pagemap32 == 1) {
+		    //create pages of 32x32
+		    int x_mult = (x)/32;
+            int new_x = x - x_mult * 32;
+            int idx = x_mult*1024 + y*32+new_x;
+            map[idx]+=t;
+		}
 		else //32x32 or 128x128 screen
-			map[y*tile_x+x] += t;
+        {
+            map[y*tile_x+x] += t;
+
+
+        }
+
 
 		//goto the next tile
 		current++;
@@ -1257,6 +1279,8 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
 
 		printf("\ndecode for %d tiles and %d bitplanes\n",num_tiles,bitplanes);
 
+
+
 		for(t=0;t<num_tiles;t++) //loop through tiles
 		for(b=0;b<bitplanes;b+=2) //loop through bitplane pairs
 		for(y=0;y<8;y++)
@@ -1394,6 +1418,7 @@ void PrintOptions(char *str)
 	printf("\n-ms#              Generate collision map only with sprites table");
 	printf("\n                   where # is the 1st tile corresponding to a sprite (0 to 255)");
 	printf("\n-mR!              No tile reduction (not advised)");
+	printf("\n-m32p             Generate tile map organized in pages of 32x32 (good for scrolling)");
 	printf("\n\n--- Palette options ---");
 	printf("\n-p!               Exclude palette from output.");
 	printf("\n-pc(4|16|128|256) The number of colors to use [256]");
@@ -1436,7 +1461,7 @@ int main(int argc, char **arg)
 	// Show something to begin :)
 	if (quietmode == 0) {
 		printf("\n==============================");
-		printf("\n---gfx2snes v"GFX2SNESVERSION" "GFX2SNESDATE"---");
+		printf("\n---gfx2snes v---");
 		printf("\n------------------------------");
 		printf("\n(c) 2013-2017 Alekmaul ");
 		printf("\nBased on pcx2snes by Neviksti");
@@ -1521,6 +1546,9 @@ int main(int argc, char **arg)
 				else if( strcmp(&arg[i][1],"mR!") == 0)
 				{
 					tile_reduction=0;
+				}else if( strcmp(&arg[i][1],"m32p") == 0)
+				{
+					pagemap32 = 1;
 				}
 				else
 				{
@@ -1798,16 +1826,21 @@ int main(int argc, char **arg)
 		else
 			printf("\ncollisionmap=OFF");
 
+        if (pagemap32)
+			printf("\ntile map pages of 32x32=ON");
+		else
+			printf("\ntile map pages of 32x32=OFF");
+
 		if (tile_reduction)
 			printf("\nOptimize tilemap=ON");
 		else
 			printf("\nOptimize tilemap=OFF");
-		
+
 		if (lzpacked)
 			printf("\nLZSS compression=ON");
 		else
 			printf("\nLZSS compression=OFF");
-			
+
 		if(packed)
 			printf("\npixel format=packed-bit");
 		else
