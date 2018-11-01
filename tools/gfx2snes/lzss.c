@@ -169,6 +169,7 @@ int Convert2PicLZSS(int quietmode, unsigned char *bufin, int buflen, unsigned ch
 				   modulo N. */
 			InsertNode(r);	/* Register the string in text_buf[r..r+F-1] */
 		}
+		textsize += i;
 		//if ((textsize += i) > printcount) {
 		//	printf("%12ld\r", textsize);  printcount += 1024;
 				/* Reports progress each time the textsize exceeds
@@ -191,8 +192,7 @@ int Convert2PicLZSS(int quietmode, unsigned char *bufin, int buflen, unsigned ch
 	}
 	
 	if (quietmode == 0) {
-		printf("In : %d bytes\n", textsize);	/* Encoding is done. */
-		printf("Out: %d bytes\n", codesize);
+		printf("\nCompression Lzss from %d bytes to %d bytes (ratio %d%%)", textsize,codesize,((100*codesize)/textsize));	/* Encoding is done. */
 	}
 	
 	return codesize;

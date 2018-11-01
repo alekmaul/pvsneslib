@@ -27,30 +27,33 @@
 	
 ***************************************************************************/
 
+// 18/05/10 add offset per tile for map generation 
+
 //INCLUDES
 #include "gfx2snes.h"
 
 //// M A I N   V A R I A B L E S ////////////////////////////////////////////////
-int	border=1;			//options and their defaults
-int	packed=0;			//
-int size=0;				//
-int screen=0;			//
-int colors=0;			//
-int output_palette=-1;  //
-int rearrange=0;		//
-int palette_entry=0;	//
-int file_type=1;		// 1 = bmp, 2 = pcx, 3 = tga, 4 = png
-int quietmode=0;		// 0 = not quiet, 1 = i can't say anything :P
-int collision=0;		// 1 = generated only collision map
-int collisionsp=0;		// n = 1st sprite entry regarding the map (so remove it from colision map)
-int tile_reduction=1;	// 0 = no tile reduction (warning !)
-int savepalette=1;		// 1 = save the palette
-int savemap=1;			// 1 = save the map
-int colortabinc=16;     // 16 for 16 color mode, 4 for 4 color mode
-int lzpacked=0;         // 1 = comrpess file with LZSS algorithm
-int highpriority=0;     // 1 = high priority for map
-int blanktile=0;        // 1 = blank tile generated
-int palette_rnd=0;      // 1 = round palette up & down
+int	border=1;								//options and their defaults
+int	packed=0;								//
+int size=0;									//
+int screen=0;								//
+int colors=0;								//
+int output_palette=-1;  		//
+int rearrange=0;						//
+int palette_entry=0;				//
+int file_type=1;						// 1 = bmp, 2 = pcx, 3 = tga, 4 = png
+int quietmode=0;						// 0 = not quiet, 1 = i can't say anything :P
+int collision=0;						// 1 = generated only collision map
+int collisionsp=0;					// n = 1st sprite entry regarding the map (so remove it from colision map)
+int tile_reduction=1;				// 0 = no tile reduction (warning !)
+int savepalette=1;					// 1 = save the palette
+int savemap=1;							// 1 = save the map
+int colortabinc=16;    			// 16 for 16 color mode, 4 for 4 color mode
+int lzpacked=0;         		// 1 = compress file with LZSS algorithm
+int highpriority=0;     		// 1 = high priority for map
+int blanktile=0;        		// 1 = blank tile generated
+int palette_rnd=0;      		// 1 = round palette up & down
+int offset_tile=0;					// n = offset in tile number
 
 //// F U N C T I O N S //////////////////////////////////////////////////////////
 
@@ -467,7 +470,7 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
   unsigned char* png = 0;
   size_t pngsize;
   LodePNGState state;
-  size_t width, height, wal,hal;
+  size_t width, height;// , wal,hal;
 	pcx_header *header;
 
   /*optionally customize the state*/
@@ -533,6 +536,7 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 
 	// 4 bpps conversion
 	if (bpp==4) {
+	
 		for (index = 0; index < header->height; index++) {
 			for(i=0;i<header->width;i++)
 				image->buffer[index+i] = pngimage[i +index*header->height];
@@ -568,6 +572,7 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 	}
 	// 8 bpps conversion
 	else {
+
 		for (index = 0; index < header->height; index++) {
 			for(i=0;i<header->width;i++) {
 				image->buffer[i+(header->width*index)] = pngimage[i+(header->width*index)];
@@ -576,7 +581,9 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 	}
 			
 	free(png);
+
 	lodepng_state_cleanup(&state);
+
 	free(pngimage);
 	
 	return -1;
@@ -1393,6 +1400,8 @@ void PrintOptions(char *str)
 	printf("\n-mc               Generate collision map only");
 	printf("\n-ms#              Generate collision map only with sprites table");
 	printf("\n                   where # is the 1st tile corresponding to a sprite (0 to 255)");
+	printf("\n-mn#              Generate the whole picture with an offset for tile number");
+	printf("\n                   where # is the offset in decimal (0 to 2047)");
 	printf("\n-mR!              No tile reduction (not advised)");
 	printf("\n\n--- Palette options ---");
 	printf("\n-p!               Exclude palette from output.");
@@ -1438,7 +1447,7 @@ int main(int argc, char **arg)
 		printf("\n==============================");
 		printf("\n---gfx2snes v"GFX2SNESVERSION" "GFX2SNESDATE"---");
 		printf("\n------------------------------");
-		printf("\n(c) 2013-2017 Alekmaul ");
+		printf("\n(c) 2013-2018 Alekmaul ");
 		printf("\nBased on pcx2snes by Neviksti");
 		printf("\n==============================\n");
 	}
@@ -1517,6 +1526,10 @@ int main(int argc, char **arg)
 					border=0;
 					collision=2;
 					collisionsp = atoi(&arg[i][3]);
+				}
+				else if(arg[i][2]=='n') //offset for tiles
+				{
+					offset_tile = atoi(&arg[i][3]);
 				}
 				else if( strcmp(&arg[i][1],"mR!") == 0)
 				{
@@ -1985,12 +1998,12 @@ int main(int argc, char **arg)
 		for(i=0;i<tile_x*tile_y;i++)
 		{
 			if(screen==7)
-				fputc(tilemap[i],fp);
+				fputc(tilemap[i]+offset_tile,fp);
 			else {
 				if (collision == 2) {
-					if (tilemap[i]<collisionsp) PutWord(tilemap[i],fp); else PutWord(0,fp);
+					if (tilemap[i]<collisionsp) PutWord(tilemap[i]+offset_tile,fp); else PutWord(0+offset_tile,fp);
 				}
-				else PutWord(tilemap[i] | (highpriority<<13),fp);
+				else PutWord((tilemap[i]+offset_tile) | (highpriority<<13),fp);
 			}
 		}
 		fclose(fp);
