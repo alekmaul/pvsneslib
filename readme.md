@@ -10,6 +10,7 @@ You can find the library Doxygen documentation in the ['docs' directory](pvsnesl
 
 GitHub page: https://github.com/alekmaul/pvsneslib  
 Wiki page: https://github.com/alekmaul/pvsneslib/wiki
+Dodc page: http://www.portabledev.com/pvsneslib/doc/
 
 You can find tutorials about how install and use PVSneslib on this page:  
 https://github.com/alekmaul/pvsneslib/wiki/Introduction
