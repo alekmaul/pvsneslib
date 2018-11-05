@@ -6,7 +6,6 @@ PVSnesLib is an open and free library to develop programs for Nintendo SNES in C
 
 It contains snes-sdk compiler / linker and a library (sources included) which offer facilities to use backgrounds / sprites / pads / music & sound on Nintendo SNES system. 
 It also contains examples to help how to use functions with the library.  
-You can find the library Doxygen documentation in the ['docs' directory](pvsneslib/docs/html/files.html)
 
 GitHub page: https://github.com/alekmaul/pvsneslib  
 Wiki page: https://github.com/alekmaul/pvsneslib/wiki  
