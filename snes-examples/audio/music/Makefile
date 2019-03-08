@@ -1,12 +1,16 @@
 # path to snesdev root directory (for emulators, devkitsnes, libsnes)
-export DEVKITSNES := /c/snesdev/
+export DEVKITSNES := ${DEVKITSNES}
 
 # path to devkitsnes root directory for compiler
-export DEVKIT65XX := /c/snesdev/devkitsnes
+export DEVKIT65XX := ${DEVKITSNES}/devkitsnes
 
 #---------------------------------------------------------------------------------
 .SUFFIXES:
 #---------------------------------------------------------------------------------
+
+ifeq ($(strip $(DEVKITSNES)),)
+$(error "Please create an environment variable DEVKITSNES with path to its folder and restart application. (you can do it on windows with <setx DEVKITSNES "/c/snesdev/">)")
+endif
 
 ifeq ($(strip $(DEVKIT65XX)),)
 $(error "Please set DEVKIT65XX in your environment. export DEVKIT65XX=<path to>devkit65XX")

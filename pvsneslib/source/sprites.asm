@@ -31,7 +31,7 @@
 .DEFINE OBJ_SMALL				$00
 .DEFINE OBJ_LARGE				$01
 
-.DEFINE OBJ_SIZE16			$60 ; (3<<5)
+.DEFINE OBJ_SIZE16_L32			$60 ; (3<<5)
 
 
 .ramsection ".reg_oams7e" bank $7e slot 0

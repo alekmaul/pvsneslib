@@ -1,12 +1,14 @@
 # path to snesdev root directory (for emulators, devkitsnes, libsnes)
-export DEVKITSNES := /c/snesdev/
-#export DEVKITSNES := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib
+export DEVKITSNES := ${DEVKITSNES}
 
 # path to devkitsnes root directory for compiler
-export DEVKIT65XX := /c/snesdev/devkitsnes
-#export DEVKIT65XX := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib/devkitsnes
+export DEVKIT65XX := ${DEVKITSNES}/devkitsnes
 
 #---------------------------------------------------------------------------------
+ifeq ($(strip $(DEVKITSNES)),)
+$(error "Please create an environment variable DEVKITSNES with path to its folder and restart application. (you can do it on windows with <setx DEVKITSNES "/c/snesdev/">)")
+endif
+
 ifeq ($(strip $(DEVKITSNES)),)
 $(error "Please set DEVKITSNES in your environment. export DEVKITSNES=<path to>devkitSNES)
 endif
@@ -15,7 +17,7 @@ export TOPDIR	:=	$(CURDIR)
 
 export PVSNESLIB_MAJOR	:= 2
 export PVSNESLIB_MINOR	:= 3
-export PVSNESLIB_PATCH	:= 2
+export PVSNESLIB_PATCH	:= 3
 
 
 VERSION	:=	$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
@@ -24,6 +26,7 @@ VERSION	:=	$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
 .PHONY: release clean all docs 
 
 all: include/snes/libversion.h release docs dist-bin
+#all: include/snes/libversion.h release
 
 #-------------------------------------------------------------------------------
 release: lib
@@ -81,3 +84,5 @@ include/snes/libversion.h : Makefile
 	@echo '#define _PVSNESLIB_STRING "PVSnesLib Release '$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)'"' >> $@
 	@echo >> $@
 	@echo "#endif // __PVSNESLIBVERSION_H__" >> $@
+
+

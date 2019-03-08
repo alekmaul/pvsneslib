@@ -230,7 +230,7 @@ int main(void) {
 	player1.oamAddress = 0;
 	oamSetVisible(player1.oamAddress,OBJ_SHOW);
 	// Init Sprites gfx and palette with default size of 32x32
-	oamInitGfxSet(&character_tiles, (&character_tiles_end-&character_tiles), &character_pal, (&character_pal_end-&character_pal), 0, 0x6000, OBJ_SIZE16);
+	oamInitGfxSet(&character_tiles, (&character_tiles_end-&character_tiles), &character_pal, (&character_pal_end-&character_pal), 0, 0x6000, OBJ_SIZE16_L32);
     oamSet(player1.oamAddress,  player1._x, player1._y, 2, 0, 0, 0, 0); // Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0
 	oamSetEx(player1.oamAddress, OBJ_SMALL, OBJ_SHOW);
 

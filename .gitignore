@@ -1,0 +1,14 @@
+# ignore generated files
+*.pic
+*.sfc
+*.sym
+*.map
+*.pal
+*.obj
+*.bz2
+*.bmp
+*.png
+
+# ignore full docs folder
+pvsneslib/docs/
+
