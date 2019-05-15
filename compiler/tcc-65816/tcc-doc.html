@@ -1,0 +1,1809 @@
+<HTML>
+<HEAD>
+<!-- Created by texi2html 1.56k from tcc-doc.texi on 18 June 2005 -->
+
+<TITLE>Tiny C Compiler Reference Documentation</TITLE>
+</HEAD>
+<BODY>
+<H1>Tiny C Compiler Reference Documentation</H1>
+<P>
+<P><HR><P>
+<H1>Table of Contents</H1>
+<UL>
+<LI><A NAME="TOC1" HREF="tcc-doc.html#SEC1">1. Introduction</A>
+<LI><A NAME="TOC2" HREF="tcc-doc.html#SEC2">2. Command line invocation</A>
+<UL>
+<LI><A NAME="TOC3" HREF="tcc-doc.html#SEC3">2.1 Quick start</A>
+<LI><A NAME="TOC4" HREF="tcc-doc.html#SEC4">2.2 Option summary</A>
+</UL>
+<LI><A NAME="TOC5" HREF="tcc-doc.html#SEC5">3. C language support</A>
+<UL>
+<LI><A NAME="TOC6" HREF="tcc-doc.html#SEC6">3.1 ANSI C</A>
+<LI><A NAME="TOC7" HREF="tcc-doc.html#SEC7">3.2 ISOC99 extensions</A>
+<LI><A NAME="TOC8" HREF="tcc-doc.html#SEC8">3.3 GNU C extensions</A>
+<LI><A NAME="TOC9" HREF="tcc-doc.html#SEC9">3.4 TinyCC extensions</A>
+</UL>
+<LI><A NAME="TOC10" HREF="tcc-doc.html#SEC10">4. TinyCC Assembler</A>
+<UL>
+<LI><A NAME="TOC11" HREF="tcc-doc.html#SEC11">4.1 Syntax</A>
+<LI><A NAME="TOC12" HREF="tcc-doc.html#SEC12">4.2 Expressions</A>
+<LI><A NAME="TOC13" HREF="tcc-doc.html#SEC13">4.3 Labels</A>
+<LI><A NAME="TOC14" HREF="tcc-doc.html#SEC14">4.4 Directives</A>
+<LI><A NAME="TOC15" HREF="tcc-doc.html#SEC15">4.5 X86 Assembler</A>
+</UL>
+<LI><A NAME="TOC16" HREF="tcc-doc.html#SEC16">5. TinyCC Linker</A>
+<UL>
+<LI><A NAME="TOC17" HREF="tcc-doc.html#SEC17">5.1 ELF file generation</A>
+<LI><A NAME="TOC18" HREF="tcc-doc.html#SEC18">5.2 ELF file loader</A>
+<LI><A NAME="TOC19" HREF="tcc-doc.html#SEC19">5.3 PE-i386 file generation</A>
+<LI><A NAME="TOC20" HREF="tcc-doc.html#SEC20">5.4 GNU Linker Scripts</A>
+</UL>
+<LI><A NAME="TOC21" HREF="tcc-doc.html#SEC21">6. TinyCC Memory and Bound checks</A>
+<LI><A NAME="TOC22" HREF="tcc-doc.html#SEC22">7. The <CODE>libtcc</CODE> library</A>
+<LI><A NAME="TOC23" HREF="tcc-doc.html#SEC23">8. Developer's guide</A>
+<UL>
+<LI><A NAME="TOC24" HREF="tcc-doc.html#SEC24">8.1 File reading</A>
+<LI><A NAME="TOC25" HREF="tcc-doc.html#SEC25">8.2 Lexer</A>
+<LI><A NAME="TOC26" HREF="tcc-doc.html#SEC26">8.3 Parser</A>
+<LI><A NAME="TOC27" HREF="tcc-doc.html#SEC27">8.4 Types</A>
+<LI><A NAME="TOC28" HREF="tcc-doc.html#SEC28">8.5 Symbols</A>
+<LI><A NAME="TOC29" HREF="tcc-doc.html#SEC29">8.6 Sections</A>
+<LI><A NAME="TOC30" HREF="tcc-doc.html#SEC30">8.7 Code generation</A>
+<UL>
+<LI><A NAME="TOC31" HREF="tcc-doc.html#SEC31">8.7.1 Introduction</A>
+<LI><A NAME="TOC32" HREF="tcc-doc.html#SEC32">8.7.2 The value stack</A>
+<LI><A NAME="TOC33" HREF="tcc-doc.html#SEC33">8.7.3 Manipulating the value stack</A>
+<LI><A NAME="TOC34" HREF="tcc-doc.html#SEC34">8.7.4 CPU dependent code generation</A>
+</UL>
+<LI><A NAME="TOC35" HREF="tcc-doc.html#SEC35">8.8 Optimizations done</A>
+</UL>
+<LI><A NAME="TOC36" HREF="tcc-doc.html#SEC36">Concept Index</A>
+</UL>
+<P><HR><P>
+
+
+<H1><A NAME="SEC1" HREF="tcc-doc.html#TOC1">1. Introduction</A></H1>
+
+<P>
+TinyCC (aka TCC) is a small but hyper fast C compiler. Unlike other C
+compilers, it is meant to be self-relying: you do not need an
+external assembler or linker because TCC does that for you.
+
+
+<P>
+TCC compiles so <EM>fast</EM> that even for big projects <CODE>Makefile</CODE>s may
+not be necessary. 
+
+
+<P>
+TCC not only supports ANSI C, but also most of the new ISO C99
+standard and many GNUC extensions including inline assembly.
+
+
+<P>
+TCC can also be used to make <EM>C scripts</EM>, i.e. pieces of C source
+that you run as a Perl or Python script. Compilation is so fast that
+your script will be as fast as if it was an executable.
+
+
+<P>
+TCC can also automatically generate memory and bound checks
+(see section <A HREF="tcc-doc.html#SEC21">6. TinyCC Memory and Bound checks</A>) while allowing all C pointers operations. TCC can do
+these checks even if non patched libraries are used.
+
+
+<P>
+With <CODE>libtcc</CODE>, you can use TCC as a backend for dynamic code
+generation (see section <A HREF="tcc-doc.html#SEC22">7. The <CODE>libtcc</CODE> library</A>).
+
+
+<P>
+TCC mainly supports the i386 target on Linux and Windows. There are alpha
+ports for the ARM (<CODE>arm-tcc</CODE>) and the TMS320C67xx targets
+(<CODE>c67-tcc</CODE>). More information about the ARM port is available at
+<A HREF="http://lists.gnu.org/archive/html/tinycc-devel/2003-10/msg00044.html">http://lists.gnu.org/archive/html/tinycc-devel/2003-10/msg00044.html</A>.
+
+
+
+
+<H1><A NAME="SEC2" HREF="tcc-doc.html#TOC2">2. Command line invocation</A></H1>
+
+<P>
+[This manual documents version 0.9.23 of the Tiny C Compiler]
+
+
+
+
+<H2><A NAME="SEC3" HREF="tcc-doc.html#TOC3">2.1 Quick start</A></H2>
+
+
+<PRE>
+usage: tcc [options] [<VAR>infile1</VAR> <VAR>infile2</VAR>...] [<SAMP>`-run'</SAMP> <VAR>infile</VAR> <VAR>args</VAR>...]
+</PRE>
+
+<P>
+TCC options are a very much like gcc options. The main difference is that TCC
+can also execute directly the resulting program and give it runtime
+arguments.
+
+
+<P>
+Here are some examples to understand the logic:
+
+
+<DL COMPACT>
+
+<DT><CODE><SAMP>`tcc -run a.c'</SAMP></CODE>
+<DD>
+Compile <TT>`a.c'</TT> and execute it directly
+
+<DT><CODE><SAMP>`tcc -run a.c arg1'</SAMP></CODE>
+<DD>
+Compile a.c and execute it directly. arg1 is given as first argument to
+the <CODE>main()</CODE> of a.c.
+
+<DT><CODE><SAMP>`tcc a.c -run b.c arg1'</SAMP></CODE>
+<DD>
+Compile <TT>`a.c'</TT> and <TT>`b.c'</TT>, link them together and execute them. arg1 is given
+as first argument to the <CODE>main()</CODE> of the resulting program. Because
+multiple C files are specified, <SAMP>`--'</SAMP> are necessary to clearly separate the
+program arguments from the TCC options.
+
+<DT><CODE><SAMP>`tcc -o myprog a.c b.c'</SAMP></CODE>
+<DD>
+Compile <TT>`a.c'</TT> and <TT>`b.c'</TT>, link them and generate the executable <TT>`myprog'</TT>.
+
+<DT><CODE><SAMP>`tcc -o myprog a.o b.o'</SAMP></CODE>
+<DD>
+link <TT>`a.o'</TT> and <TT>`b.o'</TT> together and generate the executable <TT>`myprog'</TT>.
+
+<DT><CODE><SAMP>`tcc -c a.c'</SAMP></CODE>
+<DD>
+Compile <TT>`a.c'</TT> and generate object file <TT>`a.o'</TT>.
+
+<DT><CODE><SAMP>`tcc -c asmfile.S'</SAMP></CODE>
+<DD>
+Preprocess with C preprocess and assemble <TT>`asmfile.S'</TT> and generate
+object file <TT>`asmfile.o'</TT>.
+
+<DT><CODE><SAMP>`tcc -c asmfile.s'</SAMP></CODE>
+<DD>
+Assemble (but not preprocess) <TT>`asmfile.s'</TT> and generate object file
+<TT>`asmfile.o'</TT>.
+
+<DT><CODE><SAMP>`tcc -r -o ab.o a.c b.c'</SAMP></CODE>
+<DD>
+Compile <TT>`a.c'</TT> and <TT>`b.c'</TT>, link them together and generate the object file <TT>`ab.o'</TT>.
+
+</DL>
+
+<P>
+Scripting:
+
+
+<P>
+TCC can be invoked from <EM>scripts</EM>, just as shell scripts. You just
+need to add <CODE>#!/usr/local/bin/tcc -run</CODE> at the start of your C source:
+
+
+
+<PRE>
+#!/usr/local/bin/tcc -run
+#include &#60;stdio.h&#62;
+
+int main() 
+{
+    printf("Hello World\n");
+    return 0;
+}
+</PRE>
+
+
+
+<H2><A NAME="SEC4" HREF="tcc-doc.html#TOC4">2.2 Option summary</A></H2>
+
+<P>
+General Options:
+
+
+<DL COMPACT>
+
+<DT><SAMP>`-v'</SAMP>
+<DD>
+Display current TCC version.
+
+<DT><SAMP>`-c'</SAMP>
+<DD>
+Generate an object file (<SAMP>`-o'</SAMP> option must also be given).
+
+<DT><SAMP>`-o outfile'</SAMP>
+<DD>
+Put object file, executable, or dll into output file <TT>`outfile'</TT>.
+
+<DT><SAMP>`-Bdir'</SAMP>
+<DD>
+Set the path where the tcc internal libraries can be found (default is
+<TT>`PREFIX/lib/tcc'</TT>).
+
+<DT><SAMP>`-bench'</SAMP>
+<DD>
+Output compilation statistics.
+
+<DT><SAMP>`-run source [args...]'</SAMP>
+<DD>
+Compile file <VAR>source</VAR> and run it with the command line arguments
+<VAR>args</VAR>. In order to be able to give more than one argument to a
+script, several TCC options can be given <EM>after</EM> the
+<SAMP>`-run'</SAMP> option, separated by spaces. Example:
+
+
+<PRE>
+tcc "-run -L/usr/X11R6/lib -lX11" ex4.c
+</PRE>
+
+In a script, it gives the following header:
+
+
+<PRE>
+#!/usr/local/bin/tcc -run -L/usr/X11R6/lib -lX11
+#include &#60;stdlib.h&#62;
+int main(int argc, char **argv)
+{
+    ...
+}
+</PRE>
+
+</DL>
+
+<P>
+Preprocessor options:
+
+
+<DL COMPACT>
+
+<DT><SAMP>`-Idir'</SAMP>
+<DD>
+Specify an additional include path. Include paths are searched in the
+order they are specified.
+
+System include paths are always searched after. The default system
+include paths are: <TT>`/usr/local/include'</TT>, <TT>`/usr/include'</TT>
+and <TT>`PREFIX/lib/tcc/include'</TT>. (<TT>`PREFIX'</TT> is usually
+<TT>`/usr'</TT> or <TT>`/usr/local'</TT>).
+
+<DT><SAMP>`-Dsym[=val]'</SAMP>
+<DD>
+Define preprocessor symbol <SAMP>`sym'</SAMP> to
+val. If val is not present, its value is <SAMP>`1'</SAMP>. Function-like macros can
+also be defined: <SAMP>`-DF(a)=a+1'</SAMP>
+
+<DT><SAMP>`-Usym'</SAMP>
+<DD>
+Undefine preprocessor symbol <SAMP>`sym'</SAMP>.
+</DL>
+
+<P>
+Compilation flags:
+
+
+<P>
+Note: each of the following warning options has a negative form beginning with
+<SAMP>`-fno-'</SAMP>.
+
+
+<DL COMPACT>
+
+<DT><SAMP>`-funsigned-char'</SAMP>
+<DD>
+Let the <CODE>char</CODE> type be unsigned.
+
+<DT><SAMP>`-fsigned-char'</SAMP>
+<DD>
+Let the <CODE>char</CODE> type be signed.
+
+<DT><SAMP>`-fno-common'</SAMP>
+<DD>
+Do not generate common symbols for uninitialized data.
+
+<DT><SAMP>`-fleading-underscore'</SAMP>
+<DD>
+Add a leading underscore at the beginning of each C symbol.
+
+</DL>
+
+<P>
+Warning options:
+
+
+<DL COMPACT>
+
+<DT><SAMP>`-w'</SAMP>
+<DD>
+Disable all warnings.
+
+</DL>
+
+<P>
+Note: each of the following warning options has a negative form beginning with
+<SAMP>`-Wno-'</SAMP>.
+
+
+<DL COMPACT>
+
+<DT><SAMP>`-Wimplicit-function-declaration'</SAMP>
+<DD>
+Warn about implicit function declaration.
+
+<DT><SAMP>`-Wunsupported'</SAMP>
+<DD>
+Warn about unsupported GCC features that are ignored by TCC.
+
+<DT><SAMP>`-Wwrite-strings'</SAMP>
+<DD>
+Make string constants be of type <CODE>const char *</CODE> instead of <CODE>char
+*</CODE>.
+
+<DT><SAMP>`-Werror'</SAMP>
+<DD>
+Abort compilation if warnings are issued.
+
+<DT><SAMP>`-Wall'</SAMP>
+<DD>
+Activate all warnings, except <SAMP>`-Werror'</SAMP>, <SAMP>`-Wunusupported'</SAMP> and
+<SAMP>`-Wwrite-strings'</SAMP>.
+
+</DL>
+
+<P>
+Linker options:
+
+
+<DL COMPACT>
+
+<DT><SAMP>`-Ldir'</SAMP>
+<DD>
+Specify an additional static library path for the <SAMP>`-l'</SAMP> option. The
+default library paths are <TT>`/usr/local/lib'</TT>, <TT>`/usr/lib'</TT> and <TT>`/lib'</TT>.
+
+<DT><SAMP>`-lxxx'</SAMP>
+<DD>
+Link your program with dynamic library libxxx.so or static library
+libxxx.a. The library is searched in the paths specified by the
+<SAMP>`-L'</SAMP> option.
+
+<DT><SAMP>`-shared'</SAMP>
+<DD>
+Generate a shared library instead of an executable (<SAMP>`-o'</SAMP> option
+must also be given).
+
+<DT><SAMP>`-static'</SAMP>
+<DD>
+Generate a statically linked executable (default is a shared linked
+executable) (<SAMP>`-o'</SAMP> option must also be given).
+
+<DT><SAMP>`-rdynamic'</SAMP>
+<DD>
+Export global symbols to the dynamic linker. It is useful when a library
+opened with <CODE>dlopen()</CODE> needs to access executable symbols.
+
+<DT><SAMP>`-r'</SAMP>
+<DD>
+Generate an object file combining all input files (<SAMP>`-o'</SAMP> option must
+also be given).
+
+<DT><SAMP>`-Wl,-Ttext,address'</SAMP>
+<DD>
+Set the start of the .text section to <VAR>address</VAR>.
+
+<DT><SAMP>`-Wl,--oformat,fmt'</SAMP>
+<DD>
+Use <VAR>fmt</VAR> as output format. The supported output formats are:
+<DL COMPACT>
+
+<DT><CODE>elf32-i386</CODE>
+<DD>
+ELF output format (default)
+<DT><CODE>binary</CODE>
+<DD>
+Binary image (only for executable output)
+<DT><CODE>coff</CODE>
+<DD>
+COFF output format (only for executable output for TMS320C67xx target)
+</DL>
+
+</DL>
+
+<P>
+Debugger options:
+
+
+<DL COMPACT>
+
+<DT><SAMP>`-g'</SAMP>
+<DD>
+Generate run time debug information so that you get clear run time
+error messages: <CODE> test.c:68: in function 'test5()': dereferencing
+invalid pointer</CODE> instead of the laconic <CODE>Segmentation
+fault</CODE>.
+
+<DT><SAMP>`-b'</SAMP>
+<DD>
+Generate additional support code to check
+memory allocations and array/pointer bounds. <SAMP>`-g'</SAMP> is implied. Note
+that the generated code is slower and bigger in this case.
+
+<DT><SAMP>`-bt N'</SAMP>
+<DD>
+Display N callers in stack traces. This is useful with <SAMP>`-g'</SAMP> or
+<SAMP>`-b'</SAMP>.
+
+</DL>
+
+<P>
+Note: GCC options <SAMP>`-Ox'</SAMP>, <SAMP>`-fx'</SAMP> and <SAMP>`-mx'</SAMP> are
+ignored.
+
+
+
+
+<H1><A NAME="SEC5" HREF="tcc-doc.html#TOC5">3. C language support</A></H1>
+
+
+
+<H2><A NAME="SEC6" HREF="tcc-doc.html#TOC6">3.1 ANSI C</A></H2>
+
+<P>
+TCC implements all the ANSI C standard, including structure bit fields
+and floating point numbers (<CODE>long double</CODE>, <CODE>double</CODE>, and
+<CODE>float</CODE> fully supported).
+
+
+
+
+<H2><A NAME="SEC7" HREF="tcc-doc.html#TOC7">3.2 ISOC99 extensions</A></H2>
+
+<P>
+TCC implements many features of the new C standard: ISO C99. Currently
+missing items are: complex and imaginary numbers and variable length
+arrays.
+
+
+<P>
+Currently implemented ISOC99 features:
+
+
+
+<UL>
+
+<LI>64 bit <CODE>long long</CODE> types are fully supported.
+
+<LI>The boolean type <CODE>_Bool</CODE> is supported.
+
+<LI><CODE>__func__</CODE> is a string variable containing the current
+
+function name.
+
+<LI>Variadic macros: <CODE>__VA_ARGS__</CODE> can be used for
+
+   function-like macros:
+
+<PRE>
+    #define dprintf(level, __VA_ARGS__) printf(__VA_ARGS__)
+</PRE>
+
+<CODE>dprintf</CODE> can then be used with a variable number of parameters.
+
+<LI>Declarations can appear anywhere in a block (as in C++).
+
+<LI>Array and struct/union elements can be initialized in any order by
+
+  using designators:
+
+<PRE>
+    struct { int x, y; } st[10] = { [0].x = 1, [0].y = 2 };
+
+    int tab[10] = { 1, 2, [5] = 5, [9] = 9};
+</PRE>
+
+    
+<LI>Compound initializers are supported:
+
+
+<PRE>
+    int *p = (int []){ 1, 2, 3 };
+</PRE>
+
+to initialize a pointer pointing to an initialized array. The same
+works for structures and strings.
+
+<LI>Hexadecimal floating point constants are supported:
+
+
+<PRE>
+          double d = 0x1234p10;
+</PRE>
+
+is the same as writing 
+
+<PRE>
+          double d = 4771840.0;
+</PRE>
+
+<LI><CODE>inline</CODE> keyword is ignored.
+
+<LI><CODE>restrict</CODE> keyword is ignored.
+
+</UL>
+
+
+
+<H2><A NAME="SEC8" HREF="tcc-doc.html#TOC8">3.3 GNU C extensions</A></H2>
+<P>
+<A NAME="IDX1"></A>
+<A NAME="IDX2"></A>
+<A NAME="IDX3"></A>
+<A NAME="IDX4"></A>
+<A NAME="IDX5"></A>
+<A NAME="IDX6"></A>
+<A NAME="IDX7"></A>
+
+
+<P>
+TCC implements some GNU C extensions:
+
+
+
+<UL>
+
+<LI>array designators can be used without '=':
+
+
+<PRE>
+    int a[10] = { [0] 1, [5] 2, 3, 4 };
+</PRE>
+
+<LI>Structure field designators can be a label:
+
+
+<PRE>
+    struct { int x, y; } st = { x: 1, y: 1};
+</PRE>
+
+instead of
+
+<PRE>
+    struct { int x, y; } st = { .x = 1, .y = 1};
+</PRE>
+
+<LI><CODE>\e</CODE> is ASCII character 27.
+
+<LI>case ranges : ranges can be used in <CODE>case</CODE>s:
+
+
+<PRE>
+    switch(a) {
+    case 1 ... 9:
+          printf("range 1 to 9\n");
+          break;
+    default:
+          printf("unexpected\n");
+          break;
+    }
+</PRE>
+
+<LI>The keyword <CODE>__attribute__</CODE> is handled to specify variable or
+
+function attributes. The following attributes are supported:
+
+<UL>
+
+<LI><CODE>aligned(n)</CODE>: align a variable or a structure field to n bytes
+
+(must be a power of two).
+  
+<LI><CODE>packed</CODE>: force alignment of a variable or a structure field to
+
+  1.
+
+<LI><CODE>section(name)</CODE>: generate function or data in assembly section
+
+name (name is a string containing the section name) instead of the default
+section.
+
+<LI><CODE>unused</CODE>: specify that the variable or the function is unused.
+
+<LI><CODE>cdecl</CODE>: use standard C calling convention (default).
+
+<LI><CODE>stdcall</CODE>: use Pascal-like calling convention.
+
+<LI><CODE>regparm(n)</CODE>: use fast i386 calling convention. <VAR>n</VAR> must be
+
+between 1 and 3. The first <VAR>n</VAR> function parameters are respectively put in
+registers <CODE>%eax</CODE>, <CODE>%edx</CODE> and <CODE>%ecx</CODE>.
+
+</UL>
+
+Here are some examples:
+
+<PRE>
+    int a __attribute__ ((aligned(8), section(".mysection")));
+</PRE>
+
+align variable <CODE>a</CODE> to 8 bytes and put it in section <CODE>.mysection</CODE>.
+
+
+<PRE>
+    int my_add(int a, int b) __attribute__ ((section(".mycodesection"))) 
+    {
+        return a + b;
+    }
+</PRE>
+
+generate function <CODE>my_add</CODE> in section <CODE>.mycodesection</CODE>.
+
+<LI>GNU style variadic macros:
+
+
+<PRE>
+    #define dprintf(fmt, args...) printf(fmt, ## args)
+
+    dprintf("no arg\n");
+    dprintf("one arg %d\n", 1);
+</PRE>
+
+<LI><CODE>__FUNCTION__</CODE> is interpreted as C99 <CODE>__func__</CODE>
+
+(so it has not exactly the same semantics as string literal GNUC
+where it is a string literal).
+
+<LI>The <CODE>__alignof__</CODE> keyword can be used as <CODE>sizeof</CODE>
+
+to get the alignment of a type or an expression.
+
+<LI>The <CODE>typeof(x)</CODE> returns the type of <CODE>x</CODE>.
+
+<CODE>x</CODE> is an expression or a type.
+
+<LI>Computed gotos: <CODE>&#38;&#38;label</CODE> returns a pointer of type
+
+<CODE>void *</CODE> on the goto label <CODE>label</CODE>. <CODE>goto *expr</CODE> can be
+used to jump on the pointer resulting from <CODE>expr</CODE>.
+
+<LI>Inline assembly with asm instruction:
+
+<A NAME="IDX8"></A>
+<A NAME="IDX9"></A>
+<A NAME="IDX10"></A>
+
+<PRE>
+static inline void * my_memcpy(void * to, const void * from, size_t n)
+{
+int d0, d1, d2;
+__asm__ __volatile__(
+        "rep ; movsl\n\t"
+        "testb $2,%b4\n\t"
+        "je 1f\n\t"
+        "movsw\n"
+        "1:\ttestb $1,%b4\n\t"
+        "je 2f\n\t"
+        "movsb\n"
+        "2:"
+        : "=&#38;c" (d0), "=&#38;D" (d1), "=&#38;S" (d2)
+        :"0" (n/4), "q" (n),"1" ((long) to),"2" ((long) from)
+        : "memory");
+return (to);
+}
+</PRE>
+
+<A NAME="IDX11"></A>
+TCC includes its own x86 inline assembler with a <CODE>gas</CODE>-like (GNU
+assembler) syntax. No intermediate files are generated. GCC 3.x named
+operands are supported.
+
+<LI><CODE>__builtin_types_compatible_p()</CODE> and <CODE>__builtin_constant_p()</CODE>
+
+are supported.
+
+<LI><CODE>#pragma pack</CODE> is supported for win32 compatibility.
+
+</UL>
+
+
+
+<H2><A NAME="SEC9" HREF="tcc-doc.html#TOC9">3.4 TinyCC extensions</A></H2>
+
+
+<UL>
+
+<LI><CODE>__TINYC__</CODE> is a predefined macro to <CODE>1</CODE> to
+
+indicate that you use TCC.
+
+<LI><CODE>#!</CODE> at the start of a line is ignored to allow scripting.
+
+<LI>Binary digits can be entered (<CODE>0b101</CODE> instead of
+
+<CODE>5</CODE>).
+
+<LI><CODE>__BOUNDS_CHECKING_ON</CODE> is defined if bound checking is activated.
+
+</UL>
+
+
+
+<H1><A NAME="SEC10" HREF="tcc-doc.html#TOC10">4. TinyCC Assembler</A></H1>
+
+<P>
+Since version 0.9.16, TinyCC integrates its own assembler. TinyCC
+assembler supports a gas-like syntax (GNU assembler). You can
+desactivate assembler support if you want a smaller TinyCC executable
+(the C compiler does not rely on the assembler).
+
+
+<P>
+TinyCC Assembler is used to handle files with <TT>`.S'</TT> (C
+preprocessed assembler) and <TT>`.s'</TT> extensions. It is also used to
+handle the GNU inline assembler with the <CODE>asm</CODE> keyword.
+
+
+
+
+<H2><A NAME="SEC11" HREF="tcc-doc.html#TOC11">4.1 Syntax</A></H2>
+
+<P>
+TinyCC Assembler supports most of the gas syntax. The tokens are the
+same as C.
+
+
+
+<UL>
+
+<LI>C and C++ comments are supported.
+
+<LI>Identifiers are the same as C, so you cannot use '.' or '$'.
+
+<LI>Only 32 bit integer numbers are supported.
+
+</UL>
+
+
+
+<H2><A NAME="SEC12" HREF="tcc-doc.html#TOC12">4.2 Expressions</A></H2>
+
+
+<UL>
+
+<LI>Integers in decimal, octal and hexa are supported.
+
+<LI>Unary operators: +, -, ~.
+
+<LI>Binary operators in decreasing priority order:
+
+
+<OL>
+<LI>*, /, %
+
+<LI>&#38;, |, ^
+
+<LI>+, -
+
+</OL>
+
+<LI>A value is either an absolute number or a label plus an offset.
+
+All operators accept absolute values except '+' and '-'. '+' or '-' can be
+used to add an offset to a label. '-' supports two labels only if they
+are the same or if they are both defined and in the same section.
+
+</UL>
+
+
+
+<H2><A NAME="SEC13" HREF="tcc-doc.html#TOC13">4.3 Labels</A></H2>
+
+
+<UL>
+
+<LI>All labels are considered as local, except undefined ones.
+
+<LI>Numeric labels can be used as local <CODE>gas</CODE>-like labels.
+
+They can be defined several times in the same source. Use 'b'
+(backward) or 'f' (forward) as suffix to reference them:
+
+
+<PRE>
+ 1:
+      jmp 1b /* jump to '1' label before */
+      jmp 1f /* jump to '1' label after */
+ 1:
+</PRE>
+
+</UL>
+
+
+
+<H2><A NAME="SEC14" HREF="tcc-doc.html#TOC14">4.4 Directives</A></H2>
+<P>
+<A NAME="IDX12"></A>
+<A NAME="IDX13"></A>
+<A NAME="IDX14"></A>
+<A NAME="IDX15"></A>
+<A NAME="IDX16"></A>
+<A NAME="IDX17"></A>
+<A NAME="IDX18"></A>
+<A NAME="IDX19"></A>
+<A NAME="IDX20"></A>
+<A NAME="IDX21"></A>
+<A NAME="IDX22"></A>
+<A NAME="IDX23"></A>
+<A NAME="IDX24"></A>
+<A NAME="IDX25"></A>
+<A NAME="IDX26"></A>
+<A NAME="IDX27"></A>
+<A NAME="IDX28"></A>
+<A NAME="IDX29"></A>
+<A NAME="IDX30"></A>
+<A NAME="IDX31"></A>
+<A NAME="IDX32"></A>
+<A NAME="IDX33"></A>
+<A NAME="IDX34"></A>
+
+
+<P>
+All directives are preceeded by a '.'. The following directives are
+supported:
+
+
+
+<UL>
+<LI>.align n[,value]
+
+<LI>.skip n[,value]
+
+<LI>.space n[,value]
+
+<LI>.byte value1[,...]
+
+<LI>.word value1[,...]
+
+<LI>.short value1[,...]
+
+<LI>.int value1[,...]
+
+<LI>.long value1[,...]
+
+<LI>.quad immediate_value1[,...]
+
+<LI>.globl symbol
+
+<LI>.global symbol
+
+<LI>.section section
+
+<LI>.text
+
+<LI>.data
+
+<LI>.bss
+
+<LI>.fill repeat[,size[,value]]
+
+<LI>.org n
+
+<LI>.previous
+
+<LI>.string string[,...]
+
+<LI>.asciz string[,...]
+
+<LI>.ascii string[,...]
+
+</UL>
+
+
+
+<H2><A NAME="SEC15" HREF="tcc-doc.html#TOC15">4.5 X86 Assembler</A></H2>
+<P>
+<A NAME="IDX35"></A>
+
+
+<P>
+All X86 opcodes are supported. Only ATT syntax is supported (source
+then destination operand order). If no size suffix is given, TinyCC
+tries to guess it from the operand sizes.
+
+
+<P>
+Currently, MMX opcodes are supported but not SSE ones.
+
+
+
+
+<H1><A NAME="SEC16" HREF="tcc-doc.html#TOC16">5. TinyCC Linker</A></H1>
+<P>
+<A NAME="IDX36"></A>
+
+
+
+
+<H2><A NAME="SEC17" HREF="tcc-doc.html#TOC17">5.1 ELF file generation</A></H2>
+<P>
+<A NAME="IDX37"></A>
+
+
+<P>
+TCC can directly output relocatable ELF files (object files),
+executable ELF files and dynamic ELF libraries without relying on an
+external linker.
+
+
+<P>
+Dynamic ELF libraries can be output but the C compiler does not generate
+position independent code (PIC). It means that the dynamic library
+code generated by TCC cannot be factorized among processes yet.
+
+
+<P>
+TCC linker eliminates unreferenced object code in libraries. A single pass is
+done on the object and library list, so the order in which object files and
+libraries are specified is important (same constraint as GNU ld). No grouping
+options (<SAMP>`--start-group'</SAMP> and <SAMP>`--end-group'</SAMP>) are supported.
+
+
+
+
+<H2><A NAME="SEC18" HREF="tcc-doc.html#TOC18">5.2 ELF file loader</A></H2>
+
+<P>
+TCC can load ELF object files, archives (.a files) and dynamic
+libraries (.so).
+
+
+
+
+<H2><A NAME="SEC19" HREF="tcc-doc.html#TOC19">5.3 PE-i386 file generation</A></H2>
+<P>
+<A NAME="IDX38"></A>
+
+
+<P>
+TCC for Windows supports the native Win32 executable file format (PE-i386). It
+generates both EXE and DLL files. DLL symbols can be imported thru DEF files
+generated with the <CODE>tiny_impdef</CODE> tool.
+
+
+<P>
+Currently TCC for Windows cannot generate nor read PE object files, so ELF
+object files are used for that purpose. It can be a problem if
+interoperability with MSVC is needed. Moreover, no leading underscore is
+currently generated in the ELF symbols.
+
+
+
+
+<H2><A NAME="SEC20" HREF="tcc-doc.html#TOC20">5.4 GNU Linker Scripts</A></H2>
+<P>
+<A NAME="IDX39"></A>
+<A NAME="IDX40"></A>
+<A NAME="IDX41"></A>
+<A NAME="IDX42"></A>
+<A NAME="IDX43"></A>
+<A NAME="IDX44"></A>
+
+
+<P>
+Because on many Linux systems some dynamic libraries (such as
+<TT>`/usr/lib/libc.so'</TT>) are in fact GNU ld link scripts (horrible!),
+the TCC linker also supports a subset of GNU ld scripts.
+
+
+<P>
+The <CODE>GROUP</CODE> and <CODE>FILE</CODE> commands are supported. <CODE>OUTPUT_FORMAT</CODE>
+and <CODE>TARGET</CODE> are ignored.
+
+
+<P>
+Example from <TT>`/usr/lib/libc.so'</TT>:
+
+<PRE>
+/* GNU ld script
+   Use the shared library, but some functions are only in
+   the static library, so try that secondarily.  */
+GROUP ( /lib/libc.so.6 /usr/lib/libc_nonshared.a )
+</PRE>
+
+
+
+<H1><A NAME="SEC21" HREF="tcc-doc.html#TOC21">6. TinyCC Memory and Bound checks</A></H1>
+<P>
+<A NAME="IDX45"></A>
+<A NAME="IDX46"></A>
+
+
+<P>
+This feature is activated with the <SAMP>`-b'</SAMP> (see section <A HREF="tcc-doc.html#SEC2">2. Command line invocation</A>).
+
+
+<P>
+Note that pointer size is <EM>unchanged</EM> and that code generated
+with bound checks is <EM>fully compatible</EM> with unchecked
+code. When a pointer comes from unchecked code, it is assumed to be
+valid. Even very obscure C code with casts should work correctly.
+
+
+<P>
+For more information about the ideas behind this method, see
+<A HREF="http://www.doc.ic.ac.uk/~phjk/BoundsChecking.html">http://www.doc.ic.ac.uk/~phjk/BoundsChecking.html</A>.
+
+
+<P>
+Here are some examples of caught errors:
+
+
+<DL COMPACT>
+
+<DT>Invalid range with standard string function:
+<DD>
+
+<PRE>
+{
+    char tab[10];
+    memset(tab, 0, 11);
+}
+</PRE>
+
+<DT>Out of bounds-error in global or local arrays:
+<DD>
+
+<PRE>
+{
+    int tab[10];
+    for(i=0;i&#60;11;i++) {
+        sum += tab[i];
+    }
+}
+</PRE>
+
+<DT>Out of bounds-error in malloc'ed data:
+<DD>
+
+<PRE>
+{
+    int *tab;
+    tab = malloc(20 * sizeof(int));
+    for(i=0;i&#60;21;i++) {
+        sum += tab4[i];
+    }
+    free(tab);
+}
+</PRE>
+
+<DT>Access of freed memory:
+<DD>
+
+<PRE>
+{
+    int *tab;
+    tab = malloc(20 * sizeof(int));
+    free(tab);
+    for(i=0;i&#60;20;i++) {
+        sum += tab4[i];
+    }
+}
+</PRE>
+
+<DT>Double free:
+<DD>
+
+<PRE>
+{
+    int *tab;
+    tab = malloc(20 * sizeof(int));
+    free(tab);
+    free(tab);
+}
+</PRE>
+
+</DL>
+
+
+
+<H1><A NAME="SEC22" HREF="tcc-doc.html#TOC22">7. The <CODE>libtcc</CODE> library</A></H1>
+
+<P>
+The <CODE>libtcc</CODE> library enables you to use TCC as a backend for
+dynamic code generation. 
+
+
+<P>
+Read the <TT>`libtcc.h'</TT> to have an overview of the API. Read
+<TT>`libtcc_test.c'</TT> to have a very simple example.
+
+
+<P>
+The idea consists in giving a C string containing the program you want
+to compile directly to <CODE>libtcc</CODE>. Then you can access to any global
+symbol (function or variable) defined.
+
+
+
+
+<H1><A NAME="SEC23" HREF="tcc-doc.html#TOC23">8. Developer's guide</A></H1>
+
+<P>
+This chapter gives some hints to understand how TCC works. You can skip
+it if you do not intend to modify the TCC code.
+
+
+
+
+<H2><A NAME="SEC24" HREF="tcc-doc.html#TOC24">8.1 File reading</A></H2>
+
+<P>
+The <CODE>BufferedFile</CODE> structure contains the context needed to read a
+file, including the current line number. <CODE>tcc_open()</CODE> opens a new
+file and <CODE>tcc_close()</CODE> closes it. <CODE>inp()</CODE> returns the next
+character.
+
+
+
+
+<H2><A NAME="SEC25" HREF="tcc-doc.html#TOC25">8.2 Lexer</A></H2>
+
+<P>
+<CODE>next()</CODE> reads the next token in the current
+file. <CODE>next_nomacro()</CODE> reads the next token without macro
+expansion.
+
+
+<P>
+<CODE>tok</CODE> contains the current token (see <CODE>TOK_xxx</CODE>)
+constants. Identifiers and keywords are also keywords. <CODE>tokc</CODE>
+contains additional infos about the token (for example a constant value
+if number or string token).
+
+
+
+
+<H2><A NAME="SEC26" HREF="tcc-doc.html#TOC26">8.3 Parser</A></H2>
+
+<P>
+The parser is hardcoded (yacc is not necessary). It does only one pass,
+except:
+
+
+
+<UL>
+
+<LI>For initialized arrays with unknown size, a first pass
+
+is done to count the number of elements.
+
+<LI>For architectures where arguments are evaluated in
+
+reverse order, a first pass is done to reverse the argument order.
+
+</UL>
+
+
+
+<H2><A NAME="SEC27" HREF="tcc-doc.html#TOC27">8.4 Types</A></H2>
+
+<P>
+The types are stored in a single 'int' variable. It was choosen in the
+first stages of development when tcc was much simpler. Now, it may not
+be the best solution.
+
+
+
+<PRE>
+#define VT_INT        0  /* integer type */
+#define VT_BYTE       1  /* signed byte type */
+#define VT_SHORT      2  /* short type */
+#define VT_VOID       3  /* void type */
+#define VT_PTR        4  /* pointer */
+#define VT_ENUM       5  /* enum definition */
+#define VT_FUNC       6  /* function type */
+#define VT_STRUCT     7  /* struct/union definition */
+#define VT_FLOAT      8  /* IEEE float */
+#define VT_DOUBLE     9  /* IEEE double */
+#define VT_LDOUBLE   10  /* IEEE long double */
+#define VT_BOOL      11  /* ISOC99 boolean type */
+#define VT_LLONG     12  /* 64 bit integer */
+#define VT_LONG      13  /* long integer (NEVER USED as type, only
+                            during parsing) */
+#define VT_BTYPE      0x000f /* mask for basic type */
+#define VT_UNSIGNED   0x0010  /* unsigned type */
+#define VT_ARRAY      0x0020  /* array type (also has VT_PTR) */
+#define VT_BITFIELD   0x0040  /* bitfield modifier */
+
+#define VT_STRUCT_SHIFT 16   /* structure/enum name shift (16 bits left) */
+</PRE>
+
+<P>
+When a reference to another type is needed (for pointers, functions and
+structures), the <CODE>32 - VT_STRUCT_SHIFT</CODE> high order bits are used to
+store an identifier reference.
+
+
+<P>
+The <CODE>VT_UNSIGNED</CODE> flag can be set for chars, shorts, ints and long
+longs.
+
+
+<P>
+Arrays are considered as pointers <CODE>VT_PTR</CODE> with the flag
+<CODE>VT_ARRAY</CODE> set.
+
+
+<P>
+The <CODE>VT_BITFIELD</CODE> flag can be set for chars, shorts, ints and long
+longs. If it is set, then the bitfield position is stored from bits
+VT_STRUCT_SHIFT to VT_STRUCT_SHIFT + 5 and the bit field size is stored
+from bits VT_STRUCT_SHIFT + 6 to VT_STRUCT_SHIFT + 11.
+
+
+<P>
+<CODE>VT_LONG</CODE> is never used except during parsing.
+
+
+<P>
+During parsing, the storage of an object is also stored in the type
+integer:
+
+
+
+<PRE>
+#define VT_EXTERN  0x00000080  /* extern definition */
+#define VT_STATIC  0x00000100  /* static variable */
+#define VT_TYPEDEF 0x00000200  /* typedef definition */
+</PRE>
+
+
+
+<H2><A NAME="SEC28" HREF="tcc-doc.html#TOC28">8.5 Symbols</A></H2>
+
+<P>
+All symbols are stored in hashed symbol stacks. Each symbol stack
+contains <CODE>Sym</CODE> structures.
+
+
+<P>
+<CODE>Sym.v</CODE> contains the symbol name (remember
+an idenfier is also a token, so a string is never necessary to store
+it). <CODE>Sym.t</CODE> gives the type of the symbol. <CODE>Sym.r</CODE> is usually
+the register in which the corresponding variable is stored. <CODE>Sym.c</CODE> is
+usually a constant associated to the symbol.
+
+
+<P>
+Four main symbol stacks are defined:
+
+
+<DL COMPACT>
+
+<DT><CODE>define_stack</CODE>
+<DD>
+for the macros (<CODE>#define</CODE>s).
+
+<DT><CODE>global_stack</CODE>
+<DD>
+for the global variables, functions and types.
+
+<DT><CODE>local_stack</CODE>
+<DD>
+for the local variables, functions and types.
+
+<DT><CODE>global_label_stack</CODE>
+<DD>
+for the local labels (for <CODE>goto</CODE>).
+
+<DT><CODE>label_stack</CODE>
+<DD>
+for GCC block local labels (see the <CODE>__label__</CODE> keyword).
+
+</DL>
+
+<P>
+<CODE>sym_push()</CODE> is used to add a new symbol in the local symbol
+stack. If no local symbol stack is active, it is added in the global
+symbol stack.
+
+
+<P>
+<CODE>sym_pop(st,b)</CODE> pops symbols from the symbol stack <VAR>st</VAR> until
+the symbol <VAR>b</VAR> is on the top of stack. If <VAR>b</VAR> is NULL, the stack
+is emptied.
+
+
+<P>
+<CODE>sym_find(v)</CODE> return the symbol associated to the identifier
+<VAR>v</VAR>. The local stack is searched first from top to bottom, then the
+global stack.
+
+
+
+
+<H2><A NAME="SEC29" HREF="tcc-doc.html#TOC29">8.6 Sections</A></H2>
+
+<P>
+The generated code and datas are written in sections. The structure
+<CODE>Section</CODE> contains all the necessary information for a given
+section. <CODE>new_section()</CODE> creates a new section. ELF file semantics
+is assumed for each section.
+
+
+<P>
+The following sections are predefined:
+
+
+<DL COMPACT>
+
+<DT><CODE>text_section</CODE>
+<DD>
+is the section containing the generated code. <VAR>ind</VAR> contains the
+current position in the code section.
+
+<DT><CODE>data_section</CODE>
+<DD>
+contains initialized data
+
+<DT><CODE>bss_section</CODE>
+<DD>
+contains uninitialized data
+
+<DT><CODE>bounds_section</CODE>
+<DD>
+<DT><CODE>lbounds_section</CODE>
+<DD>
+are used when bound checking is activated
+
+<DT><CODE>stab_section</CODE>
+<DD>
+<DT><CODE>stabstr_section</CODE>
+<DD>
+are used when debugging is actived to store debug information
+
+<DT><CODE>symtab_section</CODE>
+<DD>
+<DT><CODE>strtab_section</CODE>
+<DD>
+contain the exported symbols (currently only used for debugging).
+
+</DL>
+
+
+
+<H2><A NAME="SEC30" HREF="tcc-doc.html#TOC30">8.7 Code generation</A></H2>
+<P>
+<A NAME="IDX47"></A>
+
+
+
+
+<H3><A NAME="SEC31" HREF="tcc-doc.html#TOC31">8.7.1 Introduction</A></H3>
+
+<P>
+The TCC code generator directly generates linked binary code in one
+pass. It is rather unusual these days (see gcc for example which
+generates text assembly), but it can be very fast and surprisingly
+little complicated.
+
+
+<P>
+The TCC code generator is register based. Optimization is only done at
+the expression level. No intermediate representation of expression is
+kept except the current values stored in the <EM>value stack</EM>.
+
+
+<P>
+On x86, three temporary registers are used. When more registers are
+needed, one register is spilled into a new temporary variable on the stack.
+
+
+
+
+<H3><A NAME="SEC32" HREF="tcc-doc.html#TOC32">8.7.2 The value stack</A></H3>
+<P>
+<A NAME="IDX48"></A>
+
+
+<P>
+When an expression is parsed, its value is pushed on the value stack
+(<VAR>vstack</VAR>). The top of the value stack is <VAR>vtop</VAR>. Each value
+stack entry is the structure <CODE>SValue</CODE>.
+
+
+<P>
+<CODE>SValue.t</CODE> is the type. <CODE>SValue.r</CODE> indicates how the value is
+currently stored in the generated code. It is usually a CPU register
+index (<CODE>REG_xxx</CODE> constants), but additional values and flags are
+defined:
+
+
+
+<PRE>
+#define VT_CONST     0x00f0
+#define VT_LLOCAL    0x00f1
+#define VT_LOCAL     0x00f2
+#define VT_CMP       0x00f3
+#define VT_JMP       0x00f4
+#define VT_JMPI      0x00f5
+#define VT_LVAL      0x0100
+#define VT_SYM       0x0200
+#define VT_MUSTCAST  0x0400
+#define VT_MUSTBOUND 0x0800
+#define VT_BOUNDED   0x8000
+#define VT_LVAL_BYTE     0x1000
+#define VT_LVAL_SHORT    0x2000
+#define VT_LVAL_UNSIGNED 0x4000
+#define VT_LVAL_TYPE     (VT_LVAL_BYTE | VT_LVAL_SHORT | VT_LVAL_UNSIGNED)
+</PRE>
+
+<DL COMPACT>
+
+<DT><CODE>VT_CONST</CODE>
+<DD>
+indicates that the value is a constant. It is stored in the union
+<CODE>SValue.c</CODE>, depending on its type.
+
+<DT><CODE>VT_LOCAL</CODE>
+<DD>
+indicates a local variable pointer at offset <CODE>SValue.c.i</CODE> in the
+stack.
+
+<DT><CODE>VT_CMP</CODE>
+<DD>
+indicates that the value is actually stored in the CPU flags (i.e. the
+value is the consequence of a test). The value is either 0 or 1. The
+actual CPU flags used is indicated in <CODE>SValue.c.i</CODE>. 
+
+If any code is generated which destroys the CPU flags, this value MUST be
+put in a normal register.
+
+<DT><CODE>VT_JMP</CODE>
+<DD>
+<DT><CODE>VT_JMPI</CODE>
+<DD>
+indicates that the value is the consequence of a conditional jump. For VT_JMP,
+it is 1 if the jump is taken, 0 otherwise. For VT_JMPI it is inverted.
+
+These values are used to compile the <CODE>||</CODE> and <CODE>&#38;&#38;</CODE> logical
+operators.
+
+If any code is generated, this value MUST be put in a normal
+register. Otherwise, the generated code won't be executed if the jump is
+taken.
+
+<DT><CODE>VT_LVAL</CODE>
+<DD>
+is a flag indicating that the value is actually an lvalue (left value of
+an assignment). It means that the value stored is actually a pointer to
+the wanted value. 
+
+Understanding the use <CODE>VT_LVAL</CODE> is very important if you want to
+understand how TCC works.
+
+<DT><CODE>VT_LVAL_BYTE</CODE>
+<DD>
+<DT><CODE>VT_LVAL_SHORT</CODE>
+<DD>
+<DT><CODE>VT_LVAL_UNSIGNED</CODE>
+<DD>
+if the lvalue has an integer type, then these flags give its real
+type. The type alone is not enough in case of cast optimisations.
+
+<DT><CODE>VT_LLOCAL</CODE>
+<DD>
+is a saved lvalue on the stack. <CODE>VT_LLOCAL</CODE> should be eliminated
+ASAP because its semantics are rather complicated.
+
+<DT><CODE>VT_MUSTCAST</CODE>
+<DD>
+indicates that a cast to the value type must be performed if the value
+is used (lazy casting).
+
+<DT><CODE>VT_SYM</CODE>
+<DD>
+indicates that the symbol <CODE>SValue.sym</CODE> must be added to the constant.
+
+<DT><CODE>VT_MUSTBOUND</CODE>
+<DD>
+<DT><CODE>VT_BOUNDED</CODE>
+<DD>
+are only used for optional bound checking.
+
+</DL>
+
+
+
+<H3><A NAME="SEC33" HREF="tcc-doc.html#TOC33">8.7.3 Manipulating the value stack</A></H3>
+<P>
+<A NAME="IDX49"></A>
+
+
+<P>
+<CODE>vsetc()</CODE> and <CODE>vset()</CODE> pushes a new value on the value
+stack. If the previous <VAR>vtop</VAR> was stored in a very unsafe place(for
+example in the CPU flags), then some code is generated to put the
+previous <VAR>vtop</VAR> in a safe storage.
+
+
+<P>
+<CODE>vpop()</CODE> pops <VAR>vtop</VAR>. In some cases, it also generates cleanup
+code (for example if stacked floating point registers are used as on
+x86).
+
+
+<P>
+The <CODE>gv(rc)</CODE> function generates code to evaluate <VAR>vtop</VAR> (the
+top value of the stack) into registers. <VAR>rc</VAR> selects in which
+register class the value should be put. <CODE>gv()</CODE> is the <EM>most
+important function</EM> of the code generator.
+
+
+<P>
+<CODE>gv2()</CODE> is the same as <CODE>gv()</CODE> but for the top two stack
+entries.
+
+
+
+
+<H3><A NAME="SEC34" HREF="tcc-doc.html#TOC34">8.7.4 CPU dependent code generation</A></H3>
+<P>
+<A NAME="IDX50"></A>
+See the <TT>`i386-gen.c'</TT> file to have an example.
+
+
+<DL COMPACT>
+
+<DT><CODE>load()</CODE>
+<DD>
+must generate the code needed to load a stack value into a register.
+
+<DT><CODE>store()</CODE>
+<DD>
+must generate the code needed to store a register into a stack value
+lvalue.
+
+<DT><CODE>gfunc_start()</CODE>
+<DD>
+<DT><CODE>gfunc_param()</CODE>
+<DD>
+<DT><CODE>gfunc_call()</CODE>
+<DD>
+should generate a function call
+
+<DT><CODE>gfunc_prolog()</CODE>
+<DD>
+<DT><CODE>gfunc_epilog()</CODE>
+<DD>
+should generate a function prolog/epilog.
+
+<DT><CODE>gen_opi(op)</CODE>
+<DD>
+must generate the binary integer operation <VAR>op</VAR> on the two top
+entries of the stack which are guaranted to contain integer types.
+
+The result value should be put on the stack.
+
+<DT><CODE>gen_opf(op)</CODE>
+<DD>
+same as <CODE>gen_opi()</CODE> for floating point operations. The two top
+entries of the stack are guaranted to contain floating point values of
+same types.
+
+<DT><CODE>gen_cvt_itof()</CODE>
+<DD>
+integer to floating point conversion.
+
+<DT><CODE>gen_cvt_ftoi()</CODE>
+<DD>
+floating point to integer conversion.
+
+<DT><CODE>gen_cvt_ftof()</CODE>
+<DD>
+floating point to floating point of different size conversion.
+
+<DT><CODE>gen_bounded_ptr_add()</CODE>
+<DD>
+<DT><CODE>gen_bounded_ptr_deref()</CODE>
+<DD>
+are only used for bounds checking.
+
+</DL>
+
+
+
+<H2><A NAME="SEC35" HREF="tcc-doc.html#TOC35">8.8 Optimizations done</A></H2>
+<P>
+<A NAME="IDX51"></A>
+<A NAME="IDX52"></A>
+<A NAME="IDX53"></A>
+<A NAME="IDX54"></A>
+<A NAME="IDX55"></A>
+<A NAME="IDX56"></A>
+<A NAME="IDX57"></A>
+Constant propagation is done for all operations. Multiplications and
+divisions are optimized to shifts when appropriate. Comparison
+operators are optimized by maintaining a special cache for the
+processor flags. &#38;&#38;, || and ! are optimized by maintaining a special
+'jump target' value. No other jump optimization is currently performed
+because it would require to store the code in a more abstract fashion.
+
+
+
+
+<H1><A NAME="SEC36" HREF="tcc-doc.html#TOC36">Concept Index</A></H1>
+<P>
+Jump to:
+<A HREF="#cindex__">_</A>
+-
+<A HREF="#cindex_a">a</A>
+-
+<A HREF="#cindex_b">b</A>
+-
+<A HREF="#cindex_c">c</A>
+-
+<A HREF="#cindex_d">d</A>
+-
+<A HREF="#cindex_e">e</A>
+-
+<A HREF="#cindex_f">f</A>
+-
+<A HREF="#cindex_g">g</A>
+-
+<A HREF="#cindex_i">i</A>
+-
+<A HREF="#cindex_j">j</A>
+-
+<A HREF="#cindex_l">l</A>
+-
+<A HREF="#cindex_m">m</A>
+-
+<A HREF="#cindex_o">o</A>
+-
+<A HREF="#cindex_p">p</A>
+-
+<A HREF="#cindex_q">q</A>
+-
+<A HREF="#cindex_r">r</A>
+-
+<A HREF="#cindex_s">s</A>
+-
+<A HREF="#cindex_t">t</A>
+-
+<A HREF="#cindex_u">u</A>
+-
+<A HREF="#cindex_v">v</A>
+-
+<A HREF="#cindex_w">w</A>
+<P>
+<H2><A NAME="cindex__">_</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX10">__asm__</A>
+</DIR>
+<H2><A NAME="cindex_a">a</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX14">align directive</A>
+<LI><A HREF="tcc-doc.html#IDX1">aligned attribute</A>
+<LI><A HREF="tcc-doc.html#IDX34">ascii directive</A>
+<LI><A HREF="tcc-doc.html#IDX33">asciz directive</A>
+<LI><A HREF="tcc-doc.html#IDX35">assembler</A>
+<LI><A HREF="tcc-doc.html#IDX12">assembler directives</A>
+<LI><A HREF="tcc-doc.html#IDX9">assembly, inline</A>
+</DIR>
+<H2><A NAME="cindex_b">b</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX45">bound checks</A>
+<LI><A HREF="tcc-doc.html#IDX28">bss directive</A>
+<LI><A HREF="tcc-doc.html#IDX17">byte directive</A>
+</DIR>
+<H2><A NAME="cindex_c">c</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX55">caching processor flags</A>
+<LI><A HREF="tcc-doc.html#IDX5">cdecl attribute</A>
+<LI><A HREF="tcc-doc.html#IDX47">code generation</A>
+<LI><A HREF="tcc-doc.html#IDX54">comparison operators</A>
+<LI><A HREF="tcc-doc.html#IDX52">constant propagation</A>
+<LI><A HREF="tcc-doc.html#IDX50">CPU dependent</A>
+</DIR>
+<H2><A NAME="cindex_d">d</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX27">data directive</A>
+<LI><A HREF="tcc-doc.html#IDX13">directives, assembler</A>
+</DIR>
+<H2><A NAME="cindex_e">e</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX37">ELF</A>
+</DIR>
+<H2><A NAME="cindex_f">f</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX42">FILE, linker command</A>
+<LI><A HREF="tcc-doc.html#IDX29">fill directive</A>
+<LI><A HREF="tcc-doc.html#IDX56">flags, caching</A>
+</DIR>
+<H2><A NAME="cindex_g">g</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX11">gas</A>
+<LI><A HREF="tcc-doc.html#IDX24">global directive</A>
+<LI><A HREF="tcc-doc.html#IDX23">globl directive</A>
+<LI><A HREF="tcc-doc.html#IDX41">GROUP, linker command</A>
+</DIR>
+<H2><A NAME="cindex_i">i</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX8">inline assembly</A>
+<LI><A HREF="tcc-doc.html#IDX20">int directive</A>
+</DIR>
+<H2><A NAME="cindex_j">j</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX57">jump optimization</A>
+</DIR>
+<H2><A NAME="cindex_l">l</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX36">linker</A>
+<LI><A HREF="tcc-doc.html#IDX40">linker scripts</A>
+<LI><A HREF="tcc-doc.html#IDX21">long directive</A>
+</DIR>
+<H2><A NAME="cindex_m">m</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX46">memory checks</A>
+</DIR>
+<H2><A NAME="cindex_o">o</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX51">optimizations</A>
+<LI><A HREF="tcc-doc.html#IDX30">org directive</A>
+<LI><A HREF="tcc-doc.html#IDX43">OUTPUT_FORMAT, linker command</A>
+</DIR>
+<H2><A NAME="cindex_p">p</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX2">packed attribute</A>
+<LI><A HREF="tcc-doc.html#IDX38">PE-i386</A>
+<LI><A HREF="tcc-doc.html#IDX31">previous directive</A>
+</DIR>
+<H2><A NAME="cindex_q">q</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX22">quad directive</A>
+</DIR>
+<H2><A NAME="cindex_r">r</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX7">regparm attribute</A>
+</DIR>
+<H2><A NAME="cindex_s">s</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX39">scripts, linker</A>
+<LI><A HREF="tcc-doc.html#IDX3">section attribute</A>
+<LI><A HREF="tcc-doc.html#IDX25">section directive</A>
+<LI><A HREF="tcc-doc.html#IDX19">short directive</A>
+<LI><A HREF="tcc-doc.html#IDX15">skip directive</A>
+<LI><A HREF="tcc-doc.html#IDX16">space directive</A>
+<LI><A HREF="tcc-doc.html#IDX6">stdcall attribute</A>
+<LI><A HREF="tcc-doc.html#IDX53">strength reduction</A>
+<LI><A HREF="tcc-doc.html#IDX32">string directive</A>
+</DIR>
+<H2><A NAME="cindex_t">t</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX44">TARGET, linker command</A>
+<LI><A HREF="tcc-doc.html#IDX26">text directive</A>
+</DIR>
+<H2><A NAME="cindex_u">u</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX4">unused attribute</A>
+</DIR>
+<H2><A NAME="cindex_v">v</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX49">value stack</A>
+<LI><A HREF="tcc-doc.html#IDX48">value stack, introduction</A>
+</DIR>
+<H2><A NAME="cindex_w">w</A></H2>
+<DIR>
+<LI><A HREF="tcc-doc.html#IDX18">word directive</A>
+</DIR>
+
+
+<P><HR><P>
+This document was generated on 18 June 2005 using
+<A HREF="http://wwwinfo.cern.ch/dis/texi2html/">texi2html</A>&nbsp;1.56k.
+</BODY>
+</HTML>
