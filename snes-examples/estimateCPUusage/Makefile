@@ -64,15 +64,13 @@ clean:
 	@rm -f $(OFILES) $(TARGET).sfc  *.pic *.pal *.map *.sym
 
 #---------------------------------------------------------------------------------
-sprite1.pic: sprite1.bmp
-	@echo convert 1st bitmap ... $(notdir $@)
-	$(GFXCONV) -gs32 -pc16 -po16 -n $<
-	
-sprite2.pic: sprite2.bmp
-	@echo convert 2nd bitmap ... $(notdir $@)
-	$(GFXCONV) -gs16 -pc16 -po16 -n $<
+pvsneslibfont.pic: pvsneslibfont.bmp
+	@echo convert font with no tile reduction ... $(notdir $@)
+	$(GFXCONV) -n -gs8 -po2 -pc16 -pe1 -mR! -m! -p! $<
 
-bitmaps : sprite1.pic sprite2.pic
+bitmaps : pvsneslibfont.pic
 
 #---------------------------------------------------------------------------------
+$(OUTPUT).sfc	: $(OFILES)
+------
 $(OUTPUT).sfc	: $(OFILES)

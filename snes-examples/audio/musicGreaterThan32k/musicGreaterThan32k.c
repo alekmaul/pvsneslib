@@ -33,7 +33,7 @@ int main(void) {
 	spcAllocateSoundRegion(39);
 
 	// Load music. Constant is automatically defined in soundbank.h
-	spcLoad(MOD_SOR2);
+	spcLoad(MOD_WHATISLOVE);
 	
 	// Initialize text console with our font
 	consoleInitText(0, 0, &snesfont);

@@ -6,8 +6,6 @@
 *.pal
 *.obj
 *.bz2
-*.bmp
-*.png
 
 # ignore full docs folder
 pvsneslib/docs/

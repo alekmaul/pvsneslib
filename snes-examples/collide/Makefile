@@ -76,10 +76,3 @@ bitmaps : pvsneslibfont.pic sprites.pic
 
 #---------------------------------------------------------------------------------
 $(OUTPUT).sfc	: $(OFILES)
-sfc	: $(OFILES)
-
-
-	: $(OFILES)
-sfc	: $(OFILES)
-
-
