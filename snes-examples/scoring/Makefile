@@ -1,14 +1,14 @@
 # path to snesdev root directory (for emulators, devkitsnes, libsnes)
-#export DEVKITSNES := /d/snesdev/
+#export DEVKITSNES := /c/snesdev/
 
 # path to devkitsnes root directory for compiler
-#export DEVKIT65XX := /d/snesdev/devkitsnes
+#export DEVKIT65XX := /c/snesdev/devkitsnes
 
 # path to snesdev root directory (for emulators, devkitsnes)
-export DEVKITSNES := /z/vboxshared/snesdev/trunk
+export DEVKITSNES := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib
 
 # path to devkitsnes root directory for compiler
-export DEVKIT65XX := /z/vboxshared/snesdev//trunk/devkitsnes
+export DEVKIT65XX := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib/devkitsnes
 
 #---------------------------------------------------------------------------------
 .SUFFIXES:
