@@ -23,7 +23,7 @@
 ;---------------------------------------------------------------------------------
 
 .ramsection ".reg_scores" bank 0 slot 1
-scorestring		dsb 10                         ; for score to string convetion
+scorestring		dsb 10                         ; for score to string convertion
 .ends
 
 .section ".scores_text" superfree
@@ -144,12 +144,12 @@ scoreCmp:
 	phy
 	
 	sep	#$20
-	lda	10,s 							; bank address of source score
+	lda	12,s 							; bank address of source score
 	pha
 	plb
 
 	rep	#$20							; word address of source score
-	lda	8,s
+	lda	10,s
 	tax
 	
 	lda 0,x								; push score on stack
@@ -158,81 +158,51 @@ scoreCmp:
 	pha
 	
 	sep	#$20
-	lda	14,s 							; bank address of dest score
+	lda	20,s 							; bank address of dest score
 	pha
 	plb
 
 	rep	#$20							; word address of dest score
-	lda	12,s
+	lda	18,s
 	tay
 	
 	pla
 	sec
 	sbc 2,y								; is high equals ?
-	;beq + ; schaumermol
-  ;bcs __local_gresser
-  ;bcc __local_kloaner
-			
+	beq _scocmpequ				; high = low; must check lower word
+	bcs _scocmphig				; nope, it is lower
+	bra _scocmplow
+
+_scocmpequ:
+	pla
+	sec
+	sbc 0,y								; is low equals ?
+	beq _scocmpequ1				; ok, retrun 0
+	bcs _scocmphig1				; nope, it is lower
+	bra _scocmplow1
 	
- ;               pop bc
- ;               pop de
- ;               pop hl
- ;               push hl
- ;               push de
- ;               push bc
-                
- ;               push hl
- ;               push de
-;                
- ;               inc hl
- ;               inc hl
- ;               ld c,(hl)
- ;               inc hl
-;                ld b,(hl)
+_scocmpequ1:
+	sep #$20
+  lda.b #0
+  sta.b tcc__r0
+	bra _scocmpbye
 
-;                ex de,hl
+_scocmphig:
+	pla
+_scocmphig1:
+	sep #$20
+  lda.b #-1
+  sta.b tcc__r0
+	bra _scocmpbye
+	
+_scocmplow:
+	pla
+_scocmplow1:
+	sep #$20
+  lda.b #1
+  sta.b tcc__r0
 
- ;               inc hl
- ;               inc hl
- ;               ld a,(hl)
- ;               inc hl
- ;               ld h,(hl)
- ;               ld l,a
- ;               
- ;               or a
- ;               sbc hl,bc
- ;               
- ;               jr nz,$0
- ;               
- ;               pop de
- ;               pop hl
- ;               push hl
- ;               push de
- ;               
- ;               ld c,(hl)
- ;               inc hl
- ;               ld b,(hl)
-
-;                ex de,hl
-
-;                ld a,(hl)
-;                inc hl
-;                ld h,(hl)
-;                ld l,a
-;                
-;                sbc hl,bc
-;                
-;                jr nz,$0
-
-;                ld hl,#0x0001
-;                jr $1
-;$0:
-;                ld hl,#0x0000
-;$1:
-;                pop bc
-;                pop bc
-;                ret
-
+_scocmpbye:
 	ply
 	plx
 	
