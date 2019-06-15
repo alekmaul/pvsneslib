@@ -139,9 +139,4 @@ unsigned short padsUp(u16 value);
 */
 void padsClear(u16 value);
 
-/*!	\fn scanScope()
-	\brief Wait for superscope ready and read values in. 
-*/
-void scanScope(void);
-
 #endif //SNES_PADS_INCLUDE

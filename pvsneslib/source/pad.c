@@ -28,8 +28,6 @@ extern u16 pad_keys[2];// = {0,0};
 extern u16 pad_keysold[2];//  = {0,0};
 extern u16 pad_keysrepeat[2];//  = {0,0};
 
-extern u16 scope_holddelay, scope_repdelay;
-
 //------------------------------------------------------------------------------
 unsigned short padsDown(unsigned short value) {
 	return (pad_keys[value] & ~pad_keysold[value]);
@@ -46,11 +44,5 @@ void padsClear(unsigned short value) {
 	pad_keys[value] = 0;
 	pad_keysold[value]  = 0;
 	pad_keysrepeat[value]  = 0;
-}
-
-//------------------------------------------------------------------------------
-void superScopeClear(void) {
-	scope_holddelay = 25;
-	scope_repdelay = 25;
 }
 
