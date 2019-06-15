@@ -58,7 +58,7 @@ void scoreCpy(scoMemory *source, scoMemory *dest);
 /*! \brief comapre a score memory to another score memory
 	\param source the source to compare from
 	\param dest the destination to compare to
-	\return	0 if equals, -1 if source greater than destination, 1 otherwise
+	\return	0 if equals, 0xFF if source greater than destination, 1 otherwise
 */
 u8 scoreCmp(scoMemory *source, scoMemory *dest);
 
