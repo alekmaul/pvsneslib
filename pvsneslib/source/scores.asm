@@ -109,18 +109,18 @@ scoreCpy:
 	lda	8,s
 	tax
 
-	lda 0,x								; push score on stack
+	lda 0,x								; push score on stack (word = 0, bank = 2)
 	pha
 	lda 2,x
 	pha
 	
 	sep	#$20
-	lda	14,s 							; bank address of dest score
+	lda	18,s 							; bank address of dest score (14+4 because of pha)
 	pha
 	plb
 
-	rep	#$20							; word address of dest score
-	lda	12,s
+	rep	#$20							; word address of dest score (12+4 because of pha)
+	lda	16,s
 	tax
 
 	pla										; put source score
