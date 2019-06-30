@@ -21,7 +21,7 @@ for l in text_raw:
 bss = []
 bsson = False
 for l in text:
-  if l == '.ramsection ".bss" bank $7e slot 2':
+  if l == '.ramsection ".bss" bank $7e slot 2 priority 2':
     bsson = True
     continue
   if l == '.ends':
