@@ -729,11 +729,11 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 		for(y=0;y<ysize;y++)
 		for(x=0;x<xsize;x++)
 		{
-			//get the palette number
+			//get the palette number (0-7 for both 4 & 16 color mode)
 			if (colortabinc == 16)
 				palette = (img[current*64] >> 4) & 0x07;
 			else
-				palette = (img[current*64] >> 2) & 0x03;
+				palette = (img[current*64] >> 2) & 0x07;
 			t = ((palette+pal_entry) << 10);
 
 			//put tile number in map
