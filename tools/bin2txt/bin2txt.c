@@ -49,6 +49,19 @@ void PrintOptions(char *str)
 	
 } //end of PrintOptions()
 
+#ifndef HAVE_STRUPR
+char* strupr(char* s)
+{
+	char* tmp = s;
+
+	for (;*tmp;++tmp) {
+		*tmp = toupper((unsigned char) *tmp);
+	}
+
+	return s;
+}
+#endif
+
 /// M A I N ////////////////////////////////////////////////////////////
 
 #include <math.h>
