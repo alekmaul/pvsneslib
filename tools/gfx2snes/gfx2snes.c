@@ -33,28 +33,29 @@
 #include "gfx2snes.h"
 
 //// M A I N   V A R I A B L E S ////////////////////////////////////////////////
-int	border=1;			//options and their defaults
-int	packed=0;			//
-int size=0;				//
-int screen=0;			//
-int colors=0;			//
-int output_palette=-1;  //
-int rearrange=0;		//
-int palette_entry=0;	//
-int file_type=1;		// 1 = bmp, 2 = pcx, 3 = tga, 4 = png
-int quietmode=0;		// 0 = not quiet, 1 = i can't say anything :P
-int collision=0;		// 1 = generated only collision map
-int collisionsp=0;		// n = 1st sprite entry regarding the map (so remove it from colision map)
-int tile_reduction=1;	// 0 = no tile reduction (warning !)
-int savepalette=1;		// 1 = save the palette
-int savemap=1;			// 1 = save the map
+int	border=1;						// options and their defaults
+int	packed=0;						//
+int size=0;							//
+int screen=0;						//
+int colors=0;						//
+int output_palette=-1;	//
+int rearrange=0;				//
+int palette_entry=0;		//
+int file_type=1;				// 1 = bmp, 2 = pcx, 3 = tga, 4 = png
+int quietmode=0;				// 0 = not quiet, 1 = i can't say anything :P
+int collision=0;				// 1 = generated only collision map
+int collisionsp=0;			// n = 1st sprite entry regarding the map (so remove it from colision map)
+int tile_reduction=1;		// 0 = no tile reduction (warning !)
+int savepalette=1;			// 1 = save the palette
+int savemap=1;					// 1 = save the map
 int colortabinc=16;     // 16 for 16 color mode, 4 for 4 color mode
 int lzpacked=0;         // 1 = comrpess file with LZSS algorithm
 int highpriority=0;     // 1 = high priority for map
 int blanktile=0;        // 1 = blank tile generated
 int palette_rnd=0;      // 1 = round palette up & down
-int offset_tile=0;					// n = offset in tile number
+int offset_tile=0;			// n = offset in tile number
 int pagemap32 = 0;      // 1 = create tile maps organized in 32x32 pages
+int hi512 = 0;      		// 1 = create a 512 width map for mode 5 & 6
 
 //// F U N C T I O N S //////////////////////////////////////////////////////////
 
@@ -655,37 +656,52 @@ unsigned char *ArrangeBlocks( unsigned char *img, int width, int height,
 	x=0;
 	y=0;
 
+	if (hi512)
+		*xsize >>=1;
+		
+
 	//go through each image block(i,j) where i and j are in block co-ordinates
-	for(j=0; j < *ysize; j++)
-	for(i=0; i < *xsize; i++)
-	{
-		//move each line of the block into the new buffer
-		//don't worry about reading past the end of the image here
-		//there is an extra 64 lines to read in.
-		for(line=0;line<size;line++)
-		{
-			//find out how much to copy
-			//this is needed because the screen mode files may not be
-			//a multiple of 8 pixels wide
-			//or no-border files may have the wrong width
+	for(j=0; j < *ysize; j++) {
+		for(i=0; i < *xsize; i++)	{
+			// find out how much to copy
+			// this is needed because the screen mode files may not be
+			// a multiple of 8 pixels wide
+			// or no-border files may have the wrong width
 			num = width - (i*(size+border) + border);
 			if(num>size)
 				num=size;
+			if (hi512) {
+				// move each line of the block into the new buffer
+				// don't worry about reading past the end of the image here
+				// there is an extra 64 lines to read in.
+						//printf("\n stroe in=%d, from=%d", (y)*8, (j*8)*width+i*16);
+						//printf("\n stroe in=%d, from=%d", (y+0)*new_width + x , (j*(size+border) + 0 + border)*width + i*(size+border) + border);
+						//printf("\n1stroe in=%d, from=%d", (y+0)*new_width + x , (j*8)*width + i*8);
 
-			memcpy( &buffer[ (y+line)*new_width + x ],
-		     &img[ (j*(size+border) + line + border)*width + i*(size+border) + border ],
-			 num);
+				for(line=0;line<8;line++) {
+					memcpy( &buffer[ (y+line)*8  ], &img[ (j*8 + line)*width + i*16],16);
+				}
+			}
+			else {
+				// move each line of the block into the new buffer
+				// don't worry about reading past the end of the image here
+				// there is an extra 64 lines to read in.
+				for(line=0;line<size;line++) {
+					memcpy( &buffer[ (y+line)*new_width + x ],
+						&img[ (j*(size+border) + line + border)*width + i*(size+border) + border ],num);
+				}
+			}
+
+			// move to the next location in the new buffer
+			x+=size;
+			if(x >= new_width) {
+				x=0;
+				y+=size;
+			}
+						//printf("\n2stroe in=%d, from=%d", (y+0)*new_width + x , (j*8)*width + i*8);
 		}
-
-		//move to the next location in the new buffer
-		x+=size;
-		if(x >= new_width)
-		{
-			x=0;
-			y+=size;
-		}
-	}
-
+  }
+	
 	*xsize = new_width/size;
 	*ysize = rows;
 
@@ -698,19 +714,14 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 			 int xsize, int ysize, int tile_x, int tile_y, int colors, int rearrange, int pal_entry)
 {
 	int *map;
-	unsigned char blank[64];
+	unsigned char blank[128];
 	//int tiles = *num_tiles;
 	int newtiles;
 	int blank_absent;
 	int current;	//the current tile we're looking at
 	int i,t, palette;
 	int x,y;
-	//int x_offset, y_offset;
-
-	//find x_offset,y_offset
-	//don't center
-	//x_offset=0;
-	//y_offset=0;
+	int sizetile;
 
 	//allocate map
 	map=malloc((size_t)tile_x*tile_y*sizeof(int));
@@ -719,9 +730,19 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 		return 0;
 	}
 
+	if (quietmode == 0)
+		printf("\n*num_tiles=%d, xsize=%d, ysize=%d, tile_x=%d, tile_y=%d, colors=%d, rearrange=%d",
+			*num_tiles, xsize, ysize, tile_x, tile_y, colors, rearrange);
+			
 	//clear map
 	memset(map,0,tile_x*tile_y*sizeof(int));
 
+	sizetile = 64;
+	if (hi512) {
+		xsize>>=1;
+		//sizetile = 128;
+	}
+		
 	//if the palette has been rearranged... save the palette number
 	//if(rearrange)
 	{
@@ -731,9 +752,9 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 		{
 			//get the palette number (0-7 for both 4 & 16 color mode)
 			if (colortabinc == 16)
-				palette = (img[current*64] >> 4) & 0x07;
+				palette = (img[current*sizetile] >> 4) & 0x07;
 			else
-				palette = (img[current*64] >> 2) & 0x07;
+				palette = (img[current*sizetile] >> 2) & 0x07;
 			t = ((palette+pal_entry) << 10);
 
 			//put tile number in map
@@ -758,15 +779,16 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 						map[(y+64-32)*32+x]=t;
 					else
 						map[(y+96-32)*32+x-32]=t;
-			} else if (pagemap32 == 1) {
-                //create pages of 32x32
-                int x_mult = (x)/32;
-                int new_x = x - x_mult * 32;
-                int idx = x_mult*1024 + y*32+new_x;
-                map[idx]=t;
+			} 
+			else if (pagemap32 == 1) {
+				//create pages of 32x32
+        int x_mult = (x)/32;
+        int new_x = x - x_mult * 32;
+        int idx = x_mult*1024 + y*32+new_x;
+        map[idx]=t;
 			}
 			else {
-               //32x32 or 128x128 screen
+        //32x32 or 128x128 screen
 			  map[y*tile_x+x]=t;
 			}
 
@@ -783,18 +805,18 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 	{
 		t = colors - 1;	//color truncation mask
 
-		for(i=0;i<xsize*ysize*64;i++)
+		for(i=0;i<xsize*ysize*sizetile;i++)
 			img[i] = img[i] & t;
 	}
 
 	//make a blank tile
-	memset(blank,0,64);
+	memset(blank,0,sizeof(blank));
 
 	//I want tile #0 to be blank..
 	//is it?
 	if (blanktile==1 )
 	{
-		if( memcmp(blank,img,64) == 0 )
+		if( memcmp(blank,img,sizetile) == 0 )
 		{
 			blank_absent=0;
 			current=1;
@@ -827,23 +849,23 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 		if(x==0 && y==0)
 			continue;
 
-		// if no reduction
+		// if tile reduction
 		if (tile_reduction) {
 			//is the current tile blank?
-			if( memcmp(blank,&img[current*64],64) == 0 )
+			if( memcmp(blank,&img[current*sizetile],sizetile) == 0 )
 				t=0;
 			else
 			{
 				//check for matches with previous tiles if tile_reduction on
 				for(i=0;i<newtiles;i++)
-					if( memcmp(&img[i*64],&img[current*64],64) == 0 )
+					if( memcmp(&img[i*sizetile],&img[current*sizetile],sizetile) == 0 )
 						break;
 
 				//is it a new tile?
 				if(i==newtiles)
 				{
 					// yes -> add it
-					memcpy(&img[newtiles*64],&img[current*64],64);
+					memcpy(&img[newtiles*sizetile],&img[current*sizetile],sizetile);
 					t=newtiles+blank_absent;
 					newtiles++;
 				}
@@ -858,12 +880,10 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 			i = newtiles;
 
 			// yes -> add it
-			memcpy(&img[newtiles*64],&img[current*64],64);
+			memcpy(&img[newtiles*sizetile],&img[current*sizetile],sizetile);
 			t=newtiles+blank_absent;
 			newtiles++;
 		}
-
-
 
 		//put tile number in map
 		if(tile_x==64 && tile_y==32) // 64x32 screen
@@ -888,7 +908,8 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 				else
 					map[(y+96-32)*32+x-32] += t;
 		}
-		else if (pagemap32 == 1) {
+		else 
+		if (pagemap32 == 1) {
 		    //create pages of 32x32
 		    int x_mult = (x)/32;
             int new_x = x - x_mult * 32;
@@ -896,12 +917,9 @@ int *MakeMap(unsigned char *img, int *num_tiles,
             map[idx]+=t;
 		}
 		else //32x32 or 128x128 screen
-        {
-            map[y*tile_x+x] += t;
-
-
-        }
-
+    {
+			map[y*tile_x+x] += t;
+    }
 
 		//goto the next tile
 		current++;
@@ -1280,13 +1298,11 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
 	}
 	else {
 		//remember to add the blank if its needed....
-		if(blank_absent)
+		if (blank_absent)
 			for(i=0;i<8*bitplanes;i++)
 				fputc(0,fp);
 
 		printf("\ndecode for %d tiles and %d bitplanes\n",num_tiles,bitplanes);
-
-
 
 		for(t=0;t<num_tiles;t++) //loop through tiles
 		for(b=0;b<bitplanes;b+=2) //loop through bitplane pairs
@@ -1296,30 +1312,26 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
 			mask = 1 << b;
 			data = 0;
 
-			//get row of bit-plane
+			//get row of bit-plane and save row
 			for(x=0;x<8;x++)
 			{
 				data = data << 1;
 				if(buffer[t*64 + y*8 + x] & mask)
 					data = data+1;
 			}
-
-			//save row
 			fputc(data,fp);
 
 			//adjust bit-mask
 			mask = mask << 1;
 			data = 0;
 
-			//get row of next bit-plane
+			//get row of next bit-plane and save row
 			for(x=0;x<8;x++)
 			{
 				data = data << 1;
-				if(buffer[t*64 + y*8 + x] & mask)
+				if(buffer[t*64  + y*8 + x] & mask)
 					data = data+1;
 			}
-
-			//save row
 			fputc(data,fp);
 		}
 	}
@@ -1405,7 +1417,7 @@ void ConvertPalette(RGB_color *palette, int *new_palette)
 void PrintOptions(char *str)
 {
 	printf("\n\nUsage : gfx2snes [options] bmp/pcx/tga filename ...");
-	printf("\n  where filename is a 256 color BMP, PCX or TGA file");
+	printf("\n  where filename is a 256 color PNG, BMP, PCX or TGA file");
 
 	if(str[0]!=0)
 		printf("\nThe [%s] parameter is not recognized.",str);
@@ -1421,6 +1433,7 @@ void PrintOptions(char *str)
 	printf("\n-m                Convert the whole picture");
 	printf("\n-mp               Convert the whole picture with high priority");
 	printf("\n-m7               Convert the whole picture for mode 7 format");
+	printf("\n-m5               Convert the whole picture for mode 5 & 6 512 width hires");
 	printf("\n-mc               Generate collision map only");
 	printf("\n-ms#              Generate collision map only with sprites table");
 	printf("\n                   where # is the 1st tile corresponding to a sprite (0 to 255)");
@@ -1436,7 +1449,7 @@ void PrintOptions(char *str)
 	printf("\n-pr               Rearrange palette, and preserve palette numbers in the tilemap");
 	printf("\n-pR               Palette rounding");
 	printf("\n\n--- File options ---");
-	printf("\n-f[bmp|pcx|tga|png]   convert a bmp or pcx or gta or png file [bmp]");
+	printf("\n-f[bmp|pcx|tga|png]   convert a bmp or pcx or tga or png file [bmp]");
 	printf("\n\n--- Misc options ---");
 	printf("\n-n                no border");
 	printf("\n-q                quiet mode");
@@ -1470,7 +1483,7 @@ int main(int argc, char **arg)
 	// Show something to begin :)
 	if (quietmode == 0) {
 		printf("\n==============================");
-		printf("\n---gfx2snes v---");
+		printf("\n---gfx2snes v"GFX2SNESVERSION" "GFX2SNESDATE"---");
 		printf("\n------------------------------");
 		printf("\n(c) 2013-2018 Alekmaul ");
 		printf("\nBased on pcx2snes by Neviksti");
@@ -1539,6 +1552,12 @@ int main(int argc, char **arg)
 					border=0;
 					packed=1;
 				}
+				else if( strcmp(&arg[i][1],"m5") == 0)
+				{
+					screen=1;
+					border=0;
+					hi512=1;
+				}
 				else if( strcmp(&arg[i][1],"mc") == 0)
 				{
 					screen=1;
@@ -1559,8 +1578,11 @@ int main(int argc, char **arg)
 				else if( strcmp(&arg[i][1],"mR!") == 0)
 				{
 					tile_reduction=0;
-				}else if( strcmp(&arg[i][1],"m32p") == 0)
+				}
+				else if( strcmp(&arg[i][1],"m32p") == 0)
 				{
+					screen=1;
+					border=0;
 					pagemap32 = 1;
 				}
 				else
@@ -1781,16 +1803,22 @@ int main(int argc, char **arg)
 	{
 		//determine the constants if in screen mode
 		//or image block mode with no borders
-
-		//printf("size=%d screen=%d\n",size,screen);
-		if(screen)
+		if (screen) {
 			size=8;
+			
+			// Get out if hires and not 512 width
+			if( (hi512) &&  (width != 512) )
+			{
+				printf("\nERROR : HiRes mode 5 format is not 512 pixels width.\n");
+				return 1;
+			}
+		}
 		xsize = width/size;
-		if(width%size)
+		if (width%size)
 			xsize++;
 
 		ysize = height/size;
-		if(height%size)
+		if (height%size)
 			ysize++;
 	}
 
@@ -1799,7 +1827,10 @@ int main(int argc, char **arg)
 	{
 		//ALEK 09/08 if(width>256)
 			//tile_x=64;
-			tile_x=width/8;
+			//ALEK 01/11/18 tile_x=width/8;
+			tile_x=width/size;
+			if (hi512)
+				tile_x>>=1;
 		//ALEK 09/08 else
 		//ALEK 09/08 	tile_x=32;
 
@@ -1839,11 +1870,16 @@ int main(int argc, char **arg)
 		else
 			printf("\ncollisionmap=OFF");
 
-        if (pagemap32)
+    if (pagemap32)
 			printf("\ntile map pages of 32x32=ON");
 		else
 			printf("\ntile map pages of 32x32=OFF");
 
+		if (hi512)
+			printf("\ntile map mode 512=ON");
+		else
+			printf("\ntile map mode 512=OFF");
+		
 		if (tile_reduction)
 			printf("\nOptimize tilemap=ON");
 		else
@@ -1908,9 +1944,8 @@ int main(int argc, char **arg)
 		j=xsize;
 		num_tiles=ysize;
 
-		//first arrange into a list of 8x8 blocks
-		buffer=ArrangeBlocks(image.buffer, width, height,
-							 size, &j, &num_tiles, 8, 0);
+		//first arrange into a list of 8x8 blocks 
+		buffer=ArrangeBlocks(image.buffer, width, height, size, &j, &num_tiles, 8, 0);
 		free(image.buffer);
 
 		if(buffer==NULL)
@@ -1963,8 +1998,7 @@ int main(int argc, char **arg)
 	else //image block mode
 	{
 		//first arrange in SNES image block format
-		buffer=ArrangeBlocks(image.buffer, width, height,
-							 size, &xsize, &ysize, 16*8, border);
+		buffer=ArrangeBlocks(image.buffer, width, height, size, &xsize, &ysize, 16*8, border);
 		free(image.buffer);
 
 		if(buffer==NULL)

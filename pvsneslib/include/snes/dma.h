@@ -237,7 +237,7 @@ void dmaCopySpr16Vram(u8 * source, u16 address);
 	\param address vram address to copy
 	\param size the size in bytes of the data to copy.  
 */
-void dmaFillVram(u8 source, u16 address, u16 size);
+void dmaFillVram(u8 * source, u16 address, u16 size);
 
 /*! \brief clear all vram data with #0  
 */
