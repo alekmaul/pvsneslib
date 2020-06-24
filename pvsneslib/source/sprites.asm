@@ -31,14 +31,14 @@
 .DEFINE OBJ_SMALL				$00
 .DEFINE OBJ_LARGE				$01
 
-.DEFINE OBJ_SIZE16			$60 ; (3<<5)
+.DEFINE OBJ_SIZE16			    $60 ; (3<<5)
 
 
 .ramsection ".reg_oams7e" bank $7e slot 0
 
-sprit_val1			DSB 1                         ; save value #1
+sprit_val1			            DSB 1                         ; save value #1
 
-oamMemory				DSB 128*4+8*4
+oamMemory				        DSB 128*4+8*4
 
 .ends
 

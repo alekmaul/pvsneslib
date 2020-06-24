@@ -1,10 +1,10 @@
 # path to snesdev root directory (for emulators, devkitsnes, libsnes)
-export DEVKITSNES := /c/snesdev/
-#export DEVKITSNES := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib
+#export DEVKITSNES := /c/snesdev/
+export DEVKITSNES := /z/DropboxSvnClient/snesdev/pvsneslib
 
 # path to devkitsnes root directory for compiler
-export DEVKIT65XX := /c/snesdev/devkitsnes
-#export DEVKIT65XX := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib/devkitsnes
+#export DEVKIT65XX := /c/snesdev/devkitsnes
+export DEVKIT65XX := /z/DropboxSvnClient/snesdev/pvsneslib/devkitsnes
 
 #---------------------------------------------------------------------------------
 ifeq ($(strip $(DEVKITSNES)),)
@@ -14,8 +14,8 @@ endif
 export TOPDIR	:=	$(CURDIR)
 
 export PVSNESLIB_MAJOR	:= 2
-export PVSNESLIB_MINOR	:= 3
-export PVSNESLIB_PATCH	:= 2
+export PVSNESLIB_MINOR	:= 4
+export PVSNESLIB_PATCH	:= 0
 
 
 VERSION	:=	$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
@@ -65,8 +65,10 @@ install: dist-bin
 #---------------------------------------------------------------------------------
 docs:
 #---------------------------------------------------------------------------------
-	doxygen pvsneslib.dox
-	cat warn.log
+	$(DEVKIT65XX)/tools/doxygen pvsneslib.dox
+	@if [ -f 'warn.log' ]; then \
+        @cat warn.log; \
+   fi	
 
 #---------------------------------------------------------------------------------
 include/snes/libversion.h : Makefile
