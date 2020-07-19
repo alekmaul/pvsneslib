@@ -120,13 +120,14 @@ checkmplay5ston:
   	bra checkmplay5ston
 +	sta mp5read 													
 	
+	stz.w REG_JOYA								; strobe off
+
 	lda.b mp5read 								; if not $FF, no mp5 connected
 	cmp #$FF
 	bne nomplay5
 	
 	ldx #$8
 	stz.b mp5read
-	stz.w REG_JOYA								; strobe off
 
 checkmplay5stoff:
 	lda REG_JOYB								; read 8 times bit1 and store values
