@@ -209,7 +209,7 @@ dmaCopySpr16Vram:
 	rtl
 
 ;---------------------------------------------------------------------------
-; void dmaFillVram(u8 source, u16 address, u16 size);
+; void dmaFillVram(u8 * source, u16 address, u16 size);
 dmaFillVram:
 	php
 

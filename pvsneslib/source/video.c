@@ -82,10 +82,13 @@ void setMode(u8 mode, u8 size) {
 	//u8 i, bgCount;
 
 	// Adjust mode to be ok
-	_iloc = (mode & 0x03);
+	_iloc = (mode & 0x07);
 	
 	// Change default mode 
 	REG_BGMODE = _iloc | size;  
+
+	// Default sub mode
+	videoModeSub = 0;
 
 	// Regarding mode, ajust BGs
 	if (_iloc == BG_MODE0) {
@@ -100,15 +103,19 @@ void setMode(u8 mode, u8 size) {
 		videoMode = BG1_ENABLE | BG2_ENABLE | BG3_ENABLE | OBJ_ENABLE;    
 		_bgCnt = 3;
 	 }
-	 else {
-		// Mode 3 : 256-color   16-color    -           -         ;Normal
+	else if (  (_iloc == BG_MODE5)  || (_iloc == BG_MODE6) ) {
 		// Mode 5 : 16-color    4-color     -           -         ;512-pix-hires
 		// Mode 6 : 16-color    -           (o.p.t)     -         ;512-pix plus Offs-p-t
+		videoMode = BG1_ENABLE | BG2_ENABLE | OBJ_ENABLE;    
+		videoModeSub = BG1_ENABLE | BG2_ENABLE | OBJ_ENABLE;    
+		_bgCnt = 2;
+	}
+	 else {
+		// Mode 3 : 256-color   16-color    -           -         ;Normal
 		// Mode 7 : 256-color   EXTBG       -           -         ;Rotation/Scaling
 		videoMode = BG1_ENABLE | BG2_ENABLE | OBJ_ENABLE;    
 		_bgCnt = 2;
 	}
-	videoModeSub = 0;
 	REG_TM = videoMode;
 	REG_TS = videoModeSub;
 	for(_iloc=0;_iloc<_bgCnt;_iloc++) { // No Scroll

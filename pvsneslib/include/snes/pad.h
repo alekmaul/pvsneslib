@@ -62,6 +62,8 @@ extern u16 pad_keys[2];
 extern u16 pad_keysold[2];
 extern u16 pad_keysrepeat[2];
 
+extern u8	snes_mplay5; /*!< \brief 1 if MultiPlay5 connected */
+
 /*! \def REG_JOYxLH
 
     \brief SNES Controllers I/O Ports - Automatic Reading.
@@ -112,7 +114,7 @@ void scanPads(void);
 
 /*!	\fn  padsCurrent(value)
 	\brief Return current value of selected pad
-	\param value Address of the pad to use (0 or 1)
+	\param value Address of the pad to use (0 or 1 to 4 if multiplayer 5 connected)
 	\return unsigned short of the current pad value
 */
 //unsigned short padsCurrent(u16 value);
@@ -120,23 +122,32 @@ void scanPads(void);
 
 /*!	\fn padsDown(u16 value)
 	\brief Return value of down keys for selected pad
-	\param value Address of the pad to use (0 or 1)
+	\param value Address of the pad to use (0 or 1 to 4 if multiplayer 5 connected)
 	\return unsigned short of the current pad value
 */
 unsigned short padsDown(u16 value);
 
 /*!	\fn padsUp(u16 value)
 	\brief Return value of up keys for selected pad
-	\param value Address of the pad to use (0 or 1)
+	\param value Address of the pad to use (0 or 1 to 4 if multiplayer 5 connected)
 	\return unsigned short of the current pad value
 */
 unsigned short padsUp(u16 value);
 
-
 /*!	\fn padsClear(u16 value)
 	\brief Clear internal variables for selected pad
-	\param value Address of the pad to use (0 or 1)
+	\param value Address of the pad to use (0 or 1 to 4 if multiplayer 5 connected)
 */
 void padsClear(u16 value);
+
+/*!	\fn detectMPlay5(void)
+	\brief Check if MultiPlayer5 is connected and populate snes_mplay5 (0 or 1 for connected)
+*/
+void detectMPlay5(void);
+
+/*!	\fn scanMPlay5()
+	\brief Wait for multiplayer5 pads ready and read pad values in . 
+*/
+void scanMPlay5(void);
 
 #endif //SNES_PADS_INCLUDE

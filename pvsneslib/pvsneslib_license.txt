@@ -21,6 +21,12 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
+V2.4.0 (xx, June, 2020)
+- Added: score management with 32 bits scoring system
+- Removed: superscope support, useless and buggy
+- Add Multiplayer 5 support (with example)
+- Remove C to ASM version for vblank function (with multiplayer 5 support)
+
 V2.3.2 (10, Februray, 2018)
 - Fixed: some rare problem in SNESMod source with bank 0 (thanks fixing it kungfufurby !)
 - Added: setScreenOn to display screen (removed from setMode)

@@ -22,6 +22,9 @@ SPECIAL THANKS
                
 CHANGE LOG
 ----------------------
+VERSION 2.10 (24, may, 2020)
+- FIx: tilemap generation for image producing more than 4 palettes in 4 color mode
+    (thanks 1r3n33)
 VERSION 2.00 (13, may, 2017)
 - Added : png and bmp rle encoding in gfx2snes file format
 
