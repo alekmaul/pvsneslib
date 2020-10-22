@@ -872,7 +872,7 @@ namespace IT2SPC {
 			fprintf( f, 
 				".bank %i\n"
 				".section \"SOUNDBANK\" ; need dedicated bank(s)\n\n"
-				"__SOUNDBANK__:\n",
+				"SOUNDBANK__:\n",
 				BANKNUM
 			);
 		
@@ -895,7 +895,7 @@ namespace IT2SPC {
 				fprintf( f, 
 					".bank %i\n"
 					".section \"SOUNDBANK%i\" ; need dedicated bank(s)\n\n"
-					"__SOUNDBANK__%i:\n",
+					"SOUNDBANK__%i:\n",
 					BANKNUM+j,j,j
 				);
 		
