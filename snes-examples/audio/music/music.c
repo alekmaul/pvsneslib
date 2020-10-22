@@ -11,7 +11,7 @@
 #include "soundbank.h"
 
 extern char snesfont;
-extern char __SOUNDBANK__;
+extern char SOUNDBANK__;
 
 unsigned short bgcolor =0;
 
@@ -25,7 +25,7 @@ int main(void) {
 	consoleInit(); 
 
 	// Set give soundbank
-	spcSetBank(&__SOUNDBANK__);
+	spcSetBank(&SOUNDBANK__);
 	
 	// allocate around 10K of sound ram (39 256-byte blocks)
 	spcAllocateSoundRegion(39);
