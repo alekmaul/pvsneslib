@@ -104,7 +104,12 @@ char current_fn[256] = "";
    unique name. not knowing how to choose one deterministically (filename?
    could be more than one file with the same name...), I chose to use a
    random number, saved to static_prefix. */
-char* static_prefix = "__tccs_";
+//char* static_prefix = "__tccs_";
+/* with WLA 9.X, if you have a label that begins with a _ and it is inside a section,
+   then the name doesn't show outside of that section.
+   If it is not inside a section it doesn't show outside of the object file...
+*/
+char* static_prefix = "tccs_";
 
 char* label_workaround = NULL;
 struct labels_816 {
