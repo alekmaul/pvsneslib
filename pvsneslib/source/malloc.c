@@ -92,7 +92,7 @@ void *malloc(unsigned int size)
      return (void *)((void*)p + sizeof(unit));
 }
 
-void __malloc_init(void *heap, unsigned int len)
+void malloc_init(void *heap, unsigned int len)
 {
      len >>= 2;
      len <<= 2;

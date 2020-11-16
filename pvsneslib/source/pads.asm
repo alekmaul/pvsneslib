@@ -101,8 +101,8 @@ detectMPlay5:
 	pha
 	plb
 
-	stz.b snes_mplay5							; currently no Multiplay5 connected
-	stz.b mp5read
+	stz snes_mplay5							; currently no Multiplay5 connected
+	stz mp5read
 	
 	ldx #$8
 	lda.b #1
@@ -122,12 +122,12 @@ checkmplay5ston:
 	
 	stz.w REG_JOYA								; strobe off
 
-	lda.b mp5read 								; if not $FF, no mp5 connected
+	lda mp5read 								; if not $FF, no mp5 connected
 	cmp #$FF
 	bne nomplay5
 	
 	ldx #$8
-	stz.b mp5read
+	stz mp5read
 
 checkmplay5stoff:
 	lda REG_JOYB								; read 8 times bit1 and store values
@@ -141,7 +141,7 @@ checkmplay5stoff:
   	bra checkmplay5stoff
 +	sta mp5read 													
 
-	lda.b mp5read 								; if $FF, no mp5 connected
+	lda mp5read 								; if $FF, no mp5 connected
 	cmp #$FF
 	beq nomplay5
 

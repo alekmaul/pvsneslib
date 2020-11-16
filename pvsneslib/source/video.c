@@ -27,7 +27,7 @@
 static u8 videoMode, videoModeSub;
 static u8 _bgCnt, _iloc;
 
-const signed char _m7sincos[256] =
+const signed char m7sincos[256] =
 {
       0,  3,  6,  9,  12,  16,  19,  22,
       25,  28,  31,  34,  37,  40,  43,  46,
@@ -63,9 +63,9 @@ const signed char _m7sincos[256] =
      -27, -24, -21, -18, -15, -12, -8, -5
 };
 
-u16 _m7ma, _m7mb, _m7mc, _m7md, _m7sx, _m7sy, _m7sz;
-u8 _m7angle;
-signed char _m7sin, _m7cos;
+u16 m7ma, m7mb, m7mc, m7md, m7sx, m7sy, m7sz;
+u8 m7angle;
+signed char m7sin, m7cos;
 
 //---------------------------------------------------------------------------------
 void setBrightness(u8 level) {
@@ -285,41 +285,41 @@ static void consoleVblankMode7(void) {
 	// compute matrix transformation
 	// calc M7B == -sin(a) * (1/sx)
 	// M7A=SX
-	REG_M7A=(_m7sx & 255); REG_M7A=(_m7sx>>8);
+	REG_M7A=(m7sx & 255); REG_M7A=(m7sx>>8);
 	// M7B=-sin(angle)
-	REG_M7B = _m7sin;
+	REG_M7B = m7sin;
 	// __M7_B = sin(angle)*SX
-	_m7mb = REG_MPYMH;
+	m7mb = REG_MPYMH;
 	
 	// calc M7C == sin(a) * (1/sy)
 	// M7A=SY
-	REG_M7A=(_m7sy & 255); REG_M7A=(_m7sy>>8);
+	REG_M7A=(m7sy & 255); REG_M7A=(m7sy>>8);
 	// M7B=sin(angle)
-	REG_M7B = -_m7sin;
+	REG_M7B = -m7sin;
 	// __M7_C = -sin(angle)*SY
-	_m7mc = REG_MPYMH;
+	m7mc = REG_MPYMH;
 
 	// calc M7A == cos(a) * (1/sx)
 	// M7A=SX
-	REG_M7A=(_m7sx & 255); REG_M7A=(_m7sx>>8);
+	REG_M7A=(m7sx & 255); REG_M7A=(m7sx>>8);
 	// M7B=cos(angle)
-	REG_M7B = _m7cos;
+	REG_M7B = m7cos;
 	// __M7_A = SX*cos(angle)
-	_m7ma = REG_MPYMH;
+	m7ma = REG_MPYMH;
 	
 	// calc M7D == cos(a) * (1/sy)
 	// M7A=SY
-	REG_M7A=(_m7sy & 255); REG_M7A=(_m7sy>>8);
+	REG_M7A=(m7sy & 255); REG_M7A=(m7sy>>8);
 	// M7B=cos(angle)
-	REG_M7B = _m7cos;
+	REG_M7B = m7cos;
 	// __M7_D = cos(angle) * (SY)
-	_m7md = REG_MPYMH;
+	m7md = REG_MPYMH;
 
 	// Store parameters to matrix
-	REG_M7A=(_m7ma & 255); REG_M7A=(_m7ma>>8);
-	REG_M7B=(_m7mb & 255); REG_M7B=(_m7mb>>8);
-	REG_M7C=(_m7mc & 255); REG_M7C=(_m7mc>>8);
-	REG_M7D=(_m7md & 255); REG_M7D=(_m7md>>8);
+	REG_M7A=(m7ma & 255); REG_M7A=(m7ma>>8);
+	REG_M7B=(m7mb & 255); REG_M7B=(m7mb>>8);
+	REG_M7C=(m7mc & 255); REG_M7C=(m7mc>>8);
+	REG_M7D=(m7md & 255); REG_M7D=(m7md>>8);
 
 	
     REG_DMAP3 = 0x02; // 1 register write twice
@@ -345,20 +345,20 @@ static void consoleVblankMode7(void) {
 	if (flip == 2) {
 		for (i=0;i<160*3;i+=3) {
 			unsigned char linehbl = 0x40 + (i/3);
-			REG_M7A=(_m7sx & 255); REG_M7A=(_m7sx>>8);
-			REG_M7B = _m7sin; _m7mb = REG_MPYMH;
+			REG_M7A=(m7sx & 255); REG_M7A=(m7sx>>8);
+			REG_M7B = m7sin; m7mb = REG_MPYMH;
 		
 			REG_M7A=(j & 255); REG_M7A=(j>>8);
-			REG_M7B = -_m7sin; _m7mc = REG_MPYMH;
+			REG_M7B = -m7sin; m7mc = REG_MPYMH;
 
 			REG_M7A=(j & 255); REG_M7A=(j>>8);
-			REG_M7B = _m7cos; _m7ma = REG_MPYMH;
+			REG_M7B = m7cos; m7ma = REG_MPYMH;
 
 			REG_M7A=(j & 255); REG_M7A=(j>>8);
-			REG_M7B = _m7cos; _m7md = REG_MPYMH;
+			REG_M7B = m7cos; m7md = REG_MPYMH;
 
-			m7_ma[i+1] = _m7ma & 255;m7_mb[i+1] = _m7mb & 255;m7_mc[i+1] = _m7mc & 255;	m7_md[i+1] = _m7md & 255;
-			m7_ma[i+2] = _m7ma>>8;m7_mb[i+2] = _m7mb>>8;m7_mc[i+2] = _m7mc>>8;	m7_md[i+2] = _m7md>>8;
+			m7_ma[i+1] = m7ma & 255;m7_mb[i+1] = m7mb & 255;m7_mc[i+1] = m7mc & 255;	m7_md[i+1] = m7md & 255;
+			m7_ma[i+2] = m7ma>>8;m7_mb[i+2] = m7mb>>8;m7_mc[i+2] = m7mc>>8;	m7_md[i+2] = m7md>>8;
 		}
 	}
 #endif
@@ -408,20 +408,20 @@ void calcmatrix(void) {
 	unsigned int i;
 	
 	for (i=0;i<160*3;i+=3) {  // 224-160=64
-		REG_M7A=(_m7sx & 255); REG_M7A=(_m7sx>>8);
-		REG_M7B = _m7sin; _m7mb = REG_MPYMH;
+		REG_M7A=(m7sx & 255); REG_M7A=(m7sx>>8);
+		REG_M7B = m7sin; m7mb = REG_MPYMH;
 	
-		REG_M7A=(_m7sy & 255); REG_M7A=(_m7sy>>8);
-		REG_M7B = -_m7sin; _m7mc = REG_MPYMH;
+		REG_M7A=(m7sy & 255); REG_M7A=(m7sy>>8);
+		REG_M7B = -m7sin; m7mc = REG_MPYMH;
 
-		REG_M7A=(_m7sx & 255); REG_M7A=(_m7sx>>8);
-		REG_M7B = _m7cos; _m7ma = REG_MPYMH;
+		REG_M7A=(m7sx & 255); REG_M7A=(m7sx>>8);
+		REG_M7B = m7cos; m7ma = REG_MPYMH;
 
-		REG_M7A=(_m7sy & 255); REG_M7A=(_m7sy>>8);
-		REG_M7B = _m7cos; _m7md = REG_MPYMH;
+		REG_M7A=(m7sy & 255); REG_M7A=(m7sy>>8);
+		REG_M7B = m7cos; m7md = REG_MPYMH;
 
-		m7_ma[i+1] = _m7ma & 255;m7_mb[i+1] = _m7mb & 255;m7_mc[i+1] = _m7mc & 255;	m7_md[i+1] = _m7md & 255;
-		m7_ma[i+2] = _m7ma>>8;   m7_mb[i+2] = _m7mb>>8;   m7_mc[i+2] = _m7mc>>8;	m7_md[i+2] = _m7md>>8;
+		m7_ma[i+1] = m7ma & 255;m7_mb[i+1] = m7mb & 255;m7_mc[i+1] = m7mc & 255;	m7_md[i+1] = m7md & 255;
+		m7_ma[i+2] = m7ma>>8;   m7_mb[i+2] = m7mb>>8;   m7_mc[i+2] = m7mc>>8;	m7_md[i+2] = m7md>>8;
 	}
 }
 
@@ -470,9 +470,9 @@ void setMode7(u8 mode) {
 	
 	
 	// Init vars
-	_m7ma = 0x0100; _m7mb = 0; _m7mc = 0; _m7md = 0x0100; 
-	_m7sx =0x200; _m7sy = 0x200; 
-	_m7angle = 0; _m7sin = _m7sincos[_m7angle]; _m7cos = _m7sincos[64];
+	m7ma = 0x0100; m7mb = 0; m7mc = 0; m7md = 0x0100; 
+	m7sx =0x200; m7sy = 0x200; 
+	m7angle = 0; m7sin = m7sincos[m7angle]; m7cos = m7sincos[64];
 	
 	initm7_matric();
 	
@@ -489,62 +489,62 @@ void setMode7(u8 mode) {
 //---------------------------------------------------------------------------------
 void setMode7Angle(u8 angle) {
 	u8 cosangle=angle+64;
-	_m7angle = angle;
-	_m7sin = _m7sincos[_m7angle]; _m7cos = _m7sincos[cosangle];
+	m7angle = angle;
+	m7sin = m7sincos[m7angle]; m7cos = m7sincos[cosangle];
 }
 
 //---------------------------------------------------------------------------------
 void setMode7Rot(u8 angle) {
 	u8 cosangle=angle+64;
-	_m7angle = angle;
-	_m7sin = _m7sincos[_m7angle]; _m7cos = _m7sincos[cosangle];
+	m7angle = angle;
+	m7sin = m7sincos[m7angle]; m7cos = m7sincos[cosangle];
 	
 	// compute matrix transformation
 	// calc M7B == -sin(a) * (1/sx)
 	// M7A=SX
-	REG_M7A=(_m7sx & 255); REG_M7A=(_m7sx>>8);
+	REG_M7A=(m7sx & 255); REG_M7A=(m7sx>>8);
 	// M7B=-sin(angle)
-	REG_M7B = _m7sin;
+	REG_M7B = m7sin;
 	// __M7_B = sin(angle)*SX
-	_m7mb = REG_MPYMH;
+	m7mb = REG_MPYMH;
 	
 	// calc M7C == sin(a) * (1/sy)
 	// M7A=SY
-	REG_M7A=(_m7sy & 255); REG_M7A=(_m7sy>>8);
+	REG_M7A=(m7sy & 255); REG_M7A=(m7sy>>8);
 	// M7B=sin(angle)
-	REG_M7B = -_m7sin;
+	REG_M7B = -m7sin;
 	// __M7_C = -sin(angle)*SY
-	_m7mc = REG_MPYMH;
+	m7mc = REG_MPYMH;
 
 	// calc M7A == cos(a) * (1/sx)
 	// M7A=SX
-	REG_M7A=(_m7sx & 255); REG_M7A=(_m7sx>>8);
+	REG_M7A=(m7sx & 255); REG_M7A=(m7sx>>8);
 	// M7B=cos(angle)
-	REG_M7B = _m7cos;
+	REG_M7B = m7cos;
 	// __M7_A = SX*cos(angle)
-	_m7ma = REG_MPYMH;
+	m7ma = REG_MPYMH;
 	
 	// calc M7D == cos(a) * (1/sy)
 	// M7A=SY
-	REG_M7A=(_m7sy & 255); REG_M7A=(_m7sy>>8);
+	REG_M7A=(m7sy & 255); REG_M7A=(m7sy>>8);
 	// M7B=cos(angle)
-	REG_M7B = _m7cos;
+	REG_M7B = m7cos;
 	// __M7_D = cos(angle) * (SY)
-	_m7md = REG_MPYMH;
+	m7md = REG_MPYMH;
 
 	// Store parameters to matrix
-	REG_M7A=(_m7ma & 255); REG_M7A=(_m7ma>>8);
-	REG_M7B=(_m7mb & 255); REG_M7B=(_m7mb>>8);
-	REG_M7C=(_m7mc & 255); REG_M7C=(_m7mc>>8);
-	REG_M7D=(_m7md & 255); REG_M7D=(_m7md>>8);
+	REG_M7A=(m7ma & 255); REG_M7A=(m7ma>>8);
+	REG_M7B=(m7mb & 255); REG_M7B=(m7mb>>8);
+	REG_M7C=(m7mc & 255); REG_M7C=(m7mc>>8);
+	REG_M7D=(m7md & 255); REG_M7D=(m7md>>8);
 }
 
 void setMode7MoveForwardBack(u8 z8){
-	_m7sx += z8*_m7sin;
-	_m7sy -= z8*_m7cos;
+	m7sx += z8*m7sin;
+	m7sy -= z8*m7cos;
 }
 
 void setMode7MoveLeftRight(u8 z8){
-	_m7sx += z8*_m7cos;
-	_m7sz += z8*_m7sin;
+	m7sx += z8*m7cos;
+	m7sz += z8*m7sin;
 }

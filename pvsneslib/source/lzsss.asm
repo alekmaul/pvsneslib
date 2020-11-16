@@ -161,7 +161,7 @@ _ldv_check_flags:
 	sta	LZSS_TEXTBUF_OFFS
 	sep	#$20
 	plx
-	bra	_ldv_next_flag
+	brl	_ldv_next_flag
 _ldv_flag_clear:
 	cpx	#0
 	bne	+

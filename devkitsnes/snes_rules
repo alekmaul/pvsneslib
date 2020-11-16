@@ -5,7 +5,7 @@ export PATH	:=	$(DEVKIT65XX)/bin:$(PATH)
 
 PVSNESLIB	:=	$(DEVKITSNES)/pvsneslib
 LIBDIRSOBJS = $(PVSNESLIB)/lib
-LIBOBJS :=	$(LIBDIRSOBJS)/crt0_snes.obj $(LIBDIRSOBJS)/libc.obj $(LIBDIRSOBJS)/libm.obj $(LIBDIRSOBJS)/libtcc.obj
+#LIBOBJS :=	$(LIBDIRSOBJS)/crt0_snes.obj $(LIBDIRSOBJS)/libc.obj $(LIBDIRSOBJS)/libm.obj $(LIBDIRSOBJS)/libtcc.obj
 
 #---------------------------------------------------------------------------------
 # the compiler executables
@@ -46,7 +46,17 @@ CFLAGS += -I$(DEVKIT65XX)/include
 %.obj: %.asm
 	@echo Doing obj files ... $(fname)
 #	@cp $< $<.savasm 
-	$(AS) -io $< $@  
+#	$(AS) -io $< $@  
+# for libc.asm file only, we need to use -x flag of wla dx to create labels SECTIONSTART_[section name]
+# and SECTIONEND_[sectionname] at the beginning and end of each section.
+	@CURRENTFILE=$<; \
+		if [ $$CURRENTFILE = libc.asm ]; then \
+		echo "Building with -x flag: $(AS) -x -v -o $@ $<"; \
+		$(AS) -x -v -o $@ $<; \
+	else \
+		echo "Building: $(AS) -v -o $@ $<"; \
+		$(AS) -v -o $@ $<; \
+	fi
 
 #---------------------------------------------------------------------------------
 %.asm: %.ps
@@ -67,8 +77,29 @@ CFLAGS += -I$(DEVKIT65XX)/include
 
 #---------------------------------------------------------------------------------
 %.sfc:
+	@echo Creating linkfile ...
+	
+	@echo [objects] > linkfile
+
+	@for i in *.obj; do \
+		echo $$i >> linkfile; \
+	done
+
+# on windows, linkfile can only manage path like E:\pvsneslib\lib\crt0_snes.obj
+# this one doesn't work /e/pvsneslib/lib/crt0_snes.obj
+# but it will not the case on Unix environment so the most easy is to copy files directly to our directory...
+	@cp $(LIBDIRSOBJS)/* .
+
+	@echo crt0_snes.obj >> linkfile
+	@echo libc.obj >> linkfile
+	@echo libm.obj >> linkfile
+	@echo libtcc.obj >> linkfile
+
 	@echo Linking ... $(notdir $@)
-	$(LD) -dsnov $(OFILES) $(LIBOBJS) $@
+#	$(LD) -dsnov $(OFILES) $(LIBOBJS) $@
+# -s (small s) to generate .sym file for no$sns
+	$(LD) -s linkfile $@
+
 	@sed 's/://' <$(TARGET).sym >$(TARGET).tmp
 	@mv $(TARGET).tmp $(TARGET).sym
 

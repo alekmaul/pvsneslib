@@ -1,6 +1,6 @@
 .include "hdr.asm"
 
-.ramsection ".registers" bank 0 slot 1
+.ramsection ".registers" bank 0 slot 1 priority 1
 tcc__registers dsb 0
 tcc__r0 dsb 2
 tcc__r0h dsb 2
@@ -25,7 +25,7 @@ tcc__f3 dsb 2
 tcc__f3h dsb 2
 move_insn dsb 4	; 3 bytes mvn + 1 byte rts
 move_backwards_insn dsb 4 ; 3 bytes mvp + 1 byte rts
-__nmi_handler dsb 4
+nmi_handler dsb 4
 
 tcc__registers_irq dsb 0
 tcc__regs_irq dsb 48
@@ -200,9 +200,9 @@ VBlank:
   plb
   lda.w #tcc__registers_irq
   tad
-  lda.l __nmi_handler
+  lda.l nmi_handler
   sta.b tcc__r10
-  lda.l __nmi_handler + 2
+  lda.l nmi_handler + 2
   sta.b tcc__r10h
   jsl tcc__jsl_r10
   pla
@@ -238,17 +238,17 @@ tcc__start:
     tad
 
     lda.w #EmptyNMI
-    sta.b __nmi_handler
+    sta.b nmi_handler
     lda.w #:EmptyNMI
-    sta.b __nmi_handler + 2
+    sta.b nmi_handler + 2
 
     ; copy .data section to RAM
     ldx #0
--   lda.l __startsection.data,x
-    sta.l __startramsectionram.data,x
+-   lda.l SECTIONSTART_.data,x
+    sta.l SECTIONSTART_ram.data,x
     inx
     inx
-    cpx #(__endsection.data-__startsection.data)
+    cpx #(SECTIONEND_.data-SECTIONSTART_.data)
     bcc -
 
     ; set data bank register to bss section
@@ -257,7 +257,7 @@ tcc__start:
     plb
 
     ; clear .bss section
-    ldx #(((__endramsection.bss-__startramsection.bss) & $fffe) + 2)
+    ldx #(((SECTIONEND_.bss-SECTIONSTART_.bss) & $fffe) + 2)
     beq +
 -   dex
     dex
@@ -278,10 +278,10 @@ tcc__start:
     lda #$6000 ; 2nd byte + rts
     sta.b move_backwards_insn + 2
 
-    pea $ffff - __endramsectionram.data
-    pea :__endramsectionram.data
-    pea __endramsectionram.data
-    jsr.l __malloc_init
+    pea $ffff - SECTIONEND_ram.data
+    pea :SECTIONEND_ram.data
+    pea SECTIONEND_ram.data
+    jsr.l malloc_init
     pla
     pla
     pla

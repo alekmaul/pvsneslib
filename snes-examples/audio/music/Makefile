@@ -1,8 +1,9 @@
 # path to snesdev root directory (for emulators, devkitsnes, libsnes)
-export DEVKITSNES := /c/snesdev/
+#export DEVKITSNES := /c/snesdev/
+export DEVKITSNES := /f/
 
 # path to devkitsnes root directory for compiler
-export DEVKIT65XX := /c/snesdev/devkitsnes
+export DEVKIT65XX := /f/devkitsnes
 
 #---------------------------------------------------------------------------------
 .SUFFIXES:
@@ -67,7 +68,7 @@ all	: bitmaps $(OUTPUT).sfc
 
 clean:
 	@echo clean ...
-	@rm -f $(OFILES) $(TARGET).sfc $(TARGET).sym *.pic *.map *.pal *.bnk soundbank.asm soundbank.h
+	@rm -f $(OFILES) $(TARGET).sfc $(TARGET).sym *.pic *.map *.obj *.pal *.bnk soundbank.asm soundbank.h
 
 #---------------------------------------------------------------------------------
 soundbank.asm : $(AUDIOFILES)
