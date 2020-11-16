@@ -26,6 +26,6 @@
 
 //---------------------------------------------------------------------------------
 void nmiSet(VoidFn handler) {
-	__nmi_handler = handler;
+	nmi_handler = handler;
 }
 

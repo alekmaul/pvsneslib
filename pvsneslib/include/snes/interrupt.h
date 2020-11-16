@@ -36,7 +36,7 @@
 
 #include <snes/snestypes.h>
 
-extern void* __nmi_handler;
+extern void* nmi_handler;
 
 /*!	\brief Bit defines for the interrupt registers */
 #define INT_VBLENABLE (1<<7)	/*!< \brief VBlank NMI Enable  (0=Disable, 1=Enable) (Initially disabled on reset) */

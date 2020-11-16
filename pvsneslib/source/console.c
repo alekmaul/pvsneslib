@@ -42,7 +42,7 @@ extern u8 pvsneslibfont_map[0x800];
 extern u16 snes_vblank_count;
 
 //---------------------------------------------------------------------------------
-void _print_screen_map(u16 x, u16 y, unsigned char  *map, u8 attributes, unsigned char *buffer) {
+void print_screen_map(u16 x, u16 y, unsigned char  *map, u8 attributes, unsigned char *buffer) {
 	u16 x1; 
     
 	x1 = y * 0x20 + x;
@@ -90,7 +90,7 @@ void consoleDrawText(u16 x, u16 y, char *fmt, ...) {
 	vsprintf(text_buffer, fmt, ap);
 	va_end(ap);
 	
-	_print_screen_map(x*2,y*2, pvsneslibfont_map, palette_adress, text_buffer);
+	print_screen_map(x*2,y*2, pvsneslibfont_map, palette_adress, text_buffer);
 	pvsneslibdirty = 1;
 }
 
@@ -101,7 +101,7 @@ void consoleDrawTextMap(u8 x, u8 y, u8 *map, u8 attributes, char *fmt, ...) {
 	vsprintf(text_buffer, fmt, ap);
 	va_end(ap);
 
-	_print_screen_map(x*2,y*2, map, attributes, text_buffer);
+	print_screen_map(x*2,y*2, map, attributes, text_buffer);
 }
 
 //---------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ void consoleDrawTextMapCenter(u8 y, u8 *map, u8 attributes, char *fmt, ...) {
 
 	x = 16 - strlen(text_buffer)/2;
 	
-	_print_screen_map(x*2,y*2, map, attributes, text_buffer);
+	print_screen_map(x*2,y*2, map, attributes, text_buffer);
 }
 
 //---------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ void consoleInit(void) {
 	//LoadSPC();
 
 	// Put current handler to our function
-	__nmi_handler=consoleVblank; 
+	nmi_handler=consoleVblank; 
 	
 	snes_vblank_count = 0; // Begin counting vblank
 	pvsneslibdirty = 0;    // Nothing to print on screen
@@ -183,4 +183,5 @@ void consoleInit(void) {
 	WaitForVBlank(); 
 	setBrightness(0xF);  // Screen with all brightness
 }
+
 
