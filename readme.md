@@ -14,6 +14,8 @@ Doc page: http://www.portabledev.com/pvsneslib/doc
 You can find tutorials about how install and use PVSneslib on this page:  
 https://github.com/alekmaul/pvsneslib/wiki/Introduction
 
+We now have a Discord :D, just join us with this link : https://discord.gg/DzEFnhB
+
 PVSneslib and affiliated tools are distributed under the MIT license (see pvsneslib_license.txt file)
 
 If you want to donate to support PVSneslib development:  
