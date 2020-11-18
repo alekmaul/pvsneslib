@@ -1,14 +1,8 @@
 # path to snesdev root directory (for emulators, devkitsnes, libsnes)
-#export DEVKITSNES := /c/snesdev/
+export DEVKITSNES := /c/snesdev/
 
 # path to devkitsnes root directory for compiler
-#export DEVKIT65XX := /c/snesdev/devkitsnes
-
-# path to snesdev root directory (for emulators, devkitsnes)
-export DEVKITSNES := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib
-
-# path to devkitsnes root directory for compiler
-export DEVKIT65XX := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib/devkitsnes
+export DEVKIT65XX := /c/snesdev/devkitsnes
 
 #---------------------------------------------------------------------------------
 .SUFFIXES:
@@ -63,7 +57,7 @@ all	:	bitmaps $(OUTPUT).sfc
 
 clean:
 	@echo clean ...
-	@rm -f $(OFILES) $(TARGET).sfc *.pic *.pal *.map
+	@rm -f $(OFILES) $(TARGET).sfc $(TARGET).sym *.obj *.pic *.pal *.map linkfile
 
 #---------------------------------------------------------------------------------
 pvsneslibfont.pic: pvsneslibfont.bmp
