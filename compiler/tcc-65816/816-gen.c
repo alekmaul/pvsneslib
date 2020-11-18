@@ -103,9 +103,9 @@ char current_fn[256] = "";
    thus, everything that is file-local must be made global and given a
    unique name. not knowing how to choose one deterministically (filename?
    could be more than one file with the same name...), I chose to use a
-   random number, saved to static_prefix. */
-//char* static_prefix = "__tccs_";
-/* with WLA 9.X, if you have a label that begins with a _ and it is inside a section,
+   random number, saved to static_prefix. 
+
+   with WLA 9.X, if you have a label that begins with a _ and it is inside a section,
    then the name doesn't show outside of that section.
    If it is not inside a section it doesn't show outside of the object file...
 */
@@ -162,7 +162,7 @@ void s(char* str)
 char line[256];
 #define pr(x...) do { sprintf(line, x); s(line); } while(0)
 
-int jump[1000][2];
+int jump[20000][2];     // update from mic_ to have more space
 int jumps = 0;
 
 
@@ -769,7 +769,7 @@ int gtst(int inv, int t)
 // generate an integer operation
 void gen_opi(int op)
 {
-  int r, fr, fc, ft, c, r5;
+  int r, fr, fc,  c, r5; // only set, remove it ,ft;
   char* opcrem = 0, *opcalc = 0, *opcarry = 0;
   int optone;
   int docarry;
@@ -778,6 +778,7 @@ void gen_opi(int op)
   int length, align;
   int isconst = 0;
   int timesshift, i;
+  int skipcall;
   
   length = type_size(&vtop[0].type, &align);
   r = vtop[-1].r;
@@ -787,7 +788,7 @@ void gen_opi(int op)
   // get the actual values
   if((fr & VT_VALMASK) == VT_CONST && op != TOK_UMULL && !(fr & VT_SYM)) {
     // vtop is const, only need to load the other one
-    ft = vtop[0].type.t;
+    // useless ? ft = vtop[0].type.t;
     vtop--;
     r = gv(RC_INT);
     isconst = 1;
@@ -801,24 +802,49 @@ void gen_opi(int op)
     gv2(RC_INT,RC_INT);
     r = vtop[-1].r;
     fr = vtop[0].r;
-    ft = vtop[0].type.t;
+    // useless ? ft = vtop[0].type.t;
     vtop--;
   }
 
-  pr("; gen_opi len %d op %c\n",length,op);
+  // remove non ascii char in comments for wla-dx
+  if (op < 127)
+  	pr("; gen_opi len %d op %c\n",length,op);
+  else
+  	pr("; gen_opi len %d op 0x%x\n",length,op);
+
   switch(op) {
     // multiplication
     case '*':
+      skipcall = 0;
       if(isconst) {
-        pr("; mul #%d, tcc__r%d\n", fc, r);
-        pr("lda.w #%d\nsta.b tcc__r9\n", fc);
+        // optimize for 8 bits computations
+        switch (fc) {
+          case 3:
+            skipcall = 1;
+            pr("lda.b tcc__r%d\nasl a\nclc\nadc.b tcc__r%d\n", r, r);
+            break;
+          case 5:
+            skipcall = 1;
+            pr("lda.b tcc__r%d\nasl a\nasl a\nclc\nadc.b tcc__r%d\n", r, r);
+            break;
+          case 7:
+            skipcall = 1;
+            pr("lda.b tcc__r%d\nasl a\nasl a\nasl a\nsec\nsbc.b tcc__r%d\n", r, r);
+            break;
+          default:
+            pr("; mul #%d, tcc__r%d\n", fc, r);
+            pr("lda.w #%d\nsta.b tcc__r9\n", fc);
+            break;
+        }
       }
       else {
         pr("; mul tcc__r%d,tcc__r%d\n",fr,r);
         pr("lda.b tcc__r%d\nsta.b tcc__r9\n", fr);
       }
-      pr("lda.b tcc__r%d\nsta.b tcc__r10\n", r);
-      pr("jsr.l tcc__mul\n");
+      if (!skipcall) {  // when no optim done, do the call
+        pr("lda.b tcc__r%d\nsta.b tcc__r10\n", r);
+        pr("jsr.l tcc__mul\n");
+      }
       pr("sta.b tcc__r%d\n", r);
       break;
 
@@ -1275,7 +1301,7 @@ void gfunc_prolog(CType* func_type)
   loc = 0; // huh squared?
 }
 
-char locals[1000][80];
+char locals[1000][256];             // update from mic_ 80->256
 int localnos[1000];
 int localno=0;
 
