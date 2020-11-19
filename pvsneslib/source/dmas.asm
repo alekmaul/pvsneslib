@@ -1,6 +1,6 @@
 ;---------------------------------------------------------------------------------
 ;
-;	Copyright (C) 2013-2017
+;	Copyright (C) 2013-2020
 ;		Alekmaul 
 ;
 ;	This software is provided 'as-is', without any express or implied
@@ -21,9 +21,9 @@
 ;		distribution.
 ;
 ;---------------------------------------------------------------------------------
-.equ REG_RDNMI		$4210
+.EQU REG_RDNMI		$4210
 
-.section ".dmas_text" superfree
+.SECTION ".dmas0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void dmaCopyCGram(u8 * source, u16 address, u16 size);
@@ -51,6 +51,10 @@ dmaCopyCGram:
 	
 	plp
 	rtl
+
+.ENDS
+
+.SECTION ".dmas1_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void dmaCopyVram(u8 * source, u16 address, u16 size);
@@ -82,6 +86,10 @@ dmaCopyVram:
 
 	plp
 	rtl
+
+.ENDS
+
+.SECTION ".dmas2_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void dmaCopySpr32Vram(u8 * source, u16 address);
@@ -161,6 +169,10 @@ dmaCopySpr32Vram:
 	plp
 	rtl
 
+.ENDS
+
+.SECTION ".dmas3_text" SUPERFREE
+
 ;---------------------------------------------------------------------------
 ; void dmaCopySpr16Vram(u8 * source, u16 address);
 dmaCopySpr16Vram:
@@ -208,6 +220,10 @@ dmaCopySpr16Vram:
 	plp
 	rtl
 
+.ENDS
+
+.SECTION ".dmas4_text" SUPERFREE
+
 ;---------------------------------------------------------------------------
 ; void dmaFillVram(u8 * source, u16 address, u16 size);
 dmaFillVram:
@@ -238,6 +254,10 @@ dmaFillVram:
 
 	plp
 	rtl
+
+.ENDS
+
+.SECTION ".dmas5_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void dmaClearVram(void);
@@ -285,4 +305,4 @@ _wait_nmid:
 	plp
 	rts
 
-.ends
+.ENDS
