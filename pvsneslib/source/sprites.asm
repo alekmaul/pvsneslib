@@ -1,6 +1,6 @@
 ;---------------------------------------------------------------------------------
 ;
-;	Copyright (C) 2012-2017
+;	Copyright (C) 2012-2020
 ;		Alekmaul 
 ;
 ;	This software is provided 'as-is', without any express or implied
