@@ -123,14 +123,13 @@ Unlike NMI handlers, IRQ handlers MUST acknowledge IRQs, otherwise the IRQ gets 
 	Specify the handler to use for the nmi interrupt. 
 	\param handler Address of the function to use as an interrupt service routine
 */
-void nmiSet(VoidFn handler);
+#define nmiSet(handler) nmi_handler = handler;
 
 /*! \fn  WaitForVBlank()
 	\brief Wait for vblank interrupt
 	Waits for a vertical blank interrupt
 */
 void WaitForVBlank(void);
-
 
 /*! \fn  WaitVBLFlag
 	\brief macro to wait the VBL flag OK
