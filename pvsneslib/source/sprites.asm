@@ -42,7 +42,7 @@ oamMemory				        DSB 128*4+8*4
 
 .ENDS
 
-.SECTION ".sprites_text" SUPERFREE
+.SECTION ".sprites0_text" SUPERFREE
 
 .ACCU 16
 .INDEX 16
@@ -74,6 +74,10 @@ oamUpdate:
 
 	plp
 	rtl
+
+.ENDS
+
+.SECTION ".sprites1_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void oamFlip(u16 id, u8 xf, u8 yf);
@@ -114,7 +118,11 @@ oamFlip:
 	plb
   plp
 	rtl
-  
+ 
+ .ENDS
+ 
+ .SECTION ".sprites2_text" SUPERFREE
+ 
 ;---------------------------------------------------------------------------
 ; void oamSetAttr(u16 id, u16 xspr, u16 yspr, u16 gfxoffset, u8 attr);
 oamSetAttr:
@@ -259,8 +267,11 @@ oamSetXY:
 	plx
 	plp
 	rtl
-	
-	
+
+.ENDS	
+
+ .SECTION ".sprites3_text" SUPERFREE
+
 ;---------------------------------------------------------------------------
 ; void oamSetVisible(u16 id, u8 hide)
 oamSetVisible:
@@ -332,6 +343,10 @@ oamHideand:
 	.db $fe, $fb, $ef, $bf
 oamHideshift: 
 	.db $01, $04, $10, $40
+
+.ENDS
+
+ .SECTION ".sprites4_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void oamSetEx(u16 id, u8 size, u8 hide)
@@ -419,6 +434,10 @@ oamSetExand:
 ;	.db $fc, $f3, $cf, $3f
 oamSizeshift: 
 	.db $02, $08, $20, $80
+
+.ENDS
+
+ .SECTION ".sprites5_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void oamInitGfxAttr(u16 address, u8 oamsize)

@@ -26,7 +26,7 @@
 scorestring		DSB 10                         ; for score to string convertion
 .ENDS
 
-.SECTION ".scores_text" SUPERFREE
+.SECTION ".scores0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------------
 ; void scoreClear(scoMemory *source);
@@ -53,6 +53,10 @@ scoreClear:
 	plb
 	plp
 	rtl
+
+.ENDS
+
+.SECTION ".scores1_text" SUPERFREE
 
 ;---------------------------------------------------------------------------------
 ; void scoreAdd(scoMemory *source, u16 value);
@@ -91,7 +95,11 @@ _scoAdd1:
 	plb
 	plp
 	rtl
-	
+
+.ENDS
+
+.SECTION ".scores2_text" SUPERFREE
+
 ;---------------------------------------------------------------------------------
 ; void scoreCpy(scoMemory *source, scoMemory *dest);
 scoreCpy:
@@ -134,6 +142,9 @@ scoreCpy:
 	plp
 	rtl
 
+.ENDS
+
+.SECTION ".scores3_text" SUPERFREE
 ;---------------------------------------------------------------------------------
 ; void scoreCmp(scoMemory *source, scoMemory *dest);
 scoreCmp:

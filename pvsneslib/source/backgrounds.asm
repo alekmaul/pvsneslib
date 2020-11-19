@@ -22,10 +22,10 @@
 ;
 ;---------------------------------------------------------------------------------
 
-.equ REG_BGxHOFS           $210D
-.equ REG_BGyHOFS           $210E
+.EQU REG_BGxHOFS           $210D
+.EQU REG_BGyHOFS           $210E
 
-.section ".backgrounds_text" superfree
+.SECTION ".backgrounds0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; bgSetScroll(u8 bgNumber, u16 x, u16 y);
@@ -68,5 +68,5 @@ bgSetScroll:
 	plp
 	rtl
 	
-.ends
+.ENDS
 

@@ -22,21 +22,21 @@
 ;
 ;---------------------------------------------------------------------------------
 
-.equ REG_DEBUG	$21FC
-.equ BANK_SRAM	$70
+.EQU REG_DEBUG	$21FC
+.EQU BANK_SRAM	$70
 
-.ramsection ".reg_cons7e" bank $7e
+.RAMSECTION ".reg_cons7e" BANK $7E
 pvsneslibdirty:			db
 pvsneslibfont_map:		dsw $800
 snes_vblank_count:		dw
-.ends
+.ENDS
 
-.ramsection ".consfp" bank 0 slot 1
+.RAMSECTION ".consfp" bank 0 slot 1
 snes_rand_seed1:		dsb 2
 snes_rand_seed2:		dsb 2
-.ends
+.ENDS
 
-.section ".consoles_text" superfree
+.SECTION ".consoles0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ;u16 rand(void);
@@ -57,6 +57,9 @@ rand:
 
 	plp
 	rtl
+.ENDS
+
+.SECTION ".consoles1_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void consoleNocashMessage(const char *message);
@@ -91,6 +94,10 @@ consoleNocashMessage:
 	plb
 	plp
 	rtl
+
+.ENDS
+
+.SECTION ".consoles2_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void consoleCopySram(u8 * source, u16 size);
@@ -186,6 +193,10 @@ consoleLoadSram:
 	plp
 	rtl
 
+.ENDS
+
+.SECTION ".consoles3_text" SUPERFREE
+
 ;---------------------------------------------------------------------------
 ; void consoleVblank(void)
 consoleVblank:
@@ -250,4 +261,4 @@ cvbloam:
 	plp
 	rtl 
 	
-.ends
+.ENDS
