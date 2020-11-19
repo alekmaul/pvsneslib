@@ -41,7 +41,7 @@ snes_mplay5		db							  ; 1 if MultiPlayer5 connected
 mp5read			db							  ; for multiplayer5 plug test
 .ends
 
-.section ".pads_text" superfree
+.SECTION ".pads0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------------
 ; void scanPads(void)
@@ -87,6 +87,9 @@ scanPads:
 	plb
 	plp
 	rtl
+.ENDS
+
+.SECTION ".pads1_text" SUPERFREE
 
 ;---------------------------------------------------------------------------------
 ; multiplayer 5 signature detection from original SNES devellopment manual (chapt 9.6)
@@ -153,6 +156,10 @@ nomplay5:
 	plb
 	plp
 	rtl
+
+.ENDS
+
+.SECTION ".pads2_text" SUPERFREE
 
 ;---------------------------------------------------------------------------------
 ; void scanMPlay5(void)
@@ -253,4 +260,4 @@ getpad45data:									; get all 16 bits pad2&3 data serialy
 	plp
 	rtl
 	
-.ends
+.ENDS
