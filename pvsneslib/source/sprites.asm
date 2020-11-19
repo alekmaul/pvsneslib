@@ -22,7 +22,7 @@
 ;
 ;---------------------------------------------------------------------------------
 
-.equ REG_OBSEL		$2101
+.EQU REG_OBSEL		$2101
 
 
 
@@ -34,18 +34,18 @@
 .DEFINE OBJ_SIZE16			    $60 ; (3<<5)
 
 
-.ramsection ".reg_oams7e" bank $7e slot 0
+.RAMSECTION ".reg_oams7e" BANK $7E 
 
 sprit_val1			            DSB 1                         ; save value #1
 
 oamMemory				        DSB 128*4+8*4
 
-.ends
+.ENDS
 
-.section ".sprites_text" superfree
+.SECTION ".sprites_text" SUPERFREE
 
-.accu 16
-.index 16
+.ACCU 16
+.INDEX 16
 .16bit
 
 ;---------------------------------------------------------------------------
@@ -460,4 +460,4 @@ oamInitGfxAttr:
 	plp
 	rtl
 
-.ends
+.ENDS

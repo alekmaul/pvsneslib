@@ -25,7 +25,7 @@
 .equ REG_DEBUG	$21FC
 .equ BANK_SRAM	$70
 
-.ramsection ".reg_cons7e" bank $7e slot 0
+.ramsection ".reg_cons7e" bank $7e
 pvsneslibdirty:			db
 pvsneslibfont_map:		dsw $800
 snes_vblank_count:		dw

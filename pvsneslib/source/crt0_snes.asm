@@ -1,6 +1,6 @@
 .include "hdr.asm"
 
-.ramsection ".registers" bank 0 slot 1 priority 1
+.RAMSECTION ".registers" BANK 0 SLOT 1 PRIORITY 1
 tcc__registers dsb 0
 tcc__r0 dsb 2
 tcc__r0h dsb 2
@@ -23,17 +23,17 @@ tcc__f2 dsb 2
 tcc__f2h dsb 2
 tcc__f3 dsb 2
 tcc__f3h dsb 2
-move_insn dsb 4	; 3 bytes mvn + 1 byte rts
-move_backwards_insn dsb 4 ; 3 bytes mvp + 1 byte rts
+move_insn dsb 4	                        ; 3 bytes mvn + 1 byte rts
+move_backwards_insn dsb 4               ; 3 bytes mvp + 1 byte rts
 nmi_handler dsb 4
 
 tcc__registers_irq dsb 0
 tcc__regs_irq dsb 48
-.ends
+.ENDS
 
 
-.BANK 0 SLOT 0                  ; Defines the ROM bank and the slot it is inserted in memory.
-.ORG 0                          ; .ORG 0 is really $8000, because the slot starts at $8000
+.BANK 0                                 ; Defines the ROM bank and the slot it is inserted in memory.
+.ORG 0                                  ; .ORG 0 is really $8000, because the slot starts at $8000
 .SECTION "EmptyVectors" SEMIFREE
 
 EmptyHandler:
@@ -44,11 +44,11 @@ EmptyNMI:
 
 .ENDS
 
-.EMPTYFILL $00                  ; fill unused areas with $00, opcode for BRK.  
-                                ; BRK will crash the snes if executed.
+.EMPTYFILL $00                         ; fill unused areas with $00, opcode for BRK.  
+                                       ; BRK will crash the snes if executed.
 
-.bank 0
-.section "Snes_Init" SEMIFREE
+.BANK 0
+.SECTION "Snes_Init" SEMIFREE
 tcc__snesinit:
 	rep #$10	; X/Y 16 bit
         sep     #$20    ; A is 8 bit
@@ -183,7 +183,7 @@ tcc__snesinit:
 
         ;cli             ; Enable interrupts
         rts
-.ends
+.ENDS
 
 
 ; Needed to satisfy interrupt definition in "Header.inc".
@@ -212,8 +212,8 @@ VBlank:
   plb
   RTI
 
-.bank 0
-.section ".start"
+.BANK 0
+.SECTION ".start"
 
 .accu 16
 .index 16
@@ -297,4 +297,4 @@ tcc__start:
     sta $fffd
     rep #$20
     stp
-.ends
+.ENDS

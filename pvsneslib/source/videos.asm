@@ -1,6 +1,6 @@
 ;---------------------------------------------------------------------------------
 ;
-;	Copyright (C) 2013-2017
+;	Copyright (C) 2013-2020
 ;		Alekmaul 
 ;
 ;	This software is provided 'as-is', without any express or implied
@@ -22,13 +22,13 @@
 ;
 ;---------------------------------------------------------------------------------
 
-.equ REG_INIDISP	$2100
-.equ REG_MOSAIC		$2106
+.EQU REG_INIDISP	$2100
+.EQU REG_MOSAIC		$2106
 
-.section ".pvsneslib_text" superfree
+.SECTION ".pvsneslib_text" SUPERFREE
 
-.accu 16
-.index 16
+.ACCU 16
+.INDEX 16
 .16bit
 
 ;---------------------------------------------------------------------------
@@ -165,4 +165,4 @@ setScreenOn:
 	plp
 	rtl
 	
-.ends
+.ENDS
