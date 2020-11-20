@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------
-  Copyright (C) 2012-2017
+  Copyright (C) 2012-2020
    Alekmaul
 
   This software is provided 'as-is', without any express or implied
@@ -21,16 +21,20 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
-V2.4.0 (xx, June, 2020)
-- Added: score management with 32 bits scoring system
-- Removed: superscope support, useless and buggy
+V3.0.0 (21, November, 2020)
+- Add score management with 32 bits scoring system
+- Remove superscope support, useless and buggy
 - Add Multiplayer 5 support (with example)
 - Remove C to ASM version for vblank function (with multiplayer 5 support)
+- Fix lib and examples headers to avoid recompiling it when the rom has SRAM (see examples for new headers)
+- Free some space in ROM but moving each function of the lib in a different SUPERFREE section
+- Remove interrupt.c file, useless, a define is enough for that ;)
+- Remove oamSetXYEx in sprite.c, useless oamSetXY does the job now
 
 V2.3.2 (10, Februray, 2018)
-- Fixed: some rare problem in SNESMod source with bank 0 (thanks fixing it kungfufurby !)
-- Added: setScreenOn to display screen (removed from setMode)
-- Fixed: issue with hide/show sprite in oamSetEx
+- Fix some rare problem in SNESMod source with bank 0 (thanks fixing it kungfufurby !)
+- Add setScreenOn to display screen (removed from setMode)
+- Fix issue with hide/show sprite in oamSetEx
 
 V2.3.1 (04, June, 2017)
 - Change rand function to assembly one
@@ -39,36 +43,36 @@ V2.3.0 (05, May, 2017)
 - Update to last version
 
 V2.2.0 (xx, yyyy, 2014)
-- Added : dmaCopySpr32Vram to copy 32pix size sprite gaphics to vram (fasssst :D)
-- Added : dmaCopySpr16Vram to copy 16pix size sprite gaphics to vram (fasssst :D)
-- Added : pixel mode management for SNES mode 0
+- Add dmaCopySpr32Vram to copy 32pix size sprite gaphics to vram (fasssst :D)
+- Add dmaCopySpr16Vram to copy 16pix size sprite gaphics to vram (fasssst :D)
+- Add pixel mode management for SNES mode 0
 
 V2.1.0 (xx, January, 2014) 
 - Removed: Neoflash intro screen
 - Added: SRAM managment (16kbits)  (WARNING ! header not compatible with previous version !!!)
 
 V2.0.0 (19, August, 2013) * NEOFLASH EDITION *
-- Updated: changed padsCurrent to define definition to speedup code
-- Fixed: bug in input buttons (X / Y flipped)
-- Added: consoleDrawTextMapCenter to draw text with x centered axis
-- Added: spcSetSoundTableEntry and spcSetSoundDataEntry to manage sound values/table
-- Added: palettesize to oamInitGfxSet (WARNING ! not compatible with previous version !!!)
-- Added: oamGetX and oamGetY to get the sprite coordinates
-- Added: REG_VMDATALH define to access 16 bits data of VRAM
-- Fixed: some variable size in lots of functions
-- Added: setBrightness(0); to initTileSet function to avoir problem when init occurs during VBLank
-- Updated: change setMode function, remove "switch/case" for "if" statement
-- Added: snesmod text explanation file
-- Fixed: size bug of id in oamSetEx
-- Added: dmaClearVram function to init vram to #0
-- Fixed: some rare problem in spc700 snesmod source when loading samples (thanks fixing it kungfufurby !)
-- Fixed: internal print buffer from char to unsigned char
-- Fixed: bug for sprite adress, used 14 shifted instead of 13 shifted
-- Added: no$sns debug message function consoleNocashMessage
-- Added: oamSetVisible to only hide / see a sprite
-- Updated: scanPads is now in ASM and automatically done in VBL function
-- Fixed: bug in fading and mosaic functions (regiters x and y not saved)
-- Fixed: all asm files, add specific size for instruction to avoid wla adding brk instructions
+- Changed padsCurrent to define definition to speedup code
+- Fix bug in input buttons (X / Y flipped)
+- Add consoleDrawTextMapCenter to draw text with x centered axis
+- Add spcSetSoundTableEntry and spcSetSoundDataEntry to manage sound values/table
+- Add palettesize to oamInitGfxSet (WARNING ! not compatible with previous version !!!)
+- Add oamGetX and oamGetY to get the sprite coordinates
+- Add REG_VMDATALH define to access 16 bits data of VRAM
+- Fix some variable size in lots of functions
+- Add setBrightness(0); to initTileSet function to avoir problem when init occurs during VBLank
+- Update change setMode function, remove "switch/case" for "if" statement
+- Add snesmod text explanation file
+- Fix size bug of id in oamSetEx
+- Add dmaClearVram function to init vram to #0
+- Fix some rare problem in spc700 snesmod source when loading samples (thanks fixing it kungfufurby !)
+- Fix internal print buffer from char to unsigned char
+- Fix bug for sprite adress, used 14 shifted instead of 13 shifted
+- Add no$sns debug message function consoleNocashMessage
+- Add oamSetVisible to only hide / see a sprite
+- Update scanPads is now in ASM and automatically done in VBL function
+- Fix bug in fading and mosaic functions (regiters x and y not saved)
+- Fix all asm files, add specific size for instruction to avoid wla adding brk instructions
 
 
 V1.0.1 (09, June, 2012)
