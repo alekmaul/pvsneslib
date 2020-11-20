@@ -23,7 +23,6 @@ include $(DEVKIT65XX)/snes_rules
 # INCLUDES is a list of directories containing extra header files
 #---------------------------------------------------------------------------------
 TARGET		:=	tada
-#$(shell basename $(CURDIR))
 SOURCES		:=	.
 
 #---------------------------------------------------------------------------------
