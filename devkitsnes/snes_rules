@@ -1,11 +1,24 @@
 #---------------------------------------------------------------------------------
 # path to tools
 #---------------------------------------------------------------------------------
-export PATH	:=	$(DEVKIT65XX)/bin:$(PATH)
+export PATH	:= $(DEVKIT65XX)/bin:$(PATH)
 
-PVSNESLIB	:=	$(DEVKITSNES)/pvsneslib
-LIBDIRSOBJS = $(PVSNESLIB)/lib
-#LIBOBJS :=	$(LIBDIRSOBJS)/crt0_snes.obj $(LIBDIRSOBJS)/libc.obj $(LIBDIRSOBJS)/libm.obj $(LIBDIRSOBJS)/libtcc.obj
+PVSNESLIB	 := $(DEVKITSNES)/pvsneslib
+LIBDIRSOBJS  := $(PVSNESLIB)/lib
+LIBOBJS      := $(LIBDIRSOBJS)/crt0_snes.obj $(LIBDIRSOBJS)/libc.obj $(LIBDIRSOBJS)/libm.obj $(LIBDIRSOBJS)/libtcc.obj
+
+#---------------------------------------------------------------------------------
+# on windows, linkfile can only manage path like E:\pvsneslib\lib\crt0_snes.obj
+# this one doesn't work /e/pvsneslib/lib/crt0_snes.obj
+#---------------------------------------------------------------------------------
+ifeq ($(OS),Windows_NT)
+DRIDIROBJW   := $(wordlist 1,1,$(subst /, ,${LIBDIRSOBJS}))
+REPDIROBJSW  := $(subst /,\\,${LIBDIRSOBJS})
+REPDIROBJSW1 := $$(echo "$(REPDIROBJSW)" | sed 's/^.\{3\}//')
+LIBDIRSOBJSW := ${DRIDIROBJW}:\\${REPDIROBJSW1}
+else
+LIBDIRSOBJSW := ${LIBDIRSOBJS}
+endif
 
 #---------------------------------------------------------------------------------
 # the compiler executables
@@ -43,62 +56,43 @@ CFLAGS += -I$(DEVKIT65XX)/include
 	$(CC) $(CFLAGS) -Wall -c $< -o $@
 
 #---------------------------------------------------------------------------------
-%.obj: %.asm
-	@echo Doing obj files ... $(fname)
-#	@cp $< $<.savasm 
-#	$(AS) -io $< $@  
 # for libc.asm file only, we need to use -x flag of wla dx to create labels SECTIONSTART_[section name]
 # and SECTIONEND_[sectionname] at the beginning and end of each section.
+#---------------------------------------------------------------------------------
+%.obj: %.asm
+	@echo Doing obj files ... $(fname)
 	@CURRENTFILE=$<; \
 		if [ $$CURRENTFILE = libc.asm ]; then \
 		echo "Building with -x flag: $(AS) -x -v -o $@ $<"; \
-		$(AS) -x -v -o $@ $<; \
+		$(AS) -x -o $@ $<; \
 	else \
 		echo "Building: $(AS) -v -o $@ $<"; \
-		$(AS) -v -o $@ $<; \
+		$(AS) -o $@ $<; \
 	fi
 
 #---------------------------------------------------------------------------------
 %.asm: %.ps
 	@echo Assembling ... $(notdir $<)
 	$(PY) $< >$*.asp 
-#	@echo Optimizing ... $(notdir $<)
-#	$(OM) $*.asp $*.as1
 	@echo Moving constants ... $(notdir $<)
-#	$(CTF) $*.c $*.as1 $@
 	$(CTF) $*.c $*.asp $@
-#	@rm $*.asp $*.as1 
 	@rm $*.asp
-
-#---------------------------------------------------------------------------------
-#%.asm: %.as1
-#	@echo Optimizing ... $(notdir $<)
-#	$(OM) $< $@ 
 
 #---------------------------------------------------------------------------------
 %.sfc:
 	@echo Creating linkfile ...
-	
 	@echo [objects] > linkfile
-
 	@for i in *.obj; do \
 		echo $$i >> linkfile; \
 	done
 
-# on windows, linkfile can only manage path like E:\pvsneslib\lib\crt0_snes.obj
-# this one doesn't work /e/pvsneslib/lib/crt0_snes.obj
-# but it will not the case on Unix environment so the most easy is to copy files directly to our directory...
-	@cp $(LIBDIRSOBJS)/* .
-
-	@echo crt0_snes.obj >> linkfile
-	@echo libc.obj >> linkfile
-	@echo libm.obj >> linkfile
-	@echo libtcc.obj >> linkfile
-
+	@echo ${LIBDIRSOBJSW}\\crt0_snes.obj >> linkfile
+	@echo ${LIBDIRSOBJSW}\\libc.obj >> linkfile
+	@echo ${LIBDIRSOBJSW}\\libm.obj >> linkfile
+	@echo ${LIBDIRSOBJSW}\\libtcc.obj >> linkfile
+        
 	@echo Linking ... $(notdir $@)
-#	$(LD) -dsnov $(OFILES) $(LIBOBJS) $@
-# -s (small s) to generate .sym file for no$sns
-	$(LD) -s linkfile $@
+	$(LD) -d -s -v -L ${LIBDIRSOBJS} linkfile $@
 
 	@sed 's/://' <$(TARGET).sym >$(TARGET).tmp
 	@mv $(TARGET).tmp $(TARGET).sym
