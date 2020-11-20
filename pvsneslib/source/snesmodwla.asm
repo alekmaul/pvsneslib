@@ -112,9 +112,9 @@ digi_copyrate:	DS 1
 ;.segment "RODATA"
 ;======================================================================
 
-.define SPC_BOOT 0400h ; spc entry/load address
+.DEFINE SPC_BOOT 0400h ; spc entry/load address
 
-.section ".soundmod" superfree
+.SECTION ".soundmod" SUPERFREE
 
 ;======================================================================
 ;.code
@@ -1241,6 +1241,6 @@ spcProcessStream:
 digi_rates:
 	.db	0, 3, 5, 7, 9, 11, 13
 
-.ends
+.ENDS
 
-.include "sm_spc.asm"
+.INCLUDE "sm_spc.asm"
