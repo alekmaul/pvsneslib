@@ -57,7 +57,7 @@ all	:	bitmaps $(OUTPUT).sfc
 
 clean:
 	@echo clean ...
-	@rm -f $(OFILES) $(TARGET).sfc  *.pic *.pal *.map *.obj
+	@rm -f $(OFILES) $(TARGET).sfc $(TARGET).sym *.pic *.pal *.map *.obj linkfile
 
 #---------------------------------------------------------------------------------
 sprites.pic: sprites.bmp

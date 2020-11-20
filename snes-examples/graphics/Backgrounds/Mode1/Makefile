@@ -58,7 +58,7 @@ all	:	bitmaps $(OUTPUT).sfc
 
 clean:
 	@echo clean ...
-	@rm -f $(OFILES) $(TARGET).sfc $(TARGET).sym *.pic *.map *.pal
+	@rm -f $(OFILES) $(TARGET).sfc $(TARGET).sym *.pic *.map *.pal linkfile
 
 #---------------------------------------------------------------------------------
 bitmaps : pvsneslib.pic

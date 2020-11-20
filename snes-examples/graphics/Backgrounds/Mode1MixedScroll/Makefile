@@ -57,7 +57,7 @@ all	:	bitmaps $(OUTPUT).sfc
 
 clean:
 	@echo clean ...
-	@rm -f $(OFILES) $(TARGET).sfc  *.pic *.pal *.map
+	@rm -f $(OFILES) $(TARGET).sfc $(TARGET).sym *.pic *.pal *.map linkfile
 
 #---------------------------------------------------------------------------------
 shader.pic: shader.bmp

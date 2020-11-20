@@ -67,7 +67,7 @@ all	:	bitmaps $(OUTPUT).sfc
 
 clean:
 	@echo clean ...
-	@rm -f $(OFILES) $(TARGET).sfc $(TARGET).sym *.pic *.pal *.map *.bnk soundbank.asm soundbank.h
+	@rm -f $(OFILES) $(TARGET).sfc $(TARGET).sym *.pic *.pal *.map *.bnk soundbank.asm soundbank.h linkfile
 
 #---------------------------------------------------------------------------------
 

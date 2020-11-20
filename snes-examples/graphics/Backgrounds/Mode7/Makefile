@@ -57,7 +57,7 @@ all	:	bitmaps $(OUTPUT).sfc
 
 clean:
 	@echo clean ...
-	@rm -f $(OFILES) $(TARGET).sfc  *.pic *.pal *.map *.pc7 *.mp7
+	@rm -f $(OFILES) $(TARGET).sfc $(TARGET).sym *.pic *.pal *.map *.pc7 *.mp7 linkfile
 
 #---------------------------------------------------------------------------------
 mode7bg.pc7	: mode7bg.bmp

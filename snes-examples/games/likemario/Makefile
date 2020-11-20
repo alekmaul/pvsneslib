@@ -71,7 +71,7 @@ all	:	bitmaps $(OUTPUT).sfc
 
 clean:
 	@echo clean ...
-	@rm -f $(OFILES) $(TARGET).sfc $(TARGET).sym *.pic *.obj *.pal *.map *.clm soundbank.asm soundbank.h mariojump.brr linkfile
+	@rm -f $(OFILES) $(TARGET).sfc $(TARGET).sym *.pic *.obj *.pal *.map *.clm soundbank.asm soundbank.h soundbank.bnk mariojump.brr linkfile
 
 #---------------------------------------------------------------------------------
 soundbank.asm : $(AUDIOFILES)
