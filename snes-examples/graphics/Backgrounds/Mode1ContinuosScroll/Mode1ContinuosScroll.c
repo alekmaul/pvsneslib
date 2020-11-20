@@ -259,7 +259,7 @@ int main(void) {
 	bgSetScroll(1,0,32);
 
 	//configure function to be called in the vblank interruption
-	__nmi_handler=myconsoleVblank;
+	nmiSet(myconsoleVblank);
 	
 	// Wait for nothing :P
 	while(1) {

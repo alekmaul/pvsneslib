@@ -67,7 +67,7 @@ int main(void) {
 	
 	// Put current handler to our function
 	spr_queue = 0xff; spr_mutex = 0;
-	__nmi_handler=myconsoleVblank; 
+	nmiSet(myconsoleVblank); 
 
 	// Init Sprites gfx and palette with default size of 16x16 (and don't load sprite tiles)
 	oamInitGfxSet(&gfxpsrite, 2, &palsprite, 16*2, 0, ADRGFXSPR, OBJ_SIZE16);
