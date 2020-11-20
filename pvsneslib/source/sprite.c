@@ -90,24 +90,3 @@ void oamSet1(u8 id, oamEntry *sprite) {
 	*ptrOam = sprite->attribute;
 }
 
-//---------------------------------------------------------------------------------
-void oamSetXYEx(unsigned int id, unsigned int x, unsigned char y) {
-#define OAM_HI_TABLE_START 128*4
-
-    // Set low byte of x position and y position:
-    unsigned char x_lo = (unsigned char)x;
-    oamSetXY(id,x,y);
-
-    // Note that id isn't the OAM id, but a direct index into OAM shadow memory;
-    // the result is that id/4 is the actual oam index, which is required for determining
-    // the OAM high table position.
-    unsigned char oam_id = (unsigned char)(id >> 2);
-
-    // Set highest bit of x position: Either at bit 0,2,4,6 depending on oam id,
-    // as 4 oam entries are merged into one byte of the OAM high table.
-    int bit_shift = 2*(oam_id % 4);
-    int in_byte_position = 1 << bit_shift;
-    int oam_high_table_pos = OAM_HI_TABLE_START + oam_id / 4;
-    oamMemory[oam_high_table_pos] &= ~in_byte_position; // Clear current high bit of x
-    oamMemory[oam_high_table_pos] |= (x>>8)<<bit_shift; // Fill in new high bit of x
-} 
