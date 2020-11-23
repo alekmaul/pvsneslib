@@ -1,7 +1,6 @@
 #export PATH	:=	/c/msys/bin:$(PATH)
 
 export PATH := /c/MinGW32/bin/:/c/msys/bin:$(PATH)
-#export PATH := /h/MinGW32/bin/:/e/ndsdev/msys/bin:$(PATH)
 
 VERSION = "2.2.0"
 

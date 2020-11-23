@@ -1,10 +1,9 @@
 #---------------------------------------------------------------------------------
 # path to tools
 #---------------------------------------------------------------------------------
-export PATH	:= $(DEVKIT65XX)/bin:$(PATH)
+export PATH	:= $(PVSNESLIB_HOME)/devkitsnes/bin:$(PATH)
 
-PVSNESLIB	 := $(DEVKITSNES)/pvsneslib
-LIBDIRSOBJS  := $(PVSNESLIB)/lib
+LIBDIRSOBJS  := $(PVSNESLIB_HOME)/pvsneslib/lib
 LIBOBJS      := $(LIBDIRSOBJS)/crt0_snes.obj $(LIBDIRSOBJS)/libc.obj $(LIBDIRSOBJS)/libm.obj $(LIBDIRSOBJS)/libtcc.obj
 
 #---------------------------------------------------------------------------------
@@ -34,21 +33,18 @@ export OM	:=	optimore-816
 
 export CTF	:=	constify
 
-export GFXCONV	:=	$(DEVKIT65XX)/tools/gfx2snes
-export SNTOOLS	:=	$(DEVKIT65XX)/tools/snestools
-export SMCONV	:=	$(DEVKIT65XX)/tools/smconv
-export BRCONV	:=	$(DEVKIT65XX)/tools/snesbrr
-export TXCONV	:=	$(DEVKIT65XX)/tools/bin2txt
+export GFXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/gfx2snes
+export SNTOOLS	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snestools
+export SMCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/smconv
+export BRCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snesbrr
+export TXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/bin2txt
 
-#export EMU	:=	$(DEVKIT65XX)/../emulators/bsnes64bits/bsnes
-#export EMU	:=	$(DEVKIT65XX)/../emulators/bsnes/bsnes_debugger
-#export EMU	:=	$(DEVKIT65XX)/../emulators/nosns/NOSNS
-export EMU	:=	$(DEVKIT65XX)/../emulators/zsnes/ZSNESW
+export EMU	:=	$(PVSNESLIB_HOME)/emulators/zsnes/ZSNESW
 
 #---------------------------------------------------------------------------------
 # Add default flag for compiling
 #---------------------------------------------------------------------------------
-CFLAGS += -I$(DEVKIT65XX)/include 
+CFLAGS += -I$(PVSNESLIB_HOME)/pvsneslib/include
 
 #---------------------------------------------------------------------------------
 %.ps: %.c
