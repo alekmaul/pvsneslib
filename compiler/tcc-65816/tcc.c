@@ -894,6 +894,8 @@ void warning(const char *fmt, ...);
 #include "816-gen.c"
 #endif
 
+char sztmpnam[STRING_MAX_SIZE];  // Alekmaul 201125, variable for temp file name (token usage)
+
 /********************************************************/
 
 /* we use our own 'finite' function to avoid potential problems with
@@ -1637,7 +1639,8 @@ char *get_tok_str(int v, CValue *cv)
             return table_ident[v - TOK_IDENT]->str;
         } else if (v >= SYM_FIRST_ANOM) {
             /* special name for anonymous symbol */
-            sprintf(p, "L.%d", v - SYM_FIRST_ANOM);
+            //sprintf(p, "L.%s%d",&tmpnam(NULL)[1] , v - SYM_FIRST_ANOM);
+            sprintf(p, "L.%s%d",sztmpnam,v - SYM_FIRST_ANOM); // Alekmaul 201125, add temp file name to token name
         } else {
             /* should never happen */
             return NULL;
@@ -10522,6 +10525,7 @@ int main(int argc, char **argv)
     char objfilename[1024];
     int64_t start_time = 0;
 
+    strcpy(sztmpnam,&tmpnam(NULL)[1]);    // Alekmaul 201125, create temp file name for token name
 #ifdef WIN32
     /* on win32, we suppose the lib and includes are at the location
        of 'tcc.exe' */
