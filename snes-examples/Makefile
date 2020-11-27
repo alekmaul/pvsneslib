@@ -17,5 +17,5 @@ clean:
 #---------------------------------------------------------------------------------
 	@rm -fr bin
 	@rm -f *.bz2
-	@for i in $(SUBDIRS); do if test -e $$i/Makefile ; then $(MAKE)  -C $$i clean || { exit 1;} fi; done;
+	@for i in $(SUBDIRS); do if test -e $$i/Makefile ; then $(MAKE) -C $$i clean || { exit 1;} fi; done;
 
