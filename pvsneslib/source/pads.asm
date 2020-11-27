@@ -89,7 +89,111 @@ scanPads:
 	rtl
 .ENDS
 
+
 .SECTION ".pads1_text" SUPERFREE
+
+;---------------------------------------------------------------------------------
+; void padsClear(unsigned short value)
+padsClear:
+	php
+	phb
+	phx
+	
+	sep	#$20                                   ; change bank address to 0
+	lda.b	#$0
+	pha
+	plb
+    
+    rep #$20
+    lda 8,s                                    ; get value
+    pha
+    plx
+    
+    sep	#$20
+    lda #$0
+    sta pad_keys,x
+    sta pad_keysold,x
+	sta pad_keysrepeat,x
+    
+	plx
+	plb
+	plp
+	rtl
+.ENDS
+
+.SECTION ".pads2_text" SUPERFREE
+
+;---------------------------------------------------------------------------------
+; unsigned short padsDown(unsigned short value)
+;	return (pad_keys[value] & ~pad_keysold[value]);
+padsDown:
+	php
+	phb
+	phx
+	
+	sep	#$20                                   ; change bank address to 0
+	lda.b	#$0
+	pha
+	plb
+    
+    rep #$20
+    lda 8,s                                    ; get value
+    pha
+    plx
+    
+    lda pad_keysold,x
+    eor #$FFFF
+    sta.w tcc__r0
+    
+    lda pad_keys,x
+    and.w tcc__r0
+    sta.w tcc__r0
+    
+  	plx
+	plb
+	plp
+	rtl
+
+.ENDS
+
+.SECTION ".pads3_text" SUPERFREE
+
+;---------------------------------------------------------------------------------
+;unsigned short padsUp(unsigned short value) {
+;	return (pad_keys[value] ^ pad_keysold[value]) & (~pad_keys[value]);
+padsUp:
+	php
+	phb
+	phx
+	
+	sep	#$20                                   ; change bank address to 0
+	lda.b	#$0
+	pha
+	plb
+    
+    rep #$20
+    lda 8,s                                    ; get value
+    pha
+    plx
+    
+    lda pad_keys,x
+    eor #$FFFF
+    sta.w tcc__r0
+    
+    lda pad_keys,x
+    eor.w pad_keysold,x
+    and.w tcc__r0
+    sta.w tcc__r0
+    
+  	plx
+	plb
+	plp
+	rtl
+
+.ENDS
+
+
+.SECTION ".padsm50_text" SUPERFREE
 
 ;---------------------------------------------------------------------------------
 ; multiplayer 5 signature detection from original SNES devellopment manual (chapt 9.6)
@@ -159,7 +263,7 @@ nomplay5:
 
 .ENDS
 
-.SECTION ".pads2_text" SUPERFREE
+.SECTION ".padsm51_text" SUPERFREE
 
 ;---------------------------------------------------------------------------------
 ; void scanMPlay5(void)

@@ -11,7 +11,7 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-C_SRC	:=	malloc.c background.c console.c dma.c pad.c sound.c sprite.c video.c
+C_SRC	:=	malloc.c background.c console.c dma.c sound.c sprite.c video.c
 
 CFLAGS	+=	-I${PVSNESLIB_HOME}/devkitsnes/include \
 			-I${PVSNESLIB_HOME}/pvsneslib/include \

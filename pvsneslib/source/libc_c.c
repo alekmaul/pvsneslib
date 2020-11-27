@@ -5,7 +5,6 @@
 #include "background.c"
 #include "console.c"
 #include "dma.c"
-#include "pad.c"
 //#include "pixel.c"
 #include "sound.c"
 #include "sprite.c"
