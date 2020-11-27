@@ -23,7 +23,7 @@ SPECIAL THANKS
                
 CHANGE LOG
 ----------------------
-VERSION 3.10 (xx, xxx, 2020)
+VERSION 3.10 (xx, December, 2020)
 - Remove PVSNESLIB variables in each makefile and add a system variable (PVSNESLIB_HOME)
 - Fix 816-tcc rodata variable names for multiple files projects
 

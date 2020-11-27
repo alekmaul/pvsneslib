@@ -21,6 +21,11 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
+V3.1.0 (21, November, 2020)
+- Remove PVSNESLIB variables in each makefile and add a system variable (PVSNESLIB_HOME)
+- Fix 816-tcc rodata variable names for multiple files projects
+- Remove all pads C functions for ASM version
+
 V3.0.0 (21, November, 2020)
 - Add score management with 32 bits scoring system
 - Remove superscope support, useless and buggy
