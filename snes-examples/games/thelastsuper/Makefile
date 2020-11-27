@@ -8,6 +8,22 @@ endif
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
+# path to snesdev root directory (for emulators, devkitsnes, libsnes)
+#export DEVKITSNES := /c/snesdev/
+
+# path to devkitsnes root directory for compiler
+#export DEVKIT65XX := /c/snesdev/devkitsnes
+
+#---------------------------------------------------------------------------------
+.SUFFIXES:
+#---------------------------------------------------------------------------------
+
+#ifeq ($(strip $(DEVKIT65XX)),)
+#$(error "Please set DEVKIT65XX in your environment. export DEVKIT65XX=<path to>devkit65XX")
+#endif
+
+#include $(DEVKIT65XX)/snes_rules
+
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
 # BUILD is the directory where object files & intermediate files will be placed
