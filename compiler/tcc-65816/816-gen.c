@@ -1101,21 +1101,21 @@ void float_to_woz(float, unsigned char*);
 
 void gen_opf(int op)
 {
-  int r, fr, ft;
-  float fcf;
+  //Alek 20/11/25 not used int r, fr, ft;
+  //Alek 20/11/25 not used float fcf;
   int length, align;
   int ir;
   
   length = type_size(&vtop[0].type, &align);
-  r = vtop[-1].r;
-  fr = vtop[0].r;
-  fcf = vtop[0].c.f;
+  //Alek 20/11/25 not used r = vtop[-1].r;
+  //Alek 20/11/25 not used fr = vtop[0].r;
+  //Alek 20/11/25 not used fcf = vtop[0].c.f;
 
   // get the actual values
   gv2(RC_F1,RC_F0);
-  r = vtop[-1].r;
-  fr = vtop[0].r;
-  ft = vtop[0].type.t;
+  //Alek 20/11/25 not used r = vtop[-1].r;
+  //Alek 20/11/25 not used fr = vtop[0].r;
+  //Alek 20/11/25 not used ft = vtop[0].type.t;
   vtop--;
   
   pr("; gen_opf len %d op 0x%x ('%c')\n",length,op,op);
