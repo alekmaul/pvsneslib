@@ -1362,9 +1362,10 @@ void error(const char *fmt, ...)
     va_start(ap, fmt);
     error1(s1, 0, fmt, ap);
     va_end(ap);
+    
     /* better than nothing: in some cases, we accept to handle errors */
     if (s1->error_set_jmp_enabled) {
-        longjmp(s1->error_jmp_buf, 1);
+        exit(1); // Alek 201125 hangs on winxp longjmp(s1->error_jmp_buf, 1);
     } else {
         /* XXX: eliminate this someday */
         exit(1);

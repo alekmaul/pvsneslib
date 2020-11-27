@@ -23,6 +23,10 @@ SPECIAL THANKS
                
 CHANGE LOG
 ----------------------
+VERSION 3.10 (xx, xxx, 2020)
+- Remove PVSNESLIB variables in each makefile and add a system variable (PVSNESLIB_HOME)
+- Fix 816-tcc rodata variable names for multiple files projects
+
 VERSION 3.00 (21, november, 2020)
 - Change wla-dx & wlalink to the newset one (9.12a instead of 9.8)
 - Fix some minor bug in 816-tcc
