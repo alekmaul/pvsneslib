@@ -52,7 +52,7 @@ unsigned int find_word(string s, const char *word)
 void check_for_const(string s)
 {
 	unsigned int i, j;
-	const string staticPrefix = "__tccs_";
+	const string staticPrefix = "tccs_";
 
 	// We are only interested in global consts that are initialized in this file
 	if ( (find_word(s, "const") != string::npos) && (s.find("extern") == string::npos) && (blockDepth == 0))
