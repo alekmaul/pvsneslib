@@ -41,7 +41,7 @@ export EMU	:=	$(PVSNESLIB_HOME)/emulators/zsnes/ZSNESW
 #---------------------------------------------------------------------------------
 # Add default flag for compiling
 #---------------------------------------------------------------------------------
-CFLAGS += -I$(PVSNESLIB_HOME)/pvsneslib/include -I$(CURDIR)
+CFLAGS += -I$(PVSNESLIB_HOME)/pvsneslib/include -I${PVSNESLIB_HOME}/devkitsnes/include -I$(CURDIR)
 
 
 #---------------------------------------------------------------------------------
