@@ -2,9 +2,7 @@
 # path to tools
 #---------------------------------------------------------------------------------
 export PATH	:= $(PVSNESLIB_HOME)/devkitsnes/bin:$(PATH)
-
 LIBDIRSOBJS  := $(PVSNESLIB_HOME)/pvsneslib/lib
-LIBOBJS      := $(LIBDIRSOBJS)/crt0_snes.obj $(LIBDIRSOBJS)/libc.obj $(LIBDIRSOBJS)/libm.obj $(LIBDIRSOBJS)/libtcc.obj
 
 #---------------------------------------------------------------------------------
 # on windows, linkfile can only manage path like E:\pvsneslib\lib\crt0_snes.obj
@@ -29,7 +27,6 @@ export AS	:=	wla-65816
 export LD	:=	wlalink
 export PY	:=	816-opt.py
 export BS	:=	bass
-export OM	:=	optimore-816
 
 export CTF	:=	constify
 
@@ -44,7 +41,25 @@ export EMU	:=	$(PVSNESLIB_HOME)/emulators/zsnes/ZSNESW
 #---------------------------------------------------------------------------------
 # Add default flag for compiling
 #---------------------------------------------------------------------------------
-CFLAGS += -I$(PVSNESLIB_HOME)/pvsneslib/include
+CFLAGS += -I$(PVSNESLIB_HOME)/pvsneslib/include -I$(CURDIR)
+
+
+#---------------------------------------------------------------------------------
+# Search all .asm and .c files until 2nd level in the tree 
+#---------------------------------------------------------------------------------
+CFILES = $(wildcard *.c)
+CFILES += $(wildcard ./*.c)
+CFILES += $(wildcard ./*/*.c)
+CFILES += $(wildcard ./*/*/*.c)
+SFILES = $(wildcard *.asm)
+SFILES += $(wildcard ./*.asm)
+SFILES += $(wildcard ./*/*.asm)
+SFILES += $(wildcard ./*/*/*.asm)
+export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
+
+# The first rule available in makefile become the default one
+# We want "all" as default rule, but it will declare later !
+.DEFAULT_GOAL := all
 
 #---------------------------------------------------------------------------------
 %.ps: %.c
@@ -59,11 +74,11 @@ CFLAGS += -I$(PVSNESLIB_HOME)/pvsneslib/include
 	@echo Doing obj files ... $(fname)
 	@CURRENTFILE=$<; \
 		if [ $$CURRENTFILE = libc.asm ]; then \
-		echo "Building with -x flag: $(AS) -x -v -o $@ $<"; \
-		$(AS) -x -o $@ $<; \
+		echo "Building with -x flag: $(AS) -s -x -o $@ $<"; \
+		$(AS) -s -x -o $@ $<; \
 	else \
-		echo "Building: $(AS) -v -o $@ $<"; \
-		$(AS) -o $@ $<; \
+		echo "Building: $(AS) -s -o $@ $<"; \
+		$(AS) -s -o $@ $<; \
 	fi
 
 #---------------------------------------------------------------------------------
@@ -71,27 +86,32 @@ CFLAGS += -I$(PVSNESLIB_HOME)/pvsneslib/include
 	@echo Assembling ... $(notdir $<)
 	$(PY) $< >$*.asp 
 	@echo Moving constants ... $(notdir $<)
-	$(CTF) $*.c $*.asp $@
+	$(CTF) $*.c $*.asp $@	
 	@rm $*.asp
 
 #---------------------------------------------------------------------------------
-%.sfc:
+%.sfc: $(OFILES)
 	@echo Creating linkfile ...
 	@echo [objects] > linkfile
-	@for i in *.obj; do \
+	@for i in $(OFILES); do \
 		echo $$i >> linkfile; \
 	done
 
-	@echo ${LIBDIRSOBJSW}\\crt0_snes.obj >> linkfile
-	@echo ${LIBDIRSOBJSW}\\libc.obj >> linkfile
-	@echo ${LIBDIRSOBJSW}\\libm.obj >> linkfile
-	@echo ${LIBDIRSOBJSW}\\libtcc.obj >> linkfile
+	@for i in $(shell ls $(LIBDIRSOBJSW)); do \
+		echo $(LIBDIRSOBJSW)\\$$i >> linkfile; \
+	done
         
 	@echo Linking ... $(notdir $@)
-	$(LD) -d -s -v -L ${LIBDIRSOBJS} linkfile $@
+	$(LD) -d -D -s -v -L ${LIBDIRSOBJS} linkfile $@
 
-	@sed 's/://' <$(TARGET).sym >$(TARGET).tmp
-	@mv $(TARGET).tmp $(TARGET).sym
+	@sed 's/://' <$(ROMNAME).sym >$(ROMNAME).tmp
+	@mv $(ROMNAME).tmp $(ROMNAME).sym
+	
+	#@make cleanBuildRes
+	
+	@echo
+	@echo Build finished successfully !
+	@echo
 
 #---------------------------------------------------------------------------------
 %.pic: %.bmp
@@ -102,3 +122,17 @@ CFLAGS += -I$(PVSNESLIB_HOME)/pvsneslib/include
 %.brr: %.wav
 	@echo convert wav file ... $(notdir $<)
 	$(BRCONV) -e $< $@
+
+.PHONY: cleanBuildRes cleanRom cleanGfx
+
+cleanBuildRes:
+	@echo clean build resources
+	@rm -f $(OFILES) linkfile
+
+cleanRom:
+	@echo clean rom
+	@rm -f $(ROMNAME).sfc $(ROMNAME).sym
+	
+cleanGfx:
+	@echo clean graphics data
+	@rm -f *.pic *.map *.pal
