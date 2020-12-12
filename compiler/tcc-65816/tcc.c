@@ -10526,7 +10526,14 @@ int main(int argc, char **argv)
     char objfilename[1024];
     int64_t start_time = 0;
 
-    strcpy(sztmpnam,&tmpnam(NULL)[1]);    // Alekmaul 201125, create temp file name for token name
+    strcpy(sztmpnam,&tmpnam(NULL)[1]);      // Alekmaul 201125, create temp file name for token name
+    for(i=0;sztmpnam[i]!='\0';i++)               // Alekmaul 201212, ughly change for linux system
+    {
+        if(sztmpnam[i]=='/')
+        {
+            sztmpnam[i] = '.';
+        }
+    }
 #ifdef WIN32
     /* on win32, we suppose the lib and includes are at the location
        of 'tcc.exe' */

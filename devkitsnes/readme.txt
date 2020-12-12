@@ -21,7 +21,7 @@ SPECIAL THANKS
   Mukunda for smconv tool: http://snes.mukunda.com/
   RetroAntho (https://github.com/RetroAntho) for his great help to move wla-dx to last version
     and also for all compilation optimizations in Makefile, snes_rules
-  redbug26 for constify tcc bug fix
+  RedBug for constify tcc bug fix and tips for Linux and Docker
   mills32 (https://github.com/mills32) for his mode7 3D example
                
 CHANGE LOG
@@ -30,10 +30,11 @@ VERSION 3.10 (xx, December, 2020)
 - Remove PVSNESLIB variables in each makefile and add a system variable (PVSNESLIB_HOME)
 - Fix 816-tcc rodata variable names for multiple files projects
 - Change wla-dx for last version for wla-dx github repository
-- Add source folder management in snes_rules (2 levels, see hello_world example)
+- Add source folder management in snes_rules (the name is src, 2 levels, see hello_world example)
 - Remove stripcom.exe and optimore-816.exe, they are useless
 - Update snes_rules with lots of information to clean Makefiles (thanks RetroAntho for that)
 - Update constify to update static variable name (tccs)
+- Fix 816-tcc temp filename on linux system (/ in the name)
 
 VERSION 3.00 (21, november, 2020)
 - Change wla-dx & wlalink to the newset one (9.12a instead of 9.8)
