@@ -77,7 +77,7 @@
 /*!
  <!-- EXAMPLES -->
     <!-- hello world -->
-		\example hello_world/hello_world.c
+		\example hello_world/src/hello_world.c
 
     <!-- backgrounds -->
 		\example graphics/Backgrounds/Mode0/Mode0.c

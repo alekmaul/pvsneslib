@@ -26,12 +26,10 @@ export TA	:=	tasm
 export AS	:=	wla-65816
 export LD	:=	wlalink
 export PY	:=	816-opt.py
-export BS	:=	bass
 
 export CTF	:=	constify
 
 export GFXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/gfx2snes
-export SNTOOLS	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snestools
 export SMCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/smconv
 export BRCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snesbrr
 export TXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/bin2txt
@@ -45,20 +43,20 @@ CFLAGS += -I$(PVSNESLIB_HOME)/pvsneslib/include -I${PVSNESLIB_HOME}/devkitsnes/i
 
 
 #---------------------------------------------------------------------------------
-# Search all .asm and .c files until 2nd level in the tree 
+# Search all .asm and .c files until 3rd level in the tree 
 #---------------------------------------------------------------------------------
 CFILES = $(wildcard *.c)
-CFILES += $(wildcard ./*.c)
-CFILES += $(wildcard ./*/*.c)
-CFILES += $(wildcard ./*/*/*.c)
+CFILES += $(wildcard */*.c)
+CFILES += $(wildcard */*/*.c)
+CFILES += $(wildcard */*/*/*.c)
 SFILES = $(wildcard *.asm)
-SFILES += $(wildcard ./*.asm)
-SFILES += $(wildcard ./*/*.asm)
-SFILES += $(wildcard ./*/*/*.asm)
+SFILES += $(wildcard */*.asm)
+SFILES += $(wildcard */*/*.asm)
+SFILES += $(wildcard */*/*/*.asm)
 export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 
 # The first rule available in makefile become the default one
-# We want "all" as default rule, but it will declare later !
+# We want "all" as default rule, but we will declare it later !
 .DEFAULT_GOAL := all
 
 #---------------------------------------------------------------------------------
@@ -106,9 +104,7 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 
 	@sed 's/://' <$(ROMNAME).sym >$(ROMNAME).tmp
 	@mv $(ROMNAME).tmp $(ROMNAME).sym
-	
-	#@make cleanBuildRes
-	
+		
 	@echo
 	@echo Build finished successfully !
 	@echo
@@ -135,4 +131,4 @@ cleanRom:
 	
 cleanGfx:
 	@echo clean graphics data
-	@rm -f *.pic *.map *.pal
+	@rm -f *.pic *.map *.pal *.pc7 *.mp7
