@@ -1,4 +1,4 @@
-VERSION = "2.0.0"
+VERSION = "3.0.0"
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -17,7 +17,7 @@ all: $(EXE)
 #---------------------------------------------------------------------------------
 $(EXE) : $(OBJS)
 	@echo make exe $(notdir $<) 
-	$(CC) $(CFLAGS) $(OBJS) -o $@
+	$(CC) $(CFLAGS) -lregex $(OBJS) -o $@
 	
 constify.o : constify.cpp
 	@echo make obj $(notdir $<) 
