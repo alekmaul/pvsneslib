@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 
 
-	Simple tile mode 3 demo with more than 32k tiles
+	Simple mode 7 rotating demo with more than 32k tiles
 	-- alekmaul
 
 
@@ -12,11 +12,11 @@ extern char patterns,patterns_end;
 extern char palette;
 extern char map, map_end;
 
+u16 pad0;
+u8 angle;
+
 //---------------------------------------------------------------------------------
 int main(void) {
-	u16 pad0;
-	u8 sz=0,sx=0,angle=0;
-	
     // Initialize SNES 
 	consoleInit();
 	
@@ -25,7 +25,13 @@ int main(void) {
 
 	// Now Put mode7 without anything else
 	setMode7(0); 
-	
+
+    // Display screen
+   	setScreenOn();
+
+    // Init angle
+    angle=0;
+	    
 	// Wait for nothing :P
 	while(1) {
 		// Refresh pad values
@@ -39,10 +45,6 @@ int main(void) {
 			switch (pad0) {
 				case KEY_A	: angle++; setMode7Rot(angle); break;
 				case KEY_B	: angle--; setMode7Rot(angle); break;
-				case KEY_RIGHT	: sz++; break;
-				case KEY_LEFT	: if (sx) sx--; break;
-				case KEY_DOWN	: if (sz) sz--; break;
-				case KEY_UP		: sz++; break;
 			}
 		}
 		WaitForVBlank();
