@@ -33,6 +33,7 @@ export GFXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/gfx2snes
 export SMCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/smconv
 export BRCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snesbrr
 export TXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/bin2txt
+export SNTOOLS	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snestools
 
 export EMU	:=	$(PVSNESLIB_HOME)/emulators/zsnes/ZSNESW
 
@@ -45,14 +46,15 @@ CFLAGS += -I$(PVSNESLIB_HOME)/pvsneslib/include -I${PVSNESLIB_HOME}/devkitsnes/i
 #---------------------------------------------------------------------------------
 # Search all .asm and .c files until 3rd level in the tree 
 #---------------------------------------------------------------------------------
+SRC = src
 CFILES = $(wildcard *.c)
-CFILES += $(wildcard */*.c)
-CFILES += $(wildcard */*/*.c)
-CFILES += $(wildcard */*/*/*.c)
+CFILES+= $(wildcard $(SRC)/*.c)
+CFILES+= $(wildcard $(SRC)/*/*.c)
+CFILES+= $(wildcard $(SRC)/*/*/*.c)
 SFILES = $(wildcard *.asm)
-SFILES += $(wildcard */*.asm)
-SFILES += $(wildcard */*/*.asm)
-SFILES += $(wildcard */*/*/*.asm)
+SFILES += $(wildcard $(SRC)/*.asm)
+SFILES += $(wildcard $(SRC)/*/*.asm)
+SFILES += $(wildcard $(SRC)/*/*/*.asm)
 export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 
 # The first rule available in makefile become the default one
