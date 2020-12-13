@@ -95,6 +95,7 @@ void bgInitTileSetLz(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEnt
 //---------------------------------------------------------------------------------
 void bgInitMapTileSet7(u8 *tileSource,  u8 *mapSource, u8 *tilePalette, u16 tileSize, u16 address) {
 	setBrightness(0);  // Force VBlank Interrupt
+	WaitForVBlank(); 
 	
 	dmaCopyVram7(mapSource, address,0x4000, VRAM_INCLOW | VRAM_ADRTR_0B | VRAM_ADRSTINC_1,0x1800);
 	bgSetMapPtr(0, address, SC_32x32);

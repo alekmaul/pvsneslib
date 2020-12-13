@@ -388,16 +388,28 @@ void setColorIntensity(u8 colorApply, u8 intensity);
 */
 void setMode7(u8 mode);
 
-/*! \fn  setMode7Angle(u8 angle)
-	\brief Changle angle view in mode 7 without changing matrix.
-	\param angle : 0..255 value
-*/
-void setMode7Angle(u8 angle);
-
 /*! \fn  setMode7Rot(u8 angle)
 	\brief Changle angle view in mode 7 with matrix transformation.
 	\param angle : 0..255 value
 */
 void setMode7Rot(u8 angle);
+
+/*! \fn  setMode7MoveForwardBack(u8 z8)
+	\brief Changle perspective view forward/backward in mode 7 without changing matrix.
+	\param z8 : 0..255 value
+*/
+void setMode7MoveForwardBack(u8 z8);
+
+/*! \fn  setMode7MoveLeftRight(u8 z8)
+	\brief Changle perspective view left/right in mode 7 without changing matrix.
+	\param z8 : 0..255 value
+*/
+void setMode7MoveLeftRight(u8 z8);
+
+/*! \fn  setMode7Angle(u8 angle)
+	\brief Changle angle view in mode 7 without changing matrix.
+	\param angle : 0..255 value
+*/
+void setMode7Angle(u8 angle);
 
 #endif //SNES_VIDEO_INCLUDE
