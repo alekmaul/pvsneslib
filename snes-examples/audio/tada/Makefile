@@ -1,7 +1,3 @@
-#---------------------------------------------------------------------------------
-.SUFFIXES:
-#---------------------------------------------------------------------------------
-
 ifeq ($(strip $(PVSNESLIB_HOME)),)
 $(error "Please create an environment variable PVSNESLIB_HOME with path to its folder and restart application. (you can do it on windows with <setx PVSNESLIB_HOME "/c/snesdev">)")
 endif
@@ -9,39 +5,26 @@ endif
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 #---------------------------------------------------------------------------------
-# TARGET is the name of the output
-# SOURCES is a list of directories containing source code
-#---------------------------------------------------------------------------------
-TARGET		:=	$(shell basename $(CURDIR))
-SOURCES		:=	.
- 
-export OUTPUT	:=	$(CURDIR)/$(TARGET)
- 
-CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
-SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.asm)))
+# ROMNAME is used in snes_rules file
+export ROMNAME := tada
 
+#---------------------------------------------------------------------------------
 export AUDIOFILES :=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.it)))
 
 ifneq ($(AUDIOFILES),)
-SFILES		:=	soundbank.asm $(SFILES)
+ifeq ($(wildcard soundbank.asm),)
+	SFILES		:=	soundbank.asm $(SFILES)
+endif
 endif
 
-#---------------------------------------------------------------------------------
-export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
- 
-SMCONVFLAGS	:= -l -s -o soundbank -v -b 5
+SMCONVFLAGS	:= -s -o soundbank -v -b 5
 
-GTITLE 		:= -ht"$(TARGET)"
- 
+#---------------------------------------------------------------------------------
 .PHONY: bitmaps all
 
-#---------------------------------------------------------------------------------
-all	:	bitmaps $(OUTPUT).sfc
-	$(SNTOOLS) -hi! $(GTITLE) $(TARGET).sfc
+all: bitmaps $(ROMNAME).sfc
 
-clean:
-	@echo clean ...
-	@rm -f $(OFILES) $(TARGET).sfc $(TARGET).sym *.pic *.map *.pal *.bnk soundbank.asm soundbank.h linkfile
+clean: cleanBuildRes cleanRom cleanGfx
 
 #---------------------------------------------------------------------------------
 soundbank.asm : $(AUDIOFILES)
@@ -55,5 +38,3 @@ pvsneslibfont.pic: pvsneslibfont.bmp
 
 bitmaps : soundbank.asm pvsneslibfont.pic
 
-#---------------------------------------------------------------------------------
-$(OUTPUT).sfc	: $(OFILES) 
