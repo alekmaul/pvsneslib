@@ -13,7 +13,7 @@
 	sky and ground images are using the same palette (Look at the sky and ground 
 	palettes using a software like gimp).
 	
-    Some parts based on Kannagy works : https://github.com/Kannagi/SNES-Mode7
+    Some parts based on Kannagi works : https://github.com/Kannagi/SNES-Mode7
     
     Code to generate the PerspectiveX & PerspectiveY tables :
     ---------------------------------------------------------
