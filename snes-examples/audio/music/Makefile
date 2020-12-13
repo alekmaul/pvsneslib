@@ -9,7 +9,7 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 export ROMNAME := music
 
 #---------------------------------------------------------------------------------
-export AUDIOFILES :=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.it)))
+export AUDIOFILES :=	$(foreach dir,.,$(notdir $(wildcard $(dir)/*.it)))
 
 ifneq ($(AUDIOFILES),)
 ifeq ($(wildcard soundbank.asm),)
