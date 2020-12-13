@@ -25,6 +25,7 @@ SMCONVFLAGS	:= -s -o soundbank -v -b 5
 all: bitmaps $(ROMNAME).sfc
 
 clean: cleanBuildRes cleanRom cleanGfx
+	@rm -f soundbank.asm soundbank.h soundbank.bnk
 
 #---------------------------------------------------------------------------------
 soundbank.asm : $(AUDIOFILES)
