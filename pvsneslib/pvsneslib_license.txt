@@ -21,10 +21,19 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
-V3.1.0 (21, November, 2020)
+V3.1.0 (13, December, 2020)
 - Remove PVSNESLIB variables in each makefile and add a system variable (PVSNESLIB_HOME)
 - Fix 816-tcc rodata variable names for multiple files projects
 - Remove all pads C functions for ASM version
+- Add mills32 (https://github.com/mills32) mode7 3D effect example
+- CleanUp mode 7 library function
+- Change wla-dx for last version for wla-dx github repository
+- Add source folder management in snes_rules (the name is src, 2 levels, see hello_world example)
+- Remove stripcom.exe and optimore-816.exe, they are useless
+- Update snes_rules with lots of information to clean Makefiles (thanks RetroAntho for that)
+- Update constify to update static variable name (tccs)
+- Fix 816-tcc temp filename on linux system (/ in the name, thanks Redbug for the info)
+- Add wla-spc700 for futur use
 
 V3.0.0 (21, November, 2020)
 - Add score management with 32 bits scoring system

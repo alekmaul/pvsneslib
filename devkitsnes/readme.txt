@@ -26,7 +26,7 @@ SPECIAL THANKS
                
 CHANGE LOG
 ----------------------
-VERSION 3.10 (xx, December, 2020)
+VERSION 3.10 (13, December, 2020)
 - Remove PVSNESLIB variables in each makefile and add a system variable (PVSNESLIB_HOME)
 - Fix 816-tcc rodata variable names for multiple files projects
 - Change wla-dx for last version for wla-dx github repository
@@ -35,6 +35,7 @@ VERSION 3.10 (xx, December, 2020)
 - Update snes_rules with lots of information to clean Makefiles (thanks RetroAntho for that)
 - Update constify to update static variable name (tccs)
 - Fix 816-tcc temp filename on linux system (/ in the name)
+- Add wla-spc700 for futur use
 
 VERSION 3.00 (21, november, 2020)
 - Change wla-dx & wlalink to the newset one (9.12a instead of 9.8)
