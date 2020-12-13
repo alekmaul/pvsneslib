@@ -7,7 +7,6 @@
 .16bit
 
 ; multiplication implementation lifted from WDC's "Programming the 65816"
-; multiplication implementation lifted from WDC's "Programming the 65816"
 tcc__mul:
 	lda #0
 	.repeat 4
@@ -52,27 +51,29 @@ tcc__mull:
 
 
 ; division implementation lifted from WDC's "Programming the 65816"
+; optimized by mic_
 tcc__udiv:
-      stz.b tcc__r9
-      ldy #1
--     asl a
-      bcs +
-      iny
-      cpy #17
-      bne -
-+     ror a
--     pha
-      txa
-      sec
-      sbc 1,s
-      bcc +
-      tax
-+     rol.b tcc__r9
-      pla
-      lsr a
-      dey
-      bne -
-      rtl
+	stz.b tcc__r9
+	ldy #1
+	.repeat 16
+ 	asl a
+	bcs tcc__udiv1
+	iny
+	.endr
+tcc__udiv1:
+ 	ror a
+- 	sta.b tcc__r5
+	cpx tcc__r5     
+	bcc +           
+	txa             
+	sbc.b tcc__r5
+	tax             
++ 	rol.b tcc__r9
+	lda.b tcc__r5 
+	lsr a           
+	dey             
+	bne -           
+	rtl
 
 ; looks like the damn 6502 was designed before negative numbers...
 tcc__div:
