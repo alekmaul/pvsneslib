@@ -17,4 +17,6 @@ linkfile
 *.pic
 *.pal
 *.map
+*.pc7
+*.mp7
 *.bnk
