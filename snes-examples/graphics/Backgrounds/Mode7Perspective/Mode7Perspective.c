@@ -436,8 +436,8 @@ int main(void) {
 		pad0 = padsCurrent(0);
 		
 		// Read pad 
-		if (pad0 & KEY_LEFT)  sx++; } 
-		if (pad0 & KEY_RIGHT) sx--; } 
+		if (pad0 & KEY_LEFT)  sx++;
+		if (pad0 & KEY_RIGHT) sx--;
 		if (pad0 & KEY_UP) sy--; 
 		if (pad0 & KEY_DOWN) sy++; 
 		if (pad0 & KEY_R) sz++; 
