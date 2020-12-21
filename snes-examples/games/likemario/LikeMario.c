@@ -240,7 +240,7 @@ int main(void) {
 	bgInitTileSet(1, &mapgfx, &mappal, 0, (&mapgfx_end - &mapgfx), 16*2, BG_16COLORS, 0x6000);
 
 	// Init Sprites gfx and palette with default size of 16x16
-	oamInitGfxSet(&mariogfx, (&mariogfx_end-&mariogfx), &mariopal, 16*2, 0, 0x4000, OBJ_SIZE16);
+	oamInitGfxSet(&mariogfx, (&mariogfx_end-&mariogfx), &mariopal, 16*2, 0, 0x4000, OBJ_SIZE16_L32);
 
 	// Init Map to address 0x1000 and Copy Map to VRAM
 	bgSetMapPtr(1, 0x1000, SC_64x32);

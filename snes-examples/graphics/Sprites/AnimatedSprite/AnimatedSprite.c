@@ -47,7 +47,7 @@ int main(void) {
 	consoleInit();
 	
 	// Init Sprites gfx and palette with default size of 16x16
-	oamInitGfxSet(&gfxpsrite, (&gfxpsrite_end-&gfxpsrite), &palsprite, (&palsprite_end-&palsprite), 0, 0x0000, OBJ_SIZE16);
+	oamInitGfxSet(&gfxpsrite, (&gfxpsrite_end-&gfxpsrite), &palsprite, (&palsprite_end-&palsprite), 0, 0x0000, OBJ_SIZE16_L32);
 
 	// Define sprites parameters
 	oamSet(0,  monster.x, monster.y, 0, 0, 0, 0, 0); 
