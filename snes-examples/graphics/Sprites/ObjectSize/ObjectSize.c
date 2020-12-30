@@ -16,6 +16,12 @@ extern char sprite64, sprite64_end, palsprite64, palsprite64_end;
 u16 selectedItem;
 bool keyPressed;
 
+#define ADRSPRITE           0x2000
+#define ADRSPRITLARDGE      0x2400          // arbitrary to have enough space but small & large one
+
+#define PALETTESPRSIZE      (16*2)          // We are using words for palette entry
+
+// Put menu for each sprite size test
 void draw()
 {
 	consoleDrawText(3,2,"Object size :");
@@ -27,63 +33,70 @@ void draw()
 	consoleDrawText(3,8,"%s %s",selectedItem == 5 ? ">" : " ", "Small: 32 - Large: 64");
 }
 
+// Load current sprites regarding size for small & large one
 void changeObjSize()
 {
-	u16 spriteOffset;
+    
+    // Force VBlank and prepare for graphics initialization
+    setBrightness(0); 
+
+    // check regarding the current selection
 	if(selectedItem == 0)
 	{
-		oamInitGfxSet(&sprite8, (&sprite8_end-&sprite8), &palsprite8, (&palsprite8_end-&palsprite8), 0, 0x2000, OBJ_SIZE8_L16);
+        // load small sprite with 16 colors palette
+		oamInitGfxSet(&sprite8, (&sprite8_end-&sprite8), &palsprite8, PALETTESPRSIZE, 0, ADRSPRITE, OBJ_SIZE8_L16);
 		
-		dmaCopyVram(&sprite16, 0x2000+(&sprite8_end-&sprite8)/2, (&sprite16_end-&sprite16));
-		dmaCopyCGram(&palsprite16, (128+1*16), (&palsprite16_end-&palsprite16));
-		spriteOffset = 16;
+		// load large sprite with palette
+        dmaCopyVram(&sprite16, ADRSPRITLARDGE, (&sprite16_end-&sprite16));
+		dmaCopyCGram(&palsprite16, (128+1*16), PALETTESPRSIZE);        
 	}
-	if(selectedItem == 1)
+	else if(selectedItem == 1)
 	{
-		oamInitGfxSet(&sprite8, (&sprite8_end-&sprite8), &palsprite8, (&palsprite8_end-&palsprite8), 0, 0x2000, OBJ_SIZE8_L32);
+        // load small sprite
+        oamInitGfxSet(&sprite8, (&sprite8_end-&sprite8), &palsprite8, PALETTESPRSIZE, 0, ADRSPRITE, OBJ_SIZE8_L32);
 		
-		dmaCopyVram(&sprite32, 0x2000+(&sprite8_end-&sprite8)/2, (&sprite32_end-&sprite32));
-		dmaCopyCGram(&palsprite32, (128+1*16), (&palsprite32_end-&palsprite32));
-		spriteOffset = 16;
+        // load large sprite with palette
+		dmaCopyVram(&sprite32, ADRSPRITLARDGE, (&sprite32_end-&sprite32));
+		dmaCopyCGram(&palsprite32, (128+1*16), PALETTESPRSIZE);       
 	}
-	if(selectedItem == 2)
+	else if(selectedItem == 2)
 	{
-		oamInitGfxSet(&sprite8, (&sprite8_end-&sprite8), &palsprite8, (&palsprite8_end-&palsprite8), 0, 0x2000, OBJ_SIZE8_L64);
+		oamInitGfxSet(&sprite8, (&sprite8_end-&sprite8), &palsprite8, PALETTESPRSIZE, 0, ADRSPRITE, OBJ_SIZE8_L64);
 		
-		dmaCopyVram(&sprite64, 0x2000+(&sprite8_end-&sprite8)/2, (&sprite64_end-&sprite64));
-		dmaCopyCGram(&palsprite64, (128+1*16), (&palsprite64_end-&palsprite64));
-		spriteOffset = 16;
+		dmaCopyVram(&sprite64, ADRSPRITLARDGE, (&sprite64_end-&sprite64));
+		dmaCopyCGram(&palsprite64, (128+1*16), PALETTESPRSIZE);       
 	}
-	if(selectedItem == 3)
+	else if(selectedItem == 3)
 	{
-		oamInitGfxSet(&sprite16, (&sprite16_end-&sprite16), &palsprite16, (&palsprite16_end-&palsprite16), 0, 0x2000, OBJ_SIZE16_L32);
+		oamInitGfxSet(&sprite16, (&sprite16_end-&sprite16), &palsprite16, PALETTESPRSIZE, 0, ADRSPRITE, OBJ_SIZE16_L32);
 	
-		dmaCopyVram(&sprite32, 0x2000+(&sprite16_end-&sprite16)/2, (&sprite32_end-&sprite32));
-		dmaCopyCGram(&palsprite32, (128+1*16), (&palsprite32_end-&palsprite32));
-		spriteOffset = 32;
+		dmaCopyVram(&sprite32, ADRSPRITLARDGE, (&sprite32_end-&sprite32));
+		dmaCopyCGram(&palsprite32, (128+1*16), PALETTESPRSIZE);      
 	}
-	if(selectedItem == 4)
+	else if(selectedItem == 4)
 	{
-		oamInitGfxSet(&sprite16, (&sprite16_end-&sprite16), &palsprite16, (&palsprite16_end-&palsprite16), 0, 0x2000, OBJ_SIZE16_L64);
+		oamInitGfxSet(&sprite16, (&sprite16_end-&sprite16), &palsprite16, PALETTESPRSIZE, 0, ADRSPRITE, OBJ_SIZE16_L64);
 		
-		dmaCopyVram(&sprite64, 0x2000+(&sprite16_end-&sprite16)/2, (&sprite64_end-&sprite64));
-		dmaCopyCGram(&palsprite64, (128+1*16), (&palsprite64_end-&palsprite64));
-		spriteOffset = 32;
+		dmaCopyVram(&sprite64, ADRSPRITLARDGE, (&sprite64_end-&sprite64));
+		dmaCopyCGram(&palsprite64, (128+1*16), PALETTESPRSIZE);      
 	}
-	if(selectedItem == 5)
+	else if(selectedItem == 5)
 	{
-		oamInitGfxSet(&sprite32, (&sprite32_end-&sprite32), &palsprite32, (&palsprite32_end-&palsprite32), 0, 0x2000, OBJ_SIZE32_L64);
+		oamInitGfxSet(&sprite32, (&sprite32_end-&sprite32), &palsprite32, PALETTESPRSIZE, 0, ADRSPRITE, OBJ_SIZE32_L64);
 				
-		dmaCopyVram(&sprite64, 0x2000+(&sprite32_end-&sprite32)/2, (&sprite64_end-&sprite64));
-		dmaCopyCGram(&palsprite64, (128+1*16), (&palsprite64_end-&palsprite64));
-		spriteOffset = 64;
+		dmaCopyVram(&sprite64, ADRSPRITLARDGE, (&sprite64_end-&sprite64));
+		dmaCopyCGram(&palsprite64, (128+1*16), PALETTESPRSIZE);      
 	}
 	
 	oamSet(0,  70, 120, 0, 0, 0, 0, 0);
 	oamSetEx(0, OBJ_SMALL, OBJ_SHOW);
 	
-	oamSet(4, 170, 120, 0, 0, 0, spriteOffset, 1);
+    // because we load graphics at 0x2400, offset is 0x40 (0x2400-0x2000)/16
+	oamSet(4, 170, 120, 0, 0, 0, 0x0040, 1);
 	oamSetEx(4, OBJ_LARGE, OBJ_SHOW);
+    
+    // Reallow graphics (avoid glitch during init)
+    setBrightness(0x0F);
 }
 
 //---------------------------------------------------------------------------------
