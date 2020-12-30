@@ -38,9 +38,9 @@
 
 #define OBJ_SIZE8_L16	(0<<5) /*!< \brief default OAM size 8x8 (SM) and 16x16 (LG) pix for OBJSEL register */
 #define OBJ_SIZE8_L32	(1<<5) /*!< \brief default OAM size 8x8 (SM) and 32x32 (LG) pix for OBJSEL register */
-#define OBJ_SIZE8_L64	(1<<6) /*!< \brief default OAM size 8x8 (SM) and 64x64 (LG) pix for OBJSEL register */
+#define OBJ_SIZE8_L64	(2<<5) /*!< \brief default OAM size 8x8 (SM) and 64x64 (LG) pix for OBJSEL register */
 #define OBJ_SIZE16_L32	(3<<5) /*!< \brief default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register */
-#define OBJ_SIZE16_L64	(1<<7) /*!< \brief default OAM size 16x16 (SM) and 64x64 (LG) pix for OBJSEL register */
+#define OBJ_SIZE16_L64	(4<<5) /*!< \brief default OAM size 16x16 (SM) and 64x64 (LG) pix for OBJSEL register */
 #define OBJ_SIZE32_L64	(5<<5) /*!< \brief default OAM size 32x32 (SM) and 64x64 (LG) pix for OBJSEL register */
 
 #define OBJ_SMALL	(0)
