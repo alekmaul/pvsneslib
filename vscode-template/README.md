@@ -9,8 +9,9 @@ This project has been tested with Windows environment.
 
 ## Prerequisites
 
-. PVSneslib: https://github.com/alekmaul/pvsneslib/releases
-.Visual Studio Code: https://code.visualstudio.com
+. PVSneslib: https://github.com/alekmaul/pvsneslib/releases  
+
+. Visual Studio Code: https://code.visualstudio.com
 
 
 ## Setup
@@ -22,7 +23,7 @@ This project has been tested with Windows environment.
 * Copy the `.vscode` folder to you project directory.
     - In `c_cpp_properties.json` you **must update** `PVSnesLib home directory` with Windows like folder name: `"pvsneslibPath": ["c:/snesdev/pvsneslib/include/**","c:/snesdev/pvsneslib/devkitsnes/include"],`
     
-=== Usage
+## Usage
 * Open `VSCode` and `File->Open Folder...` and choose the folder of your poject.
 * Hit `Ctrl + Shift + B` and on the popup list you will see 2 tasks:
     * `PVSneslib - Clean`: removes all objects files
