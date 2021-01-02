@@ -82,6 +82,8 @@ int main(void) {
 
 	// add new sprite to queue
 	addSprite(&gfxpsrite, ADRGFXSPR);
+
+	padkeya=0;
 	
 	// Wait for nothing :P
 	while(1) {
