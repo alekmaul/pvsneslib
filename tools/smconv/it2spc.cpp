@@ -881,9 +881,11 @@ namespace IT2SPC {
 			for( u32 i = 0; i < foo.size(); i++ ) {
 				if( foo[i] == '\\' ) foo[i] = '/';
 			}
-			unsigned int ffo = foo.find_last_of( '/' );
-			if( ffo != std::string::npos )
-				foo = foo.substr( ffo + 1 );
+			
+			// commented by RetroAntho (20210123) : it avoid to use specific directory to generate sources
+			//unsigned int ffo = foo.find_last_of( '/' );
+			//if( ffo != std::string::npos )
+				//foo = foo.substr( ffo + 1 );
 		
 			fprintf( f, ".incbin \"%s\"\n", foo.c_str() );
 		
@@ -904,9 +906,11 @@ namespace IT2SPC {
 				for( u32 i = 0; i < foo.size(); i++ ) {
 					if( foo[i] == '\\' ) foo[i] = '/';
 				}
-				unsigned  int ffo = foo.find_last_of( '/' );
-				if( ffo != std::string::npos )
-					foo = foo.substr( ffo + 1 );
+				
+				// commented by RetroAntho (20210123) : it avoid to use specific directory to generate sources
+				//unsigned  int ffo = foo.find_last_of( '/' );
+				//if( ffo != std::string::npos )
+					//foo = foo.substr( ffo + 1 );
 		
 				if (j == 0) 
 					fprintf( f, ".incbin \"%s\" read $8000\n", foo.c_str() );
