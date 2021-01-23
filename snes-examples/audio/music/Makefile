@@ -2,39 +2,28 @@ ifeq ($(strip $(PVSNESLIB_HOME)),)
 $(error "Please create an environment variable PVSNESLIB_HOME with path to its folder and restart application. (you can do it on windows with <setx PVSNESLIB_HOME "/c/snesdev">)")
 endif
 
+# define the path to generate soundbank data BEFORE including snes_rules. The name can be different but do not forget to adapt your include in .c file !
+export SOUNDBANK := res/soundbank
+
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
+
+.PHONY: bitmaps all
 
 #---------------------------------------------------------------------------------
 # ROMNAME is used in snes_rules file
 export ROMNAME := music
 
-#---------------------------------------------------------------------------------
-export AUDIOFILES :=	$(foreach dir,.,$(notdir $(wildcard $(dir)/*.it)))
+# to build musics, define SMCONVFLAGS with parameters you want
+SMCONVFLAGS	:= -s -o $(SOUNDBANK) -v -b 5
+musics: $(SOUNDBANK).obj
 
-ifneq ($(AUDIOFILES),)
-ifeq ($(wildcard soundbank.asm),)
-	SFILES		:=	soundbank.asm $(SFILES)
-endif
-endif
+all: musics bitmaps $(ROMNAME).sfc
 
-SMCONVFLAGS	:= -s -o soundbank -v -b 5
-
-#---------------------------------------------------------------------------------
-.PHONY: bitmaps all
-
-all: bitmaps $(ROMNAME).sfc
-
-clean: cleanBuildRes cleanRom cleanGfx
-	@rm -f soundbank.asm soundbank.h soundbank.bnk
-
-#---------------------------------------------------------------------------------
-soundbank.asm : $(AUDIOFILES)
-	@echo Compiling Soundbank ... 
-	@$(SMCONV) $(SMCONVFLAGS) $^
+clean: cleanBuildRes cleanRom cleanGfx cleanAudio
 
 #---------------------------------------------------------------------------------
 pvsneslibfont.pic: pvsneslibfont.bmp
 	@echo convert font with no tile reduction ... $(notdir $@)
 	$(GFXCONV) -n -gs8 -po2 -pc16 -pe1 -mR! -m! -p! $<
 
-bitmaps : soundbank.asm pvsneslibfont.pic
+bitmaps : pvsneslibfont.pic

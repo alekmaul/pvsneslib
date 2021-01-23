@@ -8,7 +8,7 @@
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-#include "soundbank.h"
+#include "res/soundbank.h"
 
 extern char snesfont;
 extern char SOUNDBANK__;
