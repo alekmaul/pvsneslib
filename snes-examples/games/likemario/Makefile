@@ -2,7 +2,10 @@ ifeq ($(strip $(PVSNESLIB_HOME)),)
 $(error "Please create an environment variable PVSNESLIB_HOME with path to its folder and restart application. (you can do it on windows with <setx PVSNESLIB_HOME "/c/snesdev">)")
 endif
 
-# define the path to generate soundbank data BEFORE including snes_rules. The name can be different but do not forget to adapt your include in .c file !
+# BEFORE including snes_rules :
+# list in AUDIOFILES all your .it files in the right order. It will build to generate soundbank file
+AUDIOFILES := overworld.it
+# then define the path to generate soundbank data. The name can be different but do not forget to update your include in .c file !
 export SOUNDBANK := soundbank
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
