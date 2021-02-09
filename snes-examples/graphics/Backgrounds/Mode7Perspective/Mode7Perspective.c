@@ -76,13 +76,11 @@ const u8 ModeTable[5] =
 //BG Array: This will ensure there is no garbage on screen. Format: Scanline,BG
 const u8 BGTable[5] = 
 {
-	SKYLINEY,0x02,		// for 80 scanlines do: Only BG 1
-	1,0x01,			// for 1 scanline do: Only BG 0
+	SKYLINEY,0x12,		// for 80 scanlines do: 00010010 (Objects + BG 1)
+	1,0x11,			// for 1 scanline do: 00010001 (Objects + BG 0)
 	0x00			// End transfer
 };
 
-//Perspective array: This will scale the mode7 layer every scanline using HDMA.
-//Format: Scanline,ScaleX,ScaleX
 const u8 PerspectiveX[264] = 
 {//
 	SKYLINEY,256&255,256>>8,	// for 80 scanlines do: Scale = 1
