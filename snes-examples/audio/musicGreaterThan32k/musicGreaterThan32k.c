@@ -1,17 +1,14 @@
 /*---------------------------------------------------------------------------------
-
-
-	Simple console 'hello world' demo
-	-- alekmaul
-
-
+	Simple music (>32k) demo
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
 #include "res/soundbank.h"
 
 extern char snesfont;
-extern char SOUNDBANK__;
+
+// soundbank that are declared in soundbank.asm
+extern char SOUNDBANK__0, SOUNDBANK__1;
 
 unsigned short bgcolor =0;
 
@@ -24,14 +21,15 @@ int main(void) {
     // Initialize SNES 
 	consoleInit(); 
 
-	// Set give soundbank
-	spcSetBank(&SOUNDBANK__);
+	// Set soundbank available in soundbank.asm. Yes, in reverse order !
+	spcSetBank(&SOUNDBANK__1);
+	spcSetBank(&SOUNDBANK__0);
 	
 	// allocate around 10K of sound ram (39 256-byte blocks)
 	spcAllocateSoundRegion(39);
 
-	// Load music
-	spcLoad(MOD_POLLEN8);
+	// Load music. Constant is automatically defined in soundbank.h
+	spcLoad(MOD_WHATISLOVE);
 	
 	// Initialize text console with our font
 	consoleInitText(0, 0, &snesfont);
