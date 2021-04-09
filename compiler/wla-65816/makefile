@@ -12,7 +12,7 @@ OFILES = main.o parse.o include_file.o pass_1.o pass_2.o pass_3.o pass_4.o stack
 all: wla-65816 wlalink
 
 wla-65816: $(OFILES) 
-	$(LD) $(OFILES) -o wla-65816 $(LDFLAGS) ; strip wla-65816
+	$(LD) $(OFILES) -o wla-65816.exe $(LDFLAGS) ; strip wla-65816.exe
 
 main.o: main.c defines.h main.h 
 	$(CC) $(WLAFLAGS) main.c
@@ -42,10 +42,10 @@ listfile.o: listfile.c defines.h
 	$(CC) $(WLAFLAGS) listfile.c
 
 wlalink:
-	make -C wlalink-src && cp ./wlalink-src/wlalink .
+	make -C wlalink-src && cp ./wlalink-src/wlalink.exe .
 
 $(OFILES): $(HFILES)
 
 clean:
-	rm -f $(OFILES) core *~ wla-65816 wlalink
+	rm -f $(OFILES) wla-65816.exe wlalink.exe
 	cd wlalink-src && make clean
