@@ -1,0 +1,229 @@
+
+SPC-700 mnemonics listed in alphabetical order.
+
+if you notice any errors or something is missing, please
+send me email to vhelin[at]cc.hut.fi.
+
+
+x = 8bit
+? = 16bit
+~ = direct page (affects the opcode)
+
+
+"ADC A,!?" $85
+"ADC A,x" $84
+"ADC A,(X)" $86
+"ADC A,#x" $88
+"ADC A,!?+X" $95
+"ADC A,[x+X]" $87
+"ADC A,x+X" $94
+"ADC A,[x]+Y" $97
+"ADC A,!?+Y" $96
+"ADC x,x" $89
+"ADC x,#x" $98
+"ADC (X),(Y)" $99
+"ADDW YA,x" $7a
+"AND1 C,x.x" $4a
+"AND1 C,/x.x" $6a
+"AND1 x.x,C" $ca
+"AND A,!?" $25
+"AND A,x" $24
+"AND A,(X)" $26
+"AND A,#x" $28
+"AND A,!?+X" $35
+"AND A,[x+X]" $27
+"AND A,x+X" $34
+"AND A,[x]+Y" $37
+"AND A,!?+Y" $36
+"AND x,x" $29
+"AND x,#x" $38
+"AND (X),(Y)" $39
+"ASL !?" $0c
+"ASL A" $1c
+"ASL x" $0b
+"ASL x+X" $1b
+"BBC x.~,x" $03
+"BBS x.~,x" $03
+"BCC x" $90
+"BCS x" $b0
+"BEQ x" $f0
+"BMI x" $30
+"BNE x" $d0
+"BPL x" $10
+"BRA x" $2f
+"BRK" $0f
+"BVC x" $50
+"BVS x" $70
+"CALL !?" $3f
+"CBNE x,x" $2e
+"CBNE x+X,x" $de
+"CLR1 x,~" $02
+"CLR1 x.~" $02
+"CLRC" $60
+"CLRP" $20
+"CLRV" $e0
+"CMP A,!?" $65
+"CMP A,x" $64
+"CMP A,(X)" $66
+"CMP A,#x" $68
+"CMP A,!?+X" $75
+"CMP A,[x+X]" $67
+"CMP A,x+X" $74
+"CMP A,[x]+Y" $77
+"CMP A,!?+Y" $76
+"CMPW YA,x" $5a
+"CMP X,!?" $1e
+"CMP X,x" $3e
+"CMP x,x" $69
+"CMP x,#x" $78
+"CMP X,#x" $c8
+"CMP (X),(Y)" $79
+"CMP Y,!?" $5e
+"CMP Y,x" $7e
+"CMP Y,#x" $ad
+"DAA A" $df
+"DAA" $df
+"DAS A" $be
+"DAS" $be
+"DBNZ x,x" $6e
+"DBNZ Y,x" $fe
+"DEC !?" $8c
+"DEC A" $9c
+"DECW x" $1a
+"DEC X" $1d
+"DEC x" $8b
+"DEC x+X" $9b
+"DEC Y" $dc
+"DI" $c0
+"DIV YA,X" $9e
+"EI" $a0
+"EOR1 C,x.x" $8a
+"EOR A,!?" $45
+"EOR A,x" $44
+"EOR A,(X)" $46
+"EOR A,#x" $48
+"EOR A,!?+X" $55
+"EOR A,[x+X]" $47
+"EOR A,x+X" $54
+"EOR A,[x]+Y" $57
+"EOR A,!?+Y" $56
+"EOR x,x" $49
+"EOR x,#x" $58
+"EOR (X),(Y)" $59
+"INC A" $bc
+"INC !?" $ac
+"INCW x" $3a
+"INC X" $3d
+"INC x" $ab
+"INC x+X" $bb
+"INC Y" $fc
+"JMP !?" $5f
+"JMP [!?+X]" $1f
+"LSR !?" $4c
+"LSR A" $5c
+"LSR x" $4b
+"LSR x+X" $5b
+"MOV1 C,x.x" $aa
+"MOV !?,A" $c5
+"MOV A,!?" $e5
+"MOV A,X" $7d
+"MOV A,(X)+" $bf
+"MOV A,x" $e4
+"MOV A,(X)" $e6
+"MOV A,#x" $e8
+"MOV A,!?+X" $f5
+"MOV A,[x+X]" $e7
+"MOV A,x+X" $f4
+"MOV A,[x]+Y" $f7
+"MOV A,Y" $dd
+"MOV A,!?+Y" $f6
+"MOV SP,X" $bd
+"MOVW x,YA" $da
+"MOVW YA,x" $ba
+"MOV X,A" $5d
+"MOV (X)+,A" $af
+"MOV x,A" $c4
+"MOV (X),A" $c6
+"MOV !?+X,A" $d5
+"MOV !?,X" $c9
+"MOV X,!?" $e9
+"MOV X,SP" $9d
+"MOV x,#x" $8f
+"MOV [x+X],A" $c7
+"MOV x+X,A" $d4
+"MOV X,#x" $cd
+"MOV x,X" $d8
+"MOV X,x" $f8
+"MOV x,x" $fa
+"MOV x+X,Y" $db
+"MOV X,x+Y" $f9
+"MOV [x]+Y,A" $d7
+"MOV x,Y" $cb
+"MOV x+Y,X" $d9
+"MOV !?+Y,A" $d6
+"MOV Y,A" $fd
+"MOV !?,Y" $cc
+"MOV Y,!?" $ec
+"MOV Y,#x" $8d
+"MOV Y,x" $eb
+"MOV Y,x+X" $fb
+"MUL YA" $cf
+"NOP" $00
+"NOT1 x.x" $ea
+"NOTC" $ed
+"OR1 C,x.x" $0a
+"OR1 C,/x.x" $2a
+"OR A,!?" $05
+"OR A,x" $04
+"OR A,(X)" $06
+"OR A,#x" $08
+"OR A,!?+X" $15
+"OR A,[x+X]" $07
+"OR A,x+X" $14
+"OR A,[x]+Y" $17
+"OR A,!?+Y" $16
+"OR x,x" $09
+"OR x,#x" $18
+"OR (X),(Y)" $19
+"PCALL x" $4f
+"POP A" $ae
+"POP PSW" $8e
+"POP X" $ce
+"POP Y" $ee
+"PUSH A" $2d
+"PUSH PSW" $0d
+"PUSH X" $4d
+"PUSH Y" $6d
+"RET1" $7f
+"RET" $6f
+"ROL !?" $2c
+"ROL A" $3c
+"ROL x" $2b
+"ROL x+X" $3b
+"ROR !?" $6c
+"ROR A" $7c
+"ROR x" $6b
+"ROR x+X" $7b
+"SBC A,!?" $a5
+"SBC A,x" $a4
+"SBC A,(X)" $a6
+"SBC A,#x" $a8
+"SBC A,!?+X" $b5
+"SBC A,[x+X]" $a7
+"SBC A,x+X" $b4
+"SBC A,[x]+Y" $b7
+"SBC A,!?+Y" $b6
+"SBC x,x" $a9
+"SBC x,#x" $b8
+"SBC (X),(Y)" $b9
+"SET1 x,~" $02
+"SET1 x.~" $02
+"SETC" $80
+"SETP" $40
+"SLEEP" $ef
+"STOP" $ff
+"SUBW YA,x" $9a
+"TCALL ~" $01
+"TCLR1 !?" $4e
+"TSET1 !?" $0e
+"XCN A" $9f

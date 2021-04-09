@@ -1,0 +1,18 @@
+
+To compile all the binaries, write
+
+./unix.sh        ;under un*x.
+msdos.bat        ;under msdos and djgpp.
+execute amiga    ;under amigaos 1-3.
+execute amigaos4 ;under amigaos 4.
+win32            ;under win32 and cygwin (www.cygwin.com) or mingw (www.mingw.org).
+
+You can find the executables under the binaries directory.
+
+If the system tries to link/compile with cc you might run into trouble.
+Try to redefine shell enviroment variables CC and LD to gcc, e.g., in bash:
+
+export CC='gcc'
+export LD='gcc'
+
+Gcc should compile WLA DX just fine.

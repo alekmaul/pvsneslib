@@ -1,0 +1,26 @@
+
+CC?=egcs
+LD?=egcs
+
+CFLAGS?= -mno-cygwin -c -ansi -O3 -pedantic -Wall
+LDFLAGS = -mno-cygwin -s
+
+CFILES = main.c
+HFILES = main.h
+OFILES = main.o
+
+all: $(OFILES) makefile
+	$(LD) $(LDFLAGS) $(OFILES) -o wlab
+
+main.o: main.c main.h makefile
+	$(CC) $(CFLAGS) main.c
+
+
+$(OFILES): $(HFILES)
+
+
+clean:
+	rm -f $(OFILES) core *~ wlab.exe
+
+install:
+	make ; cp wlab.exe /usr/local/bin

@@ -1,0 +1,142 @@
+
+; WLA-GB
+
+copy makefiles/smake.gb to smakefile
+copy makefiles/scoptions.000 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-gb.000
+
+copy makefiles/smake.gb to smakefile
+copy makefiles/scoptions.020 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-gb.020
+
+
+; WLA-Z80
+
+copy makefiles/smake.z80 to smakefile
+copy makefiles/scoptions.000 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-z80.000
+
+copy makefiles/smake.z80 to smakefile
+copy makefiles/scoptions.020 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-z80.020
+
+
+; WLA-6502
+
+copy makefiles/smake.6502 to smakefile
+copy makefiles/scoptions.000 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-6502.000
+
+copy makefiles/smake.6502 to smakefile
+copy makefiles/scoptions.020 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-6502.020
+
+
+; WLA-6510
+
+copy makefiles/smake.6510 to smakefile
+copy makefiles/scoptions.000 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-6510.000
+
+copy makefiles/smake.6510 to smakefile
+copy makefiles/scoptions.020 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-6510.020
+
+
+; WLA-65C10
+
+copy makefiles/smake.65c10 to smakefile
+copy makefiles/scoptions.000 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-65c10.000
+
+copy makefiles/smake.65c10 to smakefile
+copy makefiles/scoptions.020 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-65c10.020
+
+
+; WLA-65816
+
+copy makefiles/smake.65816 to smakefile
+copy makefiles/scoptions.000 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-65816.000
+
+copy makefiles/smake.65816 to smakefile
+copy makefiles/scoptions.020 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-65816.020
+
+
+; WLA-SPC700
+
+copy makefiles/smake.SPC700 to smakefile
+copy makefiles/scoptions.000 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-spc700.000
+
+copy makefiles/smake.SPC700 to smakefile
+copy makefiles/scoptions.020 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-spc700.020
+
+
+; WLA-HUC6280
+
+copy makefiles/smake.huc6280 to smakefile
+copy makefiles/scoptions.000 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-huc6280.000
+
+copy makefiles/smake.huc6280 to smakefile
+copy makefiles/scoptions.020 to scoptions
+smake clean
+smake
+copy wla to binaries/wla-huc6280.020
+
+
+; MISC
+cd wlalink
+smake clean
+smake
+copy wlalink to /binaries/
+cd /
+
+cd wlad
+smake clean
+smake
+copy wlad to /binaries/
+cd /
+
+cd wlab
+smake clean
+smake
+copy wlab to /binaries/
+cd /
+
+; ARCHIVE
+lha a ram:wla.lha binaries/#?

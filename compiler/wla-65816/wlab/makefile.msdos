@@ -1,0 +1,22 @@
+
+CC = gcc
+CFLAGS = -m486 -c -ansi -O3 -pedantic -Wall
+LD = gcc
+LDFLAGS = 
+
+CFILES = main.c
+HFILES = main.h
+OFILES = main.o
+
+all: $(OFILES) makefile
+	$(LD) $(LDFLAGS) $(OFILES) -o wlab.exe
+
+main.o: main.c main.h makefile
+	$(CC) $(CFLAGS) main.c
+
+
+$(OFILES): $(HFILES)
+
+
+clean:
+	del *.o ; del *~ ; del wlab.exe

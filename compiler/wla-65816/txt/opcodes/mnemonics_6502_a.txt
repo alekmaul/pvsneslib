@@ -1,0 +1,167 @@
+
+6502 mnemonics listed in alphabetical order.
+
+if you notice any errors or something is missing, please
+send me email to vhelin@cc.hut.fi.
+
+
+x = 8bit
+? = 16bit
+
+
+"ADC ?" $6d
+"ADC x" $65
+"ADC #x" $69
+"ADC ?,X" $7d
+"ADC (x,X)" $61
+"ADC x,X" $75
+"ADC (x),Y" $71
+"ADC ?,Y" $79
+"AND ?" $2d
+"AND x" $25
+"AND #x" $29
+"AND ?,X" $3d
+"AND (x,X)" $21
+"AND x,X" $35
+"AND (x),Y" $31
+"AND ?,Y" $39
+"ASL" $0a
+"ASL ?" $0e
+"ASL A" $0a
+"ASL x" $06
+"ASL ?,X" $1e
+"ASL x,X" $16
+"BCC x" $90
+"BCS x" $b0
+"BEQ x" $f0
+"BIT ?" $2c
+"BIT x" $24
+"BMI x" $30
+"BNE x" $d0
+"BPL x" $10
+"BRK" $00
+"BRK x" $00
+"BVC x" $50
+"BVS x" $70
+"CLC" $18
+"CLD" $d8
+"CLI" $58
+"CLV" $b8
+"CMP ?" $cd
+"CMP x" $c5
+"CMP #x" $c9
+"CMP ?,X" $dd
+"CMP (x,X)" $c1
+"CMP x,X" $d5
+"CMP (x),Y" $d1
+"CMP ?,Y" $d9
+"CPX ?" $ec
+"CPX #x" $e0
+"CPX x" $e4
+"CPY ?" $cc
+"CPY #x" $c0
+"CPY x" $c4
+"DEC ?" $ce
+"DEC x" $c6
+"DEC ?,X" $de
+"DEC x,X" $d6
+"DEX" $ca
+"DEY" $88
+"EOR ?" $4d
+"EOR x" $45
+"EOR #x" $49
+"EOR ?,X" $5d
+"EOR (x,X)" $41
+"EOR x,X" $55
+"EOR (x),Y" $51
+"EOR ?,Y" $59
+"INC ?" $ee
+"INC x" $e6
+"INC ?,X" $fe
+"INC x,X" $f6
+"INX" $e8
+"INY" $c8
+"JMP ?" $4c
+"JMP (?)" $6c
+"JSR ?" $20
+"LDA ?" $ad
+"LDA x" $a5
+"LDA #x" $a9
+"LDA ?,X" $bd
+"LDA (x,X)" $a1
+"LDA x,X" $b5
+"LDA (x),Y" $b1
+"LDA ?,Y" $b9
+"LDX ?" $ae
+"LDX #x" $a2
+"LDX x" $a6
+"LDX x,Y" $b6
+"LDX ?,Y" $be
+"LDY ?" $ac
+"LDY #x" $a0
+"LDY x" $a4
+"LDY ?,X" $bc
+"LDY x,X" $b4
+"LSR" $4a
+"LSR ?" $4e
+"LSR A" $4a
+"LSR x" $46
+"LSR ?,X" $5e
+"LSR x,X" $56
+"NOP" $ea
+"ORA ?" $0d
+"ORA x" $05
+"ORA #x" $09
+"ORA ?,X" $1d
+"ORA (x,X)" $01
+"ORA x,X" $15
+"ORA (x),Y" $11
+"ORA ?,Y" $19
+"PHA" $48
+"PHP" $08
+"PLA" $68
+"PLP" $28
+"ROL" $2a
+"ROL ?" $2e
+"ROL A" $2a
+"ROL x" $26
+"ROL ?,X" $3e
+"ROL x,X" $36
+"ROR" $6a
+"ROR ?" $6e
+"ROR A" $6a
+"ROR x" $66
+"ROR ?,X" $7e
+"ROR x,X" $76
+"RTI" $40
+"RTS" $60
+"SBC ?" $ed
+"SBC x" $e5
+"SBC #x" $e9
+"SBC ?,X" $fd
+"SBC (x,X)" $e1
+"SBC x,X" $f5
+"SBC (x),Y" $f1
+"SBC ?,Y" $f9
+"SEC" $38
+"SED" $f8
+"SEI" $78
+"STA ?" $8d
+"STA x" $85
+"STA ?,X" $9d
+"STA (x,X)" $81
+"STA x,X" $95
+"STA (x),Y" $91
+"STA ?,Y" $99
+"STX ?" $8e
+"STX x" $86
+"STX x,Y" $96
+"STY ?" $8c
+"STY x" $84
+"STY x,X" $94
+"TAX" $aa
+"TAY" $a8
+"TSX" $ba
+"TXA" $8a
+"TXS" $9a
+"TYA" $98

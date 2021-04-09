@@ -1,0 +1,22 @@
+
+CC = sc
+CFLAGS = define AMIGA=1
+LINKER = slink
+LLIB = LIB LIB:scm.lib LIB:sc.lib LIB:amiga.lib
+LFLAGS = STRIPDEBUG NOICONS
+
+CFILES = main.c memory.c parse.c files.c check.c analyze.c write.c compute.c discard.c listfile.c
+HFILES = main.h memory.h parse.h files.h check.h analyze.h write.h compute.h discard.h listfile.h defines.h
+OFILES = main.o memory.o parse.o files.o check.o analyze.o write.o compute.o discard.o listfile.o
+
+ALLFILES = $(CFILES) $(HFILES) $(OFILES)
+
+
+all: main
+
+
+main: $(ALLFILES) smakefile SCOPTIONS
+	$(LINKER) $(LFLAGS) FROM LIB:c.o $(OFILES) TO wlalink $(LLIB)
+
+clean:
+	delete \#?.o \#?.gb \#?.lnk \#?.info wlalink
