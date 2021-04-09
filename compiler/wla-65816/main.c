@@ -131,7 +131,8 @@ int main(int argc, char *argv[]) {
     printf("\nWLA 65C02 Macro Assembler v9.4\n");
 #endif
 #ifdef W65816
-    printf("\nWLA 65816 Macro Assembler v9.4\n");
+    printf("\nWLA 65816 Macro Assembler v9.4-pvs2\n");
+    printf("Fork version for PVSneslib by Alekmaul in 2021\n");
 #endif
 #ifdef MCS6510
     printf("\nWLA 6510 Macro Assembler v9.4\n");
