@@ -76,9 +76,11 @@ int main(int argc, char *argv[]) {
     i = FAILED;
 
   if (i == FAILED) {
-    printf("\nWLALINK GB-Z80/Z80/6502/65C02/6510/65816/HUC6280/SPC-700 WLA Macro Assembler Linker v5.7\n");
+    printf("\nWLALINK GB-Z80/Z80/6502/65C02/6510/65816/HUC6280/SPC-700 WLA Macro Assembler Linker v5.7-pvs2\n");
     printf("Written by Ville Helin in 2000-2007\n");
-    printf("Modified for snes-sdk by Ulrich Hecht\n");
+#ifdef W65816
+    printf("Modified for PVSneslib by Alekmaul in 2021\n");
+#endif
     printf("USAGE: %s [-bdrvsSno] (<LINK FILE>|<OBJECT FILES...>) <OUTPUT FILE>\n", argv[0]);
     printf("Options:\n");
     printf("b  Program file output\n");

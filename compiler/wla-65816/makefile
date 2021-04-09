@@ -48,4 +48,4 @@ $(OFILES): $(HFILES)
 
 clean:
 	rm -f $(OFILES) wla-65816.exe wlalink.exe
-	cd wlalink-src && make clean
+	cd wlalink && make clean

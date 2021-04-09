@@ -2,8 +2,8 @@
 CC=gcc
 LD=gcc
 
-CFLAGS?= -c -g -Wall -O2 -DPREFIX=\"$(PREFIX)\"
-LDFLAGS =
+CFLAGS?= -c -g -O3 -pedantic -Wall -Wno-format -DMSDOS -DPREFIX=\"$(PREFIX)\" -DW65816
+LDFLAGS = 
 
 CFILES = main.c memory.c parse.c files.c check.c analyze.c write.c compute.c discard.c listfile.c
 HFILES = main.h memory.h parse.h files.h check.h analyze.h write.h compute.h discard.h listfile.h defines.h
@@ -12,7 +12,7 @@ OFILES = main.o memory.o parse.o files.o check.o analyze.o write.o compute.o dis
 all: wlalink
 
 wlalink: $(OFILES) makefile
-	$(LD) -g $(LDFLAGS) $(OFILES) -o wlalink 
+	$(LD) -g $(LDFLAGS) $(OFILES) -o wlalink.exe 
 
 
 main.o: main.c main.h defines.h
@@ -50,7 +50,7 @@ $(OFILES): $(HFILES)
 
 
 clean:
-	rm -f $(OFILES) core *~ wlalink
+	rm -f $(OFILES) wlalink.exe
 
 install:
-	make ; cp wlalink /usr/local/bin
+	make ; cp wlalink.exe ..

@@ -132,7 +132,6 @@ int main(int argc, char *argv[]) {
 #endif
 #ifdef W65816
     printf("\nWLA 65816 Macro Assembler v9.4-pvs2\n");
-    printf("Fork version for PVSneslib by Alekmaul in 2021\n");
 #endif
 #ifdef MCS6510
     printf("\nWLA 6510 Macro Assembler v9.4\n");
@@ -144,6 +143,9 @@ int main(int argc, char *argv[]) {
     printf("\nWLA HuC6280 Macro Assembler v9.4\n");
 #endif
     printf("Written by Ville Helin in 1998-2006\n");
+#ifdef W65816
+    printf("Modified for PVSneslib by Alekmaul in 2021\n");
+#endif
     printf("USAGE: %s -[iMqtvx]{lo} [DEFINITIONS] <ASM FILE> [OUTPUT FILE]\n", argv[0]);
     printf("Commands:             Options:\n");
     printf("l  Library file       i  Add list file information\n");
