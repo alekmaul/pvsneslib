@@ -21,10 +21,10 @@ for l in text_raw:
 bss = []
 bsson = False
 for l in text:
-  if l == '.ramsection ".bss" bank $7e slot 2 priority 2':
+  if l == '.RAMSECTION ".bss" BANK $7e SLOT 2':
     bsson = True
     continue
-  if l == '.ends':
+  if l == '.ENDS':
     bsson = False
   if bsson:
     bss += [l.split(' ')[0]]
@@ -259,6 +259,23 @@ while opted:
           opted += 1
           continue
       
+      if text[i].startswith('lda.w #') and \
+         text[i+1] == 'sta.b tcc__r9' and \
+         text[i+2].startswith('lda.w #') and \
+         text[i+3] == 'sta.b tcc__r9h' and \
+         text[i+4] == 'sep #$20' and \
+         text[i+5].startswith('lda.b ') and \
+         text[i+6] == 'sta.b [tcc__r9]' and \
+         text[i+7] == 'rep #$20':
+        text_opt += ['sep #$20']
+        text_opt += [text[i+5]]
+        text_opt += ['sta.l ' + str(int(text[i+2][7:]) * 65536 + int(text[i][7:]))]
+        text_opt += ['rep #$20']
+        i += 8
+        opted += 1
+        #sys.stderr.write('7')
+        continue
+      
       if text[i] == 'lda.w #0':
         if text[i+1].startswith('sta.b ') and text[i+2].startswith('lda'):
           text_opt += [text[i+1].replace('sta.','stz.')]
@@ -316,6 +333,177 @@ while opted:
           # this is not an optimization per se, so we don't count it
           continue
       
+      # compare optimizations inspired by optimore
+      # These opts simplify compare operations, which are monstrous because
+      # they have to take the long long case into account.
+      # We try to detect those cases by checking if a tya follows the
+      # comparison (not sure if this is reliable, but it passes the test suite)
+      if text[i] == 'ldx #1' and \
+         text[i+1].startswith('lda.b tcc__') and \
+         text[i+2] == 'sec' and \
+         text[i+3].startswith('sbc #') and \
+         text[i+4] == 'tay' and \
+         text[i+5] == 'beq +' and \
+         text[i+6] == 'dex' and \
+         text[i+7] == '+' and \
+         text[i+8].startswith('stx.b tcc__') and \
+         text[i+9] == 'txa' and \
+         text[i+10] == 'bne +' and \
+         text[i+11].startswith('brl ') and \
+         text[i+12] == '+' and \
+         text[i+13] != 'tya':
+        text_opt += [text[i+1]]
+        text_opt += ['cmp #' + text[i+3][5:]]
+        text_opt += [text[i+5]]
+        text_opt += [text[i+11]]	# brl
+        text_opt += [text[i+12]]	# +
+        i += 13
+        opted += 1
+        #sys.stderr.write('1')
+        continue
+      
+      if text[i] == 'ldx #1' and \
+         text[i+1] == 'sec' and \
+         text[i+2].startswith('sbc #') and \
+         text[i+3] == 'tay' and \
+         text[i+4] == 'beq +' and \
+         text[i+5] == 'dex' and \
+         text[i+6] == '+' and \
+         text[i+7].startswith('stx.b tcc__') and \
+         text[i+8] == 'txa' and \
+         text[i+9] == 'bne +' and \
+         text[i+10].startswith('brl ') and \
+         text[i+11] == '+' and \
+         text[i+12] != 'tya':
+        text_opt += ['cmp #' + text[i+2][5:]]
+        text_opt += [text[i+4]]
+        text_opt += [text[i+10]]	# brl
+        text_opt += [text[i+11]]	# +
+        i += 12
+        opted += 1
+        #sys.stderr.write('2')
+        continue
+      
+      if text[i] == 'ldx #1' and \
+         text[i+1].startswith('lda.b tcc__r') and \
+         text[i+2] == 'sec' and \
+         text[i+3].startswith('sbc.b tcc__r') and \
+         text[i+4] == 'tay' and \
+         text[i+5] == 'beq +' and \
+         text[i+6] == 'bcs ++' and \
+         text[i+7] == '+ dex' and \
+         text[i+8] == '++' and \
+         text[i+9].startswith('stx.b tcc__r') and \
+         text[i+10] == 'txa' and \
+         text[i+11] == 'bne +' and \
+         text[i+12].startswith('brl ') and \
+         text[i+13] == '+' and \
+         text[i+14] != 'tya':
+        text_opt += [text[i+1]]
+        text_opt += ['cmp.b ' + text[i+3][6:]]
+        text_opt += [text[i+5]]
+        text_opt += ['bcc +']
+        text_opt += ['brl ++']
+        text_opt += ['+']
+        text_opt += [text[i+12]]
+        text_opt += ['++']
+        i += 14
+        opted += 1
+        #sys.stderr.write('3')
+        continue
+      
+      if text[i] == 'ldx #1' and \
+         text[i+1] == 'sec' and \
+         text[i+2].startswith('sbc.w #') and \
+         text[i+3] == 'tay' and \
+         text[i+4] == 'bvc +' and \
+         text[i+5] == 'eor #$8000' and \
+         text[i+6] == '+' and \
+         text[i+7] == 'bmi +++' and \
+         text[i+8] == '++' and \
+         text[i+9] == 'dex' and \
+         text[i+10] == '+++' and \
+         text[i+11].startswith('stx.b tcc__r') and \
+         text[i+12] == 'txa' and \
+         text[i+13] == 'bne +' and \
+         text[i+14].startswith('brl ') and \
+         text[i+15] == '+' and \
+         text[i+16] != 'tya':
+        text_opt += [text[i+1]]
+        text_opt += [text[i+2]]
+        text_opt += [text[i+4]]
+        text_opt += ['eor #$8000']
+        text_opt += ['+']
+        text_opt += ['bmi +']
+        text_opt += [text[i+14]]
+        text_opt += ['+']
+        i += 16
+        opted += 1
+        #sys.stderr.write('4')
+        continue
+        
+      if text[i] == 'ldx #1' and \
+         text[i+1].startswith('lda.b tcc__r') and \
+         text[i+2] == 'sec' and \
+         text[i+3].startswith('sbc.b tcc__r') and \
+         text[i+4] == 'tay' and \
+         text[i+5] == 'bvc +' and \
+         text[i+6] == 'eor #$8000' and \
+         text[i+7] == '+' and \
+         text[i+8] == 'bmi +++' and \
+         text[i+9] == '++' and \
+         text[i+10] == 'dex' and \
+         text[i+11] == '+++' and \
+         text[i+12].startswith('stx.b tcc__r') and \
+         text[i+13] == 'txa' and \
+         text[i+14] == 'bne +' and \
+         text[i+15].startswith('brl ') and \
+         text[i+16] == '+' and \
+         text[i+17] != 'tya':
+        text_opt += [text[i+1]]
+        text_opt += [text[i+2]]
+        text_opt += [text[i+3]]
+        text_opt += [text[i+5]]
+        text_opt += [text[i+6]]
+        text_opt += ['+']
+        text_opt += ['bmi +']
+        text_opt += [text[i+15]]
+        text_opt += ['+']
+        i += 17
+        opted += 1
+        #sys.stderr.write('5')
+        continue
+        
+      if text[i] == 'ldx #1' and \
+         text[i+1] == 'sec' and \
+         text[i+2].startswith('sbc.b tcc__r') and \
+         text[i+3] == 'tay' and \
+         text[i+4] == 'bvc +' and \
+         text[i+5] == 'eor #$8000' and \
+         text[i+6] == '+' and \
+         text[i+7] == 'bmi +++' and \
+         text[i+8] == '++' and \
+         text[i+9] == 'dex' and \
+         text[i+10] == '+++' and \
+         text[i+11].startswith('stx.b tcc__r') and \
+         text[i+12] == 'txa' and \
+         text[i+13] == 'bne +' and \
+         text[i+14].startswith('brl ') and \
+         text[i+15] == '+' and \
+         text[i+16] != 'tya':
+        text_opt += [text[i+1]]
+        text_opt += [text[i+2]]
+        text_opt += [text[i+4]]
+        text_opt += [text[i+5]]
+        text_opt += ['+']
+        text_opt += ['bmi +']
+        text_opt += [text[i+14]]
+        text_opt += ['+']
+        i += 16
+        opted += 1
+        #sys.stderr.write('6')
+        continue
+        
     # end startswith('ld') 
     
     if text[i] == 'rep #$20' and text[i+1] == 'sep #$20':
@@ -385,7 +573,7 @@ while opted:
   if verbose: sys.stderr.write(str(opted) + ' optimizations performed\n')
   totalopt += opted
   
-for l in text_opt: print(l);
+for l in text_opt: print l
 if verbose: sys.stderr.write(str(totalopt) + ' optimizations performed in total\n')
 
 #prof.stop()
