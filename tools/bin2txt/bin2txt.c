@@ -1,17 +1,31 @@
-/***************************************************************************
+/*---------------------------------------------------------------------------------
 
-  gfx2snes.c
+	Copyright (C) 2012-2021
+		Alekmaul 
 
-  Image converter for snes.
-  Parts from pcx2snes from Neviksti
+	This software is provided 'as-is', without any express or implied
+	warranty.  In no event will the authors be held liable for any
+	damages arising from the use of this software.
 
-***************************************************************************/
+	Permission is granted to anyone to use this software for any
+	purpose, including commercial applications, and to alter it and
+	redistribute it freely, subject to the following restrictions:
 
-//INCLUDES
+	1.	The origin of this software must not be misrepresented; you
+		must not claim that you wrote the original software. If you use
+		this software in a product, an acknowledgment in the product
+		documentation would be appreciated but is not required.
+	2.	Altered source versions must be plainly marked as such, and
+		must not be misrepresented as being the original software.
+	3.	This notice may not be removed or altered from any source
+		distribution.
+
+    Convert binary to text file
+
+---------------------------------------------------------------------------------*/
+
 #include <stdlib.h>
 #include <stdio.h>
-//#include <memory.h>
-//#include <malloc.h>
 #include <string.h>
 
 #define BIN2TXTVERSION __BUILD_VERSION
@@ -26,29 +40,34 @@ unsigned int filesize;		// input file size
 char filebase[256]="";		// input filename
 char filename[256];			// output filename
 
-//// F U N C T I O N S //////////////////////////////////////////////////////////
-
-
 //////////////////////////////////////////////////////////////////////////////
-
 void PrintOptions(char *str)
 {
 	printf("\n\nUsage : bin2txt [options] filename ...");
 	printf("\n  where filename is a binary file");
 	
 	if(str[0]!=0)
-		printf("\nThe [%s] parameter is not recognized.",str);
+		printf("\n\nbin2txt: error 'The [%s] parameter is not recognized'",str);
 	
-	printf("\n\nOptions are:");
-	printf("\n\n--- Convert options ---");
+	printf("\n\nConvert options:");
 	printf("\n-cc               Output in c style format");
 	printf("\n-ca               Output in assembly style format");
-	printf("\n\n--- Misc options ---");
-	printf("\n-q                quiet mode");
+	printf("\n\nMisc options:");
+    printf("\n-h                Display this information");
+	printf("\n-q                Quiet mode");
+    printf("\n-v                Display constify version information");
 	printf("\n");
 	
 } //end of PrintOptions()
 
+//////////////////////////////////////////////////////////////////////////////
+void PrintVersion(void)
+{
+	printf("\n\nbin2txt.exe ("BIN2TXTDATE") version "BIN2TXTVERSION"");
+    printf("\nCopyright (c) 2012-2021 Alekmaul\n");
+}
+
+/*
 #ifndef HAVE_STRUPR
 char* strupr(char* s)
 {
@@ -61,54 +80,57 @@ char* strupr(char* s)
 	return s;
 }
 #endif
+*/
 
 /// M A I N ////////////////////////////////////////////////////////////
 
 #include <math.h>
 
-int main(int argc, char **arg)
+int main(int argc, char **argv)
 {
 	int i;
 	unsigned char bytei;
 
-	// Show something to begin :)
-	if (quietmode == 0) {
-		printf("\n=============================");
-		printf("\n---bin2txt v"BIN2TXTVERSION" "BIN2TXTDATE"---");
-		printf("\n------------------------------");
-		printf("\n(c) 2012 Alekmaul ");
-		printf("\n=============================\n");
-	}
 	
 	//parse the arguments
 	for(i=1;i<argc;i++)
 	{
-		if(arg[i][0]=='-')
+		if(argv[i][0]=='-')
 		{
-			if(arg[i][1]=='c') // convert options
+			if(argv[i][1]=='v') // show version
+            {
+                PrintVersion();
+                exit( 0 );
+            }
+			else if(argv[i][1]=='h') // show help
+            {
+                PrintOptions((char *) "");
+                exit( 0 );
+            }
+			else if(argv[i][1]=='c') // convert options
 			{
-				if( strcmp(&arg[i][1],"cc") == 0)	//packed pixels
+				if( strcmp(&argv[i][1],"cc") == 0)	//packed pixels
 				{
 					convformat=1;
 				}
-				else if( strcmp(&arg[i][1],"ca") == 0)	// lzss compressed pixels
+				else if( strcmp(&argv[i][1],"ca") == 0)	// lzss compressed pixels
 				{
 					convformat=2;
 				}
 				else
 				{
-					PrintOptions(arg[i]);
-					return 1;					
+					PrintOptions(argv[i]);
+					exit( 1 );
 				}
 			}
-			else if(arg[i][1]=='q') //quiet mode
+			else if(argv[i][1]=='q') //quiet mode
 			{
 				quietmode=1;
 			}
 			else //invalid option
 			{
-				PrintOptions(arg[i]);
-				return 1;
+				PrintOptions(argv[i]);
+				exit( 1 );
 			}
 		}
 		else
@@ -116,28 +138,28 @@ int main(int argc, char **arg)
 			//its not an option flag, so it must be the filebase
 			if(filebase[0]!=0) // if already defined... there's a problem
 			{
-				PrintOptions(arg[i]);
-				return 1;
+				PrintOptions(argv[i]);
+				exit( 1 );
 			}
 			else
-				strcpy(filebase,arg[i]);
+				strcpy(filebase,argv[i]);
 		}
 	}
 
 	//make sure options are valid
 	if( filebase[0] == 0 )
 	{
-		printf("\nERROR: You must specify a base filename.");
+		printf("\nbin2txt: error 'You must specify a base filename'");
 		PrintOptions("");
-		return 1;
+		exit( 1 );
 	}
 
 	// open the file
 	fpi = fopen(filebase,"rb");
 	if(fpi==NULL)
 	{
-		printf("\nERROR: Can't open file [%s]",filebase);
-		return 1;
+		printf("\nbin2txt: error 'Can't open file [%s]'",filebase);
+		exit( 1 );
 	}
 	if (filebase[strlen(filebase)-4] == '.') {
 		filebase[strlen(filebase)-4] = '\0';
@@ -145,13 +167,10 @@ int main(int argc, char **arg)
 
 	//Print what the user has selected
 	if (quietmode == 0) {
-		printf("\n****** O P T I O N S ***************");
 		if(convformat == 1)
-			printf("\nC Style format=ON");
+			printf("\nbin2txt: 'C Style format=ON'\n");
 		else
-			printf("\nASM style format=ON");
-
-		printf("\n************************************");
+			printf("\nbin2txt: 'ASM style format=ON'\n");
 	}
 
 	// get filesize
@@ -166,11 +185,11 @@ int main(int argc, char **arg)
 		sprintf(filename,"%s.asm",filebase);
 
 	if (quietmode == 0)
-		printf("\nSaving text file: [%s]",filename);
+		printf("bin2txt: 'Saving text file: [%s]\n",filename);
 	fpo = fopen(filename,"wb");
 	if(fpo==NULL)
 	{	
-		printf("\nERROR: Can't open file [%s] for writing\n",filename);
+		printf("bin2txt: error 'Can't open file [%s] for writing'\n",filename);
 		fclose(fpi);
 		return 1;
 	}
@@ -210,7 +229,7 @@ int main(int argc, char **arg)
 		fprintf(fpo, "; bin2txt converted binary data\n");
 		fprintf(fpo, "; binary file size : %d bytes\n",filesize);
 		fprintf(fpo, ";----------------------------------------------------------------------\n\n");
-		fprintf(fpo, ".section \".%s\" superfree\n\n", filebase);
+		fprintf(fpo, ".SECTION \".%s\" SUPERFREE\n\n", filebase);
 		strupr(filebase);
 		fprintf(fpo, ".define %s_SIZE %xh\n\n", filebase,filesize);
 		fprintf(fpo, "%s:\n", filebase);
@@ -231,7 +250,7 @@ int main(int argc, char **arg)
 	
 		// write footer
 		fprintf(fpo, "\n\n%s_end:\n\n", filebase);
-		fprintf(fpo, ".ends\n");
+		fprintf(fpo, ".ENDS\n");
 	}
 		
 	// close the input & output file
@@ -239,7 +258,7 @@ int main(int argc, char **arg)
 	fclose(fpo);
 
 	if (quietmode == 0)
-		printf("\nDone!\n\n");
+		printf("bin2txt: Done 'File converted'\n");
 
 	return 0;
 }
