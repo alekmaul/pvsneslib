@@ -243,13 +243,6 @@ void dmaFillVram(u8 * source, u16 address, u16 size);
 */
 void dmaClearVram(void);
 
-/*! \brief copies Palette from source to destination using channel 0 of DMA available channels in half words  
-	\param source the source to copy from
-	\param address vram address to copy
-	\param size the size in bytes of the data to copy.  
-*/
-void dmaCopyCGram(u8 * source, u16 address, u16 size);
-
 /*! \brief copies Sprites from source to destination using channel 0 of DMA available channels in half words  
 	\param source the source to copy from
 	\param address vram address to copy
