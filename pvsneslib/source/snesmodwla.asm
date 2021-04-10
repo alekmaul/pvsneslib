@@ -69,7 +69,7 @@
 ;======================================================================
 
 ;.ENUM $40
-.ramsection ".fp" bank 0 slot 1
+.RAMSECTION ".fp" BANK 0 SLOT 1
 spc_ptr:	DS 3
 spc_v:		DS 1
 spc_bank:	DS 1
@@ -88,7 +88,7 @@ digi_src2:	DS 3
 
 SoundTable:	DS 3
 ;.ENDE
-;260116.ends
+;260116.ENDS
 
 ;======================================================================
 ;bss
@@ -106,7 +106,7 @@ digi_remain:	DS 2
 digi_active:	DS 1
 digi_copyrate:	DS 1
 ;260116.ENDE
-.ends
+.ENDS
 
 ;======================================================================
 ;.segment "RODATA"
