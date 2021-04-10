@@ -55,7 +55,7 @@ void PrintOptions(char *str)
 	printf("\n\nMisc options:");
     printf("\n-h                Display this information");
 	printf("\n-q                Quiet mode");
-    printf("\n-v                Display constify version information");
+    printf("\n-v                Display version information");
 	printf("\n");
 	
 } //end of PrintOptions()
