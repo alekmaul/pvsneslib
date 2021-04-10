@@ -1,10 +1,10 @@
-.include "hdr.asm"
+.INCLUDE "hdr.asm"
 
 .accu 8
 .index 8
 .8bit
 
-.ramsection ".fp" bank 0 slot 1 priority 2
+.RAMSECTION ".fp" BANK 0 SLOT 1 PRIORITY 2
 tcc__SIGN      dsb  1
 tcc__f1 dsb 0
 tcc__X2        DSB  1
@@ -15,11 +15,11 @@ tcc__X1        DSB  1
 tcc__M1        DSB  1 ; 3
 tcc__f0h	       dsb  2
 tcc__E DSB  4
-.ends
+.ENDS
 
 ;.define OVLOC $3f5
 
-.section ".libm" superfree
+.SECTION ".libm" SUPERFREE
 
 .accu 16
 .index 16
@@ -495,4 +495,4 @@ _OVLOC:	lda.b tcc__r9
 	;stz tcc__M1 + 2
 	;stz tcc__M1 + 3
 	rts
-.ends
+.ENDS
