@@ -1,6 +1,6 @@
-.include "hdr.asm"
+.INCLUDE "hdr.asm"
 
-.section ".libtcc_internal"
+.SECTION ".libtcc_internal"
 
 .accu 16
 .index 16
@@ -347,5 +347,5 @@ tcc__jsl_ind_r9:
       sta.b tcc__r10h
       jmp.w tcc__jsl_r10
 
-.ends
+.ENDS
 
