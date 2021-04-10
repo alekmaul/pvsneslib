@@ -1280,7 +1280,7 @@ void gfunc_prolog(CType* func_type)
      than 50K of assembler code have been written */
   if(section_closed) {
     ind_before_section = ind;
-    pr("\n.section \".text_0x%x\" superfree\n", section_count++);
+    pr("\n.SECTION \".text_0x%x\" SUPERFREE\n", section_count++);
     section_closed = 0;
   }
     
@@ -1310,7 +1310,7 @@ void gfunc_epilog(void)
   pr(".ifgr __%s_locals 0\ntsa\nclc\nadc #__%s_locals\ntas\n.endif\n", current_fn, current_fn);
   pr("rtl\n");
   
-  pr(".ends\n");
+  pr(".ENDS\n");
   section_closed = 1;
   
   if(-loc > 0x1f00) error("stack overflow");

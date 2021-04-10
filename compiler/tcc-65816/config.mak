@@ -18,5 +18,5 @@ LIBSUF=.lib
 EXESUF=.exe
 ARCH=i386
 CONFIG_WIN32=yes
-VERSION=0.9.23
+VERSION=0.9.23pvs2
 SRC_PATH=/z/DropboxSvnClient/snesdev/pvsneslib/compiler/tcc-65816

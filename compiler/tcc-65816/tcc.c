@@ -10165,6 +10165,9 @@ static int64_t getclock_us(void)
 void help(void)
 {
     printf("tcc version " TCC_VERSION " - Tiny C Compiler - Copyright (C) 2001-2005 Fabrice Bellard\n"
+#ifdef TCC_TARGET_816
+           "Modified for PVSneslib by Alekmaul in 2021\n"
+#endif
            "usage: tcc [-v] [-c] [-o outfile] [-Bdir] [-bench] [-Idir] [-Dsym[=val]] [-Usym]\n"
            "           [-Wwarn] [-g] [-b] [-bt N] [-Ldir] [-llib] [-shared] [-static]\n"
            "           [infile1 infile2...] [-run infile args...]\n"
@@ -10531,7 +10534,11 @@ int main(int argc, char **argv)
     {
         if(sztmpnam[i]=='/')
         {
-            sztmpnam[i] = '.';
+            sztmpnam[i] = 'x';
+        }
+        if(sztmpnam[i]=='.')
+        {
+            sztmpnam[i] = 'x';
         }
     }
 #ifdef WIN32

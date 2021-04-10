@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//extern char sztmpnam[STRING_MAX_SIZE];  // Alekmaul 201125, variable for temp file name (token usage)
+
 static int put_elf_str(Section *s, const char *sym)
 {
     int offset, len;
@@ -485,13 +487,13 @@ static void tcc_output_binary(TCCState *s1, FILE *f,
             }
             fputc(s->data[j], f);
           }
-          if(!section_closed) fprintf(f, ".ends\n");
+          if(!section_closed) fprintf(f, ".ENDS\n");
         }
         else if(s == bss_section) {
           /* uninitialized data, we only need a .ramsection */
           Elf32_Sym* esym;
           int empty = 1;
-          fprintf(f, ".ramsection \".bss\" bank $7e slot 2\n");
+          fprintf(f, ".RAMSECTION \".bss\" BANK $7e SLOT 2\n");
           //fprintf(f, "ramsection.bss dsb 0\n");
           for(j = 0, esym = (Elf32_Sym*) symtab_section->data; j < symtab_section->sh_size / sizeof(Elf32_Sym); esym++, j++) {
             //fprintf(stderr,"%d/%d symbol %p st_shndx %d\n", j, symtab_section->sh_size / sizeof(Elf32_Sym*), esym, esym->st_shndx);
@@ -522,7 +524,7 @@ static void tcc_output_binary(TCCState *s1, FILE *f,
 #endif
           if(empty) fprintf(f, "__local_dummybss dsb 1\n");
           //fprintf(f, "endsection.bss dsb 0\n");
-          fprintf(f, ".ends\n");
+          fprintf(f, ".ENDS\n");
         }
         else {	/* .data, .rodata, user-defined sections */
 
@@ -540,11 +542,23 @@ static void tcc_output_binary(TCCState *s1, FILE *f,
           for(k = startk; k < endk; k++) {
 
             if(k == 0) {	/* .ramsection */
-              fprintf(f, ".ramsection \"ram%s\" bank $7f slot 3\n",s->name);
+#if 0
+              fprintf(f, ".RAMSECTION \"ram%s%s\" BANK $7f SLOT 3\n",sztmpnam,s->name);
+#else              
+              //fprintf(f, ".RAMSECTION \"ram%s%s\" BANK $7f SLOT 3\n",sztmpnam,s->name);
+              //fprintf(f, ".RAMSECTION \"ram%s%s\" KEEP\n",sztmpnam,s->name);
+              //fprintf(f, ".RAMSECTION \"ram%s\" KEEP\n",s->name);
+                // appel ram data to global one
+                fprintf(f, ".RAMSECTION \"ram%s\" APPENDTO \"globram.data\"\n",s->name);
+#endif
               //fprintf(f, "ramsection%s dsb 0\n", s->name);
             }
             else {	/* (ROM) .section */
-              fprintf(f, ".section \"%s\" superfree\n", s->name);
+                // check for .data section to append to global one
+                if (!strcmp(s->name,".data"))
+                    fprintf(f, ".SECTION \"%s\" APPENDTO \"glob.data\"\n", s->name);
+                else
+                    fprintf(f, ".SECTION \"%s\" SUPERFREE\n", s->name);
               //fprintf(f, "startsection%s:", s->name);
             }
 
@@ -663,7 +677,7 @@ static void tcc_output_binary(TCCState *s1, FILE *f,
               //fprintf(f,"\nendsection%s:", s->name);
               if(!size) fprintf(f, "\n__local_dummy%s: .db 0", s->name);
             }
-            fprintf(f,"\n.ends\n\n");
+            fprintf(f,"\n.ENDS\n\n");
           }
         }
 

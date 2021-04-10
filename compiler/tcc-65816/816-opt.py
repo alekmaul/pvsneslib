@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/c/Python27/python
 
 import sys
 import re
@@ -21,10 +21,10 @@ for l in text_raw:
 bss = []
 bsson = False
 for l in text:
-  if l == '.ramsection ".bss" bank $7e slot 2':
+  if l == '.RAMSECTION ".bss" BANK $7e SLOT 2':
     bsson = True
     continue
-  if l == '.ends':
+  if l == '.ENDS':
     bsson = False
   if bsson:
     bss += [l.split(' ')[0]]
