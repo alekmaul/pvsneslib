@@ -31,6 +31,13 @@ tcc__registers_irq dsb 0
 tcc__regs_irq dsb 48
 .ENDS
 
+.RAMSECTION "globram.data" BANK $7f SLOT 3 KEEP
+
+.ENDS
+
+.SECTION "glob.data" SUPERFREE KEEP
+
+.ENDS
 
 .BANK 0                                 ; Defines the ROM bank and the slot it is inserted in memory.
 .ORG 0                                  ; .ORG 0 is really $8000, because the slot starts at $8000
@@ -244,11 +251,11 @@ tcc__start:
 
     ; copy .data section to RAM
     ldx #0
--   lda.l SECTIONSTART_.data,x
-    sta.l SECTIONSTART_ram.data,x
+-   lda.l SECTIONSTART_glob.data,x
+    sta.l SECTIONSTART_globram.data,x
     inx
     inx
-    cpx #(SECTIONEND_.data-SECTIONSTART_.data)
+    cpx #(SECTIONEND_glob.data-SECTIONSTART_glob.data)
     bcc -
 
     ; set data bank register to bss section
@@ -278,9 +285,9 @@ tcc__start:
     lda #$6000 ; 2nd byte + rts
     sta.b move_backwards_insn + 2
 
-    pea $ffff - SECTIONEND_ram.data
-    pea :SECTIONEND_ram.data
-    pea SECTIONEND_ram.data
+    pea $ffff - SECTIONEND_globram.data
+    pea :SECTIONEND_globram.data
+    pea SECTIONEND_globram.data
     jsr.l malloc_init
     pla
     pla
