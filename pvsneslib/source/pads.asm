@@ -31,7 +31,7 @@
 .equ	REG_JOY1L		$4218
 .equ	REG_JOY2L		$421A
 
-.ramsection ".reg_pads" bank 0 slot 1
+.RAMSECTION ".reg_pads" BANK 0 SLOT 1
 
 pad_keys		dsb 10                        ; 5 pads , 16 bits reg
 pad_keysold		dsb 10                        ; 5 pads , 16 bits reg
@@ -39,7 +39,7 @@ pad_keysrepeat	dsb 10                        ; 5 pads , 16 bits reg
 
 snes_mplay5		db							  ; 1 if MultiPlayer5 connected
 mp5read			db							  ; for multiplayer5 plug test
-.ends
+.ENDS
 
 .SECTION ".pads0_text" SUPERFREE
 
