@@ -47,6 +47,7 @@ namespace ConversionInput {
 
 		spc_mode = true;
 		show_help = false;
+        show_version  = false;
 		hirom = false;
 		verbose_mode = false;
 		check_effect_size = false;
@@ -72,7 +73,7 @@ namespace ConversionInput {
 
 						arg++;
 						if( arg == argc ) {
-							printf( "\nERROR: No output file specified." );
+							printf( "\nsmconv: error 'No output file specified'" );
 							return;
 						}
 						output = argv[arg];
@@ -81,6 +82,8 @@ namespace ConversionInput {
 						hirom = true;
 					} else if( TESTARG2( "--verbose", "-v" )) {
 						verbose_mode = true;
+					} else if( TESTARG2( "--version", "-n" )) {
+						show_version = true;
 					} else if( TESTARG2( "--help", "-h" )) {
 						show_help = true;
 					} else if( TESTARG2( "--effectsize", "-f" )) {
@@ -88,14 +91,14 @@ namespace ConversionInput {
 					} else if( strmatch( argv[arg], "-b" ) ) {
 						arg++;
 						if( arg == argc ) {
-							printf( "\nERROR: No bank number specified." );
+							printf( "\nsmconv: error 'No bank number specified'" );
 							return;
 						}
 						if (isdigit(argv[arg][0])) {
 							banknumber = atoi(argv[arg]);
 						}
 						else {
-							printf( "\nERROR: Incorrect bank number." );
+							printf( "\nsmconv: error 'Incorrect bank number'" );
 							return;
 						}
 					}

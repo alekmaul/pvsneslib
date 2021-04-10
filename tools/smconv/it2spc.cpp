@@ -294,7 +294,7 @@ namespace IT2SPC {
 					totalsizem1=totalsize;
 
 			if( totalsize > spc_ram_size ) {
-				printf( "\ERROR: Module is too big. Maximum is %i bytes.", spc_ram_size );
+				printf( "\nsmconv: error 'Module is too big. Maximum is %i bytes'\n", spc_ram_size );
 			}
 		}
 	}
@@ -596,7 +596,7 @@ namespace IT2SPC {
 					} else {
 					    ed.delta = 64;
 					    ed.duration = 255;
-					    printf("\nWARNING: Volume envelope for instrument %i must have more\n         than one node to play properly.\n\n", CurrentInstrument);
+					    printf("\nsmconv: warning 'Volume envelope for instrument %i must have more\n               than one node to play properly'\n\n", CurrentInstrument);
 					}
 				} else {
 					ed.delta = 0;
@@ -870,8 +870,8 @@ namespace IT2SPC {
 		
 		if (size<=32768) {
 			fprintf( f, 
-				".bank %i\n"
-				".section \"SOUNDBANK\" ; need dedicated bank(s)\n\n"
+				".BANK %i\n"
+				".SECTION \"SOUNDBANK\" ; need dedicated bank(s)\n\n"
 				"SOUNDBANK__:\n",
 				BANKNUM
 			);
@@ -889,14 +889,14 @@ namespace IT2SPC {
 		
 			fprintf( f, ".incbin \"%s\"\n", foo.c_str() );
 		
-			fprintf( f, ".ends\n");
+			fprintf( f, ".ENDS\n");
 		}
 		else {
 			u32 lastbank = size/32768;
 			for( u32 j = 0; j <= lastbank; j++ ) {
 				fprintf( f, 
-					".bank %i\n"
-					".section \"SOUNDBANK%i\" ; need dedicated bank(s)\n\n"
+					".BANK %i\n"
+					".SECTION \"SOUNDBANK%i\" ; need dedicated bank(s)\n\n"
 					"SOUNDBANK__%i:\n",
 					BANKNUM+j,j,j
 				);
@@ -919,7 +919,7 @@ namespace IT2SPC {
 				else
 					fprintf( f, ".incbin \"%s\" skip $%x read $8000\n", foo.c_str(), j*0x8000 );
 		
-				fprintf( f, ".ends\n\n");
+				fprintf( f, ".ENDS\n\n");
 			}
 		}
 		

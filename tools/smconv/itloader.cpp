@@ -392,7 +392,7 @@ namespace ITLoader {
 					//if( verbose )
 					//	printf( "Unsupported WAV format.\n" );
 					//return LOADWAV_UNKNOWN_COMP;
-					printf("\nERROR: Unsupported WAV format." );
+					printf("\nsmconv: error 'Unsupported WAV format'\n" );
 					return;
 				}
 				
@@ -412,7 +412,7 @@ namespace ITLoader {
 				{
 					//if( verbose )
 					//	printf( "Unsupported bit-depth.\n" );
-					printf("\nERROR: Unsupported WAV bit depth.");
+					printf("\nsmconv: error 'Unsupported WAV bit depth'\n");
 					return;// LOADWAV_UNSUPPORTED_BD;
 				}
 				
@@ -442,7 +442,7 @@ namespace ITLoader {
 				
 				if( !hasformat )
 				{
-					printf("\nERROR: CORRUPT WAV FILE....\n");
+					printf("\nsmconv: error 'CORRUPT WAV FILE...'\n");
 					return;// LOADWAV_CORRUPT;
 				}
 				
