@@ -77,22 +77,8 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 	@echo Compiling to .ps ... $(notdir $<)
 	$(CC) $(CFLAGS) -Wall -c $< -o $@
 
-#---------------------------------------------------------------------------------
-# for libc.asm file only, we need to use -x flag of wla dx to create labels SECTIONSTART_[section name]
-# and SECTIONEND_[sectionname] at the beginning and end of each section.
-#---------------------------------------------------------------------------------
-#@CURRENTFILE=$<; \
-#	if [ $$CURRENTFILE = crt0_snes.asm -o $$CURRENTFILE = libm.asm -o $$CURRENTFILE = libtcc.asm ]; then \
-#	echo "Building without -x flag: $(AS) -s -o $@ $<"; \
-#	$(AS) -s -x -o $@ $<; \
-#else \
-#	echo "Building with -x flag: $(AS) -s -x -o $@ $<"; \
-#	$(AS) -s -x -o $@ $<; \
-#fi
-
 %.obj: %.asm
 	@echo Doing obj files ... $(fname)
-#	@cp $*.asm $*.sasm
 	echo "Building with -x flag: $(AS) -s -x -o $@ $<"
 	$(AS) -s -x -o $@ $< 
 
@@ -102,7 +88,6 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 	$(PY) $< >$*.asp 
 	@echo Moving constants ... $(notdir $<)
 	$(CTF) $*.c $*.asp $@	
-#	@cp $*.asp $*.asvg
 	@rm $*.asp
 
 #---------------------------------------------------------------------------------
@@ -118,7 +103,7 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 	done
         
 	@echo Linking ... $(notdir $@)
-	$(LD) -d -D -s -v -A -L ${LIBDIRSOBJS} linkfile $@
+	$(LD) -d -s -v -A -L ${LIBDIRSOBJS} linkfile $@
 
 	@sed 's/://' <$(ROMNAME).sym >$(ROMNAME).tmp
 	@mv $(ROMNAME).tmp $(ROMNAME).sym
