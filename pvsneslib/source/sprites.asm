@@ -480,3 +480,176 @@ oamInitGfxAttr:
 	rtl
 
 .ENDS
+
+ .SECTION ".sprites6_text" SUPERFREE
+
+//---------------------------------------------------------------------------------
+; void oamInit(void)
+oamInit:
+	php
+	phb
+	phx 
+    
+	sep	#$20
+	lda #$7e
+	pha
+	plb
+    
+    rep #$20
+    ldx #$0000
+    
+_oamInit1:                  ; all sprites are outside screen
+    lda #$F001              ; 1 & 240
+    sta.w oamMemory,x
+    inx
+    inx
+    lda #$0000              ; 0 & 0 
+    sta.w oamMemory,x
+    inx
+    inx
+    txa
+    cmp #(128*4)
+    bne _oamInit1
+
+_oamInit2:                  ; highatble now
+    lda #$5555              ; 1 & 240
+    sta.w oamMemory,x
+    inx
+    inx
+    lda #$5555              ; 1 & 240
+    sta.w oamMemory,x
+    inx
+    inx
+    txa
+    cmp #(136*4)
+    bne _oamInit2
+
+    plx
+    plb
+	plp
+	rtl
+
+//---------------------------------------------------------------------------------
+; void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize) 
+oamInitGfxSet:
+	php
+	phb
+    
+	wai                         ; force vblank interrupt
+
+    rep	#$20                    ; init tiles
+    lda	19,s            	    ; dmaCopyVram(tileSource, (address), tileSize);
+    sta.l	$2116               ; address for VRAM write(or read)
+    lda	10,s
+    sta.l	$4305               ; number of bytes to be copied
+    lda 6,s                     ; loword address to copy
+    sta.l $4302                 ; A1T0
+    
+    sep	#$20                    ; 8bit A
+    lda	#$80
+    sta.l	$2115               ; VRAM address increment value designation
+    lda 8,s           		    ; bank address of data in memory
+    sta.l $4304					; // A1B0
+	lda	#1
+	sta.l	$4300               ; 1= word increment
+	lda	#$18
+	sta.l	$4301               ; 2118 is the VRAM gate
+
+    lda	#$01                    ; turn on bit 7 (channel 7) of DMA
+    sta.l	$420b
+        
+    lda 20,s                    ; init palette (18+2 because of pha)
+    asl a                       ; palEntry = (128+tilePaletteNumber*16);
+    asl a
+    asl a
+    asl a
+    clc
+	adc #128
+    sta.l $2121               ; address for VRAM write(or read)
+    rep #$20
+    lda	16,s            	    
+    sta.l	$4305               ; number of bytes to be copied
+    lda 12,s                    ; loword address to copy
+    sta.l $4302                 ; A1T0
+    
+    sep	#$20                    ; 8bit A
+    lda 14,s           		    ; bank address of data in memory
+    sta.l $4304					; // A1B0
+	lda	#0                      ; 0= 1 byte increment (not a word!)
+	sta.l	$4300
+	lda	#$22
+	sta.l	$4301               ; destination 21xx   this is 2122 (CGRAM Gate)
+    
+    lda	#$01                    ; turn on bit 7 (channel 7) of DMA
+    sta.l	$420b
+
+    rep	#$20                    ; update base adress if needed (16k byte aligned)
+    lda	19,s            	    ; 
+
+    phy                         ; oamsize | (address >> 13);
+    ldy.w #13
+-
+    lsr a
+    dey
+    bne -
+    ply
+    
+    sep	#$20
+    ora 21,s
+  	sta.l	REG_OBSEL
+
+    plb
+	plp
+	rtl
+    
+//---------------------------------------------------------------------------------
+; void oamClear(u8 first, u8 numEntries) {
+oamClear:
+	php
+	phb
+
+    phx
+    phy
+    
+    sep #$20
+	lda 12,s                   ; get num entry
+    
+    rep #$20
+    and #$00FF
+    asl a
+    asl a
+    cmp #$0000
+    bne +
+    lda #128*4                ; if no numentries, change it for all
++   tax                       ; All sprites are outside screen 
+    
+    lda 10,s                  ; 1sst sprite to update
+    tay
+    
+_oamClear1:
+    lda #1*256+0
+    pha
+    phy
+    jsl oamSetEx               ; oamSetEx(i,OBJ_SMALL,OBJ_HIDE);
+    tsa
+    clc
+    adc #4
+    tas
+    dex
+    dex
+    dex
+    dex
+    iny
+    iny
+    iny
+    iny
+    txa
+    bne _oamClear1
+    
+    ply
+    plx
+    plb
+	plp
+	rtl
+
+.ENDS
