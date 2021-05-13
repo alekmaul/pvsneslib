@@ -192,7 +192,7 @@ int Convert2PicLZSS(int quietmode, unsigned char *bufin, int buflen, unsigned ch
 	}
 	
 	if (quietmode == 0) {
-		printf("\nCompression Lzss from %d bytes to %d bytes (ratio %d%%)", textsize,codesize,((100*codesize)/textsize));	/* Encoding is done. */
+		printf("\ngfx2snes: 'Compression Lzss from %d bytes to %d bytes (ratio %d%%)'", textsize,codesize,((100*codesize)/textsize));	/* Encoding is done. */
 	}
 	
 	return codesize;

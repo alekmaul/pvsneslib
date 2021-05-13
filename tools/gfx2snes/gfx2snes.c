@@ -77,7 +77,7 @@ int PCX_Load(char *filename, pcx_picture_ptr image)
 	fp = fopen(filename,"rb");
 	if(fp==NULL)
 	{
-		printf("\nERROR: Can't open file [%s]",filename);
+		printf("\ngfx2snes: error 'Can't open file [%s]'",filename);
 		return 0;
 	}
 
@@ -95,7 +95,7 @@ int PCX_Load(char *filename, pcx_picture_ptr image)
 		(header->num_color_planes != 1) ||
 		(header->palette_type != 1) )
 	{
-		printf("\nERROR: File [%s] is not recognized as a 256 color PCX.",filename);
+		printf("\ngfx2snes: error 'File [%s] is not recognized as a 256 color PCX'",filename);
 		fclose(fp);
 		return 0;
 	}
@@ -104,7 +104,7 @@ int PCX_Load(char *filename, pcx_picture_ptr image)
 	image->buffer = malloc( (size_t)(header->height+64)*header->width );
 	if(image->buffer == NULL)
 	{
-		printf("\nERROR: Can't allocate enough memory for the picture.");
+		printf("\ngfx2snes: error 'Can't allocate enough memory for the picture'");
 		fclose(fp);
 		return 0;
 	}
@@ -155,7 +155,7 @@ int PCX_Load(char *filename, pcx_picture_ptr image)
 	data = getc(fp);
 	if(data != 12)
 	{
-		printf("\nERROR: Couldn't find palette header [%s]",filename);
+		printf("\ngfx2snes: error 'Couldn't find palette header [%s]'",filename);
 		free(image->buffer);
 		fclose(fp);
 
@@ -173,7 +173,7 @@ int PCX_Load(char *filename, pcx_picture_ptr image)
 	//check to make sure there weren't errors while reading the file
 	if(ferror(fp))
 	{
-		printf("\nERROR: Error reading file [%s]",filename);
+		printf("\ngfx2snes: error 'Error reading file [%s]'",filename);
 		free(image->buffer);
 		fclose(fp);
 		return 0;
@@ -290,21 +290,21 @@ int BMP_Load(char *filename, pcx_picture_ptr image)
 	fp = fopen(filename,"rb");
 	if(fp==NULL)
 	{
-		printf("\nERROR: Can't open file [%s]",filename);
+		printf("\ngfx2snes: error 'Can't open file [%s]'",filename);
 		return 0;
 	}
 
 	// check to see if it is a valid bitmap file
 	if (fread(&bmphead, sizeof(bmp_header), 1, fp)  < 1)
 	{
-		printf("\nERROR: File [%s] has no correct BMP header.",filename);
+		printf("\ngfx2snes: error 'File [%s] has no correct BMP header'",filename);
 		fclose(fp);
 		return 0;
 	}
 
 	if (bmphead.bfType != BF_TYPE)
 	{
-		printf("\nERROR: File [%s] is not recognized as a BMP file.",filename);
+		printf("\ngfx2snes: error 'File [%s] is not recognized as a BMP file'",filename);
 		fclose(fp);
 		return 0;
 	}
@@ -312,14 +312,14 @@ int BMP_Load(char *filename, pcx_picture_ptr image)
 	// check to see if it is a valid bitmap file
 	if (fread(&bmpinfohead, sizeof(bmpinfohead), 1, fp)  < 1)
 	{
-		printf("\nERROR: File [%s] has no correct BMP info header.",filename);
+		printf("\ngfx2snes: error 'File [%s] has no correct BMP info header'",filename);
 		fclose(fp);
 		return 0;
 	}
 
 	if (bmpinfohead.biBitCount != 8 || (bmpinfohead.biCompression != 0 && bmpinfohead.biCompression != 1 /*BI_RLE8*/))
 	{
-		printf("\nERROR: File [%s] is not a valid BMP file: 256 colors, non-compressed or BI_RLE8 supported.",filename);
+		printf("\ngfx2snes: error 'File [%s] is not a valid BMP file: 256 colors, non-compressed or BI_RLE8 supported'",filename);
 		fclose(fp);
 		return 0;
 	}
@@ -348,7 +348,7 @@ int BMP_Load(char *filename, pcx_picture_ptr image)
 	image->buffer = malloc( (size_t)(header->height+64) * header->width );
 	if(image->buffer == NULL)
 	{
-		printf("\nERROR: Can't allocate enough memory for the picture.");
+		printf("\ngfx2snes: error 'Can't allocate enough memory for the picture'");
 		fclose(fp);
 		return 0;
 	}
@@ -375,7 +375,7 @@ int BMP_Load(char *filename, pcx_picture_ptr image)
 	// check to make sure there weren't errors while reading the file
 	if(ferror(fp))
 	{
-		printf("\nERROR: Error reading file [%s]",filename);
+		printf("\ngfx2snes: error 'Error reading file [%s]'",filename);
 		free(image->buffer);
 		fclose(fp);
 		return 0;
@@ -401,14 +401,14 @@ int TGA_Load(char *filename, pcx_picture_ptr image)
 	fp = fopen(filename,"rb");
 	if(fp==NULL)
 	{
-		printf("\nERROR: Can't open file [%s]",filename);
+		printf("\ngfx2snes: error 'Can't open file [%s]'",filename);
 		return 0;
 	}
 
 	// check to see if it is a valid bitmap file
 	if (fread(&tgahead, sizeof(tga_header), 1, fp)  < 1)
 	{
-		printf("\nERROR: File [%s] has no correct TGA header.",filename);
+		printf("\ngfx2snes: error 'File [%s] has no correct TGA header'",filename);
 		fclose(fp);
 		return 0;
 	}
@@ -417,7 +417,7 @@ int TGA_Load(char *filename, pcx_picture_ptr image)
 		//check to make sure there weren't errors while reading the file
 	if(ferror(fp))
 	{
-		printf("\nERROR: Error reading file [%s]",filename);
+		printf("\ngfx2snes: error 'Error reading file [%s]'",filename);
 		free(image->buffer);
 		fclose(fp);
 		return 0;
@@ -426,7 +426,7 @@ int TGA_Load(char *filename, pcx_picture_ptr image)
 
 	if (tgahead.BPP != 8 || tgahead.ImageType != 1)
 	{
-		printf("\nERROR: File [%s] is not a valid indexed 256 colors TGA file.",filename);
+		printf("\ngfx2snes: error 'File [%s] is not a valid indexed 256 colors TGA file'",filename);
 		fclose(fp);
 		return 0;
 	}
@@ -439,7 +439,7 @@ int TGA_Load(char *filename, pcx_picture_ptr image)
 	image->buffer = malloc( (size_t)(header->height+64) * header->width );
 	if(image->buffer == NULL)
 	{
-		printf("\nERROR: Can't allocate enough memory for the picture.");
+		printf("\ngfx2snes: error 'Can't allocate enough memory for the picture'");
 		fclose(fp);
 		return 0;
 	}
@@ -486,7 +486,7 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 		error = lodepng_decode(&pngimage, &width, &height, &state, png, pngsize);
 	}
 	if(error) {
-		printf("\nERROR: Decoder error %u: %s\n", error, lodepng_error_text(error));
+		printf("\ngfx2snes: error 'Decoder error %u: %s'\n", error, lodepng_error_text(error));
 		free(png);
 		lodepng_state_cleanup(&state);
 		free(pngimage);
@@ -494,8 +494,9 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 	}
 
 	bpp = state.info_raw.bitdepth;
-	if ( (bpp  != 4) && (bpp != 8)) {
-		printf("\nERROR: File [%s] is not a valid bbp value (%d bpp).",filename,bpp);
+	//130521 TOTO if ( (bpp  != 4) && (bpp != 8)) {
+    if (bpp != 8) {
+		printf("\ngfx2snes: error 'File [%s] is not a valid bbp value (%d bpp)'",filename,bpp);
 		free(png);
 		lodepng_state_cleanup(&state);
 		free(pngimage);
@@ -504,7 +505,7 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 
 	if (state.info_raw.colortype != LCT_PALETTE)
   {
-		printf("\nERROR: File [%s] is not a valid indexed palette mode (mode %d).",filename,state.info_raw.colortype);
+		printf("\ngfx2snes: error 'File [%s] is not a valid indexed palette mode (mode %d)'",filename,state.info_raw.colortype);
 		free(png);
 		lodepng_state_cleanup(&state);
 		free(pngimage);
@@ -524,12 +525,10 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 	header->width = width;
 	header->height = height;
 
-	printf("\nWidth %d Height %d",header->width,header->height);
-
-  //allocate memory for the picture + 64 empty lines
+    //allocate memory for the picture + 64 empty lines
 	image->buffer = malloc( (size_t)(header->height+64) * header->width );
 	if(image->buffer == NULL)	{
-		printf("\nERROR: Can't allocate enough memory for the picture.");
+		printf("\ngfx2snes: error 'Can't allocate enough memory for the picture'");
 		return 0;
 	}
 
@@ -537,13 +536,13 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 	memset(image->buffer,0,(size_t)(header->height+64) * header->width);
 
 	// 4 bpps conversion
+/*130521 TOTO
 	if (bpp==4) {
 	
 		for (index = 0; index < header->height; index++) {
 			for(i=0;i<header->width;i++)
 				image->buffer[index+i] = pngimage[i +index*header->height];
 		}
-		/*
       // get buffer size
 			*size = (wAligned / 2) * hAligned;
 			// and alloc
@@ -570,17 +569,16 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
 			}
 			for(;i < hAligned; i++)
 				memset(&result[i * (wAligned / 2)], 0, wAligned / 2);
-			*/
 	}
 	// 8 bpps conversion
 	else {
-
+*/
 		for (index = 0; index < header->height; index++) {
 			for(i=0;i<header->width;i++) {
 				image->buffer[i+(header->width*index)] = pngimage[i+(header->width*index)];
 			}
 		}
-	}
+	//}
 
 	free(png);
 
@@ -628,7 +626,7 @@ unsigned char *ArrangeBlocks( unsigned char *img, int width, int height,
 	int x,y;
 
 	if (quietmode == 0)
-		printf("\nwidth=%d, height=%d, size=%d, *xsize=%d, *ysize=%d, new_width=%d, border=%d",
+		printf("\ngfx2snes: 'width=%d, height=%d, size=%d, *xsize=%d, *ysize=%d, new_width=%d, border=%d'",
 			width, height, size, *xsize, *ysize, new_width, border);
 
 	//get number of full image block rows in the new buffer
@@ -639,12 +637,12 @@ unsigned char *ArrangeBlocks( unsigned char *img, int width, int height,
 		rows++;
 
 	if (quietmode == 0)
-		printf("\nrows=%d",rows);
+		printf("\ngfx2snes: 'rows=%d'",rows);
 
 	//get memory for the new buffer
 	buffer = malloc( (size_t) rows*size*new_width );
 	if(buffer == NULL) {
-		printf("\nERROR: Can't allocate enough memory for the buffer in ArrangeBlocks.");
+		printf("\ngfx2snes: error 'Can't allocate enough memory for the buffer in ArrangeBlocks'");
 		return 0;
 	}
 
@@ -726,12 +724,12 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 	//allocate map
 	map=malloc((size_t)tile_x*tile_y*sizeof(int));
 	if(map==NULL) {
-		printf("\nERROR: Can't allocate enough memory for the map in MakeMap.");
+		printf("\ngfx2snes: error 'Can't allocate enough memory for the map in MakeMap'");
 		return 0;
 	}
 
 	if (quietmode == 0)
-		printf("\n*num_tiles=%d, xsize=%d, ysize=%d, tile_x=%d, tile_y=%d, colors=%d, rearrange=%d",
+		printf("\ngfx2snes: '*num_tiles=%d, xsize=%d, ysize=%d, tile_x=%d, tile_y=%d, colors=%d, rearrange=%d'",
 			*num_tiles, xsize, ysize, tile_x, tile_y, colors, rearrange);
 			
 	//clear map
@@ -961,14 +959,14 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 	num=malloc(num_tiles*sizeof(int));
 	if(num==NULL)
 	{
-		printf("\nERROR: Not enough memory to do rearrangement calculations.\n");
+		printf("\ngfx2snes: error 'Not enough memory to do rearrangement calculations'\n");
 		return 0;
 	}
 
 	combos=malloc(num_tiles*16*sizeof(int));
 	if(combos==NULL)
 	{
-		printf("\nERROR: Not enough memory to do rearrangement calculations.\n");
+		printf("\ngfx2snes: error 'Not enough memory to do rearrangement calculations'\n");
 		free(num);
 		return 0;
 	}
@@ -976,7 +974,7 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 	list=malloc(num_tiles*sizeof(int));
 	if(list==NULL)
 	{
-		printf("\nERROR: Not enough memory to do rearrangement calculations.\n");
+		printf("\ngfx2snes: error 'Not enough memory to do rearrangement calculations'\n");
 		free(combos);
 		free(num);
 		return 0;
@@ -1015,7 +1013,7 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 			{
 				if(num[index]==colors) //combo is full
 				{
-					printf("\nERROR: Detected more colors in one 8x8 tile than is allowed.\n");
+					printf("\ngfx2snes: error 'Detected more colors in one 8x8 tile than is allowed'\n");
 					free(list);
 					free(combos);
 					free(num);
@@ -1057,7 +1055,7 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 		if(num_final==8)
 		{
 			//we already have 8 palettes... can't add more
-			printf("\nERROR: not enough colors/palettes to represent the picture.\n");
+			printf("\ngfx2snes: error 'not enough colors/palettes to represent the picture'\n");
 			free(list);
 			free(combos);
 			free(num);
@@ -1126,7 +1124,7 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 	//Yeah! ... if we made it here it worked!
 	//(assuming my code is right)
 	if (quietmode == 0)
-		printf("\nRearrangement possible!! Accomplished in %d palettes...", num_final);
+		printf("\ngfx2snes: 'Rearrangement possible!! Accomplished in %d palettes...'", num_final);
 
 	//convert the image
 	for(i=0;i<num_tiles;i++)
@@ -1203,12 +1201,12 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
 		sprintf(filename,"%s.pic",filebase);
 
 	if (quietmode == 0)
-		printf("\nSaving graphics file: [%s]",filename);
+		printf("\ngfx2snes: 'Saving graphics file: [%s]'",filename);
 	fp = fopen(filename,"wb");
 
 	if(fp==NULL)
 	{
-		printf("\nERROR: Can't open file [%s] for writing\n",filename);
+		printf("\ngfx2snes: error 'Can't open file [%s] for writing'\n",filename);
 		return 0;
 	}
 
@@ -1243,13 +1241,13 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
 		bufsize=8*bitplanes+num_tiles*8*bitplanes;
 		buftolzin = malloc (bufsize);
 		if (buftolzin == NULL) {
-			printf("\nERROR: Can't allocate enough memory for the buffer comrpession 1.");
+			printf("\ngfx2snes: error 'Can't allocate enough memory for the buffer comrpession 1'");
 			fclose(fp);
 			return 0;
 		}
 		buftolzout = malloc (bufsize);
 		if (buftolzout == NULL) {
-			printf("\nERROR: Can't allocate enough memory for the buffer comrpession 2.");
+			printf("\ngfx2snes: error 'Can't allocate enough memory for the buffer comrpession 2'");
 			free(buftolzin);
 			fclose(fp);
 			return 0;
@@ -1302,7 +1300,8 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
 			for(i=0;i<8*bitplanes;i++)
 				fputc(0,fp);
 
-		printf("\ndecode for %d tiles and %d bitplanes\n",num_tiles,bitplanes);
+        if (quietmode == 0)
+            printf("\ngfx2snes: 'decode for %d tiles and %d bitplanes'\n",num_tiles,bitplanes);
 
 		for(t=0;t<num_tiles;t++) //loop through tiles
 		for(b=0;b<bitplanes;b+=2) //loop through bitplane pairs
@@ -1420,7 +1419,7 @@ void PrintOptions(char *str)
 	printf("\n  where filename is a 256 color PNG, BMP, PCX or TGA file");
 
 	if(str[0]!=0)
-		printf("\nThe [%s] parameter is not recognized.",str);
+		printf("\ngfx2snes: error 'The [%s] parameter is not recognized'",str);
 
 	printf("\n\nOptions are:");
 	printf("\n\n--- Graphics options ---");
@@ -1453,9 +1452,18 @@ void PrintOptions(char *str)
 	printf("\n\n--- Misc options ---");
 	printf("\n-n                no border");
 	printf("\n-q                quiet mode");
+    printf("\n-v                Display gfx2snes version information");
 	printf("\n");
 
 } //end of PrintOptions()
+
+//////////////////////////////////////////////////////////////////////////////
+void PrintVersion(void)
+{
+	printf("\ngfx2snes.exe ("GFX2SNESVERSION") version "GFX2SNESDATE"");
+    printf("\nCopyright (c) 2013-2021 Alekmaul");
+    printf("\nBased on pcx2snes by Neviksti\n");
+}
 
 /// M A I N ////////////////////////////////////////////////////////////
 
@@ -1479,16 +1487,6 @@ int main(int argc, char **arg)
 	char filebase[256]="";
 	char filename[256];
 	int i, j;
-
-	// Show something to begin :)
-	if (quietmode == 0) {
-		printf("\n==============================");
-		printf("\n---gfx2snes v"GFX2SNESVERSION" "GFX2SNESDATE"---");
-		printf("\n------------------------------");
-		printf("\n(c) 2013-2018 Alekmaul ");
-		printf("\nBased on pcx2snes by Neviksti");
-		printf("\n==============================\n");
-	}
 
 	//parse the arguments
 	for(i=1;i<argc;i++)
@@ -1635,7 +1633,7 @@ int main(int argc, char **arg)
 					}
 				}
 			}
-			else if(arg[i][1]=='f') //file type specification
+			else if (arg[i][1]=='f') //file type specification
 			{
 				if( strcmp(&arg[i][1],"fpcx") == 0)
 				{
@@ -1650,6 +1648,11 @@ int main(int argc, char **arg)
 					file_type = 4; // PNG, evething else is bmp
 				}
 			}
+			else if (arg[i][1]=='v') //version information 
+            { 
+                PrintVersion();
+				return 0;
+            }
 			else //invalid option
 			{
 				PrintOptions(arg[i]);
@@ -1675,21 +1678,21 @@ int main(int argc, char **arg)
 
 	if( filebase[0] == 0 )
 	{
-		printf("\nERROR: You must specify a base filename.");
+		printf("\ngfx2snes: error 'You must specify a base filename'");
 		PrintOptions("");
 		return 1;
 	}
 
 	if( colors == 0 )
 	{
-		printf("\nERROR: The Number of Colors parameter must be specified.");
+		printf("\ngfx2snes: error 'The Number of Colors parameter must be specified'");
 		PrintOptions("");
 		return 1;
 	}
 
 	if((size == 0) && (border == 0) && (screen == 0))
 	{
-		printf("\nERROR: The Size parameter must be specified when the border is turned off.");
+		printf("\ngfx2snes: error 'The Size parameter must be specified when the border is turned off'");
 		PrintOptions("");
 		return 1;
 	}
@@ -1703,17 +1706,17 @@ int main(int argc, char **arg)
 
 		if((colors == 256) || (colors == 128))
 		{
-			printf("\n***WARNING: -c128 and -c256 override the -r option. The palette will not be rearranged.");
+			printf("\n***gfx2snes: WARNING '-c128 and -c256 override the -r option. The palette will not be rearranged'");
 			rearrange=0;
 		}
 		if(screen == 0)
 		{
-			printf("\n***WARNING: the -r option means nothing in image block mode. The palette will not be rearranged.");
+			printf("\n***gfx2snes: warning 'the -r option means nothing in image block mode. The palette will not be rearranged'");
 			rearrange=0;
 		}
 		else if((output_palette != i) && (output_palette != -1))
 		{
-			printf("\n***WARNING: -o# is not over-riden, but because -r was selected, anything other than the 8 palettes won't mean much	after all the colors are re-arranged.");
+			printf("\n***gfx2snes: warning '-o# is not over-riden, but because -r was selected, anything other than the 8 palettes won't mean much	after all the colors are re-arranged'");
 		}
 		else
 			output_palette=i;
@@ -1730,28 +1733,28 @@ int main(int argc, char **arg)
 		case 2 : // PCX
 			sprintf(filename,"%s.pcx",filebase);
 			if (quietmode == 0)
-				printf("\nOpening graphics file: [%s]",filename);
+				printf("\ngfx2snes: 'Opening graphics file: [%s]'",filename);
 			if(!PCX_Load(filename,(pcx_picture_ptr) &image))
 				return 1;
 			break;
 		case 3 : // TGA
 			sprintf(filename,"%s.tga",filebase);
 			if (quietmode == 0)
-				printf("\nOpening graphics file: [%s]",filename);
+				printf("\ngfx2snes: 'Opening graphics file: [%s]'",filename);
 			if(!TGA_Load(filename,(pcx_picture_ptr) &image))
 				return 1;
 			break;
 		case 4 : // PNG
 			sprintf(filename,"%s.png",filebase);
 			if (quietmode == 0)
-				printf("\nOpening graphics file: [%s]",filename);
+				printf("\ngfx2snes: 'Opening graphics file: [%s]'",filename);
 			if(!PNG_Load(filename,(pcx_picture_ptr) &image))
 				return 1;
 			break;
 		default : // BMP for everithing else
 			sprintf(filename,"%s.bmp",filebase);
 			if (quietmode == 0)
-				printf("\nOpening graphics file: [%s]",filename);
+				printf("\ngfx2snes: 'Opening graphics file: [%s]'",filename);
 			if(!BMP_Load(filename,(pcx_picture_ptr) &image))
 				return 1;
 			break;
@@ -1767,7 +1770,7 @@ int main(int argc, char **arg)
 	if((size == 0) && (screen == 0))
 	{
 		if (quietmode == 0)
-			printf("\nAuto-detecting size of image blocks...");
+			printf("\ngfx2snes: error 'Auto-detecting size of image blocks...'");
 
 		clr = image.buffer[0]; //get the border color
 		for(i=1; i<width; i++)
@@ -1792,7 +1795,7 @@ int main(int argc, char **arg)
 
 		if( (xsize%(size+1) != 0 ) || (ysize%(size+1) != 0 ) )
 		{
-			printf("\nERROR : Border format is incorrect... autodetect size failed.\n");
+			printf("\ngfx2snes: error 'Border format is incorrect... autodetect size failed.'\n");
 			return 1;
 		}
 
@@ -1809,7 +1812,7 @@ int main(int argc, char **arg)
 			// Get out if hires and not 512 width
 			if( (hi512) &&  (width != 512) )
 			{
-				printf("\nERROR : HiRes mode 5 format is not 512 pixels width.\n");
+				printf("\ngfx2snes: error 'EHiRes mode 5 format is not 512 pixels width.'\n");
 				return 1;
 			}
 		}
@@ -1823,6 +1826,7 @@ int main(int argc, char **arg)
 	}
 
 	//if its a full screen, determine the number of tiles
+    tile_x=tile_y=32;  // default value
 	if(screen)
 	{
 		//ALEK 09/08 if(width>256)
@@ -1849,83 +1853,45 @@ int main(int argc, char **arg)
 
 	//Print what the user has selected
 	if (quietmode == 0) {
-		printf("\n****** O P T I O N S ***************");
-		if(border)
-			printf("\nborder=ON");
-		else
-			printf("\nborder=OFF");
-
-		if (highpriority)
-			printf("\nhighpriority=ON");
-		else
-			printf("\nhighpriority=OFF");
-
-		if (blanktile)
-			printf("\nblanktile=ON");
-		else
-			printf("\nblanktile=OFF");
-
-		if (collision)
-			printf("\ncollisionmap=ON");
-		else
-			printf("\ncollisionmap=OFF");
-
-    if (pagemap32)
-			printf("\ntile map pages of 32x32=ON");
-		else
-			printf("\ntile map pages of 32x32=OFF");
-
-		if (hi512)
-			printf("\ntile map mode 512=ON");
-		else
-			printf("\ntile map mode 512=OFF");
-		
-		if (tile_reduction)
-			printf("\nOptimize tilemap=ON");
-		else
-			printf("\nOptimize tilemap=OFF");
-
-		if (lzpacked)
-			printf("\nLZSS compression=ON");
-		else
-			printf("\nLZSS compression=OFF");
-
-		if(packed)
-			printf("\npixel format=packed-bit");
-		else
-			printf("\npixel format=bit-plane");
+		printf("\ngfx2snes: ****** O P T I O N S ***************");
+		printf(border ? "\ngfx2snes: border=ON" : "'\ngfx2snes: 'order=OFF");
+		printf(highpriority ? "\ngfx2snes: highpriority=ON" : "\ngfx2snes: highpriority=OFF");
+		printf(blanktile ? "\ngfx2snes: blanktile=ON" : "\ngfx2snes: blanktile=OFF");
+		printf(collision ? "\ngfx2snes: collisionmap=ON" : "\ngfx2snes: collisionmap=OFF");
+		printf(pagemap32 ? "\ngfx2snes: tile map pages of 32x32=ON" : "\ngfx2snes: tile map pages of 32x32=OFF");
+		printf(hi512 ? "\ngfx2snes: tile map mode 512=ON" : "\ngfx2snes: tile map mode 512=OFF");
+		printf(tile_reduction ? "\ngfx2snes: Optimize tilemap=ON" : "\ngfx2snes: Optimize tilemap=OFF");
+		printf(lzpacked ? "\ngfx2snes: LZSS compression=ON" : "\ngfx2snes: LZSS compression=OFF");
+		printf(packed ? "\ngfx2snes: pixel format=packed-bit" : "\ngfx2snes: pixel format=bit-plane");
 
 		if (file_type == 2)
-			printf("\nPCX file: %dx%d pixels",width,height);
+			printf("\ngfx2snes: 'PCX file: %dx%d pixels'",width,height);
 		else if (file_type == 3)
-			printf("\nTGA file: %dx%d pixels",width,height);
+			printf("\ngfx2snes: TGA file: %dx%d pixels",width,height);
 		else if (file_type == 4)
-			printf("\nPNG file: %dx%d pixels",width,height);
+			printf("\ngfx2snes: PNG file: %dx%d pixels",width,height);
 		else
-			printf("\nBMP file: %dx%d pixels",width,height);
+			printf("\ngfx2snes: BMP file: %dx%d pixels",width,height);
 
 		if(screen)
 		{
-			printf("\nScreen mode selected: %dx%d tile map",tile_x,tile_y);
-			if(rearrange)
-				printf("\nPalette rearrange: ON");
-			else
-				printf("\nPalette rearrange: OFF");
+			printf("\ngfx2snes: Screen mode selected: %dx%d tile map",tile_x,tile_y);
+			printf(rearrange ? "\ngfx2snes: Palette rearrange: ON" : "\ngfx2snes: Palette rearrange: OFF");
 		}
 		else
 		{
-			printf("\nImage mode selected: %dx%d pixel blocks",size,size);
-			printf("\n          image has: %dx%d blocks",xsize,ysize);
+			printf("\ngfx2snes: Image mode selected: %dx%d pixel blocks",size,size);
+			printf("\ngfx2snes:           image has: %dx%d blocks",xsize,ysize);
 		}
-		printf("\nTotal colors = %d", colors);
+		printf("\ngfx2snes: Total colors = %d", colors);
 
 		if(output_palette)
-			printf("\nPalette section to convert: Color #0 to %d", output_palette-1);
+			printf("\ngfx2snes: Palette section to convert: Color #0 to %d", output_palette-1);
 
 		if(palette_entry)
-			printf("\nPalette entry to be for map tiles: Entry#%d", palette_entry);
+			printf("\ngfx2snes: Palette entry to be for map tiles: Entry#%d", palette_entry);
 
-		printf("\n************************************");
+		printf("\ngfx2snes: ************************************");
 	}
 
 	//truncate the colors if necessary
@@ -1939,7 +1905,8 @@ int main(int argc, char **arg)
 	}
 
 	//arrange the blocks according to how we would like them represented.
-	if(screen)
+	tilemap=NULL;
+    if(screen)
 	{
 		j=xsize;
 		num_tiles=ysize;
@@ -1950,7 +1917,7 @@ int main(int argc, char **arg)
 
 		if(buffer==NULL)
 		{
-			printf("\nERROR:Not enough memory to do image operations...\n");
+			printf("\ngfx2snes: error 'Not enough memory to do image operations...'\n");
 			return 1;
 		}
 
@@ -1970,7 +1937,7 @@ int main(int argc, char **arg)
 		if(tilemap==NULL)
 		{
 			free(buffer);
-			printf("\nERROR:Not enough memory to do tile map optimizations..\n");
+			printf("\ngfx2snes: error 'Not enough memory to do tile map optimizations...'\n");
 			return 1;
 		}
 
@@ -1982,7 +1949,7 @@ int main(int argc, char **arg)
 
 		if((screen == 7) && (num_tiles+blank_absent)>256)
 		{
-			printf("\nERROR: Need %d tiles to represent the screen in mode7\n       the SNES only has room for 256 tiles" ,num_tiles+blank_absent);
+			printf("\ngfx2snes: error 'Need %d tiles to represent the screen in mode7. SNES only has room for 256 tiles'" ,num_tiles+blank_absent);
 			free(buffer);
 			free(tilemap);
 			return 1;
@@ -1990,9 +1957,9 @@ int main(int argc, char **arg)
 
 		if (quietmode == 0) {
 			if (tile_reduction)
-				printf("\nReduced screen to %d tiles.",num_tiles+blank_absent);
+				printf("\ngfx2snes: 'Reduced screen to %d tiles'",num_tiles+blank_absent);
 			else
-				printf("\nComputed screen with %d tiles.",num_tiles+blank_absent);
+				printf("\ngfx2snes: 'Computed screen with %d tiles'",num_tiles+blank_absent);
 		}
 	}
 	else //image block mode
@@ -2003,7 +1970,7 @@ int main(int argc, char **arg)
 
 		if(buffer==NULL)
 		{
-			printf("\nERROR:Not enough memory to do image operations...\n");
+			printf("\ngfx2snes: error 'Not enough memory to do image operations...'\n");
 			return 1;
 		}
 
@@ -2017,7 +1984,7 @@ int main(int argc, char **arg)
 
 		if(temp==NULL)
 		{
-			printf("\nERROR:Not enough memory to do image operations...\n");
+			printf("\ngfx2snes: error 'Not enough memory to do image operations...'\n");
 			return 1;
 		}
 
@@ -2053,11 +2020,11 @@ int main(int argc, char **arg)
 		}
 
 		if (quietmode == 0)
-			printf("\nSaving tile map file: [%s]",filename);
+			printf("\ngfx2snes: 'Saving tile map file: [%s]'",filename);
 		fp = fopen(filename,"wb");
 		if(fp==NULL)
 		{
-			printf("\nERROR: Can't open file [%s] for writing\n",filename);
+			printf("\ngfx2snes: error 'Can't open file [%s] for writing'\n",filename);
 			free(tilemap);
 			return 1;
 		}
@@ -2080,11 +2047,11 @@ int main(int argc, char **arg)
 			sprintf(filename,"%s.spr",filebase);
 
 			if (quietmode == 0)
-				printf("\nSaving sprite table for map file: [%s]",filename);
+				printf("\ngfx2snes: 'Saving sprite table for map file: [%s]'",filename);
 			fp = fopen(filename,"wb");
 			if(fp==NULL)
 			{
-				printf("\nERROR: Can't open file [%s] for writing\n",filename);
+				printf("\ngfx2snes: error 'Can't open file [%s] for writing'\n",filename);
 				free(tilemap);
 				return 1;
 			}
@@ -2109,12 +2076,12 @@ int main(int argc, char **arg)
 	{
 		sprintf(filename,"%s.pal",filebase);
 		if (quietmode == 0)
-			printf("\nSaving palette file: [%s]",filename);
+			printf("\ngfx2snes: 'Saving palette file: [%s]'",filename);
 		fp = fopen(filename,"wb");
 
 		if(fp==NULL)
 		{
-			printf("\nERROR: Can't open file [%s] for writing\n",filename);
+			printf("\ngfx2snes: error 'Can't open file [%s] for writing'\n",filename);
 			return 0;
 		}
 
@@ -2125,7 +2092,7 @@ int main(int argc, char **arg)
 	}
 
 	if (quietmode == 0)
-		printf("\nDone !\n\n");
+		printf("\ngfx2snes: 'Done !'\n\n");
 
 	return 0;
 }
