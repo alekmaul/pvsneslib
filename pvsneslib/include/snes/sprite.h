@@ -212,7 +212,7 @@ void oamSetVisible(u16 id, u8 hide);
 	\param first	number of 1st sprite to write * 4 because of oam structure
 	\param numEntries	total number of sprites to write
 */
-void oamClear(u8 first, u8 numEntries);
+void oamClear(u16 first, u8 numEntries);
 
 /*!\brief Initializes a sprites Gfx and Loads the GFX into VRAM 
 	\param tileSource	address of sprites graphics entry

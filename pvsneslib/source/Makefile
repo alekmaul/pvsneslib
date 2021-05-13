@@ -11,13 +11,14 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-C_SRC	:=	malloc.c background.c console.c dma.c sound.c sprite.c video.c
+C_SRC	:=	background.c console.c dma.c sound.c video.c
 
 CFLAGS	+=	-I${PVSNESLIB_HOME}/devkitsnes/include \
 			-I${PVSNESLIB_HOME}/pvsneslib/include \
 			-I${PVSNESLIB_HOME}/pvsneslib/source
 
 export SNESOBJS = crt0_snes.obj libm.obj libtcc.obj libc.obj 
+
 
 #---------------------------------------------------------------------------------
 %.ps: %.c
@@ -34,7 +35,8 @@ all: $(SNESOBJS)
 libc.obj: libc.asm libc_c.asm
 libc_c.asm: libc_c.c $(C_SRC) sm_spc.asm 
 libc_c.c: $(C_SRC)
-libm.obj: libm.asm libm_c.asm
+libm.obj: libm.asm 
+#libm.obj: libm.asm libm_c.asm
 
 #---------------------------------------------------------------------------------
 # just make a asm file of snesmod spc-700 driver
