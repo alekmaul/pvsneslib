@@ -24,8 +24,13 @@
 
 .EQU REG_INIDISP	$2100
 .EQU REG_MOSAIC		$2106
+.EQU REG_CGWSEL	    $2130
+.EQU REG_CGADSUB    $2131
+.EQU REG_COLDATA    $2132
 
-.SECTION ".pvsneslib_text" SUPERFREE
+.EQU DSP_FORCEVBL   0x80
+
+.SECTION ".videos0_text" SUPERFREE
 
 .ACCU 16
 .INDEX 16
@@ -149,6 +154,10 @@ _wait_nmi:
 	bpl	-
 	rts
 
+.ENDS
+
+.SECTION ".videos1_text" SUPERFREE
+
 ;---------------------------------------------------------------------------
 ; void setScreenOn(void)
 setScreenOn:
@@ -161,6 +170,69 @@ setScreenOn:
 	
 	sta.l REG_INIDISP
 	
+	plb
+	plp
+	rtl
+	
+.ENDS
+
+.SECTION ".videos2_text" SUPERFREE
+
+//---------------------------------------------------------------------------------
+; setColorEffect(u8 colorMathA, u8 colorMathB) 
+setColorEffect:
+	php
+	phb
+	
+	sep	#$20
+    lda 6,s             ; colorMathA
+   	sta.l	REG_CGWSEL  
+
+    lda 8,s             ; colorMathB
+   	sta.l	REG_CGADSUB  
+
+	plb
+	plp
+	rtl
+
+//---------------------------------------------------------------------------------
+; setColorIntensity(u8 colorApply, u8 intensity) {
+setColorIntensity:
+	php
+	phb
+	
+	sep	#$20
+    
+    lda 8,s                 ; intensity
+    
+    and #0Fh              ; maximum 15 levels
+    
+    ora 6,s                 ; colorApply
+
+    sta.l	REG_COLDATA  
+
+	plb
+	plp
+	rtl
+
+;---------------------------------------------------------------------------
+; setBrightness(u8 level)
+setBrightness:
+	php
+	phb
+	
+	sep	#$20
+
+    lda 6,s                      ; get level
+    bne +
+    lda #DSP_FORCEVBL            ; if 0, force vblank
+    bra _sbv1
++:
+    and #0Fh                    ; maximum 15 levels
+
+_sbv1:
+   	sta.l	REG_INIDISP         ; Screen brightness
+
 	plb
 	plp
 	rtl
