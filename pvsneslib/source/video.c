@@ -24,6 +24,8 @@
 
 #include <snes/video.h>
 
+#include <snes/background.h>
+
 static u8 videoMode, videoModeSub;
 static u8 _bgCnt, _iloc;
 
@@ -66,16 +68,6 @@ const signed char m7sincos[256] =
 u16 m7ma, m7mb, m7mc, m7md, m7sx, m7sy, m7sz;
 s8 m7sin, m7cos;
 u8 m7_ma[(225-64)*3],m7_mb[(225-64)*3],m7_mc[(225-64)*3],m7_md[(225-64)*3];
-
-//---------------------------------------------------------------------------------
-void setBrightness(u8 level) {
-	if (level == 0) 
-		level = DSP_FORCEVBL;
-	else
-		level = level & 0xf; // Maximum 15 levels
-	
-	REG_INIDISP= level;  // Screen brightness
-}
 
 //---------------------------------------------------------------------------------
 void setMode(u8 mode, u8 size) {
@@ -121,18 +113,6 @@ void setMode(u8 mode, u8 size) {
 	}
 	
 	REG_NMITIMEN = INT_VBLENABLE | INT_JOYPAD_ENABLE; // enable NMI, enable autojoy 
-}
-
-//---------------------------------------------------------------------------------
-void setColorEffect(u8 colorMathA, u8 colorMathB) {
-	REG_CGWSEL = colorMathA;
-	
-	REG_CGADSUB = colorMathB;
-}
-
-//---------------------------------------------------------------------------------
-void setColorIntensity(u8 colorApply, u8 intensity) {
-	REG_COLDATA = colorApply | (intensity & 0x1F);
 }
 
 //---------------------------------------------------------------------------------
