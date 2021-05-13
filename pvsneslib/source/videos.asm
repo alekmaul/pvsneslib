@@ -188,7 +188,7 @@ setColorEffect:
     lda 6,s             ; colorMathA
    	sta.l	REG_CGWSEL  
 
-    lda 8,s             ; colorMathB
+    lda 7,s             ; colorMathB
    	sta.l	REG_CGADSUB  
 
 	plb
@@ -203,7 +203,7 @@ setColorIntensity:
 	
 	sep	#$20
     
-    lda 8,s                 ; intensity
+    lda 7,s                 ; intensity
     
     and #0Fh              ; maximum 15 levels
     
