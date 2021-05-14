@@ -906,6 +906,5 @@ int sscanf(const char * buf, const char * fmt, ...)
 
 #include "background.c"
 #include "console.c"
-#include "dma.c"
 #include "sound.c"
 #include "video.c"
