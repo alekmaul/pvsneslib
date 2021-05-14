@@ -33,9 +33,6 @@ int main(void) {
 
 	// Wait for key to change gradient
 	while(1) {
-		// Refresh pad values in VBL and Get current #0 pad
-		pad0 = padsCurrent(0);
-		
 		// Update gradient if A pressed
 		if (padsDown(0) & KEY_A) {
 			setModeHdmaGradient(gradient);
