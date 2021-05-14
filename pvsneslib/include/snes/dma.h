@@ -264,5 +264,13 @@ void dmaCopyVram7(u8 *source, u16 address, u16 size, u8 vrammodeinc, u16 dmacont
 */
 void setModeHdmaGradient(u8 maxLevels);
 
+/*! \brief Do a brightness gradient from up/down to center of the screen
+*/
+void setModeHdmaShadeUpDown(void);
+
+/*! \brief Do a shading effect on screen
+	\param mode value 0 disactivate 1, other value activate it
+*/
+void setModeHdmaShading(unsigned char mode);
 
 #endif //SNES_DMA_INCLUDE
