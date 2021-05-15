@@ -26,8 +26,7 @@
 
 #include <snes/background.h>
 
-static u8 videoMode, videoModeSub;
-static u8 _bgCnt, _iloc;
+u8 iloc,bgCnt;
 
 const signed char m7sincos[256] =
 {
@@ -72,44 +71,44 @@ u8 m7_ma[(225-64)*3],m7_mb[(225-64)*3],m7_mc[(225-64)*3],m7_md[(225-64)*3];
 //---------------------------------------------------------------------------------
 void setMode(u8 mode, u8 size) {
 	// Adjust mode to be ok
-	_iloc = (mode & 0x07);
+	iloc = (mode & 0x07);
 	
 	// Change default mode 
-	REG_BGMODE = _iloc | size;  
+	REG_BGMODE = iloc | size;  
 
 	// Default sub mode
 	videoModeSub = 0;
 
 	// Regarding mode, ajust BGs
-	if (_iloc == BG_MODE0) {
+	if (iloc == BG_MODE0) {
 		// Mode 0 : 4-color     4-color     4-color     4-color   ;Normal
 		videoMode = BG1_ENABLE | BG2_ENABLE | BG3_ENABLE | BG4_ENABLE | OBJ_ENABLE;
-		_bgCnt = 4;
+		bgCnt = 4;
 	}
-	else if (  (_iloc == BG_MODE1)  || (_iloc == BG_MODE2) || (_iloc == BG_MODE4) ) {
+	else if (  (iloc == BG_MODE1)  || (iloc == BG_MODE2) || (iloc == BG_MODE4) ) {
 		// Mode 1 : 16-color    16-color    4-color     -         ;Normal
 		// Mode 2 : 16-color    16-color    (o.p.t)     -         ;Offset-per-tile
 		// Mode 4 : 256-color   4-color     (o.p.t)     -         ;Offset-per-tile
 		videoMode = BG1_ENABLE | BG2_ENABLE | BG3_ENABLE | OBJ_ENABLE;    
-		_bgCnt = 3;
+		bgCnt = 3;
 	 }
-	else if (  (_iloc == BG_MODE5)  || (_iloc == BG_MODE6) ) {
+	else if (  (iloc == BG_MODE5)  || (iloc == BG_MODE6) ) {
 		// Mode 5 : 16-color    4-color     -           -         ;512-pix-hires
 		// Mode 6 : 16-color    -           (o.p.t)     -         ;512-pix plus Offs-p-t
 		videoMode = BG1_ENABLE | BG2_ENABLE | OBJ_ENABLE;    
 		videoModeSub = BG1_ENABLE | BG2_ENABLE | OBJ_ENABLE;    
-		_bgCnt = 2;
+		bgCnt = 2;
 	}
 	 else {
 		// Mode 3 : 256-color   16-color    -           -         ;Normal
 		// Mode 7 : 256-color   EXTBG       -           -         ;Rotation/Scaling
 		videoMode = BG1_ENABLE | BG2_ENABLE | OBJ_ENABLE;    
-		_bgCnt = 2;
+		bgCnt = 2;
 	}
 	REG_TM = videoMode;
 	REG_TS = videoModeSub;
-	for(_iloc=0;_iloc<_bgCnt;_iloc++) { // No Scroll
-		bgSetScroll(_iloc,0,0);
+	for(iloc=0;iloc<bgCnt;iloc++) { // No Scroll
+		bgSetScroll(iloc,0,0);
 	}
 	
 	REG_NMITIMEN = INT_VBLENABLE | INT_JOYPAD_ENABLE; // enable NMI, enable autojoy 
