@@ -30,6 +30,14 @@
 
 .EQU DSP_FORCEVBL   0x80
 
+
+.RAMSECTION ".reg_video7e" BANK $7E 
+
+videoMode           DSB 1
+videoModeSub        DSB 1
+
+.ENDS
+
 .SECTION ".videos0_text" SUPERFREE
 
 .ACCU 16
@@ -162,7 +170,6 @@ _wait_nmi:
 ; void setScreenOn(void)
 setScreenOn:
 	php
-	phb
 	
 	sep	#$20
 	lda #$f
@@ -170,7 +177,6 @@ setScreenOn:
 	
 	sta.l REG_INIDISP
 	
-	plb
 	plp
 	rtl
 	
@@ -182,7 +188,6 @@ setScreenOn:
 ; setColorEffect(u8 colorMathA, u8 colorMathB) 
 setColorEffect:
 	php
-	phb
 	
 	sep	#$20
     lda 6,s             ; colorMathA
@@ -191,7 +196,6 @@ setColorEffect:
     lda 7,s             ; colorMathB
    	sta.l	REG_CGADSUB  
 
-	plb
 	plp
 	rtl
 
@@ -199,19 +203,14 @@ setColorEffect:
 ; setColorIntensity(u8 colorApply, u8 intensity) {
 setColorIntensity:
 	php
-	phb
 	
 	sep	#$20
-    
     lda 7,s                 ; intensity
-    
     and #0Fh              ; maximum 15 levels
-    
     ora 6,s                 ; colorApply
 
     sta.l	REG_COLDATA  
 
-	plb
 	plp
 	rtl
 
@@ -219,10 +218,8 @@ setColorIntensity:
 ; setBrightness(u8 level)
 setBrightness:
 	php
-	phb
 	
 	sep	#$20
-
     lda 6,s                      ; get level
     bne +
     lda #DSP_FORCEVBL            ; if 0, force vblank
@@ -233,7 +230,6 @@ setBrightness:
 _sbv1:
    	sta.l	REG_INIDISP         ; Screen brightness
 
-	plb
 	plp
 	rtl
 	
