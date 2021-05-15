@@ -96,28 +96,28 @@ oamFlip:
 	tax
   
 	sep #$20                      ; A 8 bits
-  lda #$3f                      ; xor mask for flip attribute 
-  and.w oamMemory+3,x
-  sta.w oamMemory+3,x
-  
-  lda 10,s                       ; get x flipping
-  beq +                         ; no x flipping
-  lda #$40                      ; or mask for flip attribute 
-  ora.w oamMemory+3,x
+    lda #$3f                      ; xor mask for flip attribute 
+    and.w oamMemory+3,x
+    sta.w oamMemory+3,x
+
+    lda 10,s                       ; get x flipping
+    beq +                         ; no x flipping
+    lda #$40                      ; or mask for flip attribute 
+    ora.w oamMemory+3,x
  	sta.w oamMemory+3,x
   
 +
-  lda 11,s                      ; get y flipping
-  beq +                         ; no y flipping
-  lda #$80                      ; or mask for flip attribute 
-  ora.w oamMemory+3,x
-  sta.w oamMemory+3,x
+    lda 11,s                      ; get y flipping
+    beq +                         ; no y flipping
+    lda #$80                      ; or mask for flip attribute 
+    ora.w oamMemory+3,x
+    sta.w oamMemory+3,x
   
 +
-  plx
-	plb
-  plp
-	rtl
+    plx
+    plb
+    plp
+    rtl
  
  .ENDS
  
