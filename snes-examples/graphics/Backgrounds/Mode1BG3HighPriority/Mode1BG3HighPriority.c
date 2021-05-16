@@ -41,9 +41,9 @@ int main(void) {
 	bgSetMapPtr(2, 0x0000+2048, SC_32x32);
 	
 	//copy BG0 tiles to vram 0x2000 and palette 
-	bgInitTileSet(0, &BG1_tiles, &BG1_pal, 2, (&BG1_tiles_end - &BG1_tiles), 16*4, BG_16COLORS, 0x2000);
-	bgInitTileSet(1, &BG2_tiles, &BG2_pal, 4, (&BG2_tiles_end - &BG2_tiles), 16*4, BG_16COLORS, 0x3000);
-	bgInitTileSet(2, &BG3_tiles, &BG3_pal, 0, (&BG3_tiles_end - &BG3_tiles), 16*4, BG_4COLORS, 0x4000);
+	bgInitTileSet(0, &BG1_tiles, &BG1_pal, 2, (&BG1_tiles_end - &BG1_tiles), 16*2, BG_16COLORS, 0x2000);
+	bgInitTileSet(1, &BG2_tiles, &BG2_pal, 4, (&BG2_tiles_end - &BG2_tiles), 16*2, BG_16COLORS, 0x3000);
+	bgInitTileSet(2, &BG3_tiles, &BG3_pal, 0, (&BG3_tiles_end - &BG3_tiles), 4*2, BG_16COLORS, 0x4000);
 
 	//copy background maps 
 	WaitForVBlank();
@@ -56,9 +56,6 @@ int main(void) {
 	bgSetDisable(3); 
 
 	setScreenOn();
-	
-	bgSetScroll(0,0,32);
-	bgSetScroll(1,0,32);
 	
 	// Wait for nothing :P
 	while(1) {		

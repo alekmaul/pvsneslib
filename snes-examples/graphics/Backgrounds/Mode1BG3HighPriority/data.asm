@@ -24,31 +24,14 @@ BG2_map_end:
 BG3_map: .incbin "BG3.map"
 BG3_map_end:
 
-BG3_pal: .incbin "BG3.pal"
-BG3_pal_end:
-
 BG1_pal: .incbin "BG1.pal"
 BG1_pal_end:
 
 BG2_pal: .incbin "BG2.pal"
 BG2_pal_end:
 
-.ends
-
-
-.section ".rodata3" superfree
-
-
-.ends
-
-.section ".rodata4" superfree
-
-
-
-.ends
-
-.section ".rodata5" superfree
-
+BG3_pal: .incbin "BG3.pal"
+BG3_pal_end:
 
 .ends
 
