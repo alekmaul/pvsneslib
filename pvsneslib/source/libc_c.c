@@ -904,7 +904,6 @@ int sscanf(const char * buf, const char * fmt, ...)
 	return i;
 }
 
-#include "background.c"
 #include "console.c"
 #include "sound.c"
 #include "video.c"

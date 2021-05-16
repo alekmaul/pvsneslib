@@ -284,15 +284,11 @@ Ignored in Mode 7 (Base is always zero)
 #define REG_TMW		(*(vuint8*)0x212E)
 #define REG_TSW		(*(vuint8*)0x212F)
 
-//background state
-typedef struct BgState {
-	unsigned char type;
-	unsigned char active;
-	unsigned short gfxaddr;
-	unsigned short mapaddr;
-} BgState;
-
-extern BgState bgState[4]; /*!\brief Definition of each background */
+//background address
+extern u16 bg0gfxaddr; /*!\brief Definition of each background address */
+extern u16 bg1gfxaddr; /*!\brief Definition of each background address */
+extern u16 bg2gfxaddr; /*!\brief Definition of each background address */
+extern u16 bg3gfxaddr; /*!\brief Definition of each background address */
 
 /*!\brief Change Background Char address
 	\param bgNumber	background number (0 to 3)
@@ -314,7 +310,7 @@ void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize);
 	\param paletteEntry palette number (0..16 for 16 colors mode) of the begining of each colors
 	\param tileSize	size of tile graphics
 	\param paletteSize	size of palette
-	\param colorMode	used for correct palette entry (BG_4COLORS, BG_16COLORS, BG_256COLORS)
+	\param colorMode	used for correct palette entry (BG_4COLORS0, BG_16COLORS, BG_256COLORS)
 	\param address	address of tile graphics (4K aligned)
 */
 void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address);
@@ -326,7 +322,7 @@ void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry
 	\param paletteEntry palette number (0..16 for 16 colors mode) of the begining of each colors
 	\param tileSize	size of tile graphics
 	\param paletteSize	size of palette
-	\param colorMode	used for correct palette entry (BG_4COLORS, BG_16COLORS, BG_256COLORS)
+	\param colorMode	used for correct palette entry (BG_4COLORS0, BG_16COLORS, BG_256COLORS)
 	\param address	address of tile graphics (4K aligned)
 */
 void bgInitTileSetLz(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address);
