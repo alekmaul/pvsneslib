@@ -161,8 +161,11 @@ void consoleInit(void) {
 	snes_rand_seed2 = 5;   // For rand funciton
 	snes_mplay5 = 0; 	   // For Pad function	
 	
-	memset(bgState,0,sizeof(bgState));
-	
+	bg0gfxaddr=0x0000;
+    bg1gfxaddr=0x0000;
+    bg2gfxaddr=0x0000;
+    bg3gfxaddr=0x0000;
+    
 	// Clear all VRAM to avoid problem
 	dmaClearVram();
 	
