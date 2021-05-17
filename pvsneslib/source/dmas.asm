@@ -355,10 +355,15 @@ dmaCopyOAram:
 
 //---------------------------------------------------------------------------------
 ; void dmaCopyVram7(u8 *source, u16 address, u16 size, u8 vrammodeinc, u16 dmacontrol)
+; 5-8 9-10 11-12 13 14-15
 dmaCopyVram7:
 	php
 
 ;	jsr.w	_wait_nmid
+    sep #$20
+    lda 13,s
+    sta.l	$2115           ; block size transfer ($2115)
+
 	rep	#$20
 	lda	9,s	                ; address in VRam for read or write ($2116) 
 	sta.l	$2116
@@ -369,13 +374,20 @@ dmaCopyVram7:
 	sta.l	$4302
 
     lda 14,s
-	sta.l	$4300           ; dmacontrol) & 255 && (dmacontrol>>8)
-
+    and #$00ff
+    sep #$20
+	sta.l	$4300           ; (dmacontrol & 255) 
+    
+    rep	#$20
+    lda 14,s
+    xba
+    and #$00ff
+    sep #$20
+	sta.l	$4301           ; (dmacontrol>>8)
+    
 	sep	#$20
 	lda	7,s	                ; src bank
 	sta.l	$4304
-    lda 13,s
-    sta.l	$2115           ; block size transfer ($2115)
     
     lda	#1
 	sta.l	$420b
