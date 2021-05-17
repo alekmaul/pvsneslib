@@ -34,9 +34,6 @@ int main(void) {
 	    
 	// Wait for nothing :P
 	while(1) {
-		// Refresh pad values
-		scanPads();
-		
 		// Get current #0 pad
 		pad0 = padsCurrent(0);
 		
