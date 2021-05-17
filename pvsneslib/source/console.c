@@ -186,5 +186,3 @@ void consoleInit(void) {
 	WaitForVBlank(); 
 	setBrightness(0xF);  // Screen with all brightness
 }
-
-
