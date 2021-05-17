@@ -116,8 +116,9 @@ bgSetEnable:
     
     rep #$20
     and #$00ff
+    sep #$20
     sta bkgrd_val1
-    lda #$0001
+    lda #$01
     ldy bkgrd_val1
     beq +
 -   asl a
@@ -145,14 +146,15 @@ bgSetDisable:
     rep #$20
     and #$00ff
     sta bkgrd_val1
-    lda #$0001
+    sep #$20
+    lda #$01
     ldy bkgrd_val1
     beq +
 -   asl a
     dey
     bne -               
 	
-+   eor #$FFFF
++   eor #$FF
     sta bkgrd_val1      ; videoMode &= ~(1 << bgNumber);
     lda videoMode
     and bkgrd_val1
@@ -178,7 +180,8 @@ bgSetEnableSub:
     rep #$20
     and #$00ff
     sta bkgrd_val1
-    lda #$0001
+    sep #$20
+    lda #$01
     ldy bkgrd_val1
     beq +
 -   asl a
@@ -206,14 +209,15 @@ bgSetDisableSub:
     rep #$20
     and #$00ff
     sta bkgrd_val1
-    lda #$0001
+    sep #$20
+    lda #$01
     ldy bkgrd_val1
     beq +
 -   asl a
     dey
     bne -               
 	
-+   eor #$FFFF
++   eor #$FF
     sta bkgrd_val1      ; videoModeSub &= ~(1 << bgNumber);
     lda videoModeSub
     and bkgrd_val1
@@ -553,9 +557,9 @@ bgInitMapSet:
     pha
     lda 15,s                    ; get address (13+2)
     pha
-    lda 14,s                    ; get mapSource bank address (10+4)
+    lda 12,s                    ; get mapSource bank address (8+4)
     pha
-    lda 18,s                    ; get mapSource data address (12+6)
+    lda 12,s                    ; get mapSource data address (6+6)
     pha
     jsl dmaCopyVram
 	tsa
@@ -690,7 +694,6 @@ bgInitMapTileSet7:
     clc
     adc #4
     tas
-
     
     lda  #$1900                 ; 	dmaCopyVram7(tileSource, address, tileSize, VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1,0x1900);
     pha
