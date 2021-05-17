@@ -190,10 +190,10 @@ setColorEffect:
 	php
 	
 	sep	#$20
-    lda 6,s             ; colorMathA
+    lda 5,s             ; colorMathA
    	sta.l	REG_CGWSEL  
 
-    lda 7,s             ; colorMathB
+    lda 6,s             ; colorMathB
    	sta.l	REG_CGADSUB  
 
 	plp
@@ -205,9 +205,9 @@ setColorIntensity:
 	php
 	
 	sep	#$20
-    lda 7,s                 ; intensity
+    lda 6,s                 ; intensity
     and #0Fh              ; maximum 15 levels
-    ora 6,s                 ; colorApply
+    ora 5,s                 ; colorApply
 
     sta.l	REG_COLDATA  
 
@@ -220,7 +220,7 @@ setBrightness:
 	php
 	
 	sep	#$20
-    lda 6,s                      ; get level
+    lda 5,s                      ; get level
     bne +
     lda #DSP_FORCEVBL            ; if 0, force vblank
     bra _sbv1
