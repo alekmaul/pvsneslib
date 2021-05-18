@@ -905,5 +905,4 @@ int sscanf(const char * buf, const char * fmt, ...)
 }
 
 #include "console.c"
-#include "sound.c"
 #include "video.c"

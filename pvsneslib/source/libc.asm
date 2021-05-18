@@ -449,5 +449,6 @@ exitl4:
 .include "pads.asm"
 .include "scores.asm"
 .include "snesmodwla.asm"
+.include "sounds.asm"
 .include "sprites.asm"
 .include "videos.asm"
