@@ -102,7 +102,7 @@ spcSetSoundDataEntry:
     sta snds_val1
 
     lda 14,s                ; get data adr brr sample
-    cls
+    clc
     adc #3
     sta tcc__r0
     lda snds_val1
@@ -112,7 +112,7 @@ spcSetSoundDataEntry:
 
     rep #$20
     lda 14,s                ; get data adr brr sample
-    cls
+    clc
     adc #4
     sta tcc__r0
     lda snds_val1
@@ -123,7 +123,7 @@ spcSetSoundDataEntry:
 
     rep #$20
     lda 14,s                ; get data adr brr sample
-    cls
+    clc
     adc #5
     sta tcc__r0
     lda 10,s                ; get data adr sampleaddr
@@ -133,7 +133,7 @@ spcSetSoundDataEntry:
 
     rep #$20
     lda 14,s                ; get data adr brr sample
-    cls
+    clc
     adc #6
     sta tcc__r0
     lda 10,s                ; get data adr sampleaddr
@@ -144,7 +144,7 @@ spcSetSoundDataEntry:
 
     rep #$20
     lda 14,s                ; get data adr brr sample
-    cls
+    clc
     adc #7
     sta tcc__r0
     lda 12,s                ; get bank adr sampleaddr
@@ -205,7 +205,7 @@ spcSetSoundEntry:
     sta snds_val1
 
     lda 14,s                ; get data adr brr sample
-    cls
+    clc
     adc #3
     sta tcc__r0
     lda snds_val1
@@ -215,7 +215,7 @@ spcSetSoundEntry:
 
     rep #$20
     lda 14,s                ; get data adr brr sample
-    cls
+    clc
     adc #4
     sta tcc__r0
     lda snds_val1
@@ -226,7 +226,7 @@ spcSetSoundEntry:
 
     rep #$20
     lda 14,s                ; get data adr brr sample
-    cls
+    clc
     adc #5
     sta tcc__r0
     lda 10,s                ; get data adr sampleaddr
@@ -236,7 +236,7 @@ spcSetSoundEntry:
 
     rep #$20
     lda 14,s                ; get data adr brr sample
-    cls
+    clc
     adc #6
     sta tcc__r0
     lda 10,s                ; get data adr sampleaddr
@@ -247,7 +247,7 @@ spcSetSoundEntry:
 
     rep #$20
     lda 14,s                ; get data adr brr sample
-    cls
+    clc
     adc #7
     sta tcc__r0
     lda 12,s                ; get bank adr sampleaddr
@@ -258,7 +258,7 @@ spcSetSoundEntry:
     rep #$20
     lda 16,s                ; get bank brr sample
     pha
-    lda 14,s                ; get data adr brr sample
+    lda 16,s                ; get data adr brr sample (14+2)
     pha
     jsl spcSetSoundTable    ; send variable to sound memory
    	tsa
