@@ -41,9 +41,9 @@ spcSetSoundTableEntry:
     php
     
     rep #$20
-    lda 7,s
+    lda 7,s                 ; bank address
     pha
-    lda 5,s
+    lda 7,s                 ; data ofs address (5+2)
     pha
     jsl spcSetSoundTable
    	tsa
