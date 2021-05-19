@@ -24,12 +24,16 @@
 
 .RAMSECTION ".reg_sounds" BANK 0 SLOT 1
 
-brrsmap_ptr DSB 2
-brrsmap_ptrh DSB 2
+snds_val1	    DSB 2                         ; save value #1
 
-.ENDS 
- 
+.ENDS
+
+
 .SECTION ".sound0_text" SUPERFREE
+
+.accu 16
+.index 16
+.16bit
 
 ;-----------------------------------------------------------------------
 ; void spcSetSoundTableEntry(brrsamples *ptr)
@@ -42,6 +46,10 @@ spcSetSoundTableEntry:
     lda 5,s
     pha
     jsl spcSetSoundTable
+   	tsa
+    clc
+    adc #4
+    tas
 
 	plp
 	rtl
@@ -58,29 +66,91 @@ spcSetSoundDataEntry:
     
     rep #$20
     lda 14,s                ; get data adr brr sample
-    sta brrsmap_ptr
+    sta tcc__r0
     lda 16,s                ; get bank brr sample
-    sta brrsmap_ptr+2       ; sample addr is stored now
+    sta tcc__r0h            ; sample addr is stored now
 
     sep #$20
     lda 7,s                 ; get pitch
-    sta.b [brrsmap_ptr]
-    
-;	dmaMemory  data_to_transfert;
-;	u16 brrlength,brraddr;
-	
-	// compute some values for sound
-;	ptr->pitch = pitch;
-;	ptr->panning=8;
-;	ptr->volume=15;
-;	brrlength = length/9;
-;	data_to_transfert.mem.p = (u8 *) sampleaddr;
-;	brraddr= data_to_transfert.mem.c.addr;
-;	ptr->length1 = (brrlength & 0xFF);
-;	ptr->length2 = (brrlength>>8);
-;	ptr->addr1 = (brraddr & 0xFF);
-;	ptr->addr2 = (brraddr>>8);
-;	ptr->bank=data_to_transfert.mem.c.bank;
+    sta.b [tcc__r0]         ; ptr->pitch
+
+    rep #$20
+    lda 14,s                ; get data adr brr sample
+    ina
+    sta tcc__r0
+    sep #$20
+    lda 6,s                 ; get panning
+    sta.b [tcc__r0]         ; ptr->panning
+
+    rep #$20
+    lda 14,s                ; get data adr brr sample
+    ina
+    ina
+    sta tcc__r0
+    sep #$20
+    lda 5,s                 ; get volume
+    sta.b [tcc__r0]         ; ptr->volume
+
+    rep #$20
+    lda 8,s                 ; get length
+    phx
+    tax
+    lda #9
+    jsl tcc__div            ; length / 9
+    plx
+    lda tcc__r9
+    sta snds_val1
+
+    lda 14,s                ; get data adr brr sample
+    cls
+    adc #3
+    sta tcc__r0
+    lda snds_val1
+    and #$00ff
+    sep #$20
+    sta.b [tcc__r0]         ; ptr->length1
+
+    rep #$20
+    lda 14,s                ; get data adr brr sample
+    cls
+    adc #4
+    sta tcc__r0
+    lda snds_val1
+    xba
+    and #$00ff
+    sep #$20
+    sta.b [tcc__r0]         ; ptr->length2
+
+    rep #$20
+    lda 14,s                ; get data adr brr sample
+    cls
+    adc #5
+    sta tcc__r0
+    lda 10,s                ; get data adr sampleaddr
+    and #$00ff
+    sep #$20
+    sta.b [tcc__r0]         ; ptr->addr1
+
+    rep #$20
+    lda 14,s                ; get data adr brr sample
+    cls
+    adc #6
+    sta tcc__r0
+    lda 10,s                ; get data adr sampleaddr
+    xba
+    and #$00ff
+    sep #$20
+    sta.b [tcc__r0]         ; ptr->addr2
+
+    rep #$20
+    lda 14,s                ; get data adr brr sample
+    cls
+    adc #7
+    sta tcc__r0
+    lda 12,s                ; get bank adr sampleaddr
+    and #$00ff
+    sep #$20
+    sta.b [tcc__r0]         ; ptr->bank
     
 	plp
 	rtl
@@ -89,43 +159,112 @@ spcSetSoundDataEntry:
 
 .SECTION ".sound2_text" SUPERFREE
 
+.define __spcSetSoundEntry_locals 5
+
 ;-----------------------------------------------------------------------
 ;void spcSetSoundEntry(u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, brrsamples *ptr) 
 ; 5 6 7 8-9 10-13 14-17
 spcSetSoundEntry:
-;	dmaMemory  data_to_transfert;
-;	u16 brrlength,brraddr;
-	
     php
     
     rep #$20
     lda 14,s                ; get data adr brr sample
-    sta brrsmap_ptr
+    sta tcc__r0
     lda 16,s                ; get bank brr sample
-    sta brrsmap_ptrh       ; sample addr is stored now
+    sta tcc__r0h            ; sample addr is stored now
 
-    lda.w #0000
     sep #$20
     lda 7,s                 ; get pitch
-    sta.b [brrsmap_ptr]
+    sta.b [tcc__r0]         ; ptr->pitch
 
+    rep #$20
+    lda 14,s                ; get data adr brr sample
+    ina
+    sta tcc__r0
+    sep #$20
+    lda 6,s                 ; get panning
+    sta.b [tcc__r0]         ; ptr->panning
 
-	// compute some values for sound
-;	ptr->pitch = pitch;
-;	ptr->panning=8;
-;	ptr->volume=15;
-;	brrlength = length/9;
-;	data_to_transfert.mem.p = (u8 *) sampleaddr;
-;	brraddr= data_to_transfert.mem.c.addr;
-;	ptr->length1 = (brrlength & 0xFF);
-;	ptr->length2 = (brrlength>>8);
-;	ptr->addr1 = (brraddr & 0xFF);
-;	ptr->addr2 = (brraddr>>8);
-;	ptr->bank=data_to_transfert.mem.c.bank;
-	
-;	// Send variable to sound memory
-;	data_to_transfert.mem.p = (u8 *) ptr;
-;	spcSetSoundTable(data_to_transfert.mem.c.addr,data_to_transfert.mem.c.bank);
+    rep #$20
+    lda 14,s                ; get data adr brr sample
+    ina
+    ina
+    sta tcc__r0
+    sep #$20
+    lda 5,s                 ; get volume
+    sta.b [tcc__r0]         ; ptr->volume
+
+    rep #$20
+    lda 8,s                 ; get length
+    phx
+    tax
+    lda #9
+    jsl tcc__div            ; length / 9
+    plx
+    lda tcc__r9
+    sta snds_val1
+
+    lda 14,s                ; get data adr brr sample
+    cls
+    adc #3
+    sta tcc__r0
+    lda snds_val1
+    and #$00ff
+    sep #$20
+    sta.b [tcc__r0]         ; ptr->length1
+
+    rep #$20
+    lda 14,s                ; get data adr brr sample
+    cls
+    adc #4
+    sta tcc__r0
+    lda snds_val1
+    xba
+    and #$00ff
+    sep #$20
+    sta.b [tcc__r0]         ; ptr->length2
+
+    rep #$20
+    lda 14,s                ; get data adr brr sample
+    cls
+    adc #5
+    sta tcc__r0
+    lda 10,s                ; get data adr sampleaddr
+    and #$00ff
+    sep #$20
+    sta.b [tcc__r0]         ; ptr->addr1
+
+    rep #$20
+    lda 14,s                ; get data adr brr sample
+    cls
+    adc #6
+    sta tcc__r0
+    lda 10,s                ; get data adr sampleaddr
+    xba
+    and #$00ff
+    sep #$20
+    sta.b [tcc__r0]         ; ptr->addr2
+
+    rep #$20
+    lda 14,s                ; get data adr brr sample
+    cls
+    adc #7
+    sta tcc__r0
+    lda 12,s                ; get bank adr sampleaddr
+    and #$00ff
+    sep #$20
+    sta.b [tcc__r0]         ; ptr->bank
+
+    rep #$20
+    lda 16,s                ; get bank brr sample
+    pha
+    lda 14,s                ; get data adr brr sample
+    pha
+    jsl spcSetSoundTable    ; send variable to sound memory
+   	tsa
+    clc
+    adc #4
+    tas
 
 	plp
 	rtl
