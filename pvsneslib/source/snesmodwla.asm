@@ -68,7 +68,6 @@
 ;zeropage
 ;======================================================================
 
-;.ENUM $40
 .RAMSECTION ".fp" BANK 0 SLOT 1
 spc_ptr:	DS 3
 spc_v:		DS 1
@@ -87,14 +86,7 @@ digi_src:	DS 3
 digi_src2:	DS 3
 
 SoundTable:	DS 3
-;.ENDE
-;260116.ENDS
 
-;======================================================================
-;bss
-;======================================================================
-
-;260116.ENUM $0100
 spc_fifo:	DS 256	; 128-byte command fifo
 spc_sfx_next:	DS 1
 spc_q:		DS 1
@@ -105,7 +97,8 @@ digi_vp:	DS 1
 digi_remain:	DS 2
 digi_active:	DS 1
 digi_copyrate:	DS 1
-;260116.ENDE
+
+
 .ENDS
 
 ;======================================================================
@@ -949,7 +942,6 @@ spcSetSoundTable:
 	plb
 	plp;alek
 	rtl			; return
-;	rts
 
 ;======================================================================
 spcAllocateSoundRegion:
@@ -1244,3 +1236,5 @@ digi_rates:
 .ENDS
 
 .INCLUDE "sm_spc.asm"
+
+

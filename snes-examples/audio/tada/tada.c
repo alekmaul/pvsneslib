@@ -41,7 +41,7 @@ int main(void) {
 	setScreenOn();  
 
 	// Load effect
-	spcSetSoundEntry(15, 8, 4, &soundbrrend-&soundbrr, &soundbrr, &tadasound);
+	spcSetSoundEntry(15, 15, 4, &soundbrrend-&soundbrr, &soundbrr, &tadasound);
 	
 	// Wait for nothing :D !
 	while(1) {

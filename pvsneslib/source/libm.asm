@@ -4,7 +4,7 @@
 .index 8
 .8bit
 
-.RAMSECTION ".fp" BANK 0 SLOT 1 PRIORITY 2
+.RAMSECTION ".fp_libm" BANK 0 SLOT 1 PRIORITY 2
 tcc__SIGN      dsb  1
 tcc__f1 dsb 0
 tcc__X2        DSB  1
