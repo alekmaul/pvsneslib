@@ -1,6 +1,6 @@
 ;---------------------------------------------------------------------------------
 ;
-;	Copyright (C) 2013-2020
+;	Copyright (C) 2013-2021
 ;		Alekmaul 
 ;
 ;	This software is provided 'as-is', without any express or implied
@@ -26,7 +26,7 @@
 
 .RAMSECTION ".reg_dma7e" BANK $7E 
 
-HDMATable16     DSB 32+1
+HDMATable16     DSB 224+1                     ; enough lines for big hdma features
 
 hdma_val1		DSB 2                         ; save value #1
  
