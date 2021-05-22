@@ -81,17 +81,17 @@
 
     <!-- backgrounds -->
 		\example graphics/Backgrounds/Mode0/Mode0.c
-    \example graphics/Backgrounds/Mode1/Mode1.c
+        \example graphics/Backgrounds/Mode1/Mode1.c
 		\example graphics/Backgrounds/Mode1Png/Mode1.c
-    \example graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c
-    \example graphics/Backgrounds/Mode1MixedScroll/Mode1MixedScroll.c
-    \example graphics/Backgrounds/Mode3/Mode3.c
+        \example graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c
+        \example graphics/Backgrounds/Mode1MixedScroll/Mode1MixedScroll.c
+        \example graphics/Backgrounds/Mode3/Mode3.c
 		\example graphics/Backgrounds/Mode7/Mode7.c
 
     <!-- effects -->
-    \example graphics/Effects/HDMAGradient/HDMAGradient.c
-    \example graphics/Effects/MosaicShading/MosaicShading.c
-    \example graphics/Effects/Transparency/Transparency.c
+        \example graphics/Effects/HDMAGradient/HDMAGradient.c
+        \example graphics/Effects/MosaicShading/MosaicShading.c
+        \example graphics/Effects/Transparency/Transparency.c
 
     <!-- sprites -->
 		\example graphics/Sprites/SimpleSprite/SimpleSprite.c
@@ -106,6 +106,7 @@
 
 		<!-- games -->
 		\example games/likemario/LikeMario.c
+		\example games/breakout/breakout.c
 
 		<!-- audio -->
 		\example audio/music/Music.c
@@ -133,7 +134,6 @@
 #include "snes/dma.h"
 #include "snes/interrupt.h"
 #include "snes/pad.h"
-//#include "snes/pixel.h"
 #include "snes/scores.h"
 #include "snes/sound.h"
 #include "snes/sprite.h"
