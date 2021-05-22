@@ -64,12 +64,12 @@ bkgrd_val1		DSB 2                         ; save value #1
 ; bgSetScroll(u8 bgNumber, u16 x, u16 y);
 bgSetScroll:
 	php
-	;phb
+	phb
 	
-	;sep	#$20
-	;lda #$0
-	;pha
-	;plb ; change bank address to 0
+	sep	#$20
+	lda #$0
+	pha
+	plb ; change bank address to 0
 	
 	lda	6,s                      ; bgNumber
 	rep	#$20
@@ -98,7 +98,7 @@ bgSetScroll:
 
 	ply
 	
-    ;plb
+    plb
 	plp
 	rtl
 	
