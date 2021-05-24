@@ -36,7 +36,6 @@ int main(void) {
 	while(1) {
 		// Get current #0 pad
 		pad0 = padsCurrent(0);
-		
 		if (pad0) {
 			// Update scrolling with current pad
 			switch (pad0) {
