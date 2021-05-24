@@ -903,5 +903,3 @@ int sscanf(const char * buf, const char * fmt, ...)
 	va_end(args);
 	return i;
 }
-
-#include "console.c"
