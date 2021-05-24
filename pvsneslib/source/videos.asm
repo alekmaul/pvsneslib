@@ -65,11 +65,6 @@
 .EQU BG4_ENABLE     (1 << 3)
 .EQU OBJ_ENABLE     (1 << 4)
 
-.EQU INT_VBLENABLE     (1<<7)
-.EQU INT_JOYPAD_ENABLE (1)	
-
-
-
 .RAMSECTION ".reg_video7e" BANK $7E 
 
 videoMode           DSB 1
