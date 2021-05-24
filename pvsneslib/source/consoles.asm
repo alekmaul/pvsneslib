@@ -223,8 +223,6 @@ consoleLoadSram:
 consoleVblank:
 	php
 	phb
-	phx
-	phy
 
 	sep	#$20                ; 8bit A
 	lda #$7e
@@ -268,7 +266,7 @@ cvbloam:
 	lda	#1                  ; turn on bit 1 (channel 0) of DMA
 	sta.l	$420b
 	
-	stz.w pvsneslibdirty
+	stz pvsneslibdirty
 	
 	; Count frame number
 +	rep #$20
@@ -276,8 +274,6 @@ cvbloam:
 	inc a
 	sta.w snes_vblank_count
  
-	ply
-	plx
 	plb
 	plp
 	rtl 
