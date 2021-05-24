@@ -270,9 +270,7 @@ cvbloam:
 	
 	; Count frame number
 +	rep #$20
-	lda.w snes_vblank_count
-	inc a
-	sta.w snes_vblank_count
+	inc.w snes_vblank_count
  
 	plb
 	plp
@@ -363,12 +361,11 @@ consoleInitText:
     rep #$20
     phx
     ldx #$0000                                  ; Init map for text with no character
--   lda #$0000                                  ; So copy data to VRAM (also clear screen)
-    sta pvsneslibfont_map,x
+    lda #$0000                                  ; So copy data to VRAM (also clear screen)
+-   sta pvsneslibfont_map,x
     inx
     inx
-    txa
-    cmp #$0800
+    cpx #$0800
     bne -
     plx
     
