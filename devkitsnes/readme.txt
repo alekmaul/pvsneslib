@@ -1,4 +1,4 @@
- DevkitSnes 3.00
+ DevkitSnes 3.20
  
  Programming Compiler and Tools for Snes
 
@@ -21,11 +21,25 @@ SPECIAL THANKS
   Mukunda for smconv tool: http://snes.mukunda.com/
   RetroAntho (https://github.com/RetroAntho) for his great help to move wla-dx to last version
     and also for all compilation optimizations in Makefile, snes_rules
+    and, at least, for keeping me motivated to use the last version of wla-dx ;)
   RedBug for constify tcc bug fix and tips for Linux and Docker
   mills32 (https://github.com/mills32) for his mode7 3D example
                
 CHANGE LOG
 ----------------------
+VERSION 3.20 (24, May, 2021)
+- Update wla-dx toolchain to last version (9.13a)
+- Update constify to use uppercase characters for section keywords
+- Update constify for more flexible options and less display on screen
+- Remove bin2h, useless in devkitnes bin directory
+- Update tcc to use uppercase characters for section keywords
+- Update tcc to use different name for ram.data and .data sections in each C file
+- Update tcc to append ram.data and .data sections to a global one
+- Update bin2txt for more flexible options and less display on screen
+- Update smconv for more flexible options and less display on screen
+- Update snestools for more flexible options and less display on screen
+- Fix gfx2snes 4bpp png error and update it for more flexible options and less display on screen
+
 VERSION 3.10 (13, December, 2020)
 - Remove PVSNESLIB variables in each makefile and add a system variable (PVSNESLIB_HOME)
 - Fix 816-tcc rodata variable names for multiple files projects

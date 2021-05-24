@@ -86,7 +86,7 @@ void consoleDrawText(u16 x, u16 y, char *fmt, ...);
 	Output a text string to the screen. Before using this, you need to call consoleInitText().
 	You can also print the value of variables this way, by putting a format string and additional parameters.
 */
-void consoleDrawTextMap(u8 x, u8 y, u8 *map, u8 attributes, char *fmt, ...);
+consoleDrawTextMap(u16 x, u16 y, u8 *map, u8 attributes, char *fmt, ...);
 
 /*! \brief Output formatted string on a screen, centered it (2 colors tiles mode)
 	\param y 	The Y character number the string should start on
@@ -98,7 +98,7 @@ void consoleDrawTextMap(u8 x, u8 y, u8 *map, u8 attributes, char *fmt, ...);
 	You can also print the value of variables this way, by putting a format string and additional parameters.
 	The text will be centered on x axis.
 */
-void consoleDrawTextMapCenter(u8 y, u8 *map, u8 attributes, char *fmt, ...);
+void consoleDrawTextMapCenter(u16 y, u16 *map, u8 attributes, char *fmt, ...);
 
 /*! \brief Initialize the Text System
 	\param bgNumber	The BG number to show Text on.

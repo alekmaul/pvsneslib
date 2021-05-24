@@ -21,6 +21,23 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
+V3.2.0 (24, May, 2021)
+- Remove doc entry for dmaCopyCGram
+- Fix AnimatedSprite example with constant variables
+- Add new sprite size constant for sprite initialization
+- Update examples regarding new sprite size constants
+- Fix bit shifting for sprite size
+- Remove all includes in libc_c.c to have a more efficient way to manage variables
+- Remove some C function of video.c to convert them in assembly langage
+- Remove oamSet1 from sprite.c, I think it is a useless function
+- Remove all c functions from sprite.c to convert them in assembly langage
+- Remove all c functions from dma.c to convert them in assembly langage
+- Remove all c functions from background.c to convert them in assembly langage
+- Remove all c functions from sound.c to convert them in assembly langage
+- Remove all c functions from video.c to convert them in assembly langage
+- Add new example breakout from original snes-sdk to help people using PVSneslib
+- Remove all c functions from console.c to convert them in assembly langage
+
 V3.1.0 (13, December, 2020)
 - Remove PVSNESLIB variables in each makefile and add a system variable (PVSNESLIB_HOME)
 - Fix 816-tcc rodata variable names for multiple files projects
