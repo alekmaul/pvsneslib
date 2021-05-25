@@ -8,7 +8,7 @@
 extern char snesfont;
 
 // soundbank that are declared in soundbank.asm
-extern char SOUNDBANK__0, SOUNDBANK__1;
+extern char SOUNDBANK__0;
 
 unsigned short bgcolor =0;
 
@@ -22,7 +22,6 @@ int main(void) {
 	consoleInit(); 
 
 	// Set soundbank available in soundbank.asm. Yes, in reverse order !
-	spcSetBank(&SOUNDBANK__1);
 	spcSetBank(&SOUNDBANK__0);
 	
 	// allocate around 10K of sound ram (39 256-byte blocks)
