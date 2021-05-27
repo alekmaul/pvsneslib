@@ -65,6 +65,10 @@
 .EQU BG4_ENABLE     (1 << 3)
 .EQU OBJ_ENABLE     (1 << 4)
 
+.EQU MOSAIC_IN      2
+.EQU MOSAIC_OUT     1
+
+
 .RAMSECTION ".reg_video7e" BANK $7E 
 
 videoMode           DSB 1
@@ -149,61 +153,55 @@ _fadeouteffect:
 setMosaicEffect:
 	php
 
-	phx
-	phy
-	
-	sep	#$30
+	sep	#$20
 
-	lda.b	9,s                                             ; mode
-	tax
-	cpx #$1	; MOSAIC_OUT ?
-	beq _mosaicouteffect
+	lda.b	5,s                     ; mode
+	cmp #MOSAIC_OUT                 ; is it MOSAIC_OUT (biggest to smallest)
+	bne _mosaicouteffect
 
-	ldx.b	#$0
+    phx
+    lda #$00
+	ldx.w	#$0
 -:
-	jsr.w	_wait_nmi
-	jsr.w	_wait_nmi
-	jsr.w	_wait_nmi
-	txa
-	asl	a
-	asl	a
-	asl	a
-	asl	a		; Mosaic size in d4-d7
-	ora	#$3		; Enable effect for BG0/1
+	wai
+	wai
+	wai
+	ora	8,s		                    ; Enable effect for BG in parameters
 	sta.l	REG_MOSAIC
+    clc
+    adc #$10                        ; Mosaic size in d4-d7 incr (0>-15)
+    
 	inx
 	cpx	#$10
 	bne	-
 	
-	rep #$30
+    plx
 	
-	ply
-	plx
 	plp
 	rtl
 
 ;---------------------------------------------------------------------------
 _mosaicouteffect:
-	ldx.b	#$E
+	phx
+    lda #$F0
+    ldx.w	#$0
 
--:	jsr.w	_wait_nmi
-	jsr.w	_wait_nmi
-	jsr.w	_wait_nmi
-	txa
-	asl	a
-	asl	a
-	asl	a
-	asl	a		; Mosaic size in d4-d7
-	ora	#$3		; Enable effect for BG0
+-:	wai
+	wai
+	wai
+
+	ora	8,s		                    ; Enable effect for BG in parameters
 	sta.l	REG_MOSAIC
-	dex
-	bpl	-
+    sec
+    sbc #$10                        ; Mosaic size in d4-d7 decr (15->0)
+    
+	inx
+	cpx	#$10
+	bne	-
 	
-	rep #$30
+    plx
 	
-	ply
-	plx
-	plp
+    plp
 	rtl
 
 _wait_nmi:
