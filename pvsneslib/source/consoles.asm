@@ -589,10 +589,15 @@ consoleDrawText:
     sta pvsneslibdirty
 	
     rep #$20
-    lda 15,s                                    ; get bank address of 1st non mandatory element (15+0)
-    pha
-    lda 15,s                                    ; get data address of 1st non mandatory element (13+2)
-    pha
+    tsa
+    clc
+    adc.w #0009                                  ; get data address of fmt (9+0)
+    clc
+    adc.w #0004                                   ; add size to do va_start(ap, last) ap = ((char*)&(last)) + sizeof(last)
+    sta tcc__r0
+    lda.w #0000                                  ; get bank address of fmt (should be 0)
+    pha                                          ; push bank + data address of 1st non mandatory values
+    pei (tcc__r0)
     lda 15,s                                     ; get bank address fmt (11+2+2)
     pha
     lda 15,s                                     ; get data address fmt (9+2+2+2)
@@ -643,10 +648,15 @@ consoleDrawTextMap:
     php 
     
     rep #$20
-    lda 20,s                                    ; get bank address of 1st non mandatory element (20+0)
-    pha
-    lda 20,s                                    ; get data address of 1st non mandatory element (18+2)
-    pha
+    tsa
+    clc
+    adc.w #0020                                  ; get data address of fmt (20+0)
+    clc
+    adc.w #0004                                   ; add size to do va_start(ap, last) ap = ((char*)&(last)) + sizeof(last)
+    sta tcc__r0
+    lda.w #0000                                  ; get bank address of fmt (should be 0)
+    pha                                          ; push bank + data address of 1st non mandatory values
+    pei (tcc__r0)
     lda 20,s                                     ; get bank address fmt (16+2+2)
     pha
     lda 20,s                                     ; get data address fmt (14+2+2+2)
@@ -689,10 +699,15 @@ consoleDrawTextMapCenter:
     php 
     
     rep #$20
-    lda 18,s                                    ; get bank address of 1st non mandatory element (18+0)
-    pha
-    lda 18,s                                    ; get data address of 1st non mandatory element (16+2)
-    pha
+    tsa
+    clc
+    adc.w #0018                                  ; get data address of fmt (18+0)
+    clc
+    adc.w #0004                                   ; add size to do va_start(ap, last) ap = ((char*)&(last)) + sizeof(last)
+    sta tcc__r0
+    lda.w #0000                                  ; get bank address of fmt (should be 0)
+    pha                                          ; push bank + data address of 1st non mandatory values
+    pei (tcc__r0)
     lda 18,s                                     ; get bank address fmt (14+2+2)
     pha
     lda 18,s                                     ; get data address fmt (12+2+2+2)
