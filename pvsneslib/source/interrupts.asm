@@ -22,7 +22,7 @@
 ;
 ;---------------------------------------------------------------------------------
 
-.SECTION ".interrupts_text" SUPERFREE
+.SECTION ".interrupts0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 WaitForVBlank:
@@ -44,4 +44,22 @@ WaitForVBlank:
 ;	rtl
 
 
+.ENDS
+
+.SECTION ".interrupts1_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+; void WaitNVBlank(u16 ntime)
+;WaitNVBlank:
+    php
+    
+    sep #$20
+    lda 5,s
+-   wai
+    dea
+    bne -
+	
+    plp
+	rtl
+	
 .ENDS
