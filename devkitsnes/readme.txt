@@ -27,6 +27,8 @@ SPECIAL THANKS
                
 CHANGE LOG
 ----------------------
+VERSION 3.30 (xx, yyy, 2021)
+
 VERSION 3.20 (24, May, 2021)
 - Update wla-dx toolchain to last version (9.13a)
 - Update constify to use uppercase characters for section keywords

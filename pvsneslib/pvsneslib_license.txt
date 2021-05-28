@@ -21,6 +21,14 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
+V3.3.0 (28, May, 2021)
+- Fix some instructions in VBlank function
+- Add WaitNVBlank function
+- Remove SetSoundBank in example where we have more than one bank
+- Fix Mosaic In / Out effect in lib and example
+- Fix bug in consoleDrawText and functions for text purpose regarding va_list arguments
+- Add getPaletteColor and getPalette functions
+
 V3.2.0 (24, May, 2021)
 - Remove doc entry for dmaCopyCGram
 - Fix AnimatedSprite example with constant variables
