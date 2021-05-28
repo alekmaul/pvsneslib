@@ -302,9 +302,9 @@ The overflow flags are set (regardless of OBJ enable/disable in 212Ch), at follo
 
 // macro creates a 15 bit color from 3x5 bit components
 /** \brief  Macro to convert 5 bit r g b components into a single 15 bit RGB triplet */
+#define RGB24(r,g,b)  (((r)>>3)|(((g)>>3)<<5)|(((b)>>3)<<10))
 #define RGB15(r,g,b)  ((r)|((g)<<5)|((b)<<10))
 #define RGB5(r,g,b)  ((r)|((g)<<5)|((b)<<10))
-#define RGB8(r,g,b)  (((r)>>3)|(((g)>>3)<<5)|(((b)>>3)<<10))
 
 #define SCREEN_HEIGHT 224 /** \brief  Screen height in pixels */
 #define SCREEN_WIDTH  256 /** \brief  Screen width in pixels */
