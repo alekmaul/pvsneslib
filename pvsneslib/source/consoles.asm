@@ -812,3 +812,57 @@ consoleUpdate:
 	rtl 
 	
 .ENDS
+
+
+.SECTION ".consoles10_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+;u8 consoleRegionIsOK(void) {
+;Cartidge region is in header, byte Country (FFD9h)
+;  00h J  Japan                    (NTSC)
+;  01h E  USA and Canada           (NTSC)
+;  0Dh K  South Korea              (NTSC) (North Korea would be PAL)
+;  0Fh N  Canada                   (NTSC)
+;  10h B  Brazil                   (PAL-M, NTSC-like 60Hz)
+consoleRegionIsOK:
+    php 
+    
+    sep #$20
+    stz tcc__r0                                 ; currently, check is not OK
+    
+    lda.l $ffd9                                 ; get cartridge region code
+    beq +
+    cmp #$01
+    beq +
+    cmp #$0D
+    beq +
+    cmp #$0F
+    beq +
+    cmp #$10
+    beq +
+    rep #$20
+    lda #$0001
+    bra ++
+    rep #$20
++   lda #$0000
+++  sta cons_val1                               ; 0 = NTSC, 1 = PAL
+    
+    sep #$20
+    lda snes_50hz                               ; here we have 1 if PAL
+    rep #$20
+    and #$00FF
+    cmp cons_val1
+    beq _cRIOK
+    lda #2
+    bra _cRIOK1
+    
+_cRIOK:
+    lda #1
+
+_cRIOK1:
+    sta tcc__r0
+
+	plp
+	rtl 
+	
+.ENDS
