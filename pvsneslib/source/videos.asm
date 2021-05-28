@@ -46,6 +46,8 @@
 
 .EQU REG_MPYMH      $2135
 
+.EQU RDCGRAM_PAL	$213B
+
 .EQU REG_NMITIMEN	$4200
 
 .EQU DSP_FORCEVBL   0x80
@@ -920,3 +922,68 @@ setMode7Angle:
 	rtl
 
 .ENDS
+
+.SECTION ".videos8_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+;void getPalette(u8 paletteEntry, u8 paletteSize, u16 *paletteColors)
+;5 6 7-10
+getPalette:
+    php
+    
+    rep #$20                            ; get paletteColors
+    lda 7,s
+    sta tcc__r0
+    lda 9,s
+    sta tcc__r0h
+    
+    phx
+    ldx.w #$0
+    
+    sep #$20
+    lda 8,s                             ; get paletteSize (6+2)
+    tax
+    
+    lda 5,s
+-   pha
+    sta.l REG_CGADD
+    lda.l RDCGRAM_PAL
+    sta [tcc__r0]
+    lda.l RDCGRAM_PAL
+    and #$7F                                ; remove openbus read
+    inc tcc__r0
+    sta [tcc__r0]
+    pla
+    ina
+    dex
+    bne -
+    plx
+    
+    plp
+	rtl
+
+; void getPaletteColor(u8 paletteEntry, u16 *paletteColor)
+getPaletteColor:
+    php
+
+    rep #$20
+    lda 6,s
+    sta tcc__r0
+    lda 8,s
+    sta tcc__r0h
+ 
+    sep #$20
+    lda 5,s
+    sta.l REG_CGADD
+    lda.l RDCGRAM_PAL
+    sta [tcc__r0]
+    lda.l RDCGRAM_PAL
+    and #$7F                                ; remove openbus read
+    inc tcc__r0
+    sta [tcc__r0]
+
+    plp
+	rtl
+
+.ENDS
+
