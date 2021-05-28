@@ -382,6 +382,22 @@ void setColorIntensity(u8 colorApply, u8 intensity);
 */
 #define setPaletteColor(paletteEntry, paletteColor) 	REG_CGADD = paletteEntry; *CGRAM_PALETTE = (paletteColor) & 0xFF; *CGRAM_PALETTE = (paletteColor)>>8;
 
+/*! \fn  getPalette(u8 paletteEntry, u8 paletteSize, u16 *paletteColors)
+	\brief Get a palette from CGRAM.
+	\param paletteEntry 1st entry in palette (0..255 for 16 colors mode) 
+	\param paletteSize	size of palette to get
+	\param paletteColors	RGB15 color to save all values
+*/
+void getPalette(u8 paletteEntry, u8 paletteSize, u16 *paletteColors);
+
+/*! \fn  getPaletteColor(u8 paletteEntry, u16 *paletteColor)
+	\brief Get a color palette from CGRAM.
+	\param paletteEntry palette color numer (0..255)
+	\param paletteColor	RGB15 color to save value
+*/
+void getPaletteColor(u8 paletteEntry, u16 *paletteColor);
+
+
 /*! \fn  setMode7(u8 mode)
 	\brief Put screen in mode 7 with generic init.
 	\param mode	Rotation/Scaling Mode Settings (see REG_M7SEL)
