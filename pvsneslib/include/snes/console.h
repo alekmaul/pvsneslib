@@ -139,7 +139,7 @@ void consoleLoadSram(u8 * dest, u16 size);
 int sprintf(char * buf, const char *fmt, ...);
 
 /*! \fn  consoleRegionIsOK()
-	\brief Check relation between console and cartridge
+	\brief Check compatibility between console (NTSC/PAL) and cartridge (country)
     \return 1 if cartridge and console are from the same region, 2 if not
 
 	Check if console (PAL / NSTC) is the same as cartrdige region code
