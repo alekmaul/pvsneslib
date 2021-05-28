@@ -136,5 +136,12 @@ void WaitForVBlank(void);
 */
 #define WaitVBLFlag 	while ((REG_HVBJOY & VBL_READY)); \
 						while (!(REG_HVBJOY & VBL_READY))  {};
-						
+
+
+/*! \fn  WaitNVBlank()
+	\brief Wait for vblank interrupt ntime
+	\param ntime number of time to wait VBlank Interrupt
+*/
+void WaitNVBlank(u16 ntime);
+
 #endif //SNES_INTERRUPTS_INCLUDE
