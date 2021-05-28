@@ -83,36 +83,49 @@ rand:
 .SECTION ".consoles1_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
-; void consoleNocashMessage(const char *message);
+; void consoleNocashMessage(char *fmt, ...)
 consoleNocashMessage:
 	php
-	phb
 	
-	sep	#$20
-	lda #$0
-	pha
-	plb ; change bank address to 0
-	
-	rep	#$20
+    rep #$20
+    tsa
+    clc
+    adc.w #0005                                  ; get data address of fmt (5+0)
+    clc
+    adc.w #0004                                  ; add size to do va_start(ap, last) ap = ((char*)&(last)) + sizeof(last)
+    sta tcc__r0
+    lda.w #0000                                  ; get bank address of fmt (should be 0)
+    pha                                          ; push bank + data address of 1st non mandatory values
+    pei (tcc__r0)
+    lda 11,s                                     ; get bank address fmt (7+2+2)
+    pha
+    lda 11,s                                     ; get data address fmt (5+2+2+2)
+    pha
+    pea.w :text_buffer
+    pea.w text_buffer
+    jsr.l vsprintf
+    tsa
+    clc
+    adc #12
+    tas
+
 	phy
-	
 	ldy #$0
 	
-	; Let tcc__r2 point to the message
-	lda		8,s
-	sta		tcc__r2
-	lda		10,s
-	sta		tcc__r2h
+	lda #:text_buffer                            ; Let tcc__r0 point to the message
+	sta		tcc__r0h
+    lda #text_buffer
+	sta		tcc__r0
 	
 	sep	#$20
--:	lda		[tcc__r2],y
+-:	lda		[tcc__r0],y
 	beq +
 	iny
 	sta.l	REG_DEBUG
 	bra -
 	
 +:	ply
-	plb
+
 	plp
 	rtl
 

@@ -120,9 +120,9 @@ void consoleInitText(u8 bgNumber,u8 paletteNumber, u8 *gfxText);
 void consoleInit(void);
 
 /*! \brief Send a message to the no$sns debug window 
-	\param message The message to send
+	\param fmt 	The Format string (see printf() documentation in your local C tutorial)
 */
-void consoleNocashMessage(const char *message);
+void consoleNocashMessage(char *fmt, ...);
 
 /*! \brief Send data to SRAM
 	\param source the source to copy from

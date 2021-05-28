@@ -25,8 +25,7 @@ int main(void) {
 	setScreenOn();  
 	
 	while(1) {
-		sprintf(messtxt,"FPS=%d\r\n",snes_vblank_count);
-		consoleNocashMessage(messtxt);
+		consoleNocashMessage("FPS=%d\r\n",snes_vblank_count);
 		WaitForVBlank();
 	}
 	return 0;
