@@ -39,6 +39,7 @@
 .EQU REG_TMW		       $212E
 
 .EQU BG_4COLORS0           32
+.EQU BG_256COLORS          256
 
 .EQU VRAM_INCLOW           (0 << 7)
 .EQU VRAM_INCHIGH          (1 << 7)
@@ -383,10 +384,14 @@ bgInitTileSet:
     tax
     beq _bITS1
     lda 19,s                    ; get colorMode
--   ror a
+    cmp #BG_256COLORS
+    beq +
+    lda.w #$0                   ; to begin at 16
+-   clc
+    adc #16
     dex
     bne -
-    sta bkgrd_val1
++   sta bkgrd_val1
     
 _bITS1:
     sep #$20
@@ -480,7 +485,11 @@ bgInitTileSetLz:
     tax
     beq _bITS1
     lda 19,s                    ; get colorMode
--   ror a
+    cmp #BG_256COLORS
+    beq +
+    lda.w #$0                   ; to begin at 16
+-   clc
+    adc #16
     dex
     bne -
     sta bkgrd_val1
