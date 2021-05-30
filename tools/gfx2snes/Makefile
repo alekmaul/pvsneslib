@@ -2,7 +2,7 @@
 
 export PATH := /c/MinGW32/bin/:/c/msys/bin:$(PATH)
 
-VERSION = "2.3.0"
+VERSION = "2.4.0"
 
 #---------------------------------------------------------------------------------
 # options for code generation

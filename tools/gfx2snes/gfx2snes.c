@@ -32,30 +32,33 @@
 //INCLUDES
 #include "gfx2snes.h"
 
+#define MAXTILES    1024
+
 //// M A I N   V A R I A B L E S ////////////////////////////////////////////////
 int	border=1;						// options and their defaults
 int	packed=0;						//
 int size=0;							//
 int screen=0;						//
 int colors=0;						//
-int output_palette=-1;	//
-int rearrange=0;				//
-int palette_entry=0;		//
-int file_type=1;				// 1 = bmp, 2 = pcx, 3 = tga, 4 = png
-int quietmode=0;				// 0 = not quiet, 1 = i can't say anything :P
-int collision=0;				// 1 = generated only collision map
-int collisionsp=0;			// n = 1st sprite entry regarding the map (so remove it from colision map)
-int tile_reduction=1;		// 0 = no tile reduction (warning !)
-int savepalette=1;			// 1 = save the palette
-int savemap=1;					// 1 = save the map
-int colortabinc=16;     // 16 for 16 color mode, 4 for 4 color mode
-int lzpacked=0;         // 1 = comrpess file with LZSS algorithm
-int highpriority=0;     // 1 = high priority for map
-int blanktile=0;        // 1 = blank tile generated
-int palette_rnd=0;      // 1 = round palette up & down
-int offset_tile=0;			// n = offset in tile number
-int pagemap32 = 0;      // 1 = create tile maps organized in 32x32 pages
-int hi512 = 0;      		// 1 = create a 512 width map for mode 5 & 6
+int output_palette=-1;	            //
+int rearrange=0;				    //
+int palette_entry=0;		        //
+int file_type=1;			    	// 1 = bmp, 2 = pcx, 3 = tga, 4 = png
+int quietmode=0;			    	// 0 = not quiet, 1 = i can't say anything :P
+int collision=0;			    	// 1 = generated only collision map
+int collisionsp=0;			        // n = 1st sprite entry regarding the map (so remove it from colision map)
+int tile_reduction=1;	        	// 0 = no tile reduction (warning !)
+int savepalette=1;		           	// 1 = save the palette
+int savemap=1;				    	// 1 = save the map
+int colortabinc=16;                 // 16 for 16 color mode, 4 for 4 color mode
+int lzpacked=0;                     // 1 = comrpess file with LZSS algorithm
+int highpriority=0;                 // 1 = high priority for map
+int blanktile=0;                    // 1 = blank tile generated
+int palette_rnd=0;                  // 1 = round palette up & down
+int offset_tile=0;		            // n = offset in tile number
+int pagemap32 = 0;                  // 1 = create tile maps organized in 32x32 pages
+int hi512 = 0;      		        // 1 = create a 512 width map for mode 5 & 6
+int mapengine=0;      		        // 1 = generate .map for map engine (with width, height, size)
 
 //// F U N C T I O N S //////////////////////////////////////////////////////////
 
@@ -708,7 +711,7 @@ unsigned char *ArrangeBlocks( unsigned char *img, int width, int height,
 
 //////////////////////////////////////////////////////////////////////////////
 
-int *MakeMap(unsigned char *img, int *num_tiles,
+int *MakeMap(unsigned char *img, int *num_tiles,int *tiletab,
 			 int xsize, int ysize, int tile_x, int tile_y, int colors, int rearrange, int pal_entry)
 {
 	int *map;
@@ -717,7 +720,7 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 	int newtiles;
 	int blank_absent;
 	int current;	//the current tile we're looking at
-	int i,t, palette;
+	int i,t, palette, j, newadd, tileno;
 	int x,y;
 	int sizetile;
 
@@ -742,6 +745,7 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 	}
 		
 	//if the palette has been rearranged... save the palette number
+    j=0;
 	//if(rearrange)
 	{
 		current=0;
@@ -780,10 +784,10 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 			} 
 			else if (pagemap32 == 1) {
 				//create pages of 32x32
-        int x_mult = (x)/32;
-        int new_x = x - x_mult * 32;
-        int idx = x_mult*1024 + y*32+new_x;
-        map[idx]=t;
+                int x_mult = (x)/32;
+                int new_x = x - x_mult * 32;
+                int idx = x_mult*1024 + y*32+new_x;
+                map[idx]=t;
 			}
 			else {
         //32x32 or 128x128 screen
@@ -839,90 +843,135 @@ int *MakeMap(unsigned char *img, int *num_tiles,
 
 	//save the first tilemap piece
 	map[0] += t;
+    tiletab[j++]=map[0];
 
 	for(y=0;y<ysize;y++)
-	for(x=0;x<xsize;x++)
-	{
-		//if we already processed this, move on
-		if(x==0 && y==0)
-			continue;
-
-		// if tile reduction
-		if (tile_reduction) {
-			//is the current tile blank?
-			if( memcmp(blank,&img[current*sizetile],sizetile) == 0 )
-				t=0;
-			else
-			{
-				//check for matches with previous tiles if tile_reduction on
-				for(i=0;i<newtiles;i++)
-					if( memcmp(&img[i*sizetile],&img[current*sizetile],sizetile) == 0 )
-						break;
-
-				//is it a new tile?
-				if(i==newtiles)
-				{
-					// yes -> add it
-					memcpy(&img[newtiles*sizetile],&img[current*sizetile],sizetile);
-					t=newtiles+blank_absent;
-					newtiles++;
-				}
-				else
-				{	// no -> find what tile number it is
-					t=i+blank_absent;
-				}
-			}
-		}
-		// else, always a new tile
-		else {
-			i = newtiles;
-
-			// yes -> add it
-			memcpy(&img[newtiles*sizetile],&img[current*sizetile],sizetile);
-			t=newtiles+blank_absent;
-			newtiles++;
-		}
-
-		//put tile number in map
-		if(tile_x==64 && tile_y==32) // 64x32 screen
-		{
-			if(x<32)
-				map[y*32 + x] += t;
-			else
-				map[(y+32)*32+x-32] += t;
-		}
-		else if(tile_x==32 && tile_y==64) // 32x64 screen
-			map[y*32+x] += t;
-		else if(tile_x==64 && tile_y==64) // 64x64 screen
-		{
-			if(y<32)
-				if(x<32)
-					map[y*32+x] += t;
-				else
-					map[(y+32)*32+x-32] += t;
-			else
-				if(x<32)
-					map[(y+64-32)*32+x] += t;
-				else
-					map[(y+96-32)*32+x-32] += t;
-		}
-		else 
-		if (pagemap32 == 1) {
-		    //create pages of 32x32
-		    int x_mult = (x)/32;
-            int new_x = x - x_mult * 32;
-            int idx = x_mult*1024 + y*32+new_x;
-            map[idx]+=t;
-		}
-		else //32x32 or 128x128 screen
     {
-			map[y*tile_x+x] += t;
+        for(x=0;x<xsize;x++)
+        {
+            newadd=0;           // currerntly we add not the tile to tile table
+            
+            //if we already processed this, move on
+            if(x==0 && y==0)
+                continue;
+
+            // if tile reduction
+            if (tile_reduction) {
+                //is the current tile blank?
+                if( memcmp(blank,&img[current*sizetile],sizetile) == 0 )
+                    t=0;
+                else
+                {
+                    //check for matches with previous tiles if tile_reduction on
+                    for(i=0;i<newtiles;i++)
+                        if( memcmp(&img[i*sizetile],&img[current*sizetile],sizetile) == 0 )
+                            break;
+
+                    //is it a new tile?
+                    if(i==newtiles)
+                    {
+                        // yes -> add it
+                        memcpy(&img[newtiles*sizetile],&img[current*sizetile],sizetile);
+                        t=newtiles+blank_absent;
+                        newtiles++;
+                        newadd=1;
+                    }
+                    else
+                    {	// no -> find what tile number it is
+                        t=i+blank_absent;
+                    }
+                }
+            }
+            // else, always a new tile
+            else {
+                i = newtiles;
+
+                // yes -> add it
+                memcpy(&img[newtiles*sizetile],&img[current*sizetile],sizetile);
+                t=newtiles+blank_absent;
+                newtiles++;
+            }
+
+            //put tile number in map
+            if(tile_x==64 && tile_y==32) // 64x32 screen
+            {
+                if(x<32) 
+                {
+                    map[y*32 + x] += t;
+                    tileno=map[y*32 + x];
+                }
+                else 
+                {
+                    map[(y+32)*32+x-32] += t;
+                    tileno=map[(y+32)*32+x-32];
+                }
+            }
+            else if(tile_x==32 && tile_y==64) // 32x64 screen
+            {
+                map[y*32+x] += t;
+                tileno=map[y*32+x];
+            }
+            else if(tile_x==64 && tile_y==64) // 64x64 screen
+            {
+                if(y<32) 
+                {
+                    if(x<32) 
+                    {
+                        map[y*32+x] += t;
+                        tileno=map[y*32+x];
+                    }
+                    else 
+                    {
+                        map[(y+32)*32+x-32] += t;
+                        tileno=map[(y+32)*32+x-32];
+                    }
+                }
+                else
+                {
+                    if(x<32) 
+                    {
+                        map[(y+64-32)*32+x] += t;
+                        tileno=map[(y+64-32)*32+x];
+                    }
+                    else
+                    {
+                        map[(y+96-32)*32+x-32] += t;
+                        tileno=map[(y+96-32)*32+x-32];
+                    }
+                }
+            }
+            else if (pagemap32 == 1) 
+            {
+                //create pages of 32x32
+                int x_mult = (x)/32;
+                int new_x = x - x_mult * 32;
+                int idx = x_mult*1024 + y*32+new_x;
+                map[idx]+=t;
+                tileno=map[idx];
+            }
+            else //32x32 or 128x128 screen
+            {
+                map[y*tile_x+x] += t;
+                tileno=map[y*tile_x+x];
+            }
+
+            // add also to tile table
+            if (newadd) 
+            {
+                if (j<MAXTILES)
+                    tiletab[j]=tileno;
+                j++;
+                if (j>=MAXTILES) 
+                {
+                    printf("\ngfx2snes: WARNING 'Too much tiles for map engine (%d)'\n",j);
+                }
+            }
+
+            //goto the next tile
+            current++;
+        }
     }
-
-		//goto the next tile
-		current++;
-	}
-
+    
 	//also return the number of new tiles
 	//make it negative if we need to add the blank tile
 	if (blank_absent)
@@ -1440,6 +1489,7 @@ void PrintOptions(char *str)
 	printf("\n                   where # is the offset in decimal (0 to 2047)");
 	printf("\n-mR!              No tile reduction (not advised)");
 	printf("\n-m32p             Generate tile map organized in pages of 32x32 (good for scrolling)");
+	printf("\n-me               Convert the map for PVSneslib map engine");
 	printf("\n\n--- Palette options ---");
 	printf("\n-p!               Exclude palette from output.");
 	printf("\n-pc(4|16|128|256) The number of colors to use [256]");
@@ -1482,6 +1532,7 @@ int main(int argc, char **arg)
 	unsigned char *buffer;
 	unsigned char *temp;
 	int *tilemap;
+    int tileobj[MAXTILES];
 	FILE *fp;
 
 	char filebase[256]="";
@@ -1561,6 +1612,12 @@ int main(int argc, char **arg)
 					screen=1;
 					border=0;
 					collision=1;
+				}
+				else if( strcmp(&arg[i][1],"me") == 0)
+				{
+					screen=1;
+					border=0;
+					mapengine=1;
 				}
 				else if(arg[i][2]=='s') //sprite entry location
 				{
@@ -1906,6 +1963,7 @@ int main(int argc, char **arg)
 
 	//arrange the blocks according to how we would like them represented.
 	tilemap=NULL;
+    memset(tileobj,0x00,sizeof(tileobj));
     if(screen)
 	{
 		j=xsize;
@@ -1932,8 +1990,7 @@ int main(int argc, char **arg)
 		}
 
 		//make the tile map now
-		tilemap=MakeMap(buffer, &num_tiles, xsize, ysize,
-					tile_x, tile_y, colors, rearrange, palette_entry);
+		tilemap=MakeMap(buffer, &num_tiles, (int *) &tileobj, xsize, ysize, tile_x, tile_y, colors, rearrange, palette_entry);
 		if(tilemap==NULL)
 		{
 			free(buffer);
@@ -2028,7 +2085,22 @@ int main(int argc, char **arg)
 			free(tilemap);
 			return 1;
 		}
+        
+        // if map engine , save also properties of the map
+        if (mapengine) 
+        {
+            PutWord(tile_x*8,fp);
+            PutWord(tile_y*8,fp);
+            PutWord(tile_x*tile_y*2,fp);
+        }
+        
+        // Little warning for more than one bank
+        if ( (tile_x*tile_y*2) >=32768) 
+        {
+            printf("\ngfx2snes: WARNING 'Map is too big for 1 32KB bank (%d)'\n",tile_x*tile_y);
+        }
 
+        // add all the tiles
 		for(i=0;i<tile_x*tile_y;i++)
 		{
 			if(screen==7)
@@ -2041,6 +2113,28 @@ int main(int argc, char **arg)
 			}
 		}
 		fclose(fp);
+
+        // if map engine, save also the tile properties in a specific tile
+        if (mapengine) 
+        {
+            sprintf(filename,"%s.til",filebase);
+            if (quietmode == 0)
+                printf("\ngfx2snes: 'Saving tile property file: [%s]'",filename);
+            fp = fopen(filename,"wb");
+            if(fp==NULL)
+            {
+                printf("\ngfx2snes: error 'Can't open file [%s] for writing'\n",filename);
+                free(tilemap);
+                return 1;
+            }
+
+            // add all the tiles
+            for(i=0;i<MAXTILES;i++)
+            {
+                PutWord(tileobj[i],fp);
+            }
+            fclose(fp);
+        }
 
 		// save the sprite table if needed
 		if (collision == 2) {
