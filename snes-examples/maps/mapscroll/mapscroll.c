@@ -12,7 +12,13 @@ extern char tileset,tilesetend,mapmario,palmario,tilesetprop;
 extern char gfxsprite,gfxsprite_end,palsprite;
 
 unsigned short pad0;
-unsigned short xloc,yloc,flipx,frame;
+unsigned short xloc,yloc,flipx,frame,frameidx,flip;
+
+const char sprTiles[4]=
+{
+    0,2,4, 6,
+};  
+
 
 //---------------------------------------------------------------------------------
 int main(void) {
@@ -30,7 +36,7 @@ int main(void) {
 	oamInitGfxSet(&gfxsprite, (&gfxsprite_end-&gfxsprite), &palsprite, 16, 0, 0x0000, OBJ_SIZE16_L32);
 
 	// Define sprites parameters
-    xloc=0; yloc=224-32;flipx=0;frame=0;
+    xloc=0; yloc=224-32;flipx=0;frame=0;frameidx=0;flip=0;
 	oamSet(0,  xloc, yloc, 0, 0, 0, 0, 0); 
 	oamSetEx(0, OBJ_SMALL, OBJ_SHOW);
 	oamSetVisible(0,OBJ_SHOW);
@@ -40,7 +46,7 @@ int main(void) {
 	
     // Load map in memory
     mapLoad((u8 *) &mapmario,(u8 *) &mapmario, (u8 *) &tilesetprop);
-        
+
 	while(1) {
         // Get pad value and change camera if need
 		pad0 = padsCurrent(0);
@@ -49,11 +55,23 @@ int main(void) {
 				if (xloc) xloc--;
 				flipx = 1;
                 mapUpdateCamera(xloc,yloc);
+                flip++;
+                if (flip & 1) {
+                    frameidx++;
+                    frameidx=frameidx & 3;
+                    frame=sprTiles[frameidx];
+                }
 			}
 			if(pad0 & KEY_RIGHT) {
 				xloc++;
 				flipx = 0;
                 mapUpdateCamera(xloc,yloc);
+                flip++;
+                if (flip & 1) {
+                    frameidx++;
+                    frameidx=frameidx & 3;
+                    frame=sprTiles[frameidx];
+                }
 			}
         }
         
