@@ -75,7 +75,6 @@ int main(void) {
 			}
         }
         
-        //monster.gfx_frame = sprTiles[monster.anim_frame + monster.state*FRAMES_PER_ANIMATION ];
 		// x_pos and y_pos are from map engine and reflect the current map position
         oamSet(0,  xloc-x_pos, yloc-y_pos, 3, flipx, 0, frame, 0);
 
