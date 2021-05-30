@@ -40,6 +40,7 @@
  - \ref lzss.h "LZ decompression routine"
  - \ref pixel.h "Pixel mode management"
  - \ref sprite.h "2D Sprites"
+ - \ref map.h "map management"
 
  \section audio_api Audio API
  - \ref sound.h "Mod tracker and Sound Engine"
@@ -70,6 +71,7 @@
  - Kung Fu Furby for help on Snesmod convertion to PVSnesLib.
  - <a href="http://code.google.com/p/neo-myth-menu/">Neoflash Menu google code. </a>
  - <a href="http://www.devkitpro.org/">Devkitpro team for pvsneslib structure (lib, makefile, examples, and so on ...). </a>
+ - <a href="https://github.com/undisbeliever/castle_platformer">undisbeliever for his great platform code example on github. </a>
 */
 
 
@@ -115,6 +117,9 @@
     \example audio/music/Music.c
     \example audio/tada/Tada.c
 
+    <!-- maps -->
+    \example maps/mapscroll/mapscroll.c
+
     <!-- debugging -->
     \example debug/debug.c
 
@@ -136,6 +141,7 @@
 #include "snes/console.h"
 #include "snes/dma.h"
 #include "snes/interrupt.h"
+#include "snes/map.h"
 #include "snes/pad.h"
 #include "snes/scores.h"
 #include "snes/sound.h"
