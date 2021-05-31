@@ -377,7 +377,7 @@ void setColorIntensity(u8 colorApply, u8 intensity);
 /*! \fn  setPaletteColor(paletteEntry, paletteColor)
 	\brief Change a color palette in CGRAM.
 	\param paletteEntry palette color numer (0..255)
-	\param paletteColor	RGB15 color
+	\param paletteColor	RGB5 color
 */
 #define setPaletteColor(paletteEntry, paletteColor) 	REG_CGADD = paletteEntry; *CGRAM_PALETTE = (paletteColor) & 0xFF; *CGRAM_PALETTE = (paletteColor)>>8;
 
@@ -385,14 +385,14 @@ void setColorIntensity(u8 colorApply, u8 intensity);
 	\brief Get a palette from CGRAM.
 	\param paletteEntry 1st entry in palette (0..255 for 16 colors mode) 
 	\param paletteSize	size of palette to get
-	\param paletteColors	RGB15 color to save all values
+	\param paletteColors	RGB5 color to save all values
 */
 void getPalette(u8 paletteEntry, u8 paletteSize, u16 *paletteColors);
 
 /*! \fn  getPaletteColor(u8 paletteEntry, u16 *paletteColor)
 	\brief Get a color palette from CGRAM.
 	\param paletteEntry palette color numer (0..255)
-	\param paletteColor	RGB15 color to save value
+	\param paletteColor	RGB5 color to save value
 */
 void getPaletteColor(u8 paletteEntry, u16 *paletteColor);
 

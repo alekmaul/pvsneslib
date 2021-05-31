@@ -234,7 +234,7 @@ int main(void) {
 	
 	// Initialize text console with our font and invert color (black with BG white)
 	consoleInitText(0, 1, &snesfont);
-	consoleSetTextCol(RGB15(0,0,0), RGB15(31,31,31));
+	consoleSetTextCol(RGB5(0,0,0), RGB5(31,31,31));
 	
 	// Copy tiles to VRAM
 	bgInitTileSet(1, &mapgfx, &mappal, 0, (&mapgfx_end - &mapgfx), 16*2, BG_16COLORS, 0x6000);
