@@ -44,8 +44,9 @@ int main(void) {
 	// Display screen
 	setScreenOn();
 	
-    // Load map in memory
+    // Load map in memory and update it egarding current location of the sprite
     mapLoad((u8 *) &mapmario,(u8 *) &mapmario, (u8 *) &tilesetprop);
+    mapUpdateCamera(xloc,yloc);
 
 	while(1) {
         // Get pad value and change camera if need
