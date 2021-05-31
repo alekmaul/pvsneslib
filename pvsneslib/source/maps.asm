@@ -81,9 +81,7 @@ mapadrrowlut            DSW MAP_MAXROWS     ; address of each row for fast compu
 maprowsize              DW                  ; size of 1 row regarding map
 
 bg_L1                   DSW 32*32           ; The buffer to use when updating the whole display on layer 1
-;bg_L2                   DSW 32*32           ; The buffer to use when updating the whole display on layer 2
 bgvertleftbuf_L1        DSW 32              ; The left 8x8 tiles of the vertical tile update
-;bgvertrightbuf_L1       DSW 32              ; The right 8x8 tiles of the vertical tile update
 
 mapvisibletopleftidx    DW                  ; Tile index within `map` that represents the top left of the visible display
 mapvisibletopleftxpos   DW                  ; Pixel location of `mapvisibletopleftidx`
