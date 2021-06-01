@@ -49,7 +49,7 @@ topleft                 DSW MAP_MAXMTILES*4 ; a metatile is 4 8x8 pixels max
 .RAMSECTION ".reg_maps" BANK 0 SLOT 1
 
 dispxofs_L1             DW                  ; X scroll offset of layer 1
-dispxofs_L2             DW                  ; X scroll offset of layer 2
+dispyofs_L1             DW                  ; Y scroll offset of layer 1
 
 bgvvramloc_L1           DW                  ; VRAM word address to store vertical buffer.
 bgleftvramlocl_L1       DW                  ; VRAM word address to store the horizontal buffer (left tilemap)
@@ -238,8 +238,8 @@ mapLoad:
     lda #$01
     sta $420B                               ; do dma for transfert
     
-    stz.w dispxofs_L1                       ; reset scroll var for layers 1 & 2
-    stz.w dispxofs_L2
+    stz.w dispxofs_L1                       ; reset scroll vars x & y for layers 1
+    stz.w dispyofs_L1
 
     lda #$0
     sta.l mapupdbuf                         ; reset var for map update
@@ -383,8 +383,11 @@ _mapDAS2:
     lda.l x_pos
     and.w #(MAP_MTSIZE - 1)
     sta.l dispxofs_L1
-    ror a
-    sta.l dispxofs_L2
+
+	lda.l y_pos
+	and.w #(MAP_MTSIZE - 1)
+	dec a
+	sta.l dispyofs_L1
     
     stz mapcolidx
     stz maprowidx
@@ -625,10 +628,10 @@ _mapvbend:
     sta.l $210D                                 ; BG1HOFS
     lda.l dispxofs_L1 + 1
     sta.l $210D                                 ; BG1HOFS
-    lda.l dispxofs_L2
-    sta.l $210F                                 ; BG2HOFS
-    lda.l dispxofs_L2 + 1
-    sta.l $210F                                 ; BG2HOFS
+    lda.l dispyofs_L1
+    sta.l $210E                                 ; BG1VOFS
+    lda.l dispyofs_L1 + 1
+    sta.l $210E                                 ; BG1VOFS
 
     lda #$0                                     ; no more need of update
     sta.l mapupdbuf
@@ -757,8 +760,6 @@ _mapupd3:
     sec
     sbc mapdisplaydeltax
     sta.l dispxofs_L1
-    ror a
-    sta.l dispxofs_L2
 
     lda.l y_pos
     sec
@@ -851,6 +852,11 @@ _mapupda:
     tsb mapupdbuf;
 
 _mapupd9:
+	lda.l y_pos
+	sec
+	sbc.l mapdisplaydeltay
+	sta.l dispyofs_L1
+
     sep #$20
     lda #MAP_UPD_POSIT
     tsb mapupdbuf

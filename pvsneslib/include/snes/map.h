@@ -27,19 +27,13 @@
 /*!	\file map.h
 	\brief contains the functions to manage / scroll large background MAP on SNES.
 	\brief this can only be use for mode 1 
-    \brief layer addresses are :
-    \brief layer addresses are :
+    \brief the engine scrolls layer1 in x and y coordinates
+    \brief layer address is : 6800 for Layer 1
 */
 #ifndef SNES_MAPS_INCLUDE
 #define SNES_MAPS_INCLUDE
 
 #include <snes/snestypes.h>
-
-
-/*!	\brief Map definition */
-typedef struct  {
-  u16 ofsL2inc;	/*!< Layer 2 offset increment regarding layer 1 (0 = same, 1 = 1/2 regarding layer 1) */
-} mapEntry;
 
 /*!	\fn mapLoad(u8 *layer1map, u8 *layer1col, u8 *layertiles)
 	\brief Load map definition into memory
@@ -66,6 +60,6 @@ void mapVblank(void);
 */
 void mapUpdateCamera(u16 xpos, u16 ypos);
 
-extern u16 x_pos,y_pos;
+extern u16 x_pos,y_pos; /*!< \brief Current value of camera in x & y coordinates */
 
 #endif
