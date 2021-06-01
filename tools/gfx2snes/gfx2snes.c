@@ -808,7 +808,9 @@ int *MakeMap(unsigned char *img, int *num_tiles,int *tiletab,
 		t = colors - 1;	//color truncation mask
 
 		for(i=0;i<xsize*ysize*sizetile;i++)
+        {
 			img[i] = img[i] & t;
+        }
 	}
 
 	//make a blank tile
@@ -858,8 +860,10 @@ int *MakeMap(unsigned char *img, int *num_tiles,int *tiletab,
             // if tile reduction
             if (tile_reduction) {
                 //is the current tile blank?
-                if( memcmp(blank,&img[current*sizetile],sizetile) == 0 )
+                if (( memcmp(blank,&img[current*sizetile],sizetile) == 0 ) && (blanktile==1 ) )
+                {
                     t=0;
+                }
                 else
                 {
                     //check for matches with previous tiles if tile_reduction on
