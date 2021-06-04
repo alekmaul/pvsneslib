@@ -3,6 +3,7 @@
 
 #include "BrrCodec.h"
 #include "base/basemath.h"
+#include <string.h>
 
 using namespace base::math;
 
@@ -83,20 +84,20 @@ InvalidFileException::~InvalidFileException () throw()
 
 
 
-FASTCALL BrrCodec::BrrCodec ()
+ BrrCodec::BrrCodec ()
 {
 reset();
 }
 
 
 
-FASTCALL BrrCodec::~BrrCodec ()
+ BrrCodec::~BrrCodec ()
 {
 }
 
 
 
-void FASTCALL BrrCodec::reset ()
+void  BrrCodec::reset ()
 {
 loop_start = 0;
 loop_enabled = false;
@@ -127,7 +128,7 @@ max_error = 0;
 
 
 
-void FASTCALL BrrCodec::decode ()
+void  BrrCodec::decode ()
 {
 if (!gauss_enabled)
  {
@@ -311,7 +312,7 @@ return r;
 
 
 
-void FASTCALL BrrCodec::encode ()
+void  BrrCodec::encode ()
 {
 reset_progress();
 
@@ -604,7 +605,7 @@ if (!user_pitch_enabled)
 
 
 
-void FASTCALL BrrCodec::read_brr (Stream& is)
+void  BrrCodec::read_brr (Stream& is)
 {
 brr_data.resize(((is.size() + 8) / 9) * 9, 0);
 is.read(&brr_data[0], is.size());
@@ -612,14 +613,14 @@ is.read(&brr_data[0], is.size());
 
 
 
-void FASTCALL BrrCodec::write_brr (Stream& os)
+void  BrrCodec::write_brr (Stream& os)
 {
 os.write(&brr_data[0], brr_data.size());
 }
 
 
 
-static uint16 FASTCALL read2 (Stream& is)
+static uint16  read2 (Stream& is)
 {
 uint8 buf[2];
 
@@ -630,7 +631,7 @@ return buf[0] | (buf[1] << 8);
 
 
 
-static uint32 FASTCALL read4 (Stream& is)
+static uint32  read4 (Stream& is)
 {
 uint8 buf[4];
 
@@ -641,7 +642,7 @@ return buf[0] | (buf[1] << 8) | (buf[2] << 16) | (buf[3] << 24);
 
 
 
-static void FASTCALL write2 (Stream& os, uint16 s)
+static void  write2 (Stream& os, uint16 s)
 {
 uint8 buf[2];
 
@@ -653,7 +654,7 @@ os.write(buf, 2);
 
 
 
-static void FASTCALL write4 (Stream& os, uint32 s)
+static void  write4 (Stream& os, uint32 s)
 {
 uint8 buf[4];
 
@@ -674,19 +675,17 @@ return (x + 1) & ~1;
 
 
 
-void FASTCALL BrrCodec::read_wav (Stream& is)
+void  BrrCodec::read_wav (Stream& is)
 {
 uint8 cid[4];
 
 is.read(cid, 4);
-//if (std::memcmp(cid, "RIFF", 4) != 0)
 if (memcmp(cid, "RIFF", 4) != 0)
  throw InvalidFileException();
 
 is.seekoff(4);
 
 is.read(cid, 4);
-//if (std::memcmp(cid, "WAVE", 4) != 0)
 if (memcmp(cid, "WAVE", 4) != 0)
  throw InvalidFileException();
 
@@ -700,13 +699,11 @@ while (!is.eof())
  is.read(cid, 4);
  uint32 size = read4(is);
 
- //if (std::memcmp(cid, "fmt ", 4) == 0)
  if (memcmp(cid, "fmt ", 4) == 0)
   {
   fmt_off = is.tell();
   fmt_size = size;
   }
- //else if (std::memcmp(cid, "data", 4) == 0)
  else if (memcmp(cid, "data", 4) == 0)
   {
   data_off = is.tell();
@@ -809,7 +806,7 @@ else
 
 
 
-void FASTCALL BrrCodec::write_wav (Stream& os)
+void  BrrCodec::write_wav (Stream& os)
 {
 // 8 bytes
 os.write("RIFF", 4);

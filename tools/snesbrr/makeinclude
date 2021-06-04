@@ -4,11 +4,11 @@ CXX = g++
 WINDRES = windres
 RM = rm -f
 
-CFLAGS = -Os -march=pentium-mmx -fomit-frame-pointer -fforce-addr -falign-jumps -falign-functions -fno-guess-branch-probability -Wall -Wextra -Winline --param inline-unit-growth=350 -finline-limit=3500 -Wno-unused -pedantic -ffunction-sections -fdata-sections
+CFLAGS = -Os -fomit-frame-pointer -fforce-addr -falign-jumps -falign-functions -fno-guess-branch-probability -Wall -Wextra -Winline -Wno-shift-negative-value --param inline-unit-growth=350 -finline-limit=3500 -Wno-unused -pedantic -ffunction-sections -fdata-sections -fpermissive
 CXXFLAGS = $(CFLAGS)
 CPPFLAGS = -DNDEBUG
 LDFLAGS = -s -Wl,--gc-sections
-ARFLAGS = -rc
+ARFLAGS = -rcU
 
 
 /make_dep/ = @echo "Making Dependency File $@"; $(CC) $(CPPFLAGS) -MM -MG -MP -MT "$(@:.d=.o) $@" $< -MF $@

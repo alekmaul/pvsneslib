@@ -40,6 +40,19 @@ unsigned int filesize;		// input file size
 char filebase[256]="";		// input filename
 char filename[256];			// output filename
 
+//// F U N C T I O N S //////////////////////////////////////////////////////////
+
+#ifndef __CYGWIN__
+void strupr(char *str)
+{
+	while(*str)
+	{
+		*str=toupper(*str);
+		str++;
+	}
+} 
+#endif
+
 //////////////////////////////////////////////////////////////////////////////
 void PrintOptions(char *str)
 {

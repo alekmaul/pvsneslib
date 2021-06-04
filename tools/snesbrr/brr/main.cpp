@@ -42,7 +42,7 @@ static const OptionParser::Option option_list[] =
 
 
 
-static void FASTCALL cb_progress (BrrCodec& codec)
+static void  cb_progress (BrrCodec& codec)
 {
 if (codec.last_progress >= 100)
  return;
@@ -71,7 +71,7 @@ std::fflush(stdout);
 
 
 
-static int FASTCALL run_main (int argc, const char* const* argv)
+static int  run_main (int argc, const char* const* argv)
 {
 OptionParser op(argc, argv, option_list);
 BrrCodec codec;
@@ -295,7 +295,6 @@ switch (mode)
 
 return 0;
 }
-
 
 #define SNESBRRVERSION __BUILD_VERSION
 #define SNESBRRDATE __BUILD_DATE

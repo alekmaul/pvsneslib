@@ -3,18 +3,18 @@
 
 #include "MemoryStream.h"
 #include "StreamException.h"
-
+#include <string.h>
 
 namespace base
 {
 
-FASTCALL MemoryStream::~MemoryStream ()
+ MemoryStream::~MemoryStream ()
 {
 }
 
 
 
-void FASTCALL MemoryStream::close ()
+void  MemoryStream::close ()
 {
 Stream::close();
 mem.clear();
@@ -22,19 +22,18 @@ mem.clear();
 
 
 
-void FASTCALL MemoryStream::read (void* buf, size_type n)
+void  MemoryStream::read (void* buf, size_type n)
 {
 if ((pos + n) > len)
  throw StreamReadException();
 
-//std::memcpy(buf, &mem[pos], n);
 memcpy(buf, &mem[pos], n);
 pos += n;
 }
 
 
 
-uint FASTCALL MemoryStream::read ()
+uint  MemoryStream::read ()
 {
 if (pos == len)
  throw StreamReadException();
@@ -46,7 +45,7 @@ return r;
 
 
 
-void FASTCALL MemoryStream::write (const void* buf, size_type n)
+void  MemoryStream::write (const void* buf, size_type n)
 {
 pos_type nmax = len - pos;
 
@@ -58,12 +57,10 @@ if (nmax == 0)
 else if (n > nmax)
  {
  len += n - nmax;
- //std::memcpy(&mem[pos], buf, nmax);
  memcpy(&mem[pos], buf, nmax);
  mem.insert(mem.end(), (const uint8*)(buf) + nmax, (const uint8*)(buf) + n);
  }
 else
- //std::memcpy(&mem[pos], buf, n);
  memcpy(&mem[pos], buf, n);
 
 pos += n;
@@ -71,7 +68,7 @@ pos += n;
 
 
 
-void FASTCALL MemoryStream::write (uint x)
+void  MemoryStream::write (uint x)
 {
 if (pos == len)
  {
@@ -88,7 +85,7 @@ else
 
 
 
-void FASTCALL MemoryStream::pseek ()
+void  MemoryStream::pseek ()
 {
 if (pos > len)
  {
@@ -99,7 +96,7 @@ if (pos > len)
 
 
 
-void FASTCALL MemoryStream::ptruncate ()
+void  MemoryStream::ptruncate ()
 {
 mem.resize(len, 0);
 }

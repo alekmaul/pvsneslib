@@ -8,18 +8,26 @@ VERSION = "2.4.0"
 # options for code generation
 #---------------------------------------------------------------------------------
 CC=gcc
-CFLAGS=-g -O2 -Wall -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+CFLAGS=-g -O2 -Wall -Wno-unused-result -Wno-incompatible-pointer-types -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 SOURCES=gfx2snes.c lzss.c lodepng.c
 OBJS=gfx2snes.o  lzss.o lodepng.o
-EXE=gfx2snes.exe
+EXE=gfx2snes
 DEFINES =
 LIBS =
-#---------------------------------------------------------------------------------
-all: $(EXE)
+
+ifeq ($(OS),Windows_NT)
+        EXT=.exe
+else
+        EXT=
+endif
+
 
 #---------------------------------------------------------------------------------
-$(EXE) : $(OBJS)
+all: $(EXE)$(EXT)
+
+#---------------------------------------------------------------------------------
+$(EXE)$(EXT) : $(OBJS)
 	@echo make exe $(notdir $<)
 	$(CC) $(CFLAGS) $(OBJS) -o $@
 
@@ -37,6 +45,6 @@ lodepng.o : lodepng.c
 	
 #---------------------------------------------------------------------------------
 clean:
-	rm -f *.o *.exe *.tds
+	rm -f $(EXE)$(EXT) $(OBJS) *.tds
 
 

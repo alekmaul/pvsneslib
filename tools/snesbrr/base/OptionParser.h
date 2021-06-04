@@ -39,10 +39,10 @@ public:
  next();
  }
 
- void FASTCALL print_help (const char* usage) const;
+ void  print_help (const char* usage) const;
 
- bool FASTCALL next ();
- uint FASTCALL parse () const;
+ bool  next ();
+ uint  parse () const;
 
  void stop ()
  { index = argc; }

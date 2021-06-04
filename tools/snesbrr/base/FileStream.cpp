@@ -14,13 +14,13 @@
 namespace base
 {
 
-FASTCALL FileStream::~FileStream ()
+ FileStream::~FileStream ()
 {
 }
 
 
 
-void FASTCALL FileStream::open (const char* fn, uint mode)
+void  FileStream::open (const char* fn, uint mode)
 {
 if (!try_open(fn, mode))
  throw StreamClosedException();
@@ -28,7 +28,7 @@ if (!try_open(fn, mode))
 
 
 
-bool FASTCALL FileStream::try_open (const char* fn, uint mode)
+bool  FileStream::try_open (const char* fn, uint mode)
 {
 close();
 
@@ -78,7 +78,7 @@ return false;
 
 
 
-void FASTCALL FileStream::close ()
+void  FileStream::close ()
 {
 Stream::close();
 file.reset();
@@ -86,7 +86,7 @@ file.reset();
 
 
 
-void FASTCALL FileStream::flush ()
+void  FileStream::flush ()
 {
 if (!is_open())
  throw StreamClosedException();
@@ -97,7 +97,7 @@ if (std::fflush(*file) != 0)
 
 
 
-void FASTCALL FileStream::read (void* buf, size_type n)
+void  FileStream::read (void* buf, size_type n)
 {
 if (!can_read())
  throw StreamReadException();
@@ -113,7 +113,7 @@ if (std::fread(buf, n, 1, *file) != 1)
 
 
 
-uint FASTCALL FileStream::read ()
+uint  FileStream::read ()
 {
 if (!can_read())
  throw StreamReadException();
@@ -133,7 +133,7 @@ return uint(x);
 
 
 
-void FASTCALL FileStream::write (const void* buf, size_type n)
+void  FileStream::write (const void* buf, size_type n)
 {
 if (!can_write())
  throw StreamWriteException();
@@ -148,7 +148,7 @@ if (std::fwrite(buf, n, 1, *file) != 1)
 
 
 
-void FASTCALL FileStream::write (uint x)
+void  FileStream::write (uint x)
 {
 if (!can_write())
  throw StreamWriteException();
@@ -163,7 +163,7 @@ if (std::fputc(x, *file) == EOF)
 
 
 
-void FASTCALL FileStream::pseek ()
+void  FileStream::pseek ()
 {
 if (!is_open())
  throw StreamClosedException();
@@ -192,7 +192,7 @@ else
 
 
 
-void FASTCALL FileStream::ptruncate ()
+void  FileStream::ptruncate ()
 {
 if (!is_open())
  throw StreamClosedException();
@@ -201,7 +201,7 @@ if (!is_open())
 if (_chsize(_fileno(*file), len) != 0)
  throw StreamException();
 #else
-if (ftruncate(_fileno(*file), len) != 0)
+if (ftruncate(fileno(*file), len) != 0)
  throw StreamException();
 #endif
 }

@@ -72,17 +72,17 @@ public:
  FileStream (const char* fn, uint mode)
  { open(fn, mode); }
 
- void FASTCALL open (const char* fn, uint mode);
- bool FASTCALL try_open (const char* fn, uint mode);
+ void  open (const char* fn, uint mode);
+ bool  try_open (const char* fn, uint mode);
 
- virtual FASTCALL ~FileStream ();
- virtual void FASTCALL close ();
- virtual void FASTCALL flush ();
+ virtual  ~FileStream ();
+ virtual void  close ();
+ virtual void  flush ();
 
- virtual void FASTCALL read (void* buf, size_type n);
- virtual uint FASTCALL read ();
- virtual void FASTCALL write (const void* buf, size_type n);
- virtual void FASTCALL write (uint x);
+ virtual void  read (void* buf, size_type n);
+ virtual uint  read ();
+ virtual void  write (const void* buf, size_type n);
+ virtual void  write (uint x);
 
  bool is_open () const
  { return file.is_open(); }
@@ -94,8 +94,8 @@ public:
  { return file.can_write(); }
 
 protected:
- virtual void FASTCALL pseek ();
- virtual void FASTCALL ptruncate ();
+ virtual void  pseek ();
+ virtual void  ptruncate ();
 };
 
 } // base
