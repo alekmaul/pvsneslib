@@ -4,7 +4,6 @@
 #ifndef libbase_MemoryStream_h
 #define libbase_MemoryStream_h
 
-#include <string.h>
 #include <vector>
 #include "Stream.h"
 
@@ -21,17 +20,17 @@ public:
  MemoryStream ()
  { }
 
- virtual FASTCALL ~MemoryStream ();
- virtual void FASTCALL close ();
+ virtual  ~MemoryStream ();
+ virtual void  close ();
 
- virtual void FASTCALL read (void* buf, size_type n);
- virtual uint FASTCALL read ();
- virtual void FASTCALL write (const void* buf, size_type n);
- virtual void FASTCALL write (uint x);
+ virtual void  read (void* buf, size_type n);
+ virtual uint  read ();
+ virtual void  write (const void* buf, size_type n);
+ virtual void  write (uint x);
 
 protected:
- virtual void FASTCALL pseek ();
- virtual void FASTCALL ptruncate ();
+ virtual void  pseek ();
+ virtual void  ptruncate ();
 
 public:
  void swap (std::vector<uint8>& x)

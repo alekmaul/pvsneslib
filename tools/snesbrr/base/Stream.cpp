@@ -7,13 +7,13 @@
 namespace base
 {
 
-FASTCALL Stream::~Stream ()
+ Stream::~Stream ()
 {
 }
 
 
 
-void FASTCALL Stream::close ()
+void  Stream::close ()
 {
 pos = 0;
 len = 0;
@@ -21,7 +21,7 @@ len = 0;
 
 
 
-void FASTCALL Stream::flush ()
+void  Stream::flush ()
 {
 }
 

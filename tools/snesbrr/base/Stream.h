@@ -28,18 +28,18 @@ protected:
  { }
 
 public:
- virtual FASTCALL ~Stream ();
- virtual void FASTCALL close ();
- virtual void FASTCALL flush ();
+ virtual  ~Stream ();
+ virtual void  close ();
+ virtual void  flush ();
 
- virtual void FASTCALL read (void* buf, size_type n) = 0;
- virtual uint FASTCALL read () = 0;
- virtual void FASTCALL write (const void* buf, size_type n) = 0;
- virtual void FASTCALL write (uint x) = 0;
+ virtual void  read (void* buf, size_type n) = 0;
+ virtual uint  read () = 0;
+ virtual void  write (const void* buf, size_type n) = 0;
+ virtual void  write (uint x) = 0;
 
 protected:
- virtual void FASTCALL pseek () = 0;
- virtual void FASTCALL ptruncate () = 0;
+ virtual void  pseek () = 0;
+ virtual void  ptruncate () = 0;
 
 public:
  void resize (pos_type n)

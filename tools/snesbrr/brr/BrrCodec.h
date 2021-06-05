@@ -4,7 +4,6 @@
 #ifndef BrrCodec_h
 #define BrrCodec_h
 
-#include <string.h>
 #include <vector>
 #include <exception>
 #include "base/basetypes.h"
@@ -39,7 +38,7 @@ public:
  std::vector<int16> wav_data;
  std::vector<uint8> brr_data;
 
- void (FASTCALL *cb_func)(BrrCodec&);
+ void ( *cb_func)(BrrCodec&);
  void* cb_data;
 
  uint cur_progress;
@@ -76,19 +75,19 @@ private:
  }
 
 public:
- FASTCALL BrrCodec ();
- FASTCALL ~BrrCodec ();
+  BrrCodec ();
+  ~BrrCodec ();
 
- void FASTCALL reset ();
+ void  reset ();
 
- void FASTCALL decode ();
- void FASTCALL encode ();
+ void  decode ();
+ void  encode ();
 
- void FASTCALL read_brr (Stream& is);
- void FASTCALL write_brr (Stream& os);
+ void  read_brr (Stream& is);
+ void  write_brr (Stream& os);
 
- void FASTCALL read_wav (Stream& is);
- void FASTCALL write_wav (Stream& os);
+ void  read_wav (Stream& is);
+ void  write_wav (Stream& os);
 };
 
 

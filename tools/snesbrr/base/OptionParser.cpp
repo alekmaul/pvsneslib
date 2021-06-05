@@ -9,7 +9,7 @@
 namespace base
 {
 
-void FASTCALL OptionParser::print_help (const char* usage) const
+void  OptionParser::print_help (const char* usage) const
 {
 std::printf("Usage: %s\n", usage);
 std::printf("Options:\n");
@@ -22,7 +22,7 @@ for (const Option* o = options; o->id != 0; ++o)
 
 
 
-bool FASTCALL OptionParser::next ()
+bool  OptionParser::next ()
 {
 if (index >= argc)
  {
@@ -36,7 +36,7 @@ return true;
 
 
 
-uint FASTCALL OptionParser::parse () const
+uint  OptionParser::parse () const
 {
 if (!cmd || !options)
  return 0;

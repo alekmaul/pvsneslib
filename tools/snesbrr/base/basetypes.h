@@ -7,11 +7,6 @@
 #include <stdint.h>
 
 
-#undef FASTCALL
-#undef RESTRICT
-#define FASTCALL  __fastcall
-#define RESTRICT  __restrict
-
 
 namespace base
 {
