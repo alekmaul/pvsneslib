@@ -8,17 +8,27 @@
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-extern char tileset,tilesetend,mapmario,palmario,tilesetprop;
+extern char tileset,tilesetend,mapmario,palmario,tilesetdef;
 extern char gfxsprite,gfxsprite_end,palsprite;
 
-unsigned short pad0;
-unsigned short xloc,yloc,flipx,frame,frameidx,flip;
-
+// to update sprite with correct index value
 const char sprTiles[4]=
 {
     0,2,4, 6,
 };  
 
+// tileset property for map engine to detect collision (2*32 tiles)
+const u16 tilsetprop[64]=
+{
+    0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,
+    0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,0xFF00,
+};
+
+//---------------------------------------------------------------------------------
+unsigned short pad0;
+unsigned short xloc,yloc,flipx,frame,frameidx,flip;
+
+u16 tileNo;
 
 //---------------------------------------------------------------------------------
 int main(void) {
@@ -44,12 +54,12 @@ int main(void) {
 	// Display screen
 	setScreenOn();
 	
-    // Load map in memory and update it egarding current location of the sprite
-    mapLoad((u8 *) &mapmario,(u8 *) &mapmario, (u8 *) &tilesetprop);
+    // Load map in memory and update it regarding current location of the sprite
+    mapLoad((u8 *) &mapmario,(u8 *) &tilesetdef, (u8 *) &tilsetprop);
     mapUpdateCamera(xloc,yloc);
 
 	while(1) {
-        // Get pad value and change camera if need
+        // Get pad value and change sprite location and camera if need
 		pad0 = padsCurrent(0);
         if (pad0) {
 			if(pad0 & KEY_LEFT) {
@@ -62,6 +72,7 @@ int main(void) {
                     frameidx=frameidx & 3;
                     frame=sprTiles[frameidx];
                 }
+                tileNo=mapGetMetaTile(xloc,yloc);
 			}
 			if(pad0 & KEY_RIGHT) {
 				xloc++;
@@ -73,6 +84,7 @@ int main(void) {
                     frameidx=frameidx & 3;
                     frame=sprTiles[frameidx];
                 }
+                tileNo=mapGetMetaTile(xloc,yloc+16);
 			}
         }
         

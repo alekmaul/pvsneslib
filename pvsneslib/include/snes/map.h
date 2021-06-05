@@ -35,13 +35,15 @@
 
 #include <snes/snestypes.h>
 
-/*!	\fn mapLoad(u8 *layer1map, u8 *layer1col, u8 *layertiles)
+extern u16 x_pos,y_pos; /*!< \brief Current value of camera in x & y coordinates */
+
+/*!	\fn mapLoad(u8 *layer1map, u8 *layertiles, u8 *tilesprop)
 	\brief Load map definition into memory
 	\param layer1map address of map with tiles
-	\param layer1col address of map collision
     \param layertiles address of tiles definition
+    \param tilesprop address of tiles property definition (blocker, spikes, and so on)
 */
-void mapLoad(u8 *layer1map, u8 *layer1col, u8 *layertiles);
+void mapLoad(u8 *layer1map, u8 *layertiles, u8 *tilesprop);
 
 /*!	\fn mapUpdate(void)
 	\brief Update map regarding current camera position (must be done once per frame)
@@ -60,6 +62,12 @@ void mapVblank(void);
 */
 void mapUpdateCamera(u16 xpos, u16 ypos);
 
-extern u16 x_pos,y_pos; /*!< \brief Current value of camera in x & y coordinates */
+/*!	\fn mapGetMetaTile(u16 xpos, u16 ypos)
+	\brief Get metatile property from current map
+	\param xpos	x coordinate of metatile
+	\param ypos	x coordinate of metatile
+    \return tile properties
+*/
+u16 mapGetMetaTile(u16 xpos, u16 ypos);
 
 #endif

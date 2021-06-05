@@ -61,6 +61,8 @@ bgrightvramlocr_L1      DW                  ; VRAM word address to store the hor
 
 metatiles INSTANCEOF metatiles_t            ; entry for each metatile definition
 
+metatilesprop           DSW MAP_MAXMTILES*2 ; tiles properties (block, spike, fire)
+
 mapwidth                DW                  ; Width of the map in pixels 
 mapheight               DW                  ; Height of the map in pixels, must be less than (MT_MAX_ROWS * MAP_MTSIZE) 
 
@@ -74,8 +76,6 @@ maxy_pos                DW                  ; Maximum value of y_pos before out 
 
 maptile_L1b             DB                  ; map layer 1 tiles bank address 
 maptile_L1d             DW                  ; map layer 1 tiles data address 
-mapcoll_L1b             DB                  ; map collision map bank address 
-mapcoll_L1d             DW                  ; map collision map dataaddress 
 
 mapadrrowlut            DSW MAP_MAXROWS     ; address of each row for fast computation
 maprowsize              DW                  ; size of 1 row regarding map
@@ -176,8 +176,8 @@ _muc7:
     rtl
     
 ;---------------------------------------------------------------------------------
-; void mapLoad(u8 *layer1map, u8 *layer1col, u8 *layertiles)
-; 5-8 9-12 13-16
+; void mapLoad(u8 *layer1map, u8 *layertiles, u8 *tilesprop)
+; 5-8 9-12 13-16 
 mapLoad:
     php
     phb
@@ -191,9 +191,6 @@ mapLoad:
     plb
     sta.l maptile_L1b                       ; Store bank adress of layer1
 
-    lda 16,s                                ; bank address of collision (11+1+2+2)
-    sta.l mapcoll_L1b                       ; Store bank adress of collision
-    
     rep #$20 
     lda 10,s                                ; data address of layer1 (5+1+2+2)
     tax
@@ -211,12 +208,7 @@ mapLoad:
     adc.w #0006                             ; add width, height and size
     sta.l maptile_L1d                       ; store data address of layer1
 
-    lda 14,s                                ; data address of collision (9+1+2+2)
-    clc
-    adc.w #0006                             ; add width, height and size
-    sta.l mapcoll_L1d                       ; store bank address of collision
-    
-    lda 18,s                                ; get metatiles definition data address (13+1+2+2)
+    lda 14,s                                ; get metatiles definition data address (9+1+2+2)
     sta.l $4302           
 
     lda #MAP_MAXMTILES*4*2                  ; because metatile max are 4 x 8x8
@@ -229,7 +221,7 @@ mapLoad:
     lda #$7e                                ; safely use of 7E as it is explicit declared
     sta.l $2183           
 
-    lda 20,s                                ; get metatiles definition  bank address (15+1+2+2)
+    lda 16,s                                ; get metatiles definition  bank address (11+1+2+2)
     sta.l $4304           
 
     ldx #$8000                              ; type of DMA
@@ -238,6 +230,29 @@ mapLoad:
     lda #$01
     sta $420B                               ; do dma for transfert
     
+    rep	#$20
+    lda	18,s	                            ; get tiles property data address (13+1+2+2)
+	sta.l	$4302           
+  
+    lda.w #MAP_MAXMTILES*2*2
+    sta.l $4305                             ;  max properties 
+  
+    ldy #metatilesprop.w                    ; data offset of destination
+    sty $2181
+  
+    sep	#$20
+    lda #$7e                                ; safely use of 7E as it is explicit declared
+    sta.l $2183                             ; bank address of destination 
+  
+	lda	20,s	
+    sta.l $4304                             ; bank address of source (15+1+2+2)
+  
+    ldx	#$8000						        ; type of DMA
+	stx	$4300
+  
+    lda #$01
+    sta $420B 						        ; do dma for transfert
+  
     stz.w dispxofs_L1                       ; reset scroll vars x & y for layers 1
     stz.w dispyofs_L1
 
@@ -862,6 +877,56 @@ _mapupd9:
     tsb mapupdbuf
 
     plb
+    plp
+    rtl
+    
+.ENDS
+
+.SECTION ".maps1_text" SUPERFREE
+
+;---------------------------------------------------------------------------------
+; u16 mapGetMetaTile(u16 xpos, u16 ypos)
+mapGetMetaTile:
+    php
+    
+    phx
+    phy
+
+    rep #$30
+    lda  11,s                               ; get y (7+2+2)
+    lsr
+    lsr
+    and #$FFFE                              ; y in tile coordinates
+    tax
+
+    lda 9,s                                 ; get x (5+2+2)
+    lsr
+    lsr
+    and #$FFFE                              ; x in tile coordinates
+    clc
+    adc mapadrrowlut,x
+    tax                                     ; x is row value
+    
+    phx
+    lda maptile_L1d                         ; get direct rom value
+    clc
+    adc 1,s
+    tax
+
+    phb
+    sep #$20                                
+    lda maptile_L1b.b
+    pha
+    plb
+    rep #$20
+    lda 0,x
+    plb
+    plx
+    
+    sta.w tcc__r0
+
+    ply
+    plx
     plp
     rtl
     

@@ -3,16 +3,16 @@
 .section ".rodata1" superfree
 
 tileset:
-.incbin "bg_L1.pic"
+.incbin "tileset.pic"
 tilesetend:
 
 mapmario:
 .incbin "bg_L1.map"
 
 palmario:
-.incbin "bg_L1.pal"
+.incbin "tileset.pal"
 
-tilesetprop:
+tilesetdef:
 .incbin "bg_L1.til"
 
 .ends
