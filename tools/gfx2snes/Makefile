@@ -10,8 +10,8 @@ VERSION = "2.4.0"
 CC=gcc
 CFLAGS=-g -O2 -Wall -Wno-unused-result -Wno-incompatible-pointer-types -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-SOURCES=gfx2snes.c lzss.c lodepng.c
-OBJS=gfx2snes.o  lzss.o lodepng.o
+SOURCES=gfx2snes.c lzss.c lodepng.c loadimg.c imgtools.c
+OBJS=gfx2snes.o  lzss.o lodepng.o loadimg.o imgtools.o
 EXE=gfx2snes
 DEFINES =
 LIBS =
@@ -40,6 +40,14 @@ lzss.o : lzss.c
 	$(CC) $(CFLAGS) -c $<
 
 lodepng.o : lodepng.c
+	@echo make obj $(notdir $<)
+	$(CC) $(CFLAGS) -c $<
+
+loadimg.o : loadimg.c
+	@echo make obj $(notdir $<)
+	$(CC) $(CFLAGS) -c $<
+
+imgtools.o : imgtools.c
 	@echo make obj $(notdir $<)
 	$(CC) $(CFLAGS) -c $<
 	

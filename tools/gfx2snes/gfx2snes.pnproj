@@ -1,1 +1,1 @@
-<Project name="gfx2snes"><File path="gfx2snes.c"></File><File path="Makefile"></File><File path="lzss.c"></File><File path="lodepng.c"></File><File path="lodepng.h"></File><File path="gfx2snes.h"></File></Project>
+<Project name="gfx2snes"><File path="gfx2snes.c"></File><File path="Makefile"></File><File path="lzss.c"></File><File path="lodepng.c"></File><File path="lodepng.h"></File><File path="gfx2snes.h"></File><File path="loadimg.h"></File><File path="loadimg.c"></File><File path="imgtools.h"></File><File path="imgtools.c"></File></Project>
