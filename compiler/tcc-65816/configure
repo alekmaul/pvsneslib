@@ -18,7 +18,7 @@ TMPS="${TMPDIR1}/tcc-conf-${RANDOM}-$$-${RANDOM}.S"
 TMPH="${TMPDIR1}/tcc-conf-${RANDOM}-$$-${RANDOM}.h"
 
 # default parameters
-build_cross="no"
+build_cross="yes"
 prefix=""
 execprefix=""
 bindir=""
