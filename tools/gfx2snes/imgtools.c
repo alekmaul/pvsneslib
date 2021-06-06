@@ -537,20 +537,12 @@ int *MakeMapWithTileSet(unsigned char *img, unsigned char *imgtileset,int *num_t
 		t=0;
 	}
 
-	//save the first tilemap piece
-	//map[0] += t;
-    //tiletab[j++]=map[0];
-
 	for(y=0;y<ysize;y++)
     {
         for(x=0;x<xsize;x++)
         {
             tilenum=0;           // currerntly we add not the tile to tile table
             
-            //if we already processed this, move on
-            //if(x==0 && y==0)
-                //continue;
-
             //is the current tile blank?
             if (( memcmp(blank,&img[current*sizetile],sizetile) == 0 ) && (blanktile==1 ) )
             {
