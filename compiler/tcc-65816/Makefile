@@ -4,7 +4,7 @@
 include config.mak
 
 #CFLAGS=-pg -fprofile-arcs -ftest-coverage -O0 -g -Wall -Wno-pointer-sign
-CFLAGS=-O2 -g -Wall -Wno-pointer-sign
+CFLAGS=-O2 -g -Wall -Wno-pointer-sign -Wno-maybe-uninitialized -Wno-array-bounds -Wno-unused-result -Wno-unused-but-set-variable -Wno-deprecated-declarations -Wno-misleading-indentation -Wno-format-overflow -Wno-format-truncation
 ifndef CONFIG_WIN32
 BCHECK_O=bcheck.o
 endif
