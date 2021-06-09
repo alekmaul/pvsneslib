@@ -447,6 +447,7 @@ exitl4:
 .include "interrupts.asm"
 .include "lzsss.asm"
 .include "maps.asm"
+.include "objects.asm"
 .include "pads.asm"
 .include "scores.asm"
 .include "snesmodwla.asm"
