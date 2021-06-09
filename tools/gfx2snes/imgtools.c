@@ -421,7 +421,7 @@ int *MakeMapWithTileSet(unsigned char *img, unsigned char *imgtileset,int *num_t
 	unsigned char blank[128];
 	int blank_absent;
 	int current;	//the current tile we're looking at
-	int i,t, palette, j, tilenum, tileno;
+	int i,t, palette, tilenum, tileno;
 	int x,y;
 	int sizetile;
 
@@ -445,7 +445,6 @@ int *MakeMapWithTileSet(unsigned char *img, unsigned char *imgtileset,int *num_t
 	}
 		
 	//if the palette has been rearranged... save the palette number
-    j=0;
     current=0;
     for(y=0;y<ysize;y++)
     {
