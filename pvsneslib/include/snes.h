@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-	Copyright (C) 2012-2013
+	Copyright (C) 2012-2021
 
 	This software is provided 'as-is', without any express or implied
 	warranty.  In no event will the authors be held liable for any
@@ -40,7 +40,6 @@
  - \ref lzss.h "LZ decompression routine"
  - \ref pixel.h "Pixel mode management"
  - \ref sprite.h "2D Sprites"
- - \ref map.h "map management"
 
  \section audio_api Audio API
  - \ref sound.h "Mod tracker and Sound Engine"
@@ -56,12 +55,16 @@
  - \ref pad.h "Keypad"
  - \ref console.h "Console and Debug Printing"
 
- \section Miscellaneous functions
+ \section engine_api Engine API functions
+ - \ref object.h "Objects management"
+ - \ref map.h "map management"
+
+ \section misc_api Miscellaneous functions
  - \ref scores.h "Scoring management"
 
  \section external_links Usefull links
- - <a href="http://www.portabledev.com/wiki/doku.php">PVSnesLib wiki</a>
- - <a href="http://nocash.emubase.de/sns.htm">SNES hardware specifications documentation.</a>
+ - <a href="https://github.com/alekmaul/pvsneslib/wiki">PVSnesLib wiki</a>
+ - <a href="https://problemkaputt.de/fullsnes.htm">SNES hardware specifications documentation.</a>
  - <a href="http://code.google.com/p/snes-sdk/">SNES Sdk from Ulrich Hecht.</a>
 
  \section special_thanks Special Thanks
@@ -89,6 +92,7 @@
     \example graphics/Backgrounds/Mode1MixedScroll/Mode1MixedScroll.c
     \example graphics/Backgrounds/Mode3/Mode3.c
     \example graphics/Backgrounds/Mode7/Mode7.c
+    \example graphics/Backgrounds/Mode7Perspective/Mode7Perspective.c
 
     <!-- effects -->
     \example graphics/Effects/HDMAGradient/HDMAGradient.c
@@ -120,6 +124,9 @@
     <!-- maps -->
     \example maps/mapscroll/mapscroll.c
 
+    <!-- objects -->
+    \example objects/moveobjects/moveobjects.c
+
     <!-- debugging -->
     \example debug/debug.c
 
@@ -142,6 +149,7 @@
 #include "snes/dma.h"
 #include "snes/interrupt.h"
 #include "snes/map.h"
+#include "snes/object.h"
 #include "snes/pad.h"
 #include "snes/scores.h"
 #include "snes/sound.h"
