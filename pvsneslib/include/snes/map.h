@@ -35,6 +35,19 @@
 
 #include <snes/snestypes.h>
 
+#define T_EMPTY				0x0000      /*!< \brief Type Empty (action will be fall) for tile  */
+#define T_SOLID				0xFF00      /*!< \brief Type Solid (action is walk only) for tile  */
+#define T_LADDE				0x0001      /*!< \brief Type Land (action will be climb) for tile  */
+#define T_FIRES				0x0002      /*!< \brief Type Fire (action will be burn) for tile  */
+#define T_SPIKE				0x0004      /*!< \brief Type Spyke (action will be die) for tile  */
+
+#define ACT_WALK			0x0001      /*!< \brief Action type WALK for object */
+#define ACT_JUMP			0x0002      /*!< \brief Action type JUMP for object */
+#define ACT_FALL			0x0004      /*!< \brief Action type FALL for object */
+#define ACT_CLIMB			0x0008      /*!< \brief Action type CLIMB for object */
+#define ACT_DIE				0x0010      /*!< \brief Action type DIE for object */
+#define ACT_BURN			0x0020      /*!< \brief Action type BURN for object */
+
 extern u16 x_pos,y_pos; /*!< \brief Current value of camera in x & y coordinates */
 
 /*!	\fn mapLoad(u8 *layer1map, u8 *layertiles, u8 *tilesprop)
