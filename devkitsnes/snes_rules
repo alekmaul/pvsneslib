@@ -138,7 +138,7 @@ cleanRom:
 	
 cleanGfx:
 	@echo clean graphics data
-	@rm -f *.pic *.map *.pal *.pc7 *.mp7
+	@rm -f *.pic *.map *.pal *.pc7 *.mp7 *.til
 
 cleanAudio:
 	@echo clean audio data
