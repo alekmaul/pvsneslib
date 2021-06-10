@@ -629,27 +629,35 @@ _oiual3:
     lda objbuffers.1.next,x                             ; grab the next object to update
     pha                                                 ; will be restore at the end
 
-;    lda objbuffers.1.xpos+1,x
-;    sec
-;    sbc.l x_pos
+    lda objbuffers.1.xpos+1,x
+    sec
+    sbc.l x_pos
 
-;    cmp.w #SCR_RR_CHK
-;    bcc _objUpdAllRep312      ; IF_LE (C set if A>=SCR_RR_CHK)
-;    cmp.w #SCR_LR_CHK
-;    bcs _objUpdAllRep312      ;    IF_GE (bmi)
+    cmp.w #OB_SCR_XRR_CHK
+    bcc _oiual3y                                        ; x is lower than max
+    cmp.w #OB_SCR_XRR_CHK
+    bcs _oiual3y                                        ; but x is greater than min
 
-;    sep #$20
-;    lda objbuffers.1.onscreen,x
-;    beq _objUpdAllRep311
-;    lda #$1
-;    sta objrefresh
-;    stz objbuffers.1.onscreen,x
+_oiual3y:                                               ; check now y coordinates
+    lda objbuffers.1.ypos+1,x
+    sec
+    sbc.l y_pos
 
-;_objUpdAllRep311:            
-;    rep #$20
-;    bra _oial31
+    cmp.w #OB_SCR_YRR_CHK
+    bcc _oiual32                                        ; y is lower than max
+    cmp.w #OB_SCR_YLR_CHK
+    bcs _oiual32                                        ; but y is greater than min
+
+    sep #$20
+    lda objbuffers.1.onscreen,x
+    beq _oiual31
+    stz objbuffers.1.onscreen,x
+
+_oiual31:            
+    rep #$20
+    bra _oial31
             
-;_objUpdAllRep312:            
+_oiual32:            
     sep #$20
     lda objbuffers.1.type,x
     rep #$20
