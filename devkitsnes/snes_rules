@@ -25,7 +25,6 @@ endif
 #---------------------------------------------------------------------------------
 
 export CC	:=	816-tcc
-export TA	:=	tasm
 export AS	:=	wla-65816
 export LD	:=	wlalink
 export PY	:=	816-opt.py
