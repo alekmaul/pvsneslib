@@ -42,7 +42,7 @@ char filename[256];			// output filename
 
 //// F U N C T I O N S //////////////////////////////////////////////////////////
 
-#ifndef __CYGWIN__
+#ifndef __HAS_STRUPR
 void strupr(char *str)
 {
 	while(*str)

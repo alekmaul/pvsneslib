@@ -14,6 +14,7 @@ LIBS=
 
 ifeq ($(OS),Windows_NT)
 	EXT=.exe
+	CFLAGS += -D__HAS_STRUPR
 else
 	EXT=
 endif
