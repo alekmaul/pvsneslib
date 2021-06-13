@@ -74,9 +74,8 @@ typedef struct {
     u8 tempo;	          			                // 49 if object needs tempo
     u8 count;             				            // 50 if object needs a counter
     u8 dir;               				            // 51 if object needs to manage direction
-    u8 onscreen;	      			                // 52 if object is on screen on not
 
-    u8 objnotused[11];                              // OB_SIZE-52-1 for future use
+    u8 objnotused[12];                              // OB_SIZE-51-1 for future use
 } t_objs __attribute__((__packed__));               // seems to do nothing :/
 
 extern u16 objptr; /*!< \brief pointer to current object */
