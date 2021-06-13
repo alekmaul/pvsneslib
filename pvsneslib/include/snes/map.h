@@ -41,6 +41,7 @@
 #define T_FIRES				0x0002      /*!< \brief Type Fire (action will be burn) for tile  */
 #define T_SPIKE				0x0004      /*!< \brief Type Spyke (action will be die) for tile  */
 
+#define ACT_STAND			0x0000      /*!< \brief Action type STAND for object */
 #define ACT_WALK			0x0001      /*!< \brief Action type WALK for object */
 #define ACT_JUMP			0x0002      /*!< \brief Action type JUMP for object */
 #define ACT_FALL			0x0004      /*!< \brief Action type FALL for object */
