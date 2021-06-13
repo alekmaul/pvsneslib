@@ -87,9 +87,8 @@ status          DB			                ; 48 status of object regarding collision
 tempo	        DB			                ; 49 if object needs tempo
 count           DB				            ; 50 if object needs a counter
 dir             DB				            ; 51 if object needs to manage direction
-onscreen	    DB			                ; 52 if object is on screen on not
 
-objnotused      DSB 11                      ; OB_SIZE-52-1 for future use
+objnotused      DSB 12                      ; OB_SIZE-51-1 for future use
 
 .ENDST
 
@@ -636,7 +635,7 @@ _oiual3:
     cmp.w #OB_SCR_XRR_CHK
     bcc _oiual3y                                        ; x is lower than max
     cmp.w #OB_SCR_XRR_CHK
-    bcs _oiual3y                                        ; but x is greater than min
+    bcs _oiual3y1                                       ; but x is greater than min
 
 _oiual3y:                                               ; check now y coordinates
     lda objbuffers.1.ypos+1,x
@@ -648,12 +647,7 @@ _oiual3y:                                               ; check now y coordinate
     cmp.w #OB_SCR_YLR_CHK
     bcs _oiual32                                        ; but y is greater than min
 
-    sep #$20
-    lda objbuffers.1.onscreen,x
-    beq _oiual31
-    stz objbuffers.1.onscreen,x
-
-_oiual31:            
+_oiual3y1:
     rep #$20
     bra _oial31
             
