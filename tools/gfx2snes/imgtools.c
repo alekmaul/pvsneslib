@@ -433,7 +433,7 @@ int *MakeMapWithTileSet(unsigned char *img, unsigned char *imgtileset,int *num_t
 	}
 
 	if (quietmode == 0)
-		printf("\ngfx2snes: '*num_tiles=%d, xsize=%d, ysize=%d, tile_x=%d, tile_y=%d, colors=%d, rearrange=%d'",
+		printf("\ngfx2snes: 'MakeMapWithTileSet *num_tiles=%d, xsize=%d, ysize=%d, tile_x=%d, tile_y=%d, colors=%d, rearrange=%d'",
 			*num_tiles, xsize, ysize, tile_x, tile_y, colors, rearrange);
 			
 	//clear map
