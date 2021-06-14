@@ -87,9 +87,8 @@ status          DB			                ; 48 status of object regarding collision
 tempo	        DB			                ; 49 if object needs tempo
 count           DB				            ; 50 if object needs a counter
 dir             DB				            ; 51 if object needs to manage direction
-onscreen	    DB			                ; 52 if object is on screen on not
 
-objnotused      DSB 11                      ; OB_SIZE-52-1 for future use
+objnotused      DSB 12                      ; OB_SIZE-51-1 for future use
 
 .ENDST
 
@@ -636,7 +635,7 @@ _oiual3:
     cmp.w #OB_SCR_XRR_CHK
     bcc _oiual3y                                        ; x is lower than max
     cmp.w #OB_SCR_XRR_CHK
-    bcs _oiual3y                                        ; but x is greater than min
+    bcs _oiual3y1                                       ; but x is greater than min
 
 _oiual3y:                                               ; check now y coordinates
     lda objbuffers.1.ypos+1,x
@@ -648,12 +647,7 @@ _oiual3y:                                               ; check now y coordinate
     cmp.w #OB_SCR_YLR_CHK
     bcs _oiual32                                        ; but y is greater than min
 
-    sep #$20
-    lda objbuffers.1.onscreen,x
-    beq _oiual31
-    stz objbuffers.1.onscreen,x
-
-_oiual31:            
+_oiual3y1:
     rep #$20
     bra _oial31
             
@@ -679,7 +673,8 @@ _oiual32:
 	jsl jslcallfct
     rep #$20
     pla
-			
+
+    sep #$20
     lda objtokill										; object returned that it is now dead
     beq _oial4
 
@@ -838,14 +833,14 @@ _oicm21:
     bne _oicm22
     lda #ACT_BURN										; player is now dying, no more checking
     sta objbuffers.1.action
-    brl  _oicmend
+    brl  _oicmtstx
 
 _oicm22:
     cmp #T_SPIKE                                        ; if spike, player is dying too
 	bne _oicm23
 	lda #ACT_DIE																
 	sta objbuffers.1.action
-	brl  _oicmend
+	brl  _oicmtstx
 
 _oicm23:
     and #$ff00											; keep only the high values for collision 
@@ -887,12 +882,13 @@ _oicm5:
 	stz objbuffers.1.tilestand,x
 
     lda objbuffers.1.tilesprop,x			                ; need again to verify if not tile standing
-    beq _oicm6
+    beq _oicm61
     lda objbuffers.1.action,x				            ; if not climbing, well doing like if falling
     and #ACT_CLIMB
-    beq _oicm6
+    beq _oicm61
     brl  _oicmtstx
 
+_oicm61:
     lda objbuffers.1.yvel,x
     clc
     adc #GRAVITY
@@ -997,7 +993,7 @@ _oicmtstyn2:
     sbc objbuffers.1.yofs,x
     sta objbuffers.1.ypos+1,x
     stz objbuffers.1.yvel,x 
-    brl _oicmtstyn2
+    brl _oicmtstyn4
 
 _oicmtstyn3:
     iny                                                 ; continue to test the tiles on x 
@@ -1055,9 +1051,6 @@ _oicmtstx12:
     and	#$fffe
     tay
     
-    lda #$1											    ; flag for unique test of tile for rope
-    sta objtmp3
-			
     lda objbuffers.1.xvel+1,x  
     and #$00ff
     clc
@@ -1093,7 +1086,6 @@ _oicmtstx13:
     sta objbuffers.1.tilebprop,x
     lda objbuffers.1.tilebprop,x
     beq _oicmtstx14
-    stz objtmp3
     and #$ff00											; keep only the high values for collision
     beq _oicmtstx14
 
@@ -1153,9 +1145,6 @@ _oicmtstxna:
     and	#$fffe
     tay
 
-    lda #$1											    ; flag for unique test of tile for rope
-    sta objtmp3
-
     lda objbuffers.1.xvel+1,x 
     ora #$ff00
     clc
@@ -1195,7 +1184,6 @@ _oicmtstxnc:
     lda objbuffers.1.tilebprop,x
     beq _oicmtstxnd
 
-    stz objtmp3
     and #$ff00											; keep only the high values for collision
     beq _oicmtstxnd
 
@@ -1443,7 +1431,7 @@ objUpdateXY:
     phx
 
     sep #$20                                            ; go to bank object
-    lda #$7E
+    lda #$7e
     pha
     plb
 

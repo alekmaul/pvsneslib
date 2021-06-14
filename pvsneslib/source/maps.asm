@@ -66,8 +66,6 @@ metatilesprop           DSW MAP_MAXMTILES*2 ; tiles properties (block, spike, fi
 mapwidth                DW                  ; Width of the map in pixels 
 mapheight               DW                  ; Height of the map in pixels, must be less than (MT_MAX_ROWS * MAP_MTSIZE) 
 
-mapsize_row             DW                  ; size of 1 row regarding map 
-
 x_pos                   DW                  ; x Position of the screen 
 y_pos                   DW                  ; y Position of the screen 
 
@@ -112,15 +110,21 @@ mapdirty                DB                  ; 1 if map is not correct and need u
 ; void mapUpdateCamera(u16 xpos, u16 ypos);
 mapUpdateCamera:
     php
-
+    phb
+    
+    sep #$20                                ; point to bank map vars
+    lda #$7e
+    pha
+    plb
+    
     rep #$20
-    lda 5,s                                 ; get xpos
+    lda 6,s                                 ; get xpos (5+1)
     sec
     sbc.l x_pos                             
     cmp #(256-MAP_SCRLR_SCRL)               ; are we near center of screen x ?
     bmi _muc2
 
-    lda 5,s                                 ; get xpos
+    lda 6,s                                 ; get xpos (5+1)
     sec
     sbc    #(256-MAP_SCRLR_SCRL)            
     cmp.l maxx_pos                          ; if we are near max of screen X, put max of screen x
@@ -133,7 +137,7 @@ _muc1:
 _muc2:
     cmp #MAP_SCRLR_SCRL
     bpl _muc4
-    lda 5,s                                 ; get xpos
+    lda 6,s                                 ; get xpos (5+1)
     sec
     sbc #MAP_SCRLR_SCRL
     bpl _muc22
@@ -143,13 +147,13 @@ _muc22:
     sta.l x_pos
 
 _muc4:
-    lda 7,s                                 ; get ypos
+    lda 8,s                                 ; get ypos (7+1)
     sec
     sbc.l   y_pos
     cmp #(224-MAP_SCRUP_SCRL)               ; are we near center of screen y ?
     bmi _muc6
     
-    lda 7,s                                 ; get ypos
+    lda 8,s                                 ; get ypos (7+1)
     sec
     sbc    #(224-MAP_SCRUP_SCRL)
     cmp.l maxy_pos                          ; if we are near max of screen y, put max of screen y
@@ -157,12 +161,12 @@ _muc4:
     lda.l maxy_pos
 _muc5:
     sta.l y_pos
-    brl _muc7
+    brl _mucend
     
 _muc6:
     cmp #MAP_SCRUP_SCRL
-    bpl _muc7
-    lda 7,s                                 ; get ypos
+    bpl _mucend
+    lda 8,s                                 ; get ypos (7+1)
     sec
     sbc    #MAP_SCRUP_SCRL
     bpl _muc62
@@ -171,7 +175,8 @@ _muc6:
 _muc62:
     sta.l y_pos
     
-_muc7:
+_mucend:
+    plb
     plp
     rtl
     
@@ -462,7 +467,7 @@ _phb1:
     lda 0,x
     plb
 
-    asl a ; because 8 bits
+    asl a                               
     tax
 
     lda.l metatiles.topleft, x
@@ -498,7 +503,7 @@ _ProcessVerticalBuffer:
 
     lda.l mapcolidx
     clc
-    adc.w #29*2 - 2
+    adc.w #29*2 - 2  
     and.w #$3F
     tay
 
@@ -793,7 +798,7 @@ _mapupd8:
 
     lda.l mapvisibletopleftidx
     clc
-    adc.l mapsize_row
+    adc.l maprowsize
     sta.l mapvisibletopleftidx
     clc
     adc.w mapadrrowlut+MAP_DISPH * 2
@@ -840,7 +845,7 @@ _mapupda:
 
     lda.l mapvisibletopleftidx
     sec
-    sbc.l mapsize_row
+    sbc.l maprowsize
     sta.l mapvisibletopleftidx
     jsr _ProcessHorizontalBuffer
 
@@ -864,11 +869,12 @@ _mapupda:
 
     sep #$20
     lda #MAP_UPD_HORIZ
-    tsb mapupdbuf;
+    tsb mapupdbuf
+    rep #$20
 
 _mapupd9:
 	lda.l y_pos
-	sec
+	clc
 	sbc.l mapdisplaydeltay
 	sta.l dispyofs_L1
 
