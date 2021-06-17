@@ -1235,6 +1235,8 @@ digi_rates:
 
 .ENDS
 
+; no more compiled with current toolchain as tasm is only windows compatible
+; and we never made some changes in the SPC-700 driver
 .INCLUDE "sm_spc.asm"
 
 

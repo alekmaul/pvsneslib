@@ -36,7 +36,6 @@ libc.obj: libc.asm libc_c.asm
 libc_c.asm: libc_c.c $(C_SRC) sm_spc.asm
 libc_c.c: $(C_SRC)
 libm.obj: libm.asm 
-#libm.obj: libm.asm libm_c.asm
 
 #---------------------------------------------------------------------------------
 clean:
