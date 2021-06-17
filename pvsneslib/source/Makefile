@@ -14,8 +14,8 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 C_SRC	:=	
 
 CFLAGS	+=	-I${PVSNESLIB_HOME}/devkitsnes/include \
-			-I${PVSNESLIB_HOME}/pvsneslib/include \
-			-I${PVSNESLIB_HOME}/pvsneslib/source
+		-I${PVSNESLIB_HOME}/pvsneslib/include \
+		-I${PVSNESLIB_HOME}/pvsneslib/source
 
 export SNESOBJS = crt0_snes.obj libm.obj libtcc.obj libc.obj 
 
@@ -33,13 +33,13 @@ all: $(SNESOBJS)
 
 #---------------------------------------------------------------------------------
 libc.obj: libc.asm libc_c.asm
-libc_c.asm: libc_c.c $(C_SRC) sm_spc.asm 
+libc_c.asm: libc_c.c $(C_SRC) sm_spc.asm
 libc_c.c: $(C_SRC)
 libm.obj: libm.asm 
 
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -f libc_c.ps libc_c.asm libm_c.asm 
+	@rm -f libc_c.ps libc_c.asm libm_c.asm
 	@rm -f *.obj *.ps *.lst
-	@rm -f $(TOPDIR)/lib/*
+	@rm -f ../lib/*
