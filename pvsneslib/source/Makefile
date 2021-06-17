@@ -36,18 +36,10 @@ libc.obj: libc.asm libc_c.asm
 libc_c.asm: libc_c.c $(C_SRC) sm_spc.asm 
 libc_c.c: $(C_SRC)
 libm.obj: libm.asm 
-#libm.obj: libm.asm libm_c.asm
 
-#---------------------------------------------------------------------------------
-# just make a asm file of snesmod spc-700 driver
-sm_spc.asm : ../snesmod/sm_spc.as7
-	$(TA) -07 -b -l $< sm_spc.obj sm_spc.lst
-	$(TXCONV) -ca sm_spc.obj
-	@rm sm_spc.obj
-    
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -f libc_c.ps libc_c.asm libm_c.asm sm_spc.asm
+	@rm -f libc_c.ps libc_c.asm libm_c.asm 
 	@rm -f *.obj *.ps *.lst
 	@rm -f $(TOPDIR)/lib/*
