@@ -60,7 +60,7 @@ unsigned char *ArrangeBlocks( unsigned char *img, int width, int height,
 	int x,y;
 
 	if (quietmode == 0)
-		printf("\ngfx2snes: 'width=%d, height=%d, size=%d, *xsize=%d, *ysize=%d, new_width=%d, border=%d'",
+		printf("\ngfx2snes: 'ArrangeBlocks width=%d, height=%d, size=%d, *xsize=%d, *ysize=%d, new_width=%d, border=%d'",
 			width, height, size, *xsize, *ysize, new_width, border);
 
 	//get number of full image block rows in the new buffer
@@ -158,7 +158,7 @@ int *MakeMap(unsigned char *img, int *num_tiles,int *tiletab,
 	}
 
 	if (quietmode == 0)
-		printf("\ngfx2snes: '*num_tiles=%d, xsize=%d, ysize=%d, tile_x=%d, tile_y=%d, colors=%d, rearrange=%d'",
+		printf("\ngfx2snes: 'MakeMap *num_tiles=%d, xsize=%d, ysize=%d, tile_x=%d, tile_y=%d, colors=%d, rearrange=%d'",
 			*num_tiles, xsize, ysize, tile_x, tile_y, colors, rearrange);
 			
 	//clear map
