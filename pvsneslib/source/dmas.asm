@@ -26,7 +26,7 @@
 
 .RAMSECTION ".reg_dma7e" BANK $7E 
 
-HDMATable16     DSB 224+1                     ; enough lines for big hdma features
+HDMATable16     DSB 224*3+1                   ; enough lines for big hdma features
 
 hdma_val1		DSB 2                         ; save value #1
  
@@ -574,16 +574,56 @@ setModeHdmaShading:
    	lda	#$32
 	sta.l	$4321           ; 0x32 Color Math Registers
 	rep	#$20
-	lda	#_Lvl1Shading.w+285      ; src (lower 16 bits)
+	lda	#_Lvl1Shading.w+285         ; src (lower 16 bits)
 	sta.l	$4322
     sep #$20
-	lda #:_Lvl1Shading       ; src bank
+	lda #:_Lvl1Shading              ; src bank
 	sta.l	$4324
 
-    lda	#7                  ; Enable HDMA channel 0..2
+    lda	#7                          ; Enable HDMA channel 0..2
 	sta.l	$420C
 
 +
+	plp
+	rtl
+
+.ENDS
+
+.SECTION ".dmas11_text" SUPERFREE
+
+_bgscridx:
+    .db $0D,$0F,$11                      ; for horizontal scrolling registers 210d, 210f & 2111 (bg0..2)
+    
+//---------------------------------------------------------------------------------
+; void setParallaxScrolling(u8 bgrnd)
+setParallaxScrolling:
+	php
+    phx
+    
+    sep #$20
+	lda #$02                            ; direct mode
+	sta.l $4330                         ; 1 register, write twice (mode 2)
+	
+    lda 7,s                             ; get background number  (5+2)
+    rep #$20
+    and #$00ff
+    tax
+    sep #$20
+    lda.l _bgscridx,x                   ; bgx_scroll_x horizontal scroll 
+	sta.l $4331                         ; destination
+	
+    lda #:HDMATable16                   ; src bank
+	sta.l $4334
+
+    rep #$20                        
+    lda #HDMATable16.w                  ; Address of HDMA table, get high and low byte
+    sta.l $4332                         ; 4332 = Low-Byte of table, 4333 = High-Byte of table
+    
+    sep #$20                            
+    lda	#8                              ; Enable HDMA channel 3
+	sta.l $420C
+
+    plx
 	plp
 	rtl
 
