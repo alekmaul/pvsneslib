@@ -5,7 +5,7 @@ endif
 export TOPDIR	:=	$(CURDIR)
 
 export PVSNESLIB_MAJOR	:= 3
-export PVSNESLIB_MINOR	:= 3
+export PVSNESLIB_MINOR	:= 4
 export PVSNESLIB_PATCH	:= 0
 
 

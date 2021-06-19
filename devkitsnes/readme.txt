@@ -1,4 +1,4 @@
- DevkitSnes 3.20
+ DevkitSnes 3.40
  
  Programming Compiler and Tools for Snes
 
@@ -24,10 +24,22 @@ SPECIAL THANKS
     and, at least, for keeping me motivated to use the last version of wla-dx ;)
   RedBug for constify tcc bug fix and tips for Linux and Docker
   mills32 (https://github.com/mills32) for his mode7 3D example
+  n_Arno for his help on Linux version (https://github.com/nArnoSNES/)
                
 CHANGE LOG
 ----------------------
-VERSION 3.30 (xx, yyy, 2021)
+VERSION 3.40 (19, June, 2021)
+- Add map management in gfx2snes
+- Remove dummy data section in 816-tcc
+- No more sm_spc (SPC700 driver) compilation
+  For reming purpose, here is how to compile it :
+    sm_spc.asm : ../snesmod/sm_spc.as7
+        $(TA) -07 -b -l $< sm_spc.obj sm_spc.lst
+        $(TXCONV) -ca sm_spc.obj
+        @rm sm_spc.obj
+        
+VERSION 3.30 (28, May, 2021)
+- Nothing new
 
 VERSION 3.20 (24, May, 2021)
 - Update wla-dx toolchain to last version (9.13a)

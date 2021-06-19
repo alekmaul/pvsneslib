@@ -21,6 +21,14 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
+V3.4.0 (19, June, 2021)
+- Add va_list to consoleNocashMessage function
+- Rename RGB8 to RGB24 to have the same behavior than RGB5
+- Add new function consoleRegionIsOk to test compatibility between console (PAL/NTSC) and cartridge (Country header entry)
+- Add map engine in maps.asm
+- Add object engine in objects.asm
+- Fix snes.h with examples and links
+
 V3.3.0 (28, May, 2021)
 - Fix some instructions in VBlank function
 - Add WaitNVBlank function
