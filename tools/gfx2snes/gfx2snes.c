@@ -679,9 +679,9 @@ int main(int argc, char **arg)
 			return 1;
 		}
 
-		if(buffertileset==NULL)
+		if(inputtileset && buffertileset==NULL)
 		{
-			printf("\ngfx2snes: error 'Not enough memory to do image operations...'\n");
+			printf("\ngfx2snes: error 'Not enough memory to do image operations on tileset file...'\n");
 			return 1;
 		}
 
