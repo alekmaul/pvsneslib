@@ -6,7 +6,7 @@ VERSION = "1.0.0"
 # options for code generation
 #---------------------------------------------------------------------------------
 CC=gcc
-CFLAGS=-g -O2 -Wall -Wno-unused-but-set-variable -Wno-format -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+CFLAGS=-g -O2 -m32 -Wall -Wno-unused-but-set-variable -Wno-format -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 SOURCES=snestools.c
 OBJS=snestools.o

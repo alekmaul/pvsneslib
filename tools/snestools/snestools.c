@@ -692,11 +692,6 @@ int main(int argc, char **argv)
                 PrintVersion();
                 exit( 0 );
             }
-			else if(argv[i][1]=='h') // show help
-            {
-                PrintOptions((char *) "");
-                exit( 0 );
-            }
 			else if(argv[i][1]=='q') //quiet mode
 			{
 				quietmode=1;
