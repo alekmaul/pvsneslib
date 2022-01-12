@@ -12,6 +12,8 @@ CFLAGS_P=$(CFLAGS) -pg -static -DCONFIG_TCC_STATIC
 LIBS_P=
 
 # -m32 to build as 32 bit application
+# -mx32 option sets "int", "long", and pointer types to 32 bits, and generates code for the x86-64 architecture.  Workaround for old tcc making assumptions about undefined behaviour in C.
+CFLAGS+=-mx32
 CFLAGS+=-mpreferred-stack-boundary=4
 ifeq ($(GCC_MAJOR),2)
 CFLAGS+=-m386 -malign-functions=0
