@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 import sys
 import re
@@ -573,7 +573,7 @@ while opted:
   if verbose: sys.stderr.write(str(opted) + ' optimizations performed\n')
   totalopt += opted
   
-for l in text_opt: print l
+for l in text_opt: print(l)
 if verbose: sys.stderr.write(str(totalopt) + ' optimizations performed in total\n')
 
 #prof.stop()
