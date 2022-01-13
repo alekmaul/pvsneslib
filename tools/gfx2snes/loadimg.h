@@ -1,6 +1,6 @@
 #ifndef GFX2SNESIMG_H
 #define GFX2SNESIMG_H
-
+#pragma pack(push)
 #pragma pack(1)                            // for bmp header to avoid data alignment
 
 typedef struct RGB_color_typ
@@ -102,5 +102,5 @@ extern int PCX_Load(char *filename, pcx_picture_ptr image);
 extern int BMP_Load(char *filename, pcx_picture_ptr image);
 extern int TGA_Load(char *filename, pcx_picture_ptr image);
 extern int PNG_Load(char *filename, pcx_picture_ptr image);
-
+#pragma pack(pop)
 #endif
