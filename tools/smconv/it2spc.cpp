@@ -611,7 +611,7 @@ namespace IT2SPC {
 
 	Instrument::~Instrument() {
 		if( EnvelopeData )
-			delete EnvelopeData;
+			delete[] EnvelopeData;
 	}
 
 	/***********************************************************************************************
