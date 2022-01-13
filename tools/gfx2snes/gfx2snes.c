@@ -908,7 +908,7 @@ int main(int argc, char **arg)
 
 	if (quietmode == 0)
 		printf("\ngfx2snes: 'Done !'\n\n");
-
+	free(tilemap);
 	return 0;
 }
 
