@@ -882,8 +882,6 @@ int main(int argc, char **arg)
 			fclose(fp);
 		}
 
-		//free up tilemap memory
-		free(tilemap);
 	}
 
 	//convert and save the palette if necessary
