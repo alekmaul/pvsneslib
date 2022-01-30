@@ -558,7 +558,7 @@ oamInitGfxSet:
     lda	#$01                    ; turn on bit 7 (channel 7) of DMA
     sta.l	$420b
         
-    lda 20,s                    ; init palette (18+2 because of pha)
+    lda 18,s                    ; init palette
     asl a                       ; palEntry = (128+tilePaletteNumber*16);
     asl a
     asl a
