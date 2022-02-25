@@ -38,4 +38,6 @@ lzss.o : lzss.c
 clean:
 	rm -f $(EXE)$(EXT) $(OBJS) 
 
+install:
+	cp $(EXE)$(EXT) ../../devkitsnes/bin/$(EXE)$(EXT)
 

@@ -1,10 +1,9 @@
 SUBDIRS := gfx2snes smconv bin2txt constify snestools snesbrr
 
-.ignore := $(shell mkdir -p build) 
-
 all: $(SUBDIRS)
+
 $(SUBDIRS):
-	make -C $@ && cp $@/$@ ./build/
+	make -C $@
 
 clean:
 	for f in $(SUBDIRS); do \
@@ -12,6 +11,12 @@ clean:
 	 make clean ; \
 	 cd .. ; \
 	done
-	- rm -rf build
+
+install:
+	for f in $(SUBDIRS); do \
+	 cd $$f ; \
+	 make install ; \
+	 cd .. ; \
+	done
 
 .PHONY: all $(SUBDIRS)

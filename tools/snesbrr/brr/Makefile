@@ -10,7 +10,8 @@ CPPFLAGS += -I"../"
 LDFLAGS += -L"../"
 CFLAGS += -O3 -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-BIN := ../snesbrr
+BIN := snesbrr
+BINDIR := ../$(BIN)
 SRC := $(wildcard *.cpp)
 OBJ := $(addsuffix .o,$(SRC))
 DEP := $(addsuffix .d,$(SRC))
@@ -24,21 +25,24 @@ endif
 .PHONY : all clean distclean compress
 
 #---------------------------------------------------------------------------------
-all : $(BIN)$(EXT)
+all : $(BINDIR)$(EXT)
 
-$(BIN)$(EXT) : $(OBJ) ../libbase.a
+$(BINDIR)$(EXT) : $(OBJ) ../libbase.a
 	@echo "Linking $(words $(OBJ)) Object Files Into $@"; $(CXX) $(OBJ) -o $@ $(LDFLAGS) $(LIBS)
 
 #---------------------------------------------------------------------------------
 clean :
 	-$(RM) $(OBJ)
-	-$(RM) $(BIN)$(EXT)
+	-$(RM) $(BINDIR)$(EXT)
+
+install:
+	cp $(BINDIR)$(EXT) ../../../devkitsnes/tools/$(BIN)$(EXT)
 
 distclean : clean
 	-$(RM) $(DEP)
 
 compress :
-	-upx --best $(BIN)$(EXT)
+	-upx --best $(BINDIR)$(EXT)
 
 ifeq ($(findstring $(MAKECMDGOALS),clean distclean compress),)
  -include $(DEP)

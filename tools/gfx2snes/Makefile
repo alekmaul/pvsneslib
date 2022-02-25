@@ -55,4 +55,5 @@ imgtools.o : imgtools.c
 clean:
 	rm -f $(EXE)$(EXT) $(OBJS) *.tds
 
-
+install:
+	cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)

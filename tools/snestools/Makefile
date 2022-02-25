@@ -37,3 +37,5 @@ snestools.o : snestools.c
 clean:
 	rm -f $(EXE)$(EXT) $(OBJS)
 
+install:
+	cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
