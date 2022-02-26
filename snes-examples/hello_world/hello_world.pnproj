@@ -1,1 +1,0 @@
-<Project name="hello_world"><Folder name="src"><File path="src\hello_world.c"></File></Folder><File path="Makefile"></File><File path="hdr.asm"></File><File path="data.asm"></File></Project>
