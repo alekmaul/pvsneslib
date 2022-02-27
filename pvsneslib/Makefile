@@ -56,7 +56,7 @@ install: dist-bin
 #---------------------------------------------------------------------------------
 docs:
 #---------------------------------------------------------------------------------
-	${PVSNESLIB_HOME}/devkitsnes/tools/doxygen pvsneslib.dox
+	doxygen pvsneslib.dox
 	@if [ -f 'warn.log' ]; then \
         @cat warn.log; \
    fi	
