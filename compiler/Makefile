@@ -29,7 +29,8 @@ wla:
 
 wla-clean: 
 	cd wla-dx ; \
-	make clean ;
+	make clean ; \
+	rm -f CMakeCache.txt
 
 wla-install: 
 	cd ./wla-dx/binaries ; \
