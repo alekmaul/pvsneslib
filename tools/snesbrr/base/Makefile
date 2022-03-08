@@ -19,6 +19,8 @@ $(LIB) : $(LIB)($(OBJ))
 clean :
 	-$(RM) $(OBJ) $(LIB)
 
+install :
+
 distclean : clean
 	-$(RM) $(DEP)
 

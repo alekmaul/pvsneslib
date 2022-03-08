@@ -1,1 +1,0 @@
-<Project name="pal_ntsc"><Folder name="src"><File path="src\pal_ntsc.c"></File></Folder><File path="Makefile"></File><File path="hdr.asm"></File><File path="data.asm"></File></Project>

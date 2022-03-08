@@ -882,8 +882,6 @@ int main(int argc, char **arg)
 			fclose(fp);
 		}
 
-		//free up tilemap memory
-		free(tilemap);
 	}
 
 	//convert and save the palette if necessary
@@ -908,7 +906,7 @@ int main(int argc, char **arg)
 
 	if (quietmode == 0)
 		printf("\ngfx2snes: 'Done !'\n\n");
-
+	free(tilemap);
 	return 0;
 }
 

@@ -183,6 +183,11 @@ void spcSetSoundDataEntry(u8 vol, u8 panning, u8 pitch, u16 length, u8 *samplead
 //---------------------------------------------------------------------------------
 /*! \fn spcSetSoundDataEntry(u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, brrsamples *ptr)
 	\brief set the address of the SOUND TABLE for a sound entry
+	\param vol	volume (0..15)
+	\param panning	panning (0..15)
+	\param pitch	PITCH (1..6) (hz = PITCH * 2000)
+	\param length	length of brr sample
+	\param sampleaddr	address of brr sample
 	\param ptr	address of variable where sounds values will be stored
 */
 void spcSetSoundTableEntry(brrsamples *ptr);

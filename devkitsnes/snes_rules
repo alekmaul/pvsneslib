@@ -37,8 +37,6 @@ export BRCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snesbrr
 export TXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/bin2txt
 export SNTOOLS	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snestools
 
-export EMU	:=	$(PVSNESLIB_HOME)/emulators/zsnes/ZSNESW
-
 #---------------------------------------------------------------------------------
 # Add default flag for compiling
 #---------------------------------------------------------------------------------
@@ -98,7 +96,7 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 	done
 
 	@for i in $(shell ls $(LIBDIRSOBJSW)); do \
-		echo $(LIBDIRSOBJSW)\\$$i >> linkfile; \
+		echo $(LIBDIRSOBJSW)/$$i >> linkfile; \
 	done
         
 	@echo Linking ... $(notdir $@)

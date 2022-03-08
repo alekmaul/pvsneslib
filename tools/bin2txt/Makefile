@@ -36,3 +36,5 @@ bin2txt.o : bin2txt.c
 clean:
 	rm -f *.tds $(EXE)$(EXT) $(OBJS)
 
+install:
+	cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
