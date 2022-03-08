@@ -23,9 +23,7 @@ endif
 DISAS=objdump -d
 INSTALL=install
 
-ifdef CONFIG_CROSS
-PROGS+=816-tcc$(EXESUF)
-endif
+PROGS=816-tcc$(EXESUF)
 
 # run local version of tcc with local libraries and includes
 TCC=./tcc -B. -I.
