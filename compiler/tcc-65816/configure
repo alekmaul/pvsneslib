@@ -524,6 +524,7 @@ cat >>$TMPH <<EOF
 #define GCC_MAJOR $gcc_major
 #define GCC_MINOR $gcc_minor
 #define CC_NAME CC_${cc_name}
+#define CONFIG_TCCDIR "${tccdir}"
 EOF
 
 diff $TMPH config.h >/dev/null 2>&1
