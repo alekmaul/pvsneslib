@@ -38,4 +38,4 @@ clean:
 	rm -f $(EXE)$(EXT) $(OBJS)
 
 install:
-	cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
+	mkdir -p ../../devkitsnes/tools && cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
