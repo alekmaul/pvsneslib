@@ -24,12 +24,18 @@ compiler/tcc-65816/816-tcc.exe
 compiler/wla-dx
 
 # all binaries in tools folder
-tools/bin2txt
-tools/constify
-tools/gfx2snes
-tools/smconv
-tools/snesbrr
-tools/snestools
+tools/bin2txt/bin2txt
+tools/bin2txt/bin2txt.exe
+tools/constify/constify
+tools/constify/constify.exe
+tools/gfx2snes/gfx2snes
+tools/gfx2snes/gfx2snes.exe
+tools/smconv/smconv
+tools/smconv/smconv.exe
+tools/snesbrr/snesbrr
+tools/snesbrr/snesbrr.exe
+tools/snestools/snestools
+tools/snestools/snestools.exe
 
 # all other type of files generated automatically
 linkfile

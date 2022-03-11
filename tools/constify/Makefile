@@ -39,5 +39,5 @@ clean:
 	rm -f $(EXE)$(EXT) $(OBJS) 
 
 install:
-	cp $(EXE)$(EXT) ../../devkitsnes/bin/$(EXE)$(EXT)
+	mkdir -p ../../devkitsnes/bin && cp $(EXE)$(EXT) ../../devkitsnes/bin/$(EXE)$(EXT)
 

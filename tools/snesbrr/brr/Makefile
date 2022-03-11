@@ -36,7 +36,7 @@ clean :
 	-$(RM) $(BINDIR)$(EXT)
 
 install:
-	cp $(BINDIR)$(EXT) ../../../devkitsnes/tools/$(BIN)$(EXT)
+	mkdir -p ../../../devkitsnes/tools && cp $(BINDIR)$(EXT) ../../../devkitsnes/tools/$(BIN)$(EXT)
 
 distclean : clean
 	-$(RM) $(DEP)
