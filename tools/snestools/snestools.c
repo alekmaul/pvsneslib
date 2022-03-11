@@ -41,6 +41,7 @@
 #define OFFSET_CHECKSUM			0x001c
 #define OFFSET_TITLE			0x0000
 #define OFFSET_CARDTYPE			0x0016
+#define OFFSET_ROMSIZE			0x0017
 #define OFFSET_SRAM				0x0018
 #define OFFSET_COUNTRY			0x0019
 
@@ -207,6 +208,7 @@ int showheader=1;		// 0 = don't display current header , 1 = display it
 int fixcrc=0;			// 1 = fix crc, 0 = don't fix it
 int changetitle=0;		// 1 = change game title, 0 = don't change it
 int changecountry=0;	// 1 = change game country, 0 = don't change it
+int changeromsize=0;	// 1 = change game rom size, 0 = don't change it
 int nosram=0;           // 1 = change default pvsneslib with no sram support 
 
 int rom_has_header=0;	// 1 = rom with extra 512 bytes header
@@ -596,11 +598,41 @@ int change_country(char * filename, FILE *fp, char *country)
 	else if ((country[0]>='A') && (country[0]<='A'))
 		cntry=(country[0]-'A')*10+10;
 	if ((country[1]>='0') && (country[1]<='9'))
-		cntry+=(country[1]-'0')*10;
+		cntry+=(country[1]-'0');
 	else if ((country[1]>='A') && (country[1]<='A'))
-		cntry+=(country[1]-'A')*10+10;
+		cntry+=(country[1]-'A')+10;
 	fseek(fp, addr, SEEK_SET);
 	fputc(cntry, fp);
+
+	// compute crc again to avoid problems
+	change_checksum(filename, fp) ;
+	
+	return -1;
+}
+
+int change_romsize(char * filename, FILE *fp, char *romsize) 
+{
+	int romsiz=0,addr;
+	
+	if (quietmode == 0)
+		printf("\nsnestools: 'Change rom size to [%s]...'\n", romsize);
+
+	// Compute address of country entry.
+	addr = 512*rom_has_header + rom_is_lorom ? LOROM_HEADER + OFFSET_ROMSIZE : HIROM_HEADER + OFFSET_ROMSIZE;
+
+	// Go to romsize and change it
+    // possible values
+    // $08	2 Megabits
+    // $09	4 Megabits
+    // $0A	8 Megabits
+    // $0B	16 Megabits
+    // $0C	32 Megabits
+	if ((romsize[1]>='0') && (romsize[1]<='9'))
+		romsiz+=(romsize[1]-'0');
+	else if ((romsize[1]>='A') && (romsize[1]<='C'))
+		romsiz+=(romsize[1]-'A')+10;
+    fseek(fp, addr, SEEK_SET);
+	fputc(romsiz, fp);
 
 	// compute crc again to avoid problems
 	change_checksum(filename, fp) ;
@@ -648,6 +680,7 @@ void PrintOptions(char *str)
 	printf("\n-hf               Fix hearder CRC.");
 	printf("\n-ht[text]         Change game title.");
 	printf("\n-hc[country]      Change country (00 for NTSC,01 for PAL).");
+	printf("\n-hr[romsize]      Change romsize (08 for 256K, 0B for 2MB, ROM size = (1 << value) KiB).");
 	printf("\n-hS!              No SRAM (default is on in pvsneslib).");
 	printf("\n\nMisc options:");
     printf("\n-h                Display this information");
@@ -673,6 +706,7 @@ int main(int argc, char **argv)
 	char filebase[256];
 	char programtitle[256];
 	char country[3];			// new country
+	char romsz[3];		    	// new romsize
 
 	int i, j;
 
@@ -712,6 +746,16 @@ int main(int argc, char **argv)
 					fixcrc=0; // because we will do it
 					strcpy(country,&argv[i][3]);
 					if (strlen(country) != 2) {
+						PrintOptions(argv[i]);
+						return 1;	
+					}
+				}
+                else if(argv[i][2]=='r') // romsize
+				{
+					changeromsize = 1;
+					fixcrc=0; // because we will do it
+					strcpy(romsz,&argv[i][3]);
+					if (strlen(romsz) != 2) {
 						PrintOptions(argv[i]);
 						return 1;	
 					}
@@ -805,6 +849,13 @@ int main(int argc, char **argv)
 	}
 	if (changecountry) {
 		if (!change_country(filebase, fp, country)) 
+		{
+			fclose(fp);
+			exit(1);
+		}
+	}
+	if (changeromsize) {
+		if (!change_romsize(filebase, fp, romsz)) 
 		{
 			fclose(fp);
 			exit(1);
