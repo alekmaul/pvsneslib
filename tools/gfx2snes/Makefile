@@ -6,7 +6,7 @@ VERSION = "2.4.1"
 # options for code generation
 #---------------------------------------------------------------------------------
 
-cpu_sys=`uname -m`
+cpu_sys=$(shell uname -m)
 
 CC=gcc
 
