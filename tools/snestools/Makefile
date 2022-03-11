@@ -2,11 +2,19 @@ export PATH := /c/MinGW32/bin/:/c/msys/bin:$(PATH)
 
 VERSION = "1.0.0"
 
+cpu_sys=`uname -m`
+
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 CC=gcc
-CFLAGS=-g -O2 -m32 -Wall -Wno-unused-but-set-variable -Wno-format -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+
+CFLAGS=-g -O2
+#-m32 flag is not supported by gcc on arm architecture
+ifneq ($(findstring arm,$(cpu_sys)),arm)
+CFLAGS+=-m32
+endif
+CFLAGS+=-Wall -Wno-unused-but-set-variable -Wno-format -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 SOURCES=snestools.c
 OBJS=snestools.o
