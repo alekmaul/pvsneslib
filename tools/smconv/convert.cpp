@@ -6,6 +6,7 @@
  
 #include <string>
 #include <stdio.h>
+
 #include "inputdata.h"
 #include "itloader.h"
 #include "it2spc.h"
@@ -43,7 +44,7 @@ const char USAGE[] = {
 };
 
 const char VERSION[] = {
-	"\nsmconv.exe ("SMCONVDATE") version "SMCONVVERSION""
+	"\nsmconv.exe (" SMCONVDATE ") version " SMCONVVERSION ""
 	"\nCopyright (c) 2012-2021 Alekmaul "
 	"\nBased on SNESMOD (C) 2009 Mukunda Johnson (www.mukunda.com)\n"
 };
@@ -53,7 +54,6 @@ bool VERBOSE;
 int BANKNUM;
 
 int main( int argc, char *argv[] ) {
-	
 	ConversionInput::OperationData od( argc, argv );
 
 	VERBOSE = od.verbose_mode;
@@ -84,16 +84,20 @@ int main( int argc, char *argv[] ) {
 		return 0;
 	}
 	
-	if( VERBOSE )
+	if( VERBOSE ) {
 		printf( "\nsmconv: 'Loading modules...'" );
+		fflush(stdout);
+	}
 
 	ITLoader::Bank bank( od.files );
 
-	if( VERBOSE )
+	if( VERBOSE ) {
 		printf( "\nsmconv: 'Starting conversion...'" );
+		fflush(stdout);
+	}
 
 	IT2SPC::Bank result( bank, od.hirom, od.check_effect_size );
-	
+
 	// export products
 	if( od.spc_mode ) {
 		result.MakeSPC( od.output.c_str() );
