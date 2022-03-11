@@ -59,6 +59,9 @@ unsigned char *ArrangeBlocks( unsigned char *img, int width, int height,
 	int i,j, line;
 	int x,y;
 
+	if (hi512)
+		*xsize >>=1;
+
 	if (quietmode == 0)
 		printf("\ngfx2snes: 'ArrangeBlocks width=%d, height=%d, size=%d, *xsize=%d, *ysize=%d, new_width=%d, border=%d'",
 			width, height, size, *xsize, *ysize, new_width, border);
@@ -88,8 +91,6 @@ unsigned char *ArrangeBlocks( unsigned char *img, int width, int height,
 	x=0;
 	y=0;
 
-	if (hi512)
-		*xsize >>=1;
 		
 
 	//go through each image block(i,j) where i and j are in block co-ordinates

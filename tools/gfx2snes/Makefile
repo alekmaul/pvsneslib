@@ -2,13 +2,13 @@
 
 export PATH := /c/MinGW32/bin/:/c/msys/bin:$(PATH)
 
-VERSION = "2.4.0"
+VERSION = "2.4.1"
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 CC=gcc
-CFLAGS=-g -O2 -Wall -Wno-unused-result -Wno-incompatible-pointer-types -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+CFLAGS=-g -O2 -m32 -Wall -Wno-unused-result -Wno-incompatible-pointer-types -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 SOURCES=gfx2snes.c lzss.c lodepng.c loadimg.c imgtools.c
 OBJS=gfx2snes.o  lzss.o lodepng.o loadimg.o imgtools.o

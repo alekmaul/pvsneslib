@@ -46,6 +46,7 @@ int colors=0;						//
 int output_palette=-1;	            //
 int rearrange=0;				    //
 int palette_entry=0;		        //
+int palettets_entry=0;		        //
 int file_type=1;			    	// 1 = bmp, 2 = pcx, 3 = tga, 4 = png
 int quietmode=0;			    	// 0 = not quiet, 1 = i can't say anything :P
 int collision=0;			    	// 1 = generated only collision map
@@ -193,6 +194,7 @@ void PrintOptions(char *str)
 	printf("\n-pc(4|16|128|256) The number of colors to use [256]");
 	printf("\n-po#              The number of colors to output (0 to 256) to the filename.pal");
 	printf("\n-pe#              The palette entry to add to map tiles (0 to 16)");
+	printf("\n-pt#              The palette entry to add to tileset (0 to 16) for PVSneslib map engine");
 	printf("\n-pr               Rearrange palette, and preserve palette numbers in the tilemap");
 	printf("\n-pR               Palette rounding");
 	printf("\n\n--- File options ---");
@@ -238,6 +240,10 @@ int main(int argc, char **arg)
     strcpy(filename,"");
     strcpy(filetileset,"");
     
+	// init all buffers
+	buffer=NULL;
+	buffertileset=NULL;
+
 	//parse the arguments
 	for(i=1;i<argc;i++)
 	{
@@ -383,6 +389,15 @@ int main(int argc, char **arg)
 				else if( strcmp(&arg[i][1],"pR") == 0)
 				{
 					palette_rnd=1;
+				}
+				else if(arg[i][2]=='t') //palette tileset entry specification
+				{
+					palettets_entry=atoi(&arg[i][3]);
+					if( (palettets_entry < 0) || (palettets_entry > 16 ) )
+					{
+						PrintOptions(arg[i]);
+						return 1;
+					}
 				}
 				else if(arg[i][2]=='e') //palette entry specification
 				{
@@ -601,6 +616,7 @@ int main(int argc, char **arg)
 
 	//Print what the user has selected
 	if (quietmode == 0) {
+        printf("\ngfx2snes: ("GFX2SNESVERSION") version "GFX2SNESDATE"");
 		printf("\ngfx2snes: ****** O P T I O N S ***************");
 		printf(border ? "\ngfx2snes: border=ON" : "'\ngfx2snes: border=OFF");
 		printf(highpriority ? "\ngfx2snes: highpriority=ON" : "\ngfx2snes: highpriority=OFF");
@@ -638,6 +654,9 @@ int main(int argc, char **arg)
 
 		if(palette_entry)
 			printf("\ngfx2snes: Palette entry to be for map tiles: Entry#%d", palette_entry);
+
+		if(palettets_entry)
+			printf("\ngfx2snes: Palette entry for tileset of map engine: Entry#%d", palettets_entry);
 
 		printf("\ngfx2snes: ************************************");
 	}
@@ -773,7 +792,9 @@ int main(int argc, char **arg)
             if(!Convert2Pic(filebase, buffer, num_tiles, blank_absent, colors, packed, lzpacked))
             {
                 if(screen)
+				{
                     free(tilemap);
+				}
                 free(buffer);
                 return 1;
             }
@@ -781,8 +802,10 @@ int main(int argc, char **arg)
 	}
 
 	//free up image memory
-    if (inputtileset && buffertileset!=NULL) 
+    if ((inputtileset) && (buffertileset!=NULL)) 
+	{
         free(buffertileset);
+	}
 	free(buffer);
 
 	//save the map
@@ -852,7 +875,7 @@ int main(int argc, char **arg)
             // add all the tiles
             for(i=0;i<MAXTILES;i++)
             {
-                PutWord(tileobj[i],fp);
+                PutWord(tileobj[i]+(palettets_entry<<10),fp);
             }
             fclose(fp);
         }
@@ -882,6 +905,8 @@ int main(int argc, char **arg)
 			fclose(fp);
 		}
 
+		//free up tilemap memory
+		free(tilemap);
 	}
 
 	//convert and save the palette if necessary
@@ -906,7 +931,7 @@ int main(int argc, char **arg)
 
 	if (quietmode == 0)
 		printf("\ngfx2snes: 'Done !'\n\n");
-	free(tilemap);
+
 	return 0;
 }
 
