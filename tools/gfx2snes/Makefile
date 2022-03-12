@@ -1,5 +1,3 @@
-#export PATH	:=	/c/msys/bin:$(PATH)
-
 export PATH := /c/MinGW32/bin/:/c/msys/bin:$(PATH)
 
 VERSION = "2.4.1"
@@ -7,8 +5,18 @@ VERSION = "2.4.1"
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
+
+cpu_sys=$(shell uname -m)
+
 CC=gcc
-CFLAGS=-g -O2 -m32 -Wall -Wno-unused-result -Wno-incompatible-pointer-types -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+
+
+CFLAGS=-g -O2
+#-m32 flag is not supported by gcc on arm architecture
+ifneq ($(findstring arm,$(cpu_sys)),arm)
+CFLAGS+=-m32
+endif
+CFLAGS+=-Wall -Wno-unused-result -Wno-incompatible-pointer-types -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 SOURCES=gfx2snes.c lzss.c lodepng.c loadimg.c imgtools.c
 OBJS=gfx2snes.o  lzss.o lodepng.o loadimg.o imgtools.o
