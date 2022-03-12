@@ -54,5 +54,6 @@ linkfile
 *.clm
 *.brr
 *.asp
+*.ps
 soundbank.asm
 soundbank.h
