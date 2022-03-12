@@ -309,8 +309,8 @@ static int skip_atoi(const char **s)
 + */
 #define do_div(n,base) ({ \
     int __res; \
-    __res = ((unsigned long) n) % (unsigned) base; \
-    n = ((unsigned long) n) / (unsigned) base; \
+    __res = ((unsigned long long) n) % (unsigned) base; \
+    n = ((unsigned long long) n) / (unsigned) base; \
     __res; })
 
 #define ZEROPAD	1		/* pad with zero */
@@ -633,9 +633,11 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
 			if (flags & SIGN)
 				num = (signed short) num;
 		} else {
-			num = va_arg(args, unsigned int);
+			//num = va_arg(args, unsigned int);
+            num = va_arg(args, unsigned long long);
 			if (flags & SIGN)
-				num = (signed int) num;
+				//num = (signed int) num;
+                num = (signed long long) num;
 		}
 		str = number(str, end, num, base,
 				field_width, precision, flags);
