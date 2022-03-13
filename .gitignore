@@ -4,8 +4,8 @@ pvsneslib/lib
 pvsneslib/source/libc_c.asm
 pvsneslib/source/libm_c.asm
 
-# compressed file generated for the release version
-*.bz2
+# release folder to distribute binaries
+release
 
 # exclude binaries (specific to your OS)
 devkitsnes/tools
