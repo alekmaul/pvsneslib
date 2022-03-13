@@ -1,20 +1,20 @@
 
 # do not forget that to build pvsneslib, you have to install compiler and tools first !
 all:
-	cd compiler ; \
-	make ; \
-	make install; \
-	cd ../tools ; \
-	make ; \
-	make install; \
-	cd ../pvsneslib ; \
-	make ; \
-	cd ../snes-examples ; \
-	make ; \
-	make install
-	@echo
-	@echo Build finished successfully !
-	@echo
+	cd compiler && \
+	make && \
+	make install && \
+	cd ../tools && \
+	make && \
+	make install && \
+	cd ../pvsneslib && \
+	make && \
+	cd ../snes-examples && \
+	make && \
+	make install && \
+	echo && \
+	echo Build finished successfully ! && \
+	echo
 
 
 clean:
