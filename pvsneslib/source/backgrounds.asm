@@ -492,7 +492,7 @@ bgInitTileSetLz:
     adc #16
     dex
     bne -
-    sta bkgrd_val1
++   sta bkgrd_val1
     
 _bITS1:
     sep #$20
