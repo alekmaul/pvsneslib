@@ -8,13 +8,11 @@ export PVSNESLIB_MAJOR	:= 3
 export PVSNESLIB_MINOR	:= 4
 export PVSNESLIB_PATCH	:= 0
 
-
 VERSION	:=	$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
-
 
 .PHONY: release clean all docs 
 
-all: include/snes/libversion.h release docs dist-bin
+all: include/snes/libversion.h release docs
 
 #-------------------------------------------------------------------------------
 release: lib
@@ -30,28 +28,7 @@ lib:
 clean:
 #-------------------------------------------------------------------------------
 	make -C source clean
-
-#-------------------------------------------------------------------------------
-dist-src:
-#-------------------------------------------------------------------------------
-	@tar -cjf pvsneslib-src-$(VERSION).tar.bz2 source include template Makefile pvsneslib_license.txt pvsneslib_snesmod.txt pvsneslib.dox
-	@mv *.tar.gz2 ..
-
-#-------------------------------------------------------------------------------
-dist-bin: 
-#-------------------------------------------------------------------------------
-	@tar -cjf pvsneslib-$(VERSION).tar.bz2 include lib template docs pvsneslib_license.txt pvsneslib_snesmod.txt 
-	@tar -cjf devkitsnes-$(VERSION).tar.bz2 ../devkitsnes 
-	@tar -cjf snesexamples-$(VERSION).tar.bz2 ../snes-examples
-	@mv *.tar.bz2 ..
-
-dist: dist-bin dist-src
-
-#-------------------------------------------------------------------------------
-install: dist-bin
-#-------------------------------------------------------------------------------
-	mkdir -p ${PVSNESLIB_HOME}/pvsneslib
-	bzip2 -cd pvsneslib-$(VERSION).tar.bz2 | tar -x -C ${PVSNESLIB_HOME}/pvsneslib
+	rm -rf docs
 
 #---------------------------------------------------------------------------------
 docs:
@@ -59,7 +36,7 @@ docs:
 	doxygen pvsneslib.dox
 	@if [ -f 'warn.log' ]; then \
         @cat warn.log; \
-   fi	
+	fi	
 
 #---------------------------------------------------------------------------------
 include/snes/libversion.h : Makefile

@@ -1,11 +1,7 @@
-#---------------------------------------------------------------------------------
-# path to tools
-#---------------------------------------------------------------------------------
-export PATH	:= $(PVSNESLIB_HOME)/devkitsnes/bin:$(PATH)
-LIBDIRSOBJS  := $(PVSNESLIB_HOME)/pvsneslib/lib
-
 # folder containing sources :
 SRC =src
+
+LIBDIRSOBJS  := $(PVSNESLIB_HOME)/pvsneslib/lib
 
 #---------------------------------------------------------------------------------
 # on windows, linkfile can only manage path like E:\pvsneslib\lib\crt0_snes.obj
@@ -24,12 +20,11 @@ endif
 # the compiler executables
 #---------------------------------------------------------------------------------
 
-export CC	:=	816-tcc
-export AS	:=	wla-65816
-export LD	:=	wlalink
-export PY	:=	816-opt.py
-
-export CTF	:=	constify
+export CC	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/816-tcc
+export AS	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/wla-65816
+export LD	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/wlalink
+export PY	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/816-opt.py
+export CTF	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/constify
 
 export GFXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/gfx2snes
 export SMCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/smconv

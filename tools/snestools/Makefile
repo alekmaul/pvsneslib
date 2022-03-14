@@ -1,5 +1,3 @@
-export PATH := /c/MinGW32/bin/:/c/msys/bin:$(PATH)
-
 VERSION = "1.0.0"
 
 cpu_sys=$(shell uname -m)
