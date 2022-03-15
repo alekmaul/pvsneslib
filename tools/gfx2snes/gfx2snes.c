@@ -689,7 +689,7 @@ int main(int argc, char **arg)
             free(tilesetimg.buffer);
         }
 
-        buffer=ArrangeBlocks(image.buffer, width, height, size, &j, &num_tiles, 8, 0);
+        buffer=ArrangeBlocks(image.buffer, width, height, size, &j, &num_tiles, (hi512 ? 16 : 8), 0);
         free(image.buffer);
 
 		if(buffer==NULL)
