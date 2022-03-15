@@ -17,6 +17,7 @@ devkitsnes/bin
 compiler/tcc-65816/config.h
 compiler/tcc-65816/config.mak
 compiler/tcc-65816/config.texi
+compiler/tcc-65816/tcc-doc.html
 compiler/tcc-65816/816-tcc
 compiler/tcc-65816/816-tcc.exe
 
