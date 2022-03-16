@@ -3,6 +3,12 @@ SRC =src
 
 LIBDIRSOBJS  := $(PVSNESLIB_HOME)/pvsneslib/lib
 
+# to avoid some bugs if the PVSNESLIB_HOME is not well defined, we let a small check here
+ifeq ($(findstring \,$(PVSNESLIB_HOME)),\)
+$(error "PVSNESLIB_HOME environment variable is not defined correctly: the path must be in Unix style (on Windows operating system too!). For example, use /c/snesdev instead of c:\snesdev")
+endif
+
+
 #---------------------------------------------------------------------------------
 # on windows, linkfile can only manage path like E:\pvsneslib\lib\crt0_snes.obj
 # this one doesn't work /e/pvsneslib/lib/crt0_snes.obj
