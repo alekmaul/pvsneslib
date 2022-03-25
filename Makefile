@@ -32,7 +32,11 @@ clean:
 	rm -rf release
 	
 # to create the release version for github containing binaries and all snes-examples :
+doxygenInstalled := $(shell command -v doxygen 2> /dev/null)
 release: all
+ifndef doxygenInstalled
+	$(error "doxygen is not installed but is mandatory to create the release version.")
+endif
 	rm -rf release && mkdir -p release/pvsneslib && \
 	cp -r devkitsnes release/pvsneslib/devkitsnes && \
 	mkdir release/pvsneslib/pvsneslib && cp -r pvsneslib/include release/pvsneslib/pvsneslib/include && \
