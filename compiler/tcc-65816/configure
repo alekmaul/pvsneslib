@@ -332,16 +332,6 @@ exit 1
 fi
 
 if test -z "$cross_prefix" ; then
-  CONFTEST=./conftest$EXESUF
-  if ! $cc -o $CONFTEST $source_path/conftest.c 2>/dev/null ; then
-    echo "configure: error: '$cc' failed to compile conftest.c."
-  else
-    cc_name="$($CONFTEST compiler)"
-    gcc_major="$($CONFTEST version)"
-    gcc_minor="$($CONFTEST minor)"
-    bigendian="$($CONFTEST bigendian)"
-    _triplet="$($CONFTEST triplet)"
-  fi
   if test "$mingw32" = "no" ; then
 
       if test -z "$triplet"; then
@@ -534,7 +524,7 @@ else
     echo "config.h is unchanged"
 fi
 
-rm -f $TMPN* $CONFTEST
+rm -f $TMPN*
 
 # ---------------------------------------------------------------------------
 # build tree in object directory if source path is different from current one
