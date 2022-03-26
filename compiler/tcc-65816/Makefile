@@ -194,7 +194,7 @@ clean:
 	rm -f *~ *.o *.a tcc tcc1 tcct tcc_g tcctest.ref *.bin *.i ex2 \
            core gmon.out test.out test.ref a.out tcc_p \
            *.exe *.lib tcc.pod libtcc_test \
-           tcctest[1234] test[1234].out $(PROGS) win32/lib/*.o test/failtraces/* 816-tcc
+           tcctest[1234] test[1234].out $(PROGS) win32/lib/*.o test/failtraces/* 816-tcc tcc-doc.html
 
 distclean: clean
 	rm -f config.h config.mak config.texi
@@ -255,8 +255,13 @@ cache: tcc_g
 	vg_annotate tcc.c > /tmp/linpack.cache.log
 
 # documentation and man page
+t2hinstalled := $(shell command -v texi2html 2> /dev/null)
 tcc-doc.html: tcc-doc.texi
+ifndef t2hinstalled
+	@echo "texi2html is not installed, documentation will be not generated.";
+else
 	texi2html -monolithic -number $<
+endif
 
 tcc.1: tcc-doc.texi
 	./texi2pod.pl $< tcc.pod

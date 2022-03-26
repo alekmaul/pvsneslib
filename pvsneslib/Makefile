@@ -10,7 +10,7 @@ export PVSNESLIB_PATCH	:= 0
 
 VERSION	:=	$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
 
-.PHONY: release clean all docs 
+.PHONY: release clean all docs
 
 all: include/snes/libversion.h release docs
 
@@ -31,12 +31,17 @@ clean:
 	rm -rf docs
 
 #---------------------------------------------------------------------------------
-docs:
+doxygenInstalled := $(shell command -v doxygen 2> /dev/null)
+docs: 
 #---------------------------------------------------------------------------------
+ifndef doxygenInstalled
+	@echo "doxygen is not installed, documentation will be not generated.";
+else
 	doxygen pvsneslib.dox
 	@if [ -f 'warn.log' ]; then \
         @cat warn.log; \
 	fi	
+endif
 
 #---------------------------------------------------------------------------------
 include/snes/libversion.h : Makefile

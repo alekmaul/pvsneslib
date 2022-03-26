@@ -77,7 +77,7 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 
 %.obj: %.asm
 	@echo Doing obj files ... $(fname)
-	echo "Building with -x flag: $(AS) -s -x -o $@ $<"
+	@echo "Building with -x flag: $(AS) -s -x -o $@ $<"
 	$(AS) -s -x -o $@ $< 
 
 #---------------------------------------------------------------------------------
