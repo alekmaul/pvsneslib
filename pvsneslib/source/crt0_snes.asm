@@ -31,6 +31,9 @@ tcc__registers_irq dsb 0
 tcc__regs_irq dsb 48
 .ENDS
 
+; sections "globram.data" and "glob.data" can stay here in the file
+; because we are using wla-65816 -d switch to disable WLA's ability to calculate A-B where A and B are labels.
+; If you remove the -d switch, move those two sections to the very end of the source file, then WLA cannot calculate SECTIONEND_glob.data-SECTIONSTART_glob.data and it should be delayed for WLALINK to calculate
 .RAMSECTION "globram.data" BANK $7f SLOT 3 KEEP
 
 .ENDS
