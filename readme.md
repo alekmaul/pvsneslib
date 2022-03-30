@@ -20,10 +20,10 @@ Due to technical constraints, it is available for now on 32 bits system only.
 
 To use it, you will need at least :
 
-- a unix-like environment like msys
-- python 3
+- a unix-like environment like msys if you work on Windows
+- python 3 installed and available in your path environment variable (accessible with the **python** command)
 
-If you want to compile the whole project, please see the wiki pages to get all required dependencies.
+If you want to compile the whole project, please see [this wiki page](https://github.com/alekmaul/pvsneslib/wiki/Compiling-from-sources) to get all required dependencies.
 
 # Contribution #
 
@@ -33,6 +33,6 @@ To discuss about the library, your project or to request help, join us on [Disco
 
 PVSneslib and affiliated tools are distributed under the MIT license (see pvsneslib_license.txt file).
 
-If you want to donate to support PVSneslib development:  
-[![Paypal](https://www.paypalobjects.com/fr_FR/FR/i/btn/x-click-but04.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5USKF23DQVLC)
+If you want to donate to support PVSneslib development:  [![Paypal](https://www.paypalobjects.com/fr_FR/FR/i/btn/x-click-but04.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5USKF23DQVLC)
+
 Thanks !

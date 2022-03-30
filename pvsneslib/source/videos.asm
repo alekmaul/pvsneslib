@@ -79,6 +79,10 @@ videoModeSub        DSB 1
 bgCnt               DSB 1
 iloc                DSB 1
 
+.ENDS
+
+.RAMSECTION ".reg_video7e_matrix" BANK $7E 
+
 m7ma                DSB 2
 m7mb                DSB 2
 m7mc                DSB 2
