@@ -20,7 +20,7 @@ extern char backpal;
 
 typedef struct
 {
-  int x, y;
+  s16 x, y;
 }Vec2;
 
 //---------------------------------------------------------------------------------
@@ -61,8 +61,8 @@ u16 score, hiscore;                                     // score & hiscore
 u16 level2;                                             // max level
 u16 color, level, lives;                                // color of BG, current level & number of lives
 u16 px;                                                 // paddle x coordinate
-Vec2 vel = { 2, 1 };                                    // Velocity of ball
-Vec2 pos = { 94, 109 };                                 // Coordinates of ball
+Vec2 vel;                                               // Velocity of ball
+Vec2 pos;                                               // Coordinates of ball
 u16 pad0;                                               // pad#0 status
 
 //---------------------------------------------------------------------------------
@@ -314,7 +314,8 @@ void run_frame(void) {
         if (pos.y < 203) {
             if ((pos.x >= px) && (pos.x <= px + 27)) {
                 k = (pos.x - px) / 7;
-                vel = dir[k];
+                vel.x = dir[k].x;
+                vel.y = dir[k].y;
             }
         }
         // are we on bottom of screen
@@ -401,6 +402,10 @@ int main(void) {
     level2 = 1;
     color = 0; level = 0; lives = 4;
     px = 80;
+    vel.x =2; vel.y = 1;  
+    pos.x = 94; pos.y = 109;
+
+
 
     // Init map with all bricks
     b=0;
