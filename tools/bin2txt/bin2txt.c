@@ -104,7 +104,6 @@ int main(int argc, char **argv)
 	int i;
 	unsigned char bytei;
 
-	
 	//parse the arguments
 	for(i=1;i<argc;i++)
 	{
