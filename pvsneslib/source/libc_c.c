@@ -633,11 +633,9 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
 			if (flags & SIGN)
 				num = (signed short) num;
 		} else {
-			//num = va_arg(args, unsigned int);
-            num = va_arg(args, unsigned long long);
+			num = va_arg(args, unsigned int);
 			if (flags & SIGN)
-				//num = (signed int) num;
-                num = (signed long long) num;
+				num = (signed int) num;
 		}
 		str = number(str, end, num, base,
 				field_width, precision, flags);
