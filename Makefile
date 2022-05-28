@@ -53,8 +53,10 @@ endif
 	cp pvsneslib/PVSnesLib_Logo.png release/pvsneslib/pvsneslib/PVSnesLib_Logo.png && \
 	cp pvsneslib/pvsneslib_license.txt release/pvsneslib/pvsneslib/pvsneslib_license.txt && \
 	cp pvsneslib/pvsneslib_snesmod.txt release/pvsneslib/pvsneslib/pvsneslib_snesmod.txt && \
+    echo -e "version "$(VERSION) > pvsneslib/pvsneslib_version.txt && \
+    cp pvsneslib/pvsneslib_version.txt release/pvsneslib/pvsneslib/pvsneslib_version.txt && \
 	cp -r snes-examples release/pvsneslib/snes-examples && \
-	cd release && zip -r -m pvsneslib-$(VERSION).zip pvsneslib && \
+	cd release && zip -r -m pvsneslib.zip pvsneslib && \
 	echo && echo Release created successfully ! && echo
 
 .PHONY: all
