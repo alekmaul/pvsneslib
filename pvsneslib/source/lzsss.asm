@@ -1,6 +1,6 @@
 ;---------------------------------------------------------------------------------
 ;
-;	Copyright (C) 2014
+;	Copyright (C) 2014-2020
 ;		Alekmaul 
 ;
 ;	This software is provided 'as-is', without any express or implied
@@ -54,7 +54,7 @@
 .EQU LZSS_PLANECNT 	  LZSS_CNT2+2
 .EQU LZSS_TEXTBUF_P 	  (LZSS_DICTIONARY_SIZE-LZSS_MAX_LEN)
 
-.section ".lzss_text" superfree
+.SECTION ".lzss_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void LzssDecodeVram(u8 * source, u16 address, u16 size);
@@ -161,7 +161,7 @@ _ldv_check_flags:
 	sta	LZSS_TEXTBUF_OFFS
 	sep	#$20
 	plx
-	bra	_ldv_next_flag
+	brl	_ldv_next_flag
 _ldv_flag_clear:
 	cpx	#0
 	bne	+
@@ -252,4 +252,4 @@ _ldv_done:
 	plp
 	rtl
 
-.ends
+.ENDS

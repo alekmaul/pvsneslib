@@ -36,7 +36,7 @@
 
 #include <snes/snestypes.h>
 
-extern void* __nmi_handler;
+extern void* nmi_handler;
 
 /*!	\brief Bit defines for the interrupt registers */
 #define INT_VBLENABLE (1<<7)	/*!< \brief VBlank NMI Enable  (0=Disable, 1=Enable) (Initially disabled on reset) */
@@ -123,7 +123,7 @@ Unlike NMI handlers, IRQ handlers MUST acknowledge IRQs, otherwise the IRQ gets 
 	Specify the handler to use for the nmi interrupt. 
 	\param handler Address of the function to use as an interrupt service routine
 */
-void nmiSet(VoidFn handler);
+#define nmiSet(handler) nmi_handler = handler;
 
 /*! \fn  WaitForVBlank()
 	\brief Wait for vblank interrupt
@@ -131,11 +131,17 @@ void nmiSet(VoidFn handler);
 */
 void WaitForVBlank(void);
 
-
 /*! \fn  WaitVBLFlag
 	\brief macro to wait the VBL flag OK
 */
 #define WaitVBLFlag 	while ((REG_HVBJOY & VBL_READY)); \
 						while (!(REG_HVBJOY & VBL_READY))  {};
-						
+
+
+/*! \fn  WaitNVBlank()
+	\brief Wait for vblank interrupt ntime
+	\param ntime number of time to wait VBlank Interrupt
+*/
+void WaitNVBlank(u16 ntime);
+
 #endif //SNES_INTERRUPTS_INCLUDE

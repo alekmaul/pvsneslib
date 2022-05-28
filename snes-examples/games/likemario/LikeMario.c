@@ -9,10 +9,12 @@
 #include <snes.h>
 
 #include "soundbank.h"
-extern char __SOUNDBANK__;
 
+//---------------------------------------------------------------------------------
+extern char SOUNDBANK__;
 extern char jumpsnd,jumpsndend;
 
+//---------------------------------------------------------------------------------
 extern char mapgfx, mapgfx_end;
 extern char mappal;
 extern char map;
@@ -22,6 +24,10 @@ extern char mapcol;
 
 extern char snesfont;
 
+#define GRAVITY 48
+#define JUMPVALUE (GRAVITY*20)
+
+//---------------------------------------------------------------------------------
 // Mario sprite
 typedef struct
 {
@@ -31,18 +37,15 @@ typedef struct
 	int flipx;
 } Mario;
 
-// Mario tiles
-enum {MARIODOWN = 0, MARIOJUMPING = 1, MARIOWALK = 2, MARIOSTAND = 6};
-
-#define GRAVITY 48
-#define JUMPVALUE (GRAVITY*20)
-
+enum {MARIODOWN = 0, MARIOJUMPING = 1, MARIOWALK = 2, MARIOSTAND = 6};  // Mario states
 enum MarioState {W_JUMP = 1, W_RIGHT = 2,  W_LEFT = 3};
 
-unsigned int scrX=0, idxScr=0, idFlip=0;  // for screen scrolling
-Mario mario;   // Our hero :D !
+u16 scrX;                           // for screen scrolling
+Mario mario;                        // Our hero :D !
 
-brrsamples Jump; // The sound for jumping
+brrsamples Jump;                    // The sound for jumping
+
+u16 pad0, move, i;                  // loop & pad variable
 
 //---------------------------------------------------------------------------------
 u16 getCollisionTile(u16 x, u16 y) {
@@ -53,7 +56,6 @@ u16 getCollisionTile(u16 x, u16 y) {
 
 //---------------------------------------------------------------------------------
 void moveLevel(unsigned char direction) {
-	int i;
 	u16 *ptrMap;
 	u16 ptrVRAM; 
 	unsigned short sx;
@@ -114,10 +116,11 @@ void moveLevel(unsigned char direction) {
 }
 
 //---------------------------------------------------------------------------------
-void moveMario(unsigned short padvalue) {
+void moveMario() {
 	// Update scrolling with current pad (left / right / jump can combine)
-	if (padvalue & (KEY_RIGHT | KEY_LEFT | KEY_A) ) {
-		if (padvalue & KEY_RIGHT) { 
+	if (pad0 & (KEY_RIGHT | KEY_LEFT | KEY_A) ) {
+		if (pad0 & KEY_RIGHT) { 
+      	consoleNocashMessage("RIGHT");
 			// if we can go right
 			if (getCollisionTile(scrX+(mario.x>>8)+16, (mario.y>>8)) == 0) {
 				// if when are less than screen center, let's go
@@ -136,7 +139,8 @@ void moveMario(unsigned short padvalue) {
 			}
 		}
 		// Else it's perhaps left :)
-		if (padvalue & KEY_LEFT)  {
+		else if (pad0 & KEY_LEFT)  {
+      	consoleNocashMessage("LEFT");
 			// can we go left ?
 			if ((scrX+(mario.x>>8)-1>0) && (getCollisionTile(scrX+(mario.x>>8)-1, (mario.y>>8)) == 0)) { 
 				// if we are on the right of the screen, go to center
@@ -155,7 +159,7 @@ void moveMario(unsigned short padvalue) {
 			}
 		}
 		// Hum, no perhaps jumping \o/
-		if (padvalue & KEY_A) {
+		if (pad0 & KEY_A) {
 			// can jump ??
 			if (getCollisionTile(scrX+(mario.x>>8), (mario.y>>8)+16) != 0) {
 				mario.jmpval = -JUMPVALUE;
@@ -176,7 +180,8 @@ void moveMario(unsigned short padvalue) {
 		}
 	}
 	// down to have small mario
-	else if (padvalue & KEY_DOWN) {
+	else if (pad0 & KEY_DOWN) {
+      	consoleNocashMessage("DOWN");
 		mario.anim_frame = MARIODOWN;
 	}
 	// well, no pad value, so just standing !
@@ -209,8 +214,6 @@ void moveMario(unsigned short padvalue) {
 
 //---------------------------------------------------------------------------------
 int main(void) {
-	unsigned short pad0, move, i;
-
 	// Initialize sound engine (take some time)
 	spcBoot();
 	
@@ -218,7 +221,7 @@ int main(void) {
 	consoleInit();
     
 	// Set give soundbank
-	spcSetBank(&__SOUNDBANK__);
+	spcSetBank(&SOUNDBANK__);
 	
 	// allocate around 10K of sound ram (39 256-byte blocks)
 	spcAllocateSoundRegion(39);
@@ -231,13 +234,13 @@ int main(void) {
 	
 	// Initialize text console with our font and invert color (black with BG white)
 	consoleInitText(0, 1, &snesfont);
-	consoleSetTextCol(RGB15(0,0,0), RGB15(31,31,31));
+	consoleSetTextCol(RGB5(0,0,0), RGB5(31,31,31));
 	
 	// Copy tiles to VRAM
 	bgInitTileSet(1, &mapgfx, &mappal, 0, (&mapgfx_end - &mapgfx), 16*2, BG_16COLORS, 0x6000);
 
 	// Init Sprites gfx and palette with default size of 16x16
-	oamInitGfxSet(&mariogfx, (&mariogfx_end-&mariogfx), &mariopal, 16*2, 0, 0x4000, OBJ_SIZE16);
+	oamInitGfxSet(&mariogfx, (&mariogfx_end-&mariogfx), &mariopal, 16*2, 0, 0x4000, OBJ_SIZE16_L32);
 
 	// Init Map to address 0x1000 and Copy Map to VRAM
 	bgSetMapPtr(1, 0x1000, SC_64x32);
@@ -271,25 +274,25 @@ int main(void) {
 	// Wait VBL 'and update sprites too ;-) )
 	WaitForVBlank();
 	
+    // default scroll value
+    scrX=0;
+    
 	// Wait for nothing :P
 	while(1) {
         // no move currently
         move = 0;
         
-		// Refresh pad values
-		scanPads();
-		
 		// Get current #0 pad
 		pad0 = padsCurrent(0);
 		
 		// update mario regarding pad value
-		moveMario(pad0);
+		moveMario();
 		
 		// Now, display mario with current animation
 		oamSet(0,  (mario.x>>8), (mario.y>>8), 3, mario.flipx, 0, mario.anim_frame*2, 0);
 		
 		// Update sound and wait VBL
-		spcProcess();
+		spcProcess(); 
 		WaitForVBlank();
 	}
 	return 0;

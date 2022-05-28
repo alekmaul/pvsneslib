@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-	Copyright (C) 2012-2013
+	Copyright (C) 2012-2021
 
 	This software is provided 'as-is', without any express or implied
 	warranty.  In no event will the authors be held liable for any
@@ -55,12 +55,16 @@
  - \ref pad.h "Keypad"
  - \ref console.h "Console and Debug Printing"
 
- \section Miscellaneous functions
+ \section engine_api Engine API functions
+ - \ref object.h "Objects management"
+ - \ref map.h "map management"
+
+ \section misc_api Miscellaneous functions
  - \ref scores.h "Scoring management"
 
  \section external_links Usefull links
- - <a href="http://www.portabledev.com/wiki/doku.php">PVSnesLib wiki</a>
- - <a href="http://nocash.emubase.de/sns.htm">SNES hardware specifications documentation.</a>
+ - <a href="https://github.com/alekmaul/pvsneslib/wiki">PVSnesLib wiki</a>
+ - <a href="https://problemkaputt.de/fullsnes.htm">SNES hardware specifications documentation.</a>
  - <a href="http://code.google.com/p/snes-sdk/">SNES Sdk from Ulrich Hecht.</a>
 
  \section special_thanks Special Thanks
@@ -70,6 +74,7 @@
  - Kung Fu Furby for help on Snesmod convertion to PVSnesLib.
  - <a href="http://code.google.com/p/neo-myth-menu/">Neoflash Menu google code. </a>
  - <a href="http://www.devkitpro.org/">Devkitpro team for pvsneslib structure (lib, makefile, examples, and so on ...). </a>
+ - <a href="https://github.com/undisbeliever/castle_platformer">undisbeliever for his great platform code example on github. </a>
 */
 
 
@@ -77,16 +82,17 @@
 /*!
  <!-- EXAMPLES -->
     <!-- hello world -->
-		\example hello_world/hello_world.c
+    \example hello_world/src/hello_world.c
 
     <!-- backgrounds -->
-		\example graphics/Backgrounds/Mode0/Mode0.c
+    \example graphics/Backgrounds/Mode0/Mode0.c
     \example graphics/Backgrounds/Mode1/Mode1.c
-		\example graphics/Backgrounds/Mode1Png/Mode1.c
+    \example graphics/Backgrounds/Mode1Png/Mode1.c
     \example graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c
     \example graphics/Backgrounds/Mode1MixedScroll/Mode1MixedScroll.c
     \example graphics/Backgrounds/Mode3/Mode3.c
-		\example graphics/Backgrounds/Mode7/Mode7.c
+    \example graphics/Backgrounds/Mode7/Mode7.c
+    \example graphics/Backgrounds/Mode7Perspective/Mode7Perspective.c
 
     <!-- effects -->
     \example graphics/Effects/HDMAGradient/HDMAGradient.c
@@ -94,34 +100,44 @@
     \example graphics/Effects/Transparency/Transparency.c
 
     <!-- sprites -->
-		\example graphics/Sprites/SimpleSprite/SimpleSprite.c
-		\example graphics/Sprites/AnimatedSprite/AnimatedSprite.c
-		\example graphics/Sprites/DynamicSprite/DynamicSprite.c
+    \example graphics/Sprites/SimpleSprite/SimpleSprite.c
+    \example graphics/Sprites/AnimatedSprite/AnimatedSprite.c
+    \example graphics/Sprites/DynamicSprite/DynamicSprite.c
 
-		<!-- keypad -->
-		\example input/input.c
+    <!-- palettes -->
+    \example graphics/Palette/GetColors/GetColors.c
 
-		<!-- timing -->
-		\example timer/timer.c
+    <!-- keypad -->
+    \example input/input.c
 
-		<!-- games -->
-		\example games/likemario/LikeMario.c
+    <!-- timing -->
+    \example timer/timer.c
 
-		<!-- audio -->
-		\example audio/music/Music.c
-		\example audio/tada/Tada.c
+    <!-- games -->
+    \example games/likemario/LikeMario.c
+    \example games/breakout/breakout.c
 
-		<!-- debugging -->
-		\example debug/debug.c
+    <!-- audio -->
+    \example audio/music/Music.c
+    \example audio/tada/Tada.c
 
-		<!-- random display -->
-		\example random/random.c
+    <!-- maps -->
+    \example maps/mapscroll/mapscroll.c
 
-		<!-- sram -->
-		\example sram/sram.c
-	
-		<!-- scoring -->
-		\example scoring/scoring.c
+    <!-- objects -->
+    \example objects/moveobjects/moveobjects.c
+
+    <!-- debugging -->
+    \example debug/debug.c
+
+    <!-- random display -->
+    \example random/random.c
+
+    <!-- sram -->
+    \example sram/sram.c
+
+    <!-- scoring -->
+    \example scoring/scoring.c
 
 */
 
@@ -132,8 +148,9 @@
 #include "snes/console.h"
 #include "snes/dma.h"
 #include "snes/interrupt.h"
+#include "snes/map.h"
+#include "snes/object.h"
 #include "snes/pad.h"
-//#include "snes/pixel.h"
 #include "snes/scores.h"
 #include "snes/sound.h"
 #include "snes/sprite.h"

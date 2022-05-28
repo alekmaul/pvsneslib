@@ -1,29 +1,18 @@
-# path to snesdev root directory (for emulators, devkitsnes, libsnes)
-export DEVKITSNES := /c/snesdev/
-#export DEVKITSNES := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib
-
-# path to devkitsnes root directory for compiler
-export DEVKIT65XX := /c/snesdev/devkitsnes
-#export DEVKIT65XX := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib/devkitsnes
-
-#---------------------------------------------------------------------------------
-ifeq ($(strip $(DEVKITSNES)),)
-$(error "Please set DEVKITSNES in your environment. export DEVKITSNES=<path to>devkitSNES)
+ifeq ($(strip $(PVSNESLIB_HOME)),)
+$(error "Please create an environment variable PVSNESLIB_HOME with path to its folder and restart application. (you can do it on windows with <setx PVSNESLIB_HOME "/c/snesdev">)")
 endif
  
 export TOPDIR	:=	$(CURDIR)
 
-export PVSNESLIB_MAJOR	:= 2
-export PVSNESLIB_MINOR	:= 3
-export PVSNESLIB_PATCH	:= 2
-
+export PVSNESLIB_MAJOR	:= 3
+export PVSNESLIB_MINOR	:= 4
+export PVSNESLIB_PATCH	:= 0
 
 VERSION	:=	$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
 
+.PHONY: release clean all docs
 
-.PHONY: release clean all docs 
-
-all: include/snes/libversion.h release docs dist-bin
+all: include/snes/libversion.h release docs
 
 #-------------------------------------------------------------------------------
 release: lib
@@ -39,34 +28,20 @@ lib:
 clean:
 #-------------------------------------------------------------------------------
 	make -C source clean
-
-#-------------------------------------------------------------------------------
-dist-src:
-#-------------------------------------------------------------------------------
-	@tar -cjf pvsneslib-src-$(VERSION).tar.bz2 source include template Makefile pvsneslib_license.txt pvsneslib_snesmod.txt pvsneslib.dox
-	@mv *.tar.gz2 ..
-
-#-------------------------------------------------------------------------------
-dist-bin: 
-#-------------------------------------------------------------------------------
-	@tar -cjf pvsneslib-$(VERSION).tar.bz2 include lib template docs pvsneslib_license.txt pvsneslib_snesmod.txt 
-	@tar -cjf devkitsnes-$(VERSION).tar.bz2 ../devkitsnes ../emulators/put_emulators_here.txt
-	@tar -cjf snesexamples-$(VERSION).tar.bz2 ../snes-examples
-	@mv *.tar.bz2 ..
-
-dist: dist-bin dist-src
-
-#-------------------------------------------------------------------------------
-install: dist-bin
-#-------------------------------------------------------------------------------
-	mkdir -p $(DEVKITSNES)/pvsneslib
-	bzip2 -cd pvsneslib-$(VERSION).tar.bz2 | tar -x -C $(DEVKITSNES)/pvsneslib
+	rm -rf docs
 
 #---------------------------------------------------------------------------------
-docs:
+doxygenInstalled := $(shell command -v doxygen 2> /dev/null)
+docs: 
 #---------------------------------------------------------------------------------
+ifndef doxygenInstalled
+	@echo "doxygen is not installed, documentation will be not generated.";
+else
 	doxygen pvsneslib.dox
-	cat warn.log
+	@if [ -f 'warn.log' ]; then \
+        @cat warn.log; \
+	fi	
+endif
 
 #---------------------------------------------------------------------------------
 include/snes/libversion.h : Makefile

@@ -1,26 +1,31 @@
-export PATH	:=	/e/MinGW32/bin:$(PATH)
-VERSION = "0.1.0"
+VERSION = "2.0.0"
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-CC = /e/MinGW32/bin/gcc
-CP = /e/MinGW32/bin/g++
-CFLAGS = -O2 -Wall -fpermissive -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+CC = gcc
+CP = g++
+CFLAGS = -O2 -Wall -Wno-unused-result -fpermissive -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 CXXFLAGS :=	$(CFLAGS) -fno-rtti -fno-exceptions
 LDFLAGS := 
 
 SOURCE = brr.cpp convert.cpp inputdata.cpp io.cpp it2spc.cpp itloader.cpp
 OBJS = brr.o convert.o inputdata.o io.o it2spc.o itloader.o
-EXE=smconv.exe
+EXE=smconv
 DEFINES = 
 LIBS = 
 
-#---------------------------------------------------------------------------------
-all: $(EXE)
+ifeq ($(OS),Windows_NT)
+        EXT=.exe
+else
+        EXT=
+endif
 
 #---------------------------------------------------------------------------------
-$(EXE) : $(OBJS)
+all: $(EXE)$(EXT)
+
+#---------------------------------------------------------------------------------
+$(EXE)$(EXT) : $(OBJS)
 	@echo make exe $(notdir $<) 
 	$(CP) $(LDFLAGS) $(OBJS) -o $@
 
@@ -34,5 +39,7 @@ $(EXE) : $(OBJS)
 	
 #---------------------------------------------------------------------------------
 clean:
-	rm -f *.o *.exe *.tds
+	rm -f $(EXE)$(EXT) $(OBJS) *.tds
 
+install:
+	mkdir -p ../../devkitsnes/tools && cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)

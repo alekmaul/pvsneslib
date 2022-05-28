@@ -34,17 +34,19 @@
 #define BIT(n) (1<<n)
 
 //! 8 bit volatile unsigned integer.
-typedef	signed char		s8;
-typedef	unsigned char	u8;
-typedef	signed short	s16;
-typedef	unsigned short	u16;
-typedef	signed int		s32;
-typedef	unsigned int	u32;
+typedef	signed char		    s8;
+typedef	unsigned char	    u8;
+typedef	signed short	    s16;
+typedef	unsigned short      u16;
+typedef	signed long long	s32;
+typedef	unsigned long long  u32;
 
-typedef	volatile unsigned char	vuint8;
-typedef	volatile unsigned short	vuint16;
-typedef	volatile char	vint8;
-typedef	volatile short	vint16;
+typedef	volatile unsigned char	    vuint8;
+typedef	volatile unsigned short	    vuint16;
+typedef	volatile unsigned long long vuint32;
+typedef	volatile char	            vint8;
+typedef	volatile short	            vint16;
+typedef	volatile long long          vint32;
 
 // Handy function pointer typedefs
 //! a function pointer that takes no arguments and doesn't return anything.

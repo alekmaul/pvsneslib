@@ -1,6 +1,6 @@
 .include "hdr.asm"
 
-.ramsection ".registers" bank 0 slot 1
+.RAMSECTION ".registers" BANK 0 SLOT 1 PRIORITY 1
 tcc__registers dsb 0
 tcc__r0 dsb 2
 tcc__r0h dsb 2
@@ -23,17 +23,27 @@ tcc__f2 dsb 2
 tcc__f2h dsb 2
 tcc__f3 dsb 2
 tcc__f3h dsb 2
-move_insn dsb 4	; 3 bytes mvn + 1 byte rts
-move_backwards_insn dsb 4 ; 3 bytes mvp + 1 byte rts
-__nmi_handler dsb 4
+move_insn dsb 4	                        ; 3 bytes mvn + 1 byte rts
+move_backwards_insn dsb 4               ; 3 bytes mvp + 1 byte rts
+nmi_handler dsb 4
 
 tcc__registers_irq dsb 0
 tcc__regs_irq dsb 48
-.ends
+.ENDS
 
+; sections "globram.data" and "glob.data" can stay here in the file
+; because we are using wla-65816 -d switch to disable WLA's ability to calculate A-B where A and B are labels.
+; If you remove the -d switch, move those two sections to the very end of the source file, then WLA cannot calculate SECTIONEND_glob.data-SECTIONSTART_glob.data and it should be delayed for WLALINK to calculate
+.RAMSECTION "globram.data" BANK $7f SLOT 3 KEEP
 
-.BANK 0 SLOT 0                  ; Defines the ROM bank and the slot it is inserted in memory.
-.ORG 0                          ; .ORG 0 is really $8000, because the slot starts at $8000
+.ENDS
+
+.SECTION "glob.data" SUPERFREE KEEP
+
+.ENDS
+
+.BANK 0                                 ; Defines the ROM bank and the slot it is inserted in memory.
+.ORG 0                                  ; .ORG 0 is really $8000, because the slot starts at $8000
 .SECTION "EmptyVectors" SEMIFREE
 
 EmptyHandler:
@@ -44,11 +54,11 @@ EmptyNMI:
 
 .ENDS
 
-.EMPTYFILL $00                  ; fill unused areas with $00, opcode for BRK.  
-                                ; BRK will crash the snes if executed.
+.EMPTYFILL $00                         ; fill unused areas with $00, opcode for BRK.  
+                                       ; BRK will crash the snes if executed.
 
-.bank 0
-.section "Snes_Init" SEMIFREE
+.BANK 0
+.SECTION "Snes_Init" SEMIFREE
 tcc__snesinit:
 	rep #$10	; X/Y 16 bit
         sep     #$20    ; A is 8 bit
@@ -183,7 +193,7 @@ tcc__snesinit:
 
         ;cli             ; Enable interrupts
         rts
-.ends
+.ENDS
 
 
 ; Needed to satisfy interrupt definition in "Header.inc".
@@ -200,9 +210,9 @@ VBlank:
   plb
   lda.w #tcc__registers_irq
   tad
-  lda.l __nmi_handler
+  lda.l nmi_handler
   sta.b tcc__r10
-  lda.l __nmi_handler + 2
+  lda.l nmi_handler + 2
   sta.b tcc__r10h
   jsl tcc__jsl_r10
   pla
@@ -212,8 +222,8 @@ VBlank:
   plb
   RTI
 
-.bank 0
-.section ".start"
+.BANK 0
+.SECTION ".start"
 
 .accu 16
 .index 16
@@ -238,17 +248,17 @@ tcc__start:
     tad
 
     lda.w #EmptyNMI
-    sta.b __nmi_handler
+    sta.b nmi_handler
     lda.w #:EmptyNMI
-    sta.b __nmi_handler + 2
+    sta.b nmi_handler + 2
 
     ; copy .data section to RAM
     ldx #0
--   lda.l __startsection.data,x
-    sta.l __startramsectionram.data,x
+-   lda.l SECTIONSTART_glob.data,x
+    sta.l SECTIONSTART_globram.data,x
     inx
     inx
-    cpx #(__endsection.data-__startsection.data)
+    cpx #(SECTIONEND_glob.data-SECTIONSTART_glob.data)
     bcc -
 
     ; set data bank register to bss section
@@ -257,7 +267,7 @@ tcc__start:
     plb
 
     ; clear .bss section
-    ldx #(((__endramsection.bss-__startramsection.bss) & $fffe) + 2)
+    ldx #(((SECTIONEND_.bss-SECTIONSTART_.bss) & $fffe) + 2)
     beq +
 -   dex
     dex
@@ -278,10 +288,10 @@ tcc__start:
     lda #$6000 ; 2nd byte + rts
     sta.b move_backwards_insn + 2
 
-    pea $ffff - __endramsectionram.data
-    pea :__endramsectionram.data
-    pea __endramsectionram.data
-    jsr.l __malloc_init
+    pea $ffff - SECTIONEND_globram.data
+    pea :SECTIONEND_globram.data
+    pea SECTIONEND_globram.data
+    jsr.l malloc_init
     pla
     pla
     pla
@@ -297,4 +307,4 @@ tcc__start:
     sta $fffd
     rep #$20
     stp
-.ends
+.ENDS

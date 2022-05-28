@@ -36,7 +36,10 @@ enum SpriteState {W_DOWN = 0, W_UP = 1, W_RIGHT = 2,  W_LEFT = 2};
 //---------------------------------------------------------------------
 enum {SCREEN_TOP = 0, SCREEN_BOTTOM = 224, SCREEN_LEFT = 0, SCREEN_RIGHT = 256};
 
-char sprTiles[9]={0,2,4, 6,8,10, 12,14,32};  // Remeber that sprites are interleave with 128 pix width,
+const char sprTiles[9]=
+{
+    0,2,4, 6,8,10, 12,14,32
+};  // Remeber that sprites are interleave with 128 pix width,
 
 //---------------------------------------------------------------------------------
 int main(void) {
@@ -47,7 +50,7 @@ int main(void) {
 	consoleInit();
 	
 	// Init Sprites gfx and palette with default size of 16x16
-	oamInitGfxSet(&gfxpsrite, (&gfxpsrite_end-&gfxpsrite), &palsprite, (&palsprite_end-&palsprite), 0, 0x0000, OBJ_SIZE16);
+	oamInitGfxSet(&gfxpsrite, (&gfxpsrite_end-&gfxpsrite), &palsprite, (&palsprite_end-&palsprite), 0, 0x0000, OBJ_SIZE16_L32);
 
 	// Define sprites parameters
 	oamSet(0,  monster.x, monster.y, 0, 0, 0, 0, 0); 

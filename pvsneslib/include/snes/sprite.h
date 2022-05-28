@@ -36,9 +36,12 @@
 
 #define ATTR2_DISABLED			(0xe8)
 
-#define OBJ_SIZE8	(0<<5)	/*!< \brief default OAM size 8x8 pix for OBJSEL register */
-#define OBJ_SIZE16	(3<<5)	/*!< \brief default OAM size 16x16 pix for OBJSEL register */
-#define OBJ_SIZE32	(5<<5)	/*!< \brief default OAM size 32x32 pix for OBJSEL register */
+#define OBJ_SIZE8_L16	(0<<5) /*!< \brief default OAM size 8x8 (SM) and 16x16 (LG) pix for OBJSEL register */
+#define OBJ_SIZE8_L32	(1<<5) /*!< \brief default OAM size 8x8 (SM) and 32x32 (LG) pix for OBJSEL register */
+#define OBJ_SIZE8_L64	(2<<5) /*!< \brief default OAM size 8x8 (SM) and 64x64 (LG) pix for OBJSEL register */
+#define OBJ_SIZE16_L32	(3<<5) /*!< \brief default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register */
+#define OBJ_SIZE16_L64	(4<<5) /*!< \brief default OAM size 16x16 (SM) and 64x64 (LG) pix for OBJSEL register */
+#define OBJ_SIZE32_L64	(5<<5) /*!< \brief default OAM size 32x32 (SM) and 64x64 (LG) pix for OBJSEL register */
 
 #define OBJ_SMALL	(0)
 #define OBJ_LARGE	(1)
@@ -209,7 +212,7 @@ void oamSetVisible(u16 id, u8 hide);
 	\param first	number of 1st sprite to write * 4 because of oam structure
 	\param numEntries	total number of sprites to write
 */
-void oamClear(u8 first, u8 numEntries);
+void oamClear(u16 first, u8 numEntries);
 
 /*!\brief Initializes a sprites Gfx and Loads the GFX into VRAM 
 	\param tileSource	address of sprites graphics entry
@@ -218,13 +221,13 @@ void oamClear(u8 first, u8 numEntries);
 	\param tilePaletteNumber	palette number (0..8)
 	\param paletteSize	size of palette
 	\param address	address of sprite graphics (8K-word steps)
-	\param oamsize	default OAM size (OBJ_SIZE8, OBJ_SIZE16 and OBJ_SIZE32)
+	\param oamsize	default OAM size (OBJ_SIZE8_L16, OBJ_SIZE8_L32, OBJ_SIZE8_L64, OBJ_SIZE16_L32, OBJ_SIZE16_L64 and OBJ_SIZE32_L64)
 */
 void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize);
 
 /*!\brief Initializes the default sprite size and address in VRAM 
 	\param address	address of sprite graphics (8K-word steps)
-	\param oamsize	default OAM size (OBJ_SIZE8, OBJ_SIZE16 and OBJ_SIZE32)
+	\param oamsize	default OAM size (OBJ_SIZE8_L16, OBJ_SIZE8_L32, OBJ_SIZE8_L64, OBJ_SIZE16_L32, OBJ_SIZE16_L64 and OBJ_SIZE32_L64)
 */
 void oamInitGfxAttr(u16 address, u8 oamsize);
 

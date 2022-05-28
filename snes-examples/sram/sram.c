@@ -25,6 +25,7 @@ int main(void) {
 	// Draw a wonderfull text :P
 	consoleDrawText(12,1,"SRAM TEST");
 	consoleDrawText( 3,5,"USE A TO WRITE");
+	consoleDrawText( 3,7,"USE B TO READ");
 
 	// Now Put in 16 color mode
 	setMode(BG_MODE1,0); bgSetDisable(1); bgSetDisable(2);

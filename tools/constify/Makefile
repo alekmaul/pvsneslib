@@ -1,21 +1,28 @@
-VERSION = "2.0.0"
+VERSION = "4.0.0"
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 CC=g++
-CFLAGS=-g -O2 -Wall -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+CFLAGS=-g -O2 -Wall -Wno-literal-suffix -Wno-overflow -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 SOURCES=constify.cpp
 OBJS=constify.o
-EXE=constify.exe
-DEFINES = 
-LIBS = 
-#---------------------------------------------------------------------------------
-all: $(EXE)
+EXE=constify
+DEFINES= 
+LIBS= 
+
+ifeq ($(OS),Windows_NT)
+        EXT=.exe
+else
+        EXT=
+endif
 
 #---------------------------------------------------------------------------------
-$(EXE) : $(OBJS)
+all: $(EXE)$(EXT)
+
+#---------------------------------------------------------------------------------
+$(EXE)$(EXT) : $(OBJS)
 	@echo make exe $(notdir $<) 
 	$(CC) $(CFLAGS) $(OBJS) -o $@
 	
@@ -29,6 +36,8 @@ lzss.o : lzss.c
 
 #---------------------------------------------------------------------------------
 clean:
-	rm -f *.o *.exe 
+	rm -f $(EXE)$(EXT) $(OBJS) 
 
+install:
+	mkdir -p ../../devkitsnes/bin && cp $(EXE)$(EXT) ../../devkitsnes/bin/$(EXE)$(EXT)
 

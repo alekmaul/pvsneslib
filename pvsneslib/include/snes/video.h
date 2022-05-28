@@ -301,10 +301,9 @@ The overflow flags are set (regardless of OBJ enable/disable in 212Ch), at follo
 #define REG_STAT78 (*(vuint8*)0x213F)
 
 // macro creates a 15 bit color from 3x5 bit components
-/** \brief  Macro to convert 5 bit r g b components into a single 15 bit RGB triplet */
-#define RGB15(r,g,b)  ((r)|((g)<<5)|((b)<<10))
-#define RGB5(r,g,b)  ((r)|((g)<<5)|((b)<<10))
+/** \brief  Macro to convert 5 bits or 8 bits r g b components into a single 15 bit RGB triplet */
 #define RGB8(r,g,b)  (((r)>>3)|(((g)>>3)<<5)|(((b)>>3)<<10))
+#define RGB5(r,g,b)  ((r)|((g)<<5)|((b)<<10))
 
 #define SCREEN_HEIGHT 224 /** \brief  Screen height in pixels */
 #define SCREEN_WIDTH  256 /** \brief  Screen width in pixels */
@@ -378,9 +377,25 @@ void setColorIntensity(u8 colorApply, u8 intensity);
 /*! \fn  setPaletteColor(paletteEntry, paletteColor)
 	\brief Change a color palette in CGRAM.
 	\param paletteEntry palette color numer (0..255)
-	\param paletteColor	RGB15 color
+	\param paletteColor	RGB5 color
 */
 #define setPaletteColor(paletteEntry, paletteColor) 	REG_CGADD = paletteEntry; *CGRAM_PALETTE = (paletteColor) & 0xFF; *CGRAM_PALETTE = (paletteColor)>>8;
+
+/*! \fn  getPalette(u8 paletteEntry, u8 paletteSize, u16 *paletteColors)
+	\brief Get a palette from CGRAM.
+	\param paletteEntry 1st entry in palette (0..255 for 16 colors mode) 
+	\param paletteSize	size of palette to get
+	\param paletteColors	RGB5 color to save all values
+*/
+void getPalette(u8 paletteEntry, u8 paletteSize, u16 *paletteColors);
+
+/*! \fn  getPaletteColor(u8 paletteEntry, u16 *paletteColor)
+	\brief Get a color palette from CGRAM.
+	\param paletteEntry palette color numer (0..255)
+	\param paletteColor	RGB5 color to save value
+*/
+void getPaletteColor(u8 paletteEntry, u16 *paletteColor);
+
 
 /*! \fn  setMode7(u8 mode)
 	\brief Put screen in mode 7 with generic init.
@@ -388,16 +403,28 @@ void setColorIntensity(u8 colorApply, u8 intensity);
 */
 void setMode7(u8 mode);
 
-/*! \fn  setMode7Angle(u8 angle)
-	\brief Changle angle view in mode 7 without changing matrix.
-	\param angle : 0..255 value
-*/
-void setMode7Angle(u8 angle);
-
 /*! \fn  setMode7Rot(u8 angle)
 	\brief Changle angle view in mode 7 with matrix transformation.
 	\param angle : 0..255 value
 */
 void setMode7Rot(u8 angle);
+
+/*! \fn  setMode7MoveForwardBack(u8 z8)
+	\brief Changle perspective view forward/backward in mode 7 without changing matrix.
+	\param z8 : 0..255 value
+*/
+void setMode7MoveForwardBack(u8 z8);
+
+/*! \fn  setMode7MoveLeftRight(u8 z8)
+	\brief Changle perspective view left/right in mode 7 without changing matrix.
+	\param z8 : 0..255 value
+*/
+void setMode7MoveLeftRight(u8 z8);
+
+/*! \fn  setMode7Angle(u8 angle)
+	\brief Changle angle view in mode 7 without changing matrix.
+	\param angle : 0..255 value
+*/
+void setMode7Angle(u8 angle);
 
 #endif //SNES_VIDEO_INCLUDE

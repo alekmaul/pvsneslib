@@ -86,7 +86,7 @@ void consoleDrawText(u16 x, u16 y, char *fmt, ...);
 	Output a text string to the screen. Before using this, you need to call consoleInitText().
 	You can also print the value of variables this way, by putting a format string and additional parameters.
 */
-void consoleDrawTextMap(u8 x, u8 y, u8 *map, u8 attributes, char *fmt, ...);
+consoleDrawTextMap(u16 x, u16 y, u8 *map, u8 attributes, char *fmt, ...);
 
 /*! \brief Output formatted string on a screen, centered it (2 colors tiles mode)
 	\param y 	The Y character number the string should start on
@@ -98,7 +98,7 @@ void consoleDrawTextMap(u8 x, u8 y, u8 *map, u8 attributes, char *fmt, ...);
 	You can also print the value of variables this way, by putting a format string and additional parameters.
 	The text will be centered on x axis.
 */
-void consoleDrawTextMapCenter(u8 y, u8 *map, u8 attributes, char *fmt, ...);
+void consoleDrawTextMapCenter(u16 y, u16 *map, u8 attributes, char *fmt, ...);
 
 /*! \brief Initialize the Text System
 	\param bgNumber	The BG number to show Text on.
@@ -120,9 +120,9 @@ void consoleInitText(u8 bgNumber,u8 paletteNumber, u8 *gfxText);
 void consoleInit(void);
 
 /*! \brief Send a message to the no$sns debug window 
-	\param message The message to send
+	\param fmt 	The Format string (see printf() documentation in your local C tutorial)
 */
-void consoleNocashMessage(const char *message);
+void consoleNocashMessage(char *fmt, ...);
 
 /*! \brief Send data to SRAM
 	\param source the source to copy from
@@ -137,5 +137,13 @@ void consoleCopySram(u8 * source, u16 size);
 void consoleLoadSram(u8 * dest, u16 size);
 
 int sprintf(char * buf, const char *fmt, ...);
+
+/*! \fn  consoleRegionIsOK()
+	\brief Check compatibility between console (NTSC/PAL) and cartridge (country)
+    \return 1 if cartridge and console are from the same region, 2 if not
+
+	Check if console (PAL / NSTC) is the same as cartrdige region code
+*/
+u16 consoleRegionIsOK(void);
 
 #endif

@@ -115,28 +115,6 @@ void spcPlay(u8 startPos);
 */
 void spcStop(void);
 
-/*
-;*************************************************************************
-;* spcReadStatus
-;*
-;* returns:
-;*   a = status register
-;*
-;* read status register from sm-spc
-;*************************************************************************
-.import spcReadStatus
-
-;*************************************************************************
-;* spcGetCues
-;*
-;* returns:
-;*   a = (0..15) number of cues that occured since last call
-;*
-;* get number of cues that have passed (pattern effect SF1)
-;*************************************************************************
-.import spcGetCues
-*/
-
 /*! \fn  spcSetModuleVolume(u8 vol)
 	\brief set the module playback volume
 	\param vol	volume (0..255)
@@ -205,6 +183,11 @@ void spcSetSoundDataEntry(u8 vol, u8 panning, u8 pitch, u16 length, u8 *samplead
 //---------------------------------------------------------------------------------
 /*! \fn spcSetSoundDataEntry(u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, brrsamples *ptr)
 	\brief set the address of the SOUND TABLE for a sound entry
+	\param vol	volume (0..15)
+	\param panning	panning (0..15)
+	\param pitch	PITCH (1..6) (hz = PITCH * 2000)
+	\param length	length of brr sample
+	\param sampleaddr	address of brr sample
 	\param ptr	address of variable where sounds values will be stored
 */
 void spcSetSoundTableEntry(brrsamples *ptr);

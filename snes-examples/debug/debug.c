@@ -16,7 +16,7 @@ int main(void) {
 	consoleInit();
     
 	// Draw a wonderfull text :P
-	consoleNocashMessage("JUST COUNT VBL");
+	consoleNocashMessage("JUST COUNT VBL\r");
 
 	// Now Put in 16 color mode and disable Bgs except current
 	setMode(BG_MODE1,0);  bgSetDisable(1);  bgSetDisable(2);
@@ -25,8 +25,7 @@ int main(void) {
 	setScreenOn();  
 	
 	while(1) {
-		sprintf(messtxt,"FPS=%d\r\n",snes_vblank_count);
-		consoleNocashMessage(messtxt);
+		consoleNocashMessage("FPS=%04d\r\n",(u16) snes_vblank_count);
 		WaitForVBlank();
 	}
 	return 0;

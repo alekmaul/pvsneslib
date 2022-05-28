@@ -1,12 +1,11 @@
-.include "hdr.asm"
+.INCLUDE "hdr.asm"
 
-.section ".libtcc_internal"
+.SECTION ".libtcc_internal"
 
 .accu 16
 .index 16
 .16bit
 
-; multiplication implementation lifted from WDC's "Programming the 65816"
 ; multiplication implementation lifted from WDC's "Programming the 65816"
 tcc__mul:
 	lda #0
@@ -52,27 +51,29 @@ tcc__mull:
 
 
 ; division implementation lifted from WDC's "Programming the 65816"
+; optimized by mic_
 tcc__udiv:
-      stz.b tcc__r9
-      ldy #1
--     asl a
-      bcs +
-      iny
-      cpy #17
-      bne -
-+     ror a
--     pha
-      txa
-      sec
-      sbc 1,s
-      bcc +
-      tax
-+     rol.b tcc__r9
-      pla
-      lsr a
-      dey
-      bne -
-      rtl
+	stz.b tcc__r9
+	ldy #1
+	.repeat 16
+ 	asl a
+	bcs tcc__udiv1
+	iny
+	.endr
+tcc__udiv1:
+ 	ror a
+- 	sta.b tcc__r5
+	cpx tcc__r5     
+	bcc +           
+	txa             
+	sbc.b tcc__r5
+	tax             
++ 	rol.b tcc__r9
+	lda.b tcc__r5 
+	lsr a           
+	dey             
+	bne -           
+	rtl
 
 ; looks like the damn 6502 was designed before negative numbers...
 tcc__div:
@@ -279,19 +280,24 @@ tcc__umoddi3:
       sta.b tcc__r0	; IRET
       rtl
 
+;optimized version by mic_
+;however, it does not seem to be ever called in a fairly large project
 tcc__shldi3:
-      lda.b 4,s ; low word
-      sta.b tcc__r0
-      lda.b 6,s ; hi word
-      sta.b tcc__r1
-      lda.b 8,s	; shift count
-      beq +
-      tax
--     asl.b tcc__r0
-      rol.b tcc__r1
-      dex
-      bne -
-+     rtl
+	lda.b 6,s ; hi word
+	sta.b tcc__r1
+	lda.b 8,s ; shift count
+	beq +
+	tax
+	lda.b 4,s ; low word
+-	asl a
+	rol.b tcc__r1
+	dex
+	bne -
+	sta.b tcc__r0
+	rtl
++	lda.b 4,s ; low word
+	sta.b tcc__r0
+	rtl
 
 tcc__sardi3:
       lda.b 4,s ; low word
@@ -344,7 +350,14 @@ tcc__jsl_ind_r9:
       ldy.w #2
       lda.b [tcc__r9],y
       sta.b tcc__r10h
-      jmp.w tcc__jsl_r10
-
-.ends
+      ;jmp.w tcc__jsl_r10
+      sep #$20
+      lda.b tcc__r10 + 2
+      pha
+      rep #$20
+      lda.b tcc__r10
+      dec a
+      pha
+      rtl
+.ENDS
 

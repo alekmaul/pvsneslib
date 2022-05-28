@@ -67,10 +67,10 @@ int main(void) {
 	
 	// Put current handler to our function
 	spr_queue = 0xff; spr_mutex = 0;
-	__nmi_handler=myconsoleVblank; 
+	nmiSet(myconsoleVblank); 
 
 	// Init Sprites gfx and palette with default size of 16x16 (and don't load sprite tiles)
-	oamInitGfxSet(&gfxpsrite, 2, &palsprite, 16*2, 0, ADRGFXSPR, OBJ_SIZE16);
+	oamInitGfxSet(&gfxpsrite, 2, &palsprite, 16*2, 0, ADRGFXSPR, OBJ_SIZE16_L32);
 
 	// Define sprites parmaters
 	oamSet(0,  100, 100, 3, 0, 0, 0, 0); // Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0
@@ -82,6 +82,8 @@ int main(void) {
 
 	// add new sprite to queue
 	addSprite(&gfxpsrite, ADRGFXSPR);
+
+	padkeya=0;
 	
 	// Wait for nothing :P
 	while(1) {

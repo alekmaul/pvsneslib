@@ -37,7 +37,7 @@
 .equ REG_APUIO1		2141h	; Sound Register			1B/RW
 .define REG_APUIO2		2142h	; Sound Register			1B/RW
 .define REG_APUIO3		2143h	; Sound Register			1B/RW
-;.define REG_SLHV		2137h	; Sofware Latch For H/V Counter		1B/R
+.define REG_SLHV		2137h	; Sofware Latch For H/V Counter		1B/R
 .define REG_OPVCT		213Dh	; Y Scanline Location			1B/R D
 
 .equ REG_NMI_TIMEN	$4200
@@ -68,8 +68,7 @@
 ;zeropage
 ;======================================================================
 
-;.ENUM $40
-.ramsection ".fp" bank 0 slot 1
+.RAMSECTION ".fp" BANK 0 SLOT 1
 spc_ptr:	DS 3
 spc_v:		DS 1
 spc_bank:	DS 1
@@ -87,14 +86,7 @@ digi_src:	DS 3
 digi_src2:	DS 3
 
 SoundTable:	DS 3
-;.ENDE
-;260116.ends
 
-;======================================================================
-;bss
-;======================================================================
-
-;260116.ENUM $0100
 spc_fifo:	DS 256	; 128-byte command fifo
 spc_sfx_next:	DS 1
 spc_q:		DS 1
@@ -105,16 +97,17 @@ digi_vp:	DS 1
 digi_remain:	DS 2
 digi_active:	DS 1
 digi_copyrate:	DS 1
-;260116.ENDE
-.ends
+
+
+.ENDS
 
 ;======================================================================
 ;.segment "RODATA"
 ;======================================================================
 
-.define SPC_BOOT 0400h ; spc entry/load address
+.DEFINE SPC_BOOT 0400h ; spc entry/load address
 
-.section ".soundmod" superfree
+.SECTION ".soundmod" SUPERFREE
 
 ;======================================================================
 ;.code
@@ -949,7 +942,6 @@ spcSetSoundTable:
 	plb
 	plp;alek
 	rtl			; return
-;	rts
 
 ;======================================================================
 spcAllocateSoundRegion:
@@ -1241,6 +1233,10 @@ spcProcessStream:
 digi_rates:
 	.db	0, 3, 5, 7, 9, 11, 13
 
-.ends
+.ENDS
 
-.include "sm_spc.asm"
+; no more compiled with current toolchain as tasm is only windows compatible
+; and we never made some changes in the SPC-700 driver
+.INCLUDE "sm_spc.asm"
+
+

@@ -1,84 +1,32 @@
-# path to snesdev root directory (for emulators, devkitsnes, PVSNESLIB)
-export DEVKITSNES := /c/snesdev/
-
-# path to devkitsnes root directory for compiler
-export DEVKIT65XX := /c/snesdev/devkitsnes
-
-#---------------------------------------------------------------------------------
-.SUFFIXES:
-#---------------------------------------------------------------------------------
-
-ifeq ($(strip $(DEVKIT65XX)),)
-$(error "Please set DEVKIT65XX in your environment. export DEVKIT65XX=<path to>devkit65XX")
+ifeq ($(strip $(PVSNESLIB_HOME)),)
+$(error "Please create an environment variable PVSNESLIB_HOME with path to its folder and restart application. (you can do it on windows with <setx PVSNESLIB_HOME "/c/snesdev">)")
 endif
 
-include $(DEVKIT65XX)/snes_rules
+# BEFORE including snes_rules :
+# list in AUDIOFILES all your .it files in the right order. It will build to generate soundbank file
+AUDIOFILES := overworld.it
+# then define the path to generate soundbank data. The name can be different but do not forget to update your include in .c file !
+export SOUNDBANK := soundbank
 
-#---------------------------------------------------------------------------------
-# TARGET is the name of the output
-# BUILD is the directory where object files & intermediate files will be placed
-# SOURCES is a list of directories containing source code
-# INCLUDES is a list of directories containing extra header files
-#---------------------------------------------------------------------------------
-TARGET		:=	$(shell basename $(CURDIR))
-SOURCES		:=	.
-
-#---------------------------------------------------------------------------------
-# options for code generation
-#---------------------------------------------------------------------------------
-CFLAGS	+=	$(INCLUDE) 
-
-#---------------------------------------------------------------------------------
-# list of directories containing libraries, this must be the top level containing
-# include and lib
-#---------------------------------------------------------------------------------
-LIBDIRS	:=	$(PVSNESLIB)
-LIBOBJS +:=	
- 
-export OUTPUT	:=	$(CURDIR)/$(TARGET)
- 
-CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
-SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.asm)))
-
-export AUDIOFILES :=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.it)))
-
-ifneq ($(AUDIOFILES),)
-ifeq ($(wildcard soundbank.asm),)
-	SFILES		:=	soundbank.asm $(SFILES)
-endif
-endif
-
-#---------------------------------------------------------------------------------
-
-export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
- 
-export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
-					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
-					-I$(CURDIR)/$(BUILD)
-
-SMCONVFLAGS	:= -l -s -o soundbank -v -b 5
-
-GTITLE 		:= -ht"$(TARGET)"
+include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 .PHONY: bitmaps all
  
 #---------------------------------------------------------------------------------
-all	:	bitmaps $(OUTPUT).sfc
-	@echo build !
-	$(SNTOOLS) -hi! $(GTITLE) $(TARGET).sfc
-	sed 's/://' <$(TARGET).sym >$(TARGET).tmp
-	mv $(TARGET).tmp $(TARGET).sym
+# ROMNAME is used in snes_rules file
+export ROMNAME := likemario
 
-clean:
-	@echo clean ...
-	@rm -f $(OFILES) $(TARGET).sfc $(TARGET).sym *.pic *.pal *.map *.clm soundbank.asm soundbank.h mariojump.brr
+# to build musics, define SMCONVFLAGS with parameters you want
+SMCONVFLAGS	:= -s -o $(SOUNDBANK) -v -b 5
+musics: $(SOUNDBANK).obj
 
+all: musics mariojump.brr bitmaps $(ROMNAME).sfc
+
+clean: cleanBuildRes cleanRom cleanGfx cleanAudio
+	@rm -f *.clm mariojump.brr
+		
 #---------------------------------------------------------------------------------
-soundbank.asm : $(AUDIOFILES)
-	@echo Compiling Soundbank ... 
-	@$(SMCONV) $(SMCONVFLAGS) $^
 
-#---------------------------------------------------------------------------------
 mario_sprite.pic: mario_sprite.bmp
 	@echo convert sprites ... $(notdir $@)
 	$(GFXCONV) -gs16 -pc16 -po16 -n $<
@@ -91,7 +39,4 @@ mariofont.pic: mariofont.bmp
 	@echo convert font with no tile reduction ... $(notdir $@)
 	$(GFXCONV) -pc16 -n -gs8 -po2 -pe1 -mR! -m $<
 	
-bitmaps : soundbank.asm mariojump.brr map_1_1.pic mariofont.pic map_1_1_col.clm mario_sprite.pic
-
-#---------------------------------------------------------------------------------
-$(OUTPUT).sfc	: $(OFILES)
+bitmaps : map_1_1.pic mariofont.pic map_1_1_col.clm mario_sprite.pic

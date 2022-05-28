@@ -1,23 +1,39 @@
-export PATH := /c/MinGW32/bin/:$(PATH)
-
-VERSION = "2.0.1"
+VERSION = "2.4.1"
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-CC=gcc
-CFLAGS=-g -O2 -Wall -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-SOURCES=gfx2snes.c lzss.c lodepng.c
-OBJS=gfx2snes.o  lzss.o lodepng.o
-EXE=gfx2snes.exe
+cpu_sys=$(shell uname -m)
+
+CC=gcc
+
+
+CFLAGS=-g -O2
+#-m32 flag is not supported by gcc on arm architecture
+ifneq ($(findstring arm,$(cpu_sys)),arm)
+CFLAGS+=-m32
+endif
+CFLAGS+=-Wall -Wno-unused-result -Wno-incompatible-pointer-types -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+
+SOURCES=gfx2snes.c lzss.c lodepng.c loadimg.c imgtools.c
+OBJS=gfx2snes.o  lzss.o lodepng.o loadimg.o imgtools.o
+EXE=gfx2snes
 DEFINES =
 LIBS =
-#---------------------------------------------------------------------------------
-all: $(EXE)
+
+ifeq ($(OS),Windows_NT)
+        EXT=.exe
+else
+        EXT=
+endif
+
 
 #---------------------------------------------------------------------------------
-$(EXE) : $(OBJS)
+all: $(EXE)$(EXT)
+
+#---------------------------------------------------------------------------------
+$(EXE)$(EXT) : $(OBJS)
 	@echo make exe $(notdir $<)
 	$(CC) $(CFLAGS) $(OBJS) -o $@
 
@@ -32,9 +48,18 @@ lzss.o : lzss.c
 lodepng.o : lodepng.c
 	@echo make obj $(notdir $<)
 	$(CC) $(CFLAGS) -c $<
+
+loadimg.o : loadimg.c
+	@echo make obj $(notdir $<)
+	$(CC) $(CFLAGS) -c $<
+
+imgtools.o : imgtools.c
+	@echo make obj $(notdir $<)
+	$(CC) $(CFLAGS) -c $<
 	
 #---------------------------------------------------------------------------------
 clean:
-	rm -f *.o *.exe *.tds
+	rm -f $(EXE)$(EXT) $(OBJS) *.tds
 
-
+install:
+	mkdir -p ../../devkitsnes/tools && cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)

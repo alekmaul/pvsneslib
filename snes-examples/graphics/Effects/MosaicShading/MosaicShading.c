@@ -28,7 +28,7 @@ int main(void) {
 	setScreenOn();
 	
 	// Wait for a key
-	scanPads(); while (!padsCurrent(0)) scanPads(); 
+	while (!padsCurrent(0)); 
 	
 	// Now just play withj effects :P
 	while(1) {
@@ -42,13 +42,13 @@ int main(void) {
 		WaitForVBlank();
 		while (!padsCurrent(0)) ;
 
-		// And now restore screen to normal
-		setMosaicEffect(MOSAIC_IN,MOSAIC_BG1);
+		// Now do some big pixels 
+		setMosaicEffect(MOSAIC_OUT,MOSAIC_BG1);
 		WaitForVBlank();
 		while (!padsCurrent(0)) ;
 
-		// Now do some big pixels 
-		setMosaicEffect(MOSAIC_OUT,MOSAIC_BG1);
+		// And now restore screen to normal
+		setMosaicEffect(MOSAIC_IN,MOSAIC_BG1);
 		WaitForVBlank();
 		while (!padsCurrent(0)) ;
 	}

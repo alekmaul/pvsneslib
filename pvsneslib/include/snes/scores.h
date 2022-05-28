@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-	Copyright (C) 2012-2013
+	Copyright (C) 2012-2020
 		Alekmaul
 
 
@@ -54,5 +54,12 @@ void scoreAdd(scoMemory *source, u16 value);
 	\param dest the destination to copy to
 */
 void scoreCpy(scoMemory *source, scoMemory *dest);
+
+/*! \brief comapre a score memory to another score memory
+	\param source the source to compare from
+	\param dest the destination to compare to
+	\return	0 if equals, 0xFF if source greater than destination, 1 otherwise
+*/
+u8 scoreCmp(scoMemory *source, scoMemory *dest);
 
 #endif //SNES_SCORE_INCLUDE

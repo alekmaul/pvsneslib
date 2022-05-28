@@ -1,6 +1,6 @@
 .include "hdr.asm"
 
-.section ".rodata1" superfree
+.section ".rosprite" superfree
 
 gfxpsrite:
 .incbin "sprites.pic"

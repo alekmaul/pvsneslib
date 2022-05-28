@@ -1,0 +1,32 @@
+CC = gcc
+CPP = $(CC) -E
+CXX = g++
+WINDRES = windres
+RM = rm -f
+
+CFLAGS = -Os -fomit-frame-pointer -fforce-addr -falign-jumps -falign-functions -fno-guess-branch-probability -Wall -Wextra -Winline -Wno-shift-negative-value --param inline-unit-growth=350 -finline-limit=3500 -Wno-unused -pedantic -ffunction-sections -fdata-sections -fpermissive
+CXXFLAGS = $(CFLAGS)
+CPPFLAGS = -DNDEBUG
+LDFLAGS = -s -Wl,--gc-sections
+ARFLAGS = -rcU
+
+
+/make_dep/ = @echo "Making Dependency File $@"; $(CC) $(CPPFLAGS) -MM -MG -MP -MT "$(@:.d=.o) $@" $< -MF $@
+
+%.c :
+%.c.d : %.c
+	$(/make_dep/)
+%.c.o : %.c
+	@echo "Compiling $<"; $(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+%.cpp :
+%.cpp.d : %.cpp
+	$(/make_dep/)
+%.cpp.o : %.cpp
+	@echo "Compiling $<"; $(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+
+%.rc :
+%.rc.d :
+%.rc.o : %.rc
+	@echo "Compiling $<"; $(WINDRES) -i $< --input-format=rc -o $@ -O coff
+

@@ -206,58 +206,61 @@ typedef struct dmaMemory {
 #define REG_DAS6LH	(*(vuint16*)0x4365)
 #define REG_DAS7LH	(*(vuint16*)0x4375)
 
-/*! \brief copy data from source to destination using channel 0 of DMA available channels in half words  
+extern u8 HDMATable16[224+1]; /*!< \brief HDMA table accessible to change values */
+
+/*! \fn  dmaCopyCGram(u8 * source, u16 address, u16 size)
+    \brief copy data from source to destination using channel 0 of DMA available channels in half words  
 	\param source the source to copy from
 	\param address cgram address to copy
 	\param size the size in bytes of the data to copy.  
 */
 void dmaCopyCGram(u8 * source, u16 address, u16 size);
 
-/*! \brief copy data from source to destination using channel 0 of DMA available channels in half words  
+/*! \fn  dmaCopyVram(u8 * source, u16 address, u16 size)
+    \brief copy data from source to destination using channel 0 of DMA available channels in half words  
 	\param source the source to copy from
 	\param address vram address to copy
 	\param size the size in bytes of the data to copy.  
 */
 void dmaCopyVram(u8 * source, u16 address, u16 size);
 
-/*! \brief copy sprite 32pix size data from source to destination using channel 0 of DMA available channels in half words  
+/*! \fn  dmaCopySpr32Vram(u8 * source, u16 address)
+    \brief copy sprite 32pix size data from source to destination using channel 0 of DMA available channels in half words  
 	\param source the source to copy from
 	\param address vram address to copy
 */
 void dmaCopySpr32Vram(u8 * source, u16 address);
 
-/*! \brief copy sprite 16pix size data from source to destination using channel 0 of DMA available channels in half words  
+/*! \fn  dmaCopySpr16Vram(u8 * source, u16 address)
+    \brief copy sprite 16pix size data from source to destination using channel 0 of DMA available channels in half words  
 	\param source the source to copy from
 	\param address vram address to copy
 */
 void dmaCopySpr16Vram(u8 * source, u16 address);
 
-/*! \brief fill the source data to destination using channel 0 of DMA available channels in half words  
+/*! \fn  dmaFillVram(u8 * source, u16 address, u16 size)
+    \brief fill the source data to destination using channel 0 of DMA available channels in half words  
 	\param source the value of source to copy from
 	\param address vram address to copy
 	\param size the size in bytes of the data to copy.  
 */
-void dmaFillVram(u8 source, u16 address, u16 size);
+void dmaFillVram(u8 * source, u16 address, u16 size);
 
-/*! \brief clear all vram data with #0  
+/*! \fn  dmaClearVram(void)
+    \brief clear all vram data with #0  
 */
 void dmaClearVram(void);
 
-/*! \brief copies Palette from source to destination using channel 0 of DMA available channels in half words  
-	\param source the source to copy from
-	\param address vram address to copy
-	\param size the size in bytes of the data to copy.  
-*/
-void dmaCopyCGram(u8 * source, u16 address, u16 size);
-
-/*! \brief copies Sprites from source to destination using channel 0 of DMA available channels in half words  
+/*! \fn  dmaCopyOAram(u8 *source, u16 address, u16 size)
+    \brief copies Sprites from source to destination using channel 0 of DMA available channels in half words  
 	\param source the source to copy from
 	\param address vram address to copy
 	\param size the size in bytes of the data to copy.  
 */
 void dmaCopyOAram(u8 *source, u16 address, u16 size);
 
-/*! \brief copies data from source to destination using channel 0 of DMA available channels in half words with VMAIN value
+/*! \fn  dmaCopyVram7(u8 *source, u16 address, u16 size, u8 vrammodeinc, u16 dmacontrol)
+    \brief copies data from source to destination using channel 0 of DMA available channels in half words with VMAIN value
 	\param source the source to copy from
 	\param address vram address to copy
 	\param size the size in bytes of the data to copy.  
@@ -266,10 +269,30 @@ void dmaCopyOAram(u8 *source, u16 address, u16 size);
 */
 void dmaCopyVram7(u8 *source, u16 address, u16 size, u8 vrammodeinc, u16 dmacontrol);
 
-/*! \brief Do a brightness gradient on screen
+/*! \fn  setModeHdmaGradient(u8 maxLevels)
+    \brief Do a brightness gradient on screen
 	\param maxLevels value between 1..15 for the maximum level of brightness (15=light, 1=near dark) 
 */
 void setModeHdmaGradient(u8 maxLevels);
 
+/*! \fn  setModeHdmaShadeUpDown(void)
+    \brief Do a brightness gradient from up/down to center of the screen
+*/
+void setModeHdmaShadeUpDown(void);
+
+/*! \fn  setModeHdmaShading(unsigned char mode)
+    \brief Do a shading effect on screen
+	\param mode value 0 disactivate 1, other value activate it
+*/
+void setModeHdmaShading(unsigned char mode);
+
+/*! \fn  setParallaxScrolling(u8 bgrnd)
+    \brief Do a parallax scrolling effect on screen
+    \brief use HDMATable16 variable to store scrolling value 
+    \brief each entry is number of lines (8bits) and scrolling value 16 bits (low & high)
+    \brief WARNING : no more than 112 values and last value MUST be $0000
+	\param bgrnd background for the parallax scrolling  (value 0..2)
+*/
+void setParallaxScrolling(u8 bgrnd);
 
 #endif //SNES_DMA_INCLUDE

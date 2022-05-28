@@ -1,6 +1,6 @@
-.include "hdr.asm"
+.INCLUDE "hdr.asm"
 
-.section ".libc_mem" superfree
+.SECTION ".libc_mem" SUPERFREE
 
 .accu 16
 .index 16
@@ -342,8 +342,9 @@ strrchr:
       sta.b tcc__r0
       rtl
 
-.ends
-.section ".libc_misc"
+.ENDS
+
+.SECTION ".libc_misc"
 .accu 16
 .index 16
 
@@ -401,9 +402,9 @@ longjmp:
       sta.b 3,s
       rtl
 
-.ends
+.ENDS
 
-.section ".libc_cstd"
+.SECTION ".libc_cstd"
 
 .accu 16
 .index 16
@@ -436,7 +437,7 @@ abs:
 exitl4:
       stp
 
-.ends
+.ENDS
 
 .include "libc_c.asm"
 
@@ -445,9 +446,11 @@ exitl4:
 .include "dmas.asm"
 .include "interrupts.asm"
 .include "lzsss.asm"
+.include "maps.asm"
+.include "objects.asm"
 .include "pads.asm"
-;.include "pixels.asm"
 .include "scores.asm"
 .include "snesmodwla.asm"
+.include "sounds.asm"
 .include "sprites.asm"
 .include "videos.asm"
