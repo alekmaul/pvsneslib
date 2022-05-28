@@ -17,6 +17,6 @@ clean: cleanBuildRes cleanRom cleanGfx
 #---------------------------------------------------------------------------------
 pvsneslib.pic: pvsneslib.png
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -pc16 -n -gs16 -pe0 -m5 -fpng $<
+	$(GFXCONV) -pc16 -n -gs16 -pe0 -fpng -m5 $<
 
 bitmaps : pvsneslib.pic
