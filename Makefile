@@ -1,5 +1,13 @@
-
 # do not forget that to build pvsneslib, you have to install compiler and tools first !
+
+# create version number
+export PVSNESLIB_MAJOR	:= 3
+export PVSNESLIB_MINOR	:= 5
+export PVSNESLIB_PATCH	:= 0
+
+VERSION	:=	$(PVSNESLIB_MAJOR)-$(PVSNESLIB_MINOR)-$(PVSNESLIB_PATCH)
+
+#---------------------------------------------------------------------------------
 all:
 	cd compiler && \
 	make && \
@@ -16,7 +24,6 @@ all:
 	echo Build finished successfully ! && \
 	echo
 
-
 clean:
 	cd compiler ; \
 	make clean ; \
@@ -30,7 +37,8 @@ clean:
 	cd ../../snes-examples ; \
 	make clean ; \
 	rm -rf release
-	
+
+#---------------------------------------------------------------------------------	
 # to create the release version for github containing binaries and all snes-examples :
 doxygenInstalled := $(shell command -v doxygen 2> /dev/null)
 release: all
@@ -46,7 +54,7 @@ endif
 	cp pvsneslib/pvsneslib_license.txt release/pvsneslib/pvsneslib/pvsneslib_license.txt && \
 	cp pvsneslib/pvsneslib_snesmod.txt release/pvsneslib/pvsneslib/pvsneslib_snesmod.txt && \
 	cp -r snes-examples release/pvsneslib/snes-examples && \
-	cd release && zip -r -m pvsneslib.zip pvsneslib && \
+	cd release && zip -r -m pvsneslib-$(VERSION).zip pvsneslib && \
 	echo && echo Release created successfully ! && echo
 
 .PHONY: all
