@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------
-  Copyright (C) 2012-2020
+  Copyright (C) 2012-2022
    Alekmaul
 
   This software is provided 'as-is', without any express or implied
@@ -21,6 +21,13 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
+V3.5.0 (28, May, 2022)
+- Add 32 bit supports for variables
+- Clean up a few weird sounding sentences in README (thanks  mattbruv)
+- Use +18 tile palette # from from stack (thanks cyraid)
+- Improvements to have linux version (thanks RetroAntho)
+- Remove template example, useless
+
 V3.4.0 (19, June, 2021)
 - Add va_list to consoleNocashMessage function
 - Rename RGB8 to RGB24 to have the same behavior than RGB5

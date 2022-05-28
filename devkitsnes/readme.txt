@@ -28,11 +28,22 @@ SPECIAL THANKS
                
 CHANGE LOG
 ----------------------
+VERSION 3.50 (28, May, 2022)
+- Add romsize update in snestools
+- Fix country value update in snestools
+- Add palette entry for map engine in gfx2snes
+- Correct extra qualification on member error in smconv (thanks KungFuFurby)
+- Add ARM compatibility (thanks RetroAntho)
+- Improvements to have linux version (thanks RetroAntho)
+- Clean up repository with useless files (thanks RetroAntho)
+- Upgrade wla-dx to last version (thanks RetroAntho)
+- Symplify build system (thanks RetroAntho)
+
 VERSION 3.40 (19, June, 2021)
 - Add map management in gfx2snes
 - Remove dummy data section in 816-tcc
 - No more sm_spc (SPC700 driver) compilation
-  For reming purpose, here is how to compile it :
+  For reminding purpose, here is how to compile it :
     sm_spc.asm : ../snesmod/sm_spc.as7
         $(TA) -07 -b -l $< sm_spc.obj sm_spc.lst
         $(TXCONV) -ca sm_spc.obj
