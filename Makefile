@@ -49,7 +49,7 @@ endif
     grep _PVSNESLIB_STRING pvsneslib/include/snes/libversion.h > pvsneslib/pvsneslib_version.txt && \
     cp pvsneslib/pvsneslib_version.txt release/pvsneslib/pvsneslib/pvsneslib_version.txt && \
 	cp -r snes-examples release/pvsneslib/snes-examples && \
-	cd release && zip -r -m pvsneslib.zip pvsneslib && \
+	cd release && zip -r -m pvsneslib_32b_windows.zip pvsneslib && \
 	echo && echo Release created successfully ! && echo
 
 .PHONY: all
