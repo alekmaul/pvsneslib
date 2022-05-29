@@ -1,12 +1,5 @@
 # do not forget that to build pvsneslib, you have to install compiler and tools first !
 
-# create version number
-export PVSNESLIB_MAJOR	:= 3
-export PVSNESLIB_MINOR	:= 5
-export PVSNESLIB_PATCH	:= 0
-
-VERSION	:=	$(PVSNESLIB_MAJOR)-$(PVSNESLIB_MINOR)-$(PVSNESLIB_PATCH)
-
 #---------------------------------------------------------------------------------
 all:
 	cd compiler && \
@@ -53,7 +46,7 @@ endif
 	cp pvsneslib/PVSnesLib_Logo.png release/pvsneslib/pvsneslib/PVSnesLib_Logo.png && \
 	cp pvsneslib/pvsneslib_license.txt release/pvsneslib/pvsneslib/pvsneslib_license.txt && \
 	cp pvsneslib/pvsneslib_snesmod.txt release/pvsneslib/pvsneslib/pvsneslib_snesmod.txt && \
-    echo -e "version "$(VERSION) > pvsneslib/pvsneslib_version.txt && \
+    grep _PVSNESLIB_STRING pvsneslib/include/snes/libversion.h > pvsneslib/pvsneslib_version.txt && \
     cp pvsneslib/pvsneslib_version.txt release/pvsneslib/pvsneslib/pvsneslib_version.txt && \
 	cp -r snes-examples release/pvsneslib/snes-examples && \
 	cd release && zip -r -m pvsneslib.zip pvsneslib && \
