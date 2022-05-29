@@ -4,8 +4,9 @@ endif
  
 export TOPDIR	:=	$(CURDIR)
 
+# create version number
 export PVSNESLIB_MAJOR	:= 3
-export PVSNESLIB_MINOR	:= 4
+export PVSNESLIB_MINOR	:= 5
 export PVSNESLIB_PATCH	:= 0
 
 VERSION	:=	$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
