@@ -4,7 +4,7 @@
 
 **PVSnesLib** (**P**rogrammer **V**aluable **Snes** **Lib**rary) is an open and free library to develop programs for the Nintendo SNES using the C programming language.
 
-The first release was done in April 2012, for the 20th anniversary of the SNES. It is based on Ulrich Hecht works (<a href="http://code.google.com/p/snes-sdk/">)SNES Sdk.
+The first release was done in April 2012, for the 20th anniversary of the SNES. It is based on Ulrich Hecht works <a href="http://code.google.com/p/snes-sdk/">(SNES Sdk).
 
 It contains a snes-sdk compiler / linker and a library (sources included) which offer facilities to use backgrounds / sprites / pads / music & sound on the Nintendo SNES system. 
 It also contains examples which demonstrate how to use the functions in the library.  
