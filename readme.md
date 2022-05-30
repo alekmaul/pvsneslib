@@ -50,15 +50,12 @@ PVSneslib and affiliated tools are distributed under the MIT license (see pvsnes
 
 # Special Thanks #
 
--RetroAntho (https://github.com/RetroAntho) for his great help to move wla-dx to last version  
-   and also for all compilation optimizations in Makefile, snes_rules  
-   and, at least, for keeping me motivated to update PVSnesLib ;)  
+-RetroAntho (https://github.com/RetroAntho) for his great help to move wla-dx to last version and also for all compilation optimizations in Makefile, snes_rules and, at least, for keeping me motivated to update PVSnesLib ;)  
 -Ulrich Hecht for SNES C SDK: http://code.google.com/p/snes-sdk/  
 -Byuu for bass - assembler with SPC700 support: http://byuu.org/programming/  
--Mic_ for 816-tcc, sixpack, optimore, constify: http://jiggawatt.org/badc0de/sixpack/ and   
-    http://jiggawatt.org/optimore-816r2.zip  
+-Mic_ for 816-tcc, sixpack, optimore, constify: http://jiggawatt.org/badc0de/sixpack/ and http://jiggawatt.org/optimore-816r2.zip  
 -Neviksti for pcx2snes: <no URL>  
-  Shiru for snesbmp idea & sound tools: http://shiru.untergrund.net/  
+-Shiru for snesbmp idea & sound tools: http://shiru.untergrund.net/  
 -Mukunda for smconv tool: http://snes.mukunda.com/  
 -RedBug for constify tcc bug fix and tips for Linux and Docker  
 -mills32 (https://github.com/mills32) for his mode7 3D example  
