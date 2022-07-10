@@ -39,6 +39,7 @@
 .DEFINE T_LADDE				$0001
 .DEFINE T_FIRES				$0002
 .DEFINE T_SPIKE				$0004
+.DEFINE T_PLATE				$0008
 
 .DEFINE ACT_WALK			$0001
 .DEFINE ACT_JUMP			$0002
@@ -88,7 +89,9 @@ tempo	        DB			                ; 49 if object needs tempo
 count           DB				            ; 50 if object needs a counter
 dir             DB				            ; 51 if object needs to manage direction
 
-objnotused      DSB 12                      ; OB_SIZE-51-1 for future use
+parentID		DW                          ; 52 obj ID of parent (useful for projectiles) 
+
+objnotused      DSB 10                      ; OB_SIZE-51-1 for future use
 
 .ENDST
 
@@ -828,6 +831,8 @@ _oicm21:
     lda objbuffers.1.tilesprop,x
     cmp #T_LADDE										; if ladder, well avoid doing stuffs
 	beq _oicm3
+	cmp #T_PLATE										; if on a plate, do same thing
+	beq _oicm3
 
     cmp #T_FIRES                                        ; if fire, player is burning
     bne _oicm22
@@ -1332,7 +1337,7 @@ objCollidObj:
     lda #$7e
     pha
     plb
-	
+
 	rep #$20												
 	stz.w tcc__r0                                       ; no collision yet
 
@@ -1396,7 +1401,7 @@ _oicor4:
 	sta objtmp4
 
 	cmp objtmp3
-	bcs _oicor5
+	bcs _oicoend
 	adc objbuffers.1.height,x
 	cmp objtmp3
 	bmi _oicoend
@@ -1408,7 +1413,7 @@ _oicor4:
 	bmi _oicoend
 	
 	lda #$0001                                         ; here, we have collsion
-	sta.w objcollide
+	sta.w tcc__r0
 	
 _oicoend:
 

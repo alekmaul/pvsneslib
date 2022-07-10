@@ -75,7 +75,9 @@ typedef struct {
     u8 count;             				            // 50 if object needs a counter
     u8 dir;               				            // 51 if object needs to manage direction
 
-    u8 objnotused[12];                              // OB_SIZE-51-1 for future use
+    u16 parentID;            			            // 52 obj ID of parent (useful for projectiles) 
+
+    u8 objnotused[10];                              // OB_SIZE-51-1 for future use
 } t_objs __attribute__((__packed__));               // seems to do nothing :/
 
 extern u16 objptr; /*!< \brief pointer to current object */
@@ -105,7 +107,6 @@ void objInitFunctions(u8 objtype, void *initfct,void *updfct);
     \brief x,y are coordinates of object,
     \brief type if the type of the object (maximum 32 types)
     \brief minx,maxx are the coordinates of minimum & maxinmum possible on x
-    \brief miny,maxy are the coordinates of minimum & maxinmum possible on y
     \brief the last four parameters are useful to do some actions where minimum or maximum is reached
     \brief The table needs to finish with FFFF to indicate that no more objects are availables
     \param sourceO table of objects
