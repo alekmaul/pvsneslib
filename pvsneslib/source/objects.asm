@@ -1401,11 +1401,12 @@ _oicor4:
 	sta objtmp4
 
 	cmp objtmp3
-	bcs _oicoend
+	bcs _oicor5
 	adc objbuffers.1.height,x
 	cmp objtmp3
 	bmi _oicoend
 	
+_oicor5:
 	lda objtmp3
 	clc 
 	adc objbuffers.1.height,y
