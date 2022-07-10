@@ -49,6 +49,10 @@
 #define ACT_DIE				0x0010      /*!< \brief Action type DIE for object */
 #define ACT_BURN			0x0020      /*!< \brief Action type BURN for object */
 
+extern u16 bg_L1[32*32]; /*!< \brief The buffer to use when updating the whole display on layer 1 */
+
+extern u8 mapupdbuf; /*!< \brief State of buffer update (vert / horiz / all) */
+
 extern u16 x_pos,y_pos; /*!< \brief Current value of camera in x & y coordinates */
 
 /*!	\fn mapLoad(u8 *layer1map, u8 *layertiles, u8 *tilesprop)
