@@ -90,8 +90,9 @@ count           DB				            ; 50 if object needs a counter
 dir             DB				            ; 51 if object needs to manage direction
 
 parentID		DW                          ; 52 obj ID of parent (useful for projectiles) 
+hitpoints		DB                          ; 54 obj ID of parent (useful for projectiles) 
 
-objnotused      DSB 10                      ; OB_SIZE-51-1 for future use
+objnotused      DSB 9                       ; OB_SIZE-54-1 for future use
 
 .ENDST
 
@@ -762,7 +763,10 @@ _oicm1:
     adc objbuffers.1.yofs,x
     clc
     adc objbuffers.1.height,x
-    lsr a
+	bpl + 												; if y<0, put it to 0 
+	lda #0000
+
++   lsr a
     lsr a
     and	#$FFFE
     tay
@@ -914,7 +918,10 @@ _oicmtstyn:
     adc	objbuffers.1.ypos+1,x
     clc
     adc objbuffers.1.yofs,x
-    lsr a
+	bpl +     												; if y < 0, put it to 0 
+	lda #0000
+
++	lsr a
     lsr a
 	and	#$FFFE
 	tay
@@ -1038,7 +1045,10 @@ _oicmtstx12:
 	lda objbuffers.1.ypos+1,x
 	clc
 	adc objbuffers.1.yofs,x
-	pha
+	bpl +     											 ; if y < 0, put it to 0 
+	lda #0000
+
++	pha
 	
     and	#$0007
     clc
@@ -1132,7 +1142,10 @@ _oicmtstxna:
     lda objbuffers.1.ypos+1,x
     clc
     adc objbuffers.1.yofs,x
-    pha
+	bpl +     											  ; if y < 0, put it to 0 
+	lda #0000
+
++   pha
 
     and	#$0007
     clc
