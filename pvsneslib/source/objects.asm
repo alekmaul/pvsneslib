@@ -638,7 +638,7 @@ _oiual3:
 
     cmp.w #OB_SCR_XRR_CHK
     bcc _oiual3y                                        ; x is lower than max
-    cmp.w #OB_SCR_XRR_CHK
+    cmp.w #OB_SCR_XLR_CHK
     bcs _oiual3y1                                       ; but x is greater than min
 
 _oiual3y:                                               ; check now y coordinates
