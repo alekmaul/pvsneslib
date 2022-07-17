@@ -639,7 +639,7 @@ _oiual3:
     cmp.w #OB_SCR_XRR_CHK
     bcc _oiual3y                                        ; x is lower than max
     cmp.w #OB_SCR_XLR_CHK
-    bcs _oiual3y1                                       ; but x is greater than min
+    bcc _oiual3y1                                       ; but x is lower than min
 
 _oiual3y:                                               ; check now y coordinates
     lda objbuffers.1.ypos+1,x
