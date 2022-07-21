@@ -77,8 +77,9 @@ typedef struct {
 
     u16 parentID;            			            // 52 obj ID of parent (useful for projectiles) 
 	u8 hitpoints;               				    // 54 if object needs to manage direction
+	u8 sprrefresh;               				    // 55 if object needs sprite to be refresh
 
-    u8 objnotused[9];                              // OB_SIZE-54-1 for future use
+    u8 objnotused[8];                              // OB_SIZE-55-1 for future use
 } t_objs __attribute__((__packed__));               // seems to do nothing :/
 
 extern u16 objptr; /*!< \brief pointer to current object */

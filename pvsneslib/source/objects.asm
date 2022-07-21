@@ -90,9 +90,10 @@ count           DB				            ; 50 if object needs a counter
 dir             DB				            ; 51 if object needs to manage direction
 
 parentID		DW                          ; 52 obj ID of parent (useful for projectiles) 
-hitpoints		DB                          ; 54 obj ID of parent (useful for projectiles) 
+hitpoints		DB                          ; 54 number of hit points of object
+sprrefresh		DB               			; 55 if object needs sprite to be refresh
 
-objnotused      DSB 9                       ; OB_SIZE-54-1 for future use
+objnotused      DSB 8                       ; OB_SIZE-55-1 for future use
 
 .ENDST
 
