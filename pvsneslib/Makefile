@@ -4,15 +4,16 @@ endif
  
 export TOPDIR	:=	$(CURDIR)
 
+# create version number
 export PVSNESLIB_MAJOR	:= 3
-export PVSNESLIB_MINOR	:= 4
+export PVSNESLIB_MINOR	:= 5
 export PVSNESLIB_PATCH	:= 0
 
 VERSION	:=	$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
 
 .PHONY: release clean all docs
 
-all: include/snes/libversion.h release docs
+all: include/snes/libversion.h pvsneslibversion release docs
 
 #-------------------------------------------------------------------------------
 release: lib
@@ -29,6 +30,7 @@ clean:
 #-------------------------------------------------------------------------------
 	make -C source clean
 	rm -rf docs
+	rm -f pvsneslib_version.txt
 
 #---------------------------------------------------------------------------------
 doxygenInstalled := $(shell command -v doxygen 2> /dev/null)
@@ -56,3 +58,7 @@ include/snes/libversion.h : Makefile
 	@echo '#define _PVSNESLIB_STRING "PVSnesLib Release '$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)'"' >> $@
 	@echo >> $@
 	@echo "#endif // __PVSNESLIBVERSION_H__" >> $@
+
+# to ease installation for users, the version is no more in folder name (which require to update pvsneslib_home) but in specific file
+pvsneslibversion:
+	@echo $(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH) > pvsneslib_version.txt
