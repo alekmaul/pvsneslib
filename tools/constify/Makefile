@@ -4,7 +4,7 @@ VERSION = "4.0.0"
 # options for code generation
 #---------------------------------------------------------------------------------
 CC=g++
-CFLAGS=-g -O2 -Wall -Wno-literal-suffix -Wno-overflow -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+CFLAGS=-g -O2 -Wall -Wno-literal-suffix -Wno-overflow -static -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 SOURCES=constify.cpp
 OBJS=constify.o

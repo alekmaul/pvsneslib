@@ -21,7 +21,7 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
-V3.5.0 (28, May, 2022)
+V3.5.0 (29, May, 2022)
 - Add 32 bit supports for variables
 - Clean up a few weird sounding sentences in README (thanks  mattbruv)
 - Use +18 tile palette # from from stack (thanks cyraid)

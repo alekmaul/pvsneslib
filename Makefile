@@ -1,12 +1,5 @@
 # do not forget that to build pvsneslib, you have to install compiler and tools first !
 
-# create version number
-export PVSNESLIB_MAJOR	:= 3
-export PVSNESLIB_MINOR	:= 5
-export PVSNESLIB_PATCH	:= 0
-
-VERSION	:=	$(PVSNESLIB_MAJOR)-$(PVSNESLIB_MINOR)-$(PVSNESLIB_PATCH)
-
 #---------------------------------------------------------------------------------
 all:
 	cd compiler && \
@@ -38,12 +31,30 @@ clean:
 	make clean ; \
 	rm -rf release
 
+
+# requirements to launch the "release" rule
+doxygenInstalled := $(shell command -v doxygen 2> /dev/null)
+operatingSystem=
+ifeq ($(OS),Windows_NT)
+operatingSystem=windows
+else
+ifneq (,$(wildcard /etc/os-release))
+include /etc/os-release
+# convert to lower case the result
+operatingSystem=linux_$(shell echo $(NAME) | tr A-Z a-z)
+else
+$(error "/etc/os-release file does not exist to detect your operating system, please update the code to continue")
+endif
+endif
+
 #---------------------------------------------------------------------------------	
 # to create the release version for github containing binaries and all snes-examples :
-doxygenInstalled := $(shell command -v doxygen 2> /dev/null)
 release: all
 ifndef doxygenInstalled
 	$(error "doxygen is not installed but is mandatory to create the release version.")
+endif
+ifeq ($(operatingSystem),)
+	$(error "Unable to detect your operating system to create the release version.")
 endif
 	rm -rf release && mkdir -p release/pvsneslib && \
 	cp -r devkitsnes release/pvsneslib/devkitsnes && \
@@ -53,10 +64,9 @@ endif
 	cp pvsneslib/PVSnesLib_Logo.png release/pvsneslib/pvsneslib/PVSnesLib_Logo.png && \
 	cp pvsneslib/pvsneslib_license.txt release/pvsneslib/pvsneslib/pvsneslib_license.txt && \
 	cp pvsneslib/pvsneslib_snesmod.txt release/pvsneslib/pvsneslib/pvsneslib_snesmod.txt && \
-    echo -e "version "$(VERSION) > pvsneslib/pvsneslib_version.txt && \
     cp pvsneslib/pvsneslib_version.txt release/pvsneslib/pvsneslib/pvsneslib_version.txt && \
 	cp -r snes-examples release/pvsneslib/snes-examples && \
-	cd release && zip -r -m pvsneslib.zip pvsneslib && \
+	cd release && zip -r -m pvsneslib_32b_$(operatingSystem).zip pvsneslib && \
 	echo && echo Release created successfully ! && echo
 
 .PHONY: all

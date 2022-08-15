@@ -28,7 +28,7 @@ SPECIAL THANKS
                
 CHANGE LOG
 ----------------------
-VERSION 3.50 (28, May, 2022)
+VERSION 3.50 (29, May, 2022)
 - Add romsize update in snestools
 - Fix country value update in snestools
 - Add palette entry for map engine in gfx2snes
