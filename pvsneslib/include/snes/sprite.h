@@ -43,21 +43,20 @@
 #define OBJ_SIZE16_L64	(4<<5) /*!< \brief default OAM size 16x16 (SM) and 64x64 (LG) pix for OBJSEL register */
 #define OBJ_SIZE32_L64	(5<<5) /*!< \brief default OAM size 32x32 (SM) and 64x64 (LG) pix for OBJSEL register */
 
-#define OBJ_SMALL	(0)
-#define OBJ_LARGE	(1)
-#define OBJ_SHOW	(0)
-#define OBJ_HIDE	(1)
+#define OBJ_SMALL		(0)
+#define OBJ_LARGE		(1)
+#define OBJ_SHOW		(0)
+#define OBJ_HIDE		(1)
 
-// Attribute 1 consists of 9 bits of X plus the following flags:
-/*
-#define ATTR1_ROTDATA(n)      ((n)<<9)  // note: overlaps with flip flags
-#define ATTR1_FLIP_X          (1<<12)
-#define ATTR1_FLIP_Y          (1<<13)
-#define ATTR1_SIZE_8          (0<<14)
-#define ATTR1_SIZE_16         (1<<14)
-#define ATTR1_SIZE_32         (2<<14)
-#define ATTR1_SIZE_64         (3<<14)
-*/
+/*!	\brief Dynamic sprite definition */
+typedef struct {
+	s16 oamx;										/*!< 0 x position on the screen  */
+	s16 oamy;										/*!< 2 y position on the screen  */
+	u16 oamframeid;									/*!< 4 frame index in graphic file of the sprite  */
+	u8  oamattribute;								/*!< 6 sprite attribute value (vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num)  */
+	u8  oamrefresh;									/*!< 7 =1 if we need to load graphics from graphic file  */
+    u8* oamgraphics;								/*!< 8..11 pointer to graphic file  */
+} t_sprites __attribute__((__packed__));            /*!< seems to do nothing */
 
 /*!	\brief Sprite definition : OAM entry for DMA copy if needed */
 typedef struct  {
