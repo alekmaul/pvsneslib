@@ -58,16 +58,7 @@ typedef struct {
     u8* oamgraphics;								/*!< 8..11 pointer to graphic file  */
 } t_sprites __attribute__((__packed__));            /*!< seems to do nothing */
 
-/*!	\brief Sprite definition : OAM entry for DMA copy if needed */
-typedef struct  {
-  u8 x;	/*!< xxxxxxxx X coordinate*/
-  u8 y;	/*!< yyyyyyyy Y coordinate*/
-  u8 tilenumber;	/*!< cccccccc Starting tile num */
-  u8 attribute;	/*!< vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num */
-} oamEntry;
-
-extern u8 oamMemory[128*4+8*4]; 										// to address oma table low and high
-
+extern u8 oamMemory[128*4+8*4]; 					// to address oma table low and high
 
 /*! \def REG_OBSEL
     \brief Object Size and Object Base (W)
@@ -166,8 +157,6 @@ void oamSetAttr(u16 id, u16 xspr, u16 yspr, u16 gfxoffset, u8 attr);
 	oamMemory[id+2] = (gfxoffset); \
 	oamMemory[id+3] = (vflip<<7) | (hflip<<6) | (priority<<4) | (paletteoffset<<1) | ((gfxoffset>>8) & 1); \
 	}
-
-void oamSet1(u8 id, oamEntry *sprite);
 
 /*! \brief sets an oam coordinate to the supplied values
     \param id the oam number to be set [0 - 127] * 4 because of oam structure
