@@ -946,17 +946,19 @@ getPalette:
     
     sep #$20
     lda 8,s                             ; get paletteSize (6+2)
+    dea                                 ; to have 0..palette size 
     tax
     
-    lda 5,s
+    lda 7,s                             ; get palette entry (5+2)
 -   pha
     sta.l REG_CGADD
     lda.l RDCGRAM_PAL
     sta [tcc__r0]
     lda.l RDCGRAM_PAL
-    and #$7F                                ; remove openbus read
-    inc tcc__r0
+    and #$7F                            ; remove openbus read
+    inc tcc__r0                         ; to go to msb
     sta [tcc__r0]
+    inc tcc__r0                         ; to go to next entry
     pla
     ina
     dex
