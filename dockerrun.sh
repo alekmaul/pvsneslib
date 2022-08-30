@@ -1,6 +1,12 @@
-#!/bin/bash
+#!/bin/bash -e
 
-docker build -t pvsneslib-image .
+clear
+
+echo -e "\n>> [DOCKER] Building image"
+
+docker build -q -t pvsneslib-image .
+
+echo -e "\n>> [DOCKER] Running container"
 
 docker run -ti --rm \
     -w "$(pwd)" \

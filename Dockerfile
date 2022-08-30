@@ -15,9 +15,13 @@ RUN dnf upgrade --refresh -y && \
 dnf -y groupinstall "Development Tools" && \
 dnf -y install glibc-devel.i686 cmake gcc-c++ python
 
-CMD echo -e ">>>> Cleaning files ...\n" && \
+CMD echo && \
+    echo -n ">> [MAKE]   Cleaning files                 " && \
     make clean > ./make_clean.log 2>&1 && \
-    echo -e ">>>> Refreshing source code ...\n" && \
+    echo -e "[PASS]\n" || (echo -e "[FAILED]\n"; exit 1) && \
+    echo -n ">> [GIT]    Refreshing source code         " && \
     git submodule update --init && > git_refresh.log 2>&1 && \
-    echo -e ">>>> Compiling code and install it ...\n" && \
-    make > make.log 2>&1 
+    echo -e "[PASS]\n" || (echo -e "[FAILED]\n"; exit 1) && \
+    echo -n ">> [MAKE]   Compiling code and install it  " && \
+    make > make.log 2>&1 && \
+    echo -e "[PASS]\n" || (echo -e "[FAILED]\n"; exit 1)
