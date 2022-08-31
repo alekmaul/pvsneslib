@@ -68,7 +68,7 @@ while getopts d:h flag
 do
     case "${flag}" in
         d) distro=${OPTARG}; f_check_distro ${distro};;
-        h) f_usage;;
+        h) f_usage; exit 0;;
         *) f_usage; exit 1;;
     esac
     no_args="false"
