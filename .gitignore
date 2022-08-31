@@ -63,4 +63,3 @@ linkfile
 soundbank.asm
 soundbank.h
 *.log
-*.cpp.d
