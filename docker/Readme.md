@@ -28,14 +28,14 @@ Add your current user to the docker group and restart your system to make it eff
 ## Usage/Examples
 
 Clone the pvsneslib repository and move to the root of the project (pvsneslib)
-```javascript
+```bash
   git clone git clone https://github.com/alekmaul/pvsneslib.git
   cd pvsneslib
 ```
 
 Then, execute the dockerrrun.sh script. Two options are availables
 * -h: see help
-```javascript
+```bash
   ./dockerrrun -h
 
 usage: ./dockerrun.sh options:<d|h>
@@ -43,7 +43,7 @@ usage: ./dockerrun.sh options:<d|h>
 -h: help, print this message
 ```
 * -d: specify the distribution (mandatory). Fedora, debian and ubuntu are availables (latest version)
-```javascript
+```bash
   ./dockerrrun -d fedora
 
 >> [DOCKER] Building image pvsneslib-fedora-image [PASS]
