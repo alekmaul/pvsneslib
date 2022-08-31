@@ -5,6 +5,7 @@ function f_usage {
     echo "usage: ${0} options:<d|h>"
     echo "-d: name of the linux distrubtion (fedora, ubuntu or debian)"
     echo "-h: help, print this message"
+    echo "-c: remove all containers <!> it will delete your running container(s) as well"
 
 }
 
@@ -64,11 +65,12 @@ unset -v distro
 
 no_args="true"
 
-while getopts d:h flag
+while getopts d:h:c flag
 do
     case "${flag}" in
         d) distro=${OPTARG}; f_check_distro ${distro};;
         h) f_usage; exit 0;;
+        c) f_delete_container;;
         *) f_usage; exit 1;;
     esac
     no_args="false"
@@ -76,7 +78,6 @@ done
 
 [[ "$no_args" == "true" ]] && (f_usage; exit 1)
 
-f_delete_container
 f_delete_none_image
 
 image="pvsneslib-${distro}-image"
