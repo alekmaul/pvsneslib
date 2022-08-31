@@ -92,6 +92,7 @@ docker run -ti --rm \
     -w "$(pwd)" \
     -v "$(pwd):$(pwd)" \
     -v "/etc/group:/etc/group:ro" \
+    -v "/etc/passwd:/etc/passwd:ro" \
     -u "$(id -u):$(id -g)" \
     -e "PVSNESLIB_HOME=$(pwd)" \
     -e "DISTRO=${distro}" \
