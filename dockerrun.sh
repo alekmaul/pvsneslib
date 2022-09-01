@@ -17,7 +17,8 @@ function f_check_distro {
 
         echo "Wrong distrution: ${distro}"
 
-        f_usage; exit 1
+        f_usage
+        exit 1
     fi
 
 }
@@ -30,8 +31,8 @@ function f_delete_container {
 
         echo ">> [DOCKER] cleaning ${is_container} containers(s)"
 
-        docker rm  $(docker ps -q -a)
-        
+        docker rm $(docker ps -q -a)
+
         echo
     fi
 
@@ -45,11 +46,11 @@ function f_delete_none_image {
 
         echo ">> [DOCKER] cleaning ${is_none} <none> image(s)"
 
-        docker image ls | \
-            grep none | \
-            awk '{print $3}' | \
-            xargs docker image rm --force > /dev/null 2>&1
-        
+        docker image ls |
+            grep none |
+            awk '{print $3}' |
+            xargs docker image rm --force >/dev/null 2>&1
+
         echo
     fi
 
@@ -65,17 +66,28 @@ unset -v distro
 
 no_args="true"
 
-while getopts "d:hc" flag
-do
+while getopts "d:hc" flag; do
     case "${flag}" in
-        d) distro=${OPTARG}; f_check_distro ${distro} ;;
-        h) f_usage; exit 0 ;;
-        c) f_delete_container; exit 0 ;;
+    d)
+        distro=${OPTARG}
+        f_check_distro ${distro}
+        ;;
+    h)
+        f_usage
+        exit 0
+        ;;
+    c)
+        f_delete_container
+        exit 0
+        ;;
     esac
     no_args="false"
 done
 
-[[ "$no_args" == "true"  ]] && (f_usage; exit 1)
+[[ "$no_args" == "true" ]] && (
+    f_usage
+    exit 1
+)
 
 f_delete_none_image
 
@@ -84,8 +96,11 @@ image="pvsneslib-${distro}-image"
 echo -n ">> [DOCKER] Building image ${image} "
 docker build \
     -f docker/${distro}/Dockerfile \
-    -t ${image} . > $(pwd)/docker/${distro}/docker_build.log 2>&1
-echo -e "[PASS]\n" || (echo -e "[FAILED]\n"; exit 1)
+    -t ${image} . >$(pwd)/docker/${distro}/docker_build.log 2>&1
+echo -e "[PASS]\n" || (
+    echo -e "[FAILED]\n"
+    exit 1
+)
 
 echo ">> [DOCKER] Running container ${image}..."
 docker run -ti --rm \
