@@ -18,10 +18,10 @@ RUN dnf upgrade --refresh -y && \
 
 CMD echo -ne "\n\t>> [MAKE]   Cleaning files                   " && \
     make clean > ${PVSNESLIB_HOME}/docker/${DISTRO}/make_clean.log 2>&1 && \
-    echo -e "[PASS]\n" || (echo -e "[FAILED]\n"; exit 1) && \
+    echo -e "[PASS]\n" || { echo -e "[FAILED]\n"; exit 1 }&& \
     echo -ne "\t>> [GIT]    Refreshing source code           " && \
     git submodule update --init > ${PVSNESLIB_HOME}/docker/${DISTRO}/git_refresh.log 2>&1 && \
-    echo -e "[PASS]\n" || (echo -e "[FAILED]\n"; exit 1) && \
+    echo -e "[PASS]\n" || { echo -e "[FAILED]\n"; exit 1 } && \
     echo -ne "\t>> [MAKE]   Compiling code and installing it " && \
     make > ${PVSNESLIB_HOME}/docker/${DISTRO}/make.log 2>&1 && \
-    echo -e "[PASS]\n" || (echo -e "[FAILED]\n"; exit 1)
+    echo -e "[PASS]\n" || { echo -e "[FAILED]\n"; exit 1 }

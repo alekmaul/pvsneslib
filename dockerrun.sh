@@ -57,6 +57,22 @@ function f_delete_none_image {
 
 }
 
+function f_create_zip {
+
+    distro="${1}"
+    image="${2}"
+
+    echo -n ">> [ZIP] Building compressed archive for ${image} "
+    mkdir -p /var/tmp/build/pvsneslib
+    cp -pvr pvsneslib snes-examples devkitsnes \
+        /var/tmp/build/pvsneslib >/dev/null 2>&1
+    cd /var/tmp/build
+    zip -r ./pvsneslib-${distro}.zip \
+        pvsneslib 
+    rm -rf pvsneslib
+    cd -
+}
+
 # --------------- #
 # M A I N
 # --------------- #
@@ -98,10 +114,10 @@ echo -n ">> [DOCKER] Building image ${image} "
 docker build \
     -f docker/${distro}/Dockerfile \
     -t ${image} . >$(pwd)/docker/${distro}/docker_build.log 2>&1
-echo -e "[PASS]\n" || (
+    echo -e "[PASS]\n" || {
     echo -e "[FAILED]\n"
     exit 1
-)
+    }
 
 echo ">> [DOCKER] Running container ${image}..."
 docker run -ti --rm \
