@@ -62,3 +62,4 @@ linkfile
 *.ps
 soundbank.asm
 soundbank.h
+*.log
