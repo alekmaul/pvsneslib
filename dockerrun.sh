@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 function f_usage {
 
