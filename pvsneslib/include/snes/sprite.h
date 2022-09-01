@@ -136,7 +136,7 @@ void oamSetAttr(u16 id, u16 xspr, u16 yspr, u16 gfxoffset, u8 attr);
     \param vflip flip the sprite vertically
     \param hflip flip the sprite horizontally
     \param gfxoffset tilenumber graphic offset
-		\param paletteoffset palette default offset for sprite
+	\param paletteoffset palette default offset for sprite
 */
 #define OAM_ATTR(priority, hflip, vflip, gfxoffset, paletteoffset) ((vflip<<7) | (hflip<<6) | (priority<<4) | (paletteoffset<<1) | ((gfxoffset>>8) & 1))
 
@@ -218,6 +218,43 @@ void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSiz
 	\param oamsize	default OAM size (OBJ_SIZE8_L16, OBJ_SIZE8_L32, OBJ_SIZE8_L64, OBJ_SIZE16_L32, OBJ_SIZE16_L64 and OBJ_SIZE32_L64)
 */
 void oamInitGfxAttr(u16 address, u8 oamsize);
+
+/*!\brief initialize the dynamic sprite engine with each sprite size entries
+	\param blk32init	address of sprites graphics entry
+	\param id32init	address of sprites graphics entry
+	\param blk16init	address of sprites graphics entry
+	\param id16init	address of sprites graphics entry
+	\param blk8init	address of sprites graphics entry
+	\param id8init	address of sprites graphics entry
+	\param oam32init	address of sprites graphics entry
+	\param oam16init	address of sprites graphics entry
+	\param oam8init	address of sprites graphics entry
+	\param oamsize	default OAM size (OBJ_SIZE8_L16, OBJ_SIZE8_L32, OBJ_SIZE8_L64, OBJ_SIZE16_L32, OBJ_SIZE16_L64 and OBJ_SIZE32_L64)
+*/
+void oamInitDynamicSprite(u16 blk32init, u16 id32init, u16 blk16init, u16 id16init, u16 blk8init, u16 id8init, u16 oam32init, u16 oam16init, u16 oam8init, u8 oamsize);
+
+/*!\brief Must be call at the end of the frame, initialize the dynamic sprite engine for the next frame
+*/
+void oamInitDynamicSpriteEndFrame(void);
+
+/*!\brief Update VRAM graphics for sprites 32x32 in Vblank if needed.<br>
+*/
+void oamVramQueue32Update(void);
+
+/*!\brief Update VRAM graphics for sprites 16x16 in Vblank if needed.<br>
+*/
+void oamVramQueue16Update(void);
+
+/*!\brief Update VRAM graphics for sprites 8x8 in Vblank if needed.<br>
+*/
+void oamVramQueue8Update(void);
+
+
+/* TODO */
+void oamAddDynamicSprite8(void);
+void oamAddDynamicSprite16(void);
+void oamAddDynamicSprite32(void);
+
 
 #endif //SNES_SPRITES_INCLUDE
 
