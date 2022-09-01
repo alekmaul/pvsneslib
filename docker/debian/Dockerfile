@@ -9,8 +9,8 @@ ENV DISTRO $DISTRO
 RUN echo 'PS1=$PS1A' >> ~/.bashrc
 
 RUN apt-get update -y && \
-dpkg --add-architecture i386 && \
-apt-get install build-essential gcc-multilib git python-is-python3 cmake wget -y
+    dpkg --add-architecture i386 && \
+    apt-get install build-essential gcc-multilib git python-is-python3 cmake wget -y
 
 CMD /bin/echo -ne "\n\t>> [MAKE]   Cleaning files                   " && \
     make clean > ${PVSNESLIB_HOME}/docker/${DISTRO}/make_clean.log 2>&1 && \

@@ -13,8 +13,8 @@ RUN echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf
 RUN echo "fastestmirror=True" >> /etc/dnf/dnf.conf
 
 RUN dnf upgrade --refresh -y && \
-dnf -y groupinstall "Development Tools" && \
-dnf -y install glibc-devel.i686 cmake gcc-c++ python
+    dnf -y groupinstall "Development Tools" && \
+    dnf -y install glibc-devel.i686 cmake gcc-c++ python
 
 CMD echo -ne "\n\t>> [MAKE]   Cleaning files                   " && \
     make clean > ${PVSNESLIB_HOME}/docker/${DISTRO}/make_clean.log 2>&1 && \
