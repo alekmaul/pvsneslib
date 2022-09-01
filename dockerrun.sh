@@ -71,7 +71,6 @@ do
         d) distro=${OPTARG}; f_check_distro ${distro} ;;
         h) f_usage; exit 0 ;;
         c) f_delete_container; exit 0 ;;
-        *) f_usage; exit 1 ;;
     esac
     no_args="false"
 done
