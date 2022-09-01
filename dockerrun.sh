@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 function f_usage {
 
@@ -7,6 +7,7 @@ function f_usage {
     echo "-h: help, print this message"
     echo "-c: remove all containers <!> it will delete your running container(s) as well"
 
+    return
 }
 
 function f_check_distro {
@@ -84,10 +85,10 @@ while getopts "d:hc" flag; do
     no_args="false"
 done
 
-[[ "$no_args" == "true" ]] && (
+[[ "$no_args" == "true" || $(echo ${1} | egrep -c '^-') -ne 1 ]] && {
     f_usage
     exit 1
-)
+}
 
 f_delete_none_image
 
