@@ -13,9 +13,7 @@ if os.getenv('OPT816_QUIET'): verbose = False
 
 # open the assembler file and put lines in array text
 text_raw = open(sys.argv[1],'r').readlines()
-text = []
-for l in text_raw:
-  if not l.startswith(';'): text += [l.strip()]
+text = [l.strip() for l in text_raw if not l.startswith(';')]
 
 # find .bss section symbols
 bss = []
