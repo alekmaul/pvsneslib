@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# Executables
+example
+tests
+
+# vim
+*.swp
+*.swo
+*.swn
+*.orig

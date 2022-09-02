@@ -1,0 +1,24 @@
+# objects
+*.o
+*.obj
+
+# libraries
+*.lib
+*.a
+
+# dyn libraries
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# executables
+*.exe
+*.app
+
+# build folder
+build*/
+cmake-build*/
+
+# ide
+/.idea

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object>
+  <properties>
+   <property name="what" value="point"/>
+  </properties>
+  <point/>
+ </object>
+</template>
