@@ -30,12 +30,11 @@ for l in text:
 
 # checks if the line alters the control flow
 def is_control(line):
-  if len(line) > 0 and line[0] in 'jb+-' or line.endswith(':'): return True
-  return False
+  return bool(len(line) > 0 and line[0] in 'jb+-' or line.endswith(':'))
 
 def changes_accu(line):
-  if (line[2] == 'a' and not line[:3] in ['pha','sta']) or (len(line) == 5 and line.endswith(' a')): return True
-  else: return False
+  return bool(line[2] == 'a' and line[:3] not in ['pha', 'sta']
+              or len(line) == 5 and line.endswith(' a'))
 
 totalopt = 0	# total number of optimizations performed
 opted = -1	# have we optimized in this pass?
