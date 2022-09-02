@@ -34,7 +34,7 @@ Clone the pvsneslib repository and move to the root of the project (pvsneslib)
   cd pvsneslib
 ```
 
-Then, execute the dockerrrun.sh script. Two options are availables
+Then, execute the dockerrrun.sh script. Three options are availables
 * -h: see help
 ```bash
   ./dockerrrun -h
@@ -58,6 +58,29 @@ usage: ./dockerrun.sh options:<d|h|c>
 
         >> [MAKE]   Compiling code and installing it [PASS]
 
+```
+* -r: create a zip file (release) for the current build (so fedora, ubuntu or debian). Must be used with `-d <distribution>`. Here an output with ubuntu container:
+```bash
+>> [DOCKER] Building image pvsneslib-ubuntu-image [PASS]
+
+>> [DOCKER] Running container pvsneslib-ubuntu-image...
+
+        >> [MAKE]   Cleaning files                   [PASS]
+
+        >> [GIT]    Refreshing source code           [PASS]
+
+        >> [MAKE]   Compiling code and installing it [PASS]
+
+
+>> [ZIP] Building release for pvsneslib-ubuntu-image [PASS]
+
+The release is /var/tmp/build/pvsneslib-ubuntu-image.zip
+```
+You can ever build all distrutions et create release (zip) files on the fly as follows
+```bash
+$ for d in fedora debian ubuntu; do
+    ./dockerrun.sh -d $d -r
+done
 ```
 
 This script doesn't print any output from the executed tasks.
