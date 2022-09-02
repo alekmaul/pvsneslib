@@ -68,6 +68,10 @@ Each tasks are stored as logfile in `docker/<distribution>/`, in this order:
 3. git_refresh.log: output of `git submodule update --init`
 4. make.log: output of `make` and `make install`
 
+Additionnaly, the `infos.log` provides useful informations about the system and the container used (os, kernel, docker and gcc version).
+
+If you use `vscode` as editor, I suggest you to install the `AutoScroll` extension (from Pejman Nikram) to be able to read log in real time from your editor. By default, this extension is configured on **ON** for logfiles.
+
 
 ## TODO
 
