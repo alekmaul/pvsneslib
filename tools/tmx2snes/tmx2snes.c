@@ -47,6 +47,10 @@ unsigned int filesize;		// input file size
 char filebase[256];			// input filename
 char filemapname[260];		// output filename for map & objects
 
+int* data;					// data from Tiled layer
+cute_tiled_layer_t* layer;	// layers from Tiled  map
+cute_tiled_map_t* map;		// map from Tiled
+
 //// F U N C T I O N S //////////////////////////////////////////////////////////
 
 #ifndef __HAS_STRUPR
@@ -261,6 +265,48 @@ void PrintVersion(void)
     printf("\nCopyright (c) 2022 Alekmaul\n");
 }
 
+//////////////////////////////////////////////////////////////////////////////
+void WriteMap(void)
+{
+	if (quietmode == 0)
+		printf("tmx2snes: 'Writing tiles map file...'\n");
+	sprintf(filemapname,"%s.m16",layer->name.ptr);
+	fpo = fopen(filemapname,"wb");
+	if(fpo==NULL)
+	{	
+		printf("tmx2snes: error 'Can't open layer map file [%s] for writing'\n",filemapname);
+		return 1;
+	}
+	// Put width & heigh
+	PutWord(map->width*map->tilewidth,fpo);
+	PutWord(map->height*map->tileheight,fpo);
+
+	// Put number of tiles
+	PutWord(layer->data_count*2,fpo);
+
+	// Write tile data to file 
+	// Tiled data format for flipping : flip x ->0x8000 0000 flip y -> 0x4000 0000
+	// SNES format :
+	// 		High     Low          Legend->  c: Starting character (tile) number
+	// 		vhopppcc cccccccc               h: horizontal flip  v: vertical flip
+	//				                        p: palette number   o: priority bit
+	data = layer->data;
+	for (i = 0; i < layer->data_count; i++) {
+		// is data not "empty" ?
+		if (data[i])
+			PutWord(((data[i]-1) & 0xFFFF),fpo);
+		// no, write 0
+		else
+			PutWord(0x0000,fpo);
+	}
+	// close current layer map file and go to next
+	fclose(fpo);
+}
+void WriteTileset(void)
+{
+
+}
+
 /// M A I N ////////////////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
@@ -336,7 +382,7 @@ int main(int argc, char **argv)
     // load the map in memory
 	if (quietmode == 0)
 		printf("tmx2snes: 'Loading map: [%s]'\n",filebase);
-    cute_tiled_map_t* map = cute_tiled_load_map_from_file(filebase, 0);
+    map = cute_tiled_load_map_from_file(filebase, 0);
 	if (map == NULL) {
 		printf("tmx2snes: 'Cannot load map'\n");
 		fclose(fpi);
@@ -349,7 +395,7 @@ int main(int argc, char **argv)
 	// loop over the map's layers and write them to disk
 	if (quietmode == 0)
 		printf("tmx2snes: 'Writing layers map & object files...'\n");
-	cute_tiled_layer_t* layer = map->layers;
+	layer = map->layers;
 	while (layer) 			{
 		if (quietmode == 0)
 			printf("tmx2snes: 'Found layer %s...'\n",layer->name.ptr);
@@ -363,47 +409,106 @@ int main(int argc, char **argv)
 				printf("tmx2snes: error 'Can't open layer object file [%s] for writing'\n",filemapname);
 				return 1;
 			}
+/*
+def process_entities(map, objlayer):
+    ret = list()
+
+    for o in objlayer.objects:
+        assert o.type, "Entity must have a type"
+
+        min_tile = int(o.y / TILE_SIZE) * map.width + int(o.x / TILE_SIZE)
+        max_tile = int((o.y + o.height - 1) / TILE_SIZE) * map.width + int((o.x + o.width - 1) / TILE_SIZE)
+
+        entity = {
+            'x': int(o.x),
+            'y': int(o.y),
+            'type': int(o.type),
+            'name': o.name,
+            'minx' : int(o.properties[1].value),
+            'maxx' : int(o.properties[0].value),
+        }
+        ret.append(entity)
+
+    return ret
+
+def write_entities(filename, map, entities):
+    player = None
+    with open(filename, "wb") as of:
+
+        for e in entities:
+            if e['name'].lower() == "player":
+                player = e
+                of.write(struct.pack('<H', player['x']))
+                of.write(struct.pack('<H', player['y']))
+                of.write(struct.pack('<H', player['type']))
+                of.write(struct.pack('<H', player['minx']))
+                of.write(struct.pack('<H', player['maxx']))
+
+        npcs = entities[:]
+        if player != None:
+          npcs.remove(player)
+
+        assert len(npcs) <= N_NPCS, "Too many NPCs ("+str(len(npcs))+")"
+
+        for n in npcs:
+            of.write(struct.pack('<H', n['x']))
+            of.write(struct.pack('<H', n['y']))
+            of.write(struct.pack('<H', n['type']))
+            of.write(struct.pack('<H', n['minx']))
+            of.write(struct.pack('<H', n['maxx']))
+        of.write(struct.pack('<H', 0xffff))
+
+*/			
+			
+			
 			// close current layer map file and go to next
 			fclose(fpo);
 		}
 		// No it is a map layer
 		else {
-			if (quietmode == 0)
-				printf("tmx2snes: 'Writing tiles map file...'\n");
-			sprintf(filemapname,"%s.m16",layer->name.ptr);
-			fpo = fopen(filemapname,"wb");
-			if(fpo==NULL)
-			{	
-				printf("tmx2snes: error 'Can't open layer map file [%s] for writing'\n",filemapname);
-				return 1;
-			}
-			// Put width & heigh
-			PutWord(map->width*map->tilewidth,fpo);
-			PutWord(map->height*map->tileheight,fpo);
-	
-			// Put number of tiles
-			PutWord(layer->data_count*2,fpo);
+			// write .m16 file ....
+			WriteMap();
 
+        cute_tiled_tile_descriptor_t* tile = tileset->tiles;
 
-			// Write tile data to file 
-			// Tiled data format for flipping : flip x ->0x8000 0000 flip y -> 0x4000 0000
-			// SNES format :
-			// 		High     Low          Legend->  c: Starting character (tile) number
-			// 		vhopppcc cccccccc               h: horizontal flip  v: vertical flip
-            //				                        p: palette number   o: priority bit
-			int* data = layer->data;
-			for (i = 0; i < layer->data_count; i++) {
-				// is data not "empty" ?
-				if (data[i])
-					PutWord(((data[i]-1) & 0xFFFF),fpo);
-				// no, write 0
-				else
-					PutWord(0x0000,fpo);
-			}
+/*
+def process_tiles(map, layer):
+    gidOffset = map.tilesets[0].firstgid
+    tiles = layer.tiles
+    ret = list()
 
-			// close current layer map file and go to next
-			fclose(fpo);
+    for t in tiles:
+        assert t.hflip == False, "Doesn't support tile flipping"
+        assert t.vflip == False, "Doesn't support tile flipping"
+        assert t.dflip == False, "Doesn't support tile flipping"
+
+        a = (t.gid - gidOffset)
+        assert a < N_METATILES, "Tile number must be below N_METATILES"
+        if a < 0:
+            a = 0
+        ret.append(a * TILE_MULTIPLIER)
+*/
+
+/*
+def process_tileset(map_fname,map):
+    tile = map.tilesets[0].tiles
+    ret = list()
+
+    for t in tile:
+      a = 0
+      if t.properties[0].value:
+        a = int(t.properties[0].value,16)
+      ret.append(a)
+
+    with open(map_fname, "wb") as of:
+        print("Writing blockers ..." + map_fname )
+        for t in ret:
+          of.write(struct.pack('<H', t))
+
 		}
+*/		
+		
+		
 		layer = layer->next;
 	}
 	/*
