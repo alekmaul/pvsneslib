@@ -86,7 +86,7 @@ void PrintOptions(char *str)
 	printf("\n\n  tmx2snes will do:");
 	printf("\n  	.m16 file for map");
 	printf("\n  	.b16 file for tile attributes");
-	printf("\n  	.s16 file for objects");
+	printf("\n  	.o16 file for objects");
 	
 	if(str[0]!=0)
 		printf("\n\tmx2snes: error 'The [%s] parameter is not recognized'",str);
@@ -216,6 +216,23 @@ void WriteTileset(void)
 	
 	// close current layer atribute file 
 	fclose(fpo);
+
+
+	sprintf(filemapname,"%s.t16",filebase);
+	fpo = fopen(filemapname,"wb");
+	if(fpo==NULL)
+	{	
+		printf("tmx2snes: error 'Can't open layer attribute file [%s] for writing'\n",filemapname);
+		exit(1);
+	}
+
+	for (i = 0; i < tset->tilecount; i++) {
+		PutWord((tileprop[i][1] ? 0x2000 : 0x0000)+i,fpo);
+	}
+
+	// close current layer atribute file 
+	fclose(fpo);
+
 }
 
 void WriteEntities(void)
@@ -225,7 +242,7 @@ void WriteEntities(void)
 
     if (quietmode == 0)
         printf("tmx2snes: Writing entities object file...\n");
-    sprintf(filemapname,"%s.s16",filebase);
+    sprintf(filemapname,"%s.o16",filebase);
     fpo = fopen(filemapname,"wb");
     if(fpo==NULL) {	
         printf("tmx2snes: error 'Can't open layer object file [%s] for writing'\n",filemapname);
@@ -362,7 +379,7 @@ int main(int argc, char **argv)
 	// Print what the user has selected
 	printf("\n<layername>.m16 file for map, used by pvsneslib 'mapLoad' function as 1st argument (only 1 layer)\n");
 	printf("%s.b16 file for tile attributes, used by pvsneslib 'mapLoad' function  as 3rd argument\n",filebase);
-	printf("%s.s16 file for objects, used by pvsneslib 'objLoadObjects' as argument\n\n",filebase);
+	printf("%s.o16 file for objects, used by pvsneslib 'objLoadObjects' as argument\n\n",filebase);
 
 	// loop over the map's layers and write them to disk
 	if (quietmode == 0)
@@ -378,7 +395,7 @@ int main(int argc, char **argv)
 
 		// if it is an entity layer
 		if (strcmp(layer->name.ptr,"Entities")==0) {
-            // Write .s16 file ...
+            // Write .o16 file ...
 		    WriteEntities();
 		}
 		// No it is a map layer
