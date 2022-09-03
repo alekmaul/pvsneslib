@@ -83,6 +83,10 @@ void PrintOptions(char *str)
 {
 	printf("\n\nUsage : tmx2snes [options] filename ...");
 	printf("\n  where filename is a Tiled tmx file");
+	printf("\n\n  tmx2snes will do:");
+	printf("\n  	.m16 file for map");
+	printf("\n  	.b16 file for tile attributes");
+	printf("\n  	.s16 file for objects");
 	
 	if(str[0]!=0)
 		printf("\n\tmx2snes: error 'The [%s] parameter is not recognized'",str);
@@ -334,8 +338,6 @@ int main(int argc, char **argv)
 		exit( 1 );
 	}
 
-	//Print what the user has selected
-
 	// get filesize
 	fseek(fpi, 0, SEEK_END);
 	filesize = ftell(fpi);
@@ -356,7 +358,12 @@ int main(int argc, char **argv)
 	
 	// remove filename extension
 	filebase[strlen(filebase)-5] = '\0';
-	
+
+	// Print what the user has selected
+	printf("\n<layername>.m16 file for map, used by pvsneslib 'mapLoad' function as 1st argument (only 1 layer)\n");
+	printf("%s.b16 file for tile attributes, used by pvsneslib 'mapLoad' function  as 3rd argument\n",filebase);
+	printf("%s.s16 file for objects, used by pvsneslib 'objLoadObjects' as argument\n\n",filebase);
+
 	// loop over the map's layers and write them to disk
 	if (quietmode == 0)
 		printf("tmx2snes: Writing layers map & object files...\n");
