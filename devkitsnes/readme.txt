@@ -28,6 +28,8 @@ SPECIAL THANKS
                
 CHANGE LOG
 ----------------------
+VERSION 3.60 (dd, mmm, 2022)
+- Add tmx2snes (tool to conveter Tiled map to a SNES format)
 VERSION 3.50 (29, May, 2022)
 - Add romsize update in snestools
 - Fix country value update in snestools
