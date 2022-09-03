@@ -312,6 +312,7 @@ struct cute_tiled_layer_t
 	int height;                          // Row count. Same as map height for fixed-size maps.
 	cute_tiled_layer_t* layers;          // Linked list of layers. Only appears if `type` is `group`.
 	cute_tiled_string_t name;            // Name assigned to this layer.
+	int object_count;                    // Number of elements in the `objects` array. (220903 ALEK)
 	cute_tiled_object_t* objects;        // Linked list of objects. `objectgroup` only.
 	float offsetx;                       // Horizontal layer offset.
 	float offsety;                       // Vertical layer offset.
@@ -2122,9 +2123,10 @@ cute_tiled_layer_t* cute_tiled_layers(cute_tiled_map_internal_t* m)
 				CUTE_TILED_FAIL_IF(!object);
 				object->next = layer->objects;
 				layer->objects = object;
+				layer->object_count++;
 				cute_tiled_try(m, ',');
 			}
-
+			
 			cute_tiled_expect(m, ']');
 			break;
 
