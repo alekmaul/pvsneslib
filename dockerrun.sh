@@ -128,7 +128,8 @@ f_delete_none_image
 
 f_print_os_info
 
-image="pvsneslib-${distro}-image"
+release_file="pvsneslib-${distro}"
+image="${release_file}-image"
 
 echo -n ">> [DOCKER] Building image ${image} "
 docker build \
@@ -150,4 +151,4 @@ docker run -ti --rm \
     -e "DISTRO=${distro}" \
     ${image}
 
-[[ "$create_zip" == "true" ]] && f_create_zip ${image}
+[[ "$create_zip" == "true" ]] && f_create_zip ${release_file}
