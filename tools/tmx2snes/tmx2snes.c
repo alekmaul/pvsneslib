@@ -141,13 +141,11 @@ void WriteMap(void)
 		if (tileattr) {
             tilesnes=(tileattr-1) & 0x03FF; // keep on the low 16bits of tile number
 
-			// retreive priority from tileset
-			if (tileprop[tilesnes][1]!=0)
-				tilesnes |= 0x2000;
             if (tileattr & CUTE_TILED_FLIPPED_HORIZONTALLY_FLAG) // Flipx attribute
-                tilesnes |= 0x8000;
+				printf("tmx2snes: warning ! 'flipx attribute is not supported'\n");
             if (tileattr & CUTE_TILED_FLIPPED_VERTICALLY_FLAG) // Flipy attribute
-                tilesnes |= 0x8000;
+				printf("tmx2snes: warning ! 'flipy attribute is not supported'\n");
+			
 			PutWord(tilesnes,fpo);
         }
 		// no (certainly an error in the map with no tile assignment), write 0
@@ -169,7 +167,7 @@ void WriteTileset(void)
 	fpo = fopen(filemapname,"wb");
 	if(fpo==NULL)
 	{	
-		printf("tmx2snes: error 'Can't open layer attribute file [%s] for writing'\n",filemapname);
+		printf("tmx2snes: error 'Can't open tiles attribute file [%s] for writing'\n",filemapname);
 		exit(1);
 	}
 
@@ -209,7 +207,7 @@ void WriteTileset(void)
 	
 	// now write to file
 	if (quietmode == 0)
-		printf("tmx2snes:     Writing %d tiles attribute to file...\n",tset->tilecount);
+		printf("tmx2snes:     Writing %d tiles attributes to file...\n",tset->tilecount);
 	for (i = 0; i < tset->tilecount; i++) {
 		PutWord(tileprop[i][0],fpo);
 	}
@@ -217,15 +215,16 @@ void WriteTileset(void)
 	// close current layer atribute file 
 	fclose(fpo);
 
-
+	// now write tileset file with properties (only priority for the moment)
 	sprintf(filemapname,"%s.t16",filebase);
 	fpo = fopen(filemapname,"wb");
 	if(fpo==NULL)
 	{	
-		printf("tmx2snes: error 'Can't open layer attribute file [%s] for writing'\n",filemapname);
+		printf("tmx2snes: error 'Can't open tiles properties file [%s] for writing'\n",filemapname);
 		exit(1);
 	}
-
+	if (quietmode == 0)
+		printf("tmx2snes:     Writing %d tiles properties to file...\n",tset->tilecount);
 	for (i = 0; i < tset->tilecount; i++) {
 		PutWord((tileprop[i][1] ? 0x2000 : 0x0000)+i,fpo);
 	}
@@ -365,14 +364,28 @@ int main(int argc, char **argv)
 		printf("tmx2snes: Loading map: [%s]\n",filebase);
     map = cute_tiled_load_map_from_file(filebase, 0);
 	if (map == NULL) {
-		printf("tmx2snes: Cannot load map\n");
+		printf("tmx2snes: error 'Cannot load map'\n");
 		fclose(fpi);
         return 1;
 	}
 
 	// close the input file
 	fclose(fpi);
-	
+
+	// test some attributes of Tiled map
+	if ((map->width*map->height)>16384) {
+		printf("tmx2snes: error 'map is too big (max 32K)! (%dK)'\n",(map->width*map->height*2)/1024);
+        return 1;
+	}
+	if (map->height>256) {
+		printf("tmx2snes: error 'map height is too big! (max 256) (%d)'\n",map->height);
+        return 1;
+	}
+	if ((map->tilewidth!=8) || (map->tileheight!=8)) {
+		printf("tmx2snes: error 'tile width or height are not 8px! (%d %d)\n",map->tilewidth, map->tileheight);
+        return 1;
+	}
+
 	// remove filename extension
 	filebase[strlen(filebase)-5] = '\0';
 
