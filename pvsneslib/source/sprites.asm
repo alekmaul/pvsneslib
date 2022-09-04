@@ -24,22 +24,37 @@
 
 .EQU REG_OBSEL					$2101
 
+.DEFINE GFXSPR0ADR 				$0000						  ; sprite graphics entry #0 & #1
+.DEFINE GFXSPR1ADR 				$1000   					  ; need to fix that with variable
+
 .EQU OBJ_SPRITE32				1							  ; sprite with 32x32 identifier
 .EQU OBJ_SPRITE16				2							  ; sprite with 16x16 identifier
 .EQU OBJ_SPRITE8				4							  ; sprite with 8x8 identifier
 
 .EQU OBJ_QUEUELIST_SIZE			64							  ; 64 sprites of 8x8, 16x16 & 32x32 max in queue to update sprite graphics
 
+.STRUCT t_oam
+oamx							DW							  ;	0 x position on the screen 
+oamy							DW							  ;	2 y position on the screen
+oamframeid						DW 							  ; 4 frame index in graphic file of the sprite
+oamattribute					DB							  ; 6 sprite attribute value (vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num) 
+oamrefresh						DB							  ; 7 =1 if we need to load graphics from graphic file 
+oamgraphics						DSB 4                         ; 8..11 pointer to graphic file 
+dummy							DSB 4						  ; 12..15 to by align to 16 bytes
+.ENDST
 
 .RAMSECTION ".reg_oams7e" BANK $7E 
 
-sprit_val1			            DSB 1                         ; save value #1
+sprit_val1			            DB                            ; save value #1
+sprit_val2			            DW                            ; save value #2
 
 oamMemory				        DSB 128*4+8*4
 
-oamQueue32Entry					DSB OBJ_QUEUELIST_SIZE*5	  ; each entry : graphic pointer (0..2), vram address (3..4), sprite size (5)
-oamQueue16Entry					DSB OBJ_QUEUELIST_SIZE*5
-oamQueue8Entry					DSB OBJ_QUEUELIST_SIZE*5
+oambuffer						INSTANCEOF t_oam 128		  ; oam struct in memory (128 sprites max for SNES)
+
+oamQueue32Entry					DSB OBJ_QUEUELIST_SIZE*6	  ; each entry : graphic pointer (0..2), vram address (3..4), sprite size (5)
+oamQueue16Entry					DSB OBJ_QUEUELIST_SIZE*6
+oamQueue8Entry					DSB OBJ_QUEUELIST_SIZE*6
 
 oamqueue32number				DW							  ; number of entries to transfert to graphic VRAM for 8x8, 16x16 and 32x32 sprites
 oamqueue16number				DW
@@ -151,6 +166,43 @@ oamFlip:
  
  .ENDS
  
+ .SECTION "spritestable_text" KEEP
+
+oammask:
+	.byte $01,$fe,$00,$00,$04,$fb,$00,$00,$10,$ef,$00,$00,$40,$bf,$00,$00
+	.byte $01,$fe,$01,$00,$04,$fb,$01,$00,$10,$ef,$01,$00,$40,$bf,$01,$00
+	.byte $01,$fe,$02,$00,$04,$fb,$02,$00,$10,$ef,$02,$00,$40,$bf,$02,$00
+	.byte $01,$fe,$03,$00,$04,$fb,$03,$00,$10,$ef,$03,$00,$40,$bf,$03,$00
+	.byte $01,$fe,$04,$00,$04,$fb,$04,$00,$10,$ef,$04,$00,$40,$bf,$04,$00
+	.byte $01,$fe,$05,$00,$04,$fb,$05,$00,$10,$ef,$05,$00,$40,$bf,$05,$00
+	.byte $01,$fe,$06,$00,$04,$fb,$06,$00,$10,$ef,$06,$00,$40,$bf,$06,$00
+	.byte $01,$fe,$07,$00,$04,$fb,$07,$00,$10,$ef,$07,$00,$40,$bf,$07,$00
+	.byte $01,$fe,$08,$00,$04,$fb,$08,$00,$10,$ef,$08,$00,$40,$bf,$08,$00
+	.byte $01,$fe,$09,$00,$04,$fb,$09,$00,$10,$ef,$09,$00,$40,$bf,$09,$00
+	.byte $01,$fe,$0a,$00,$04,$fb,$0a,$00,$10,$ef,$0a,$00,$40,$bf,$0a,$00
+	.byte $01,$fe,$0b,$00,$04,$fb,$0b,$00,$10,$ef,$0b,$00,$40,$bf,$0b,$00
+	.byte $01,$fe,$0c,$00,$04,$fb,$0c,$00,$10,$ef,$0c,$00,$40,$bf,$0c,$00
+	.byte $01,$fe,$0d,$00,$04,$fb,$0d,$00,$10,$ef,$0d,$00,$40,$bf,$0d,$00
+	.byte $01,$fe,$0e,$00,$04,$fb,$0e,$00,$10,$ef,$0e,$00,$40,$bf,$0e,$00
+	.byte $01,$fe,$0f,$00,$04,$fb,$0f,$00,$10,$ef,$0f,$00,$40,$bf,$0f,$00
+	.byte $01,$fe,$10,$00,$04,$fb,$10,$00,$10,$ef,$10,$00,$40,$bf,$10,$00
+	.byte $01,$fe,$11,$00,$04,$fb,$11,$00,$10,$ef,$11,$00,$40,$bf,$11,$00
+	.byte $01,$fe,$12,$00,$04,$fb,$12,$00,$10,$ef,$12,$00,$40,$bf,$12,$00
+	.byte $01,$fe,$13,$00,$04,$fb,$13,$00,$10,$ef,$13,$00,$40,$bf,$13,$00
+	.byte $01,$fe,$14,$00,$04,$fb,$14,$00,$10,$ef,$14,$00,$40,$bf,$14,$00
+	.byte $01,$fe,$15,$00,$04,$fb,$15,$00,$10,$ef,$15,$00,$40,$bf,$15,$00
+	.byte $01,$fe,$16,$00,$04,$fb,$16,$00,$10,$ef,$16,$00,$40,$bf,$16,$00
+	.byte $01,$fe,$17,$00,$04,$fb,$17,$00,$10,$ef,$17,$00,$40,$bf,$17,$00
+	.byte $01,$fe,$18,$00,$04,$fb,$18,$00,$10,$ef,$18,$00,$40,$bf,$18,$00
+	.byte $01,$fe,$19,$00,$04,$fb,$19,$00,$10,$ef,$19,$00,$40,$bf,$19,$00
+	.byte $01,$fe,$1a,$00,$04,$fb,$1a,$00,$10,$ef,$1a,$00,$40,$bf,$1a,$00
+	.byte $01,$fe,$1b,$00,$04,$fb,$1b,$00,$10,$ef,$1b,$00,$40,$bf,$1b,$00
+	.byte $01,$fe,$1c,$00,$04,$fb,$1c,$00,$10,$ef,$1c,$00,$40,$bf,$1c,$00
+	.byte $01,$fe,$1d,$00,$04,$fb,$1d,$00,$10,$ef,$1d,$00,$40,$bf,$1d,$00
+	.byte $01,$fe,$1e,$00,$04,$fb,$1e,$00,$10,$ef,$1e,$00,$40,$bf,$1e,$00
+	.byte $01,$fe,$1f,$00,$04,$fb,$1f,$00,$10,$ef,$1f,$00,$40,$bf,$1f,$00
+.ENDS
+
  .SECTION ".sprites2_text" SUPERFREE
  
 ;---------------------------------------------------------------------------
@@ -186,12 +238,12 @@ oamSetAttr:
 	
 	lda.w #$0200                  ; put $02 into MSB
 	sep #$20                      ; A 8 bits
-	lda.l _oamMask+2,x            ; get offset in the extra OAM data
+	lda.l oammask+2,x            ; get offset in the extra OAM data
 	tay
 
 	bcs +
 
-	lda.l _oamMask+1,x
+	lda.l oammask+1,x
 	and.w oamMemory,y
 	sta.w oamMemory,y
 	lda 18,s                      ; get attr
@@ -204,7 +256,7 @@ oamSetAttr:
 	plp
 	rtl
 +
-	lda.l _oamMask,x
+	lda.l oammask,x
 	ora.w oamMemory,y
 	sta.w oamMemory,y
 	lda 18,s                      ; get attr
@@ -216,40 +268,6 @@ oamSetAttr:
 	plb
 	plp
 	rtl
-
-_oamMask:
-	.byte $01,$fe,$00,$00,$04,$fb,$00,$00,$10,$ef,$00,$00,$40,$bf,$00,$00
-	.byte $01,$fe,$01,$00,$04,$fb,$01,$00,$10,$ef,$01,$00,$40,$bf,$01,$00
-	.byte $01,$fe,$02,$00,$04,$fb,$02,$00,$10,$ef,$02,$00,$40,$bf,$02,$00
-	.byte $01,$fe,$03,$00,$04,$fb,$03,$00,$10,$ef,$03,$00,$40,$bf,$03,$00
-	.byte $01,$fe,$04,$00,$04,$fb,$04,$00,$10,$ef,$04,$00,$40,$bf,$04,$00
-	.byte $01,$fe,$05,$00,$04,$fb,$05,$00,$10,$ef,$05,$00,$40,$bf,$05,$00
-	.byte $01,$fe,$06,$00,$04,$fb,$06,$00,$10,$ef,$06,$00,$40,$bf,$06,$00
-	.byte $01,$fe,$07,$00,$04,$fb,$07,$00,$10,$ef,$07,$00,$40,$bf,$07,$00
-	.byte $01,$fe,$08,$00,$04,$fb,$08,$00,$10,$ef,$08,$00,$40,$bf,$08,$00
-	.byte $01,$fe,$09,$00,$04,$fb,$09,$00,$10,$ef,$09,$00,$40,$bf,$09,$00
-	.byte $01,$fe,$0a,$00,$04,$fb,$0a,$00,$10,$ef,$0a,$00,$40,$bf,$0a,$00
-	.byte $01,$fe,$0b,$00,$04,$fb,$0b,$00,$10,$ef,$0b,$00,$40,$bf,$0b,$00
-	.byte $01,$fe,$0c,$00,$04,$fb,$0c,$00,$10,$ef,$0c,$00,$40,$bf,$0c,$00
-	.byte $01,$fe,$0d,$00,$04,$fb,$0d,$00,$10,$ef,$0d,$00,$40,$bf,$0d,$00
-	.byte $01,$fe,$0e,$00,$04,$fb,$0e,$00,$10,$ef,$0e,$00,$40,$bf,$0e,$00
-	.byte $01,$fe,$0f,$00,$04,$fb,$0f,$00,$10,$ef,$0f,$00,$40,$bf,$0f,$00
-	.byte $01,$fe,$10,$00,$04,$fb,$10,$00,$10,$ef,$10,$00,$40,$bf,$10,$00
-	.byte $01,$fe,$11,$00,$04,$fb,$11,$00,$10,$ef,$11,$00,$40,$bf,$11,$00
-	.byte $01,$fe,$12,$00,$04,$fb,$12,$00,$10,$ef,$12,$00,$40,$bf,$12,$00
-	.byte $01,$fe,$13,$00,$04,$fb,$13,$00,$10,$ef,$13,$00,$40,$bf,$13,$00
-	.byte $01,$fe,$14,$00,$04,$fb,$14,$00,$10,$ef,$14,$00,$40,$bf,$14,$00
-	.byte $01,$fe,$15,$00,$04,$fb,$15,$00,$10,$ef,$15,$00,$40,$bf,$15,$00
-	.byte $01,$fe,$16,$00,$04,$fb,$16,$00,$10,$ef,$16,$00,$40,$bf,$16,$00
-	.byte $01,$fe,$17,$00,$04,$fb,$17,$00,$10,$ef,$17,$00,$40,$bf,$17,$00
-	.byte $01,$fe,$18,$00,$04,$fb,$18,$00,$10,$ef,$18,$00,$40,$bf,$18,$00
-	.byte $01,$fe,$19,$00,$04,$fb,$19,$00,$10,$ef,$19,$00,$40,$bf,$19,$00
-	.byte $01,$fe,$1a,$00,$04,$fb,$1a,$00,$10,$ef,$1a,$00,$40,$bf,$1a,$00
-	.byte $01,$fe,$1b,$00,$04,$fb,$1b,$00,$10,$ef,$1b,$00,$40,$bf,$1b,$00
-	.byte $01,$fe,$1c,$00,$04,$fb,$1c,$00,$10,$ef,$1c,$00,$40,$bf,$1c,$00
-	.byte $01,$fe,$1d,$00,$04,$fb,$1d,$00,$10,$ef,$1d,$00,$40,$bf,$1d,$00
-	.byte $01,$fe,$1e,$00,$04,$fb,$1e,$00,$10,$ef,$1e,$00,$40,$bf,$1e,$00
-	.byte $01,$fe,$1f,$00,$04,$fb,$1f,$00,$10,$ef,$1f,$00,$40,$bf,$1f,$00
 
 ;---------------------------------------------------------------------------
 ; void oamSetXY(u16 id, u16 xspr, u16 yspr);
@@ -275,12 +293,12 @@ oamSetXY:
 
 	lda.w #$0200                  ; put $02 into MSB
 	sep #$20                      ; A 8 bits
-	lda.l _oamMask+2,x            ; get offset in the extra OAM data
+	lda.l oammask+2,x            ; get offset in the extra OAM data
 	tay
 
 	bcs +
 
-	lda.l _oamMask+1,x
+	lda.l oammask+1,x
 	and.w oamMemory,y
 	sta.w oamMemory,y
 	
@@ -289,7 +307,7 @@ oamSetXY:
 	plp
 	rtl
 
-+	lda.l _oamMask,x
++	lda.l oammask,x
 	ora.w oamMemory,y
 	sta.w oamMemory,y
   
@@ -684,34 +702,38 @@ _oamClear1:
 
 .ENDS
 
-.SECTION ".sprites7_text" SUPERFREE
+.SECTION ".spritestable1_text" KEEP
 
-_lkup32oamS:  ; lookup table for 32x32 sprites in VRAM
+lkup32oamS:  ; lookup table for 32x32 sprites in VRAM
 	.word $0000,$0080,$0100,$0180,$0800,$0880,$0900,$0980,$1000,$1080,$1100,$1180,$1800,$1880,$1900,$1980
 	.word $2000,$2080,$2100,$2180,$2800,$2880,$2900,$2980,$3000,$3080,$3100,$3180,$3800,$3880,$3900,$3980
 	.word $4000,$4080,$4100,$4180,$4800,$4880,$4900,$4980,$5000,$5080,$5100,$5180,$5800,$5880,$5900,$5980
 	.word $6000,$6080,$6100,$6180,$6800,$6880,$6900,$6980,$7000,$7080,$7100,$7180,$7800,$7880,$7900,$7980
-_lkup32idT:  ; lookup table for 32x32 sprites ID identification
+lkup32idT:  ; lookup table for 32x32 sprites ID identification
 	.word $0000,$0004,$0008,$000C,$0040,$0044,$0048,$004C,$0080,$0084,$0088,$008C,$00C0,$00C4,$00C8,$00CC
-_lkup32idB:  ; lookup table for 32x32 sprites block identification
+lkup32idB:  ; lookup table for 32x32 sprites block identification
 	.word $0000,$0040,$0080,$00C0,$0400,$0440,$0480,$04C0,$0800,$0840,$0880,$08C0,$0C00,$0C40,$0C80,$0CC0
 
-_lkup16oamS:  ; lookup table for 16x16 sprites in VRAM
+lkup16oamS:  ; lookup table for 16x16 sprites in VRAM
 	.word $0000,$0040,$0080,$00c0,$0100,$0140,$0180,$01c0,$0400,$0440,$0480,$04c0,$0500,$0540,$0580,$05c0
 	.word $0800,$0840,$0880,$08c0,$0900,$0940,$0980,$09c0,$0c00,$0c40,$0c80,$0cc0,$0d00,$0d40,$0d80,$0dc0
 	.word $1000,$1040,$1080,$10c0,$1100,$1140,$1180,$11c0,$1400,$1440,$1480,$14c0,$1500,$1540,$1580,$15c0
 	.word $1800,$1840,$1880,$18c0,$1900,$1940,$1980,$19c0,$1c00,$1c40,$1c80,$1cc0,$1d00,$1d40,$1d80,$1dc0
 
-_lkup16idT:  ; lookup table for 16x16 sprites ID identification
+lkup16idT:  ; lookup table for 16x16 sprites ID identification
 	.word $0100,$0102,$0104,$0106,$0108,$010A,$010C,$010E,$0120,$0122,$0124,$0126,$0128,$012A,$012C,$012E
 	.word $0140,$0142,$0144,$0146,$0148,$014A,$014C,$014E,$0160,$0162,$0164,$0166,$0168,$016A,$016C,$016E
 	.word $0180,$0182,$0184,$0186,$0188,$018A,$018C,$018E,$01A0,$01A2,$01A4,$01A6,$01A8,$01AA,$01AC,$01AE
 	.word $01C0,$01C2,$01C4,$01C6,$01C8,$01CA,$01CC,$01CE,$01E0,$01E2,$01E4,$01E6,$01E8,$01EA,$01EC,$01EE
-_lkup16idB:  ; lookup table for 16x16 sprites block identification
+lkup16idB:  ; lookup table for 16x16 sprites block identification
 	.word $0000,$0020,$0040,$0060,$0080,$00A0,$00C0,$00E0,$0200,$0220,$0240,$0260,$0280,$02A0,$02C0,$02E0
 	.word $0400,$0420,$0440,$0460,$0480,$04A0,$04C0,$04E0,$0600,$0620,$0640,$0660,$0680,$06A0,$06C0,$06E0
 	.word $0800,$0820,$0840,$0860,$0880,$08A0,$08C0,$08E0,$0A00,$0A20,$0A40,$0A60,$0A80,$0AA0,$0AC0,$0AE0
 	.word $0C00,$0C20,$0C40,$0C60,$0C80,$0CA0,$0CC0,$0CE0,$0E00,$0E20,$0E40,$0E60,$0E80,$0EA0,$0EC0,$0EE0
+
+.ENDS
+
+.SECTION ".sprites7_text" SUPERFREE
 
 //---------------------------------------------------------------------------------
 ; void oamInitDynamicSprite(u16 blk32init, u16 id32init, u16 blk16init, u16 id16init, u16 blk8init, u16 id8init, u16 oam32init, u16 oam16init, u16 oam8init, u8 oamsize) {
@@ -733,7 +755,7 @@ oamInitDynamicSprite:
 	sta oamQueue16Entry,x
 	sta oamQueue8Entry,x
 	inx
-	cpx #OBJ_QUEUELIST_SIZE*5
+	cpx #OBJ_QUEUELIST_SIZE*6
 	bne -
 
 	rep #$20
@@ -976,7 +998,6 @@ _gfxld32:
     dex
     dex
     dex
-    ;stx oamqueue32number
 
     rep	#$20
     lda.l oamQueue32Entry+3,x   		; get address	
@@ -1067,151 +1088,64 @@ _gfxnld32z:
 	plp
 	rtl
 
-.ENDS
-
-.SECTION ".sprites9_text" SUPERFREE
-
-;---------------------------------------------------------------------------
-; void oamVramQueue16Update(void)
-oamVramQueue16Update:
-	php
-	phb
-	phx
-
-	sep	#$20                          	; 8bit A
-	lda #$7e
-	pha
-	plb
-	
-	ldx oamqueue16number                 ; something to transfert to vram ?
-	bne	_gfxnld161                    
-    jmp _gfxnld16z                   	 ; no, bye
-    
-_gfxnld161:
-	lda	#$80
-	sta.l	$2115                     	 ; VRAM address increment value designation
-
-	rep #$20          
-    stz.w oamqueue16number
-    txa
-
-_gfx16nm:                
-	lda	#$1801  
-	sta.l	$4320                     	; 1= word increment
-	sta.l	$4330                     	; 1= word increment
-
-	dex								   	; only first time, will be done at the end of loop after
-_gfxld16:
-    dex
-    dex
-    dex
-    dex
-
-    rep	#$20
-    lda.l oamQueue16Entry+3,x    			; get address	
-    sta.l	$2116                		; address for VRAM write(or read)
-
-    lda.l oamQueue16Entry,x      			; get tileSource (lower 16 bits)	
-    sta.l	$4322         			 	; data offset in memory
-    clc
-    adc #$200
-    sta.l	$4332           			; data offset in memory
-
-
-    lda #$0040
-    sta.l	$4325           			; number of bytes to be copied
-    sta.l	$4335           			; number of bytes to be copied
-
-    sep	#$20                			; 8bit A
-    lda.l oamQueue16Entry+2,x    			; get tileSource (bank)
-    sta.l	$4324
-    sta.l	$4334
-
-    lda	#$04                  			; turn on bit 2 (channel 2) of DMA
-    sta.l	$420b
-
-    ; second step
-    rep	#$20
-    lda.l oamQueue16Entry+3,x    			; get address	
-    ora #$100
-    sta.l	$2116           			; address for VRAM write(or read)
-
-    sep	#$20                			; 8bit A
-    lda	#$08                  			; turn on bit 3 (channel 3) of DMA
-    sta.l	$420b
-
-    dex
-    bmi _gfxnld16z
-    bne _gfxld16
-
-_gfxnld16z:
-	
-	plx
-    plb
-	plp
-	rtl
-
 ;---------------------------------------------------------------------------------
-; void oam16DrawIns(void) {
-oam16DrawIns:
+; void oam32DrawIns(void) {
+oam32DrawIns:
 	php
 	phb
 	phx
     phy
-  	
+	
 	sep #$20
 	lda #$7e
 	pha
 	plb
-	
+
 	rep #$20
-    lda xoamS
-_oam16DrawInsOK:
-   	lda updoamS 							; check if we need to update graphics
-	beq _oamSDraw16InsRep1
+    lda updoamS 							; check if we need to update graphics
+    beq _oamSDraw32InsRep1
     stz.w updoamS                           ; reinit it
 
-	; pgfx += lkup16NumSpr[numspr];
-	lda numoamS
+	lda numoamS                             ; pgfx += lkup32NumSpr[numspr];
 	asl a
 	tax
-	lda.l _lkup16oamS,x 
+	lda.l _lkup32oamS,x
 	clc
 	adc.w pgfx
-	sta.w pgfx
+	sta.w pgfx  
 
-  ; oamAddGfxQueue16(pgfx,GFXSPR1ADR+idBlock16);
-    lda.l oamValQueue16
+	lda.l oamValQueue32
 	tax
 	clc
 	adc #$0005
-	sta.l oamValQueue16
-
+	sta.l oamValQueue32
+    
     phx
-    lda nbSpr16                                 ; 210226 get address
+    lda nbSpr32                                 ; 210226
     asl a
     tax
-    lda.l lkup16idB,x
+    lda.l _lkup32idB,x
     plx
+    ;210226 lda idBlock32									; get address
 	clc
-	adc #GFXSPR1ADR
-	sta.l oamGfxQueue16+3,x
+	adc #GFXSPR0ADR
+	sta.l oamGfxQueue32+3,x
 	lda pgfx										; get tileSource (lower 16 bits)
-	sta.l oamGfxQueue16,x
+	sta.l oamGfxQueue32,x
 	sep #$20                      ; A 16 bits
 	lda pgfx+2                      ; get tileSource (bank)
-	sta.l oamGfxQueue16+2,x
+	sta.l oamGfxQueue32+2,x
 
-_oamSDraw16InsRep1:
-	; oamSetAttr(nb_sprites_oam,xspr,yspr,idTile16,attrspr);// | ((idTile16>>8) & 1) );
-    rep #$20
+_oamSDraw32InsRep1:	
+	; oamSetAttr(nb_sprites_oam,xspr,yspr,idTile32,attrspr);// | ((idTile32>>8) & 1) );
+    rep #$30
 	ldx nboamS                    ; get idoff (11)
 
+    lda nbSpr32                    ; 210226
+    asl a                          ; get gfxOffset
     phx
-    lda nbSpr16                   ; get gfxOffset
-    asl a
     tax
-    lda.l _lkup16idT,x
+    lda.l _lkup32idT,x
     plx
 	sta.w oamMemory+2,x
 
@@ -1220,6 +1154,7 @@ _oamSDraw16InsRep1:
 	sep #$20                      ; A 8 bits
 	ror a                         ; x msb into carry
 
+	;rep #$20                      ; A 16 bits 
 	lda yoamS                      ; get y
 	xba
 	rep #$20                      ; A 16 bits 
@@ -1230,25 +1165,27 @@ _oamSDraw16InsRep1:
 	lda.l _oamMaskB+2,x            ; get offset in the extra OAM data
 	tay
 
-	bcs _oamSDraw16InsRep3
+	bcs _oamSDraw32InsRep3
 
 	lda.l _oamMaskB+1,x
 	and.w oamMemory,y
 	sta.w oamMemory,y
 	lda attroamS                      ; get attr
-	sta oamMemory+3,x
-    brl _oamSDraw16InsRep4
+	ora.l oamMemory+3,x
+	sta.w oamMemory+3,x
+    brl _oamSDraw32InsRep4
 
-_oamSDraw16InsRep3:
+_oamSDraw32InsRep3:
 	lda.l _oamMaskB,x
 	ora.w oamMemory,y
 	sta.w oamMemory,y
 	lda attroamS                      ; get attr
-	sta oamMemory+3,x
+	ora.w oamMemory+3,x
+	sta.w oamMemory+3,x
   
-_oamSDraw16InsRep4:	
-	; oamSetEx(nb_sprites_oam, OBJ_SMALL, OBJ_SHOW);
-    rep #$20
+_oamSDraw32InsRep4:	
+	; oamSetEx(nb_sprites_oam, OBJ_LARGE, OBJ_SHOW);
+	rep #$20
 	lda nboamS
 	lsr a
 	lsr a
@@ -1268,16 +1205,247 @@ _oamSDraw16InsRep4:
 	lda oamMemory,y              ; get value of oam table #2
 	and.l oamSetExand,x
 	sta oamMemory,y              ; store new value in oam table #2
-
-    ; nbsprite16++
+	
+	lda.l oamSizeshift,x         ; get shifted value of hide (<<1, <<3, <<5, <<7
+	ora oamMemory,y
+	sta oamMemory,y              ; store new value in oam table #2
+       
+    ; nbsprite32++
     rep #$20
-    inc.w nbSpr16
-
+    inc.w nbSpr32
+    
 	; nb_sprites_oam+=4;
 	lda nboamS
 	clc
 	adc #$0004
 	sta.w nboamS
+
+_oam32DrawInsEnd:    
+	ply
+	plx
+	
+	plb
+	plp
+	rtl
+	
+.ENDS
+
+.SECTION ".sprites9_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+; void oamVramQueue16Update(void)
+oamVramQueue16Update:
+	php
+	phb
+	phx
+
+	sep	#$20                          						  ; 8bit A
+	lda #$7e
+	pha
+	plb
+	
+	ldx oamqueue16number                 					  ; something to transfert to vram ?
+	bne	_gfxnld161                    
+    jmp _gfxnld16z                   	 					  ; no, bye
+    
+_gfxnld161:
+	lda	#$80
+	sta.l	$2115                     	 					  ; VRAM address increment value designation
+
+	rep #$20          
+    stz.w oamqueue16number
+    txa
+
+_gfx16nm:                
+	lda	#$1801  
+	sta.l	$4320                     						  ; 1= word increment
+	sta.l	$4330                     						  ; 1= word increment
+
+	dex								   						  ; only first time, will be done at the end of loop after
+_gfxld16:
+    dex														  ; prepare next entry
+    dex
+    dex
+    dex
+	dex
+
+    rep	#$20
+    lda.l oamQueue16Entry+3,x    							 ; get address	
+    sta.l	$2116                							 ; address for VRAM write(or read)
+
+    lda.l oamQueue16Entry,x      							 ; get tileSource (lower 16 bits)	
+    sta.l	$4322         			 						 ; data offset in memory
+    clc
+    adc #$200
+    sta.l	$4332           								 ; data offset in memory
+
+
+    lda #$0040
+    sta.l	$4325           								 ; number of bytes to be copied
+    sta.l	$4335           								 ; number of bytes to be copied
+
+    sep	#$20                								 ; 8bit A
+    lda.l oamQueue16Entry+2,x    							 ; get tileSource (bank)
+    sta.l	$4324
+    sta.l	$4334
+
+    lda	#$04                  								 ; turn on bit 2 (channel 2) of DMA
+    sta.l	$420b
+
+    ; second step
+    rep	#$20
+    lda.l oamQueue16Entry+3,x    							 ; get address	
+    ora #$100
+    sta.l	$2116           								 ; address for VRAM write(or read)
+
+    sep	#$20                								 ; 8bit A
+    lda	#$08                  								 ; turn on bit 3 (channel 3) of DMA
+    sta.l	$420b
+
+    dex
+    bmi _gfxnld16z
+    bne _gfxld16
+
+_gfxnld16z:
+	
+	plx
+    plb
+	plp
+	rtl
+
+;---------------------------------------------------------------------------------
+; void oamDynamic16Draw(u16 id) {
+oamDynamic16Draw:
+	php
+	phb
+	phx
+    phy
+  	
+	sep #$20
+	lda #$7e
+	pha
+	plb
+	
+	rep #$20
+	lda	10,s                     							  ; get id
+	asl a													  ; to be on correct index (16 bytes per oam)
+	asl a
+	asl a
+	asl a
+	
+	tay
+	sep #$20
+	lda oambuffer.1.oamrefresh,y						      ; check if we need to update graphics
+	beq _o16DRep1
+    lda #$00
+	sta oambuffer.1.oamrefresh,y                              ; reinit it
+
+	rep #$20
+	lda oambuffer.1.oamframeid,y 							  ; get sprite entry number for graphics
+	asl a
+	tax
+	lda.l lkup16oamS,x
+	clc
+	adc.w oambuffer.1.oamgraphics,y
+	sta.w sprit_val2
+
+    lda.l oamqueue16number									  ; oamAddGfxQueue16(pgfx,GFXSPR1ADR+idBlock16);
+	tax														  ; go to next graphic entry
+	clc
+	adc #$0006
+	sta.l oamqueue16number
+
+    phx
+    lda oamnumber16                             			  ;  get address
+    asl a
+    tax
+    lda.l lkup16idB,x
+    plx
+	clc
+	adc #GFXSPR1ADR
+	sta.l oamQueue16Entry+3,x
+	lda sprit_val2											  ; get tileSource (lower 16 bits)
+	sta.l oamQueue16Entry,x
+	sep #$20                      							  ; A 16 bits
+	lda oambuffer.1.oamgraphics+2,y                		      ; get tileSource (bank)
+	sta.l oamQueue16Entry+2,x
+	
+	lda #OBJ_SPRITE16                      					  ; store that it is a 16pix sprite 
+	sta.l oamQueue16Entry+5,x
+
+_o16DRep1:
+	rep #$20
+	ldx oamframenumber                                        ; get cuurent sprite number (x4 entry)
+
+    phx
+    lda oamnumber16                  						  ; get graphics offset of 16x16 sprites
+    asl a
+    tax
+    lda.l lkup16idT,x
+    plx
+	sta.w oamMemory+2,x										  ; store in oam memory
+
+	lda oambuffer.1.oamx,y				                      ; get x coordinate
+	xba														  ; save it
+	sep #$20                  								  ; A 8 bits
+	ror a                         						      ; x msb into carry (saved if x>255)
+
+	lda oambuffer.1.oamy,y                     				  ; get y coordinate
+	xba
+	rep #$20                      							  ; A 16 bits 
+	sta.w oamMemory,x										  ; store x & y in oam memory
+
+	lda.w #$0200                  							  ; put $02 into MSB
+	sep #$20                      							  ;	 A 8 bits
+	lda.l oammask+2,x            							  ; get offset in the extra OAM data
+	phy
+	tay
+
+	bcs _o16DRep3											  ; if no x<255, no need to update
+
+	lda.l oammask+1,x
+	and.w oamMemory,y
+	sta.w oamMemory,y										  ; store x in oam memory
+    brl +
+
+_o16DRep3:
+	lda.l oammask,x
+	ora.w oamMemory,y
+	sta.w oamMemory,y										  ; store x in oam memory
+ 
++:	
+	ply
+	lda oambuffer.1.oamattribute,y     						  ; get attr
+	sta oamMemory+3,x										  ; store attrbutes in oam memory
+
+	rep #$20												  ; oamSetEx(nb_sprites_oam, OBJ_SMALL, OBJ_SHOW);
+	lda oamframenumber
+	lsr a
+	lsr a
+	lsr a
+	lsr a
+	clc
+	adc.w #512                                                ; id>>4 + 512
+	tay                          							  ; oam pointer is now on oam table #2
+	
+	lda oamframenumber                   				      ; id
+	lsr a
+	lsr a
+	and.w #$0003                 							  ; id >> 2 & 3
+	tax
+
+	sep #$20
+	lda oamMemory,y              							  ; get value of oam table #2
+	and.l oamSetExand,x
+	sta oamMemory,y              							  ; store new value in oam table #2
+
+    rep #$20
+    inc.w oamnumber16										  ; one more sprite 16x16
+
+	lda oamframenumber										  ; go to next sprite entry (x4 multiplier)
+	clc
+	adc #$0004
+	sta.w oamframenumber
 
 _oam16DrawInsEnd:
 	ply

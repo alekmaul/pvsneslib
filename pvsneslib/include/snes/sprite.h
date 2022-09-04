@@ -56,9 +56,38 @@ typedef struct {
 	u8  oamattribute;								/*!< 6 sprite attribute value (vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num)  */
 	u8  oamrefresh;									/*!< 7 =1 if we need to load graphics from graphic file  */
     u8* oamgraphics;								/*!< 8..11 pointer to graphic file  */
+	u16 dummy1;										/*! 12..15 to be 16 aligned */
+	u16 dummy2;
 } t_sprites __attribute__((__packed__));            /*!< seems to do nothing */
 
-extern u8 oamMemory[128*4+8*4]; 					// to address oma table low and high
+/*!  \brief Sprite Table (from no$sns help file)<br>
+Contains data for 128 OBJs. OAM Size is 512+32 Bytes. The first part (512<br>
+bytes) contains 128 4-byte entries for each OBJ:<br>
+  Byte 0 - X-Coordinate (lower 8bit) (upper 1bit at end of OAM)<br>
+  Byte 1 - Y-Coordinate (all 8bits)<br>
+  Byte 2 - Tile Number  (lower 8bit) (upper 1bit within Attributes)<br>
+  Byte 3 - Attributes<br>
+Attributes:<br>
+  Bit7    Y-Flip (0=Normal, 1=Mirror Vertically)<br>
+  Bit6    X-Flip (0=Normal, 1=Mirror Horizontally)<br>
+  Bit5-4  Priority relative to BG (0=Low..3=High)<br>
+  Bit3-1  Palette Number (0-7) (OBJ Palette 4-7 can use Color Math via CGADSUB)<br>
+  Bit0    Tile Number (upper 1bit)<br>
+After above 512 bytes, additional 32 bytes follow, containing 2-bits per OBJ:<br>
+  Bit7    OBJ 3 OBJ Size     (0=Small, 1=Large)<br>
+  Bit6    OBJ 3 X-Coordinate (upper 1bit)<br>
+  Bit5    OBJ 2 OBJ Size     (0=Small, 1=Large)<br>
+  Bit4    OBJ 2 X-Coordinate (upper 1bit)<br>
+  Bit3    OBJ 1 OBJ Size     (0=Small, 1=Large)<br>
+  Bit2    OBJ 1 X-Coordinate (upper 1bit)<br>
+  Bit1    OBJ 0 OBJ Size     (0=Small, 1=Large)<br>
+  Bit0    OBJ 0 X-Coordinate (upper 1bit)<br>
+And so on, next 31 bytes with bits for OBJ4..127. Note: The meaning of the OBJ<br>
+Size bit (Small/Large) can be defined in OBSEL Register (Port 2101h).<br>
+*/
+extern t_sprites oambuffer[128];           			/*!< \brief current sprite buffer for dynamic engine */
+
+extern u8 oamMemory[128*4+8*4]; 					/*!< \brief to address oma table low and high */
 
 /*! \def REG_OBSEL
     \brief Object Size and Object Base (W)
@@ -233,26 +262,30 @@ void oamInitGfxAttr(u16 address, u8 oamsize);
 */
 void oamInitDynamicSprite(u16 blk32init, u16 id32init, u16 blk16init, u16 id16init, u16 blk8init, u16 id8init, u16 oam32init, u16 oam16init, u16 oam8init, u8 oamsize);
 
-/*!\brief Must be call at the end of the frame, initialize the dynamic sprite engine for the next frame
+/*!\brief Must be call at the end of the frame, initialize the dynamic sprite engine for the next frame.
 */
 void oamInitDynamicSpriteEndFrame(void);
 
-/*!\brief Update VRAM graphics for sprites 32x32 in Vblank if needed.<br>
+/*!\brief Update VRAM graphics for sprites 32x32 in Vblank if needed.
 */
 void oamVramQueue32Update(void);
 
-/*!\brief Update VRAM graphics for sprites 16x16 in Vblank if needed.<br>
+/*!\brief Update VRAM graphics for sprites 16x16 in Vblank if needed.
 */
 void oamVramQueue16Update(void);
 
-/*!\brief Update VRAM graphics for sprites 8x8 in Vblank if needed.<br>
+/*!\brief Update VRAM graphics for sprites 8x8 in Vblank if needed.
 */
 void oamVramQueue8Update(void);
+
+/*!\brief Add a 16x16 sprite on screen.<br>oambuffer needs to be populate before.
+    \param id the oam number to be set [0 - 127]
+*/
+void oamDynamic16Draw(u16 id);
 
 
 /* TODO */
 void oamAddDynamicSprite8(void);
-void oamAddDynamicSprite16(void);
 void oamAddDynamicSprite32(void);
 
 
