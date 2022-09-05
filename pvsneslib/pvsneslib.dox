@@ -38,7 +38,10 @@ PROJECT_NAME           = "PVSnesLib"
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = 3.4.0
+
+# Please do not use it here, it is set dynamically in pvsneslib/Makefile when
+# building the project
+# PROJECT_NUMBER         = x.x.x
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a

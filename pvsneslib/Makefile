@@ -4,12 +4,10 @@ endif
  
 export TOPDIR	:=	$(CURDIR)
 
-# create version number
+# create version number which will be used everywhere
 export PVSNESLIB_MAJOR	:= 3
 export PVSNESLIB_MINOR	:= 5
 export PVSNESLIB_PATCH	:= 0
-
-VERSION	:=	$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
 
 .PHONY: release clean all docs
 
@@ -39,7 +37,8 @@ docs:
 ifndef doxygenInstalled
 	@echo "doxygen is not installed, documentation will be not generated.";
 else
-	doxygen pvsneslib.dox
+# the pvsneslib version is set dynamically in the doc
+	( cat pvsneslib.dox && echo "PROJECT_NUMBER = $(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)" ) | doxygen -
 	@if [ -f 'warn.log' ]; then \
         @cat warn.log; \
 	fi	
