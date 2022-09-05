@@ -41,6 +41,8 @@ tools/snesbrr/snesbrr
 tools/snesbrr/snesbrr.exe
 tools/snestools/snestools
 tools/snestools/snestools.exe
+tools/snestools/tmx2snes
+tools/snestools/tmx2snes.exe
 
 # all other type of files generated automatically
 linkfile
