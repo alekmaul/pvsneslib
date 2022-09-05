@@ -30,7 +30,7 @@ Add your current user to the docker group and restart your system to make it eff
 
 Clone the pvsneslib repository and move to the root of the project (pvsneslib)
 ```bash
-  git clone git clone https://github.com/alekmaul/pvsneslib.git
+  git clone https://github.com/alekmaul/pvsneslib.git
   cd pvsneslib
 ```
 
