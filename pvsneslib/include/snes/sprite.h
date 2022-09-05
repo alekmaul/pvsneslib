@@ -253,14 +253,11 @@ void oamInitGfxAttr(u16 address, u8 oamsize);
 	\param id32init	address of sprites graphics entry
 	\param blk16init	address of sprites graphics entry
 	\param id16init	address of sprites graphics entry
-	\param blk8init	address of sprites graphics entry
-	\param id8init	address of sprites graphics entry
 	\param oam32init	address of sprites graphics entry
 	\param oam16init	address of sprites graphics entry
-	\param oam8init	address of sprites graphics entry
 	\param oamsize	default OAM size (OBJ_SIZE8_L16, OBJ_SIZE8_L32, OBJ_SIZE8_L64, OBJ_SIZE16_L32, OBJ_SIZE16_L64 and OBJ_SIZE32_L64)
 */
-void oamInitDynamicSprite(u16 blk32init, u16 id32init, u16 blk16init, u16 id16init, u16 blk8init, u16 id8init, u16 oam32init, u16 oam16init, u16 oam8init, u8 oamsize);
+void oamInitDynamicSprite(u16 blk32init, u16 id32init, u16 blk16init, u16 id16init, u16 oam32init, u16 oam16init, u8 oamsize);
 
 /*!\brief Must be call at the end of the frame, initialize the dynamic sprite engine for the next frame.
 */
