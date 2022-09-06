@@ -232,6 +232,7 @@ struct cute_tiled_object_t
 	int gid;                             // GID, only if object comes from a Tilemap.
 	float height;                        // Height in pixels. Ignored if using a gid.
 	int id;                              // Incremental id - unique across all objects.
+	cute_tiled_string_t class;           // 220906 JGD class of object.
 	cute_tiled_string_t name;            // String assigned to name field in editor.
 	int point;                           // 0 or 1. Used to mark an object as a point.
 
@@ -2036,8 +2037,13 @@ cute_tiled_object_t* cute_tiled_read_object(cute_tiled_map_internal_t* m)
 		case 643295699219922364U: // y
 			cute_tiled_read_float(m, &object->y);
 			break;
-
+		
+		case 1485919047363370797U: // 220906 class
+			cute_tiled_intern_string(m, &object->class);
+			break;
+		
 		default:
+			//DEBUG ONLY printf("%lld\n",h);
 			CUTE_TILED_CHECK(0, "Unknown identifier found.");
 		}
 
