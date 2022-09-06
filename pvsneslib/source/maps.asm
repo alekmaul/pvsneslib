@@ -27,7 +27,7 @@
 
 .DEFINE MAP_BG1_ADR     $6800
 
-.DEFINE MAP_MAXROWS     32*2                ; Maximum number of rows in a map.
+.DEFINE MAP_MAXROWS     256*2               ; Maximum number of rows in a map.
 .DEFINE MAP_MAXMTILES   512                 ; Number of metatiles (ort not) per map
 
 .DEFINE MAP_SCRLR_SCRL  128                 ; Screen position to begin scroll left & right
