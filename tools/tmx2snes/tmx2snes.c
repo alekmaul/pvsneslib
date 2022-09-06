@@ -362,9 +362,6 @@ int main(int argc, char **argv)
 		printf("\ntmx2snes: error 'Can't open file [%s]'",filebase);
 		exit( 1 );
 	}
-	if (filebase[strlen(filebase)-4] == '.') {
-		filebase[strlen(filebase)-4] = '\0';
-	}
 
 	// get filesize
 	fseek(fpi, 0, SEEK_END);
