@@ -49,6 +49,7 @@ tools/tmx2snes/tmx2snes.exe
 *.b16
 *.o16
 *.t16
+*.m16
 
 # all other type of files generated automatically
 linkfile
