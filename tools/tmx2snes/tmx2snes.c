@@ -341,23 +341,36 @@ int main(int argc, char **argv)
 				PrintOptions(argv[i]);
 				exit( 1 );
 			}
-			else
+			else {
 				strcpy(filebase,argv[i]);
+			}
 		}
 	}
 
 	//make sure options are valid
 	if( filebase[0] == 0 )
 	{
-		printf("\tmx2snes: error 'You must specify a base filename'");
+		printf("\ntmx2snes: error 'You must specify a base filename'");
 		PrintOptions("");
 		exit( 1 );
+	}
+
+	// open the file
+	fpi = fopen(filebase,"rb");
+	if(fpi==NULL)
+	{
+		printf("\ntmx2snes: error 'Can't open file [%s]'",filebase);
+		exit( 1 );
+	}
+	if (filebase[strlen(filebase)-4] == '.') {
+		filebase[strlen(filebase)-4] = '\0';
 	}
 
 	// get filesize
 	fseek(fpi, 0, SEEK_END);
 	filesize = ftell(fpi);
 	fseek(fpi, 0, SEEK_SET);
+
 
     // load the map in memory
 	if (quietmode == 0)
@@ -387,7 +400,12 @@ int main(int argc, char **argv)
 	}
 
 	// remove filename extension
-	filebase[strlen(filebase)-5] = '\0';
+	if (filebase[strlen(filebase)-5] == '.') {
+		filebase[strlen(filebase)-5] = '\0';
+	}
+	else if (filebase[strlen(filebase)-4] == '.') {
+		filebase[strlen(filebase)-4] = '\0';
+	}
 
 	// Print what the user has selected
 	printf("\n<layername>.m16 file for map, used by pvsneslib 'mapLoad' function as 1st argument (only 1 layer)\n");
