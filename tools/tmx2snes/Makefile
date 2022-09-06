@@ -4,7 +4,7 @@ VERSION = "1.0.0"
 # options for code generation
 #---------------------------------------------------------------------------------
 CC=gcc
-CFLAGS=-g -O2 -Wall -Wno-implicit-function-declaration -Wno-unused-result -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+CFLAGS=-g -O2 -Wall -Wno-implicit-function-declaration -Wno-unused-result -static -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 SOURCES=tmx2snes.c 
 OBJS=tmx2snes.o 
