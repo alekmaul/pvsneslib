@@ -89,7 +89,7 @@ void PrintOptions(char *str)
 	printf("\n  	.o16 file for objects");
 	
 	if(str[0]!=0)
-		printf("\n\tmx2snes: error 'The [%s] parameter is not recognized'",str);
+		printf("\ntmx2snes: error 'The [%s] parameter is not recognized'",str);
 	
 	printf("\n\nMisc options:");
     printf("\n-h                Display this information");
@@ -102,7 +102,7 @@ void PrintOptions(char *str)
 //////////////////////////////////////////////////////////////////////////////
 void PrintVersion(void)
 {
-	printf("\n\tmx2snes.exe ("TMX2SNESDATE") version "TMX2SNESVERSION"");
+	printf("\ntmx2snes.exe ("TMX2SNESDATE") version "TMX2SNESVERSION"");
     printf("\nCopyright (c) 2022 Alekmaul\n");
 }
 
@@ -383,6 +383,12 @@ int main(int argc, char **argv)
 	fclose(fpi);
 
 	// test some attributes of Tiled map
+	float currentExportSupportedVersion = 1.9;
+	if(map->version != currentExportSupportedVersion) {
+		printf("tmx2snes: error 'the export version you used (%.1f) is not supported. The tool support only the %.1f version.'\n",map->version, currentExportSupportedVersion);
+		return 1;
+	}
+
 	if ((map->width*map->height)>16384) {
 		printf("tmx2snes: error 'map is too big (max 32K)! (%dK)'\n",(map->width*map->height*2)/1024);
         return 1;
