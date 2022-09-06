@@ -263,23 +263,19 @@ void oamInitDynamicSprite(u16 blk32init, u16 id32init, u16 blk16init, u16 id16in
 */
 void oamInitDynamicSpriteEndFrame(void);
 
-/*!\brief Update VRAM graphics for sprites 32x32 in Vblank if needed.
+/*!\brief Update VRAM graphics for sprites 32x32, 16x16 and 8x8 (can but call in  Vblank if needed).
 */
-void oamVramQueue32Update(void);
+void oamVramQueueUpdate(void);
 
-/*!\brief Update VRAM graphics for sprites 16x16 in Vblank if needed.
-*/
-void oamVramQueue16Update(void);
-
-/*!\brief Update VRAM graphics for sprites 8x8 in Vblank if needed.
-*/
-void oamVramQueue8Update(void);
-
-/*!\brief Add a 16x16 sprite on screen.<br>oambuffer needs to be populate before.
+/*!\brief Add a 16x16 sprite on screen.<br>oambuffer[id] needs to be populate before.
     \param id the oam number to be set [0 - 127]
 */
 void oamDynamic16Draw(u16 id);
 
+/*!\brief Add a 8x8 sprite on screen.<br>oambuffer[id] needs to be populate before.
+    \param id the oam number to be set [0 - 127]
+*/
+void oamDynamic8Draw(u16 id);
 
 /* TODO */
 void oamAddDynamicSprite8(void);
