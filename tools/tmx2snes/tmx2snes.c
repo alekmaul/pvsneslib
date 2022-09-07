@@ -260,29 +260,33 @@ void WriteEntities(void)
 	fflush(stdout);
 	memset(objsnes,0x00,sizeof(objsnes));
 	objidx=layer->object_count-1;
-    while (objm) {
-		// put object in reverse order 
-		objsnes[objidx].type=(unsigned short) strtol(objm->type.ptr,&pend,10);
-		objsnes[objidx].x=(int) objm->x;
-		objsnes[objidx].y=(int) objm->y;
-		for (i = 0; i < objm->property_count; i++) {
-            propm = objm->properties + i;
-			// write blocker property (which is a string)
-			if (strcmp(propm->name.ptr,"minx")==0) {
-				blkprop=(unsigned short) strtol(propm->data.string.ptr,&pend,10);
-				objsnes[objidx].minx=blkprop;
+	
+	// if we have some objects to store
+	if (objidx) {
+		while (objm) {
+			// put object in reverse order 
+			objsnes[objidx].type=(unsigned short) strtol(objm->type.ptr,&pend,10);
+			objsnes[objidx].x=(int) objm->x;
+			objsnes[objidx].y=(int) objm->y;
+			for (i = 0; i < objm->property_count; i++) {
+				propm = objm->properties + i;
+				// write blocker property (which is a string)
+				if (strcmp(propm->name.ptr,"minx")==0) {
+					blkprop=(unsigned short) strtol(propm->data.string.ptr,&pend,10);
+					objsnes[objidx].minx=blkprop;
+				}
+				// write prio property (which is a string)
+				if (strcmp(propm->name.ptr,"maxx")==0) {
+					blkprop=(unsigned short) strtol(propm->data.string.ptr,&pend,10);
+					objsnes[objidx].maxx=blkprop;
+				}
 			}
-			// write prio property (which is a string)
-			if (strcmp(propm->name.ptr,"maxx")==0) {
-				blkprop=(unsigned short) strtol(propm->data.string.ptr,&pend,10);
-				objsnes[objidx].maxx=blkprop;
-			}
-		}
 
-        // switch to next object
-        objm = objm->next;
-		objidx--;
-    }
+			// switch to next object
+			objm = objm->next;
+			objidx--;
+		}
+	}
 
 	// now write to file
 	if (quietmode == 0)
