@@ -33,8 +33,8 @@
 
 .EQU OBJ_SIZE16_L32				$60							  ; (3<<5) default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register (used for 16x16 sprite gfx entry)
 
-.EQU OBJ_QUEUELIST_SIZE			64							  ; 64 sprites of 8x8, 16x16 & 32x32 max in queue to update sprite graphics
-.EQU MAXSPRTRF					8*6							  ; 8 sprites max tranfered each time to VRAM
+.EQU OBJ_QUEUELIST_SIZE			128							  ; 128 sprites of 8x8, 16x16 & 32x32 max in queue to update sprite graphics
+.EQU MAXSPRTRF					8*6						  	  ; 8 sprites max tranfered each time to VRAM
 
 .STRUCT t_oam
 oamx							DW							  ;	0 x position on the screen 
@@ -729,17 +729,28 @@ lkup8oamS:  ; lookup table for 8x8 sprites in VRAM (128 sprites max $0000->$1000
 	.word $0200,$0220,$0240,$0260,$0280,$02A0,$02C0,$02E0,$0300,$0320,$0340,$0360,$0380,$03A0,$03C0,$03E0
 	.word $0400,$0420,$0440,$0460,$0480,$04A0,$04C0,$04E0,$0500,$0520,$0540,$0560,$0580,$05A0,$05C0,$05E0
 	.word $0600,$0620,$0640,$0660,$0680,$06A0,$06C0,$06E0,$0700,$0720,$0740,$0760,$0780,$07A0,$07C0,$07E0
+	.word $0800,$0820,$0840,$0860,$0880,$08A0,$08C0,$08E0,$0900,$0920,$0940,$0960,$0980,$09A0,$09C0,$09E0
+	.word $0A00,$0A20,$0A40,$0A60,$0A80,$0AA0,$0AC0,$0AE0,$0B00,$0B20,$0B40,$0B60,$0B80,$0BA0,$0BC0,$0BE0
+	.word $0C00,$0C20,$0C40,$0C60,$0C80,$0CA0,$0CC0,$0CE0,$0D00,$0D20,$0D40,$0D60,$0D80,$0DA0,$0DC0,$0DE0
+	.word $0E00,$0E20,$0E40,$0E60,$0E80,$0EA0,$0EC0,$0EE0,$0F00,$0F20,$0F40,$0F60,$0F80,$0FA0,$0FC0,$0FE0
 lkup8idT:  ; lookup table for 8x8 sprites ID identification (todo)
 	.word $0100,$0101,$0102,$0103,$0104,$0105,$0106,$0107,$0108,$0109,$010A,$010B,$010C,$010D,$010E,$010F
-	
-	.word $0140,$0142,$0144,$0146,$0148,$014A,$014C,$014E,$0160,$0162,$0164,$0166,$0168,$016A,$016C,$016E
-	.word $0180,$0182,$0184,$0186,$0188,$018A,$018C,$018E,$01A0,$01A2,$01A4,$01A6,$01A8,$01AA,$01AC,$01AE
-	.word $01C0,$01C2,$01C4,$01C6,$01C8,$01CA,$01CC,$01CE,$01E0,$01E2,$01E4,$01E6,$01E8,$01EA,$01EC,$01EE
+	.word $0110,$0111,$0112,$0113,$0114,$0115,$0116,$0117,$0118,$0119,$011A,$011B,$011C,$011D,$011E,$011F
+	.word $0120,$0121,$0122,$0123,$0124,$0125,$0126,$0127,$0128,$0129,$012A,$012B,$012C,$012D,$012E,$012F
+	.word $0130,$0131,$0132,$0133,$0134,$0135,$0136,$0137,$0138,$0139,$013A,$013B,$013C,$013D,$013E,$013F
+	.word $0140,$0141,$0142,$0143,$0144,$0145,$0146,$0147,$0148,$0149,$014A,$014B,$014C,$014D,$014E,$014F
+	.word $0150,$0151,$0152,$0153,$0154,$0155,$0156,$0157,$0158,$0159,$015A,$015B,$015C,$015D,$015E,$015F
+	.word $0160,$0161,$0162,$0163,$0164,$0165,$0166,$0167,$0168,$0169,$016A,$016B,$016C,$016D,$016E,$016F
+	.word $0170,$0171,$0172,$0173,$0174,$0175,$0176,$0177,$0178,$0179,$017A,$017B,$017C,$017D,$017E,$017F
 lkup8idB:  ; lookup table for 8x8 sprites block identification
 	.word $0000,$0010,$0020,$0030,$0040,$0050,$0060,$0070,$0080,$0090,$00A0,$00B0,$00C0,$00D0,$00E0,$00F0
 	.word $0100,$0110,$0120,$0130,$0140,$0150,$0160,$0170,$0180,$0190,$01A0,$01B0,$01C0,$01D0,$01E0,$01F0
-	.word $0200,$0210,$2120,$0230,$0240,$0250,$0260,$0270,$0280,$0290,$02A0,$02B0,$02C0,$02D0,$02E0,$02F0
-	.word $0300,$0310,$3120,$0330,$0340,$0350,$0360,$0370,$0380,$0390,$03A0,$03B0,$03C0,$03D0,$03E0,$03F0
+	.word $0200,$0210,$0220,$0230,$0240,$0250,$0260,$0270,$0280,$0290,$02A0,$02B0,$02C0,$02D0,$02E0,$02F0
+	.word $0300,$0310,$0320,$0330,$0340,$0350,$0360,$0370,$0380,$0390,$03A0,$03B0,$03C0,$03D0,$03E0,$03F0
+	.word $0400,$0410,$0420,$0430,$0440,$0450,$0460,$0470,$0480,$0490,$04A0,$04B0,$04C0,$04D0,$04E0,$04F0
+	.word $0500,$0510,$0520,$0530,$0540,$0550,$0560,$0570,$0580,$0590,$05A0,$05B0,$05C0,$05D0,$05E0,$05F0
+	.word $0600,$0610,$0620,$0630,$0640,$0650,$0660,$0670,$0680,$0690,$06A0,$06B0,$06C0,$06D0,$06E0,$06F0
+	.word $0700,$0710,$0720,$0730,$0740,$0750,$0760,$0770,$0780,$0790,$07A0,$07B0,$07C0,$07D0,$07E0,$07F0
 
 .ENDS
 
@@ -1004,10 +1015,10 @@ _gfxld8:
 
 _ovqu16b:												     ;-------------------------------------------------
 	rep	#$20												 ; 16x16 sprite transfert to VRAM
-    lda.l oamQueueEntry+3,x    							 ; get address	
+    lda.l oamQueueEntry+3,x    							 	 ; get address	
     sta.l	$2116                							 ; address for VRAM write(or read)
 
-    lda.l oamQueueEntry,x      							 ; get tileSource (lower 16 bits)	
+    lda.l oamQueueEntry,x      							 	 ; get tileSource (lower 16 bits)	
     sta.l	$4322         			 						 ; data offset in memory
     clc
     adc #$200
@@ -1019,7 +1030,7 @@ _ovqu16b:												     ;-------------------------------------------------
     sta.l	$4335           								 ; number of bytes to be copied
 
     sep	#$20                								 ; 8bit A
-    lda.l oamQueueEntry+2,x    							 ; get tileSource (bank)
+    lda.l oamQueueEntry+2,x    							 	 ; get tileSource (bank)
     sta.l	$4324
     sta.l	$4334
 
@@ -1028,7 +1039,7 @@ _ovqu16b:												     ;-------------------------------------------------
 
     ; second step
     rep	#$20
-    lda.l oamQueueEntry+3,x    							 ; get address	
+    lda.l oamQueueEntry+3,x    							 	 ; get address	
     ora #$100
     sta.l	$2116           								 ; address for VRAM write(or read)
 
@@ -1037,7 +1048,7 @@ _ovqu16b:												     ;-------------------------------------------------
     sta.l	$420b
 
     dex
-    bmi _gfxnld8
+    bmi _ovqug1z0
     bne _gfxld8
 
 
@@ -1049,7 +1060,7 @@ _ovqu8b:													 ;-------------------------------------------------
     lda.l oamQueueEntry,x      								 ; get tileSource (lower 8 bits)	
     sta.l	$4322         			 						 ; data offset in memory
 
-    lda #$0010
+    lda #$0020
     sta.l	$4325           								 ; number of bytes to be copied
 
     sep	#$20                								 ; 8bit A
@@ -1060,13 +1071,13 @@ _ovqu8b:													 ;-------------------------------------------------
     sta.l	$420b
 
     dex
-    bmi _gfxnld8
+    bmi _ovqug1z0
     ;bne _gfxld8
-	beq _gfxnld8
+	beq _ovqug1z0
 	brl _gfxld8
 
 
-_gfxnld8:
+_ovqug1z0:
     rep #$20
     lda oamqueuenumber
     beq _ovqug1z          									 ; if more than max sprite to transfert, put them on top of queue
@@ -1081,7 +1092,7 @@ _ovqug1z1:
     pla
     dea
     bmi _ovqug1z
-    brl _ovqug1z
+    brl _ovqug1z1
 
 _ovqug1z:
 	

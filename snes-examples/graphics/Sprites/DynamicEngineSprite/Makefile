@@ -8,7 +8,7 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 #---------------------------------------------------------------------------------
 # ROMNAME is used in snes_rules file
-export ROMNAME := DynamicSprite
+export ROMNAME := DynamicEngineSprite
 
 all: bitmaps $(ROMNAME).sfc
 
