@@ -267,6 +267,11 @@ void oamInitDynamicSpriteEndFrame(void);
 */
 void oamVramQueueUpdate(void);
 
+/*!\brief Add a 32x32 sprite on screen.<br>oambuffer[id] needs to be populate before.
+    \param id the oam number to be set [0 - 127]
+*/
+void oamDynamic32Draw(u16 id);
+
 /*!\brief Add a 16x16 sprite on screen.<br>oambuffer[id] needs to be populate before.
     \param id the oam number to be set [0 - 127]
 */
