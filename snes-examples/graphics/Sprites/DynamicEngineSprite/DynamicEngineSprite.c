@@ -16,10 +16,9 @@ extern char spr32g,spr32g_end,spr32p;
 extern char spr16g,spr16g_end,spr16p;
 extern char spr8g,spr8g_end,spr8p;
 
-u16 pad0;
-u8 tpoframe,i;
+u8 i;
 
-#define	SPRNUMBER				128
+#define	SPRNUMBER				64					// 64 sprites on screen
 //---------------------------------------------------------------------------------
 int main(void) {
     // Initialize SNES 
@@ -45,43 +44,21 @@ int main(void) {
 		oambuffer[i].oamx=rand() % 240;oambuffer[i].oamy=rand() % 208;
 		oambuffer[i].oamframeid=(i % 24);
 		oambuffer[i].oamrefresh=1;
-		//if (i<30) {
-			oambuffer[i].oamattribute=0x21 | (0<<1); // palette 0 of sprite and sprite 16x16 and priority 2
-			//oambuffer[i].oamgraphics=&spr16g;
-			oambuffer[i].oamgraphics=&spr8g;
-		/*}
+		if (i<32) {
+			oambuffer[i].oamattribute=0x20 | (0<<1); // palette 0 of sprite and sprite 16x16 and priority 2
+			oambuffer[i].oamgraphics=&spr16g;
+		}
 		else {
-			oambuffer[i].oamattribute=0x21 | (0<<1); // palette 0 of sprite and sprite 16x16 and priority 2
+			oambuffer[i].oamattribute=0x21 | (0<<1); // palette 0 of sprite and sprite 8x8 and priority 2
 			oambuffer[i].oamgraphics=&spr8g;
-		}*/
+		}
 	}
-		//tpoframe=0;
-		//keya=0;
-	
+
 	// Wait for nothing :P
 	while(1) {
-		// check key and change sprite
-/*
-		pad0 = padsCurrent(0);
-		if (pad0&KEY_A) {
-			tpoframe++;
-			if (tpoframe>30) { // update sprite frame 2 time per sec
-				tpoframe=0;
-				oambuffer[0].oamframeid++;
-				if (oambuffer[0].oamframeid>2) oambuffer[0].oamframeid=0;
-				oambuffer[0].oamrefresh=1;
-			}
-		}
-		if (pad0&KEY_RIGHT) {if (oambuffer[0].oamx<255) oambuffer[0].oamx++; }
-		if (pad0&KEY_LEFT) {if (oambuffer[0].oamx>0) oambuffer[0].oamx--; }
-		if (pad0&KEY_DOWN) {if (oambuffer[0].oamy<208) oambuffer[0].oamy++; }
-		if (pad0&KEY_UP) {if (oambuffer[0].oamy>0) oambuffer[0].oamy--;  }
-*/
-
 		// Draw sprite
 		for (i=0;i<SPRNUMBER;i++) {
-		/*
-			// change sprites coordinates and frame
+			// change sprites coordinates and frame randomly
 			if ((rand() & 7)==7) {if (oambuffer[i].oamx<240) oambuffer[i].oamx+=2; }
 			else if ((rand() & 5)==5) {if (oambuffer[i].oamx>0) oambuffer[i].oamx-=2; }
 			else if ((rand() & 8)==8) {if (oambuffer[i].oamy<208) oambuffer[i].oamy+=2; }
@@ -91,10 +68,12 @@ int main(void) {
 				if (oambuffer[i].oamframeid>2) oambuffer[i].oamframeid=0;
 				oambuffer[i].oamrefresh=1;
 			}
-			//if (i<30) */
-			//oamDynamic16Draw(i);
-			
-			oamDynamic8Draw(i);
+			if (i<32) 
+				oamDynamic16Draw(i);
+			else {
+				oamDynamic8Draw(i);
+				
+			}
 		}
 
 		// prepare next frame and wait vblank
