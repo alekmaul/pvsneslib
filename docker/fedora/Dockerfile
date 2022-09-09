@@ -14,7 +14,7 @@ RUN echo "fastestmirror=True" >> /etc/dnf/dnf.conf
 
 RUN dnf upgrade --refresh -y && \
     dnf -y groupinstall "Development Tools" && \
-    dnf -y install glibc-devel.i686 cmake gcc-c++ python
+    dnf -y install glibc-devel.i686 cmake gcc-c++ python glibc-static libstdc++-static
 
 CMD echo -e "\n>>>>> CONTAINER INFORMATIONS" >> ${PVSNESLIB_HOME}/docker/${DISTRO}/infos.log && \
     echo -n "O.S version " >> ${PVSNESLIB_HOME}/docker/${DISTRO}/infos.log && \
