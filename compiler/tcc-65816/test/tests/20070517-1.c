@@ -32,7 +32,7 @@ static void example (int arg)
             abort();
         }
     }
-} 
+}
 
 int main(void)
 {

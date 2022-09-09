@@ -7,9 +7,9 @@ int a$b(void) { return 1; }
 
 int main (void)
 {
-  
+
   if (a\u0024b() != 1)
     abort ();
-  
+
   return 0;
 }

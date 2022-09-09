@@ -36,6 +36,6 @@ int main()
   if (nleu(~0U, 0) !=  0) abort();
   if (nltu(0, ~0U) != -1) abort();
   if (nltu(~0U, 0) !=  0) abort();
-  
+
   exit(0);
 }

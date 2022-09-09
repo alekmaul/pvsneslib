@@ -25,7 +25,7 @@ int opt0(void) { return bad3(1); }
 int opt1(void) { return bad6(1); }
 int opt2(void) { return __builtin_constant_p("hi"[0]); }
 
-/* 
+/*
  * Opt3 is known to fail.  It is one of the important cases that glibc
  * was interested in though, so keep this around as a reminder.
  *

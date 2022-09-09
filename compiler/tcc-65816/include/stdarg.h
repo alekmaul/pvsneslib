@@ -1,1 +1,1 @@
-link ../stdarg.h
+link../ stdarg.h

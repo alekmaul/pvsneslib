@@ -1,7 +1,7 @@
 /* Copyright (C) 2002 Free Software Foundation.
-  
+
    Test floating point negation produces the expected results.
-  
+
    Written by Roger Sayle, 21st May 2002.  */
 
 /* { dg-do run } */

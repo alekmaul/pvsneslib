@@ -9,7 +9,7 @@ foo (void)
 {
   return 1;
 }
-   
+
 fn
 test (void)
 {

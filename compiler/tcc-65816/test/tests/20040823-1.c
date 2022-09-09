@@ -11,7 +11,7 @@ void bla (void)
 {
   if (!*pwarn)
     abort ();
-    
+
   exit (0);
 }
 

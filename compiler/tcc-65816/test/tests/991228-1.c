@@ -12,7 +12,7 @@ signbit(double x)
   __extension__ union { double d; int i[2]; } u = { d: x };
   return u.i[MSW] < 0;
 }
-    
+
 int main(void)
 {
   if (2*sizeof(int) != sizeof(double) || u.i[MSW] >= 0)

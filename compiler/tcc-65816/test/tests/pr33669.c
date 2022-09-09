@@ -1,9 +1,9 @@
 extern void abort (void);
 
 typedef struct foo_t
-{ 
+{
   unsigned int blksz;
-  unsigned int bf_cnt; 
+  unsigned int bf_cnt;
 } foo_t;
 
 #define _RNDUP(x, unit)  ((((x) + (unit) - 1) / (unit)) * (unit))

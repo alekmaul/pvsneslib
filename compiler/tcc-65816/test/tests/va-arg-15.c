@@ -9,7 +9,7 @@ void vafunction (char *dummy, ...)
   va_list ap;
 
   va_start(ap, dummy);
-  for (i = 1; i <= 18; i++, flag++) 
+  for (i = 1; i <= 18; i++, flag++)
     {
       if (flag & 1)
 	{
@@ -29,11 +29,11 @@ void vafunction (char *dummy, ...)
 
 int main (void)
 {
-  vafunction( "", 
-	1, 2., 
-	3, 4., 
-	5, 6., 
-	7, 8., 
+  vafunction( "",
+	1, 2.,
+	3, 4.,
+	5, 6.,
+	7, 8.,
 	9, 10.,
 	11, 12.,
 	13, 14.,

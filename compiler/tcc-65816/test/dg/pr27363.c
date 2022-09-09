@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
   mask.bits[1] = 42;
   mask.bits[2] = 0;
   mask.bits[3] = 0;
-  mask.bits[4] = 0; 
+  mask.bits[4] = 0;
   mask.bits[5] = 0;
 
 

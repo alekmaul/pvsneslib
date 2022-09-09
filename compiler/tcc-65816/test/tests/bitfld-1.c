@@ -26,7 +26,7 @@ main(int argc, char *argv[])
   unsigned int unsigned_result = -13U % 61;
   int signed_result = -13 % 61;
 
-  bit.u = 61, u = 61; 
+  bit.u = 61, u = 61;
   bit.i = -13, i = -13;
 
   if (i % u != unsigned_result)

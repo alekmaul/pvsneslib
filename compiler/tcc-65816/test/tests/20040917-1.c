@@ -8,13 +8,13 @@ static int test_var;
 
 void not_inlinable()  __attribute__((noinline));
 
-static void  
+static void
 inlinable ()
 {
   test_var = -10;
 }
 
-void 
+void
 not_inlinable ()
 {
   inlinable();

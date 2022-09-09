@@ -17,10 +17,10 @@ struct table_elt
 
 struct write_data
 {
-  int sp : 1;			 
-  int var : 1;			 
-  int nonscalar : 1;		 
-  int all : 1;			 
+  int sp : 1;			
+  int var : 1;			
+  int nonscalar : 1;		
+  int all : 1;			
 };
 
 int cse_rtx_addr_varies_p(void *);

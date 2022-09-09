@@ -8,7 +8,7 @@
 #define ARRSIZE 100
 
 int arr[ARRSIZE];
-int *ptr = &arr[20]; 
+int *ptr = &arr[20];
 int arrindex = 4;
 
 /* Check that assignment within a prefetch argument is evaluated.  */

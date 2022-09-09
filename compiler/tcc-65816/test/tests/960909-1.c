@@ -18,7 +18,7 @@ f (x)
 {
   int y;
   y = ffs (x) - 1;
-  if (y < 0) 
+  if (y < 0)
     abort ();
 }
 

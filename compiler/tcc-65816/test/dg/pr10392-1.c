@@ -2,7 +2,7 @@
  * Reporter: marcus@mc.pp.se
  * Summary: [3.3/3.4 regression] [SH] optimizer generates faulty array indexing
  * Description:
- * The address calculation of an index operation on an array on the stack 
+ * The address calculation of an index operation on an array on the stack
  * can _under some conditions_ get messed up completely
  *
  * Testcase tweaked by dank@kegel.com

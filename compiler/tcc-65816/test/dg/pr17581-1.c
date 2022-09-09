@@ -17,7 +17,7 @@ int foo(int x)
     default:
       break;
   }
-  
+
   return (int)tmp;
 }
 

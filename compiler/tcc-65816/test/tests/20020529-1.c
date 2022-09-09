@@ -1,6 +1,6 @@
 /* PR target/6838 from cato@df.lth.se.
    cris-elf got an ICE with -O2: the insn matching
-      (insn 49 48 52 (parallel[ 
+      (insn 49 48 52 (parallel[
 		  (set (mem/s:HI (plus:SI (reg/v/f:SI 0 r0 [24])
 			      (const_int 8 [0x8])) [5 <variable>.c+0 S2 A8])
 		      (reg:HI 2 r2 [27]))

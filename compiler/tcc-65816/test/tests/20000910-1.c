@@ -9,7 +9,7 @@ void foo (int *);
 int main () {
   static int a[] = { 0, 1, 2 };
   int *i = &a[sizeof(a)/sizeof(*a)];
-  
+
   while (i-- > a)
     foo (i);
 

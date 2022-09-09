@@ -7,7 +7,7 @@ unsigned int baz = 100;
 void *pure_alloc ()
 {
   void *res;
-  
+
   while (1)
     {
       res = (void *) ((((unsigned int) (foo + bar))) & ~1);

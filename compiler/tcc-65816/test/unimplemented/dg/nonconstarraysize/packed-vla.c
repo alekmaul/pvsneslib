@@ -5,7 +5,7 @@
 extern int printf (const char *, ...);
 extern void abort ();
 
-int func(int levels) 
+int func(int levels)
 {
   struct bar {
     unsigned char	a;

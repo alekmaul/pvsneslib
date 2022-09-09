@@ -127,7 +127,7 @@ test1 (void *q, int x)
   if (__builtin_object_size (vara, 3) != 0)
     abort ();
   if (__builtin_object_size (vara + 10, 3) != 0)
-    abort ();    
+    abort ();
   if (__builtin_object_size (&vara[5], 3) != 0)
     abort ();
   if (__builtin_object_size (&vara[0].a, 3) != 0)

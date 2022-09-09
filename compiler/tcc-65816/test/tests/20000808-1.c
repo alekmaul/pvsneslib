@@ -26,7 +26,7 @@ foo ()
   Point p0, p1, p2, p3, p4, p5;
 
   bar();
-  
+
   p0.p_x = 0;
   p0.p_y = 1;
 

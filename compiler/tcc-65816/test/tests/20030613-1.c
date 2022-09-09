@@ -43,14 +43,14 @@ static int c5p (COMPLEX x)
   COMPLEX a,b;
   a = CPOW (x, 2);
   b = CCID( CPOW(a,2) );
-    
-  return (b.x == b.y); 
+
+  return (b.x == b.y);
 }
 
 
 int main (void)
 {
-  COMPLEX  x;  
+  COMPLEX  x;
 
   x.x = -7;
   x.y = -7;

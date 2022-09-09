@@ -1,4 +1,4 @@
-/* 
+/*
    Purpose: Test generic SIMD support, V8HImode.  This test should work
    regardless of if the target has SIMD instructions.
 */

@@ -9,7 +9,7 @@ void bla (int *r)
   p = q = r;
   if (!p)
     p = &j;
-  
+
   if (p != q)
     j = 1;
 }

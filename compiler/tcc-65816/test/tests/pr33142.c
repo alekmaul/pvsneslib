@@ -8,7 +8,7 @@ __attribute__((noinline)) int lisp_atan2(long dy, long dx) {
     return 0;
 }
 
-int main() {   
+int main() {
     volatile long dy = 63, dx = -77;
     if (lisp_atan2(dy, dx))
         abort();

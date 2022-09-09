@@ -1,7 +1,7 @@
-static int 
+static int
 test(int x)
 {
-  union 
+  union
     {
       int i;
       double d;

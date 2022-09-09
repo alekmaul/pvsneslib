@@ -1,4 +1,4 @@
-/* 20050922-1.c does not trigger the expand_shift rotate bug on sh4-elf, but  
+/* 20050922-1.c does not trigger the expand_shift rotate bug on sh4-elf, but
    this does.  */
 
 /* { dg-do run } */

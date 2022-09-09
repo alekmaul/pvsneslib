@@ -3,9 +3,9 @@ int
 x (int i)
 {
   static const void *j[] = {&& x, && y, && z};
-  
+
   goto *j[i];
-  
+
  x: return 2;
  y: return 3;
  z: return 5;

@@ -3,7 +3,7 @@
    symbols.  If two pointers P and Q point to the same symbol S, then
    their respective memory tags will either be the same or they will
    have S in their alias set.
-   
+
    However, if there are no common symbols between P and Q, TBAA will
    currently miss their alias relationship altogether.  */
 struct A

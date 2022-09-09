@@ -1,9 +1,9 @@
-struct x { 
+struct x {
   unsigned x1:1;
   unsigned x2:2;
   unsigned x3:3;
 };
-   
+
 foobar (int x, int y, int z)
 {
   struct x a = {x, y, z};

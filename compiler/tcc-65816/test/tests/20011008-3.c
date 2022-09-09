@@ -62,12 +62,12 @@ int
 __db_txnlist_lsnadd(int val, DB_TXNLIST *elp, DB_LSN *lsnp, u_int32_t flags)
 {
    int i;
- 
+
    for (i = 0; i < (!(flags & (0x1)) ? 1 : elp->u.l.ntxns); i++)
      {
 	int __j;
 	DB_LSN __tmp;
-	val++; 
+	val++;
 	for (__j = 0; __j < elp->u.l.ntxns - 1; __j++)
 	  if (log_compare(&elp->u.l.lsn_array[__j], &elp->u.l.lsn_array[__j + 1]) < 0)
 	  {
@@ -91,15 +91,15 @@ int main (void)
 {
   DB_TXNLIST el;
   DB_LSN lsn, lsn_a[VLEN];
-  
+
   el.u.l.ntxns = VLEN-1;
   el.u.l.lsn_array = lsn_a;
-  
+
   if (__db_txnlist_lsnadd (0, &el, &lsn, 0) != 1)
     abort ();
-  
+
   if (__db_txnlist_lsnadd (0, &el, &lsn, 1) != VLEN-1)
     abort ();
-  
+
   exit (0);
 }

@@ -33,7 +33,7 @@ do_isofs_readdir(struct inode *inode, struct file *filp)
 
  	if (filp->f_pos >= inode->i_size)
 		return 0;
- 
+
 	offset = filp->f_pos & (bufsize - 1);
 	block = filp->f_pos >> bufbits;
 	hs = inode->i_sb->s_hs;

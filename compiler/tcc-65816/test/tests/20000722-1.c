@@ -10,7 +10,7 @@ int main(void)
   exit (0);
 }
 
-void 
+void
 bar (void)
 {
   foo (& (struct s) { "hi", 1 });

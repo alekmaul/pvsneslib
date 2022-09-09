@@ -1,4 +1,4 @@
-/* Test that double precision constants are correctly handled 
+/* Test that double precision constants are correctly handled
    when code is compiled with -fsingle-precision-constant */
 /* Origin: Carlos O'Donell <carlos@codesourcery.com> */
 
@@ -14,7 +14,7 @@
 int main (void)
 {
   int result = 0;
-  double local_DBL_MAX = DBL_MAX; 
+  double local_DBL_MAX = DBL_MAX;
   double local_DBL_MIN = DBL_MIN;
 #ifdef HAVE_C99_RUNTIME
   if (isinf (local_DBL_MAX))

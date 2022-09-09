@@ -1,6 +1,6 @@
 struct vc_data {
 	unsigned long	space;
-	unsigned char   vc_palette[16*3];        
+	unsigned char   vc_palette[16*3];
 };
 
 struct vc {

@@ -26,7 +26,7 @@ f (uint32_t *S, int j)
     {
       k = (S[i] + A + B) & 0xffffffffL;
       A = S[i] =
-      ((k << (3 & 0x1f)) | ((k & 0xffffffff) >> (32 - (3 & 0x1f)))); 
+      ((k << (3 & 0x1f)) | ((k & 0xffffffff) >> (32 - (3 & 0x1f))));
 
       m = (int) (A + B);
       k = (L[i] + A + B) & 0xffffffffL;

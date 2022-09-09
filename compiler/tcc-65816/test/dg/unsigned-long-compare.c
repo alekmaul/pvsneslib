@@ -2,7 +2,7 @@
 /* Contributed by Carlos O'Donell on 2006-01-30 */
 
 /* Test a division corner case where the expression simplifies
-   to a comparison, and the optab expansion is wrong. The optab 
+   to a comparison, and the optab expansion is wrong. The optab
    expansion emits a function whose return is unbiased and needs
    adjustment. */
 /* Origin: Carlos O'Donell <carlos@codesourcery.com> */
@@ -17,7 +17,7 @@ int main (void)
   unsigned long long OneULL = 1ULL;
   unsigned long long result;
 
-  result = OneULL / BIG_CONSTANT; 
+  result = OneULL / BIG_CONSTANT;
   if (result)
     abort ();
   exit (0);

@@ -8,7 +8,7 @@ f()
 
   s.i = 1;
   sp = self(&s);
-  
+
   *ip = 0;
   return sp->i+1;
 }

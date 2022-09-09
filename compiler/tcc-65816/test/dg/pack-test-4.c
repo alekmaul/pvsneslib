@@ -11,7 +11,7 @@ typedef struct {
     uint8_t flag1:2;
     uint8_t flag2:1;
     uint8_t flag3:1;
-   
+
     uint8_t flag4;
 
 } __attribute__ ((packed)) MyType;
@@ -28,7 +28,7 @@ int main (void)
   b->flag4 = 0;
 
   b->flag4++;
-    
+
   if (b->flag1 != 0)
     abort ();
 

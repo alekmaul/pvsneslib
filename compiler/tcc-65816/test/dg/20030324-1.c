@@ -3,11 +3,11 @@
 
 /* PR optimization/10087 */
 /* Contributed by Peter van Hoof <p.van-hoof@qub.ac.uk> */
- 
+
 extern void abort(void);
 
 void b(int*,int*);
-    
+
 typedef struct {
     double T1;
     char c;

@@ -22,7 +22,7 @@ int main()
 {
     if (test () != 1)
       abort ();
-    
+
     exit (0);
 }
 

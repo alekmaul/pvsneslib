@@ -7,13 +7,13 @@ typedef _Bool bool;
 const bool false = 0;
 const bool true = 1;
 
-enum EPosition 
+enum EPosition
 {
   STATIC, RELATIVE, ABSOLUTE, FIXED
 };
 typedef enum EPosition EPosition;
 
-enum EFloat 
+enum EFloat
 {
   FNONE = 0, FLEFT, FRIGHT
 };
@@ -23,27 +23,27 @@ struct RenderBox
 {
   int unused[6];
   short m_verticalPosition;
-  
+
   bool m_layouted : 1;
   bool m_unused : 1;
   bool m_minMaxKnown : 1;
   bool m_floating : 1;
-  
+
   bool m_positioned : 1;
   bool m_overhangingContents : 1;
   bool m_relPositioned : 1;
   bool m_paintSpecial : 1;
-  
+
   bool m_isAnonymous : 1;
   bool m_recalcMinMax : 1;
   bool m_isText : 1;
   bool m_inline : 1;
-  
+
   bool m_replaced : 1;
   bool m_mouseInside : 1;
   bool m_hasFirstLine : 1;
   bool m_isSelectionBorder : 1;
-  
+
   bool (*isTableCell) (struct RenderBox *this);
 };
 
@@ -51,11 +51,11 @@ typedef struct RenderBox RenderBox;
 
 struct RenderStyle
 {
-  struct NonInheritedFlags 
+  struct NonInheritedFlags
     {
-      union 
+      union
 	{
-	  struct 
+	  struct
 	    {
 	      unsigned int _display : 4;
 	      unsigned int _bg_repeat : 2;
@@ -92,13 +92,13 @@ void RenderBox_setStyle(RenderBox *thisin, RenderStyle *_style)
   RenderBox *this = thisin;
   bool oldpos, tmp;
   EPosition tmppo;
-  
+
   tmp = this->m_positioned;
 
   oldpos = tmp;
 
   RenderObject_setStyle(this, _style);
-  
+
   tmppo = _style->noninherited_flags.x.f._position;
 
   switch(tmppo)
@@ -128,12 +128,12 @@ void RenderBox_setStyle(RenderBox *thisin, RenderStyle *_style)
 
 	  tmpf = _style->noninherited_flags.x.f._floating;
 
-	  if(!this->isTableCell (this) && !(tmpf == FNONE)) 
+	  if(!this->isTableCell (this) && !(tmpf == FNONE))
 	    {
 	      bool ltrue = true;
 	      this->m_floating = ltrue;
 	    }
-	  else 
+	  else
 	    {
 	      tmpp = _style->noninherited_flags.x.f._position;
 	      if (tmpp == RELATIVE)
@@ -181,7 +181,7 @@ int main (void)
   g__style.noninherited_flags.x.f._floating = FNONE;
 
   RenderBox_setStyle (&g_this, &g__style);
-  
+
   if (g_this.m_positioned != true)
     abort ();
   if (g_this.m_relPositioned != false)

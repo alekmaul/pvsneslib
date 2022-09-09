@@ -9,11 +9,11 @@ foo (long x)
   return 1;
 }
 
-int 
+int
 main (void)
 {
   if (foo (value) != 0 || foo (0) != 1)
     abort ();
-  
+
   exit (0);
 }

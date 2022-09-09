@@ -1,1 +1,1 @@
-link ../stddef.h
+link../ stddef.h

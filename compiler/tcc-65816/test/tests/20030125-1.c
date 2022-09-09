@@ -1,12 +1,12 @@
 /* Verify whether math functions are simplified.  */
 double sin(double);
 double _floor(double);
-float 
+float
 t(float a)
 {
 	return sin(a);
 }
-float 
+float
 q(float a)
 {
 	return floor(a);

@@ -11,7 +11,7 @@ void func(int i)
 {
   /* fold-const does some clever things with range tests. Make sure
      we get (some of) them right */
-  
+
   /* these must fail, regardless of the value of i */
   if ((i < 0) && (i >= 0))
     abort();
@@ -30,7 +30,7 @@ void func(int i)
     abort();
   if ((i <= N) && (i > N))
     abort();
-    
+
   /* these must pass, regardless of the value of i */
   if (! ((i < 0) || (i >= 0)))
     abort();
@@ -49,7 +49,7 @@ void func(int i)
     abort();
   if (! ((i <= N) || (i > N)))
     abort();
-  
+
   return;
 }
 

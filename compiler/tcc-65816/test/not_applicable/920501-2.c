@@ -72,10 +72,10 @@ facts (t, a_int, x0, p)
   __longlong jj = 0;
 
   if(t != 134217727 || a_int != -1 || x0 != 3 || p != 27) exit(5);
-  
+
   x = x0;
   y = x0;
-  
+
   if(x != 3 || y != 3) exit(6);
 
   for (i = 1; i < 5; i++)

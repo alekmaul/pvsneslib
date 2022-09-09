@@ -60,7 +60,7 @@ main ()
     abort ();
 
   if (__alignof__ (z128) < 128)
-    abort (); 
+    abort ();
 
   return 0;
 }

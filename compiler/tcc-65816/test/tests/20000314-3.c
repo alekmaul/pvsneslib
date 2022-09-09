@@ -7,7 +7,7 @@ static void attr_rtx		(char *, char *);
 static char *attr_string        (char *);
 static void attr_eq		(char *, char *);
 
-static void 
+static void
 attr_rtx (char *varg0, char *varg1)
 {
   if (varg0 != arg0)
@@ -19,7 +19,7 @@ attr_rtx (char *varg0, char *varg1)
   return;
 }
 
-static void 
+static void
 attr_eq (name, value)
      char *name, *value;
 {

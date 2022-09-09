@@ -28,7 +28,7 @@ sign_bit_p (struct tree_type *t, HOST_WIDE_INT val_hi, unsigned HOST_WIDE_INT va
     {
       hi = 0;
       lo = (unsigned HOST_WIDE_INT) 1 << (width - 1);
-    
+
       mask_hi = 0;
       mask_lo = ((unsigned HOST_WIDE_INT) -1
                  >> (HOST_BITS_PER_WIDE_INT - width));

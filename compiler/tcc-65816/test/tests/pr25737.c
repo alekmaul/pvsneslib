@@ -8,7 +8,7 @@ static struct delay_block Timer_Queue;
 
 struct delay_block* time_enqueue (struct delay_block *d)
 {
-  struct delay_block *q = Timer_Queue.succ; 
+  struct delay_block *q = Timer_Queue.succ;
   d->succ =  (void *)0;
   return Timer_Queue.succ;
 }

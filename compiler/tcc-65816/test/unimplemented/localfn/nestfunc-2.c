@@ -12,7 +12,7 @@ main (void)
   int nested (int a, int b, int c, int d, int e, int f, int g)
     {
       z = c + d + e + f + g;
-      
+
       if (a > 2 * b)
         return a - b;
       else
@@ -38,7 +38,7 @@ main (void)
   if (z != 0x1b)
     abort ();
 #endif
-  
+
   exit (0);
 }
 

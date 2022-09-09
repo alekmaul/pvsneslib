@@ -34,7 +34,7 @@ typedef union
 } FLO_union_type;
 
 void foo (long long a);
-long long x; 
+long long x;
 
 void
 pack_d ()

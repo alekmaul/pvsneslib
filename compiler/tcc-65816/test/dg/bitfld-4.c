@@ -28,15 +28,15 @@ static int fail;
   CHECK1 (s##N, signed T); \
   CHECK1 (u##N, unsigned T); \
 } while (0)
- 
+
 int main ()
 {
-  
+
   CHECK (c, char);
   CHECK (s, short);
   CHECK (i, int);
   CHECK (l, long);
   //CHECK (ll, long long);
-  
+
   return fail;
 }

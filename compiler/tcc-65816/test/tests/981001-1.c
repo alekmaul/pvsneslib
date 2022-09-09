@@ -11,18 +11,18 @@ long long sub (int n)
       if (n % 2 == 0)
 	{
 	  a = sub (n / 2);
-	  
+	
 	  return (a + 2 * sub (n / 2 - 1)) * a;
 	}
       else
 	{
 	  a = sub (n / 2 + 1);
 	  b = sub (n / 2);
-	  
+	
 	  return a * a + b * b;
 	}
     }
-  else 
+  else
     return (long long) n;
 }
 
@@ -33,6 +33,6 @@ int main (void)
 
   if (flg)
     abort ();
-  
+
   exit (0);
 }

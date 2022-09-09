@@ -36,7 +36,7 @@ idct_int32(short *const block)
 	     | (X3 = blk[8 * 2]) | (X4 = blk[8 * 1]) | (X5 = blk[8 * 7])
 	     | (X6 = blk[8 * 5]) | (X7 = blk[8 * 3])))
 	{
-	  blk[8 * 0] = blk[8 * 1] = blk[8 * 2] = 
+	  blk[8 * 0] = blk[8 * 1] = blk[8 * 2] =
 	    blk[8 * 3] = blk[8 * 4] =
 	    blk[8 * 5] = blk[8 * 6] = blk[8 * 7] =
 	    iclp[(blk[8 * 0] + 32) >> 6];
@@ -88,11 +88,11 @@ int main(void) {
   int i;
   unsigned short tab[64];
 
-  for (i = 0 ; i < 64 ; ++i) 
-    {  
+  for (i = 0 ; i < 64 ; ++i)
+    {
       tab[i] = (1+(int) (65535)*8000/(2147483647+1.0));
     }
-  
+
   iclp = iclip + 512;
   for (i = -512; i < 512; i++)
     iclp[i] = (i < -256) ? -256 : ((i > 255) ? 255 : i);

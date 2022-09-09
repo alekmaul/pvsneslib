@@ -1,6 +1,6 @@
 void abort(void);
 void exit(int);
-struct baz 
+struct baz
 {
   char a[17];
   char b[3];

@@ -4,7 +4,7 @@
 extern void exit (int);
 extern void abort (void);
 
-struct foos { int l; }; 
+struct foos { int l; };
 int foo;
 static struct foos *getfoo(void);
 int main (void)
@@ -16,5 +16,5 @@ int main (void)
     abort();
   exit(0);
 }
-static struct foos *getfoo(void) 
+static struct foos *getfoo(void)
 { return (struct foos *)&foo; }
