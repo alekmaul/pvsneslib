@@ -1,6 +1,6 @@
 /*
  *  TCC - Tiny C Compiler
- * 
+ *
  *  Copyright (c) 2001-2004 Fabrice Bellard
  *
  * This library is free software; you can redistribute it and/or
@@ -109,44 +109,50 @@ typedef int BOOL;
    executables or dlls */
 #define CONFIG_TCC_CRT_PREFIX "/usr/lib"
 
-#define INCLUDE_STACK_SIZE  32
-#define IFDEF_STACK_SIZE    64
-#define VSTACK_SIZE         256
-#define STRING_MAX_SIZE     1024
-#define PACK_STACK_SIZE     8
+#define INCLUDE_STACK_SIZE 32
+#define IFDEF_STACK_SIZE 64
+#define VSTACK_SIZE 256
+#define STRING_MAX_SIZE 1024
+#define PACK_STACK_SIZE 8
 
-#define TOK_HASH_SIZE       8192 /* must be a power of two */
-#define TOK_ALLOC_INCR      512  /* must be a power of two */
-#define TOK_MAX_SIZE        4 /* token max size in int unit when stored in string */
+#define TOK_HASH_SIZE 8192 /* must be a power of two */
+#define TOK_ALLOC_INCR 512 /* must be a power of two */
+#define TOK_MAX_SIZE 4     /* token max size in int unit when stored in string */
 
 /* token symbol management */
-typedef struct TokenSym {
+typedef struct TokenSym
+{
     struct TokenSym *hash_next;
-    struct Sym *sym_define; /* direct pointer to define */
-    struct Sym *sym_label; /* direct pointer to label */
-    struct Sym *sym_struct; /* direct pointer to structure */
+    struct Sym *sym_define;     /* direct pointer to define */
+    struct Sym *sym_label;      /* direct pointer to label */
+    struct Sym *sym_struct;     /* direct pointer to structure */
     struct Sym *sym_identifier; /* direct pointer to identifier */
-    int tok; /* token number */
+    int tok;                    /* token number */
     int len;
     char str[1];
 } TokenSym;
 
-typedef struct CString {
-    int size; /* size in bytes */
+typedef struct CString
+{
+    int size;   /* size in bytes */
     void *data; /* either 'char *' or 'int *' */
     int size_allocated;
     void *data_allocated; /* if non NULL, data has been malloced */
 } CString;
 
 /* type definition */
-typedef struct CType {
+typedef struct CType
+{
     int t;
     struct Sym *ref;
+#ifdef TCC_TARGET_816
     int extra;
+#endif
 } CType;
 
 /* constant value */
-typedef union CValue {
+typedef union CValue
+{
     long double ld;
     double d;
     float f;
@@ -161,23 +167,30 @@ typedef union CValue {
 } CValue;
 
 /* value on stack */
-typedef struct SValue {
-    CType type;      /* type */
-    unsigned short r;      /* register + flags */
-    unsigned short r2;     /* second register, used for 'long long'
-                              type. If not used, set to VT_CONST */
-    CValue c;              /* constant, if VT_CONST */
-    struct Sym *sym;       /* symbol, if (VT_SYM | VT_CONST) */
+typedef struct SValue
+{
+    CType type;        /* type */
+    unsigned short r;  /* register + flags */
+    unsigned short r2; /* second register, used for 'long long'
+                          type. If not used, set to VT_CONST */
+    CValue c;          /* constant, if VT_CONST */
+    struct Sym *sym;   /* symbol, if (VT_SYM | VT_CONST) */
 } SValue;
 
 /* symbol management */
-typedef struct Sym {
-    int v;    /* symbol token */
-    long r;    /* associated register */
-    long c;    /* associated number */
-    CType type;    /* associated type */
-    struct Sym *next; /* next related symbol */
-    struct Sym *prev; /* prev symbol in stack */
+typedef struct Sym
+{
+    int v; /* symbol token */
+#ifdef TCC_TARGET_816
+    long r; /* associated register */
+    long c; /* associated number */
+#else
+    int r;                                                 /* associated register */
+    int c;                                                 /* associated number */
+#endif
+    CType type;           /* associated type */
+    struct Sym *next;     /* next related symbol */
+    struct Sym *prev;     /* prev symbol in stack */
     struct Sym *prev_tok; /* previous symbol for this token */
 } Sym;
 
@@ -187,93 +200,98 @@ typedef struct Sym {
    the other ones */
 #define SHF_PRIVATE 0x80000000
 
-typedef struct Section {
-    unsigned long data_offset; /* current data offset */
-    unsigned char *data;       /* section data */
+typedef struct Section
+{
+    unsigned long data_offset;    /* current data offset */
+    unsigned char *data;          /* section data */
     unsigned long data_allocated; /* used for realloc() handling */
-    int sh_name;             /* elf section name (only used during output) */
-    int sh_num;              /* elf section number */
-    int sh_type;             /* elf section type */
-    int sh_flags;            /* elf section flags */
-    int sh_info;             /* elf section info */
-    int sh_addralign;        /* elf section alignment */
-    int sh_entsize;          /* elf entry size */
-    unsigned long sh_size;   /* section size (only used during output) */
-    unsigned long sh_addr;      /* address at which the section is relocated */
+    int sh_name;                  /* elf section name (only used during output) */
+    int sh_num;                   /* elf section number */
+    int sh_type;                  /* elf section type */
+    int sh_flags;                 /* elf section flags */
+    int sh_info;                  /* elf section info */
+    int sh_addralign;             /* elf section alignment */
+    int sh_entsize;               /* elf entry size */
+    unsigned long sh_size;        /* section size (only used during output) */
+    unsigned long sh_addr;        /* address at which the section is relocated */
     unsigned long sh_offset;      /* address at which the section is relocated */
-    int nb_hashed_syms;      /* used to resize the hash table */
-    struct Section *link;    /* link to another section */
-    struct Section *reloc;   /* corresponding section for relocation, if any */
-    struct Section *hash;     /* hash table for symbols */
+    int nb_hashed_syms;           /* used to resize the hash table */
+    struct Section *link;         /* link to another section */
+    struct Section *reloc;        /* corresponding section for relocation, if any */
+    struct Section *hash;         /* hash table for symbols */
     struct Section *next;
-    char name[1];           /* section name */
+    char name[1]; /* section name */
 } Section;
 
-typedef struct DLLReference {
+typedef struct DLLReference
+{
     int level;
     char name[1];
 } DLLReference;
 
 /* GNUC attribute definition */
-typedef struct AttributeDef {
+typedef struct AttributeDef
+{
     int aligned;
-    int packed; 
+    int packed;
     Section *section;
     unsigned char func_call; /* FUNC_CDECL, FUNC_STDCALL, FUNC_FASTCALLx */
-    unsigned char dllexport; 
+    unsigned char dllexport;
 } AttributeDef;
 
-#define SYM_STRUCT     0x40000000 /* struct/union/enum symbol space */
-#define SYM_FIELD      0x20000000 /* struct/union field symbol space */
+#define SYM_STRUCT 0x40000000     /* struct/union/enum symbol space */
+#define SYM_FIELD 0x20000000      /* struct/union field symbol space */
 #define SYM_FIRST_ANOM 0x10000000 /* first anonymous sym */
 
 /* stored in 'Sym.c' field */
-#define FUNC_NEW       1 /* ansi function prototype */
-#define FUNC_OLD       2 /* old function prototype */
-#define FUNC_ELLIPSIS  3 /* ansi function prototype with ... */
+#define FUNC_NEW 1      /* ansi function prototype */
+#define FUNC_OLD 2      /* old function prototype */
+#define FUNC_ELLIPSIS 3 /* ansi function prototype with ... */
 
 /* stored in 'Sym.r' field */
-#define FUNC_CDECL     0 /* standard c call */
-#define FUNC_STDCALL   1 /* pascal c call */
+#define FUNC_CDECL 0     /* standard c call */
+#define FUNC_STDCALL 1   /* pascal c call */
 #define FUNC_FASTCALL1 2 /* first param in %eax */
 #define FUNC_FASTCALL2 3 /* first parameters in %eax, %edx */
 #define FUNC_FASTCALL3 4 /* first parameter in %eax, %edx, %ecx */
 
 /* field 'Sym.t' for macros */
-#define MACRO_OBJ      0 /* object like macro */
-#define MACRO_FUNC     1 /* function like macro */
+#define MACRO_OBJ 0  /* object like macro */
+#define MACRO_FUNC 1 /* function like macro */
 
 /* field 'Sym.r' for C labels */
-#define LABEL_DEFINED  0 /* label is defined */
-#define LABEL_FORWARD  1 /* label is forward defined */
+#define LABEL_DEFINED 0  /* label is defined */
+#define LABEL_FORWARD 1  /* label is forward defined */
 #define LABEL_DECLARED 2 /* label is declared but never used */
 
 /* type_decl() types */
-#define TYPE_ABSTRACT  1 /* type without variable */
-#define TYPE_DIRECT    2 /* type with variable */
+#define TYPE_ABSTRACT 1 /* type without variable */
+#define TYPE_DIRECT 2   /* type with variable */
 
 #define IO_BUF_SIZE 8192
 
-typedef struct BufferedFile {
+typedef struct BufferedFile
+{
     uint8_t *buf_ptr;
     uint8_t *buf_end;
     int fd;
-    int line_num;    /* current line number - here to simplify code */
-    int ifndef_macro;  /* #ifndef macro / #endif search */
-    int ifndef_macro_saved; /* saved ifndef_macro */
-    int *ifdef_stack_ptr; /* ifdef_stack value at the start of the file */
-    char inc_type;          /* type of include */
-    char inc_filename[512]; /* filename specified by the user */
-    char filename[1024];    /* current filename - here to simplify code */
+    int line_num;                          /* current line number - here to simplify code */
+    int ifndef_macro;                      /* #ifndef macro / #endif search */
+    int ifndef_macro_saved;                /* saved ifndef_macro */
+    int *ifdef_stack_ptr;                  /* ifdef_stack value at the start of the file */
+    char inc_type;                         /* type of include */
+    char inc_filename[512];                /* filename specified by the user */
+    char filename[1024];                   /* current filename - here to simplify code */
     unsigned char buffer[IO_BUF_SIZE + 1]; /* extra size for CH_EOB char */
 } BufferedFile;
 
-#define CH_EOB   '\\'       /* end of buffer or '\0' char in file */
-#define CH_EOF   (-1)   /* end of file */
+#define CH_EOB '\\' /* end of buffer or '\0' char in file */
+#define CH_EOF (-1) /* end of file */
 
 /* parsing state (used to save parser state to reparse part of the
    source several times) */
-typedef struct ParseState {
+typedef struct ParseState
+{
     int *macro_ptr;
     int line_num;
     int tok;
@@ -281,7 +299,8 @@ typedef struct ParseState {
 } ParseState;
 
 /* used to record tokens */
-typedef struct TokenString {
+typedef struct TokenString
+{
     int *str;
     int len;
     int allocated_len;
@@ -290,10 +309,11 @@ typedef struct TokenString {
 
 /* include file cache, used to find files faster and also to eliminate
    inclusion if the include file is protected by #ifndef ... #endif */
-typedef struct CachedInclude {
+typedef struct CachedInclude
+{
     int ifndef_macro;
-    int hash_next; /* -1 if none */
-    char type; /* '"' or '>' to give include type */
+    int hash_next;    /* -1 if none */
+    char type;        /* '"' or '>' to give include type */
     char filename[1]; /* path specified in #include */
 } CachedInclude;
 
@@ -306,8 +326,8 @@ static CValue tokc;
 static CString tokcstr; /* current parsed string, if any */
 /* additional informations about token */
 static int tok_flags;
-#define TOK_FLAG_BOL   0x0001 /* beginning of line before */
-#define TOK_FLAG_BOF   0x0002 /* beginning of file before */
+#define TOK_FLAG_BOL 0x0001   /* beginning of line before */
+#define TOK_FLAG_BOF 0x0002   /* beginning of file before */
 #define TOK_FLAG_ENDIF 0x0004 /* a endif was found matching starting #ifdef */
 
 static int *macro_ptr, *macro_ptr_allocated;
@@ -315,21 +335,25 @@ static int *unget_saved_macro_ptr;
 static int unget_saved_buffer[TOK_MAX_SIZE + 1];
 static int unget_buffer_enabled;
 static int parse_flags;
-#define PARSE_FLAG_PREPROCESS 0x0001 /* activate preprocessing */
-#define PARSE_FLAG_TOK_NUM    0x0002 /* return numbers instead of TOK_PPNUM */
-#define PARSE_FLAG_LINEFEED   0x0004 /* line feed is returned as a
-                                        token. line feed is also
-                                        returned at eof */
+#define PARSE_FLAG_PREPROCESS 0x0001   /* activate preprocessing */
+#define PARSE_FLAG_TOK_NUM 0x0002      /* return numbers instead of TOK_PPNUM */
+#define PARSE_FLAG_LINEFEED 0x0004     /* line feed is returned as a \
+                                          token. line feed is also   \
+                                          returned at eof */
 #define PARSE_FLAG_ASM_COMMENTS 0x0008 /* '#' can be used for line comment */
- 
+
+#ifdef TCC_TARGET_816
 static Section *text_section, *data_section, *rodata_section, *bss_section; /* predefined sections */
-static Section *cur_text_section; /* current section where function code is
-                              generated */
+#else
+static Section *text_section, *data_section, *bss_section; /* predefined sections */
+#endif
+static Section *cur_text_section;                          /* current section where function code is
+                                               generated */
 #ifdef CONFIG_TCC_ASM
 static Section *last_text_section; /* to handle .previous asm directive */
 #endif
 /* bound check related sections */
-static Section *bounds_section; /* contains global data bound description */
+static Section *bounds_section;  /* contains global data bound description */
 static Section *lbounds_section; /* contains local data bound description */
 /* symbol sections */
 static Section *symtab_section, *strtab_section;
@@ -344,12 +368,12 @@ static Section *stab_section, *stabstr_section;
 */
 static int rsym, anon_sym, ind, loc;
 /* expression generation modifiers */
-static int const_wanted; /* true if constant wanted */
+static int const_wanted;  /* true if constant wanted */
 static int nocode_wanted; /* true if no code generation wanted for an expression */
-static int global_expr;  /* true if compound literals must be allocated
-                            globally (used during initializers parsing */
-static CType func_vt; /* current function return type (used by return
-                         instruction) */
+static int global_expr;   /* true if compound literals must be allocated
+                             globally (used during initializers parsing */
+static CType func_vt;     /* current function return type (used by return
+                             instruction) */
 static int func_vc;
 static int last_line_num, last_ind, func_ind; /* debug last line number and pc */
 static int tok_ident;
@@ -366,7 +390,11 @@ static Sym *sym_free_first;
 
 static SValue vstack[VSTACK_SIZE], *vtop;
 /* some predefined types */
+#ifdef TCC_TARGET_816
 static CType char_pointer_type, func_old_type, int_type, ptr_type;
+#else
+static CType char_pointer_type, func_old_type, int_type;
+#endif
 /* true if isid(c) || isnum(c) */
 static unsigned char isidnum_table[256];
 
@@ -391,6 +419,9 @@ static int tcc_ext = 1;
 
 /* max number of callers shown if error */
 static int num_callers = 6;
+#ifndef TCC_TARGET_816
+static const char **rt_bound_error_msg;
+#endif
 
 /* XXX: get rid of this ASAP */
 static struct TCCState *tcc_state;
@@ -398,9 +429,10 @@ static struct TCCState *tcc_state;
 /* give the path of the tcc libraries */
 static const char *tcc_lib_path = CONFIG_TCCDIR;
 
-struct TCCState {
+struct TCCState
+{
     int output_type;
- 
+
     BufferedFile **include_stack_ptr;
     int *ifdef_stack_ptr;
 
@@ -454,14 +486,14 @@ struct TCCState {
     /* address of text section */
     unsigned long text_addr;
     int has_text_addr;
-    
+
     /* output format, see TCC_OUTPUT_FORMAT_xxx */
     int output_format;
 
     /* C language options */
     int char_is_unsigned;
     int leading_underscore;
-    
+
     /* warning switches */
     int warn_write_strings;
     int warn_unsupported;
@@ -491,118 +523,126 @@ struct TCCState {
     /* pack stack */
     int pack_stack[PACK_STACK_SIZE];
     int *pack_stack_ptr;
-    
+
+#ifdef TCC_TARGET_816
     int optimize;
+#endif
 };
 
 /* The current value can be: */
-#define VT_VALMASK   0x00ff
-#define VT_CONST     0x00f0  /* constant in vc 
-                              (must be first non register value) */
-#define VT_LLOCAL    0x00f1  /* lvalue, offset on stack */
-#define VT_LOCAL     0x00f2  /* offset on stack */
-#define VT_CMP       0x00f3  /* the value is stored in processor flags (in vc) */
-#define VT_JMP       0x00f4  /* value is the consequence of jmp true (even) */
-#define VT_JMPI      0x00f5  /* value is the consequence of jmp false (odd) */
-#define VT_LVAL      0x0100  /* var is an lvalue */
-#define VT_SYM       0x0200  /* a symbol value is added */
-#define VT_MUSTCAST  0x0400  /* value must be casted to be correct (used for
-                                char/short stored in integer registers) */
-#define VT_MUSTBOUND 0x0800  /* bound checking must be done before
-                                dereferencing value */
-#define VT_BOUNDED   0x8000  /* value is bounded. The address of the
-                                bounding function call point is in vc */
-#define VT_LVAL_BYTE     0x1000  /* lvalue is a byte */
-#define VT_LVAL_SHORT    0x2000  /* lvalue is a short */
-#define VT_LVAL_UNSIGNED 0x4000  /* lvalue is unsigned */
-#define VT_LVAL_TYPE     (VT_LVAL_BYTE | VT_LVAL_SHORT | VT_LVAL_UNSIGNED)
+#define VT_VALMASK 0x00ff
+#define VT_CONST 0x00f0         /* constant in vc \
+                                 (must be first non register value) */
+#define VT_LLOCAL 0x00f1        /* lvalue, offset on stack */
+#define VT_LOCAL 0x00f2         /* offset on stack */
+#define VT_CMP 0x00f3           /* the value is stored in processor flags (in vc) */
+#define VT_JMP 0x00f4           /* value is the consequence of jmp true (even) */
+#define VT_JMPI 0x00f5          /* value is the consequence of jmp false (odd) */
+#define VT_LVAL 0x0100          /* var is an lvalue */
+#define VT_SYM 0x0200           /* a symbol value is added */
+#define VT_MUSTCAST 0x0400      /* value must be casted to be correct (used for \
+                                   char/short stored in integer registers) */
+#define VT_MUSTBOUND 0x0800     /* bound checking must be done before \
+                                   dereferencing value */
+#define VT_BOUNDED 0x8000       /* value is bounded. The address of the \
+                                   bounding function call point is in vc */
+#define VT_LVAL_BYTE 0x1000     /* lvalue is a byte */
+#define VT_LVAL_SHORT 0x2000    /* lvalue is a short */
+#define VT_LVAL_UNSIGNED 0x4000 /* lvalue is unsigned */
+#define VT_LVAL_TYPE (VT_LVAL_BYTE | VT_LVAL_SHORT | VT_LVAL_UNSIGNED)
 
 /* types */
-#define VT_INT        0  /* integer type */
-#define VT_BYTE       1  /* signed byte type */
-#define VT_SHORT      2  /* short type */
-#define VT_VOID       3  /* void type */
-#define VT_PTR        4  /* pointer */
-#define VT_ENUM       5  /* enum definition */
-#define VT_FUNC       6  /* function type */
-#define VT_STRUCT     7  /* struct/union definition */
-#define VT_FLOAT      8  /* IEEE float */
-#define VT_DOUBLE     9  /* IEEE double */
-#define VT_LDOUBLE   10  /* IEEE long double */
-#define VT_BOOL      11  /* ISOC99 boolean type */
-#define VT_LLONG     12  /* 64 bit integer */
-#define VT_LONG      13  /* long integer (NEVER USED as type, only
-                            during parsing) */
-#define VT_BTYPE      0x000f /* mask for basic type */
-#define VT_UNSIGNED   0x0010  /* unsigned type */
-#define VT_ARRAY      0x0020  /* array type (also has VT_PTR) */
-#define VT_BITFIELD   0x0040  /* bitfield modifier */
-#define VT_CONSTANT   0x0800  /* const modifier */
-#define VT_VOLATILE   0x1000  /* volatile modifier */
-#define VT_SIGNED     0x2000  /* signed type */
+#define VT_INT 0           /* integer type */
+#define VT_BYTE 1          /* signed byte type */
+#define VT_SHORT 2         /* short type */
+#define VT_VOID 3          /* void type */
+#define VT_PTR 4           /* pointer */
+#define VT_ENUM 5          /* enum definition */
+#define VT_FUNC 6          /* function type */
+#define VT_STRUCT 7        /* struct/union definition */
+#define VT_FLOAT 8         /* IEEE float */
+#define VT_DOUBLE 9        /* IEEE double */
+#define VT_LDOUBLE 10      /* IEEE long double */
+#define VT_BOOL 11         /* ISOC99 boolean type */
+#define VT_LLONG 12        /* 64 bit integer */
+#define VT_LONG 13         /* long integer (NEVER USED as type, only \
+                              during parsing) */
+#define VT_BTYPE 0x000f    /* mask for basic type */
+#define VT_UNSIGNED 0x0010 /* unsigned type */
+#define VT_ARRAY 0x0020    /* array type (also has VT_PTR) */
+#define VT_BITFIELD 0x0040 /* bitfield modifier */
+#define VT_CONSTANT 0x0800 /* const modifier */
+#define VT_VOLATILE 0x1000 /* volatile modifier */
+#define VT_SIGNED 0x2000   /* signed type */
 
 /* storage */
-#define VT_EXTERN  0x00000080  /* extern definition */
-#define VT_STATIC  0x00000100  /* static variable */
-#define VT_TYPEDEF 0x00000200  /* typedef definition */
-#define VT_INLINE  0x00000400  /* inline definition */
+#define VT_EXTERN 0x00000080  /* extern definition */
+#define VT_STATIC 0x00000100  /* static variable */
+#define VT_TYPEDEF 0x00000200 /* typedef definition */
+#define VT_INLINE 0x00000400  /* inline definition */
+#ifdef TCC_TARGET_816
 #define VT_STATICLOCAL 0x00004000
+#endif
 
-#define VT_STRUCT_SHIFT 16   /* shift for bitfield shift values */
+#define VT_STRUCT_SHIFT 16 /* shift for bitfield shift values */
 
 /* type mask (except storage) */
 #define VT_STORAGE (VT_EXTERN | VT_STATIC | VT_TYPEDEF | VT_INLINE)
-#define VT_TYPE    (~(VT_STORAGE) & ~(VT_STATICLOCAL))
+#ifdef TCC_TARGET_816
+#define VT_TYPE (~(VT_STORAGE) & ~(VT_STATICLOCAL))
+#else
+#define VT_TYPE (~(VT_STORAGE))
+#endif
 
 /* token values */
 
 /* warning: the following compare tokens depend on i386 asm code */
 #define TOK_ULT 0x92
 #define TOK_UGE 0x93
-#define TOK_EQ  0x94
-#define TOK_NE  0x95
+#define TOK_EQ 0x94
+#define TOK_NE 0x95
 #define TOK_ULE 0x96
 #define TOK_UGT 0x97
-#define TOK_LT  0x9c
-#define TOK_GE  0x9d
-#define TOK_LE  0x9e
-#define TOK_GT  0x9f
+#define TOK_LT 0x9c
+#define TOK_GE 0x9d
+#define TOK_LE 0x9e
+#define TOK_GT 0x9f
 
-#define TOK_LAND  0xa0
-#define TOK_LOR   0xa1
+#define TOK_LAND 0xa0
+#define TOK_LOR 0xa1
 
-#define TOK_DEC   0xa2
-#define TOK_MID   0xa3 /* inc/dec, to void constant */
-#define TOK_INC   0xa4
-#define TOK_UDIV  0xb0 /* unsigned division */
-#define TOK_UMOD  0xb1 /* unsigned modulo */
-#define TOK_PDIV  0xb2 /* fast division with undefined rounding for pointers */
-#define TOK_CINT   0xb3 /* number in tokc */
-#define TOK_CCHAR 0xb4 /* char constant in tokc */
-#define TOK_STR   0xb5 /* pointer to string in tokc */
+#define TOK_DEC 0xa2
+#define TOK_MID 0xa3 /* inc/dec, to void constant */
+#define TOK_INC 0xa4
+#define TOK_UDIV 0xb0      /* unsigned division */
+#define TOK_UMOD 0xb1      /* unsigned modulo */
+#define TOK_PDIV 0xb2      /* fast division with undefined rounding for pointers */
+#define TOK_CINT 0xb3      /* number in tokc */
+#define TOK_CCHAR 0xb4     /* char constant in tokc */
+#define TOK_STR 0xb5       /* pointer to string in tokc */
 #define TOK_TWOSHARPS 0xb6 /* ## preprocessing token */
-#define TOK_LCHAR    0xb7
-#define TOK_LSTR     0xb8
-#define TOK_CFLOAT   0xb9 /* float constant */
-#define TOK_LINENUM  0xba /* line number info */
-#define TOK_CDOUBLE  0xc0 /* double constant */
+#define TOK_LCHAR 0xb7
+#define TOK_LSTR 0xb8
+#define TOK_CFLOAT 0xb9   /* float constant */
+#define TOK_LINENUM 0xba  /* line number info */
+#define TOK_CDOUBLE 0xc0  /* double constant */
 #define TOK_CLDOUBLE 0xc1 /* long double constant */
-#define TOK_UMULL    0xc2 /* unsigned 32x32 -> 64 mul */
-#define TOK_ADDC1    0xc3 /* add with carry generation */
-#define TOK_ADDC2    0xc4 /* add with carry use */
-#define TOK_SUBC1    0xc5 /* add with carry generation */
-#define TOK_SUBC2    0xc6 /* add with carry use */
-#define TOK_CUINT    0xc8 /* unsigned int constant */
-#define TOK_CLLONG   0xc9 /* long long constant */
-#define TOK_CULLONG  0xca /* unsigned long long constant */
-#define TOK_ARROW    0xcb
-#define TOK_DOTS     0xcc /* three dots */
-#define TOK_SHR      0xcd /* unsigned shift right */
-#define TOK_PPNUM    0xce /* preprocessor number */
+#define TOK_UMULL 0xc2    /* unsigned 32x32 -> 64 mul */
+#define TOK_ADDC1 0xc3    /* add with carry generation */
+#define TOK_ADDC2 0xc4    /* add with carry use */
+#define TOK_SUBC1 0xc5    /* add with carry generation */
+#define TOK_SUBC2 0xc6    /* add with carry use */
+#define TOK_CUINT 0xc8    /* unsigned int constant */
+#define TOK_CLLONG 0xc9   /* long long constant */
+#define TOK_CULLONG 0xca  /* unsigned long long constant */
+#define TOK_ARROW 0xcb
+#define TOK_DOTS 0xcc  /* three dots */
+#define TOK_SHR 0xcd   /* unsigned shift right */
+#define TOK_PPNUM 0xce /* preprocessor number */
 
-#define TOK_SHL   0x01 /* shift left */
-#define TOK_SAR   0x02 /* signed shift right */
-  
+#define TOK_SHL 0x01 /* shift left */
+#define TOK_SAR 0x02 /* signed shift right */
+
 /* assignement operators : normal operator or 0x80 */
 #define TOK_A_MOD 0xa5
 #define TOK_A_AND 0xa6
@@ -611,12 +651,12 @@ struct TCCState {
 #define TOK_A_SUB 0xad
 #define TOK_A_DIV 0xaf
 #define TOK_A_XOR 0xde
-#define TOK_A_OR  0xfc
+#define TOK_A_OR 0xfc
 #define TOK_A_SHL 0x81
 #define TOK_A_SAR 0x82
 
 #ifndef offsetof
-#define offsetof(type, field) ((size_t) &((type *)0)->field)
+#define offsetof(type, field) ((size_t) & ((type *)0)->field)
 #endif
 
 #ifndef countof
@@ -626,83 +666,84 @@ struct TCCState {
 /* WARNING: the content of this string encodes token numbers */
 static char tok_two_chars[] = "<=\236>=\235!=\225&&\240||\241++\244--\242==\224<<\1>>\2+=\253-=\255*=\252/=\257%=\245&=\246^=\336|=\374->\313..\250##\266";
 
-#define TOK_EOF       (-1)  /* end of file */
-#define TOK_LINEFEED  10    /* line feed */
+#define TOK_EOF (-1)    /* end of file */
+#define TOK_LINEFEED 10 /* line feed */
 
 /* all identificators and strings have token above that */
 #define TOK_IDENT 256
 
 /* only used for i386 asm opcodes definitions */
-#define DEF_ASM(x) DEF(TOK_ASM_ ## x, #x)
+#define DEF_ASM(x) DEF(TOK_ASM_##x, #x)
 
-#define DEF_BWL(x) \
- DEF(TOK_ASM_ ## x ## b, #x "b") \
- DEF(TOK_ASM_ ## x ## w, #x "w") \
- DEF(TOK_ASM_ ## x ## l, #x "l") \
- DEF(TOK_ASM_ ## x, #x)
+#define DEF_BWL(x)              \
+    DEF(TOK_ASM_##x##b, #x "b") \
+    DEF(TOK_ASM_##x##w, #x "w") \
+    DEF(TOK_ASM_##x##l, #x "l") \
+    DEF(TOK_ASM_##x, #x)
 
-#define DEF_WL(x) \
- DEF(TOK_ASM_ ## x ## w, #x "w") \
- DEF(TOK_ASM_ ## x ## l, #x "l") \
- DEF(TOK_ASM_ ## x, #x)
+#define DEF_WL(x)               \
+    DEF(TOK_ASM_##x##w, #x "w") \
+    DEF(TOK_ASM_##x##l, #x "l") \
+    DEF(TOK_ASM_##x, #x)
 
-#define DEF_FP1(x) \
- DEF(TOK_ASM_ ## f ## x ## s, "f" #x "s") \
- DEF(TOK_ASM_ ## fi ## x ## l, "fi" #x "l") \
- DEF(TOK_ASM_ ## f ## x ## l, "f" #x "l") \
- DEF(TOK_ASM_ ## fi ## x ## s, "fi" #x "s")
+#define DEF_FP1(x)                       \
+    DEF(TOK_ASM_##f##x##s, "f" #x "s")   \
+    DEF(TOK_ASM_##fi##x##l, "fi" #x "l") \
+    DEF(TOK_ASM_##f##x##l, "f" #x "l")   \
+    DEF(TOK_ASM_##fi##x##s, "fi" #x "s")
 
-#define DEF_FP(x) \
- DEF(TOK_ASM_ ## f ## x, "f" #x ) \
- DEF(TOK_ASM_ ## f ## x ## p, "f" #x "p") \
- DEF_FP1(x)
+#define DEF_FP(x)                      \
+    DEF(TOK_ASM_##f##x, "f" #x)        \
+    DEF(TOK_ASM_##f##x##p, "f" #x "p") \
+    DEF_FP1(x)
 
 #define DEF_ASMTEST(x) \
- DEF_ASM(x ## o) \
- DEF_ASM(x ## no) \
- DEF_ASM(x ## b) \
- DEF_ASM(x ## c) \
- DEF_ASM(x ## nae) \
- DEF_ASM(x ## nb) \
- DEF_ASM(x ## nc) \
- DEF_ASM(x ## ae) \
- DEF_ASM(x ## e) \
- DEF_ASM(x ## z) \
- DEF_ASM(x ## ne) \
- DEF_ASM(x ## nz) \
- DEF_ASM(x ## be) \
- DEF_ASM(x ## na) \
- DEF_ASM(x ## nbe) \
- DEF_ASM(x ## a) \
- DEF_ASM(x ## s) \
- DEF_ASM(x ## ns) \
- DEF_ASM(x ## p) \
- DEF_ASM(x ## pe) \
- DEF_ASM(x ## np) \
- DEF_ASM(x ## po) \
- DEF_ASM(x ## l) \
- DEF_ASM(x ## nge) \
- DEF_ASM(x ## nl) \
- DEF_ASM(x ## ge) \
- DEF_ASM(x ## le) \
- DEF_ASM(x ## ng) \
- DEF_ASM(x ## nle) \
- DEF_ASM(x ## g)
+    DEF_ASM(x##o)      \
+    DEF_ASM(x##no)     \
+    DEF_ASM(x##b)      \
+    DEF_ASM(x##c)      \
+    DEF_ASM(x##nae)    \
+    DEF_ASM(x##nb)     \
+    DEF_ASM(x##nc)     \
+    DEF_ASM(x##ae)     \
+    DEF_ASM(x##e)      \
+    DEF_ASM(x##z)      \
+    DEF_ASM(x##ne)     \
+    DEF_ASM(x##nz)     \
+    DEF_ASM(x##be)     \
+    DEF_ASM(x##na)     \
+    DEF_ASM(x##nbe)    \
+    DEF_ASM(x##a)      \
+    DEF_ASM(x##s)      \
+    DEF_ASM(x##ns)     \
+    DEF_ASM(x##p)      \
+    DEF_ASM(x##pe)     \
+    DEF_ASM(x##np)     \
+    DEF_ASM(x##po)     \
+    DEF_ASM(x##l)      \
+    DEF_ASM(x##nge)    \
+    DEF_ASM(x##nl)     \
+    DEF_ASM(x##ge)     \
+    DEF_ASM(x##le)     \
+    DEF_ASM(x##ng)     \
+    DEF_ASM(x##nle)    \
+    DEF_ASM(x##g)
 
 #define TOK_ASM_int TOK_INT
 
-enum tcc_token {
+enum tcc_token
+{
     TOK_LAST = TOK_IDENT - 1,
 #define DEF(id, str) id,
 #include "tcctok.h"
 #undef DEF
 };
 
-static const char tcc_keywords[] = 
+static const char tcc_keywords[] =
 #define DEF(id, str) str "\0"
 #include "tcctok.h"
 #undef DEF
-;
+    ;
 
 #define TOK_UIDENT TOK_DEFINE
 
@@ -716,9 +757,9 @@ int __stdcall FreeConsole(void);
 #define snprintf _snprintf
 #define vsnprintf _vsnprintf
 #ifndef __GNUC__
-  #define strtold (long double)strtod
-  #define strtof (float)strtod
-  #define strtoll (long long)strtol
+#define strtold (long double)strtod
+#define strtof (float)strtod
+#define strtoll (long long)strtol
 #endif
 #elif defined(TCC_UCLIBC) || defined(__FreeBSD__)
 /* currently incorrect */
@@ -732,8 +773,8 @@ float strtof(const char *nptr, char **endptr)
 }
 #else
 /* XXX: need to define this to use them in non ISOC99 context */
-extern float strtof (const char *__nptr, char **__endptr);
-extern long double strtold (const char *__nptr, char **__endptr);
+extern float strtof(const char *__nptr, char **__endptr);
+extern long double strtold(const char *__nptr, char **__endptr);
 #endif
 
 static char *pstrcpy(char *buf, int buf_size, const char *s);
@@ -745,16 +786,16 @@ static void next_nomacro(void);
 static void parse_expr_type(CType *type);
 static void expr_type(CType *type);
 static void unary_type(CType *type);
-static void block(int *bsym, int *csym, int *case_sym, int *def_sym, 
+static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
                   int case_reg, int is_expr);
 static int expr_const(void);
 static void expr_eq(void);
 static void gexpr(void);
 static void gen_inline_functions(void);
 static void decl(int l);
-static void decl_initializer(CType *type, Section *sec, unsigned long c, 
+static void decl_initializer(CType *type, Section *sec, unsigned long c,
                              int first, int size_only);
-static void decl_initializer_alloc(CType *type, AttributeDef *ad, int r, 
+static void decl_initializer_alloc(CType *type, AttributeDef *ad, int r,
                                    int has_init, int v, int scope);
 int gv(int rc);
 void gv2(int rc1, int rc2);
@@ -765,14 +806,15 @@ void vpop(void);
 void vswap(void);
 void vdup(void);
 int get_reg(int rc);
-int get_reg_ex(int rc,int rc2);
+int get_reg_ex(int rc, int rc2);
 
-struct macro_level {
+struct macro_level
+{
     struct macro_level *prev;
     int *p;
 };
 
-static void macro_subst(TokenString *tok_str, Sym **nested_list, 
+static void macro_subst(TokenString *tok_str, Sym **nested_list,
                         const int *macro_str, struct macro_level **can_read_stream);
 void gen_op(int op);
 void force_charshort_cast(int t);
@@ -798,67 +840,81 @@ void vnrott(int n);
 void lexpand_nr(void);
 static void vpush_global_sym(CType *type, int v);
 void vset(CType *type, int r, int v);
-void type_to_str(char *buf, int buf_size, 
+void type_to_str(char *buf, int buf_size,
                  CType *type, const char *varstr);
 char *get_tok_str(int v, CValue *cv);
-static Sym *get_sym_ref(CType *type, Section *sec, 
+static Sym *get_sym_ref(CType *type, Section *sec,
                         unsigned long offset, unsigned long size);
 static Sym *external_global_sym(int v, CType *type, int r);
 
 /* section generation */
 static void section_realloc(Section *sec, unsigned long new_size);
 static void *section_ptr_add(Section *sec, unsigned long size);
-static void put_extern_sym(Sym *sym, Section *section, 
+static void put_extern_sym(Sym *sym, Section *section,
                            unsigned long value, unsigned long size);
 static void greloc(Section *s, Sym *sym, unsigned long addr, int type);
 static int put_elf_str(Section *s, const char *sym);
-static int put_elf_sym(Section *s, 
+static int put_elf_sym(Section *s,
                        unsigned long value, unsigned long size,
                        int info, int other, int shndx, const char *name);
 static int add_elf_sym(Section *s, unsigned long value, unsigned long size,
                        int info, int other, int sh_num, const char *name);
 static void put_elf_reloc(Section *symtab, Section *s, unsigned long offset,
                           int type, int symbol);
-static void put_stabs(const char *str, int type, int other, int desc, 
+static void put_stabs(const char *str, int type, int other, int desc,
                       unsigned long value);
-static void put_stabs_r(const char *str, int type, int other, int desc, 
+static void put_stabs_r(const char *str, int type, int other, int desc,
                         unsigned long value, Section *sec, int sym_index);
 static void put_stabn(int type, int other, int desc, int value);
 static void put_stabd(int type, int other, int desc);
 static int tcc_add_dll(TCCState *s, const char *filename, int flags);
 
-#define AFF_PRINT_ERROR     0x0001 /* print error if file not found */
-#define AFF_REFERENCED_DLL  0x0002 /* load a referenced dll from another dll */
+#define AFF_PRINT_ERROR 0x0001    /* print error if file not found */
+#define AFF_REFERENCED_DLL 0x0002 /* load a referenced dll from another dll */
 static int tcc_add_file_internal(TCCState *s, const char *filename, int flags);
+
+#ifndef TCC_TARGET_816
+/* tcccoff.c */
+int tcc_output_coff(TCCState *s1, FILE *f);
+
+/* tccpe.c */
+void *resolve_sym(TCCState *s1, const char *sym, int type);
+int pe_load_def_file(struct TCCState *s1, FILE *fp);
+void pe_setup_paths(struct TCCState *s1, int *p_output_type, const char **p_outfile, char *first_file);
+unsigned long pe_add_runtime(struct TCCState *s1);
+int tcc_output_pe(struct TCCState *s1, const char *filename);
+#endif
 
 /* tccasm.c */
 
 #ifdef CONFIG_TCC_ASM
 
-typedef struct ExprValue {
+typedef struct ExprValue
+{
     uint32_t v;
     Sym *sym;
 } ExprValue;
 
 #define MAX_ASM_OPERANDS 30
 
-typedef struct ASMOperand {
+typedef struct ASMOperand
+{
     int id; /* GCC 3 optionnal identifier (0 if number only supported */
     char *constraint;
     char asm_str[16]; /* computed asm string for operand */
-    SValue *vt; /* C value of the expression */
-    int ref_index; /* if >= 0, gives reference to a output constraint */
-    int input_index; /* if >= 0, gives reference to an input constraint */
-    int priority; /* priority, used to assign registers */
-    int reg; /* if >= 0, register number used for this operand */
-    int is_llong; /* true if double register value */
-    int is_memory; /* true if memory operand */
-    int is_rw;     /* for '+' modifier */
+    SValue *vt;       /* C value of the expression */
+    int ref_index;    /* if >= 0, gives reference to a output constraint */
+    int input_index;  /* if >= 0, gives reference to an input constraint */
+    int priority;     /* priority, used to assign registers */
+    int reg;          /* if >= 0, register number used for this operand */
+    int is_llong;     /* true if double register value */
+    int is_memory;    /* true if memory operand */
+    int is_rw;        /* for '+' modifier */
 } ASMOperand;
 
 static void asm_expr(TCCState *s1, ExprValue *pe);
 static int asm_int_expr(TCCState *s1);
-static int find_constraint(ASMOperand *operands, int nb_operands, 
+static int find_constraint(ASMOperand *operands, int nb_operands,
                            const char *name, const char **pp);
 
 static int tcc_assemble(TCCState *s1, int do_preprocess);
@@ -876,7 +932,9 @@ static inline int is_float(int t)
     return bt == VT_LDOUBLE || bt == VT_DOUBLE || bt == VT_FLOAT;
 }
 
+#ifdef TCC_TARGET_816
 void warning(const char *fmt, ...);
+#endif
 
 #ifdef TCC_TARGET_I386
 #include "i386-gen.c"
@@ -893,9 +951,75 @@ void warning(const char *fmt, ...);
 #ifdef TCC_TARGET_816
 #include "816-gen.c"
 #endif
+#ifndef TCC_TARGET_816
+#ifdef CONFIG_TCC_STATIC
 
-char sztmpnam[STRING_MAX_SIZE];  // Alekmaul 201125, variable for temp file name (token usage)
+#define RTLD_LAZY 0x001
+#define RTLD_NOW 0x002
+#define RTLD_GLOBAL 0x100
+#define RTLD_DEFAULT NULL
 
+/* dummy function for profiling */
+void *dlopen(const char *filename, int flag)
+{
+    return NULL;
+}
+
+const char *dlerror(void)
+{
+    return "error";
+}
+
+typedef struct TCCSyms
+{
+    char *str;
+    void *ptr;
+} TCCSyms;
+
+#define TCCSYM(a) {       \
+                      #a, \
+                      &a, \
+                  },
+
+/* add the symbol you want here if no dynamic linking is done */
+static TCCSyms tcc_syms[] = {
+#if !defined(CONFIG_TCCBOOT)
+    TCCSYM(printf)
+        TCCSYM(fprintf)
+            TCCSYM(fopen)
+                TCCSYM(fclose)
+#endif
+                    {NULL, NULL},
+};
+
+void *resolve_sym(TCCState *s1, const char *symbol, int type)
+{
+    TCCSyms *p;
+    p = tcc_syms;
+    while (p->str != NULL)
+    {
+        if (!strcmp(p->str, symbol))
+            return p->ptr;
+        p++;
+    }
+    return NULL;
+}
+
+#elif !defined(WIN32)
+
+#include <dlfcn.h>
+
+void *resolve_sym(TCCState *s1, const char *sym, int type)
+{
+    return dlsym(RTLD_DEFAULT, sym);
+}
+
+#endif
+#endif
+
+#ifdef TCC_TARGET_816
+char sztmpnam[STRING_MAX_SIZE]; // Alekmaul 201125, variable for temp file name (token usage)
+#endif
 /********************************************************/
 
 /* we use our own 'finite' function to avoid potential problems with
@@ -913,10 +1037,12 @@ static char *pstrcpy(char *buf, int buf_size, const char *s)
     char *q, *q_end;
     int c;
 
-    if (buf_size > 0) {
+    if (buf_size > 0)
+    {
         q = buf;
         q_end = buf + buf_size - 1;
-        while (q < q_end) {
+        while (q < q_end)
+        {
             c = *s++;
             if (c == '\0')
                 break;
@@ -932,7 +1058,7 @@ static char *pstrcat(char *buf, int buf_size, const char *s)
 {
     int len;
     len = strlen(buf);
-    if (len < buf_size) 
+    if (len < buf_size)
         pstrcpy(buf + len, buf_size - len, s);
     return buf;
 }
@@ -942,7 +1068,8 @@ static int strstart(const char *str, const char *val, const char **ptr)
     const char *p, *q;
     p = str;
     q = val;
-    while (*q != '\0') {
+    while (*q != '\0')
+    {
         if (*p != *q)
             return 0;
         p++;
@@ -1021,11 +1148,12 @@ static void dynarray_add(void ***ptab, int *nb_ptr, void *data)
 {
     int nb, nb_alloc;
     void **pp;
-    
+
     nb = *nb_ptr;
     pp = *ptab;
     /* every power of two we double array size */
-    if ((nb & (nb - 1)) == 0) {
+    if ((nb & (nb - 1)) == 0)
+    {
         if (!nb)
             nb_alloc = 1;
         else
@@ -1049,7 +1177,8 @@ static Sym *__sym_malloc(void)
 
     last_sym = sym_free_first;
     sym = sym_pool;
-    for(i = 0; i < SYM_POOL_NB; i++) {
+    for (i = 0; i < SYM_POOL_NB; i++)
+    {
         sym->next = last_sym;
         last_sym = sym;
         sym++;
@@ -1082,7 +1211,8 @@ Section *new_section(TCCState *s1, const char *name, int sh_type, int sh_flags)
     strcpy(sec->name, name);
     sec->sh_type = sh_type;
     sec->sh_flags = sh_flags;
-    switch(sh_type) {
+    switch (sh_type)
+    {
     case SHT_HASH:
     case SHT_REL:
     case SHT_DYNSYM:
@@ -1099,7 +1229,8 @@ Section *new_section(TCCState *s1, const char *name, int sh_type, int sh_flags)
     }
 
     /* only add section if not private */
-    if (!(sh_flags & SHF_PRIVATE)) {
+    if (!(sh_flags & SHF_PRIVATE))
+    {
         sec->sh_num = s1->nb_sections;
         dynarray_add((void ***)&s1->sections, &s1->nb_sections, sec);
     }
@@ -1117,7 +1248,7 @@ static void section_realloc(Section *sec, unsigned long new_size)
 {
     unsigned long size;
     unsigned char *data;
-    
+
     size = sec->data_allocated;
     if (size == 0)
         size = 1;
@@ -1139,7 +1270,7 @@ static void *section_ptr_add(Section *sec, unsigned long size)
 
     offset = sec->data_offset;
     offset1 = offset + size;
-    //fprintf(stderr,"section_ptr_add sec %s data %p size %ld offset %ld offset1 %ld allocd %ld\n", sec->name, sec->data, size,offset,offset1,sec->data_allocated);
+    // fprintf(stderr,"section_ptr_add sec %s data %p size %ld offset %ld offset1 %ld allocd %ld\n", sec->name, sec->data, size,offset,offset1,sec->data_allocated);
     if (offset1 > sec->data_allocated)
         section_realloc(sec, offset1);
     sec->data_offset = offset1;
@@ -1152,9 +1283,10 @@ Section *find_section(TCCState *s1, const char *name)
 {
     Section *sec;
     int i;
-    for(i = 1; i < s1->nb_sections; i++) {
+    for (i = 1; i < s1->nb_sections; i++)
+    {
         sec = s1->sections[i];
-        if (!strcmp(name, sec->name)) 
+        if (!strcmp(name, sec->name))
             return sec;
     }
     /* sections are created as PROGBITS */
@@ -1165,7 +1297,7 @@ Section *find_section(TCCState *s1, const char *name)
 
 /* update sym->c so that it points to an external symbol in section
    'section' with value 'value' */
-static void put_extern_sym2(Sym *sym, Section *section, 
+static void put_extern_sym2(Sym *sym, Section *section,
                             unsigned long value, unsigned long size,
                             int can_add_underscore)
 {
@@ -1176,11 +1308,12 @@ static void put_extern_sym2(Sym *sym, Section *section,
 
     if (section == NULL)
         sh_num = SHN_UNDEF;
-    else if (section == SECTION_ABS) 
+    else if (section == SECTION_ABS)
         sh_num = SHN_ABS;
     else
         sh_num = section->sh_num;
-    if (!sym->c) {
+    if (!sym->c)
+    {
         if ((sym->type.t & VT_BTYPE) == VT_FUNC)
             sym_type = STT_FUNC;
         else
@@ -1189,25 +1322,27 @@ static void put_extern_sym2(Sym *sym, Section *section,
             sym_bind = STB_LOCAL;
         else
             sym_bind = STB_GLOBAL;
-        
+
         name = get_tok_str(sym->v, NULL);
 #ifdef CONFIG_TCC_BCHECK
-        if (do_bounds_check) {
+        if (do_bounds_check)
+        {
             char buf[32];
 
             /* XXX: avoid doing that for statics ? */
             /* if bound checking is activated, we change some function
                names by adding the "__bound" prefix */
-            switch(sym->v) {
+            switch (sym->v)
+            {
 #if 0
             /* XXX: we rely only on malloc hooks */
-            case TOK_malloc: 
-            case TOK_free: 
-            case TOK_realloc: 
-            case TOK_memalign: 
-            case TOK_calloc: 
+            case TOK_malloc:
+            case TOK_free:
+            case TOK_realloc:
+            case TOK_memalign:
+            case TOK_calloc:
 #endif
-            case TOK_memcpy: 
+            case TOK_memcpy:
             case TOK_memmove:
             case TOK_memset:
             case TOK_strlen:
@@ -1219,13 +1354,16 @@ static void put_extern_sym2(Sym *sym, Section *section,
             }
         }
 #endif
-        if (tcc_state->leading_underscore && can_add_underscore) {
+        if (tcc_state->leading_underscore && can_add_underscore)
+        {
             buf1[0] = '_';
             pstrcpy(buf1 + 1, sizeof(buf1) - 1, name);
             name = buf1;
         }
-        if (sym->type.t & VT_STATIC /* && name[0] != 'L' && name[1] != '.' */) {
-            //fprintf(stderr,"verstaticung von %s (current_fn %s)\n", name,current_fn);
+#ifdef TCC_TARGET_816
+        if (sym->type.t & VT_STATIC /* && name[0] != 'L' && name[1] != '.' */)
+        {
+            // fprintf(stderr,"verstaticung von %s (current_fn %s)\n", name,current_fn);
             if ((sym->type.t & VT_STATICLOCAL) && current_fn[0] != 0 /*&& !((sym->type.t & VT_BTYPE) == VT_FUNC)*/)
                 sprintf(buf1, "%s_FUNC_%s_", static_prefix, current_fn);
             else
@@ -1233,9 +1371,12 @@ static void put_extern_sym2(Sym *sym, Section *section,
             strcat(buf1, name);
             name = buf1;
         }
+#endif
         info = ELF32_ST_INFO(sym_bind, sym_type);
         sym->c = add_elf_sym(symtab_section, value, size, info, 0, sh_num, name);
-    } else {
+    }
+    else
+    {
         esym = &((Elf32_Sym *)symtab_section->data)[sym->c];
         esym->st_value = value;
         esym->st_size = size;
@@ -1243,7 +1384,7 @@ static void put_extern_sym2(Sym *sym, Section *section,
     }
 }
 
-static void put_extern_sym(Sym *sym, Section *section, 
+static void put_extern_sym(Sym *sym, Section *section,
                            unsigned long value, unsigned long size)
 {
     put_extern_sym2(sym, section, value, size, 1);
@@ -1252,8 +1393,8 @@ static void put_extern_sym(Sym *sym, Section *section,
 /* add a new relocation entry to symbol 'sym' in section 's' */
 static void greloc(Section *s, Sym *sym, unsigned long offset, int type)
 {
-    //fprintf(stderr,"greloc section %p offset %d type %d name %s const %d\n",s,offset,type,get_tok_str(sym->v, NULL),sym->c);
-    if (!sym->c) 
+    // fprintf(stderr,"greloc section %p offset %d type %d name %s const %d\n",s,offset,type,get_tok_str(sym->v, NULL),sym->c);
+    if (!sym->c)
         put_extern_sym(sym, NULL, 0, 0);
     /* now we can add ELF relocation info */
     put_elf_reloc(symtab_section, s, offset, type, sym->c);
@@ -1262,8 +1403,8 @@ static void greloc(Section *s, Sym *sym, unsigned long offset, int type)
 static inline int isid(int c)
 {
     return (c >= 'a' && c <= 'z') ||
-        (c >= 'A' && c <= 'Z') ||
-        c == '_';
+           (c >= 'A' && c <= 'Z') ||
+           c == '_';
 }
 
 static inline int isnum(int c)
@@ -1303,20 +1444,26 @@ void error1(TCCState *s1, int is_warning, const char *fmt, va_list ap)
 {
     char buf[2048];
     BufferedFile **f;
-    
+
     buf[0] = '\0';
-    if (file) {
-        for(f = s1->include_stack; f < s1->include_stack_ptr; f++)
-            strcat_printf(buf, sizeof(buf), "In file included from %s:%d:\n", 
+    if (file)
+    {
+        for (f = s1->include_stack; f < s1->include_stack_ptr; f++)
+            strcat_printf(buf, sizeof(buf), "In file included from %s:%d:\n",
                           (*f)->filename, (*f)->line_num);
-        if (file->line_num > 0) {
-            strcat_printf(buf, sizeof(buf), 
+        if (file->line_num > 0)
+        {
+            strcat_printf(buf, sizeof(buf),
                           "%s:%d: ", file->filename, file->line_num);
-        } else {
+        }
+        else
+        {
             strcat_printf(buf, sizeof(buf),
                           "%s: ", file->filename);
         }
-    } else {
+    }
+    else
+    {
         strcat_printf(buf, sizeof(buf),
                       "tcc: ");
     }
@@ -1324,10 +1471,13 @@ void error1(TCCState *s1, int is_warning, const char *fmt, va_list ap)
         strcat_printf(buf, sizeof(buf), "warning: ");
     strcat_vprintf(buf, sizeof(buf), fmt, ap);
 
-    if (!s1->error_func) {
+    if (!s1->error_func)
+    {
         /* default case: stderr */
         fprintf(stderr, "%s\n", buf);
-    } else {
+    }
+    else
+    {
         s1->error_func(s1->error_opaque, buf);
     }
     if (!is_warning || s1->warn_error)
@@ -1362,11 +1512,17 @@ void error(const char *fmt, ...)
     va_start(ap, fmt);
     error1(s1, 0, fmt, ap);
     va_end(ap);
-    
     /* better than nothing: in some cases, we accept to handle errors */
-    if (s1->error_set_jmp_enabled) {
+    if (s1->error_set_jmp_enabled)
+    {
+#ifdef TCC_TARGET_816
         exit(1); // Alek 201125 hangs on winxp longjmp(s1->error_jmp_buf, 1);
-    } else {
+#else
+        longjmp(s1->error_jmp_buf, 1);
+#endif
+    }
+    else
+    {
         /* XXX: eliminate this someday */
         exit(1);
     }
@@ -1409,12 +1565,13 @@ static TokenSym *tok_alloc_new(TokenSym **pts, const char *str, int len)
     TokenSym *ts, **ptable;
     int i;
 
-    if (tok_ident >= SYM_FIRST_ANOM) 
+    if (tok_ident >= SYM_FIRST_ANOM)
         error("memory full");
 
     /* expand token table if needed */
     i = tok_ident - TOK_IDENT;
-    if ((i % TOK_ALLOC_INCR) == 0) {
+    if ((i % TOK_ALLOC_INCR) == 0)
+    {
         ptable = tcc_realloc(table_ident, (i + TOK_ALLOC_INCR) * sizeof(TokenSym *));
         if (!ptable)
             error("memory full");
@@ -1437,7 +1594,7 @@ static TokenSym *tok_alloc_new(TokenSym **pts, const char *str, int len)
 }
 
 #define TOK_HASH_INIT 1
-#define TOK_HASH_FUNC(h, c) ((h) * 263 + (c))
+#define TOK_HASH_FUNC(h, c) ((h)*263 + (c))
 
 /* find a token and add it if not found */
 static TokenSym *tok_alloc(const char *str, int len)
@@ -1445,14 +1602,15 @@ static TokenSym *tok_alloc(const char *str, int len)
     TokenSym *ts, **pts;
     int i;
     unsigned int h;
-    
+
     h = TOK_HASH_INIT;
-    for(i=0;i<len;i++)
+    for (i = 0; i < len; i++)
         h = TOK_HASH_FUNC(h, ((unsigned char *)str)[i]);
     h &= (TOK_HASH_SIZE - 1);
 
     pts = &hash_ident[h];
-    for(;;) {
+    for (;;)
+    {
         ts = *pts;
         if (!ts)
             break;
@@ -1497,7 +1655,8 @@ static inline void cstr_ccat(CString *cstr, int ch)
 static void cstr_cat(CString *cstr, const char *str)
 {
     int c;
-    for(;;) {
+    for (;;)
+    {
         c = *str;
         if (c == '\0')
             break;
@@ -1534,17 +1693,24 @@ static void cstr_free(CString *cstr)
 /* XXX: unicode ? */
 static void add_char(CString *cstr, int c)
 {
-    if (c == '\'' || c == '\"' || c == '\\') {
+    if (c == '\'' || c == '\"' || c == '\\')
+    {
         /* XXX: could be more precise if char or string */
         cstr_ccat(cstr, '\\');
     }
-    if (c >= 32 && c <= 126) {
+    if (c >= 32 && c <= 126)
+    {
         cstr_ccat(cstr, c);
-    } else {
+    }
+    else
+    {
         cstr_ccat(cstr, '\\');
-        if (c == '\n') {
+        if (c == '\n')
+        {
             cstr_ccat(cstr, 'n');
-        } else {
+        }
+        else
+        {
             cstr_ccat(cstr, '0' + ((c >> 6) & 7));
             cstr_ccat(cstr, '0' + ((c >> 3) & 7));
             cstr_ccat(cstr, '0' + (c & 7));
@@ -1569,7 +1735,8 @@ char *get_tok_str(int v, CValue *cv)
     cstr_buf.size_allocated = sizeof(buf);
     p = buf;
 
-    switch(v) {
+    switch (v)
+    {
     case TOK_CINT:
     case TOK_CUINT:
         /* XXX: not quite exact, but only useful for testing */
@@ -1590,7 +1757,7 @@ char *get_tok_str(int v, CValue *cv)
     case TOK_PPNUM:
         cstr = cv->cstr;
         len = cstr->size - 1;
-        for(i=0;i<len;i++)
+        for (i = 0; i < len; i++)
             add_char(&cstr_buf, ((unsigned char *)cstr->data)[i]);
         cstr_ccat(&cstr_buf, '\0');
         break;
@@ -1598,13 +1765,16 @@ char *get_tok_str(int v, CValue *cv)
     case TOK_LSTR:
         cstr = cv->cstr;
         cstr_ccat(&cstr_buf, '\"');
-        if (v == TOK_STR) {
+        if (v == TOK_STR)
+        {
             len = cstr->size - 1;
-            for(i=0;i<len;i++)
+            for (i = 0; i < len; i++)
                 add_char(&cstr_buf, ((unsigned char *)cstr->data)[i]);
-        } else {
+        }
+        else
+        {
             len = (cstr->size / sizeof(int)) - 1;
-            for(i=0;i<len;i++)
+            for (i = 0; i < len; i++)
                 add_char(&cstr_buf, ((int *)cstr->data)[i]);
         }
         cstr_ccat(&cstr_buf, '\"');
@@ -1621,11 +1791,14 @@ char *get_tok_str(int v, CValue *cv)
     case TOK_A_SAR:
         return strcpy(p, ">>=");
     default:
-        if (v < TOK_IDENT) {
+        if (v < TOK_IDENT)
+        {
             /* search in two bytes table */
             q = tok_two_chars;
-            while (*q) {
-                if (q[2] == v) {
+            while (*q)
+            {
+                if (q[2] == v)
+                {
                     *p++ = q[0];
                     *p++ = q[1];
                     *p = '\0';
@@ -1636,13 +1809,23 @@ char *get_tok_str(int v, CValue *cv)
         addv:
             *p++ = v;
             *p = '\0';
-        } else if (v < tok_ident) {
+        }
+        else if (v < tok_ident)
+        {
             return table_ident[v - TOK_IDENT]->str;
-        } else if (v >= SYM_FIRST_ANOM) {
+        }
+        else if (v >= SYM_FIRST_ANOM)
+        {
             /* special name for anonymous symbol */
-            //sprintf(p, "L.%s%d",&tmpnam(NULL)[1] , v - SYM_FIRST_ANOM);
-            sprintf(p, "L.%s%d",sztmpnam,v - SYM_FIRST_ANOM); // Alekmaul 201125, add temp file name to token name
-        } else {
+            // sprintf(p, "L.%s%d",&tmpnam(NULL)[1] , v - SYM_FIRST_ANOM);
+#ifdef TCC_TARGET_816
+            sprintf(p, "L.%s%d", sztmpnam, v - SYM_FIRST_ANOM); // Alekmaul 201125, add temp file name to token name
+#else
+            sprintf(p, "L.%u", v - SYM_FIRST_ANOM);
+#endif
+        }
+        else
+        {
             /* should never happen */
             return NULL;
         }
@@ -1670,7 +1853,8 @@ static Sym *sym_push2(Sym **ps, int v, int t, int c)
    of the symbol stack */
 static Sym *sym_find2(Sym *s, int v)
 {
-    while (s) {
+    while (s)
+    {
         if (s->v == v)
             return s;
         s = s->prev;
@@ -1711,10 +1895,15 @@ static Sym *sym_push(int v, CType *type, int r, int c)
     s->r = r;
     /* don't record fields or anonymous symbols */
     /* XXX: simplify */
-    if (!(v & SYM_FIELD) && (v & ~SYM_STRUCT) < SYM_FIRST_ANOM) {
+    if (!(v & SYM_FIELD) && (v & ~SYM_STRUCT) < SYM_FIRST_ANOM)
+    {
         /* record symbol in token array */
-        //fprintf(stderr,"table_ident index 0x%x\n",(v & ~(SYM_STRUCT)) - TOK_IDENT);
+        // fprintf(stderr,"table_ident index 0x%x\n",(v & ~(SYM_STRUCT)) - TOK_IDENT);
+#ifdef TCC_TARGET_816
         ts = table_ident[(v & ~(SYM_STRUCT)) - TOK_IDENT];
+#else
+        ts = table_ident[(v & ~SYM_STRUCT) - TOK_IDENT];
+#endif
         if (v & SYM_STRUCT)
             ps = &ts->sym_struct;
         else
@@ -1731,8 +1920,9 @@ static Sym *global_identifier_push(int v, int t, int c)
     Sym *s, **ps;
     s = sym_push2(&global_stack, v, t, c);
     /* don't record anonymous symbol */
-    if (v < SYM_FIRST_ANOM) {
-        //fprintf(stderr,"table_ident index 0x%x\n",v - TOK_IDENT);
+    if (v < SYM_FIRST_ANOM)
+    {
+        // fprintf(stderr,"table_ident index 0x%x\n",v - TOK_IDENT);
         ps = &table_ident[v - TOK_IDENT]->sym_identifier;
         /* modify the top most local identifier, so that
            sym_identifier will point to 's' when popped */
@@ -1752,12 +1942,14 @@ static void sym_pop(Sym **ptop, Sym *b)
     int v;
 
     s = *ptop;
-    while(s != b) {
+    while (s != b)
+    {
         ss = s->prev;
         v = s->v;
         /* remove symbol in token array */
         /* XXX: simplify */
-        if (!(v & SYM_FIELD) && (v & ~SYM_STRUCT) < SYM_FIRST_ANOM) {
+        if (!(v & SYM_FIELD) && (v & ~SYM_STRUCT) < SYM_FIRST_ANOM)
+        {
             ts = table_ident[(v & ~SYM_STRUCT) - TOK_IDENT];
             if (v & SYM_STRUCT)
                 ps = &ts->sym_struct;
@@ -1782,7 +1974,8 @@ BufferedFile *tcc_open(TCCState *s1, const char *filename)
     if (fd < 0)
         return NULL;
     bf = tcc_malloc(sizeof(BufferedFile));
-    if (!bf) {
+    if (!bf)
+    {
         close(fd);
         return NULL;
     }
@@ -1810,8 +2003,10 @@ static int tcc_peekc_slow(BufferedFile *bf)
 {
     int len;
     /* only tries to read if really end of buffer */
-    if (bf->buf_ptr >= bf->buf_end) {
-        if (bf->fd != -1) {
+    if (bf->buf_ptr >= bf->buf_end)
+    {
+        if (bf->fd != -1)
+        {
 #if defined(PARSE_DEBUG)
             len = 8;
 #else
@@ -1820,7 +2015,9 @@ static int tcc_peekc_slow(BufferedFile *bf)
             len = read(bf->fd, bf->buffer, len);
             if (len < 0)
                 len = 0;
-        } else {
+        }
+        else
+        {
             len = 0;
         }
         total_bytes += len;
@@ -1828,9 +2025,12 @@ static int tcc_peekc_slow(BufferedFile *bf)
         bf->buf_end = bf->buffer + len;
         *bf->buf_end = CH_EOB;
     }
-    if (bf->buf_ptr < bf->buf_end) {
+    if (bf->buf_ptr < bf->buf_end)
+    {
         return bf->buf_ptr[0];
-    } else {
+    }
+    else
+    {
         bf->buf_ptr = bf->buf_end;
         return CH_EOF;
     }
@@ -1855,18 +2055,24 @@ static inline void inp(void)
 /* handle '\[\r]\n' */
 static void handle_stray(void)
 {
-    while (ch == '\\') {
+    while (ch == '\\')
+    {
         inp();
-        if (ch == '\n') {
+        if (ch == '\n')
+        {
             file->line_num++;
             inp();
-        } else if (ch == '\r') {
+        }
+        else if (ch == '\r')
+        {
             inp();
             if (ch != '\n')
                 goto fail;
             file->line_num++;
             inp();
-        } else {
+        }
+        else
+        {
         fail:
             error("stray '\\' in program");
         }
@@ -1879,13 +2085,16 @@ static int handle_stray1(uint8_t *p)
 {
     int c;
 
-    if (p >= file->buf_end) {
+    if (p >= file->buf_end)
+    {
         file->buf_ptr = p;
         c = handle_eob();
         p = file->buf_ptr;
         if (c == '\\')
             goto parse_stray;
-    } else {
+    }
+    else
+    {
     parse_stray:
         file->buf_ptr = p;
         ch = *p;
@@ -1897,27 +2106,29 @@ static int handle_stray1(uint8_t *p)
 }
 
 /* handle just the EOB case, but not stray */
-#define PEEKC_EOB(c, p)\
-{\
-    p++;\
-    c = *p;\
-    if (c == '\\') {\
-        file->buf_ptr = p;\
-        c = handle_eob();\
-        p = file->buf_ptr;\
-    }\
-}
+#define PEEKC_EOB(c, p)        \
+    {                          \
+        p++;                   \
+        c = *p;                \
+        if (c == '\\')         \
+        {                      \
+            file->buf_ptr = p; \
+            c = handle_eob();  \
+            p = file->buf_ptr; \
+        }                      \
+    }
 
 /* handle the complicated stray case */
-#define PEEKC(c, p)\
-{\
-    p++;\
-    c = *p;\
-    if (c == '\\') {\
-        c = handle_stray1(p);\
-        p = file->buf_ptr;\
-    }\
-}
+#define PEEKC(c, p)               \
+    {                             \
+        p++;                      \
+        c = *p;                   \
+        if (c == '\\')            \
+        {                         \
+            c = handle_stray1(p); \
+            p = file->buf_ptr;    \
+        }                         \
+    }
 
 /* input with '\[\r]\n' handling. Note that this function cannot
    handle other characters after '\', so you cannot call it inside
@@ -1925,10 +2136,9 @@ static int handle_stray1(uint8_t *p)
 static void minp(void)
 {
     inp();
-    if (ch == '\\') 
+    if (ch == '\\')
         handle_stray();
 }
-
 
 /* single line C++ comments */
 static uint8_t *parse_line_comment(uint8_t *p)
@@ -1936,31 +2146,44 @@ static uint8_t *parse_line_comment(uint8_t *p)
     int c;
 
     p++;
-    for(;;) {
+    for (;;)
+    {
         c = *p;
     redo:
-        if (c == '\n' || c == CH_EOF) {
+        if (c == '\n' || c == CH_EOF)
+        {
             break;
-        } else if (c == '\\') {
+        }
+        else if (c == '\\')
+        {
             file->buf_ptr = p;
             c = handle_eob();
             p = file->buf_ptr;
-            if (c == '\\') {
+            if (c == '\\')
+            {
                 PEEKC_EOB(c, p);
-                if (c == '\n') {
+                if (c == '\n')
+                {
                     file->line_num++;
                     PEEKC_EOB(c, p);
-                } else if (c == '\r') {
+                }
+                else if (c == '\r')
+                {
                     PEEKC_EOB(c, p);
-                    if (c == '\n') {
+                    if (c == '\n')
+                    {
                         file->line_num++;
                         PEEKC_EOB(c, p);
                     }
                 }
-            } else {
+            }
+            else
+            {
                 goto redo;
             }
-        } else {
+        }
+        else
+        {
             p++;
         }
     }
@@ -1971,11 +2194,13 @@ static uint8_t *parse_line_comment(uint8_t *p)
 static uint8_t *parse_comment(uint8_t *p)
 {
     int c;
-    
+
     p++;
-    for(;;) {
+    for (;;)
+    {
         /* fast skip loop */
-        for(;;) {
+        for (;;)
+        {
             c = *p;
             if (c == '\n' || c == '*' || c == '\\')
                 break;
@@ -1986,57 +2211,81 @@ static uint8_t *parse_comment(uint8_t *p)
             p++;
         }
         /* now we can handle all the cases */
-        if (c == '\n') {
+        if (c == '\n')
+        {
             file->line_num++;
             p++;
-        } else if (c == '*') {
+        }
+        else if (c == '*')
+        {
             p++;
-            for(;;) {
+            for (;;)
+            {
                 c = *p;
-                if (c == '*') {
+                if (c == '*')
+                {
                     p++;
-                } else if (c == '/') {
+                }
+                else if (c == '/')
+                {
                     goto end_of_comment;
-                } else if (c == '\\') {
+                }
+                else if (c == '\\')
+                {
                     file->buf_ptr = p;
                     c = handle_eob();
                     p = file->buf_ptr;
-                    if (c == '\\') {
+                    if (c == '\\')
+                    {
                         /* skip '\[\r]\n', otherwise just skip the stray */
-                        while (c == '\\') {
+                        while (c == '\\')
+                        {
                             PEEKC_EOB(c, p);
-                            if (c == '\n') {
+                            if (c == '\n')
+                            {
                                 file->line_num++;
                                 PEEKC_EOB(c, p);
-                            } else if (c == '\r') {
+                            }
+                            else if (c == '\r')
+                            {
                                 PEEKC_EOB(c, p);
-                                if (c == '\n') {
+                                if (c == '\n')
+                                {
                                     file->line_num++;
                                     PEEKC_EOB(c, p);
                                 }
-                            } else {
+                            }
+                            else
+                            {
                                 goto after_star;
                             }
                         }
                     }
-                } else {
+                }
+                else
+                {
                     break;
                 }
             }
-        after_star: ;
-        } else {
+        after_star:;
+        }
+        else
+        {
             /* stray, eob or eof */
             file->buf_ptr = p;
             c = handle_eob();
             p = file->buf_ptr;
-            if (c == CH_EOF) {
+            if (c == CH_EOF)
+            {
                 error("unexpected end of file in comment");
-            } else if (c == '\\') {
+            }
+            else if (c == '\\')
+            {
                 p++;
             }
         }
     }
- end_of_comment:
+end_of_comment:
     p++;
     return p;
 }
@@ -2061,53 +2310,77 @@ static uint8_t *parse_pp_string(uint8_t *p,
 {
     int c;
     p++;
-    for(;;) {
+    for (;;)
+    {
         c = *p;
-        if (c == sep) {
+        if (c == sep)
+        {
             break;
-        } else if (c == '\\') {
+        }
+        else if (c == '\\')
+        {
             file->buf_ptr = p;
             c = handle_eob();
             p = file->buf_ptr;
-            if (c == CH_EOF) {
+            if (c == CH_EOF)
+            {
             unterminated_string:
                 /* XXX: indicate line number of start of string */
                 error("missing terminating %c character", sep);
-            } else if (c == '\\') {
+            }
+            else if (c == '\\')
+            {
                 /* escape : just skip \[\r]\n */
                 PEEKC_EOB(c, p);
-                if (c == '\n') {
+                if (c == '\n')
+                {
                     file->line_num++;
                     p++;
-                } else if (c == '\r') {
+                }
+                else if (c == '\r')
+                {
                     PEEKC_EOB(c, p);
                     if (c != '\n')
                         expect("'\n' after '\r'");
                     file->line_num++;
                     p++;
-                } else if (c == CH_EOF) {
+                }
+                else if (c == CH_EOF)
+                {
                     goto unterminated_string;
-                } else {
-                    if (str) {
+                }
+                else
+                {
+                    if (str)
+                    {
                         cstr_ccat(str, '\\');
                         cstr_ccat(str, c);
                     }
                     p++;
                 }
             }
-        } else if (c == '\n') {
+        }
+        else if (c == '\n')
+        {
             file->line_num++;
             goto add_char;
-        } else if (c == '\r') {
+        }
+        else if (c == '\r')
+        {
             PEEKC_EOB(c, p);
-            if (c != '\n') {
+            if (c != '\n')
+            {
                 if (str)
                     cstr_ccat(str, '\r');
-            } else {
+            }
+            else
+            {
                 file->line_num++;
                 goto add_char;
             }
-        } else {
+        }
+        else
+        {
         add_char:
             if (str)
                 cstr_ccat(str, c);
@@ -2128,10 +2401,12 @@ void preprocess_skip(void)
     p = file->buf_ptr;
     start_of_line = 1;
     a = 0;
-    for(;;) {
+    for (;;)
+    {
     redo_no_start:
         c = *p;
-        switch(c) {
+        switch (c)
+        {
         case ' ':
         case '\t':
         case '\f':
@@ -2147,9 +2422,12 @@ void preprocess_skip(void)
         case '\\':
             file->buf_ptr = p;
             c = handle_eob();
-            if (c == CH_EOF) {
+            if (c == CH_EOF)
+            {
                 expect("#endif");
-            } else if (c == '\\') {
+            }
+            else if (c == '\\')
+            {
                 /* XXX: incorrect: should not give an error */
                 ch = file->buf_ptr[0];
                 handle_stray();
@@ -2167,20 +2445,24 @@ void preprocess_skip(void)
             ch = *p;
             minp();
             p = file->buf_ptr;
-            if (ch == '*') {
+            if (ch == '*')
+            {
                 p = parse_comment(p);
-            } else if (ch == '/') {
+            }
+            else if (ch == '/')
+            {
                 p = parse_line_comment(p);
             }
             break;
 
         case '#':
             p++;
-            if (start_of_line) {
+            if (start_of_line)
+            {
                 file->buf_ptr = p;
                 next_nomacro();
                 p = file->buf_ptr;
-                if (a == 0 && 
+                if (a == 0 &&
                     (tok == TOK_ELSE || tok == TOK_ELIF || tok == TOK_ENDIF))
                     goto the_end;
                 if (tok == TOK_IF || tok == TOK_IFDEF || tok == TOK_IFNDEF)
@@ -2195,7 +2477,7 @@ void preprocess_skip(void)
         }
         start_of_line = 0;
     }
- the_end: ;
+the_end:;
     file->buf_ptr = p;
 }
 
@@ -2227,13 +2509,14 @@ void restore_parse_state(ParseState *s)
    token */
 static inline int tok_ext_size(int t)
 {
-    switch(t) {
+    switch (t)
+    {
         /* 4 bytes */
     case TOK_CINT:
     case TOK_CUINT:
     case TOK_CCHAR:
     case TOK_LCHAR:
-    case TOK_CFLOAT:	// FIXME: is that correct?
+    case TOK_CFLOAT:
 #ifdef TCC_TARGET_816
     case TOK_CDOUBLE:
     case TOK_CLDOUBLE:
@@ -2253,6 +2536,10 @@ static inline int tok_ext_size(int t)
     case TOK_CLLONG:
     case TOK_CULLONG:
         return 2;
+#ifndef TCC_TARGET_816
+    case TOK_CLDOUBLE:
+        return LDOUBLE_SIZE / 4;
+#endif
     default:
         return 0;
     }
@@ -2277,9 +2564,12 @@ static int *tok_str_realloc(TokenString *s)
 {
     int *str, len;
 
-    if (s->allocated_len == 0) {
+    if (s->allocated_len == 0)
+    {
         len = 8;
-    } else {
+    }
+    else
+    {
         len = s->allocated_len * 2;
     }
     str = tcc_realloc(s->str, len * sizeof(int));
@@ -2313,7 +2603,8 @@ static void tok_str_add2(TokenString *s, int t, CValue *cv)
     if (len + TOK_MAX_SIZE > s->allocated_len)
         str = tok_str_realloc(s);
     str[len++] = t;
-    switch(t) {
+    switch (t)
+    {
     case TOK_CINT:
     case TOK_CUINT:
     case TOK_CCHAR:
@@ -2328,23 +2619,23 @@ static void tok_str_add2(TokenString *s, int t, CValue *cv)
     case TOK_PPNUM:
     case TOK_STR:
     case TOK_LSTR:
-        {
-            int nb_words;
-            CString *cstr;
+    {
+        int nb_words;
+        CString *cstr;
 
-            nb_words = (sizeof(CString) + cv->cstr->size + 3) >> 2;
-            while ((len + nb_words) > s->allocated_len)
-                str = tok_str_realloc(s);
-            cstr = (CString *)(str + len);
-            cstr->data = NULL;
-            cstr->size = cv->cstr->size;
-            cstr->data_allocated = NULL;
-            cstr->size_allocated = cstr->size;
-            memcpy((char *)cstr + sizeof(CString), 
-                   cv->cstr->data, cstr->size);
-            len += nb_words;
-        }
-        break;
+        nb_words = (sizeof(CString) + cv->cstr->size + 3) >> 2;
+        while ((len + nb_words) > s->allocated_len)
+            str = tok_str_realloc(s);
+        cstr = (CString *)(str + len);
+        cstr->data = NULL;
+        cstr->size = cv->cstr->size;
+        cstr->data_allocated = NULL;
+        cstr->size_allocated = cstr->size;
+        memcpy((char *)cstr + sizeof(CString),
+               cv->cstr->data, cstr->size);
+        len += nb_words;
+    }
+    break;
 #ifndef TCC_TARGET_816
     case TOK_CDOUBLE:
 #endif
@@ -2377,7 +2668,8 @@ static void tok_str_add_tok(TokenString *s)
     CValue cval;
 
     /* save line number info */
-    if (file->line_num != s->last_line_num) {
+    if (file->line_num != s->last_line_num)
+    {
         s->last_line_num = file->line_num;
         cval.i = s->last_line_num;
         tok_str_add2(s, TOK_LINENUM, &cval);
@@ -2386,63 +2678,104 @@ static void tok_str_add_tok(TokenString *s)
 }
 
 #if LDOUBLE_SIZE == 12
-#define LDOUBLE_GET(p, cv)                      \
-        cv.tab[0] = p[0];                       \
-        cv.tab[1] = p[1];                       \
-        cv.tab[2] = p[2];
+#define LDOUBLE_GET(p, cv) \
+    cv.tab[0] = p[0];      \
+    cv.tab[1] = p[1];      \
+    cv.tab[2] = p[2];
 #elif LDOUBLE_SIZE == 8
-#define LDOUBLE_GET(p, cv)                      \
-        cv.tab[0] = p[0];                       \
-        cv.tab[1] = p[1];
+#define LDOUBLE_GET(p, cv) \
+    cv.tab[0] = p[0];      \
+    cv.tab[1] = p[1];
 #else
 #error add long double size support
 #endif
 
-
 /* get a token from an integer array and increment pointer
    accordingly. we code it as a macro to avoid pointer aliasing. */
-#define TOK_GET(t, p, cv)                       \
-{                                               \
-    t = *p++;                                   \
-    switch(t) {                                 \
-    case TOK_CINT:                              \
-    case TOK_CUINT:                             \
-    case TOK_CCHAR:                             \
-    case TOK_LCHAR:                             \
-    case TOK_CFLOAT: /* this is correct (compiler ints array) */ \
-    case TOK_CDOUBLE: /* FIXME: make portable */ \
-    case TOK_LINENUM:                           \
-        cv.tab[0] = *p++;                       \
-        break;                                  \
-    case TOK_STR:                               \
-    case TOK_LSTR:                              \
-    case TOK_PPNUM:                             \
-        cv.cstr = (CString *)p;                 \
-        cv.cstr->data = (char *)p + sizeof(CString);\
-        p += (sizeof(CString) + cv.cstr->size + 3) >> 2;\
-        break;                                  \
-    /* case TOK_CDOUBLE: */                          \
-    case TOK_CLLONG:                            \
-    case TOK_CULLONG:                           \
-        cv.tab[0] = p[0];                       \
-        cv.tab[1] = p[1];                       \
-        p += 2;                                 \
-        break;                                  \
-    case TOK_CLDOUBLE:                          \
-        LDOUBLE_GET(p, cv);                     \
-        p += LDOUBLE_SIZE / 4;                  \
-        break;                                  \
-    default:                                    \
-        break;                                  \
-    }                                           \
-}
+#ifdef TCC_TARGET_816
+#define TOK_GET(t, p, cv)                                             \
+    {                                                                 \
+        t = *p++;                                                     \
+        switch (t)                                                    \
+        {                                                             \
+        case TOK_CINT:                                                \
+        case TOK_CUINT:                                               \
+        case TOK_CCHAR:                                               \
+        case TOK_LCHAR:                                               \
+        case TOK_CFLOAT:  /* this is correct (compiler ints array) */ \
+        case TOK_CDOUBLE: /* FIXME: make portable */                  \
+        case TOK_LINENUM:                                             \
+            cv.tab[0] = *p++;                                         \
+            break;                                                    \
+        case TOK_STR:                                                 \
+        case TOK_LSTR:                                                \
+        case TOK_PPNUM:                                               \
+            cv.cstr = (CString *)p;                                   \
+            cv.cstr->data = (char *)p + sizeof(CString);              \
+            p += (sizeof(CString) + cv.cstr->size + 3) >> 2;          \
+            break;                                                    \
+        case TOK_CLLONG:                                              \
+        case TOK_CULLONG:                                             \
+            cv.tab[0] = p[0];                                         \
+            cv.tab[1] = p[1];                                         \
+            p += 2;                                                   \
+            break;                                                    \
+        case TOK_CLDOUBLE:                                            \
+            LDOUBLE_GET(p, cv);                                       \
+            p += LDOUBLE_SIZE / 4;                                    \
+            break;                                                    \
+        default:                                                      \
+            break;                                                    \
+        }                                                             \
+    }
+#else
+#define TOK_GET(t, p, cv)                                    \
+    {                                                        \
+        t = *p++;                                            \
+        switch (t)                                           \
+        {                                                    \
+        case TOK_CINT:                                       \
+        case TOK_CUINT:                                      \
+        case TOK_CCHAR:                                      \
+        case TOK_LCHAR:                                      \
+        case TOK_CFLOAT:                                     \
+        case TOK_LINENUM:                                    \
+            cv.tab[0] = *p++;                                \
+            break;                                           \
+        case TOK_STR:                                        \
+        case TOK_LSTR:                                       \
+        case TOK_PPNUM:                                      \
+            cv.cstr = (CString *)p;                          \
+            cv.cstr->data = (char *)p + sizeof(CString);     \
+            p += (sizeof(CString) + cv.cstr->size + 3) >> 2; \
+            break;                                           \
+        case TOK_CDOUBLE:                                    \
+        case TOK_CLLONG:                                     \
+        case TOK_CULLONG:                                    \
+            cv.tab[0] = p[0];                                \
+            cv.tab[1] = p[1];                                \
+            p += 2;                                          \
+            break;                                           \
+        case TOK_CLDOUBLE:                                   \
+            LDOUBLE_GET(p, cv);                              \
+            p += LDOUBLE_SIZE / 4;                           \
+            break;                                           \
+        default:                                             \
+            break;                                           \
+        }                                                    \
+    }
+#endif
 
 /* defines handling */
 static inline void define_push(int v, int macro_type, int *str, Sym *first_arg)
 {
     Sym *s;
 
+#ifdef TCC_TARGET_816
     s = sym_push2(&define_stack, v, macro_type, (long)str);
+#else
+    s = sym_push2(&define_stack, v, macro_type, (int)str);
+#endif
     s->next = first_arg;
     table_ident[v - TOK_IDENT]->sym_define = s;
 }
@@ -2472,7 +2805,8 @@ static void free_defines(Sym *b)
     int v;
 
     top = define_stack;
-    while (top != b) {
+    while (top != b)
+    {
         top1 = top->prev;
         /* do not free args or predefined defines */
         if (top->c)
@@ -2501,7 +2835,8 @@ static Sym *label_push(Sym **ptop, int v, int flags)
     s = sym_push2(ptop, v, 0, 0);
     s->r = flags;
     ps = &table_ident[v - TOK_IDENT]->sym_label;
-    if (ptop == &global_label_stack) {
+    if (ptop == &global_label_stack)
+    {
         /* modify the top most local identifier, so that
            sym_identifier will point to 's' when popped */
         while (*ps != NULL)
@@ -2517,15 +2852,22 @@ static Sym *label_push(Sym **ptop, int v, int flags)
 static void label_pop(Sym **ptop, Sym *slast)
 {
     Sym *s, *s1;
-    for(s = *ptop; s != slast; s = s1) {
+    for (s = *ptop; s != slast; s = s1)
+    {
         s1 = s->prev;
-        if (s->r == LABEL_DECLARED) {
+        if (s->r == LABEL_DECLARED)
+        {
             warning("label '%s' declared but not used", get_tok_str(s->v, NULL));
-        } else if (s->r == LABEL_FORWARD) {
-                error("label '%s' used but not defined",
-                      get_tok_str(s->v, NULL));
-        } else {
-            if (s->c) {
+        }
+        else if (s->r == LABEL_FORWARD)
+        {
+            error("label '%s' used but not defined",
+                  get_tok_str(s->v, NULL));
+        }
+        else
+        {
+            if (s->c)
+            {
                 /* define corresponding symbol. A size of
                    1 is put. */
                 put_extern_sym(s, cur_text_section, (long)s->next, 1);
@@ -2543,21 +2885,25 @@ static int expr_preprocess(void)
 {
     int c, t;
     TokenString str;
-    
+
     tok_str_new(&str);
-    while (tok != TOK_LINEFEED && tok != TOK_EOF) {
+    while (tok != TOK_LINEFEED && tok != TOK_EOF)
+    {
         next(); /* do macro subst */
-        if (tok == TOK_DEFINED) {
+        if (tok == TOK_DEFINED)
+        {
             next_nomacro();
             t = tok;
-            if (t == '(') 
+            if (t == '(')
                 next_nomacro();
             c = define_find(tok) != 0;
             if (t == '(')
                 next_nomacro();
             tok = TOK_CINT;
             tokc.i = c;
-        } else if (tok >= TOK_IDENT) {
+        }
+        else if (tok >= TOK_IDENT)
+        {
             /* if undefined macro */
             tok = TOK_CINT;
             tokc.i = 0;
@@ -2581,7 +2927,8 @@ static void tok_print(int *str)
     int t;
     CValue cval;
 
-    while (1) {
+    while (1)
+    {
         TOK_GET(t, str, cval);
         if (!t)
             break;
@@ -2597,7 +2944,7 @@ static void parse_define(void)
     Sym *s, *first, **ps;
     int v, t, varg, is_vaargs, c;
     TokenString str;
-    
+
     v = tok;
     if (v < TOK_IDENT)
         error("invalid macro name '%s'", get_tok_str(tok, &tokc));
@@ -2608,18 +2955,23 @@ static void parse_define(void)
     c = file->buf_ptr[0];
     if (c == '\\')
         c = handle_stray1(file->buf_ptr);
-    if (c == '(') {
+    if (c == '(')
+    {
         next_nomacro();
         next_nomacro();
         ps = &first;
-        while (tok != ')') {
+        while (tok != ')')
+        {
             varg = tok;
             next_nomacro();
             is_vaargs = 0;
-            if (varg == TOK_DOTS) {
+            if (varg == TOK_DOTS)
+            {
                 varg = TOK___VA_ARGS__;
                 is_vaargs = 1;
-            } else if (tok == TOK_DOTS && gnu_ext) {
+            }
+            else if (tok == TOK_DOTS && gnu_ext)
+            {
                 is_vaargs = 1;
                 next_nomacro();
             }
@@ -2637,7 +2989,8 @@ static void parse_define(void)
     tok_str_new(&str);
     next_nomacro();
     /* EOF testing necessary for '-D' handling */
-    while (tok != TOK_LINEFEED && tok != TOK_EOF) {
+    while (tok != TOK_LINEFEED && tok != TOK_EOF)
+    {
         tok_str_add2(&str, tok, &tokc);
         next_nomacro();
     }
@@ -2657,7 +3010,8 @@ static inline int hash_cached_include(int type, const char *filename)
     h = TOK_HASH_INIT;
     h = TOK_HASH_FUNC(h, type);
     s = filename;
-    while (*s) {
+    while (*s)
+    {
         h = TOK_HASH_FUNC(h, *s);
         s++;
     }
@@ -2673,7 +3027,8 @@ static CachedInclude *search_cached_include(TCCState *s1,
     int i, h;
     h = hash_cached_include(type, filename);
     i = s1->cached_includes_hash[h];
-    for(;;) {
+    for (;;)
+    {
         if (i == 0)
             break;
         e = s1->cached_includes[i - 1];
@@ -2684,7 +3039,7 @@ static CachedInclude *search_cached_include(TCCState *s1,
     return NULL;
 }
 
-static inline void add_cached_include(TCCState *s1, int type, 
+static inline void add_cached_include(TCCState *s1, int type,
                                       const char *filename, int ifndef_macro)
 {
     CachedInclude *e;
@@ -2713,7 +3068,8 @@ static void pragma_parse(TCCState *s1)
     int val;
 
     next();
-    if (tok == TOK_pack) {
+    if (tok == TOK_pack)
+    {
         /*
           This may be:
           #pragma pack(1) // set
@@ -2723,24 +3079,31 @@ static void pragma_parse(TCCState *s1)
         */
         next();
         skip('(');
-        if (tok == TOK_ASM_pop) {
+        if (tok == TOK_ASM_pop)
+        {
             next();
-            if (s1->pack_stack_ptr <= s1->pack_stack) {
+            if (s1->pack_stack_ptr <= s1->pack_stack)
+            {
             stk_error:
                 error("out of pack stack");
             }
             s1->pack_stack_ptr--;
-        } else {
+        }
+        else
+        {
             val = 0;
-            if (tok != ')') {
-                if (tok == TOK_ASM_push) {
+            if (tok != ')')
+            {
+                if (tok == TOK_ASM_push)
+                {
                     next();
                     if (s1->pack_stack_ptr >= s1->pack_stack + PACK_STACK_SIZE - 1)
                         goto stk_error;
                     s1->pack_stack_ptr++;
                     skip(',');
                 }
-                if (tok != TOK_CINT) {
+                if (tok != TOK_CINT)
+                {
                 pack_error:
                     error("invalid pack pragma");
                 }
@@ -2765,13 +3128,14 @@ static void preprocess(int is_bof)
     BufferedFile *f;
     Sym *s;
     CachedInclude *e;
-    
+
     saved_parse_flags = parse_flags;
-    parse_flags = PARSE_FLAG_PREPROCESS | PARSE_FLAG_TOK_NUM | 
-        PARSE_FLAG_LINEFEED;
+    parse_flags = PARSE_FLAG_PREPROCESS | PARSE_FLAG_TOK_NUM |
+                  PARSE_FLAG_LINEFEED;
     next_nomacro();
- redo:
-    switch(tok) {
+redo:
+    switch (tok)
+    {
     case TOK_DEFINE:
         next_nomacro();
         parse_define();
@@ -2788,16 +3152,20 @@ static void preprocess(int is_bof)
         ch = file->buf_ptr[0];
         /* XXX: incorrect if comments : use next_nomacro with a special mode */
         skip_spaces();
-        if (ch == '<') {
+        if (ch == '<')
+        {
             c = '>';
             goto read_name;
-        } else if (ch == '\"') {
+        }
+        else if (ch == '\"')
+        {
             c = ch;
         read_name:
             /* XXX: better stray handling */
             minp();
             q = buf;
-            while (ch != c && ch != '\n' && ch != CH_EOF) {
+            while (ch != c && ch != '\n' && ch != CH_EOF)
+            {
                 if ((q - buf) < sizeof(buf) - 1)
                     *q++ = ch;
                 minp();
@@ -2810,14 +3178,19 @@ static void preprocess(int is_bof)
             while (ch1 != '\n' && ch1 != CH_EOF)
                 inp();
 #endif
-        } else {
+        }
+        else
+        {
             /* computed #include : either we have only strings or
                we have anything enclosed in '<>' */
             next();
             buf[0] = '\0';
-            if (tok == TOK_STR) {
-                while (tok != TOK_LINEFEED) {
-                    if (tok != TOK_STR) {
+            if (tok == TOK_STR)
+            {
+                while (tok != TOK_LINEFEED)
+                {
+                    if (tok != TOK_STR)
+                    {
                     include_syntax:
                         error("'#include' expects \"FILENAME\" or <FILENAME>");
                     }
@@ -2825,9 +3198,12 @@ static void preprocess(int is_bof)
                     next();
                 }
                 c = '\"';
-            } else {
+            }
+            else
+            {
                 int len;
-                while (tok != TOK_LINEFEED) {
+                while (tok != TOK_LINEFEED)
+                {
                     pstrcat(buf, sizeof(buf), get_tok_str(tok, &tokc));
                     next();
                 }
@@ -2842,18 +3218,22 @@ static void preprocess(int is_bof)
         }
 
         e = search_cached_include(s1, c, buf);
-        if (e && define_find(e->ifndef_macro)) {
+        if (e && define_find(e->ifndef_macro))
+        {
             /* no need to parse the include because the 'ifndef macro'
                is defined */
 #ifdef INC_DEBUG
             printf("%s: skipping %s\n", file->filename, buf);
 #endif
-        } else {
-            if (c == '\"') {
+        }
+        else
+        {
+            if (c == '\"')
+            {
                 /* first search in current dir if "header.h" */
                 size = 0;
                 p = strrchr(file->filename, '/');
-                if (p) 
+                if (p)
                     size = p + 1 - file->filename;
                 if (size > sizeof(buf1) - 1)
                     size = sizeof(buf1) - 1;
@@ -2861,7 +3241,8 @@ static void preprocess(int is_bof)
                 buf1[size] = '\0';
                 pstrcat(buf1, sizeof(buf1), buf);
                 f = tcc_open(s1, buf1);
-                if (f) {
+                if (f)
+                {
                     if (tok == TOK_INCLUDE_NEXT)
                         tok = TOK_INCLUDE;
                     else
@@ -2872,7 +3253,8 @@ static void preprocess(int is_bof)
                 error("#include recursion too deep");
             /* now search in all the include paths */
             n = s1->nb_include_paths + s1->nb_sysinclude_paths;
-            for(i = 0; i < n; i++) {
+            for (i = 0; i < n; i++)
+            {
                 const char *path;
                 if (i < s1->nb_include_paths)
                     path = s1->include_paths[i];
@@ -2882,7 +3264,8 @@ static void preprocess(int is_bof)
                 pstrcat(buf1, sizeof(buf1), "/");
                 pstrcat(buf1, sizeof(buf1), buf);
                 f = tcc_open(s1, buf1);
-                if (f) {
+                if (f)
+                {
                     if (tok == TOK_INCLUDE_NEXT)
                         tok = TOK_INCLUDE;
                     else
@@ -2902,7 +3285,8 @@ static void preprocess(int is_bof)
             *s1->include_stack_ptr++ = file;
             file = f;
             /* add include file debug info */
-            if (do_debug) {
+            if (do_debug)
+            {
                 put_stabs(file->filename, N_BINCL, 0, 0, 0);
             }
             tok_flags |= TOK_FLAG_BOF | TOK_FLAG_BOL;
@@ -2922,8 +3306,10 @@ static void preprocess(int is_bof)
         next_nomacro();
         if (tok < TOK_IDENT)
             error("invalid argument for '#if%sdef'", c ? "n" : "");
-        if (is_bof) {
-            if (c) {
+        if (is_bof)
+        {
+            if (c)
+            {
 #ifdef INC_DEBUG
                 printf("#ifndef %s\n", get_tok_str(tok, NULL));
 #endif
@@ -2955,7 +3341,8 @@ static void preprocess(int is_bof)
         c = expr_preprocess();
         s1->ifdef_stack_ptr[-1] = c;
     test_skip:
-        if (!(c & 1)) {
+        if (!(c & 1))
+        {
         skip:
             preprocess_skip();
             is_bof = 0;
@@ -2969,7 +3356,8 @@ static void preprocess(int is_bof)
         /* '#ifndef macro' was at the start of file. Now we check if
            an '#endif' is exactly at the end of file */
         if (file->ifndef_macro &&
-            s1->ifdef_stack_ptr == file->ifdef_stack_ptr) {
+            s1->ifdef_stack_ptr == file->ifdef_stack_ptr)
+        {
             file->ifndef_macro_saved = file->ifndef_macro;
             /* need to set to zero to avoid false matches if another
                #ifndef at middle of file */
@@ -2986,10 +3374,11 @@ static void preprocess(int is_bof)
             error("#line");
         file->line_num = tokc.i - 1; /* the line number will be incremented after */
         next();
-        if (tok != TOK_LINEFEED) {
+        if (tok != TOK_LINEFEED)
+        {
             if (tok != TOK_STR)
                 error("#line");
-            pstrcpy(file->filename, sizeof(file->filename), 
+            pstrcpy(file->filename, sizeof(file->filename),
                     (char *)tokc.cstr->data);
         }
         break;
@@ -2999,7 +3388,8 @@ static void preprocess(int is_bof)
         ch = file->buf_ptr[0];
         skip_spaces();
         q = buf;
-        while (ch != '\n' && ch != CH_EOF) {
+        while (ch != '\n' && ch != CH_EOF)
+        {
             if ((q - buf) < sizeof(buf) - 1)
                 *q++ = ch;
             minp();
@@ -3014,10 +3404,13 @@ static void preprocess(int is_bof)
         pragma_parse(s1);
         break;
     default:
-        if (tok == TOK_LINEFEED || tok == '!' || tok == TOK_CINT) {
+        if (tok == TOK_LINEFEED || tok == '!' || tok == TOK_CINT)
+        {
             /* '!' is ignored to allow C scripts. numbers are ignored
                to emulate cpp behaviour */
-        } else {
+        }
+        else
+        {
             if (!(saved_parse_flags & PARSE_FLAG_ASM_COMMENTS))
                 error("invalid preprocessing directive #%s", get_tok_str(tok, &tokc));
         }
@@ -3026,7 +3419,7 @@ static void preprocess(int is_bof)
     /* ignore other preprocess commands or #! for C scripts */
     while (tok != TOK_LINEFEED)
         next_nomacro();
- the_end:
+the_end:
     parse_flags = saved_parse_flags;
 }
 
@@ -3037,26 +3430,37 @@ static void parse_escape_string(CString *outstr, const uint8_t *buf, int is_long
     const uint8_t *p;
 
     p = buf;
-    for(;;) {
+    for (;;)
+    {
         c = *p;
         if (c == '\0')
             break;
-        if (c == '\\') {
+        if (c == '\\')
+        {
             p++;
             /* escape */
             c = *p;
-            switch(c) {
-            case '0': case '1': case '2': case '3':
-            case '4': case '5': case '6': case '7':
+            switch (c)
+            {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
                 /* at most three octal digits */
                 n = c - '0';
                 p++;
                 c = *p;
-                if (isoct(c)) {
+                if (isoct(c))
+                {
                     n = n * 8 + c - '0';
                     p++;
                     c = *p;
-                    if (isoct(c)) {
+                    if (isoct(c))
+                    {
                         n = n * 8 + c - '0';
                         p++;
                     }
@@ -3066,7 +3470,8 @@ static void parse_escape_string(CString *outstr, const uint8_t *buf, int is_long
             case 'x':
                 p++;
                 n = 0;
-                for(;;) {
+                for (;;)
+                {
                     c = *p;
                     if (c >= 'a' && c <= 'f')
                         c = c - 'a' + 10;
@@ -3109,7 +3514,7 @@ static void parse_escape_string(CString *outstr, const uint8_t *buf, int is_long
                 break;
             case '\'':
             case '\"':
-            case '\\': 
+            case '\\':
             case '?':
                 break;
             default:
@@ -3143,7 +3548,8 @@ void bn_lshift(unsigned int *bn, int shift, int or_val)
 {
     int i;
     unsigned int v;
-    for(i=0;i<BN_SIZE;i++) {
+    for (i = 0; i < BN_SIZE; i++)
+    {
         v = bn[i];
         bn[i] = (v << shift) | or_val;
         or_val = v >> (32 - shift);
@@ -3153,7 +3559,8 @@ void bn_lshift(unsigned int *bn, int shift, int or_val)
 void bn_zero(unsigned int *bn)
 {
     int i;
-    for(i=0;i<BN_SIZE;i++) {
+    for (i = 0; i < BN_SIZE; i++)
+    {
         bn[i] = 0;
     }
 }
@@ -3174,14 +3581,20 @@ void parse_number(const char *p)
     ch = *p++;
     *q++ = t;
     b = 10;
-    if (t == '.') {
+    if (t == '.')
+    {
         goto float_frac_parse;
-    } else if (t == '0') {
-        if (ch == 'x' || ch == 'X') {
+    }
+    else if (t == '0')
+    {
+        if (ch == 'x' || ch == 'X')
+        {
             q--;
             ch = *p++;
             b = 16;
-        } else if (tcc_ext && (ch == 'b' || ch == 'B')) {
+        }
+        else if (tcc_ext && (ch == 'b' || ch == 'B'))
+        {
             q--;
             ch = *p++;
             b = 2;
@@ -3189,7 +3602,8 @@ void parse_number(const char *p)
     }
     /* parse all digits. cannot check octal numbers at this stage
        because of floating point constants */
-    while (1) {
+    while (1)
+    {
         if (ch >= 'a' && ch <= 'f')
             t = ch - 'a' + 10;
         else if (ch >= 'A' && ch <= 'F')
@@ -3200,7 +3614,8 @@ void parse_number(const char *p)
             break;
         if (t >= b)
             break;
-        if (q >= token_buf + STRING_MAX_SIZE) {
+        if (q >= token_buf + STRING_MAX_SIZE)
+        {
         num_too_long:
             error("number too long");
         }
@@ -3209,8 +3624,10 @@ void parse_number(const char *p)
     }
     if (ch == '.' ||
         ((ch == 'e' || ch == 'E') && b == 10) ||
-        ((ch == 'p' || ch == 'P') && (b == 16 || b == 2))) {
-        if (b != 10) {
+        ((ch == 'p' || ch == 'P') && (b == 16 || b == 2)))
+    {
+        if (b != 10)
+        {
             /* NOTE: strtox should support that for hexa numbers, but
                non ISOC99 libcs do not support it, so we prefer to do
                it by hand */
@@ -3219,35 +3636,52 @@ void parse_number(const char *p)
             *q = '\0';
             if (b == 16)
                 shift = 4;
-            else 
+            else
                 shift = 2;
             bn_zero(bn);
             q = token_buf;
-            while (1) {
+            while (1)
+            {
                 t = *q++;
-                if (t == '\0') {
+                if (t == '\0')
+                {
                     break;
-                } else if (t >= 'a') {
+                }
+                else if (t >= 'a')
+                {
                     t = t - 'a' + 10;
-                } else if (t >= 'A') {
+                }
+                else if (t >= 'A')
+                {
                     t = t - 'A' + 10;
-                } else {
+                }
+                else
+                {
                     t = t - '0';
                 }
                 bn_lshift(bn, shift, t);
             }
             frac_bits = 0;
-            if (ch == '.') {
+            if (ch == '.')
+            {
                 ch = *p++;
-                while (1) {
+                while (1)
+                {
                     t = ch;
-                    if (t >= 'a' && t <= 'f') {
+                    if (t >= 'a' && t <= 'f')
+                    {
                         t = t - 'a' + 10;
-                    } else if (t >= 'A' && t <= 'F') {
+                    }
+                    else if (t >= 'A' && t <= 'F')
+                    {
                         t = t - 'A' + 10;
-                    } else if (t >= '0' && t <= '9') {
+                    }
+                    else if (t >= '0' && t <= '9')
+                    {
                         t = t - '0';
-                    } else {
+                    }
+                    else
+                    {
                         break;
                     }
                     if (t >= b)
@@ -3262,31 +3696,38 @@ void parse_number(const char *p)
             ch = *p++;
             s = 1;
             exp_val = 0;
-            if (ch == '+') {
+            if (ch == '+')
+            {
                 ch = *p++;
-            } else if (ch == '-') {
+            }
+            else if (ch == '-')
+            {
                 s = -1;
                 ch = *p++;
             }
             if (ch < '0' || ch > '9')
                 expect("exponent digits");
-            while (ch >= '0' && ch <= '9') {
+            while (ch >= '0' && ch <= '9')
+            {
                 exp_val = exp_val * 10 + ch - '0';
                 ch = *p++;
             }
             exp_val = exp_val * s;
-            
+
             /* now we can generate the number */
             /* XXX: should patch directly float number */
             d = (double)bn[1] * 4294967296.0 + (double)bn[0];
             d = ldexp(d, exp_val - frac_bits);
             t = toup(ch);
-            if (t == 'F') {
+            if (t == 'F')
+            {
                 ch = *p++;
                 tok = TOK_CFLOAT;
                 /* float : should handle overflow */
                 tokc.f = (float)d;
-            } else if (t == 'L') {
+            }
+            else if (t == 'L')
+            {
                 ch = *p++;
 #ifdef TCC_TARGET_816
                 tok = TOK_CFLOAT;
@@ -3296,7 +3737,9 @@ void parse_number(const char *p)
                 /* XXX: not large enough */
                 tokc.ld = (long double)d;
 #endif
-            } else {
+            }
+            else
+            {
 #ifdef TCC_TARGET_816
                 tok = TOK_CFLOAT;
                 tokc.f = d;
@@ -3305,27 +3748,33 @@ void parse_number(const char *p)
                 tokc.d = d;
 #endif
             }
-        } else {
+        }
+        else
+        {
             /* decimal floats */
-            if (ch == '.') {
+            if (ch == '.')
+            {
                 if (q >= token_buf + STRING_MAX_SIZE)
                     goto num_too_long;
                 *q++ = ch;
                 ch = *p++;
             float_frac_parse:
-                while (ch >= '0' && ch <= '9') {
+                while (ch >= '0' && ch <= '9')
+                {
                     if (q >= token_buf + STRING_MAX_SIZE)
                         goto num_too_long;
                     *q++ = ch;
                     ch = *p++;
                 }
             }
-            if (ch == 'e' || ch == 'E') {
+            if (ch == 'e' || ch == 'E')
+            {
                 if (q >= token_buf + STRING_MAX_SIZE)
                     goto num_too_long;
                 *q++ = ch;
                 ch = *p++;
-                if (ch == '-' || ch == '+') {
+                if (ch == '-' || ch == '+')
+                {
                     if (q >= token_buf + STRING_MAX_SIZE)
                         goto num_too_long;
                     *q++ = ch;
@@ -3333,7 +3782,8 @@ void parse_number(const char *p)
                 }
                 if (ch < '0' || ch > '9')
                     expect("exponent digits");
-                while (ch >= '0' && ch <= '9') {
+                while (ch >= '0' && ch <= '9')
+                {
                     if (q >= token_buf + STRING_MAX_SIZE)
                         goto num_too_long;
                     *q++ = ch;
@@ -3343,11 +3793,14 @@ void parse_number(const char *p)
             *q = '\0';
             t = toup(ch);
             errno = 0;
-            if (t == 'F') {
+            if (t == 'F')
+            {
                 ch = *p++;
                 tok = TOK_CFLOAT;
                 tokc.f = strtof(token_buf, NULL);
-            } else if (t == 'L') {
+            }
+            else if (t == 'L')
+            {
                 ch = *p++;
 #ifdef TCC_TARGET_816
                 tok = TOK_CFLOAT;
@@ -3356,7 +3809,9 @@ void parse_number(const char *p)
                 tok = TOK_CLDOUBLE;
                 tokc.ld = strtold(token_buf, NULL);
 #endif
-            } else {
+            }
+            else
+            {
 #ifdef TCC_TARGET_816
                 tok = TOK_CFLOAT;
                 tokc.f = strtof(token_buf, NULL);
@@ -3366,28 +3821,39 @@ void parse_number(const char *p)
 #endif
             }
         }
-    } else {
+    }
+    else
+    {
         unsigned long long n, n1;
         int lcount, ucount;
 
         /* integer number */
         *q = '\0';
         q = token_buf;
-        if (b == 10 && *q == '0') {
+        if (b == 10 && *q == '0')
+        {
             b = 8;
             q++;
         }
         n = 0;
-        while(1) {
+        while (1)
+        {
             t = *q++;
             /* no need for checks except for base 10 / 8 errors */
-            if (t == '\0') {
+            if (t == '\0')
+            {
                 break;
-            } else if (t >= 'a') {
+            }
+            else if (t >= 'a')
+            {
                 t = t - 'a' + 10;
-            } else if (t >= 'A') {
+            }
+            else if (t >= 'A')
+            {
                 t = t - 'A' + 10;
-            } else {
+            }
+            else
+            {
                 t = t - '0';
                 if (t >= b)
                     error("invalid digit");
@@ -3399,34 +3865,44 @@ void parse_number(const char *p)
             if (n < n1)
                 error("integer constant overflow");
         }
-        
+
         /* XXX: not exactly ANSI compliant */
-        if ((n & 0xffffffff00000000LL) != 0) {
+        if ((n & 0xffffffff00000000LL) != 0)
+        {
             if ((n >> 63) != 0)
                 tok = TOK_CULLONG;
             else
                 tok = TOK_CLLONG;
-        } else if (n > 0x7fffffff) {
+        }
+        else if (n > 0x7fffffff)
+        {
             tok = TOK_CUINT;
-        } else {
+        }
+        else
+        {
             tok = TOK_CINT;
         }
         lcount = 0;
         ucount = 0;
-        for(;;) {
+        for (;;)
+        {
             t = toup(ch);
-            if (t == 'L') {
+            if (t == 'L')
+            {
                 if (lcount >= 2)
                     error("three 'l's in integer constant");
                 lcount++;
-                if (lcount == 2) {
+                if (lcount == 2)
+                {
                     if (tok == TOK_CINT)
                         tok = TOK_CLLONG;
                     else if (tok == TOK_CUINT)
                         tok = TOK_CULLONG;
                 }
                 ch = *p++;
-            } else if (t == 'U') {
+            }
+            else if (t == 'U')
+            {
                 if (ucount >= 1)
                     error("two 'u's in integer constant");
                 ucount++;
@@ -3435,7 +3911,9 @@ void parse_number(const char *p)
                 else if (tok == TOK_CLLONG)
                     tok = TOK_CULLONG;
                 ch = *p++;
-            } else {
+            }
+            else
+            {
                 break;
             }
         }
@@ -3446,16 +3924,18 @@ void parse_number(const char *p)
     }
 }
 
-
-#define PARSE2(c1, tok1, c2, tok2)              \
-    case c1:                                    \
-        PEEKC(c, p);                            \
-        if (c == c2) {                          \
-            p++;                                \
-            tok = tok2;                         \
-        } else {                                \
-            tok = tok1;                         \
-        }                                       \
+#define PARSE2(c1, tok1, c2, tok2) \
+    case c1:                       \
+        PEEKC(c, p);               \
+        if (c == c2)               \
+        {                          \
+            p++;                   \
+            tok = tok2;            \
+        }                          \
+        else                       \
+        {                          \
+            tok = tok1;            \
+        }                          \
         break;
 
 /* return next token without macro substitution */
@@ -3467,9 +3947,10 @@ static inline void next_nomacro1(void)
     unsigned int h;
 
     p = file->buf_ptr;
- redo_no_start:
+redo_no_start:
     c = *p;
-    switch(c) {
+    switch (c)
+    {
     case ' ':
     case '\t':
     case '\f':
@@ -3477,10 +3958,11 @@ static inline void next_nomacro1(void)
     case '\r':
         p++;
         goto redo_no_start;
-        
+
     case '\\':
         /* first look if it is in fact an end of buffer */
-        if (p >= file->buf_end) {
+        if (p >= file->buf_end)
+        {
             file->buf_ptr = p;
             handle_eob();
             p = file->buf_ptr;
@@ -3488,7 +3970,9 @@ static inline void next_nomacro1(void)
                 goto parse_eof;
             else
                 goto redo_no_start;
-        } else {
+        }
+        else
+        {
             file->buf_ptr = p;
             ch = *p;
             handle_stray();
@@ -3496,45 +3980,55 @@ static inline void next_nomacro1(void)
             goto redo_no_start;
         }
     parse_eof:
+    {
+        TCCState *s1 = tcc_state;
+        if (parse_flags & PARSE_FLAG_LINEFEED)
         {
-            TCCState *s1 = tcc_state;
-            if (parse_flags & PARSE_FLAG_LINEFEED) {
-                tok = TOK_LINEFEED;
-            } else if (s1->include_stack_ptr == s1->include_stack ||
-                       !(parse_flags & PARSE_FLAG_PREPROCESS)) {
-                /* no include left : end of file. */
-                tok = TOK_EOF;
-            } else {
-                /* pop include file */
-                
-                /* test if previous '#endif' was after a #ifdef at
-                   start of file */
-                if (tok_flags & TOK_FLAG_ENDIF) {
-#ifdef INC_DEBUG
-                    printf("#endif %s\n", get_tok_str(file->ifndef_macro_saved, NULL));
-#endif
-                    add_cached_include(s1, file->inc_type, file->inc_filename,
-                                       file->ifndef_macro_saved);
-                }
-
-                /* add end of include file debug info */
-                if (do_debug) {
-                    put_stabd(N_EINCL, 0, 0);
-                }
-                /* pop include stack */
-                tcc_close(file);
-                s1->include_stack_ptr--;
-                file = *s1->include_stack_ptr;
-                p = file->buf_ptr;
-                goto redo_no_start;
-            }
+            tok = TOK_LINEFEED;
         }
-        break;
+        else if (s1->include_stack_ptr == s1->include_stack ||
+                 !(parse_flags & PARSE_FLAG_PREPROCESS))
+        {
+            /* no include left : end of file. */
+            tok = TOK_EOF;
+        }
+        else
+        {
+            /* pop include file */
+
+            /* test if previous '#endif' was after a #ifdef at
+               start of file */
+            if (tok_flags & TOK_FLAG_ENDIF)
+            {
+#ifdef INC_DEBUG
+                printf("#endif %s\n", get_tok_str(file->ifndef_macro_saved, NULL));
+#endif
+                add_cached_include(s1, file->inc_type, file->inc_filename,
+                                   file->ifndef_macro_saved);
+            }
+
+            /* add end of include file debug info */
+            if (do_debug)
+            {
+                put_stabd(N_EINCL, 0, 0);
+            }
+            /* pop include stack */
+            tcc_close(file);
+            s1->include_stack_ptr--;
+            file = *s1->include_stack_ptr;
+            p = file->buf_ptr;
+            goto redo_no_start;
+        }
+    }
+    break;
 
     case '\n':
-        if (parse_flags & PARSE_FLAG_LINEFEED) {
+        if (parse_flags & PARSE_FLAG_LINEFEED)
+        {
             tok = TOK_LINEFEED;
-        } else {
+        }
+        else
+        {
             file->line_num++;
             tok_flags |= TOK_FLAG_BOL;
             p++;
@@ -3545,55 +4039,103 @@ static inline void next_nomacro1(void)
     case '#':
         /* XXX: simplify */
         PEEKC(c, p);
-        if ((tok_flags & TOK_FLAG_BOL) && 
-            (parse_flags & PARSE_FLAG_PREPROCESS)) {
+        if ((tok_flags & TOK_FLAG_BOL) &&
+            (parse_flags & PARSE_FLAG_PREPROCESS))
+        {
             file->buf_ptr = p;
             preprocess(tok_flags & TOK_FLAG_BOF);
             p = file->buf_ptr;
             goto redo_no_start;
-        } else {
-            if (c == '#') {
+        }
+        else
+        {
+            if (c == '#')
+            {
                 p++;
                 tok = TOK_TWOSHARPS;
-            } else {
-                if (parse_flags & PARSE_FLAG_ASM_COMMENTS) {
+            }
+            else
+            {
+                if (parse_flags & PARSE_FLAG_ASM_COMMENTS)
+                {
                     p = parse_line_comment(p - 1);
                     goto redo_no_start;
-                } else {
+                }
+                else
+                {
                     tok = '#';
                 }
             }
         }
         break;
 
-    case 'a': case 'b': case 'c': case 'd':
-    case 'e': case 'f': case 'g': case 'h':
-    case 'i': case 'j': case 'k': case 'l':
-    case 'm': case 'n': case 'o': case 'p':
-    case 'q': case 'r': case 's': case 't':
-    case 'u': case 'v': case 'w': case 'x':
-    case 'y': case 'z': 
-    case 'A': case 'B': case 'C': case 'D':
-    case 'E': case 'F': case 'G': case 'H':
-    case 'I': case 'J': case 'K': 
-    case 'M': case 'N': case 'O': case 'P':
-    case 'Q': case 'R': case 'S': case 'T':
-    case 'U': case 'V': case 'W': case 'X':
-    case 'Y': case 'Z': 
+    case 'a':
+    case 'b':
+    case 'c':
+    case 'd':
+    case 'e':
+    case 'f':
+    case 'g':
+    case 'h':
+    case 'i':
+    case 'j':
+    case 'k':
+    case 'l':
+    case 'm':
+    case 'n':
+    case 'o':
+    case 'p':
+    case 'q':
+    case 'r':
+    case 's':
+    case 't':
+    case 'u':
+    case 'v':
+    case 'w':
+    case 'x':
+    case 'y':
+    case 'z':
+    case 'A':
+    case 'B':
+    case 'C':
+    case 'D':
+    case 'E':
+    case 'F':
+    case 'G':
+    case 'H':
+    case 'I':
+    case 'J':
+    case 'K':
+    case 'M':
+    case 'N':
+    case 'O':
+    case 'P':
+    case 'Q':
+    case 'R':
+    case 'S':
+    case 'T':
+    case 'U':
+    case 'V':
+    case 'W':
+    case 'X':
+    case 'Y':
+    case 'Z':
     case '_':
     parse_ident_fast:
         p1 = p;
         h = TOK_HASH_INIT;
         h = TOK_HASH_FUNC(h, c);
         p++;
-        for(;;) {
+        for (;;)
+        {
             c = *p;
             if (!isidnum_table[c])
                 break;
             h = TOK_HASH_FUNC(h, c);
             p++;
         }
-        if (c != '\\') {
+        if (c != '\\')
+        {
             TokenSym **pts;
             int len;
 
@@ -3602,7 +4144,8 @@ static inline void next_nomacro1(void)
             len = p - p1;
             h &= (TOK_HASH_SIZE - 1);
             pts = &hash_ident[h];
-            for(;;) {
+            for (;;)
+            {
                 ts = *pts;
                 if (!ts)
                     break;
@@ -3611,19 +4154,23 @@ static inline void next_nomacro1(void)
                 pts = &(ts->hash_next);
             }
             ts = tok_alloc_new(pts, p1, len);
-        token_found: ;
-        } else {
+        token_found:;
+        }
+        else
+        {
             /* slower case */
             cstr_reset(&tokcstr);
 
-            while (p1 < p) {
+            while (p1 < p)
+            {
                 cstr_ccat(&tokcstr, *p1);
                 p1++;
             }
             p--;
             PEEKC(c, p);
         parse_ident_slow:
-            while (isidnum_table[c]) {
+            while (isidnum_table[c])
+            {
                 cstr_ccat(&tokcstr, c);
                 PEEKC(c, p);
             }
@@ -3633,35 +4180,49 @@ static inline void next_nomacro1(void)
         break;
     case 'L':
         t = p[1];
-        if (t != '\\' && t != '\'' && t != '\"') {
+        if (t != '\\' && t != '\'' && t != '\"')
+        {
             /* fast case */
             goto parse_ident_fast;
-        } else {
+        }
+        else
+        {
             PEEKC(c, p);
-            if (c == '\'' || c == '\"') {
+            if (c == '\'' || c == '\"')
+            {
                 is_long = 1;
                 goto str_const;
-            } else {
+            }
+            else
+            {
                 cstr_reset(&tokcstr);
                 cstr_ccat(&tokcstr, 'L');
                 goto parse_ident_slow;
             }
         }
         break;
-    case '0': case '1': case '2': case '3':
-    case '4': case '5': case '6': case '7':
-    case '8': case '9':
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
 
         cstr_reset(&tokcstr);
         /* after the first digit, accept digits, alpha, '.' or sign if
            prefixed by 'eEpP' */
     parse_num:
-        for(;;) {
+        for (;;)
+        {
             t = c;
             cstr_ccat(&tokcstr, c);
             PEEKC(c, p);
             if (!(isnum(c) || isid(c) || c == '.' ||
-                  ((c == '+' || c == '-') && 
+                  ((c == '+' || c == '-') &&
                    (t == 'e' || t == 'E' || t == 'p' || t == 'P'))))
                 break;
         }
@@ -3673,17 +4234,22 @@ static inline void next_nomacro1(void)
     case '.':
         /* special dot handling because it can also start a number */
         PEEKC(c, p);
-        if (isnum(c)) {
+        if (isnum(c))
+        {
             cstr_reset(&tokcstr);
             cstr_ccat(&tokcstr, '.');
             goto parse_num;
-        } else if (c == '.') {
+        }
+        else if (c == '.')
+        {
             PEEKC(c, p);
             if (c != '.')
                 expect("'.'");
             PEEKC(c, p);
             tok = TOK_DOTS;
-        } else {
+        }
+        else
+        {
             tok = '.';
         }
         break;
@@ -3691,164 +4257,215 @@ static inline void next_nomacro1(void)
     case '\"':
         is_long = 0;
     str_const:
+    {
+        CString str;
+        int sep;
+
+        sep = c;
+
+        /* parse the string */
+        cstr_new(&str);
+        p = parse_pp_string(p, sep, &str);
+        cstr_ccat(&str, '\0');
+
+        /* eval the escape (should be done as TOK_PPNUM) */
+        cstr_reset(&tokcstr);
+        parse_escape_string(&tokcstr, str.data, is_long);
+        cstr_free(&str);
+
+        if (sep == '\'')
         {
-            CString str;
-            int sep;
-
-            sep = c;
-
-            /* parse the string */
-            cstr_new(&str);
-            p = parse_pp_string(p, sep, &str);
-            cstr_ccat(&str, '\0');
-            
-            /* eval the escape (should be done as TOK_PPNUM) */
-            cstr_reset(&tokcstr);
-            parse_escape_string(&tokcstr, str.data, is_long);
-            cstr_free(&str);
-
-            if (sep == '\'') {
-                int char_size;
-                /* XXX: make it portable */
-                if (!is_long)
-                    char_size = 1;
-                else
-                    char_size = sizeof(int);
-                if (tokcstr.size <= char_size)
-                    error("empty character constant");
-                if (tokcstr.size > 2 * char_size)
-                    warning("multi-character character constant");
-                if (!is_long) {
-                    tokc.i = *(int8_t *)tokcstr.data;
-                    tok = TOK_CCHAR;
-                } else {
-                    tokc.i = *(int *)tokcstr.data;
-                    tok = TOK_LCHAR;
-                }
-            } else {
-                tokc.cstr = &tokcstr;
-                if (!is_long)
-                    tok = TOK_STR;
-                else
-                    tok = TOK_LSTR;
+            int char_size;
+            /* XXX: make it portable */
+            if (!is_long)
+                char_size = 1;
+            else
+                char_size = sizeof(int);
+            if (tokcstr.size <= char_size)
+                error("empty character constant");
+            if (tokcstr.size > 2 * char_size)
+                warning("multi-character character constant");
+            if (!is_long)
+            {
+                tokc.i = *(int8_t *)tokcstr.data;
+                tok = TOK_CCHAR;
+            }
+            else
+            {
+                tokc.i = *(int *)tokcstr.data;
+                tok = TOK_LCHAR;
             }
         }
-        break;
+        else
+        {
+            tokc.cstr = &tokcstr;
+            if (!is_long)
+                tok = TOK_STR;
+            else
+                tok = TOK_LSTR;
+        }
+    }
+    break;
 
     case '<':
         PEEKC(c, p);
-        if (c == '=') {
+        if (c == '=')
+        {
             p++;
             tok = TOK_LE;
-        } else if (c == '<') {
+        }
+        else if (c == '<')
+        {
             PEEKC(c, p);
-            if (c == '=') {
+            if (c == '=')
+            {
                 p++;
                 tok = TOK_A_SHL;
-            } else {
+            }
+            else
+            {
                 tok = TOK_SHL;
             }
-        } else {
+        }
+        else
+        {
             tok = TOK_LT;
         }
         break;
-        
+
     case '>':
         PEEKC(c, p);
-        if (c == '=') {
+        if (c == '=')
+        {
             p++;
             tok = TOK_GE;
-        } else if (c == '>') {
+        }
+        else if (c == '>')
+        {
             PEEKC(c, p);
-            if (c == '=') {
+            if (c == '=')
+            {
                 p++;
                 tok = TOK_A_SAR;
-            } else {
+            }
+            else
+            {
                 tok = TOK_SAR;
             }
-        } else {
+        }
+        else
+        {
             tok = TOK_GT;
         }
         break;
-        
+
     case '&':
         PEEKC(c, p);
-        if (c == '&') {
+        if (c == '&')
+        {
             p++;
             tok = TOK_LAND;
-        } else if (c == '=') {
+        }
+        else if (c == '=')
+        {
             p++;
             tok = TOK_A_AND;
-        } else {
+        }
+        else
+        {
             tok = '&';
         }
         break;
-        
+
     case '|':
         PEEKC(c, p);
-        if (c == '|') {
+        if (c == '|')
+        {
             p++;
             tok = TOK_LOR;
-        } else if (c == '=') {
+        }
+        else if (c == '=')
+        {
             p++;
             tok = TOK_A_OR;
-        } else {
+        }
+        else
+        {
             tok = '|';
         }
         break;
 
     case '+':
         PEEKC(c, p);
-        if (c == '+') {
+        if (c == '+')
+        {
             p++;
             tok = TOK_INC;
-        } else if (c == '=') {
+        }
+        else if (c == '=')
+        {
             p++;
             tok = TOK_A_ADD;
-        } else {
+        }
+        else
+        {
             tok = '+';
         }
         break;
-        
+
     case '-':
         PEEKC(c, p);
-        if (c == '-') {
+        if (c == '-')
+        {
             p++;
             tok = TOK_DEC;
-        } else if (c == '=') {
+        }
+        else if (c == '=')
+        {
             p++;
             tok = TOK_A_SUB;
-        } else if (c == '>') {
+        }
+        else if (c == '>')
+        {
             p++;
             tok = TOK_ARROW;
-        } else {
+        }
+        else
+        {
             tok = '-';
         }
         break;
 
-    PARSE2('!', '!', '=', TOK_NE)
-    PARSE2('=', '=', '=', TOK_EQ)
-    PARSE2('*', '*', '=', TOK_A_MUL)
-    PARSE2('%', '%', '=', TOK_A_MOD)
-    PARSE2('^', '^', '=', TOK_A_XOR)
-        
+        PARSE2('!', '!', '=', TOK_NE)
+        PARSE2('=', '=', '=', TOK_EQ)
+        PARSE2('*', '*', '=', TOK_A_MUL)
+        PARSE2('%', '%', '=', TOK_A_MOD)
+        PARSE2('^', '^', '=', TOK_A_XOR)
+
         /* comments or operator */
     case '/':
         PEEKC(c, p);
-        if (c == '*') {
+        if (c == '*')
+        {
             p = parse_comment(p);
             goto redo_no_start;
-        } else if (c == '/') {
+        }
+        else if (c == '/')
+        {
             p = parse_line_comment(p);
             goto redo_no_start;
-        } else if (c == '=') {
+        }
+        else if (c == '=')
+        {
             p++;
             tok = TOK_A_DIV;
-        } else {
+        }
+        else
+        {
             tok = '/';
         }
         break;
-        
+
         /* simple tokens */
     case '(':
     case ')':
@@ -3881,17 +4498,22 @@ static inline void next_nomacro1(void)
    macro_ptr buffer */
 static void next_nomacro(void)
 {
-    if (macro_ptr) {
+    if (macro_ptr)
+    {
     redo:
         tok = *macro_ptr;
-        if (tok) {
+        if (tok)
+        {
             TOK_GET(tok, macro_ptr, tokc);
-            if (tok == TOK_LINENUM) {
+            if (tok == TOK_LINENUM)
+            {
                 file->line_num = tokc.i;
                 goto redo;
             }
         }
-    } else {
+    }
+    else
+    {
         next_nomacro1();
     }
 }
@@ -3907,21 +4529,25 @@ static int *macro_arg_subst(Sym **nested_list, int *macro_str, Sym *args)
 
     tok_str_new(&str);
     last_tok = 0;
-    while(1) {
+    while (1)
+    {
         TOK_GET(t, macro_str, cval);
         if (!t)
             break;
-        if (t == '#') {
+        if (t == '#')
+        {
             /* stringize */
             TOK_GET(t, macro_str, cval);
             if (!t)
                 break;
             s = sym_find2(args, t);
-            if (s) {
+            if (s)
+            {
                 cstr_new(&cstr);
                 st = (int *)s->c;
                 notfirst = 0;
-                while (*st) {
+                while (*st)
+                {
                     if (notfirst)
                         cstr_ccat(&cstr, ' ');
                     TOK_GET(t, st, cval);
@@ -3936,50 +4562,69 @@ static int *macro_arg_subst(Sym **nested_list, int *macro_str, Sym *args)
                 cval.cstr = &cstr;
                 tok_str_add2(&str, TOK_STR, &cval);
                 cstr_free(&cstr);
-            } else {
+            }
+            else
+            {
                 tok_str_add2(&str, t, &cval);
             }
-        } else if (t >= TOK_IDENT) {
+        }
+        else if (t >= TOK_IDENT)
+        {
             s = sym_find2(args, t);
-            if (s) {
+            if (s)
+            {
                 st = (int *)s->c;
                 /* if '##' is present before or after, no arg substitution */
-                if (*macro_str == TOK_TWOSHARPS || last_tok == TOK_TWOSHARPS) {
+                if (*macro_str == TOK_TWOSHARPS || last_tok == TOK_TWOSHARPS)
+                {
                     /* special case for var arg macros : ## eats the
                        ',' if empty VA_ARGS variable. */
                     /* XXX: test of the ',' is not 100%
                        reliable. should fix it to avoid security
                        problems */
                     if (gnu_ext && s->type.t &&
-                        last_tok == TOK_TWOSHARPS && 
-                        str.len >= 2 && str.str[str.len - 2] == ',') {
-                        if (*st == 0) {
+                        last_tok == TOK_TWOSHARPS &&
+                        str.len >= 2 && str.str[str.len - 2] == ',')
+                    {
+                        if (*st == 0)
+                        {
                             /* suppress ',' '##' */
                             str.len -= 2;
-                        } else {
+                        }
+                        else
+                        {
                             /* suppress '##' and add variable */
                             str.len--;
                             goto add_var;
                         }
-                    } else {
+                    }
+                    else
+                    {
                         int t1;
                     add_var:
-                        for(;;) {
+                        for (;;)
+                        {
                             TOK_GET(t1, st, cval);
                             if (!t1)
                                 break;
                             tok_str_add2(&str, t1, &cval);
                         }
                     }
-                } else {
+                }
+                else
+                {
                     /* NOTE: the stream cannot be read when macro
                        substituing an argument */
                     macro_subst(&str, nested_list, st, NULL);
                 }
-            } else {
+            }
+            else
+            {
                 tok_str_add(&str, t);
             }
-        } else {
+        }
+        else
+        {
             tok_str_add2(&str, t, &cval);
         }
         last_tok = t;
@@ -3989,10 +4634,9 @@ static int *macro_arg_subst(Sym **nested_list, int *macro_str, Sym *args)
 }
 
 static char const ab_month_name[12][4] =
-{
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-};
+    {
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
 /* do macro substitution of current token with macro 's' and add
    result to (tok_str,tok_len). 'nested_list' is the list of all
@@ -4008,28 +4652,36 @@ static int macro_subst_tok(TokenString *tok_str,
     CValue cval;
     CString cstr;
     char buf[32];
-    
+
     /* if symbol is a macro, prepare substitution */
     /* special macros */
-    if (tok == TOK___LINE__) {
+    if (tok == TOK___LINE__)
+    {
         snprintf(buf, sizeof(buf), "%d", file->line_num);
         cstrval = buf;
         t1 = TOK_PPNUM;
         goto add_cstr1;
-    } else if (tok == TOK___FILE__) {
+    }
+    else if (tok == TOK___FILE__)
+    {
         cstrval = file->filename;
         goto add_cstr;
-    } else if (tok == TOK___DATE__ || tok == TOK___TIME__) {
+    }
+    else if (tok == TOK___DATE__ || tok == TOK___TIME__)
+    {
         time_t ti;
         struct tm *tm;
 
         time(&ti);
         tm = localtime(&ti);
-        if (tok == TOK___DATE__) {
-            snprintf(buf, sizeof(buf), "%s %2d %d", 
+        if (tok == TOK___DATE__)
+        {
+            snprintf(buf, sizeof(buf), "%s %2d %d",
                      ab_month_name[tm->tm_mon], tm->tm_mday, tm->tm_year + 1900);
-        } else {
-            snprintf(buf, sizeof(buf), "%02d:%02d:%02d", 
+        }
+        else
+        {
+            snprintf(buf, sizeof(buf), "%02d:%02d:%02d",
                      tm->tm_hour, tm->tm_min, tm->tm_sec);
         }
         cstrval = buf;
@@ -4042,16 +4694,21 @@ static int macro_subst_tok(TokenString *tok_str,
         cval.cstr = &cstr;
         tok_str_add2(tok_str, t1, &cval);
         cstr_free(&cstr);
-    } else {
+    }
+    else
+    {
         mstr = (int *)s->c;
         mstr_allocated = 0;
-        if (s->type.t == MACRO_FUNC) {
+        if (s->type.t == MACRO_FUNC)
+        {
             /* NOTE: we do not use next_nomacro to avoid eating the
                next token. XXX: find better solution */
         redo:
-            if (macro_ptr) {
+            if (macro_ptr)
+            {
                 t = *macro_ptr;
-                if (t == 0 && can_read_stream) {
+                if (t == 0 && can_read_stream)
+                {
                     /* end of macro stream: we must look at the token
                        after in the file */
                     struct macro_level *ml = *can_read_stream;
@@ -4060,11 +4717,13 @@ static int macro_subst_tok(TokenString *tok_str,
                     {
                         macro_ptr = ml->p;
                         ml->p = NULL;
-                        *can_read_stream = ml -> prev;
+                        *can_read_stream = ml->prev;
                     }
                     goto redo;
                 }
-            } else {
+            }
+            else
+            {
                 /* XXX: incorrect with comments */
                 ch = file->buf_ptr[0];
                 while (is_space(ch) || ch == '\n')
@@ -4073,14 +4732,15 @@ static int macro_subst_tok(TokenString *tok_str,
             }
             if (t != '(') /* no macro subst */
                 return -1;
-                    
+
             /* argument macro */
             next_nomacro();
             next_nomacro();
             args = NULL;
             sa = s->next;
             /* NOTE: empty args are allowed, except if no args */
-            for(;;) {
+            for (;;)
+            {
                 /* handle '()' case */
                 if (!args && !sa && tok == ')')
                     break;
@@ -4090,10 +4750,11 @@ static int macro_subst_tok(TokenString *tok_str,
                 tok_str_new(&str);
                 parlevel = 0;
                 /* NOTE: non zero sa->t indicates VA_ARGS */
-                while ((parlevel > 0 || 
-                        (tok != ')' && 
-                         (tok != ',' || sa->type.t))) && 
-                       tok != -1) {
+                while ((parlevel > 0 ||
+                        (tok != ')' &&
+                         (tok != ',' || sa->type.t))) &&
+                       tok != -1)
+                {
                     if (tok == '(')
                         parlevel++;
                     else if (tok == ')')
@@ -4102,9 +4763,14 @@ static int macro_subst_tok(TokenString *tok_str,
                     next_nomacro();
                 }
                 tok_str_add(&str, 0);
+#ifdef TCC_TARGET_816
                 sym_push2(&args, sa->v & ~SYM_FIELD, sa->type.t, (long)str.str);
+#else
+                sym_push2(&args, sa->v & ~SYM_FIELD, sa->type.t, (int)str.str);
+#endif
                 sa = sa->next;
-                if (tok == ')') {
+                if (tok == ')')
+                {
                     /* special case for gcc var args: add an empty
                        var arg argument if it is omitted */
                     if (sa && sa->type.t && gnu_ext)
@@ -4116,7 +4782,8 @@ static int macro_subst_tok(TokenString *tok_str,
                     expect(",");
                 next_nomacro();
             }
-            if (sa) {
+            if (sa)
+            {
                 error("macro '%s' used with too few args",
                       get_tok_str(s->v, 0));
             }
@@ -4125,7 +4792,8 @@ static int macro_subst_tok(TokenString *tok_str,
             mstr = macro_arg_subst(nested_list, mstr, args);
             /* free memory */
             sa = args;
-            while (sa) {
+            while (sa)
+            {
                 sa1 = sa->prev;
                 tok_str_free((int *)sa->c);
                 sym_free(sa);
@@ -4159,7 +4827,8 @@ static inline int *macro_twosharps(const int *macro_str)
 
     start_macro_ptr = macro_str;
     /* we search the first '##' */
-    for(;;) {
+    for (;;)
+    {
         macro_ptr1 = macro_str;
         TOK_GET(t, macro_str, cval);
         /* nothing more to do if end of string */
@@ -4176,19 +4845,23 @@ static inline int *macro_twosharps(const int *macro_str)
     tokc = cval;
 
     /* add all tokens seen so far */
-    for(ptr = start_macro_ptr; ptr < macro_ptr1;) {
+    for (ptr = start_macro_ptr; ptr < macro_ptr1;)
+    {
         TOK_GET(t, ptr, cval);
         tok_str_add2(&macro_str1, t, &cval);
     }
     saved_macro_ptr = macro_ptr;
     /* XXX: get rid of the use of macro_ptr here */
     macro_ptr = (int *)macro_str;
-    for(;;) {
-        while (*macro_ptr == TOK_TWOSHARPS) {
+    for (;;)
+    {
+        while (*macro_ptr == TOK_TWOSHARPS)
+        {
             macro_ptr++;
             macro_ptr1 = macro_ptr;
             t = *macro_ptr;
-            if (t) {
+            if (t)
+            {
                 TOK_GET(t, macro_ptr, cval);
                 /* We concatenate the two tokens if we have an
                    identifier or a preprocessing number */
@@ -4198,23 +4871,29 @@ static inline int *macro_twosharps(const int *macro_str)
                 p2 = get_tok_str(t, &cval);
                 cstr_cat(&cstr, p2);
                 cstr_ccat(&cstr, '\0');
-                
-                if ((tok >= TOK_IDENT || tok == TOK_PPNUM) && 
-                    (t >= TOK_IDENT || t == TOK_PPNUM)) {
-                    if (tok == TOK_PPNUM) {
+
+                if ((tok >= TOK_IDENT || tok == TOK_PPNUM) &&
+                    (t >= TOK_IDENT || t == TOK_PPNUM))
+                {
+                    if (tok == TOK_PPNUM)
+                    {
                         /* if number, then create a number token */
                         /* NOTE: no need to allocate because
                            tok_str_add2() does it */
                         tokc.cstr = &cstr;
-                    } else {
+                    }
+                    else
+                    {
                         /* if identifier, we must do a test to
                            validate we have a correct identifier */
-                        if (t == TOK_PPNUM) {
+                        if (t == TOK_PPNUM)
+                        {
                             const char *p;
                             int c;
 
                             p = p2;
-                            for(;;) {
+                            for (;;)
+                            {
                                 c = *p;
                                 if (c == '\0')
                                     break;
@@ -4226,20 +4905,28 @@ static inline int *macro_twosharps(const int *macro_str)
                         ts = tok_alloc(cstr.data, strlen(cstr.data));
                         tok = ts->tok; /* modify current token */
                     }
-                } else {
+                }
+                else
+                {
                     const char *str = cstr.data;
                     const unsigned char *q;
 
                     /* we look for a valid token */
                     /* XXX: do more extensive checks */
-                    if (!strcmp(str, ">>=")) {
+                    if (!strcmp(str, ">>="))
+                    {
                         tok = TOK_A_SAR;
-                    } else if (!strcmp(str, "<<=")) {
+                    }
+                    else if (!strcmp(str, "<<="))
+                    {
                         tok = TOK_A_SHL;
-                    } else if (strlen(str) == 2) {
+                    }
+                    else if (strlen(str) == 2)
+                    {
                         /* search in two bytes table */
                         q = tok_two_chars;
-                        for(;;) {
+                        for (;;)
+                        {
                             if (!*q)
                                 goto error_pasting;
                             if (q[0] == str[0] && q[1] == str[1])
@@ -4247,7 +4934,9 @@ static inline int *macro_twosharps(const int *macro_str)
                             q += 3;
                         }
                         tok = q[2];
-                    } else {
+                    }
+                    else
+                    {
                     error_pasting:
                         /* NOTE: because get_tok_str use a static buffer,
                            we must save it */
@@ -4277,12 +4966,11 @@ static inline int *macro_twosharps(const int *macro_str)
     return macro_str1.str;
 }
 
-
 /* do macro substitution of macro_str and add result to
    (tok_str,tok_len). 'nested_list' is the list of all macros we got
    inside to avoid recursing. */
-static void macro_subst(TokenString *tok_str, Sym **nested_list, 
-                        const int *macro_str, struct macro_level ** can_read_stream)
+static void macro_subst(TokenString *tok_str, Sym **nested_list,
+                        const int *macro_str, struct macro_level **can_read_stream)
 {
     Sym *s;
     int *macro_str1;
@@ -4290,13 +4978,14 @@ static void macro_subst(TokenString *tok_str, Sym **nested_list,
     int t, ret;
     CValue cval;
     struct macro_level ml;
-    
+
     /* first scan for '##' operator handling */
     ptr = macro_str;
     macro_str1 = macro_twosharps(ptr);
-    if (macro_str1) 
+    if (macro_str1)
         ptr = macro_str1;
-    while (1) {
+    while (1)
+    {
         /* NOTE: ptr == NULL can only happen if tokens are read from
            file stream due to a macro function call */
         if (ptr == NULL)
@@ -4305,7 +4994,8 @@ static void macro_subst(TokenString *tok_str, Sym **nested_list,
         if (t == 0)
             break;
         s = define_find(t);
-        if (s != NULL) {
+        if (s != NULL)
+        {
             /* if nested substitution, do nothing */
             if (sym_find2(*nested_list, t))
                 goto no_subst;
@@ -4318,10 +5008,12 @@ static void macro_subst(TokenString *tok_str, Sym **nested_list,
             ptr = (int *)macro_ptr;
             macro_ptr = ml.p;
             if (can_read_stream && *can_read_stream == &ml)
-                    *can_read_stream = ml.prev;
+                *can_read_stream = ml.prev;
             if (ret != 0)
                 goto no_subst;
-        } else {
+        }
+        else
+        {
         no_subst:
             tok_str_add2(tok_str, t, &cval);
         }
@@ -4337,20 +5029,24 @@ static void next(void)
     TokenString str;
     struct macro_level *ml;
 
- redo:
+redo:
     next_nomacro();
-    if (!macro_ptr) {
+    if (!macro_ptr)
+    {
         /* if not reading from macro substituted string, then try
            to substitute macros */
         if (tok >= TOK_IDENT &&
-            (parse_flags & PARSE_FLAG_PREPROCESS)) {
+            (parse_flags & PARSE_FLAG_PREPROCESS))
+        {
             s = define_find(tok);
-            if (s) {
+            if (s)
+            {
                 /* we have a macro: we try to substitute */
                 tok_str_new(&str);
                 nested_list = NULL;
                 ml = NULL;
-                if (macro_subst_tok(&str, &nested_list, s, &ml) == 0) {
+                if (macro_subst_tok(&str, &nested_list, s, &ml) == 0)
+                {
                     /* substitution done, NOTE: maybe empty */
                     tok_str_add(&str, 0);
                     macro_ptr = str.str;
@@ -4359,13 +5055,19 @@ static void next(void)
                 }
             }
         }
-    } else {
-        if (tok == 0) {
+    }
+    else
+    {
+        if (tok == 0)
+        {
             /* end of macro or end of unget buffer */
-            if (unget_buffer_enabled) {
+            if (unget_buffer_enabled)
+            {
                 macro_ptr = unget_saved_macro_ptr;
                 unget_buffer_enabled = 0;
-            } else {
+            }
+            else
+            {
                 /* end of macro string: free it */
                 tok_str_free(macro_ptr_allocated);
                 macro_ptr = NULL;
@@ -4373,10 +5075,11 @@ static void next(void)
             goto redo;
         }
     }
-    
+
     /* convert preprocessor tokens into C tokens */
     if (tok == TOK_PPNUM &&
-        (parse_flags & PARSE_FLAG_TOK_NUM)) {
+        (parse_flags & PARSE_FLAG_TOK_NUM))
+    {
         parse_number((char *)tokc.cstr->data);
     }
 }
@@ -4393,12 +5096,11 @@ static inline void unget_tok(int last_tok)
     macro_ptr = q;
     *q++ = tok;
     n = tok_ext_size(tok) - 1;
-    for(i=0;i<n;i++)
+    for (i = 0; i < n; i++)
         *q++ = tokc.tab[i];
     *q = 0; /* end of token string */
     tok = last_tok;
 }
-
 
 void swap(int *p, int *q)
 {
@@ -4417,7 +5119,8 @@ void vsetc(CType *type, int r, CValue *vc)
     /* cannot let cpu flags if other instruction are generated. Also
        avoid leaving VT_JMP anywhere except on the top of the stack
        because it would complicate the code generator. */
-    if (vtop >= vstack) {
+    if (vtop >= vstack)
+    {
         v = vtop->r & VT_VALMASK;
         if (v == VT_CMP || (v & ~1) == VT_JMP)
             gv(RC_INT);
@@ -4438,7 +5141,7 @@ void vpushi(int v)
 }
 
 /* Return a static symbol pointing to a section */
-static Sym *get_sym_ref(CType *type, Section *sec, 
+static Sym *get_sym_ref(CType *type, Section *sec,
                         unsigned long offset, unsigned long size)
 {
     int v;
@@ -4468,7 +5171,8 @@ static Sym *external_global_sym(int v, CType *type, int r)
     Sym *s;
 
     s = sym_find(v);
-    if (!s) {
+    if (!s)
+    {
         /* push forward reference */
         s = global_identifier_push(v, type->t | VT_EXTERN, 0);
         s->type.ref = type->ref;
@@ -4483,13 +5187,16 @@ static Sym *external_sym(int v, CType *type, int r)
     Sym *s;
 
     s = sym_find(v);
-    if (!s) {
+    if (!s)
+    {
         /* push forward reference */
         s = sym_push(v, type, r | VT_CONST | VT_SYM, 0);
         s->type.t |= VT_EXTERN;
-    } else {
+    }
+    else
+    {
         if (!is_compatible_types(&s->type, type))
-            error("incompatible types for redefinition of '%s'", 
+            error("incompatible types for redefinition of '%s'",
                   get_tok_str(v, NULL));
     }
     return s;
@@ -4554,26 +5261,38 @@ void save_reg(int r)
     /* modify all stack values */
     saved = 0;
     l = 0;
-    for(p=vstack;p<=vtop;p++) {
+    for (p = vstack; p <= vtop; p++)
+    {
         if ((p->r & VT_VALMASK) == r ||
-            (p->r2 & VT_VALMASK) == r) {
+            (p->r2 & VT_VALMASK) == r)
+        {
             /* must save value on stack if not already done */
-            //fprintf(stderr,"p->r before 0x%x type 0x%x\n", p->r,p->type.t);
-            if (!saved) {
+            // fprintf(stderr,"p->r before 0x%x type 0x%x\n", p->r,p->type.t);
+            if (!saved)
+            {
+#ifdef TCC_TARGET_816
                 pr("; saveregging\n");
+#endif
                 /* NOTE: must reload 'r' because r might be equal to r2 */
                 r = p->r & VT_VALMASK;
                 /* store register in the stack */
                 type = &p->type;
-                //fprintf(stderr,"### type 0x%x r 0x%x\n", type->t, p->r);
-                if((type->t & VT_BTYPE) == VT_FUNC) {
-                  //fprintf(stderr,"### funcptr type 0x%x r 0x%x\n",type->t,p->r);
+#ifdef TCC_TARGET_816
+                // fprintf(stderr,"### type 0x%x r 0x%x\n", type->t, p->r);
+                if ((type->t & VT_BTYPE) == VT_FUNC)
+                {
+                    // fprintf(stderr,"### funcptr type 0x%x r 0x%x\n",type->t,p->r);
                 }
-                else if ((p->r & VT_LVAL) || 
-                    (!is_float(type->t) && (type->t & VT_BTYPE) != VT_LLONG))
+                else if ((p->r & VT_LVAL) ||
+                         (!is_float(type->t) && (type->t & VT_BTYPE) != VT_LLONG))
                     type = &ptr_type;
+#else
+                if ((p->r & VT_LVAL) ||
+                    (!is_float(type->t) && (type->t & VT_BTYPE) != VT_LLONG))
+                    type = &int_type;
+#endif
                 size = type_size(type, &align);
-                //fprintf(stderr,"### size %d align %d\n", size, align);
+                // fprintf(stderr,"### size %d align %d\n", size, align);
                 loc = (loc - size) & -align;
                 sv.type.t = type->t;
                 sv.r = VT_LOCAL | VT_LVAL;
@@ -4581,12 +5300,14 @@ void save_reg(int r)
                 store(r, &sv);
 #ifdef TCC_TARGET_I386
                 /* x86 specific: need to pop fp register ST0 if saved */
-                if (r == TREG_ST0) {
+                if (r == TREG_ST0)
+                {
                     o(0xd9dd); /* fstp %st(1) */
                 }
 #endif
                 /* special long long case */
-                if ((type->t & VT_BTYPE) == VT_LLONG) {
+                if ((type->t & VT_BTYPE) == VT_LLONG)
+                {
 #ifdef TCC_TARGET_816
                     sv.c.ul += 2;
 #else
@@ -4599,33 +5320,39 @@ void save_reg(int r)
             }
             // asdf
             /* mark that stack entry as being saved on the stack */
-            if (p->r & VT_LVAL) {
+            if (p->r & VT_LVAL)
+            {
                 /* also clear the bounded flag because the
                    relocation address of the function was stored in
                    p->c.ul */
                 p->r = (p->r & ~(VT_VALMASK | VT_BOUNDED)) | VT_LLOCAL;
-            } else {
+            }
+            else
+            {
                 p->r = lvalue_type(p->type.t) | VT_LOCAL;
             }
             p->r2 = VT_CONST;
             p->c.ul = l;
-            //fprintf(stderr,"p->r after 0x%x type 0x%x\n", p->r, p->type.t);
+            // fprintf(stderr,"p->r after 0x%x type 0x%x\n", p->r, p->type.t);
         }
     }
 }
 
 /* find a register of class 'rc2' with at most one reference on stack.
  * If none, call get_reg(rc) */
-int get_reg_ex(int rc, int rc2) 
+int get_reg_ex(int rc, int rc2)
 {
     int r;
     SValue *p;
-    
-    for(r=0;r<NB_REGS;r++) {
-        if (reg_classes[r] & rc2) {
+
+    for (r = 0; r < NB_REGS; r++)
+    {
+        if (reg_classes[r] & rc2)
+        {
             int n;
-            n=0;
-            for(p = vstack; p <= vtop; p++) {
+            n = 0;
+            for (p = vstack; p <= vtop; p++)
+            {
                 if ((p->r & VT_VALMASK) == r ||
                     (p->r2 & VT_VALMASK) == r)
                     n++;
@@ -4644,28 +5371,33 @@ int get_reg(int rc)
     SValue *p;
 
     /* find a free register */
-    for(r=0;r<NB_REGS;r++) {
-        if (reg_classes[r] & rc) {
-            for(p=vstack;p<=vtop;p++) {
+    for (r = 0; r < NB_REGS; r++)
+    {
+        if (reg_classes[r] & rc)
+        {
+            for (p = vstack; p <= vtop; p++)
+            {
                 if ((p->r & VT_VALMASK) == r ||
                     (p->r2 & VT_VALMASK) == r)
                     goto notfound;
             }
             return r;
         }
-    notfound: ;
+    notfound:;
     }
-    
+
     /* no register left : free the first one on the stack (VERY
        IMPORTANT to start from the bottom to ensure that we don't
        spill registers used in gen_opi()) */
-    for(p=vstack;p<=vtop;p++) {
+    for (p = vstack; p <= vtop; p++)
+    {
         r = p->r & VT_VALMASK;
         if (r < VT_CONST && (reg_classes[r] & rc))
             goto save_found;
         /* also look at second register (if long long) */
         r = p->r2 & VT_VALMASK;
-        if (r < VT_CONST && (reg_classes[r] & rc)) {
+        if (r < VT_CONST && (reg_classes[r] & rc))
+        {
         save_found:
             save_reg(r);
             return r;
@@ -4681,9 +5413,11 @@ void save_regs(int n)
     int r;
     SValue *p, *p1;
     p1 = vtop - n;
-    for(p = vstack;p <= p1; p++) {
+    for (p = vstack; p <= p1; p++)
+    {
         r = p->r & VT_VALMASK;
-        if (r < VT_CONST) {
+        if (r < VT_CONST)
+        {
             save_reg(r);
         }
     }
@@ -4695,7 +5429,8 @@ void move_reg(int r, int s)
 {
     SValue sv;
 
-    if (r != s) {
+    if (r != s)
+    {
         save_reg(r);
         sv.type.t = VT_INT;
         sv.r = s;
@@ -4722,9 +5457,11 @@ void gbound(void)
 
     vtop->r &= ~VT_MUSTBOUND;
     /* if lvalue, then use checking code before dereferencing */
-    if (vtop->r & VT_LVAL) {
+    if (vtop->r & VT_LVAL)
+    {
         /* if not VT_BOUNDED value, then make one */
-        if (!(vtop->r & VT_BOUNDED)) {
+        if (!(vtop->r & VT_BOUNDED))
+        {
             lval_type = vtop->r & (VT_LVAL_TYPE | VT_LVAL);
             /* must save type because we must set it to int to get pointer */
             type1 = vtop->type;
@@ -4743,32 +5480,34 @@ void gbound(void)
 
 #ifdef TCC_TARGET_816
 // convert floats to Woz format
-void float_to_woz(float f, unsigned char* w)
+void float_to_woz(float f, unsigned char *w)
 {
-  unsigned int i,b;
-  // w[0] exponent
-  // w[1-3] mantissa (big-endian)
-  //fprintf(stderr,"wozzing out at %f\n",f);
-  //if(f == 1.0) 
-  //asm("int $3");
+    unsigned int i, b;
+    // w[0] exponent
+    // w[1-3] mantissa (big-endian)
+    // fprintf(stderr,"wozzing out at %f\n",f);
+    // if(f == 1.0)
+    // asm("int $3");
 
-  w[0] = 0x8e + 16;	// 0x8e is the exp for 16-bit integers; we have 32-bit ints here
+    w[0] = 0x8e + 16; // 0x8e is the exp for 16-bit integers; we have 32-bit ints here
 
-  for(;w[0];w[0]--) {
-    i = (unsigned int)(int)f;
-    //fprintf(stderr,"i 0x%08x\n", i);
-    
-    // top bits different => normalized
-    b = i & 0xc0000000UL;
-    if(b == 0x80000000UL || b == 0x40000000UL) break;
-    
-    f *= 2;
-  }
-  w[1] = i >> 24;
-  w[2] = (i >> 16) & 0xff;
-  w[3] = (i >> 8) & 0xff;
-  
-  //fprintf(stderr,"wozzed 0x%02x%02x%02x%02x\n", w[0],w[1],w[2],w[3]);
+    for (; w[0]; w[0]--)
+    {
+        i = (unsigned int)(int)f;
+        // fprintf(stderr,"i 0x%08x\n", i);
+
+        // top bits different => normalized
+        b = i & 0xc0000000UL;
+        if (b == 0x80000000UL || b == 0x40000000UL)
+            break;
+
+        f *= 2;
+    }
+    w[1] = i >> 24;
+    w[2] = (i >> 16) & 0xff;
+    w[3] = (i >> 8) & 0xff;
+
+    // fprintf(stderr,"wozzed 0x%02x%02x%02x%02x\n", w[0],w[1],w[2],w[3]);
 }
 #endif
 
@@ -4777,28 +5516,32 @@ void float_to_woz(float f, unsigned char* w)
    register value (such as structures). */
 int gv(int rc)
 {
+#ifdef TCC_TARGET_816
     int r, r2, rc2, bit_pos, bit_size, size, align;
-#ifndef TCC_TARGET_816
-    int i;
+#else
+    int r, r2, rc2, bit_pos, bit_size, size, align, i;
 #endif
     unsigned long long ll;
 
     /* NOTE: get_reg can modify vstack[] */
-    if (vtop->type.t & VT_BITFIELD) {
+    if (vtop->type.t & VT_BITFIELD)
+    {
         int usigned;
         int cst;
         bit_pos = (vtop->type.t >> VT_STRUCT_SHIFT) & 0x3f;
         bit_size = (vtop->type.t >> (VT_STRUCT_SHIFT + 6)) & 0x3f;
-        pr("; bitfielding bit_pos %d bit_size %d vtop->type.t 0x%x vtop->r 0x%x\n", bit_pos, bit_size,vtop->type.t,vtop->r);
+        pr("; bitfielding bit_pos %d bit_size %d vtop->type.t 0x%x vtop->r 0x%x\n", bit_pos, bit_size, vtop->type.t, vtop->r);
         usigned = vtop->type.t & VT_UNSIGNED;
         cst = ((vtop->r & VT_VALMASK) == VT_CONST) && !(vtop->r & VT_LVAL);
         /* remove bit field info to avoid loops */
         vtop->type.t &= ~(VT_BITFIELD | (-1 << VT_STRUCT_SHIFT));
         /* generate shifts */
 #ifdef TCC_TARGET_816
-        if(cst) vpushi(16 - bit_size);
-        else vpushi(16 - (bit_pos + bit_size));
-        //vpushi(16 - bit_size);
+        if (cst)
+            vpushi(16 - bit_size);
+        else
+            vpushi(16 - (bit_pos + bit_size));
+            // vpushi(16 - bit_size);
 #else
         vpushi(32 - (bit_pos + bit_size));
 #endif
@@ -4810,16 +5553,21 @@ int gv(int rc)
 #endif
         /* NOTE: transformed to SHR if unsigned */
         /* in theory. in practice, that doesn't work for some reason -- uli */
-        if(usigned) gen_op(TOK_SHR);
-        else gen_op(TOK_SAR);
+        if (usigned)
+            gen_op(TOK_SHR);
+        else
+            gen_op(TOK_SAR);
         r = gv(rc);
-    } else {
-        if (is_float(vtop->type.t) && 
-            (vtop->r & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
+    }
+    else
+    {
+        if (is_float(vtop->type.t) &&
+            (vtop->r & (VT_VALMASK | VT_LVAL)) == VT_CONST)
+        {
             Sym *sym;
             int *ptr;
             unsigned long offset;
-            
+
             /* XXX: unify with initializers handling ? */
             /* CPUs usually cannot use float constants, so we store them
                generically in data segment */
@@ -4830,9 +5578,9 @@ int gv(int rc)
             ptr = section_ptr_add(data_section, size);
             size = size >> 2;
 #ifdef TCC_TARGET_816
-            float_to_woz(vtop->c.f, (unsigned char*)ptr);
+            float_to_woz(vtop->c.f, (unsigned char *)ptr);
 #else
-            for(i=0;i<size;i++)
+            for (i = 0; i < size; i++)
                 ptr[i] = vtop->c.tab[i];
 #endif
             sym = get_sym_ref(&vtop->type, data_section, offset, size << 2);
@@ -4841,7 +5589,7 @@ int gv(int rc)
             vtop->c.ul = 0;
         }
 #ifdef CONFIG_TCC_BCHECK
-        if (vtop->r & VT_MUSTBOUND) 
+        if (vtop->r & VT_MUSTBOUND)
             gbound();
 #endif
 
@@ -4850,66 +5598,77 @@ int gv(int rc)
            - constant
            - lvalue (need to dereference pointer)
            - already a register, but not in the right class */
-        if (r >= VT_CONST || 
+        if (r >= VT_CONST ||
             (vtop->r & VT_LVAL) ||
             !(reg_classes[r] & rc) ||
-            ((vtop->type.t & VT_BTYPE) == VT_LLONG && 
-             !(reg_classes[vtop->r2] & rc))) {
+            ((vtop->type.t & VT_BTYPE) == VT_LLONG &&
+             !(reg_classes[vtop->r2] & rc)))
+        {
             r = get_reg(rc);
-            if ((vtop->type.t & VT_BTYPE) == VT_LLONG) {
+            if ((vtop->type.t & VT_BTYPE) == VT_LLONG)
+            {
                 /* two register type load : expand to two words
                    temporarily */
-                if ((vtop->r & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
+                if ((vtop->r & (VT_VALMASK | VT_LVAL)) == VT_CONST)
+                {
                     /* load constant */
                     ll = vtop->c.ull;
                     vtop->c.ui = ll; /* first word */
                     load(r, vtop);
-                    vtop->r = r; /* save register value */
+                    vtop->r = r;      /* save register value */
 #ifdef TCC_TARGET_816
                     vpushi(ll >> 16);
 #else
                     vpushi(ll >> 32); /* second word */
 #endif
-                } else if (r >= VT_CONST || /* XXX: test to VT_CONST incorrect ? */
-                           (vtop->r & VT_LVAL)) {
+                }
+                else if (r >= VT_CONST || /* XXX: test to VT_CONST incorrect ? */
+                         (vtop->r & VT_LVAL))
+                {
                     /* We do not want to modifier the long long
                        pointer here, so the safest (and less
                        efficient) is to save all the other registers
                        in the stack. XXX: totally inefficient. */
                     save_regs(1);
+                    /* load from memory */
                     load(r, vtop);
                     vdup();
                     vtop[-1].r = r; /* save register value */
-
+#ifdef TCC_TARGET_816
                     /* A bug may hide here.
                        This shortcut did not work for 65816 until I found out
                        that the long long compare code seems to expect the
                        result of the comparisons to end up in the same register.
                        I do not think this is ascertained in the other code
                        path, it may just happen to work. */
-#if 0	/* breaks ashrdi-1.c */
+#if 0 /* breaks ashrdi-1.c */
                     if((vtop->r & VT_LOCAL) /* && !(vtop->r & VT_LVAL) */) {
                       vtop->c.ul += 2;
                     }
                     else
 #endif
                     {
-                      /* increment pointer to get second word */
-                      pr("; pushit type 0x%x\n",vtop->type.t);
-                      ll_workaround = 1;
-                      vtop->type.t = VT_INT;
-                      gaddrof();
-#ifdef TCC_TARGET_816
-                      vpushi(2);
-#else
-                      vpushi(4);
+                        pr("; pushit type 0x%x\n", vtop->type.t);
+                        ll_workaround = 1;
 #endif
-                      gen_op('+');
-                      vtop->r |= VT_LVAL;
-                      ll_workaround = 0;
-                      pr("; endpush\n");
+                        /* increment pointer to get second word */
+                        vtop->type.t = VT_INT;
+                        gaddrof();
+#ifdef TCC_TARGET_816
+                        vpushi(2);
+#else
+                    vpushi(4);
+#endif
+                        gen_op('+');
+                        vtop->r |= VT_LVAL;
+#ifdef TCC_TARGET_816
+                        ll_workaround = 0;
+                        pr("; endpush\n");
                     }
-                } else {
+#endif
+                }
+                else
+                {
                     /* move registers */
                     load(r, vtop);
                     vdup();
@@ -4925,7 +5684,9 @@ int gv(int rc)
                 vpop();
                 /* write second register */
                 vtop->r2 = r2;
-            } else if ((vtop->r & VT_LVAL) && !is_float(vtop->type.t)) {
+            }
+            else if ((vtop->r & VT_LVAL) && !is_float(vtop->type.t))
+            {
                 int t1, t;
                 /* lvalue of scalar type : need to use lvalue type
                    because of possible cast */
@@ -4942,7 +5703,9 @@ int gv(int rc)
                 load(r, vtop);
                 /* restore wanted type */
                 vtop->type.t = t1;
-            } else {
+            }
+            else
+            {
                 /* one register type load */
                 load(r, vtop);
             }
@@ -4950,8 +5713,8 @@ int gv(int rc)
         vtop->r = r;
 #ifdef TCC_TARGET_C67
         /* uses register pairs for doubles */
-        if ((vtop->type.t & VT_BTYPE) == VT_DOUBLE) 
-            vtop->r2 = r+1;
+        if ((vtop->type.t & VT_BTYPE) == VT_DOUBLE)
+            vtop->r2 = r + 1;
 #endif
     }
     return r;
@@ -4966,24 +5729,29 @@ void gv2(int rc1, int rc2)
        values must be generated first in all cases to avoid possible
        reload errors */
     v = vtop[0].r & VT_VALMASK;
-    if (v != VT_CMP && (v & ~1) != VT_JMP && rc1 <= rc2) {
+    if (v != VT_CMP && (v & ~1) != VT_JMP && rc1 <= rc2)
+    {
         vswap();
         gv(rc1);
         vswap();
         gv(rc2);
         /* test if reload is needed for first register */
-        if ((vtop[-1].r & VT_VALMASK) >= VT_CONST) {
+        if ((vtop[-1].r & VT_VALMASK) >= VT_CONST)
+        {
             vswap();
             gv(rc1);
             vswap();
         }
-    } else {
+    }
+    else
+    {
         gv(rc2);
         vswap();
         gv(rc1);
         vswap();
         /* test if reload is needed for first register */
-        if ((vtop[0].r & VT_VALMASK) >= VT_CONST) {
+        if ((vtop[0].r & VT_VALMASK) >= VT_CONST)
+        {
             gv(rc2);
         }
     }
@@ -5008,33 +5776,39 @@ void lexpand(void)
 /* expand long long on stack */
 void lexpand_nr(void)
 {
-    int u,v;
+    int u, v;
 
     u = vtop->type.t & VT_UNSIGNED;
     vdup();
     vtop->r2 = VT_CONST;
     vtop->type.t = VT_INT | u;
-    v=vtop[-1].r & (VT_VALMASK | VT_LVAL);
-    if (v == VT_CONST) {
-      vtop[-1].c.ui = vtop->c.ull;
+    v = vtop[-1].r & (VT_VALMASK | VT_LVAL);
+    if (v == VT_CONST)
+    {
+        vtop[-1].c.ui = vtop->c.ull;
 #ifdef TCC_TARGET_816
-      vtop->c.ui = vtop->c.ull >> 16;
+        vtop->c.ui = vtop->c.ull >> 16;
 #else
-      vtop->c.ui = vtop->c.ull >> 32;
+        vtop->c.ui = vtop->c.ull >> 32;
 #endif
-      vtop->r = VT_CONST;
-    } else if (v == (VT_LVAL|VT_CONST) || v == (VT_LVAL|VT_LOCAL)) {
+        vtop->r = VT_CONST;
+    }
+    else if (v == (VT_LVAL | VT_CONST) || v == (VT_LVAL | VT_LOCAL))
+    {
 #ifdef TCC_TARGET_816
-      vtop->c.ui += 2;
+        vtop->c.ui += 2;
 #else
-      vtop->c.ui += 4;
+        vtop->c.ui += 4;
 #endif
-      vtop->r = vtop[-1].r;
-    } else if (v > VT_CONST) {
-      vtop--;
-      lexpand();
-    } else
-      vtop->r = vtop[-1].r2;
+        vtop->r = vtop[-1].r;
+    }
+    else if (v > VT_CONST)
+    {
+        vtop--;
+        lexpand();
+    }
+    else
+        vtop->r = vtop[-1].r2;
     vtop[-1].r2 = VT_CONST;
     vtop[-1].type.t = VT_INT | u;
 }
@@ -5049,7 +5823,7 @@ void lbuild(int t)
     vpop();
 }
 
-/* rotate n first stack elements to the bottom 
+/* rotate n first stack elements to the bottom
    I1 ... In -> I2 ... In I1 [top is right]
 */
 void vrotb(int n)
@@ -5058,12 +5832,12 @@ void vrotb(int n)
     SValue tmp;
 
     tmp = vtop[-n + 1];
-    for(i=-n+1;i!=0;i++)
-        vtop[i] = vtop[i+1];
+    for (i = -n + 1; i != 0; i++)
+        vtop[i] = vtop[i + 1];
     vtop[0] = tmp;
 }
 
-/* rotate n first stack elements to the top 
+/* rotate n first stack elements to the top
    I1 ... In -> In I1 ... I(n-1)  [top is right]
  */
 void vrott(int n)
@@ -5072,7 +5846,7 @@ void vrott(int n)
     SValue tmp;
 
     tmp = vtop[0];
-    for(i = 0;i < n - 1; i++)
+    for (i = 0; i < n - 1; i++)
         vtop[-i] = vtop[-i - 1];
     vtop[-n + 1] = tmp;
 }
@@ -5087,7 +5861,7 @@ void vnrott(int n)
     SValue tmp;
 
     tmp = vtop[-n + 1];
-    for(i = n - 1; i > 0; i--)
+    for (i = n - 1; i > 0; i--)
         vtop[-i] = vtop[-i + 1];
     vtop[0] = tmp;
 }
@@ -5100,11 +5874,14 @@ void vpop(void)
     v = vtop->r & VT_VALMASK;
 #ifdef TCC_TARGET_I386
     /* for x86, we need to pop the FP stack */
-    if (v == TREG_ST0 && !nocode_wanted) {
+    if (v == TREG_ST0 && !nocode_wanted)
+    {
         o(0xd9dd); /* fstp %st(1) */
-    } else
+    }
+    else
 #endif
-    if (v == VT_JMP || v == VT_JMPI) {
+        if (v == VT_JMP || v == VT_JMPI)
+    {
         /* need to put correct jump if && or || without test */
         gsym(vtop->c.ul);
     }
@@ -5119,7 +5896,8 @@ void gv_dup(void)
     SValue sv;
 
     t = vtop->type.t;
-    if ((t & VT_BTYPE) == VT_LLONG) {
+    if ((t & VT_BTYPE) == VT_LLONG)
+    {
         lexpand();
         gv_dup();
         vswap();
@@ -5133,11 +5911,14 @@ void gv_dup(void)
         vswap();
         lbuild(t);
         vswap();
-    } else {
+    }
+    else
+    {
         /* duplicate value */
         rc = RC_INT;
         sv.type.t = VT_INT;
-        if (is_float(t)) {
+        if (is_float(t))
+        {
             rc = RC_FLOAT;
             sv.type.t = t;
         }
@@ -5159,7 +5940,8 @@ void gen_opl(int op)
     int func;
     SValue tmp;
 
-    switch(op) {
+    switch (op)
+    {
     case '/':
     case TOK_PDIV:
         func = TOK___divdi3;
@@ -5201,13 +5983,14 @@ void gen_opl(int op)
         vtop[-3] = tmp;
         vswap();
         /* stack: H1 H2 L1 L2 */
-        if (op == '*') {
+        if (op == '*')
+        {
             vpushv(vtop - 1);
             vpushv(vtop - 1);
             gen_op(TOK_UMULL);
             lexpand();
             /* stack: H1 H2 L1 L2 ML MH */
-            for(i=0;i<4;i++)
+            for (i = 0; i < 4; i++)
                 vrotb(6);
             /* stack: ML MH H1 H2 L1 L2 */
             tmp = vtop[0];
@@ -5221,7 +6004,9 @@ void gen_opl(int op)
             /* stack: ML MH M1 M2 */
             gen_op('+');
             gen_op('+');
-        } else if (op == '+' || op == '-') {
+        }
+        else if (op == '+' || op == '-')
+        {
             /* XXX: add non carry method too (for MIPS or alpha) */
             if (op == '+')
                 op1 = TOK_ADDC1;
@@ -5232,7 +6017,9 @@ void gen_opl(int op)
             vrotb(3);
             vrotb(3);
             gen_op(op1 + 1); /* TOK_xxxC2 */
-        } else {
+        }
+        else
+        {
             gen_op(op);
             /* stack: H1 H2 (L1 op L2) */
             vrotb(3);
@@ -5247,7 +6034,8 @@ void gen_opl(int op)
     case TOK_SAR:
     case TOK_SHR:
     case TOK_SHL:
-        if ((vtop->r & (VT_VALMASK | VT_LVAL | VT_SYM)) == VT_CONST) {
+        if ((vtop->r & (VT_VALMASK | VT_LVAL | VT_SYM)) == VT_CONST)
+        {
             t = vtop[-1].type.t;
             vswap();
             lexpand();
@@ -5261,24 +6049,31 @@ void gen_opl(int op)
             if (op != TOK_SHL)
                 vswap();
 #ifdef TCC_TARGET_816
-            if (c >= 16) {
+            if (c >= 16)
+            {
 #else
-            if (c >= 32) {
+            if (c >= 32)
+            {
 #endif
                 /* stack: L H */
                 vpop();
 #ifdef TCC_TARGET_816
-                if (c > 16) {
+                if (c > 16)
+                {
                     vpushi(c - 16);
 #else
-                if (c > 32) {
+                if (c > 32)
+                {
                     vpushi(c - 32);
 #endif
                     gen_op(op);
                 }
-                if (op != TOK_SAR) {
+                if (op != TOK_SAR)
+                {
                     vpushi(0);
-                } else {
+                }
+                else
+                {
                     gv_dup();
 #ifdef TCC_TARGET_816
                     vpushi(15);
@@ -5288,7 +6083,9 @@ void gen_opl(int op)
                     gen_op(TOK_SAR);
                 }
                 vswap();
-            } else {
+            }
+            else
+            {
                 vswap();
                 gv_dup();
                 /* stack: H L L */
@@ -5316,9 +6113,12 @@ void gen_opl(int op)
             if (op != TOK_SHL)
                 vswap();
             lbuild(t);
-        } else {
+        }
+        else
+        {
             /* XXX: should provide a faster fallback on x86 ? */
-            switch(op) {
+            switch (op)
+            {
             case TOK_SAR:
                 func = TOK___sardi3;
                 goto gen_func;
@@ -5358,22 +6158,31 @@ void gen_opl(int op)
         a = 0;
         b = 0;
         gen_op(op1);
-        if (op1 != TOK_NE) {
+        if (op1 != TOK_NE)
+        {
             a = gtst(1, 0);
         }
-        if (op != TOK_EQ) {
+        if (op != TOK_EQ)
+        {
             /* generate non equal test */
             /* XXX: NOT PORTABLE yet */
-            if (a == 0) {
+            if (a == 0)
+            {
                 b = gtst(0, 0);
-            } else {
+            }
+            else
+            {
 #if defined(TCC_TARGET_I386)
                 b = psym(0x850f, 0);
 #elif defined(TCC_TARGET_ARM)
-		b = ind;
-		o(0x1A000000 | encbranch(ind, 0, 1));
+                b = ind;
+                o(0x1A000000 | encbranch(ind, 0, 1));
 #elif defined(TCC_TARGET_C67)
-                error("not implemented (ind %d, a %d)", ind, a);
+#ifdef TCC_TARGET_816
+        error("not implemented (ind %d, a %d)", ind, a);
+#else
+        error("not implemented");
+#endif
 #elif defined(TCC_TARGET_816)
 #if 0
                 b = ind;
@@ -5382,11 +6191,11 @@ void gen_opl(int op)
                 // branches (too short) p("b%s " LOCAL_LABEL "\n", inv?"eq":"ne", jumps++);
                 pr("beq +\nbrl " LOCAL_LABEL "\n+\n", jumps++);
 #endif
-                pr("; cmpll high order word equal?\n");
-                b = ind;
-                jump[jumps][0] = ind;
-                // flags from the compare are long gone, but the compare opi has saved the value for us in y
-                pr("tya\nbne " LOCAL_LABEL "\n", jumps++);
+        pr("; cmpll high order word equal?\n");
+        b = ind;
+        jump[jumps][0] = ind;
+        // flags from the compare are long gone, but the compare opi has saved the value for us in y
+        pr("tya\nbne " LOCAL_LABEL "\n", jumps++);
 #else
 #error not supported
 #endif
@@ -5434,15 +6243,29 @@ void gen_opic(int op)
     /* currently, we cannot do computations with forward symbols */
     c1 = (v1->r & (VT_VALMASK | VT_LVAL | VT_SYM)) == VT_CONST;
     c2 = (v2->r & (VT_VALMASK | VT_LVAL | VT_SYM)) == VT_CONST;
-    if (c1 && c2) {
+    if (c1 && c2)
+    {
         fc = v2->c.i;
-        switch(op) {
-        case '+': v1->c.i += fc; break;
-        case '-': v1->c.i -= fc; break;
-        case '&': v1->c.i &= fc; break;
-        case '^': v1->c.i ^= fc; break;
-        case '|': v1->c.i |= fc; break;
-        case '*': v1->c.i *= fc; break;
+        switch (op)
+        {
+        case '+':
+            v1->c.i += fc;
+            break;
+        case '-':
+            v1->c.i -= fc;
+            break;
+        case '&':
+            v1->c.i &= fc;
+            break;
+        case '^':
+            v1->c.i ^= fc;
+            break;
+        case '|':
+            v1->c.i |= fc;
+            break;
+        case '*':
+            v1->c.i *= fc;
+            break;
 
         case TOK_PDIV:
         case '/':
@@ -5450,62 +6273,118 @@ void gen_opic(int op)
         case TOK_UDIV:
         case TOK_UMOD:
             /* if division by zero, generate explicit division */
-            if (fc == 0) {
+            if (fc == 0)
+            {
                 if (const_wanted)
                     error("division by zero in constant");
                 goto general_case;
             }
-            switch(op) {
-            default: v1->c.i /= fc; break;
-            case '%': v1->c.i %= fc; break;
-            case TOK_UDIV: v1->c.i = (UNSIGNED)v1->c.i / fc; break;
-            case TOK_UMOD: v1->c.i = (UNSIGNED)v1->c.i % fc; break;
+            switch (op)
+            {
+            default:
+                v1->c.i /= fc;
+                break;
+            case '%':
+                v1->c.i %= fc;
+                break;
+            case TOK_UDIV:
+                v1->c.i = (unsigned)v1->c.i / fc;
+                break;
+            case TOK_UMOD:
+                v1->c.i = (unsigned)v1->c.i % fc;
+                break;
             }
             break;
-        case TOK_SHL: v1->c.i = (SIGNED)v1->c.i << fc; break;
-        case TOK_SHR: v1->c.i = (UNSIGNED)v1->c.i >> fc; break;
-        case TOK_SAR: v1->c.i = (SIGNED)v1->c.i >> fc; break;
+        case TOK_SHL:
+#ifdef TCC_TARGET_816
+            v1->c.i = (signed)v1->c.i << fc;
+#else
+            v1->c.i <<= fc;
+#endif
+            break;
+        case TOK_SHR:
+            v1->c.i = (unsigned)v1->c.i >> fc;
+            break;
+        case TOK_SAR:
+#ifdef TCC_TARGET_816
+            v1->c.i = (signed)v1->c.i >> fc;
+#else
+            v1->c.i >>= fc;
+#endif
+            break;
             /* tests */
-        case TOK_ULT: v1->c.i = (UNSIGNED)v1->c.i < (UNSIGNED)fc; break;
-        case TOK_UGE: v1->c.i = (UNSIGNED)v1->c.i >= (UNSIGNED)fc; break;
-        case TOK_EQ: v1->c.i = v1->c.i == fc; break;
-        case TOK_NE: v1->c.i = v1->c.i != fc; break;
-        case TOK_ULE: v1->c.i = (UNSIGNED)v1->c.i <= (UNSIGNED)fc; break;
-        case TOK_UGT: v1->c.i = (UNSIGNED)v1->c.i > (UNSIGNED)fc; break;
-        case TOK_LT: v1->c.i = v1->c.i < fc; break;
-        case TOK_GE: v1->c.i = v1->c.i >= fc; break;
-        case TOK_LE: v1->c.i = v1->c.i <= fc; break;
-        case TOK_GT: v1->c.i = v1->c.i > fc; break;
+        case TOK_ULT:
+            v1->c.i = (unsigned)v1->c.i < (unsigned)fc;
+            break;
+        case TOK_UGE:
+            v1->c.i = (unsigned)v1->c.i >= (unsigned)fc;
+            break;
+        case TOK_EQ:
+            v1->c.i = v1->c.i == fc;
+            break;
+        case TOK_NE:
+            v1->c.i = v1->c.i != fc;
+            break;
+        case TOK_ULE:
+            v1->c.i = (unsigned)v1->c.i <= (unsigned)fc;
+            break;
+        case TOK_UGT:
+            v1->c.i = (unsigned)v1->c.i > (unsigned)fc;
+            break;
+        case TOK_LT:
+            v1->c.i = v1->c.i < fc;
+            break;
+        case TOK_GE:
+            v1->c.i = v1->c.i >= fc;
+            break;
+        case TOK_LE:
+            v1->c.i = v1->c.i <= fc;
+            break;
+        case TOK_GT:
+            v1->c.i = v1->c.i > fc;
+            break;
             /* logical */
-        case TOK_LAND: v1->c.i = v1->c.i && fc; break;
-        case TOK_LOR: v1->c.i = v1->c.i || fc; break;
+        case TOK_LAND:
+            v1->c.i = v1->c.i && fc;
+            break;
+        case TOK_LOR:
+            v1->c.i = v1->c.i || fc;
+            break;
         default:
             goto general_case;
         }
         vtop--;
-    } else {
+    }
+    else
+    {
         /* if commutative ops, put c2 as constant */
-        if (c1 && (op == '+' || op == '&' || op == '^' || 
-                   op == '|' || op == '*')) {
+        if (c1 && (op == '+' || op == '&' || op == '^' ||
+                   op == '|' || op == '*'))
+        {
             vswap();
             swap(&c1, &c2);
         }
         fc = vtop->c.i;
-        if (c2 && (((op == '*' || op == '/' || op == TOK_UDIV || 
-                     op == TOK_PDIV) && 
+        if (c2 && (((op == '*' || op == '/' || op == TOK_UDIV ||
+                     op == TOK_PDIV) &&
                     fc == 1) ||
-                   ((op == '+' || op == '-' || op == '|' || op == '^' || 
-                     op == TOK_SHL || op == TOK_SHR || op == TOK_SAR) && 
+                   ((op == '+' || op == '-' || op == '|' || op == '^' ||
+                     op == TOK_SHL || op == TOK_SHR || op == TOK_SAR) &&
                     fc == 0) ||
-                   (op == '&' && 
-                    fc == -1))) {
+                   (op == '&' &&
+                    fc == -1)))
+        {
             /* nothing to do */
             vtop--;
-        } else if (c2 && (op == '*' || op == TOK_PDIV || op == TOK_UDIV)) {
+        }
+        else if (c2 && (op == '*' || op == TOK_PDIV || op == TOK_UDIV))
+        {
             /* try to use shifts instead of muls or divs */
-            if (fc > 0 && (fc & (fc - 1)) == 0) {
+            if (fc > 0 && (fc & (fc - 1)) == 0)
+            {
                 n = -1;
-                while (fc) {
+                while (fc)
+                {
                     fc >>= 1;
                     n++;
                 }
@@ -5518,20 +6397,27 @@ void gen_opic(int op)
                     op = TOK_SHR;
             }
             goto general_case;
-        } else if (c2 && (op == '+' || op == '-') &&
-                   (vtop[-1].r & (VT_VALMASK | VT_LVAL | VT_SYM)) == 
-                   (VT_CONST | VT_SYM)) {
+        }
+        else if (c2 && (op == '+' || op == '-') &&
+                 (vtop[-1].r & (VT_VALMASK | VT_LVAL | VT_SYM)) ==
+                     (VT_CONST | VT_SYM))
+        {
             /* symbol + constant case */
             if (op == '-')
                 fc = -fc;
             vtop--;
             vtop->c.i += fc;
-        } else {
+        }
+        else
+        {
         general_case:
-            if (!nocode_wanted) {
+            if (!nocode_wanted)
+            {
                 /* call low level op generator */
                 gen_opi(op);
-            } else {
+            }
+            else
+            {
                 vtop--;
             }
         }
@@ -5550,14 +6436,20 @@ void gen_opif(int op)
     /* currently, we cannot do computations with forward symbols */
     c1 = (v1->r & (VT_VALMASK | VT_LVAL | VT_SYM)) == VT_CONST;
     c2 = (v2->r & (VT_VALMASK | VT_LVAL | VT_SYM)) == VT_CONST;
-    if (c1 && c2) {
-        if (v1->type.t == VT_FLOAT) {
+    if (c1 && c2)
+    {
+        if (v1->type.t == VT_FLOAT)
+        {
             f1 = v1->c.f;
             f2 = v2->c.f;
-        } else if (v1->type.t == VT_DOUBLE) {
+        }
+        else if (v1->type.t == VT_DOUBLE)
+        {
             f1 = v1->c.d;
             f2 = v2->c.d;
-        } else {
+        }
+        else
+        {
             f1 = v1->c.ld;
             f2 = v2->c.ld;
         }
@@ -5567,36 +6459,54 @@ void gen_opif(int op)
         if (!ieee_finite(f1) || !ieee_finite(f2))
             goto general_case;
 
-        switch(op) {
-        case '+': f1 += f2; break;
-        case '-': f1 -= f2; break;
-        case '*': f1 *= f2; break;
-        case '/': 
-            if (f2 == 0.0) {
+        switch (op)
+        {
+        case '+':
+            f1 += f2;
+            break;
+        case '-':
+            f1 -= f2;
+            break;
+        case '*':
+            f1 *= f2;
+            break;
+        case '/':
+            if (f2 == 0.0)
+            {
                 if (const_wanted)
                     error("division by zero in constant");
                 goto general_case;
             }
-            f1 /= f2; 
+            f1 /= f2;
             break;
             /* XXX: also handles tests ? */
         default:
             goto general_case;
         }
         /* XXX: overflow test ? */
-        if (v1->type.t == VT_FLOAT) {
+        if (v1->type.t == VT_FLOAT)
+        {
             v1->c.f = f1;
-        } else if (v1->type.t == VT_DOUBLE) {
+        }
+        else if (v1->type.t == VT_DOUBLE)
+        {
             v1->c.d = f1;
-        } else {
+        }
+        else
+        {
             v1->c.ld = f1;
         }
         vtop--;
-    } else {
+    }
+    else
+    {
     general_case:
-        if (!nocode_wanted) {
+        if (!nocode_wanted)
+        {
             gen_opf(op);
-        } else {
+        }
+        else
+        {
             vtop--;
         }
     }
@@ -5613,12 +6523,12 @@ static inline int is_null_pointer(SValue *p)
     if ((p->r & (VT_VALMASK | VT_LVAL | VT_SYM)) != VT_CONST)
         return 0;
     return ((p->type.t & VT_BTYPE) == VT_INT && p->c.i == 0) ||
-        ((p->type.t & VT_BTYPE) == VT_LLONG && p->c.ll == 0);
+           ((p->type.t & VT_BTYPE) == VT_LLONG && p->c.ll == 0);
 }
 
 static inline int is_integer_btype(int bt)
 {
-    return (bt == VT_BYTE || bt == VT_SHORT || 
+    return (bt == VT_BYTE || bt == VT_SHORT ||
             bt == VT_INT || bt == VT_LLONG);
 }
 
@@ -5627,7 +6537,7 @@ static void check_comparison_pointer_types(SValue *p1, SValue *p2, int op)
 {
     CType *type1, *type2, tmp_type1, tmp_type2;
     int bt1, bt2;
-    
+
     /* null pointers are accepted for all comparisons as gcc */
     if (is_null_pointer(p1) || is_null_pointer(p2))
         return;
@@ -5636,31 +6546,38 @@ static void check_comparison_pointer_types(SValue *p1, SValue *p2, int op)
     bt1 = type1->t & VT_BTYPE;
     bt2 = type2->t & VT_BTYPE;
     /* accept comparison between pointer and integer with a warning */
-    if ((is_integer_btype(bt1) || is_integer_btype(bt2)) && op != '-') {
+    if ((is_integer_btype(bt1) || is_integer_btype(bt2)) && op != '-')
+    {
         warning("comparison between pointer and integer");
         return;
     }
 
     /* both must be pointers or implicit function pointers */
-    if (bt1 == VT_PTR) {
+    if (bt1 == VT_PTR)
+    {
         type1 = pointed_type(type1);
-    } else if (bt1 != VT_FUNC) 
+    }
+    else if (bt1 != VT_FUNC)
         goto invalid_operands;
 
-    if (bt2 == VT_PTR) {
+    if (bt2 == VT_PTR)
+    {
         type2 = pointed_type(type2);
-    } else if (bt2 != VT_FUNC) { 
+    }
+    else if (bt2 != VT_FUNC)
+    {
     invalid_operands:
         error("invalid operands to binary %s", get_tok_str(op, NULL));
     }
-    if ((type1->t & VT_BTYPE) == VT_VOID || 
+    if ((type1->t & VT_BTYPE) == VT_VOID ||
         (type2->t & VT_BTYPE) == VT_VOID)
         return;
     tmp_type1 = *type1;
     tmp_type2 = *type2;
     tmp_type1.t &= ~(VT_UNSIGNED | VT_CONSTANT | VT_VOLATILE);
     tmp_type2.t &= ~(VT_UNSIGNED | VT_CONSTANT | VT_VOLATILE);
-    if (!is_compatible_types(&tmp_type1, &tmp_type2)) {
+    if (!is_compatible_types(&tmp_type1, &tmp_type2))
+    {
         /* gcc-like error if '-' is used */
         if (op == '-')
             goto invalid_operands;
@@ -5679,18 +6596,21 @@ void gen_op(int op)
     t2 = vtop[0].type.t;
     bt1 = t1 & VT_BTYPE;
     bt2 = t2 & VT_BTYPE;
-        
-    if (bt1 == VT_PTR || bt2 == VT_PTR) {
+
+    if (bt1 == VT_PTR || bt2 == VT_PTR)
+    {
         /* at least one operand is a pointer */
         /* relationnal op: must be both pointers */
-        if (op >= TOK_ULT && op <= TOK_GT) {
+        if (op >= TOK_ULT && op <= TOK_GT)
+        {
             check_comparison_pointer_types(vtop - 1, vtop, op);
             /* pointers are handled are unsigned */
             t = VT_INT | VT_UNSIGNED;
             goto std_op;
         }
         /* if both pointers, then it must be the '-' op */
-        if (bt1 == VT_PTR && bt2 == VT_PTR) {
+        if (bt1 == VT_PTR && bt2 == VT_PTR)
+        {
             if (op != '-')
                 error("cannot use pointers here");
             check_comparison_pointer_types(vtop - 1, vtop, op);
@@ -5698,15 +6618,18 @@ void gen_op(int op)
             u = pointed_size(&vtop[-1].type);
             gen_opic(op);
             /* set to integer type */
-            vtop->type.t = VT_INT; 
+            vtop->type.t = VT_INT;
             vpushi(u);
             gen_op(TOK_PDIV);
-        } else {
+        }
+        else
+        {
             /* exactly one pointer : must be '+' or '-'. */
             if (op != '-' && op != '+')
                 error("cannot use pointers here");
             /* Put pointer as first operand */
-            if (bt2 == VT_PTR) {
+            if (bt2 == VT_PTR)
+            {
                 vswap();
                 swap(&t1, &t2);
             }
@@ -5717,16 +6640,19 @@ void gen_op(int op)
 #ifdef CONFIG_TCC_BCHECK
             /* if evaluating constant expression, no code should be
                generated, so no bound check */
-            if (do_bounds_check && !const_wanted) {
+            if (do_bounds_check && !const_wanted)
+            {
                 /* if bounded pointers, we generate a special code to
                    test bounds */
-                if (op == '-') {
+                if (op == '-')
+                {
                     vpushi(0);
                     vswap();
                     gen_op('-');
                 }
                 gen_bounded_ptr_add();
-            } else
+            }
+            else
 #endif
             {
                 gen_opic(op);
@@ -5734,13 +6660,20 @@ void gen_op(int op)
             /* put again type if gen_opic() swaped operands */
             vtop->type = type1;
         }
-    } else if (is_float(bt1) || is_float(bt2)) {
+    }
+    else if (is_float(bt1) || is_float(bt2))
+    {
         /* compute bigger type and do implicit casts */
-        if (bt1 == VT_LDOUBLE || bt2 == VT_LDOUBLE) {
+        if (bt1 == VT_LDOUBLE || bt2 == VT_LDOUBLE)
+        {
             t = VT_LDOUBLE;
-        } else if (bt1 == VT_DOUBLE || bt2 == VT_DOUBLE) {
+        }
+        else if (bt1 == VT_DOUBLE || bt2 == VT_DOUBLE)
+        {
             t = VT_DOUBLE;
-        } else {
+        }
+        else
+        {
             t = VT_FLOAT;
         }
         /* floats can only be used for a few operations */
@@ -5748,7 +6681,9 @@ void gen_op(int op)
             (op < TOK_ULT || op > TOK_GT))
             error("invalid operands for binary operation");
         goto std_op;
-    } else if (bt1 == VT_LLONG || bt2 == VT_LLONG) {
+    }
+    else if (bt1 == VT_LLONG || bt2 == VT_LLONG)
+    {
         /* cast to biggest op */
         t = VT_LLONG;
         /* convert to unsigned if it does not fit in a long long */
@@ -5756,7 +6691,9 @@ void gen_op(int op)
             (t2 & (VT_BTYPE | VT_UNSIGNED)) == (VT_LLONG | VT_UNSIGNED))
             t |= VT_UNSIGNED;
         goto std_op;
-    } else {
+    }
+    else
+    {
         /* integer operations */
         t = VT_INT;
         /* convert to unsigned if it does not fit in an integer */
@@ -5766,9 +6703,14 @@ void gen_op(int op)
     std_op:
         /* XXX: currently, some unsigned operations are explicit, so
            we modify them here */
-        if (t & VT_UNSIGNED) {
+        if (t & VT_UNSIGNED)
+        {
+#ifdef TCC_TARGET_816
             if (op == TOK_SAR && (t1 & VT_UNSIGNED))
-                /* change to SAR only if the shiftee is unsigned (shiftopt-1.c) */
+            /* change to SAR only if the shiftee is unsigned (shiftopt-1.c) */
+#else
+            if (op == TOK_SAR)
+#endif
                 op = TOK_SHR;
             else if (op == '/')
                 op = TOK_UDIV;
@@ -5798,10 +6740,13 @@ void gen_op(int op)
             gen_opl(op);
         else
             gen_opic(op);
-        if (op >= TOK_ULT && op <= TOK_GT) {
+        if (op >= TOK_ULT && op <= TOK_GT)
+        {
             /* relationnal op: the result is an int */
             vtop->type.t = VT_INT;
-        } else {
+        }
+        else
+        {
             vtop->type.t = t;
         }
     }
@@ -5810,8 +6755,9 @@ void gen_op(int op)
 /* generic itof for unsigned long long case */
 void gen_cvt_itof1(int t)
 {
-    if ((vtop->type.t & (VT_BTYPE | VT_UNSIGNED)) == 
-        (VT_LLONG | VT_UNSIGNED)) {
+    if ((vtop->type.t & (VT_BTYPE | VT_UNSIGNED)) ==
+        (VT_LLONG | VT_UNSIGNED))
+    {
 
         if (t == VT_FLOAT)
             vpush_global_sym(&func_old_type, TOK___ulltof);
@@ -5823,7 +6769,9 @@ void gen_cvt_itof1(int t)
         gfunc_call(1);
         vpushi(0);
         vtop->r = REG_FRET;
-    } else {
+    }
+    else
+    {
         gen_cvt_itof(t);
     }
 }
@@ -5833,7 +6781,8 @@ void gen_cvt_ftoi1(int t)
 {
     int st;
 
-    if (t == (VT_LLONG | VT_UNSIGNED)) {
+    if (t == (VT_LLONG | VT_UNSIGNED))
+    {
         /* not handled natively */
         st = vtop->type.t & VT_BTYPE;
         if (st == VT_FLOAT)
@@ -5847,7 +6796,9 @@ void gen_cvt_ftoi1(int t)
         vpushi(0);
         vtop->r = REG_IRET;
         vtop->r2 = REG_LRET;
-    } else {
+    }
+    else
+    {
         gen_cvt_ftoi(t);
     }
 }
@@ -5864,13 +6815,17 @@ void force_charshort_cast(int t)
     else
         bits = 16;
 
-    if (t & VT_UNSIGNED) {
+    if (t & VT_UNSIGNED)
+    {
         vpushi((1 << bits) - 1);
         gen_op('&');
-    } else {
+    }
+    else
+    {
 #ifdef TCC_TARGET_816
         bits = 16 - bits;
-        if((vtop->type.t & VT_BTYPE) == VT_LLONG) bits += 16;
+        if ((vtop->type.t & VT_BTYPE) == VT_LLONG)
+            bits += 16;
 #else
         bits = 32 - bits;
 #endif
@@ -5880,7 +6835,9 @@ void force_charshort_cast(int t)
         gen_op(TOK_SHL);
         vpushi(bits);
         gen_op(TOK_SAR);
+#ifdef TCC_TARGET_816
         vtop->type.t = tmpt;
+#endif
     }
 }
 
@@ -5889,149 +6846,280 @@ static void gen_cast(CType *type)
 {
     int sbt, dbt, sf, df, c;
 
-    //fprintf(stderr,"### casting type 0x%x (r 0x%x) to 0x%x\n", vtop->type.t, vtop->r, type->t);
+    // fprintf(stderr,"### casting type 0x%x (r 0x%x) to 0x%x\n", vtop->type.t, vtop->r, type->t);
     /* special delayed cast for char/short */
     /* XXX: in some cases (multiple cascaded casts), it may still
        be incorrect */
-    if (vtop->r & VT_MUSTCAST) {
+    if (vtop->r & VT_MUSTCAST)
+    {
         vtop->r &= ~VT_MUSTCAST;
         force_charshort_cast(vtop->type.t);
     }
 
     /* bitfields first get cast to ints */
-    if (vtop->type.t & VT_BITFIELD) {
+    if (vtop->type.t & VT_BITFIELD)
+    {
         gv(RC_INT);
     }
 
     dbt = type->t & (VT_BTYPE | VT_UNSIGNED);
     sbt = vtop->type.t & (VT_BTYPE | VT_UNSIGNED);
 
-    if (sbt != dbt && !nocode_wanted) {
+    if (sbt != dbt && !nocode_wanted)
+    {
         sf = is_float(sbt);
         df = is_float(dbt);
         c = (vtop->r & (VT_VALMASK | VT_LVAL | VT_SYM)) == VT_CONST;
-        if (sf && df) {
+        if (sf && df)
+        {
             /* convert from fp to fp */
-            if (c) {
+            if (c)
+            {
                 /* constant case: we can do it now */
                 /* XXX: in ISOC, cannot do it if error in convert */
-                if (dbt == VT_FLOAT && sbt == VT_DOUBLE) 
+                if (dbt == VT_FLOAT && sbt == VT_DOUBLE)
                     vtop->c.f = (float)vtop->c.d;
-                else if (dbt == VT_FLOAT && sbt == VT_LDOUBLE) 
+                else if (dbt == VT_FLOAT && sbt == VT_LDOUBLE)
                     vtop->c.f = (float)vtop->c.ld;
-                else if (dbt == VT_DOUBLE && sbt == VT_FLOAT) 
+                else if (dbt == VT_DOUBLE && sbt == VT_FLOAT)
                     vtop->c.d = (double)vtop->c.f;
-                else if (dbt == VT_DOUBLE && sbt == VT_LDOUBLE) 
+                else if (dbt == VT_DOUBLE && sbt == VT_LDOUBLE)
                     vtop->c.d = (double)vtop->c.ld;
-                else if (dbt == VT_LDOUBLE && sbt == VT_FLOAT) 
+                else if (dbt == VT_LDOUBLE && sbt == VT_FLOAT)
                     vtop->c.ld = (long double)vtop->c.f;
-                else if (dbt == VT_LDOUBLE && sbt == VT_DOUBLE) 
+                else if (dbt == VT_LDOUBLE && sbt == VT_DOUBLE)
                     vtop->c.ld = (long double)vtop->c.d;
-            } else {
+            }
+            else
+            {
                 /* non constant case: generate code */
                 gen_cvt_ftof(dbt);
             }
-        } else if (df) {
+        }
+        else if (df)
+        {
             /* convert int to fp */
-            if (c) {
-                switch(sbt) {
+            if (c)
+            {
+                switch (sbt)
+                {
                 case VT_LLONG | VT_UNSIGNED:
-                    switch(dbt) {
-                    case VT_FLOAT: vtop->c.f = (float)(UNSIGNEDLL)vtop->c.ull; break;
-                    case VT_DOUBLE: vtop->c.d = (double)(UNSIGNEDLL)vtop->c.ull; break;
-                    case VT_LDOUBLE: vtop->c.ld = (long double)(UNSIGNEDLL)vtop->c.ull; break;
+#ifdef TCC_TARGET_816
+                    switch (dbt)
+                    {
+                    case VT_FLOAT:
+                        vtop->c.f = (float)(UNSIGNEDLL)vtop->c.ull;
+                        break;
+                    case VT_DOUBLE:
+                        vtop->c.d = (double)(UNSIGNEDLL)vtop->c.ull;
+                        break;
+                    case VT_LDOUBLE:
+                        vtop->c.ld = (long double)(UNSIGNEDLL)vtop->c.ull;
+                        break;
                     }
                     break;
                     /* XXX: add const cases for long long */
-                    //goto do_itof;
+                    // goto do_itof;
                 case VT_LLONG:
-                    switch(dbt) {
-                    case VT_FLOAT: vtop->c.f = (float)(SIGNEDLL)vtop->c.ull; break;
-                    case VT_DOUBLE: vtop->c.d = (double)(SIGNEDLL)vtop->c.ull; break;
-                    case VT_LDOUBLE: vtop->c.ld = (long double)(SIGNEDLL)vtop->c.ull; break;
+                    switch (dbt)
+                    {
+                    case VT_FLOAT:
+                        vtop->c.f = (float)(SIGNEDLL)vtop->c.ull;
+                        break;
+                    case VT_DOUBLE:
+                        vtop->c.d = (double)(SIGNEDLL)vtop->c.ull;
+                        break;
+                    case VT_LDOUBLE:
+                        vtop->c.ld = (long double)(SIGNEDLL)vtop->c.ull;
+                        break;
                     }
                     break;
+#else
+                case VT_LLONG:
+                    /* XXX: add const cases for long long */
+                    goto do_itof;
+#endif
                 case VT_INT | VT_UNSIGNED:
-                    switch(dbt) {
-                    case VT_FLOAT: vtop->c.f = (float)(UNSIGNED)vtop->c.ui; break;
-                    case VT_DOUBLE: vtop->c.d = (double)(UNSIGNED)vtop->c.ui; break;
-                    case VT_LDOUBLE: vtop->c.ld = (long double)(UNSIGNED)vtop->c.ui; break;
+                    switch (dbt)
+                    {
+                    case VT_FLOAT:
+#ifdef TCC_TARGET_816
+                        vtop->c.f = (float)(unsigned)vtop->c.ui;
+#else
+                        vtop->c.f = (float)vtop->c.ui;
+#endif
+                        break;
+                    case VT_DOUBLE:
+#ifdef TCC_TARGET_816
+                        vtop->c.d = (double)(unsigned)vtop->c.ui;
+#else
+                        vtop->c.d = (double)vtop->c.ui;
+#endif
+                        break;
+                    case VT_LDOUBLE:
+#ifdef TCC_TARGET_816
+                        vtop->c.ld = (long double)(unsigned)vtop->c.ui;
+#else
+                        vtop->c.ld = (long double)vtop->c.ui;
+#endif
+                        break;
                     }
                     break;
                 default:
-                    switch(dbt) {
-                    case VT_FLOAT: vtop->c.f = (float)(SIGNED)vtop->c.i; break;
-                    case VT_DOUBLE: vtop->c.d = (double)(SIGNED)vtop->c.i; break;
-                    case VT_LDOUBLE: vtop->c.ld = (long double)(SIGNED)vtop->c.i; break;
+                    switch (dbt)
+                    {
+                    case VT_FLOAT:
+#ifdef TCC_TARGET_816
+                        vtop->c.f = (float)(signed)vtop->c.i;
+#else
+                        vtop->c.f = (float)vtop->c.i;
+#endif
+                        break;
+                    case VT_DOUBLE:
+#ifdef TCC_TARGET_816
+                        vtop->c.d = (double)(signed)vtop->c.i;
+#else
+                        vtop->c.d = (double)vtop->c.i;
+#endif
+                        break;
+                    case VT_LDOUBLE:
+#ifdef TCC_TARGET_816
+                        vtop->c.ld = (long double)(signed)vtop->c.i;
+#else
+                        vtop->c.ld = (long double)vtop->c.i;
+#endif
+                        break;
                     }
                     break;
                 }
-            } else {
-            //do_itof:
+            }
+            else
+            {
+#ifndef TCC_TARGET_816
+            do_itof:
+#endif
 #if !defined(TCC_TARGET_ARM)
                 gen_cvt_itof1(dbt);
 #else
                 gen_cvt_itof(dbt);
 #endif
             }
-        } else if (sf) {
+        }
+        else if (sf)
+        {
             /* convert fp to int */
             /* we handle char/short/etc... with generic code */
             if (dbt != (VT_INT | VT_UNSIGNED) &&
                 dbt != (VT_LLONG | VT_UNSIGNED) &&
+#ifndef TCC_TARGET_816
                 dbt != VT_LLONG && (dbt & VT_BTYPE) != VT_BOOL)
+#else
+                dbt != VT_LLONG)
+#endif
                 dbt = VT_INT;
-            if (c) {
-                switch(dbt) {
+            if (c)
+            {
+                switch (dbt)
+                {
                 case VT_LLONG | VT_UNSIGNED:
                 case VT_LLONG:
                     /* XXX: add const cases for long long */
                     goto do_ftoi;
                 case VT_INT | VT_UNSIGNED:
-                    switch(sbt) {
-                    case VT_FLOAT: vtop->c.ui = (UNSIGNED)vtop->c.d; break;
-                    case VT_DOUBLE: vtop->c.ui = (UNSIGNED)vtop->c.d; break;
-                    case VT_LDOUBLE: vtop->c.ui = (UNSIGNED)vtop->c.d; break;
+                    switch (sbt)
+                    {
+                    case VT_FLOAT:
+#ifndef TCC_TARGET_816
+                        vtop->c.ui = (unsigned)vtop->c.d;
+                        break;
+                    case VT_DOUBLE:
+                        vtop->c.ui = (unsigned)vtop->c.d;
+                        break;
+                    case VT_LDOUBLE:
+                        vtop->c.ui = (unsigned)vtop->c.d;
+                        break;
+#else
+                        vtop->c.ui = (unsigned int)vtop->c.d;
+                        break;
+                    case VT_DOUBLE:
+                        vtop->c.ui = (unsigned int)vtop->c.d;
+                        break;
+                    case VT_LDOUBLE:
+                        vtop->c.ui = (unsigned int)vtop->c.d;
+                        break;
+#endif
                     }
                     break;
+#ifndef TCC_TARGET_816
                 case VT_BOOL:
                 case VT_BOOL | VT_UNSIGNED:
-                    vtop->c.ui = vtop->c.d != 0 ? 1: 0;
+                    vtop->c.ui = vtop->c.d != 0 ? 1 : 0;
                     break;
+#endif
                 default:
                     /* int case */
-                    switch(sbt) {
-                    case VT_FLOAT: vtop->c.i = (SIGNED)vtop->c.d; break;
-                    case VT_DOUBLE: vtop->c.i = (SIGNED)vtop->c.d; break;
-                    case VT_LDOUBLE: vtop->c.i = (SIGNED)vtop->c.d; break;
+                    switch (sbt)
+                    {
+                    case VT_FLOAT:
+#ifndef TCC_TARGET_816
+                        vtop->c.i = (signed)vtop->c.d;
+                        break;
+                    case VT_DOUBLE:
+                        vtop->c.i = (signed)vtop->c.d;
+                        break;
+                    case VT_LDOUBLE:
+                        vtop->c.i = (signed)vtop->c.d;
+                        break;
+#else
+                        vtop->c.i = (int)vtop->c.d;
+                        break;
+                    case VT_DOUBLE:
+                        vtop->c.i = (int)vtop->c.d;
+                        break;
+                    case VT_LDOUBLE:
+                        vtop->c.i = (int)vtop->c.d;
+                        break;
+#endif
                     }
                     break;
                 }
-            } else {
+            }
+            else
+            {
             do_ftoi:
                 gen_cvt_ftoi1(dbt);
             }
-            if (dbt == VT_INT && (type->t & (VT_BTYPE | VT_UNSIGNED)) != dbt) {
+            if (dbt == VT_INT && (type->t & (VT_BTYPE | VT_UNSIGNED)) != dbt)
+            {
                 /* additional cast for char/short/bool... */
                 vtop->type.t = dbt;
                 gen_cast(type);
             }
-        } else if ((dbt & VT_BTYPE) == VT_LLONG) {
-            if ((sbt & VT_BTYPE) != VT_LLONG) {
+        }
+        else if ((dbt & VT_BTYPE) == VT_LLONG)
+        {
+            if ((sbt & VT_BTYPE) != VT_LLONG)
+            {
                 /* scalar to long long */
-                if (c) {
+                if (c)
+                {
                     if (sbt == (VT_INT | VT_UNSIGNED))
                         vtop->c.ll = vtop->c.ui;
                     else
                         vtop->c.ll = vtop->c.i;
-                } else {
+                }
+                else
+                {
                     /* machine independent conversion */
                     gv(RC_INT);
                     /* generate high word */
-                    if (sbt == (VT_INT | VT_UNSIGNED)) {
+                    if (sbt == (VT_INT | VT_UNSIGNED))
+                    {
                         vpushi(0);
                         gv(RC_INT);
-                    } else {
+                    }
+                    else
+                    {
                         gv_dup();
 #ifdef TCC_TARGET_816
                         vpushi(15);
@@ -6045,35 +7133,53 @@ static void gen_cast(CType *type)
                     vpop();
                 }
             }
-        } else if ((dbt & VT_BTYPE) == VT_BOOL) {
-            if(c) {
-              //printf("const samma\n");
-              vtop->c.ui = vtop->c.ui ? 1: 0;
+        }
+#ifdef TCC_TARGET_816
+        else if ((dbt & VT_BTYPE) == VT_BOOL)
+        {
+            if (c)
+            {
+                // printf("const samma\n");
+                vtop->c.ui = vtop->c.ui ? 1 : 0;
             }
-            else {
-              //printf("bool samma scho\n");
-              /* scalar to bool */
-              vpushi(0);
-              gen_op(TOK_NE);
+            else
+            {
+                // printf("bool samma scho\n");
+                /* scalar to bool */
+                vpushi(0);
+                gen_op(TOK_NE);
             }
-            //asm("int $3");
-        } else if ((dbt & VT_BTYPE) == VT_BYTE || 
-                   (dbt & VT_BTYPE) == VT_SHORT) {
+            // asm("int $3");
+        }
+#else
+        else if (dbt == VT_BOOL)
+        {
+            /* scalar to bool */
+            vpushi(0);
+            gen_op(TOK_NE);
+        }
+#endif
+        else if ((dbt & VT_BTYPE) == VT_BYTE ||
+                 (dbt & VT_BTYPE) == VT_SHORT)
+        {
             force_charshort_cast(dbt);
-        } else if ((dbt & VT_BTYPE) == VT_INT) {
+        }
+        else if ((dbt & VT_BTYPE) == VT_INT)
+        {
             /* scalar to int */
-
 #ifdef TCC_TARGET_816
             /* fixes 960801-1.c */
             /* this is important if the value is cast back to a larger type
                without going through a register first */
-            if((dbt & VT_UNSIGNED) && c) vtop->c.ui &= 0xffff;
+            if ((dbt & VT_UNSIGNED) && c)
+                vtop->c.ui &= 0xffff;
 #endif
-            if (sbt == VT_LLONG) {
+            if (sbt == VT_LLONG)
+            {
                 /* from long long: just take low order word */
                 lexpand();
                 vpop();
-            } 
+            }
             /* if lvalue and single word type, nothing to do because
                the lvalue already contains the real type size (see
                VT_LVAL_xxx constants) */
@@ -6084,9 +7190,10 @@ static void gen_cast(CType *type)
                If we do not do that here, the type is overwritten (see below),
                and the code generator happily loads extra garbage bytes from
                the stack or wherever. */
-            if ((sbt & VT_BTYPE) == VT_BYTE || (sbt & VT_BTYPE) == VT_BOOL) {
-              //printf("geevau\n");
-              gv(RC_INT);
+            if ((sbt & VT_BTYPE) == VT_BYTE || (sbt & VT_BTYPE) == VT_BOOL)
+            {
+                // printf("geevau\n");
+                gv(RC_INT);
             }
 #endif
         }
@@ -6101,24 +7208,34 @@ static int type_size(CType *type, int *a)
     int bt;
 
     bt = type->t & VT_BTYPE;
-    if (bt == VT_STRUCT) {
+    if (bt == VT_STRUCT)
+    {
         /* struct/union */
         s = type->ref;
         *a = s->r;
         return s->c;
-    } else if (bt == VT_PTR) {
-        if (type->t & VT_ARRAY) {
+    }
+    else if (bt == VT_PTR)
+    {
+        if (type->t & VT_ARRAY)
+        {
             s = type->ref;
-            //if(s->c == -1) asm("int $3");
+            // if(s->c == -1) asm("int $3");
             return type_size(&s->type, a) * s->c;
-        } else {
+        }
+        else
+        {
             *a = PTR_SIZE;
             return PTR_SIZE;
         }
-    } else if (bt == VT_LDOUBLE) {
+    }
+    else if (bt == VT_LDOUBLE)
+    {
         *a = LDOUBLE_ALIGN;
         return LDOUBLE_SIZE;
-    } else if (bt == VT_DOUBLE || bt == VT_LLONG) {
+    }
+    else if (bt == VT_DOUBLE || bt == VT_LLONG)
+    {
 #ifdef TCC_TARGET_816
         *a = 4;
         return 4;
@@ -6130,28 +7247,39 @@ static int type_size(CType *type, int *a)
 #endif
         return 8;
 #endif
-    } else if (bt == VT_INT || bt == VT_ENUM || bt == VT_FLOAT) {
+    }
+    else if (bt == VT_INT || bt == VT_ENUM || bt == VT_FLOAT)
+    {
 #ifdef TCC_TARGET_816
-        if(bt == VT_FLOAT) {
-          *a = 4;
-          return 4;
-        } else {
-          *a = 2;
-          return 2;
+        if (bt == VT_FLOAT)
+        {
+            *a = 4;
+            return 4;
+        }
+        else
+        {
+            *a = 2;
+            return 2;
         }
 #else
         *a = 4;
         return 4;
 #endif
-    } else if (bt == VT_SHORT) {
+    }
+    else if (bt == VT_SHORT)
+    {
         *a = 2;
         return 2;
 #ifdef TCC_TARGET_816
-    } else if (bt == VT_FUNC) {
+    }
+    else if (bt == VT_FUNC)
+    {
         *a = 4;
         return 4;
 #endif
-    } else {
+    }
+    else
+    {
         /* char, void, function, _Bool */
         *a = 1;
         return 1;
@@ -6190,7 +7318,8 @@ static int is_compatible_func(CType *type1, CType *type2)
         return 1;
     if (s1->c != s2->c)
         return 0;
-    while (s1 != NULL) {
+    while (s1 != NULL)
+    {
         if (s2 == NULL)
             return 0;
         if (!is_compatible_types(&s1->type, &s2->type))
@@ -6204,9 +7333,9 @@ static int is_compatible_func(CType *type1, CType *type2)
 }
 
 /* return true if type1 and type2 are exactly the same (including
-   qualifiers). 
+   qualifiers).
 
-   - enums are not checked as gcc __builtin_types_compatible_p () 
+   - enums are not checked as gcc __builtin_types_compatible_p ()
  */
 static int is_compatible_types(CType *type1, CType *type2)
 {
@@ -6219,15 +7348,22 @@ static int is_compatible_types(CType *type1, CType *type2)
         return 0;
     /* test more complicated cases */
     bt1 = t1 & VT_BTYPE;
-    if (bt1 == VT_PTR) {
+    if (bt1 == VT_PTR)
+    {
         type1 = pointed_type(type1);
         type2 = pointed_type(type2);
         return is_compatible_types(type1, type2);
-    } else if (bt1 == VT_STRUCT) {
+    }
+    else if (bt1 == VT_STRUCT)
+    {
         return (type1->ref == type2->ref);
-    } else if (bt1 == VT_FUNC) {
+    }
+    else if (bt1 == VT_FUNC)
+    {
         return is_compatible_func(type1, type2);
-    } else {
+    }
+    else
+    {
         return 1;
     }
 }
@@ -6236,7 +7372,7 @@ static int is_compatible_types(CType *type1, CType *type2)
    printed in the type */
 /* XXX: union */
 /* XXX: add array and function pointers */
-void type_to_str(char *buf, int buf_size, 
+void type_to_str(char *buf, int buf_size,
                  CType *type, const char *varstr)
 {
     int bt, v, t;
@@ -6253,7 +7389,8 @@ void type_to_str(char *buf, int buf_size,
         pstrcat(buf, buf_size, "volatile ");
     if (t & VT_UNSIGNED)
         pstrcat(buf, buf_size, "unsigned ");
-    switch(bt) {
+    switch (bt)
+    {
     case VT_VOID:
         tstr = "void";
         goto add_tstr;
@@ -6304,7 +7441,8 @@ void type_to_str(char *buf, int buf_size,
         type_to_str(buf, buf_size, &s->type, varstr);
         pstrcat(buf, buf_size, "(");
         sa = s->next;
-        while (sa != NULL) {
+        while (sa != NULL)
+        {
             type_to_str(buf1, sizeof(buf1), &sa->type, NULL);
             pstrcat(buf, buf_size, buf1);
             sa = sa->next;
@@ -6321,11 +7459,12 @@ void type_to_str(char *buf, int buf_size,
         type_to_str(buf, buf_size, &s->type, buf1);
         goto no_var;
     }
-    if (varstr) {
+    if (varstr)
+    {
         pstrcat(buf, buf_size, " ");
         pstrcat(buf, buf_size, varstr);
     }
- no_var: ;
+no_var:;
 }
 
 /* verify type compatibility to store vtop in 'dt' type, and generate
@@ -6341,20 +7480,23 @@ static void gen_assign_cast(CType *dt)
     sbt = st->t & VT_BTYPE;
     if (dt->t & VT_CONSTANT)
         warning("assignment of read-only location");
-    switch(dbt) {
+    switch (dbt)
+    {
     case VT_PTR:
         /* special cases for pointers */
         /* '0' can also be a pointer */
         if (is_null_pointer(vtop))
             goto type_ok;
         /* accept implicit pointer to integer cast with warning */
-        if (is_integer_btype(sbt)) {
+        if (is_integer_btype(sbt))
+        {
             warning("assignment makes pointer from integer without a cast");
             goto type_ok;
         }
         type1 = pointed_type(dt);
         /* a function is implicitely a function pointer */
-        if (sbt == VT_FUNC) {
+        if (sbt == VT_FUNC)
+        {
             if ((type1->t & VT_BTYPE) != VT_VOID &&
                 !is_compatible_types(pointed_type(dt), st))
                 goto error;
@@ -6364,10 +7506,13 @@ static void gen_assign_cast(CType *dt)
         if (sbt != VT_PTR)
             goto error;
         type2 = pointed_type(st);
-        if ((type1->t & VT_BTYPE) == VT_VOID || 
-            (type2->t & VT_BTYPE) == VT_VOID) {
+        if ((type1->t & VT_BTYPE) == VT_VOID ||
+            (type2->t & VT_BTYPE) == VT_VOID)
+        {
             /* void * can match anything */
-        } else {
+        }
+        else
+        {
             /* exact type match, except for unsigned */
             tmp_type1 = *type1;
             tmp_type2 = *type2;
@@ -6385,18 +7530,20 @@ static void gen_assign_cast(CType *dt)
     case VT_SHORT:
     case VT_INT:
     case VT_LLONG:
-        if (sbt == VT_PTR || sbt == VT_FUNC) {
+        if (sbt == VT_PTR || sbt == VT_FUNC)
+        {
             warning("assignment makes integer from pointer without a cast");
         }
         /* XXX: more tests */
-        //fprintf(stderr,"### source type %d dest type %d\n", sbt, dbt);
+        // fprintf(stderr,"### source type %d dest type %d\n", sbt, dbt);
         break;
     case VT_STRUCT:
         tmp_type1 = *dt;
         tmp_type2 = *st;
         tmp_type1.t &= ~(VT_CONSTANT | VT_VOLATILE);
         tmp_type2.t &= ~(VT_CONSTANT | VT_VOLATILE);
-        if (!is_compatible_types(&tmp_type1, &tmp_type2)) {
+        if (!is_compatible_types(&tmp_type1, &tmp_type2))
+        {
         error:
             type_to_str(buf1, sizeof(buf1), st, NULL);
             type_to_str(buf2, sizeof(buf2), dt, NULL);
@@ -6404,7 +7551,7 @@ static void gen_assign_cast(CType *dt)
         }
         break;
     }
- type_ok:
+type_ok:
     gen_cast(dt);
 }
 
@@ -6412,66 +7559,94 @@ static void gen_assign_cast(CType *dt)
 void vstore(void)
 {
     int sbt, dbt, ft, r, t, size, align, bit_size, bit_pos, rc, delayed_cast;
+#ifdef TCC_TARGET_816
     static int nocast = 0;
+#endif
 
     ft = vtop[-1].type.t;
     sbt = vtop->type.t & VT_BTYPE;
     dbt = ft & VT_BTYPE;
-    //fprintf(stderr,"vstore sbt 0x%x dbt 0x%x\n",sbt,dbt);
+    // fprintf(stderr,"vstore sbt 0x%x dbt 0x%x\n",sbt,dbt);
     if (((sbt == VT_INT || sbt == VT_SHORT) && dbt == VT_BYTE) ||
-        (sbt == VT_INT && dbt == VT_SHORT)) {
+        (sbt == VT_INT && dbt == VT_SHORT))
+    {
         /* optimize char/short casts */
         delayed_cast = VT_MUSTCAST;
         vtop->type.t = ft & VT_TYPE;
         /* XXX: factorize */
         if (ft & VT_CONSTANT)
             warning("assignment of read-only location");
-    } else {
+    }
+    else
+    {
         delayed_cast = 0;
+#ifdef TCC_TARGET_816
         if (!(ft & VT_BITFIELD) && !nocast)
+#else
+        if (!(ft & VT_BITFIELD))
+#endif
             gen_assign_cast(&vtop[-1].type);
     }
 
-    if (sbt == VT_STRUCT) {
+    if (sbt == VT_STRUCT)
+    {
         /* if structure, only generate pointer */
         /* structure assignment : generate memcpy */
         /* XXX: optimize if small size */
-        if (!nocode_wanted) {
+        if (!nocode_wanted)
+        {
             size = type_size(&vtop->type, &align);
-            //if(size == 2) asm("int $3");
-            //fprintf(stderr,"vtop type 0x%x size %d\n", vtop->type.t, size);
+            // if(size == 2) asm("int $3");
+            // fprintf(stderr,"vtop type 0x%x size %d\n", vtop->type.t, size);
 
             vpush_global_sym(&func_old_type, TOK_memcpy);
 
             /* destination */
             vpushv(vtop - 2);
+#ifdef TCC_TARGET_816
             vtop->type.t = VT_PTR;
+#else
+            vtop->type.t = VT_INT;
+#endif
             gaddrof();
             /* source */
             vpushv(vtop - 2);
+#ifdef TCC_TARGET_816
             vtop->type.t = VT_PTR;
+#else
+            vtop->type.t = VT_INT;
+#endif
             gaddrof();
             /* type size */
             vpushi(size);
             gfunc_call(3);
-            
+
             vswap();
             vpop();
-        } else {
+        }
+        else
+        {
             vswap();
             vpop();
         }
         /* leave source on stack */
-    } else if (ft & VT_BITFIELD && !nocast) {
+    }
+#ifdef TCC_TARGET_816
+    else if (ft & VT_BITFIELD && !nocast)
+#else
+    else if (ft & VT_BITFIELD)
+#endif
+    {
         /* bitfield store handling */
         bit_pos = (ft >> VT_STRUCT_SHIFT) & 0x3f;
         bit_size = (ft >> (VT_STRUCT_SHIFT + 6)) & 0x3f;
         /* remove bit field info to avoid loops */
         vtop[-1].type.t = ft & ~(VT_BITFIELD | (-1 << VT_STRUCT_SHIFT));
-        //fprintf(stderr,"vtop[-1].type.t 0x%x\n",vtop[-1].type.t);
-
+#ifdef TCC_TARGET_816
+        // fprintf(stderr,"vtop[-1].type.t 0x%x\n",vtop[-1].type.t);
         gen_assign_cast(&vtop[-1].type);
         nocast = 1; // make sure our hard-earned bitfield value is not cast to bits again (e.g. to bool)
+#endif
 
         /* duplicate destination */
         vdup();
@@ -6484,46 +7659,60 @@ void vstore(void)
         gen_op(TOK_SHL);
         /* load destination, mask and or with source */
         vswap();
+#ifdef TCC_TARGET_816
         vtop->r |= VT_LVAL; /* 20000113-1.c, bf-sign-1.c */
+#endif
         vpushi(~(((1 << bit_size) - 1) << bit_pos));
         gen_op('&');
         gen_op('|');
         /* store result */
         vstore();
+#ifdef TCC_TARGET_816
         /* This value may be used further down, so it has to be sign- or
            zero-extended */
-        if (ft & VT_UNSIGNED) {
+        if (ft & VT_UNSIGNED)
+        {
             vpushi(bit_pos);
             gen_op(TOK_SHR);
             vpushi((1 << bit_size) - 1);
             gen_op('&');
         }
-        else {
-            vpushi(16-bit_size-bit_pos);
+        else
+        {
+            vpushi(16 - bit_size - bit_pos);
             gen_op(TOK_SHL);
-            vpushi(16-bit_size);
+            vpushi(16 - bit_size);
             gen_op(TOK_SAR);
         }
-        
-    } else {
+#endif
+    }
+    else
+    {
 #ifdef CONFIG_TCC_BCHECK
         /* bound check case */
-        if (vtop[-1].r & VT_MUSTBOUND) {
+        if (vtop[-1].r & VT_MUSTBOUND)
+        {
             vswap();
             gbound();
             vswap();
         }
 #endif
-        if (!nocode_wanted) {
+        if (!nocode_wanted)
+        {
             rc = RC_INT;
             if (is_float(ft))
                 rc = RC_FLOAT;
-            r = gv(rc);  /* generate value */
+            r = gv(rc); /* generate value */
             /* if lvalue was saved on stack, must read it */
-            if ((vtop[-1].r & VT_VALMASK) == VT_LLOCAL) {
+            if ((vtop[-1].r & VT_VALMASK) == VT_LLOCAL)
+            {
                 SValue sv;
                 t = get_reg(RC_INT);
-                sv.type.t = VT_PTR;	/* 20030313-1.c */
+#ifdef TCC_TARGET_816
+                sv.type.t = VT_PTR; /* 20030313-1.c */
+#else
+                sv.type.t = VT_INT;
+#endif
                 sv.r = VT_LOCAL | VT_LVAL;
                 sv.c.ul = vtop[-1].c.ul;
                 load(t, &sv);
@@ -6531,7 +7720,8 @@ void vstore(void)
             }
             store(r, vtop - 1);
             /* two word case handling : store second register at word + 4 */
-            if ((ft & VT_BTYPE) == VT_LLONG) {
+            if ((ft & VT_BTYPE) == VT_LLONG)
+            {
                 vswap();
                 /* convert to int to increment easily */
                 vtop->type.t = VT_INT;
@@ -6552,8 +7742,10 @@ void vstore(void)
         vtop--; /* NOT vpop() because on x86 it would flush the fp stack */
         vtop->r |= delayed_cast;
     }
+#ifdef TCC_TARGET_816
     nocast = 0;
-    //fprintf(stderr,"end vstore\n");
+    // fprintf(stderr,"end vstore\n");
+#endif
 }
 
 /* post defines POST/PRE add. c is the token ++ or -- */
@@ -6561,13 +7753,14 @@ void inc(int post, int c)
 {
     test_lvalue();
     vdup(); /* save lvalue */
-    if (post) {
+    if (post)
+    {
         gv_dup(); /* duplicate value */
         vrotb(3);
         vrotb(3);
     }
     /* add constant */
-    vpushi(c - TOK_MID); 
+    vpushi(c - TOK_MID);
     gen_op('+');
     vstore(); /* store value */
     if (post)
@@ -6585,106 +7778,117 @@ void inc(int post, int c)
 static void parse_attribute(AttributeDef *ad)
 {
     int t, n;
-    
-    while (tok == TOK_ATTRIBUTE1 || tok == TOK_ATTRIBUTE2) {
-    next();
-    skip('(');
-    skip('(');
-    while (tok != ')') {
-        if (tok < TOK_IDENT)
-            expect("attribute name");
-        t = tok;
+
+    while (tok == TOK_ATTRIBUTE1 || tok == TOK_ATTRIBUTE2)
+    {
         next();
-        switch(t) {
-        case TOK_SECTION1:
-        case TOK_SECTION2:
-            skip('(');
-            if (tok != TOK_STR)
-                expect("section name");
-            ad->section = find_section(tcc_state, (char *)tokc.cstr->data);
+        skip('(');
+        skip('(');
+        while (tok != ')')
+        {
+            if (tok < TOK_IDENT)
+                expect("attribute name");
+            t = tok;
             next();
-            skip(')');
-            break;
-        case TOK_ALIGNED1:
-        case TOK_ALIGNED2:
-            if (tok == '(') {
+            switch (t)
+            {
+            case TOK_SECTION1:
+            case TOK_SECTION2:
+                skip('(');
+                if (tok != TOK_STR)
+                    expect("section name");
+                ad->section = find_section(tcc_state, (char *)tokc.cstr->data);
                 next();
-                n = expr_const();
-                if (n <= 0 || (n & (n - 1)) != 0) 
-                    error("alignment must be a positive power of two");
                 skip(')');
-            } else {
-                n = MAX_ALIGN;
-            }
-            ad->aligned = n;
-            break;
-        case TOK_PACKED1:
-        case TOK_PACKED2:
-            ad->packed = 1;
-            break;
-        case TOK_UNUSED1:
-        case TOK_UNUSED2:
-            /* currently, no need to handle it because tcc does not
-               track unused objects */
-            break;
-        case TOK_NORETURN1:
-        case TOK_NORETURN2:
-            /* currently, no need to handle it because tcc does not
-               track unused objects */
-            break;
-        case TOK_CDECL1:
-        case TOK_CDECL2:
-        case TOK_CDECL3:
-            ad->func_call = FUNC_CDECL;
-            break;
-        case TOK_STDCALL1:
-        case TOK_STDCALL2:
-        case TOK_STDCALL3:
-            ad->func_call = FUNC_STDCALL;
-            break;
-#ifdef TCC_TARGET_I386
-        case TOK_REGPARM1:
-        case TOK_REGPARM2:
-            skip('(');
-            n = expr_const();
-            if (n > 3) 
-                n = 3;
-            else if (n < 0)
-                n = 0;
-            if (n > 0)
-                ad->func_call = FUNC_FASTCALL1 + n - 1;
-            skip(')');
-            break;
-#endif
-        case TOK_DLLEXPORT:
-            ad->dllexport = 1;
-            break;
-        default:
-            if (tcc_state->warn_unsupported)
-                warning("'%s' attribute ignored", get_tok_str(t, NULL));
-            /* skip parameters */
-            /* XXX: skip parenthesis too */
-            if (tok == '(') {
-                next();
-                while (tok != ')' && tok != -1)
+                break;
+            case TOK_ALIGNED1:
+            case TOK_ALIGNED2:
+                if (tok == '(')
+                {
                     next();
-                next();
+                    n = expr_const();
+                    if (n <= 0 || (n & (n - 1)) != 0)
+                        error("alignment must be a positive power of two");
+                    skip(')');
+                }
+                else
+                {
+                    n = MAX_ALIGN;
+                }
+                ad->aligned = n;
+                break;
+            case TOK_PACKED1:
+            case TOK_PACKED2:
+                ad->packed = 1;
+                break;
+            case TOK_UNUSED1:
+            case TOK_UNUSED2:
+                /* currently, no need to handle it because tcc does not
+                   track unused objects */
+                break;
+            case TOK_NORETURN1:
+            case TOK_NORETURN2:
+                /* currently, no need to handle it because tcc does not
+                   track unused objects */
+                break;
+            case TOK_CDECL1:
+            case TOK_CDECL2:
+            case TOK_CDECL3:
+                ad->func_call = FUNC_CDECL;
+                break;
+            case TOK_STDCALL1:
+            case TOK_STDCALL2:
+            case TOK_STDCALL3:
+                ad->func_call = FUNC_STDCALL;
+                break;
+#ifdef TCC_TARGET_I386
+            case TOK_REGPARM1:
+            case TOK_REGPARM2:
+                skip('(');
+                n = expr_const();
+                if (n > 3)
+                    n = 3;
+                else if (n < 0)
+                    n = 0;
+                if (n > 0)
+                    ad->func_call = FUNC_FASTCALL1 + n - 1;
+                skip(')');
+                break;
+#endif
+            case TOK_DLLEXPORT:
+                ad->dllexport = 1;
+                break;
+            default:
+                if (tcc_state->warn_unsupported)
+                    warning("'%s' attribute ignored", get_tok_str(t, NULL));
+                /* skip parameters */
+                /* XXX: skip parenthesis too */
+                if (tok == '(')
+                {
+                    next();
+                    while (tok != ')' && tok != -1)
+                        next();
+                    next();
+                }
+                break;
             }
-            break;
+            if (tok != ',')
+                break;
+            next();
         }
-        if (tok != ',')
-            break;
-        next();
-    }
-    skip(')');
-    skip(')');
+        skip(')');
+        skip(')');
     }
 }
 
 /* enum/struct/union declaration. u is either VT_ENUM or VT_STRUCT */
 static void struct_decl(CType *type, int u)
 {
+#ifdef TCC_TARGET_816
     int a, v, size = 0, align, maxalign, c, offset;
+#else
+    int a, v, size, align, maxalign, c, offset;
+#endif
     int bit_size, bit_pos, bsize, bt, lbit_pos;
     Sym *s, *ss, **ps;
     AttributeDef ad;
@@ -6692,44 +7896,56 @@ static void struct_decl(CType *type, int u)
 
     a = tok; /* save decl type */
     next();
-    if (tok != '{') {
+    if (tok != '{')
+    {
         v = tok;
         next();
         /* struct already defined ? return it */
         if (v < TOK_IDENT)
             expect("struct/union/enum name");
         s = struct_find(v);
-        if (s) {
+        if (s)
+        {
             if (s->type.t != a)
+#ifdef TCC_TARGET_816
                 error("invalid struct type");
+#else
+                error("invalid type");
+#endif
             goto do_decl;
         }
-    } else {
+    }
+    else
+    {
         v = anon_sym++;
     }
     type1.t = a;
     /* we put an undefined size for struct/union */
     s = sym_push(v | SYM_STRUCT, &type1, 0, -1);
     s->r = 0; /* default alignment is zero as gcc */
-    /* put struct/union/enum name in type */
- do_decl:
+              /* put struct/union/enum name in type */
+do_decl:
     type->t = u;
     type->ref = s;
-    
-    if (tok == '{') {
+
+    if (tok == '{')
+    {
         next();
         if (s->c != -1)
             error("struct/union/enum already defined");
         /* cannot be empty */
         c = 0;
         /* non empty enums are not allowed */
-        if (a == TOK_ENUM) {
-            for(;;) {
+        if (a == TOK_ENUM)
+        {
+            for (;;)
+            {
                 v = tok;
                 if (v < TOK_UIDENT)
                     expect("identifier");
                 next();
-                if (tok == '=') {
+                if (tok == '=')
+                {
                     next();
                     c = expr_const();
                 }
@@ -6745,95 +7961,124 @@ static void struct_decl(CType *type, int u)
                     break;
             }
             skip('}');
-        } else {
+        }
+        else
+        {
             maxalign = 1;
             ps = &s->next;
             bit_pos = 0;
             offset = 0;
-            while (tok != '}') {
+            while (tok != '}')
+            {
                 parse_btype(&btype, &ad);
-                while (1) {
+                while (1)
+                {
                     bit_size = -1;
                     v = 0;
                     type1 = btype;
-                    if (tok != ':') {
+                    if (tok != ':')
+                    {
                         type_decl(&type1, &ad, &v, TYPE_DIRECT);
                         if ((type1.t & VT_BTYPE) == VT_FUNC ||
                             (type1.t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN | VT_INLINE)))
-                            error("invalid type for '%s'", 
+                            error("invalid type for '%s'",
                                   get_tok_str(v, NULL));
                     }
-                    if (tok == ':') {
+                    if (tok == ':')
+                    {
                         next();
                         bit_size = expr_const();
                         /* XXX: handle v = 0 case for messages */
                         if (bit_size < 0)
-                            error("negative width in bit-field '%s'", 
+                            error("negative width in bit-field '%s'",
                                   get_tok_str(v, NULL));
                         if (v && bit_size == 0)
-                            error("zero width for bit-field '%s'", 
+                            error("zero width for bit-field '%s'",
                                   get_tok_str(v, NULL));
                     }
                     size = type_size(&type1, &align);
-                    if(size < 0) {
-                      warning("unknown type size in struct %p",s);
-                      //size = 1;
-                      //asm("int $3");
+#ifdef TCC_TARGET_816
+                    if (size < 0)
+                    {
+                        warning("unknown type size in struct %p", s);
+                        // size = 1;
+                        // asm("int $3");
                     }
-                    if (ad.aligned) {
+#endif
+                    if (ad.aligned)
+                    {
                         if (align < ad.aligned)
                             align = ad.aligned;
-                    } else if (ad.packed) {
+                    }
+                    else if (ad.packed)
+                    {
                         align = 1;
-                    } else if (*tcc_state->pack_stack_ptr) {
+                    }
+                    else if (*tcc_state->pack_stack_ptr)
+                    {
                         if (align > *tcc_state->pack_stack_ptr)
                             align = *tcc_state->pack_stack_ptr;
                     }
                     lbit_pos = 0;
-                    if (bit_size >= 0) {
+                    if (bit_size >= 0)
+                    {
                         bt = type1.t & VT_BTYPE;
-                        if (bt != VT_INT && 
-                            bt != VT_BYTE && 
+                        if (bt != VT_INT &&
+                            bt != VT_BYTE &&
                             bt != VT_SHORT &&
                             bt != VT_BOOL &&
                             bt != VT_ENUM)
                             error("bitfields must have scalar type");
                         bsize = size * 8;
-                        if (bit_size > bsize) {
+                        if (bit_size > bsize)
+                        {
                             error("width of '%s' exceeds its type",
                                   get_tok_str(v, NULL));
-                        } else if (bit_size == bsize) {
+                        }
+                        else if (bit_size == bsize)
+                        {
                             /* no need for bit fields */
                             bit_pos = 0;
-                        } else if (bit_size == 0) {
+                        }
+                        else if (bit_size == 0)
+                        {
                             /* XXX: what to do if only padding in a
                                structure ? */
                             /* zero size: means to pad */
                             if (bit_pos > 0)
                                 bit_pos = bsize;
-                        } else {
+                        }
+                        else
+                        {
                             /* we do not have enough room ? */
                             if ((bit_pos + bit_size) > bsize)
                                 bit_pos = 0;
                             lbit_pos = bit_pos;
                             /* XXX: handle LSB first */
-                            type1.t |= VT_BITFIELD | 
-                                (bit_pos << VT_STRUCT_SHIFT) |
-                                (bit_size << (VT_STRUCT_SHIFT + 6));
+                            type1.t |= VT_BITFIELD |
+                                       (bit_pos << VT_STRUCT_SHIFT) |
+                                       (bit_size << (VT_STRUCT_SHIFT + 6));
                             bit_pos += bit_size;
                         }
-                    } else {
+                    }
+                    else
+                    {
                         bit_pos = 0;
                     }
-                    if (v) {
+                    if (v)
+                    {
                         /* add new memory data only if starting
                            bit field */
-                        if (lbit_pos == 0) {
-                            if (a == TOK_STRUCT) {
+                        if (lbit_pos == 0)
+                        {
+                            if (a == TOK_STRUCT)
+                            {
                                 c = (c + align - 1) & -align;
                                 offset = c;
                                 c += size;
-                            } else {
+                            }
+                            else
+                            {
                                 offset = 0;
                                 if (size > c)
                                     c = size;
@@ -6842,10 +8087,10 @@ static void struct_decl(CType *type, int u)
                                 maxalign = align;
                         }
 #if 0
-                        printf("add field %s offset=%d", 
+                        printf("add field %s offset=%d",
                                get_tok_str(v, NULL), offset);
                         if (type1.t & VT_BITFIELD) {
-                            printf(" pos=%d size=%d", 
+                            printf(" pos=%d size=%d",
                                    (type1.t >> VT_STRUCT_SHIFT) & 0x3f,
                                    (type1.t >> (VT_STRUCT_SHIFT + 6)) & 0x3f);
                         }
@@ -6863,14 +8108,19 @@ static void struct_decl(CType *type, int u)
             }
             skip('}');
             /* store size and alignment */
-            if(size < 0) s->c = size; else s->c = (c + maxalign - 1) & -maxalign; 
+#ifdef TCC_TARGET_816
+            if (size < 0)
+                s->c = size;
+            else
+#endif
+                s->c = (c + maxalign - 1) & -maxalign;
             s->r = maxalign;
         }
     }
 }
 
 /* return 0 if no type declaration. otherwise, return the basic type
-   and skip it. 
+   and skip it.
  */
 static int parse_btype(CType *type, AttributeDef *ad)
 {
@@ -6882,8 +8132,10 @@ static int parse_btype(CType *type, AttributeDef *ad)
     type_found = 0;
     typespec_found = 0;
     t = 0;
-    while(1) {
-        switch(tok) {
+    while (1)
+    {
+        switch (tok)
+        {
         case TOK_EXTENSION:
             /* currently, we really ignore extension */
             next();
@@ -6917,39 +8169,54 @@ static int parse_btype(CType *type, AttributeDef *ad)
         case TOK_LONG:
             next();
 #ifdef TCC_TARGET_816
-            if ((t & VT_BTYPE) == VT_FLOAT) {
-              // ignore
-            } else
+            if ((t & VT_BTYPE) == VT_FLOAT)
+            {
+                // ignore
+            }
+            else
 #endif
-            if ((t & VT_BTYPE) == VT_DOUBLE) {
+                if ((t & VT_BTYPE) == VT_DOUBLE)
+            {
                 t = (t & ~VT_BTYPE) | VT_LDOUBLE;
-            } else if ((t & VT_BTYPE) == VT_LONG) {
+            }
+            else if ((t & VT_BTYPE) == VT_LONG)
+            {
                 t = (t & ~VT_BTYPE) | VT_LLONG;
-            } else {
+            }
+            else
+            {
                 u = VT_LONG;
                 goto basic_type1;
             }
             break;
         case TOK_BOOL:
+#ifdef TCC_TARGET_816
             /* _Bool must be unsigned, or sign extension will get in our way when
                using it in bitfields (20030714-1.c) */
             u = VT_BOOL | VT_UNSIGNED;
+#else
+            u = VT_BOOL;
+#endif
             goto basic_type;
         case TOK_FLOAT:
             u = VT_FLOAT;
             goto basic_type;
         case TOK_DOUBLE:
 #ifdef TCC_TARGET_816
-            if((t & VT_BTYPE) == VT_LONG) {
-              t = (t & ~VT_BTYPE);
+            if ((t & VT_BTYPE) == VT_LONG)
+            {
+                t = (t & ~VT_BTYPE);
             }
             u = VT_FLOAT;
             goto basic_type;
 #else
             next();
-            if ((t & VT_BTYPE) == VT_LONG) {
+            if ((t & VT_BTYPE) == VT_LONG)
+            {
                 t = (t & ~VT_BTYPE) | VT_LDOUBLE;
-            } else {
+            }
+            else
+            {
                 u = VT_DOUBLE;
                 goto basic_type1;
             }
@@ -6957,7 +8224,9 @@ static int parse_btype(CType *type, AttributeDef *ad)
             break;
         case TOK_ENUM:
             struct_decl(&type1, VT_ENUM);
+#ifdef TCC_TARGET_816
             type1.t |= VT_UNSIGNED;
+#endif
         basic_type2:
             u = type1.t;
             type->ref = type1.ref;
@@ -6984,9 +8253,9 @@ static int parse_btype(CType *type, AttributeDef *ad)
         case TOK_SIGNED2:
         case TOK_SIGNED3:
             typespec_found = 1;
-	    t |= VT_SIGNED;
-	    next();
-	    break;
+            t |= VT_SIGNED;
+            next();
+            break;
         case TOK_REGISTER:
         case TOK_AUTO:
         case TOK_RESTRICT1:
@@ -7046,10 +8315,11 @@ static int parse_btype(CType *type, AttributeDef *ad)
         type_found = 1;
     }
 the_end:
-    if ((t & (VT_SIGNED|VT_UNSIGNED)) == (VT_SIGNED|VT_UNSIGNED))
-      error("signed and unsigned modifier");
-    if (tcc_state->char_is_unsigned) {
-        if ((t & (VT_SIGNED|VT_UNSIGNED|VT_BTYPE)) == VT_BYTE)
+    if ((t & (VT_SIGNED | VT_UNSIGNED)) == (VT_SIGNED | VT_UNSIGNED))
+        error("signed and unsigned modifier");
+    if (tcc_state->char_is_unsigned)
+    {
+        if ((t & (VT_SIGNED | VT_UNSIGNED | VT_BTYPE)) == VT_BYTE)
             t |= VT_UNSIGNED;
     }
     t &= ~VT_SIGNED;
@@ -7057,7 +8327,6 @@ the_end:
     /* long is never used as type */
     if ((t & VT_BTYPE) == VT_LONG)
         t = (t & ~VT_BTYPE) | VT_INT;
-
     type->t = t;
     return type_found;
 }
@@ -7071,7 +8340,8 @@ static inline void convert_parameter_type(CType *pt)
     pt->t &= ~(VT_CONSTANT | VT_VOLATILE);
     /* array must be transformed to pointer according to ANSI C */
     pt->t &= ~VT_ARRAY;
-    if ((pt->t & VT_BTYPE) == VT_FUNC) {
+    if ((pt->t & VT_BTYPE) == VT_FUNC)
+    {
         mk_pointer(pt);
     }
 }
@@ -7083,19 +8353,30 @@ static void post_type(CType *type, AttributeDef *ad)
     AttributeDef ad1;
     CType pt;
 
-    if (tok == '(') {
+    if (tok == '(')
+    {
         /* function declaration */
         next();
         l = 0;
         first = NULL;
         plast = &first;
-        while (tok != ')') {
+        while (tok != ')')
+        {
             /* read param name and compute offset */
-            if (l != FUNC_OLD) {
-                if (!parse_btype(&pt, &ad1)) {
-                    if (l) {
+            if (l != FUNC_OLD)
+            {
+                if (!parse_btype(&pt, &ad1))
+                {
+                    if (l)
+                    {
+#ifdef TCC_TARGET_816
                         error("invalid type in function declaration");
-                    } else {
+#else
+                        error("invalid type");
+#endif
+                    }
+                    else
+                    {
                         l = FUNC_OLD;
                         goto old_proto;
                     }
@@ -7106,21 +8387,27 @@ static void post_type(CType *type, AttributeDef *ad)
                 type_decl(&pt, &ad1, &n, TYPE_DIRECT | TYPE_ABSTRACT);
                 if ((pt.t & VT_BTYPE) == VT_VOID)
                     error("parameter declared as void");
-            } else {
+            }
+            else
+            {
             old_proto:
                 n = tok;
                 pt.t = VT_INT;
                 next();
+#ifdef TCC_TARGET_816
                 if (!(tok == ',' || tok == ')'))
                     error("unknown type in function declaration");
+#endif
             }
             convert_parameter_type(&pt);
             s = sym_push(n | SYM_FIELD, &pt, 0, 0);
             *plast = s;
             plast = &s->next;
-            if (tok == ',') {
+            if (tok == ',')
+            {
                 next();
-                if (l == FUNC_NEW && tok == TOK_DOTS) {
+                if (l == FUNC_NEW && tok == TOK_DOTS)
+                {
                     l = FUNC_ELLIPSIS;
                     next();
                     break;
@@ -7134,33 +8421,35 @@ static void post_type(CType *type, AttributeDef *ad)
         t1 = type->t & VT_STORAGE;
         /* NOTE: const is ignored in returned type as it has a special
            meaning in gcc / C++ */
-        type->t &= ~(VT_STORAGE | VT_CONSTANT); 
+        type->t &= ~(VT_STORAGE | VT_CONSTANT);
         post_type(type, ad);
         /* we push a anonymous symbol which will contain the function prototype */
         s = sym_push(SYM_FIELD, type, ad->func_call, l);
         s->next = first;
         type->t = t1 | VT_FUNC;
         type->ref = s;
-    } else if (tok == '[') {
+    }
+    else if (tok == '[')
+    {
         /* array definition */
         next();
         n = -1;
-        if (tok != ']') {
+        if (tok != ']')
+        {
             n = expr_const();
             if (n < 0)
-                error("invalid array size");    
+                error("invalid array size");
         }
-
         skip(']');
         /* parse next post type */
         t1 = type->t & VT_STORAGE;
         type->t &= ~VT_STORAGE;
         post_type(type, ad);
-        
+
         /* we push a anonymous symbol which will contain the array
            element type */
         s = sym_push(SYM_FIELD, type, 0, n);
-        //asm("int $3");
+        // asm("int $3");
         type->t = t1 | VT_ARRAY | VT_PTR;
         type->ref = s;
     }
@@ -7170,19 +8459,21 @@ static void post_type(CType *type, AttributeDef *ad)
    in 'type'. 'td' is a bitmask indicating which kind of type decl is
    expected. 'type' should contain the basic type. 'ad' is the
    attribute definition of the basic type. It can be modified by
-   type_decl(). 
+   type_decl().
  */
 static void type_decl(CType *type, AttributeDef *ad, int *v, int td)
 {
     Sym *s;
     CType type1, *type2;
     int qualifiers;
-    
-    while (tok == '*') {
+
+    while (tok == '*')
+    {
         qualifiers = 0;
     redo:
         next();
-        switch(tok) {
+        switch (tok)
+        {
         case TOK_CONST1:
         case TOK_CONST2:
         case TOK_CONST3:
@@ -7201,7 +8492,7 @@ static void type_decl(CType *type, AttributeDef *ad, int *v, int td)
         mk_pointer(type);
         type->t |= qualifiers;
     }
-    
+
     /* XXX: clarify attribute handling */
     if (tok == TOK_ATTRIBUTE1 || tok == TOK_ATTRIBUTE2)
         parse_attribute(ad);
@@ -7209,7 +8500,8 @@ static void type_decl(CType *type, AttributeDef *ad, int *v, int td)
     /* recursive type */
     /* XXX: incorrect if abstract type for functions (e.g. 'int ()') */
     type1.t = 0; /* XXX: same as int */
-    if (tok == '(') {
+    if (tok == '(')
+    {
         next();
         /* XXX: this is not correct to modify 'ad' at this point, but
            the syntax is not clear */
@@ -7217,12 +8509,17 @@ static void type_decl(CType *type, AttributeDef *ad, int *v, int td)
             parse_attribute(ad);
         type_decl(&type1, ad, v, td);
         skip(')');
-    } else {
+    }
+    else
+    {
         /* type identifier */
-        if (tok >= TOK_IDENT && (td & TYPE_DIRECT)) {
+        if (tok >= TOK_IDENT && (td & TYPE_DIRECT))
+        {
             *v = tok;
             next();
-        } else {
+        }
+        else
+        {
             if (!(td & TYPE_ABSTRACT))
                 expect("identifier");
             *v = 0;
@@ -7235,10 +8532,12 @@ static void type_decl(CType *type, AttributeDef *ad, int *v, int td)
         return;
     /* append type at the end of type1 */
     type2 = &type1;
-    for(;;) {
+    for (;;)
+    {
         s = type2->ref;
         type2 = &s->type;
-        if (!type2->t) {
+        if (!type2->t)
+        {
             *type2 = *type;
             break;
         }
@@ -7272,10 +8571,11 @@ static void indir(void)
         gv(RC_INT);
     vtop->type = *pointed_type(&vtop->type);
     /* an array is never an lvalue */
-    if (!(vtop->type.t & VT_ARRAY)) {
+    if (!(vtop->type.t & VT_ARRAY))
+    {
         vtop->r |= lvalue_type(vtop->type.t);
         /* if bound checking, the referenced pointer must be checked */
-        if (do_bounds_check) 
+        if (do_bounds_check)
             vtop->r |= VT_MUSTBOUND;
     }
 }
@@ -7288,20 +8588,26 @@ static void gfunc_param_typed(Sym *func, Sym *arg)
 
     func_type = func->c;
     if (func_type == FUNC_OLD ||
-        (func_type == FUNC_ELLIPSIS && arg == NULL)) {
+        (func_type == FUNC_ELLIPSIS && arg == NULL))
+    {
         /* default casting : only need to convert float to double */
 #ifndef TCC_TARGET_816
-        if ((vtop->type.t & VT_BTYPE) == VT_FLOAT) {
+        if ((vtop->type.t & VT_BTYPE) == VT_FLOAT)
+        {
             type.t = VT_DOUBLE;
             gen_cast(&type);
         }
 #endif
-    } else if (arg == NULL) {
+    }
+    else if (arg == NULL)
+    {
         error("too many arguments to function");
-    } else {
+    }
+    else
+    {
         type = arg->type;
         type.t &= ~VT_CONSTANT; /* need to do that to avoid false warning */
-        //fprintf(stderr,"### assign cast vtop->type.t 0x%x type 0x%x\n", vtop->type.t, type.t);
+        // fprintf(stderr,"### assign cast vtop->type.t 0x%x type 0x%x\n", vtop->type.t, type.t);
         gen_assign_cast(&type);
     }
 }
@@ -7314,9 +8620,12 @@ static void parse_expr_type(CType *type)
     AttributeDef ad;
 
     skip('(');
-    if (parse_btype(type, &ad)) {
+    if (parse_btype(type, &ad))
+    {
         type_decl(type, &ad, &n, TYPE_ABSTRACT);
-    } else {
+    }
+    else
+    {
         expr_type(type);
     }
     skip(')');
@@ -7327,7 +8636,8 @@ static void parse_type(CType *type)
     AttributeDef ad;
     int n;
 
-    if (!parse_btype(type, &ad)) {
+    if (!parse_btype(type, &ad))
+    {
         expect("type");
     }
     type_decl(type, &ad, &n, TYPE_ABSTRACT);
@@ -7349,13 +8659,14 @@ static void unary(void)
 
     /* XXX: GCC 2.95.3 does not generate a table although it should be
        better here */
- tok_next:
-    switch(tok) {
+tok_next:
+    switch (tok)
+    {
     case TOK_EXTENSION:
         next();
         goto tok_next;
     case TOK_CINT:
-    case TOK_CCHAR: 
+    case TOK_CCHAR:
     case TOK_LCHAR:
         vpushi(tokc.i);
         next();
@@ -7397,22 +8708,22 @@ static void unary(void)
             goto tok_identifier;
         /* fall thru */
     case TOK___FUNC__:
-        {
-            void *ptr;
-            int len;
-            /* special function name identifier */
-            len = strlen(funcname) + 1;
-            /* generate char[len] type */
-            type.t = VT_BYTE;
-            mk_pointer(&type);
-            type.t |= VT_ARRAY;
-            type.ref->c = len;
-            vpush_ref(&type, data_section, data_section->data_offset, len);
-            ptr = section_ptr_add(data_section, len);
-            memcpy(ptr, funcname, len);
-            next();
-        }
-        break;
+    {
+        void *ptr;
+        int len;
+        /* special function name identifier */
+        len = strlen(funcname) + 1;
+        /* generate char[len] type */
+        type.t = VT_BYTE;
+        mk_pointer(&type);
+        type.t |= VT_ARRAY;
+        type.ref->c = len;
+        vpush_ref(&type, data_section, data_section->data_offset, len);
+        ptr = section_ptr_add(data_section, len);
+        memcpy(ptr, funcname, len);
+        next();
+    }
+    break;
     case TOK_LSTR:
         t = VT_INT;
         goto str_init;
@@ -7431,12 +8742,14 @@ static void unary(void)
     case '(':
         next();
         /* cast ? */
-        if (parse_btype(&type, &ad)) {
+        if (parse_btype(&type, &ad))
+        {
             type_decl(&type, &ad, &n, TYPE_ABSTRACT);
             skip(')');
             /* check ISOC99 compound literal */
-            if (tok == '{') {
-                    /* data is allocated locally by default */
+            if (tok == '{')
+            {
+                /* data is allocated locally by default */
                 if (global_expr)
                     r = VT_CONST;
                 else
@@ -7446,18 +8759,24 @@ static void unary(void)
                     r |= lvalue_type(type.t);
                 memset(&ad, 0, sizeof(AttributeDef));
                 decl_initializer_alloc(&type, &ad, r, 1, 0, 0);
-            } else {
+            }
+            else
+            {
                 unary();
                 gen_cast(&type);
             }
-        } else if (tok == '{') {
+        }
+        else if (tok == '{')
+        {
             /* save all registers */
-            save_regs(0); 
+            save_regs(0);
             /* statement expression : we do not accept break/continue
                inside as GCC does */
             block(NULL, NULL, NULL, NULL, 0, 1);
             skip(')');
-        } else {
+        }
+        else
+        {
             gexpr();
             skip(')');
         }
@@ -7511,50 +8830,56 @@ static void unary(void)
     case TOK_ALIGNOF2:
         t = tok;
         next();
-        if (tok == '(') {
+        if (tok == '(')
+        {
             parse_expr_type(&type);
-        } else {
+        }
+        else
+        {
             unary_type(&type);
         }
         size = type_size(&type, &align);
-        if (t == TOK_SIZEOF) {
+        if (t == TOK_SIZEOF)
+        {
             if (size < 0)
                 error("sizeof applied to an incomplete type");
             vpushi(size);
-        } else {
+        }
+        else
+        {
             vpushi(align);
         }
         break;
 
     case TOK_builtin_types_compatible_p:
-        {
-            CType type1, type2;
-            next();
-            skip('(');
-            parse_type(&type1);
-            skip(',');
-            parse_type(&type2);
-            skip(')');
-            type1.t &= ~(VT_CONSTANT | VT_VOLATILE);
-            type2.t &= ~(VT_CONSTANT | VT_VOLATILE);
-            vpushi(is_compatible_types(&type1, &type2));
-        }
-        break;
+    {
+        CType type1, type2;
+        next();
+        skip('(');
+        parse_type(&type1);
+        skip(',');
+        parse_type(&type2);
+        skip(')');
+        type1.t &= ~(VT_CONSTANT | VT_VOLATILE);
+        type2.t &= ~(VT_CONSTANT | VT_VOLATILE);
+        vpushi(is_compatible_types(&type1, &type2));
+    }
+    break;
     case TOK_builtin_constant_p:
-        {
-            int saved_nocode_wanted, res;
-            next();
-            skip('(');
-            saved_nocode_wanted = nocode_wanted;
-            nocode_wanted = 1;
-            gexpr();
-            res = (vtop->r & (VT_VALMASK | VT_LVAL | VT_SYM)) == VT_CONST;
-            vpop();
-            nocode_wanted = saved_nocode_wanted;
-            skip(')');
-            vpushi(res);
-        }
-        break;
+    {
+        int saved_nocode_wanted, res;
+        next();
+        skip('(');
+        saved_nocode_wanted = nocode_wanted;
+        nocode_wanted = 1;
+        gexpr();
+        res = (vtop->r & (VT_VALMASK | VT_LVAL | VT_SYM)) == VT_CONST;
+        vpop();
+        nocode_wanted = saved_nocode_wanted;
+        skip(')');
+        vpushi(res);
+    }
+    break;
     case TOK_INC:
     case TOK_DEC:
         t = tok;
@@ -7576,13 +8901,17 @@ static void unary(void)
         if (tok < TOK_UIDENT)
             expect("label identifier");
         s = label_find(tok);
-        if (!s) {
+        if (!s)
+        {
             s = label_push(&global_label_stack, tok, LABEL_FORWARD);
-        } else {
+        }
+        else
+        {
             if (s->r == LABEL_DECLARED)
                 s->r = LABEL_FORWARD;
         }
-        if (!s->type.t) {
+        if (!s->type.t)
+        {
             s->type.t = VT_VOID;
             mk_pointer(&s->type);
             s->type.t |= VT_STATIC;
@@ -7598,7 +8927,8 @@ static void unary(void)
         if (t < TOK_UIDENT)
             expect("identifier");
         s = sym_find(t);
-        if (!s) {
+        if (!s)
+        {
             if (tok != '(')
                 error("'%s' undeclared", get_tok_str(t, NULL));
             /* for simple function calls, we tolerate undeclared
@@ -7606,10 +8936,11 @@ static void unary(void)
             if (tcc_state->warn_implicit_function_declaration)
                 warning("implicit declaration of function '%s'",
                         get_tok_str(t, NULL));
-            s = external_global_sym(t, &func_old_type, 0); 
+            s = external_global_sym(t, &func_old_type, 0);
         }
         if ((s->type.t & (VT_STATIC | VT_INLINE | VT_BTYPE)) ==
-            (VT_STATIC | VT_INLINE | VT_FUNC)) {
+            (VT_STATIC | VT_INLINE | VT_FUNC))
+        {
             /* if referencing an inline function, then we generate a
                symbol to it if not already done. It will have the
                effect to generate code for it at the end of the
@@ -7618,26 +8949,33 @@ static void unary(void)
             if (!s->c)
                 put_extern_sym(s, text_section, 0, 0);
             r = VT_SYM | VT_CONST;
-        } else {
+        }
+        else
+        {
             r = s->r;
         }
         vset(&s->type, r, s->c);
         /* if forward reference, we must point to s */
-        if (vtop->r & VT_SYM) {
+        if (vtop->r & VT_SYM)
+        {
             vtop->sym = s;
             vtop->c.ul = 0;
         }
         break;
     }
-    
+
     /* post operations */
-    while (1) {
-        if (tok == TOK_INC || tok == TOK_DEC) {
+    while (1)
+    {
+        if (tok == TOK_INC || tok == TOK_DEC)
+        {
             inc(1, tok);
             next();
-        } else if (tok == '.' || tok == TOK_ARROW) {
-            /* field */ 
-            if (tok == TOK_ARROW) 
+        }
+        else if (tok == '.' || tok == TOK_ARROW)
+        {
+            /* field */
+            if (tok == TOK_ARROW)
                 indir();
             test_lvalue();
             gaddrof();
@@ -7648,7 +8986,8 @@ static void unary(void)
             s = vtop->type.ref;
             /* find field */
             tok |= SYM_FIELD;
-            while ((s = s->next) != NULL) {
+            while ((s = s->next) != NULL)
+            {
                 if (s->v == tok)
                     break;
             }
@@ -7659,41 +8998,52 @@ static void unary(void)
             vpushi(s->c);
             gen_op('+');
             /* change type to field type, and set to lvalue */
-            //fprintf(stderr,"ft 0x%x r 0x%x\n", vtop->type.t,vtop->r);
+            // fprintf(stderr,"ft 0x%x r 0x%x\n", vtop->type.t,vtop->r);
             vtop->type = s->type;
-            //fprintf(stderr,"ft 0x%x r 0x%x\n", vtop->type.t,vtop->r);
+            // fprintf(stderr,"ft 0x%x r 0x%x\n", vtop->type.t,vtop->r);
             /* an array is never an lvalue */
-            if (!(vtop->type.t & VT_ARRAY)) {
+            if (!(vtop->type.t & VT_ARRAY))
+            {
                 vtop->r |= lvalue_type(vtop->type.t);
                 /* if bound checking, the referenced pointer must be checked */
-                if (do_bounds_check) 
+                if (do_bounds_check)
                     vtop->r |= VT_MUSTBOUND;
             }
-            //fprintf(stderr,"ft 0x%x r 0x%x\n", vtop->type.t,vtop->r);
+            // fprintf(stderr,"ft 0x%x r 0x%x\n", vtop->type.t,vtop->r);
             next();
-        } else if (tok == '[') {
+        }
+        else if (tok == '[')
+        {
             next();
             gexpr();
             gen_op('+');
             indir();
             skip(']');
-        } else if (tok == '(') {
+        }
+        else if (tok == '(')
+        {
             SValue ret;
             Sym *sa;
             int nb_args;
 
             /* function call  */
-            if ((vtop->type.t & VT_BTYPE) != VT_FUNC) {
+            if ((vtop->type.t & VT_BTYPE) != VT_FUNC)
+            {
                 /* pointer test (no array accepted) */
-                if ((vtop->type.t & (VT_BTYPE | VT_ARRAY)) == VT_PTR) {
+                if ((vtop->type.t & (VT_BTYPE | VT_ARRAY)) == VT_PTR)
+                {
                     vtop->type = *pointed_type(&vtop->type);
                     if ((vtop->type.t & VT_BTYPE) != VT_FUNC)
                         goto error_func;
-                } else {
+                }
+                else
+                {
                 error_func:
                     expect("function pointer");
                 }
-            } else {
+            }
+            else
+            {
                 vtop->r &= ~VT_LVAL; /* no lvalue */
             }
             /* get return type */
@@ -7702,7 +9052,8 @@ static void unary(void)
             sa = s->next; /* first parameter */
             nb_args = 0;
             /* compute first implicit argument if a structure is returned */
-            if ((s->type.t & VT_BTYPE) == VT_STRUCT) {
+            if ((s->type.t & VT_BTYPE) == VT_STRUCT)
+            {
                 /* get some space for the returned structure */
                 size = type_size(&s->type, &align);
                 loc = (loc - size) & -align;
@@ -7710,25 +9061,36 @@ static void unary(void)
                 ret.r = VT_LOCAL | VT_LVAL;
                 /* pass it as 'int' to avoid structure arg passing
                    problems */
-                //vseti(VT_LOCAL, loc); // asdf
+#ifdef TCC_TARGET_816
+                // vseti(VT_LOCAL, loc); // asdf
                 vset(&ptr_type, VT_LOCAL, loc);
+#else
+                vseti(VT_LOCAL, loc);
+#endif
                 ret.c = vtop->c;
                 nb_args++;
-            } else {
-                ret.type = s->type; 
+            }
+            else
+            {
+                ret.type = s->type;
                 ret.r2 = VT_CONST;
                 /* return in register */
-                if (is_float(ret.type.t)) {
-                    ret.r = REG_FRET; 
-                } else {
+                if (is_float(ret.type.t))
+                {
+                    ret.r = REG_FRET;
+                }
+                else
+                {
                     if ((ret.type.t & VT_BTYPE) == VT_LLONG)
                         ret.r2 = REG_LRET;
                     ret.r = REG_IRET;
                 }
                 ret.c.i = 0;
             }
-            if (tok != ')') {
-                for(;;) {
+            if (tok != ')')
+            {
+                for (;;)
+                {
                     expr_eq();
                     gfunc_param_typed(s, sa);
                     nb_args++;
@@ -7742,15 +9104,20 @@ static void unary(void)
             if (sa)
                 error("too few arguments to function");
             skip(')');
-            if (!nocode_wanted) {
+            if (!nocode_wanted)
+            {
                 gfunc_call(nb_args);
-            } else {
+            }
+            else
+            {
                 vtop -= (nb_args + 1);
             }
             /* return value */
             vsetc(&ret.type, ret.r, &ret.c);
             vtop->r2 = ret.r2;
-        } else {
+        }
+        else
+        {
             break;
         }
     }
@@ -7759,18 +9126,22 @@ static void unary(void)
 static void uneq(void)
 {
     int t;
-    
+
     unary();
     if (tok == '=' ||
         (tok >= TOK_A_MOD && tok <= TOK_A_DIV) ||
         tok == TOK_A_XOR || tok == TOK_A_OR ||
-        tok == TOK_A_SHL || tok == TOK_A_SAR) {
+        tok == TOK_A_SHL || tok == TOK_A_SAR)
+    {
         test_lvalue();
         t = tok;
         next();
-        if (t == '=') {
+        if (t == '=')
+        {
             expr_eq();
-        } else {
+        }
+        else
+        {
             vdup();
             expr_eq();
             gen_op(t & 0x7f);
@@ -7784,7 +9155,8 @@ static void expr_prod(void)
     int t;
 
     uneq();
-    while (tok == '*' || tok == '/' || tok == '%') {
+    while (tok == '*' || tok == '/' || tok == '%')
+    {
         t = tok;
         next();
         uneq();
@@ -7797,7 +9169,8 @@ static void expr_sum(void)
     int t;
 
     expr_prod();
-    while (tok == '+' || tok == '-') {
+    while (tok == '+' || tok == '-')
+    {
         t = tok;
         next();
         expr_prod();
@@ -7810,7 +9183,8 @@ static void expr_shift(void)
     int t;
 
     expr_sum();
-    while (tok == TOK_SHL || tok == TOK_SAR) {
+    while (tok == TOK_SHL || tok == TOK_SAR)
+    {
         t = tok;
         next();
         expr_sum();
@@ -7824,7 +9198,8 @@ static void expr_cmp(void)
 
     expr_shift();
     while ((tok >= TOK_ULE && tok <= TOK_GT) ||
-           tok == TOK_ULT || tok == TOK_UGE) {
+           tok == TOK_ULT || tok == TOK_UGE)
+    {
         t = tok;
         next();
         expr_shift();
@@ -7837,7 +9212,8 @@ static void expr_cmpeq(void)
     int t;
 
     expr_cmp();
-    while (tok == TOK_EQ || tok == TOK_NE) {
+    while (tok == TOK_EQ || tok == TOK_NE)
+    {
         t = tok;
         next();
         expr_cmp();
@@ -7848,7 +9224,8 @@ static void expr_cmpeq(void)
 static void expr_and(void)
 {
     expr_cmpeq();
-    while (tok == '&') {
+    while (tok == '&')
+    {
         next();
         expr_cmpeq();
         gen_op('&');
@@ -7858,7 +9235,8 @@ static void expr_and(void)
 static void expr_xor(void)
 {
     expr_and();
-    while (tok == '^') {
+    while (tok == '^')
+    {
         next();
         expr_and();
         gen_op('^');
@@ -7868,7 +9246,8 @@ static void expr_xor(void)
 static void expr_or(void)
 {
     expr_xor();
-    while (tok == '|') {
+    while (tok == '|')
+    {
         next();
         expr_xor();
         gen_op('|');
@@ -7879,7 +9258,8 @@ static void expr_or(void)
 static void expr_land_const(void)
 {
     expr_or();
-    while (tok == TOK_LAND) {
+    while (tok == TOK_LAND)
+    {
         next();
         expr_or();
         gen_op(TOK_LAND);
@@ -7890,7 +9270,8 @@ static void expr_land_const(void)
 static void expr_lor_const(void)
 {
     expr_land_const();
-    while (tok == TOK_LOR) {
+    while (tok == TOK_LOR)
+    {
         next();
         expr_land_const();
         gen_op(TOK_LOR);
@@ -7903,11 +9284,14 @@ static void expr_land(void)
     int t;
 
     expr_or();
-    if (tok == TOK_LAND) {
+    if (tok == TOK_LAND)
+    {
         t = 0;
-        for(;;) {
+        for (;;)
+        {
             t = gtst(1, t);
-            if (tok != TOK_LAND) {
+            if (tok != TOK_LAND)
+            {
                 vseti(VT_JMPI, t);
                 break;
             }
@@ -7922,11 +9306,14 @@ static void expr_lor(void)
     int t;
 
     expr_land();
-    if (tok == TOK_LOR) {
+    if (tok == TOK_LOR)
+    {
         t = 0;
-        for(;;) {
+        for (;;)
+        {
             t = gtst(0, t);
-            if (tok != TOK_LOR) {
+            if (tok != TOK_LOR)
+            {
                 vseti(VT_JMP, t);
                 break;
             }
@@ -7943,16 +9330,21 @@ static void expr_eq(void)
     SValue sv;
     CType type, type1, type2;
 
-    if (const_wanted) {
+    if (const_wanted)
+    {
         int c1, c;
         expr_lor_const();
-        if (tok == '?') {
+        if (tok == '?')
+        {
             c = vtop->c.i;
             vpop();
             next();
-            if (tok == ':' && gnu_ext) {
+            if (tok == ':' && gnu_ext)
+            {
                 c1 = c;
-            } else {
+            }
+            else
+            {
                 gexpr();
                 c1 = vtop->c.i;
                 vpop();
@@ -7962,30 +9354,37 @@ static void expr_eq(void)
             if (c)
                 vtop->c.i = c1;
         }
-    } else {
+    }
+    else
+    {
         expr_lor();
-        if (tok == '?') {
+        if (tok == '?')
+        {
             next();
-            if (vtop != vstack) {
+            if (vtop != vstack)
+            {
                 /* needed to avoid having different registers saved in
                    each branch */
                 if (is_float(vtop->type.t))
                     rc = RC_FLOAT;
                 else
                     rc = RC_INT;
-                    gv(rc);
-                    save_regs(1);
+                gv(rc);
+                save_regs(1);
             }
-            if (tok == ':' && gnu_ext) {
+            if (tok == ':' && gnu_ext)
+            {
                 gv_dup();
                 tt = gtst(1, 0);
-            } else {
+            }
+            else
+            {
                 tt = gtst(1, 0);
                 gexpr();
             }
             type1 = vtop->type;
             sv = *vtop; /* save value to handle it later */
-            vtop--; /* no vpop so that FP stack is not flushed */
+            vtop--;     /* no vpop so that FP stack is not flushed */
             skip(':');
             u = gjmp(0);
             gsym(tt);
@@ -7997,31 +9396,47 @@ static void expr_eq(void)
             t2 = type2.t;
             bt2 = t2 & VT_BTYPE;
             /* cast operands to correct type according to ISOC rules */
-            if (is_float(bt1) || is_float(bt2)) {
-                if (bt1 == VT_LDOUBLE || bt2 == VT_LDOUBLE) {
+            if (is_float(bt1) || is_float(bt2))
+            {
+                if (bt1 == VT_LDOUBLE || bt2 == VT_LDOUBLE)
+                {
                     type.t = VT_LDOUBLE;
-                } else if (bt1 == VT_DOUBLE || bt2 == VT_DOUBLE) {
+                }
+                else if (bt1 == VT_DOUBLE || bt2 == VT_DOUBLE)
+                {
                     type.t = VT_DOUBLE;
-                } else {
+                }
+                else
+                {
                     type.t = VT_FLOAT;
                 }
-            } else if (bt1 == VT_LLONG || bt2 == VT_LLONG) {
+            }
+            else if (bt1 == VT_LLONG || bt2 == VT_LLONG)
+            {
                 /* cast to biggest op */
                 type.t = VT_LLONG;
                 /* convert to unsigned if it does not fit in a long long */
                 if ((t1 & (VT_BTYPE | VT_UNSIGNED)) == (VT_LLONG | VT_UNSIGNED) ||
                     (t2 & (VT_BTYPE | VT_UNSIGNED)) == (VT_LLONG | VT_UNSIGNED))
                     type.t |= VT_UNSIGNED;
-            } else if (bt1 == VT_PTR || bt2 == VT_PTR) {
+            }
+            else if (bt1 == VT_PTR || bt2 == VT_PTR)
+            {
                 /* XXX: test pointer compatibility */
                 type = type1;
-            } else if (bt1 == VT_STRUCT || bt2 == VT_STRUCT) {
+            }
+            else if (bt1 == VT_STRUCT || bt2 == VT_STRUCT)
+            {
                 /* XXX: test structure compatibility */
                 type = type1;
-            } else if (bt1 == VT_VOID || bt2 == VT_VOID) {
+            }
+            else if (bt1 == VT_VOID || bt2 == VT_VOID)
+            {
                 /* NOTE: as an extension, we accept void on only one side */
                 type.t = VT_VOID;
-            } else {
+            }
+            else
+            {
                 /* integer operations */
                 type.t = VT_INT;
                 /* convert to unsigned if it does not fit in an integer */
@@ -8029,18 +9444,21 @@ static void expr_eq(void)
                     (t2 & (VT_BTYPE | VT_UNSIGNED)) == (VT_INT | VT_UNSIGNED))
                     type.t |= VT_UNSIGNED;
             }
-                
+
             /* now we convert second operand */
             gen_cast(&type);
             rc = RC_INT;
-            if (is_float(type.t)) {
+            if (is_float(type.t))
+            {
                 rc = RC_FLOAT;
-            } else if ((type.t & VT_BTYPE) == VT_LLONG) {
+            }
+            else if ((type.t & VT_BTYPE) == VT_LLONG)
+            {
                 /* for long longs, we use fixed registers to avoid having
                    to handle a complicated move */
-                rc = RC_IRET; 
+                rc = RC_IRET;
             }
-            
+
             r2 = gv(rc);
             /* this is horrible, but we must also convert first
                operand */
@@ -8059,7 +9477,8 @@ static void expr_eq(void)
 
 static void gexpr(void)
 {
-    while (1) {
+    while (1)
+    {
         expr_eq();
         if (tok != ',')
             break;
@@ -8129,36 +9548,42 @@ static int is_label(void)
     /* no need to save tokc because tok is an identifier */
     last_tok = tok;
     next();
-    if (tok == ':') {
+    if (tok == ':')
+    {
         next();
         return last_tok;
-    } else {
+    }
+    else
+    {
         unget_tok(last_tok);
         return 0;
     }
 }
 
-static void block(int *bsym, int *csym, int *case_sym, int *def_sym, 
+static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
                   int case_reg, int is_expr)
 {
     int a, b, c, d;
     Sym *s;
 
     /* generate line number info */
-    if (do_debug && 
-        (last_line_num != file->line_num || last_ind != ind)) {
+    if (do_debug &&
+        (last_line_num != file->line_num || last_ind != ind))
+    {
         put_stabn(N_SLINE, 0, file->line_num, ind - func_ind);
         last_ind = ind;
         last_line_num = file->line_num;
     }
 
-    if (is_expr) {
+    if (is_expr)
+    {
         /* default return value is (void) */
         vpushi(0);
         vtop->type.t = VT_VOID;
     }
 
-    if (tok == TOK_IF) {
+    if (tok == TOK_IF)
+    {
         /* if test */
         next();
         skip('(');
@@ -8167,15 +9592,19 @@ static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
         a = gtst(1, 0);
         block(bsym, csym, case_sym, def_sym, case_reg, 0);
         c = tok;
-        if (c == TOK_ELSE) {
+        if (c == TOK_ELSE)
+        {
             next();
             d = gjmp(0);
             gsym(a);
             block(bsym, csym, case_sym, def_sym, case_reg, 0);
             gsym(d); /* patch else jmp */
-        } else
+        }
+        else
             gsym(a);
-    } else if (tok == TOK_WHILE) {
+    }
+    else if (tok == TOK_WHILE)
+    {
         next();
         d = ind;
         skip('(');
@@ -8187,32 +9616,41 @@ static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
         gjmp_addr(d);
         gsym(a);
         gsym_addr(b, d);
-    } else if (tok == '{') {
+    }
+    else if (tok == '{')
+    {
         Sym *llabel;
-        
+
         next();
         /* record local declaration stack position */
         s = local_stack;
         llabel = local_label_stack;
         /* handle local labels declarations */
-        if (tok == TOK_LABEL) {
+        if (tok == TOK_LABEL)
+        {
             next();
-            for(;;) {
+            for (;;)
+            {
                 if (tok < TOK_UIDENT)
                     expect("label identifier");
                 label_push(&local_label_stack, tok, LABEL_DECLARED);
                 next();
-                if (tok == ',') {
+                if (tok == ',')
+                {
                     next();
-                } else {
+                }
+                else
+                {
                     skip(';');
                     break;
                 }
             }
         }
-        while (tok != '}') {
+        while (tok != '}')
+        {
             decl(VT_LOCAL);
-            if (tok != '}') {
+            if (tok != '}')
+            {
                 if (is_expr)
                     vpop();
                 block(bsym, csym, case_sym, def_sym, case_reg, is_expr);
@@ -8223,12 +9661,16 @@ static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
         /* pop locally defined symbols */
         sym_pop(&local_stack, s);
         next();
-    } else if (tok == TOK_RETURN) {
+    }
+    else if (tok == TOK_RETURN)
+    {
         next();
-        if (tok != ';') {
+        if (tok != ';')
+        {
             gexpr();
             gen_assign_cast(&func_vt);
-            if ((func_vt.t & VT_BTYPE) == VT_STRUCT) {
+            if ((func_vt.t & VT_BTYPE) == VT_STRUCT)
+            {
                 CType type;
                 /* if returning structure, must copy it to implicit
                    first pointer arg location */
@@ -8239,34 +9681,45 @@ static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
                 vswap();
                 /* copy structure value to pointer */
                 vstore();
-            } else if (is_float(func_vt.t)) {
+            }
+            else if (is_float(func_vt.t))
+            {
                 gv(RC_FRET);
-            } else {
+            }
+            else
+            {
                 gv(RC_IRET);
             }
             vtop--; /* NOT vpop() because on x86 it would flush the fp stack */
         }
         skip(';');
         rsym = gjmp(rsym); /* jmp */
-    } else if (tok == TOK_BREAK) {
+    }
+    else if (tok == TOK_BREAK)
+    {
         /* compute jump */
         if (!bsym)
             error("cannot break");
         *bsym = gjmp(*bsym);
         next();
         skip(';');
-    } else if (tok == TOK_CONTINUE) {
+    }
+    else if (tok == TOK_CONTINUE)
+    {
         /* compute jump */
         if (!csym)
             error("cannot continue");
         *csym = gjmp(*csym);
         next();
         skip(';');
-    } else if (tok == TOK_FOR) {
+    }
+    else if (tok == TOK_FOR)
+    {
         int e;
         next();
         skip('(');
-        if (tok != ';') {
+        if (tok != ';')
+        {
             gexpr();
             vpop();
         }
@@ -8275,12 +9728,14 @@ static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
         c = ind;
         a = 0;
         b = 0;
-        if (tok != ';') {
+        if (tok != ';')
+        {
             gexpr();
             a = gtst(1, 0);
         }
         skip(';');
-        if (tok != ')') {
+        if (tok != ')')
+        {
             e = gjmp(0);
             c = ind;
             gexpr();
@@ -8293,8 +9748,9 @@ static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
         gjmp_addr(c);
         gsym(a);
         gsym_addr(b, c);
-    } else 
-    if (tok == TOK_DO) {
+    }
+    else if (tok == TOK_DO)
+    {
         next();
         a = 0;
         b = 0;
@@ -8309,8 +9765,9 @@ static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
         skip(')');
         gsym(a);
         skip(';');
-    } else
-    if (tok == TOK_SWITCH) {
+    }
+    else if (tok == TOK_SWITCH)
+    {
         next();
         skip('(');
         gexpr();
@@ -8329,15 +9786,17 @@ static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
         gsym_addr(b, c);
         /* break label */
         gsym(a);
-    } else
-    if (tok == TOK_CASE) {
+    }
+    else if (tok == TOK_CASE)
+    {
         int v1, v2;
         if (!case_sym)
             expect("switch");
         next();
         v1 = expr_const();
         v2 = v1;
-        if (gnu_ext && tok == TOK_DOTS) {
+        if (gnu_ext && tok == TOK_DOTS)
+        {
             next();
             v2 = expr_const();
             if (v2 < v1)
@@ -8348,10 +9807,13 @@ static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
         gsym(*case_sym);
         vseti(case_reg, 0);
         vpushi(v1);
-        if (v1 == v2) {
+        if (v1 == v2)
+        {
             gen_op(TOK_EQ);
             *case_sym = gtst(1, 0);
-        } else {
+        }
+        else
+        {
             gen_op(TOK_GE);
             *case_sym = gtst(1, 0);
             vseti(case_reg, 0);
@@ -8363,8 +9825,9 @@ static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
         skip(':');
         is_expr = 0;
         goto block_after_label;
-    } else 
-    if (tok == TOK_DEFAULT) {
+    }
+    else if (tok == TOK_DEFAULT)
+    {
         next();
         skip(':');
         if (!def_sym)
@@ -8374,43 +9837,62 @@ static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
         *def_sym = ind;
         is_expr = 0;
         goto block_after_label;
-    } else
-    if (tok == TOK_GOTO) {
+    }
+    else if (tok == TOK_GOTO)
+    {
         next();
-        if (tok == '*' && gnu_ext) {
+        if (tok == '*' && gnu_ext)
+        {
             /* computed goto */
             next();
             gexpr();
             if ((vtop->type.t & VT_BTYPE) != VT_PTR)
                 expect("pointer");
             ggoto();
-        } else if (tok >= TOK_UIDENT) {
+        }
+        else if (tok >= TOK_UIDENT)
+        {
             s = label_find(tok);
             /* put forward definition if needed */
-            if (!s) {
+            if (!s)
+            {
                 s = label_push(&global_label_stack, tok, LABEL_FORWARD);
-            } else {
+            }
+            else
+            {
                 if (s->r == LABEL_DECLARED)
                     s->r = LABEL_FORWARD;
             }
             /* label already defined */
-            if (s->r & LABEL_FORWARD) 
+            if (s->r & LABEL_FORWARD)
+#ifdef TCC_TARGET_816
                 s->next = (void *)(long)gjmp((long)s->next);
+#else
+                s->next = (void *)gjmp((long)s->next);
+#endif
             else
                 gjmp_addr((long)s->next);
             next();
-        } else {
+        }
+        else
+        {
             expect("label identifier");
         }
         skip(';');
-    } else if (tok == TOK_ASM1 || tok == TOK_ASM2 || tok == TOK_ASM3) {
+    }
+    else if (tok == TOK_ASM1 || tok == TOK_ASM2 || tok == TOK_ASM3)
+    {
         asm_instr();
-    } else {
+    }
+    else
+    {
         b = is_label();
-        if (b) {
+        if (b)
+        {
             /* label case */
             s = label_find(b);
-            if (s) {
+            if (s)
+            {
                 if (s->r == LABEL_DEFINED)
                     error("duplicate label '%s'", get_tok_str(s->v, NULL));
 #ifdef TCC_TARGET_816
@@ -8422,7 +9904,9 @@ static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
                 gsym((long)s->next);
 #endif
                 s->r = LABEL_DEFINED;
-            } else {
+            }
+            else
+            {
                 s = label_push(&global_label_stack, b, LABEL_DEFINED);
 #ifdef TCC_TARGET_816
                 /* see above */
@@ -8430,23 +9914,36 @@ static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
                 gsym((long)s->next); /* without this, labels end up in the wrong place (too late) */
 #endif
             }
+#ifdef TCC_TARGET_816
             s->next = (void *)(long)ind;
+#else
+            s->next = (void *)ind;
+#endif
             /* we accept this, but it is a mistake */
         block_after_label:
-            if (tok == '}') {
+            if (tok == '}')
+            {
                 warning("deprecated use of label at end of compound statement");
-            } else {
+            }
+            else
+            {
                 if (is_expr)
                     vpop();
                 block(bsym, csym, case_sym, def_sym, case_reg, is_expr);
             }
-        } else {
+        }
+        else
+        {
             /* expression case */
-            if (tok != ';') {
-                if (is_expr) {
+            if (tok != ';')
+            {
+                if (is_expr)
+                {
                     vpop();
                     gexpr();
-                } else {
+                }
+                else
+                {
                     gexpr();
                     vpop();
                 }
@@ -8460,8 +9957,8 @@ static void block(int *bsym, int *csym, int *case_sym, int *def_sym,
    address. cur_index/cur_field is the pointer to the current
    value. 'size_only' is true if only size info is needed (only used
    in arrays) */
-static void decl_designator(CType *type, Section *sec, unsigned long c, 
-                            int *cur_index, Sym **cur_field, 
+static void decl_designator(CType *type, Section *sec, unsigned long c,
+                            int *cur_index, Sym **cur_field,
                             int size_only)
 {
     Sym *s, *f;
@@ -8473,8 +9970,10 @@ static void decl_designator(CType *type, Section *sec, unsigned long c,
     nb_elems = 1;
     if (gnu_ext && (l = is_label()) != 0)
         goto struct_field;
-    while (tok == '[' || tok == '.') {
-        if (tok == '[') {
+    while (tok == '[' || tok == '.')
+    {
+        if (tok == '[')
+        {
             if (!(type->t & VT_ARRAY))
                 expect("array type");
             s = type->ref;
@@ -8482,14 +9981,17 @@ static void decl_designator(CType *type, Section *sec, unsigned long c,
             index = expr_const();
             if (index < 0 || (s->c >= 0 && index >= s->c))
                 expect("invalid index");
-            if (tok == TOK_DOTS && gnu_ext) {
+            if (tok == TOK_DOTS && gnu_ext)
+            {
                 next();
                 index_last = expr_const();
-                if (index_last < 0 || 
+                if (index_last < 0 ||
                     (s->c >= 0 && index_last >= s->c) ||
                     index_last < index)
                     expect("invalid index");
-            } else {
+            }
+            else
+            {
                 index_last = index;
             }
             skip(']');
@@ -8500,11 +10002,14 @@ static void decl_designator(CType *type, Section *sec, unsigned long c,
             c += index * elem_size;
             /* NOTE: we only support ranges for last designator */
             nb_elems = index_last - index + 1;
-            if (nb_elems != 1) {
+            if (nb_elems != 1)
+            {
                 notfirst = 1;
                 break;
             }
-        } else {
+        }
+        else
+        {
             next();
             l = tok;
             next();
@@ -8514,7 +10019,8 @@ static void decl_designator(CType *type, Section *sec, unsigned long c,
             s = type->ref;
             l |= SYM_FIELD;
             f = s->next;
-            while (f) {
+            while (f)
+            {
                 if (f->v == l)
                     break;
                 f = f->next;
@@ -8531,35 +10037,45 @@ static void decl_designator(CType *type, Section *sec, unsigned long c,
         }
         notfirst = 1;
     }
-    if (notfirst) {
-        if (tok == '=') {
+    if (notfirst)
+    {
+        if (tok == '=')
+        {
             next();
-        } else {
+        }
+        else
+        {
             if (!gnu_ext)
                 expect("=");
         }
-    } else {
-        if (type->t & VT_ARRAY) {
+    }
+    else
+    {
+        if (type->t & VT_ARRAY)
+        {
             index = *cur_index;
             type = pointed_type(type);
             c += index * type_size(type, &align);
-        } else {
+        }
+        else
+        {
             f = *cur_field;
             if (!f)
                 error("too many field init");
-            //fprintf(stderr,"design type before 0x%x ftype 0x%x\n", type->t,f->type.t);
+            // fprintf(stderr,"design type before 0x%x ftype 0x%x\n", type->t,f->type.t);
             /* XXX: fix this mess by using explicit storage field */
             type1 = f->type;
             type1.t |= (type->t & ~VT_TYPE);
             type = &type1;
-            //fprintf(stderr,"design type after 0x%x\n", type->t);
+            // fprintf(stderr,"design type after 0x%x\n", type->t);
             c += f->c;
         }
     }
     decl_initializer(type, sec, c, 0, size_only);
 
     /* XXX: make it more general */
-    if (!size_only && nb_elems > 1) {
+    if (!size_only && nb_elems > 1)
+    {
         unsigned long c_end;
         uint8_t *src, *dst;
         int i;
@@ -8571,19 +10087,20 @@ static void decl_designator(CType *type, Section *sec, unsigned long c,
             section_realloc(sec, c_end);
         src = sec->data + c;
         dst = src;
-        for(i = 1; i < nb_elems; i++) {
+        for (i = 1; i < nb_elems; i++)
+        {
             dst += elem_size;
             memcpy(dst, src, elem_size);
         }
     }
 }
 
-#define EXPR_VAL   0
+#define EXPR_VAL 0
 #define EXPR_CONST 1
-#define EXPR_ANY   2
+#define EXPR_ANY 2
 
 /* store a value or an expression directly in global data or in local array */
-static void init_putv(CType *type, Section *sec, unsigned long c, 
+static void init_putv(CType *type, Section *sec, unsigned long c,
                       int v, int expr_type)
 {
     int saved_global_expr, bt, bit_pos, bit_size;
@@ -8591,7 +10108,8 @@ static void init_putv(CType *type, Section *sec, unsigned long c,
     unsigned long long bit_mask;
     CType dtype;
 
-    switch(expr_type) {
+    switch (expr_type)
+    {
     case EXPR_VAL:
         vpushi(v);
         break;
@@ -8609,16 +10127,18 @@ static void init_putv(CType *type, Section *sec, unsigned long c,
         expr_eq();
         break;
     }
-    
+
     dtype = *type;
     dtype.t &= ~VT_CONSTANT; /* need to do that to avoid false warning */
 
-    if (sec) {
+    if (sec)
+    {
         /* XXX: not portable */
         /* XXX: generate error if incorrect relocation */
         gen_assign_cast(&dtype);
         bt = type->t & VT_BTYPE;
         ptr = sec->data + c;
+#ifdef TCC_TARGET_816
 #if 0
         if(!ptr) {
           fprintf(stderr,"section allocd %d size %d\n", sec->data_allocated, sec->sh_size);
@@ -8627,17 +10147,21 @@ static void init_putv(CType *type, Section *sec, unsigned long c,
           ptr = sec->data + c;
         }
 #endif
+#endif
         /* XXX: make code faster ? */
-        if (!(type->t & VT_BITFIELD)) {
+        if (!(type->t & VT_BITFIELD))
+        {
             bit_pos = 0;
             bit_size = 32;
             bit_mask = -1LL;
-        } else {
+        }
+        else
+        {
             bit_pos = (vtop->type.t >> VT_STRUCT_SHIFT) & 0x3f;
             bit_size = (vtop->type.t >> (VT_STRUCT_SHIFT + 6)) & 0x3f;
             bit_mask = (1LL << bit_size) - 1;
         }
-        //fprintf(stderr,"@@@ alrighty, we have bit_pos %d bit_size %d bit_mask %lld\n", bit_pos, bit_size, bit_mask);
+        // fprintf(stderr,"@@@ alrighty, we have bit_pos %d bit_size %d bit_mask %lld\n", bit_pos, bit_size, bit_mask);
         if ((vtop->r & VT_SYM) &&
             (bt == VT_BYTE ||
              bt == VT_SHORT ||
@@ -8646,7 +10170,8 @@ static void init_putv(CType *type, Section *sec, unsigned long c,
              bt == VT_LLONG ||
              (bt == VT_INT && bit_size != 32)))
             error("initializer element is not computable at load time");
-        switch(bt) {
+        switch (bt)
+        {
         case VT_BYTE:
             *(char *)ptr |= (vtop->c.i & bit_mask) << bit_pos;
             break;
@@ -8667,26 +10192,30 @@ static void init_putv(CType *type, Section *sec, unsigned long c,
         case VT_LLONG:
 #ifdef TCC_TARGET_816
             *(int *)
+                ptr |= (vtop->c.ll & bit_mask) << bit_pos;
 #else
-            *(long long *)
+            *(long long *)ptr |= (vtop->c.ll & bit_mask) << bit_pos;
 #endif
-              ptr |= (vtop->c.ll & bit_mask) << bit_pos;
+
             break;
         default:
-            if (vtop->r & VT_SYM) {
-                //fprintf(stderr,"@@@ alrighty, reloccing to section %s, c %ld\n", sec->name, c);
+            if (vtop->r & VT_SYM)
+            {
+                // fprintf(stderr,"@@@ alrighty, reloccing to section %s, c %ld\n", sec->name, c);
                 greloc(sec, vtop->sym, c, R_DATA_32);
             }
 #ifdef TCC_TARGET_816
             *(short *)
+                ptr |= (vtop->c.i & bit_mask) << bit_pos;
 #else
-            *(int *)
+            *(int *)ptr |= (vtop->c.i & bit_mask) << bit_pos;
 #endif
-              ptr |= (vtop->c.i & bit_mask) << bit_pos;
             break;
         }
         vtop--;
-    } else {
+    }
+    else
+    {
         vset(&dtype, VT_LOCAL, c);
         vswap();
         vstore();
@@ -8697,12 +10226,19 @@ static void init_putv(CType *type, Section *sec, unsigned long c,
 /* put zeros for variable based init */
 static void init_putz(CType *t, Section *sec, unsigned long c, int size)
 {
-    if (sec) {
+    if (sec)
+    {
         /* nothing to do because globals are already set to zero */
-    } else {
+    }
+    else
+    {
         vpush_global_sym(&func_old_type, TOK_memset);
-        //vseti(VT_LOCAL, c);
+#ifdef TCC_TARGET_816
+        // vseti(VT_LOCAL, c);
         vset(&ptr_type, VT_LOCAL, c);
+#else
+        vseti(VT_LOCAL, c);
+#endif
         vpushi(0);
         vpushi(size);
         gfunc_call(3);
@@ -8714,7 +10250,7 @@ static void init_putz(CType *t, Section *sec, unsigned long c, int size)
    allocation. 'first' is true if array '{' must be read (multi
    dimension implicit array init handling). 'size_only' is true if
    size only evaluation is wanted (only for arrays). */
-static void decl_initializer(CType *type, Section *sec, unsigned long c, 
+static void decl_initializer(CType *type, Section *sec, unsigned long c,
                              int first, int size_only)
 {
     int index, array_length, n, no_oblock, nb, parlevel, i;
@@ -8722,7 +10258,8 @@ static void decl_initializer(CType *type, Section *sec, unsigned long c,
     Sym *s, *f;
     CType *t1;
 
-    if (type->t & VT_ARRAY) {
+    if (type->t & VT_ARRAY)
+    {
         s = type->ref;
         n = s->c;
         array_length = 0;
@@ -8730,19 +10267,22 @@ static void decl_initializer(CType *type, Section *sec, unsigned long c,
         size1 = type_size(t1, &align1);
 
         no_oblock = 1;
-        if ((first && tok != TOK_LSTR && tok != TOK_STR) || 
-            tok == '{') {
+        if ((first && tok != TOK_LSTR && tok != TOK_STR) ||
+            tok == '{')
+        {
             skip('{');
             no_oblock = 0;
         }
 
         /* only parse strings here if correct type (otherwise: handle
            them as ((w)char *) expressions */
-        if ((tok == TOK_LSTR && 
+        if ((tok == TOK_LSTR &&
              (t1->t & VT_BTYPE) == VT_INT) ||
             (tok == TOK_STR &&
-             (t1->t & VT_BTYPE) == VT_BYTE)) {
-            while (tok == TOK_STR || tok == TOK_LSTR) {
+             (t1->t & VT_BTYPE) == VT_BYTE))
+        {
+            while (tok == TOK_STR || tok == TOK_LSTR)
+            {
                 int cstr_len, ch;
                 CString *cstr;
 
@@ -8756,18 +10296,23 @@ static void decl_initializer(CType *type, Section *sec, unsigned long c,
                 nb = cstr_len;
                 if (n >= 0 && nb > (n - array_length))
                     nb = n - array_length;
-                if (!size_only) {
+                if (!size_only)
+                {
                     if (cstr_len > nb)
                         warning("initializer-string for array is too long");
                     /* in order to go faster for common case (char
                        string in global variable, we handle it
                        specifically */
-                    if (sec && tok == TOK_STR && size1 == 1) {
-                        //fprintf(stderr,"c %d array_length %d\n", c, array_length);
-                        //section_realloc(sec, c + array_length + nb);
+                    if (sec && tok == TOK_STR && size1 == 1)
+                    {
+                        // fprintf(stderr,"c %d array_length %d\n", c, array_length);
+                        // section_realloc(sec, c + array_length + nb);
                         memcpy(sec->data + c + array_length, cstr->data, nb);
-                    } else {
-                        for(i=0;i<nb;i++) {
+                    }
+                    else
+                    {
+                        for (i = 0; i < nb; i++)
+                        {
                             if (tok == TOK_STR)
                                 ch = ((unsigned char *)cstr->data)[i];
                             else
@@ -8782,22 +10327,28 @@ static void decl_initializer(CType *type, Section *sec, unsigned long c,
             }
             /* only add trailing zero if enough storage (no
                warning in this case since it is standard) */
-            if (n < 0 || array_length < n) {
-                if (!size_only) {
+            if (n < 0 || array_length < n)
+            {
+                if (!size_only)
+                {
                     init_putv(t1, sec, c + (array_length * size1), 0, EXPR_VAL);
                 }
                 array_length++;
             }
-        } else {
+        }
+        else
+        {
             index = 0;
-            while (tok != '}') {
+            while (tok != '}')
+            {
                 decl_designator(type, sec, c, &index, NULL, size_only);
                 if (n >= 0 && index >= n)
                     error("index too large");
                 /* must put zero in holes (note that doing it that way
                    ensures that it even works with designators) */
-                if (!size_only && array_length < index) {
-                    init_putz(t1, sec, c + array_length * size1, 
+                if (!size_only && array_length < index)
+                {
+                    init_putz(t1, sec, c + array_length * size1,
                               (index - array_length) * size1);
                 }
                 index++;
@@ -8816,18 +10367,26 @@ static void decl_initializer(CType *type, Section *sec, unsigned long c,
         if (!no_oblock)
             skip('}');
         /* put zeros at the end */
-        if (!size_only && n >= 0 && array_length < n) {
-            init_putz(t1, sec, c + array_length * size1, 
+        if (!size_only && n >= 0 && array_length < n)
+        {
+            init_putz(t1, sec, c + array_length * size1,
                       (n - array_length) * size1);
         }
         /* patch type size if needed */
-        if (n < 0) {
-            //fprintf(stderr,"patching length from %d to %d in %p (prev %p)\n", s->c, array_length,s,s->prev);
-            //asm("int $3");
+        if (n < 0)
+#ifdef TCC_TARGET_816
+        {
+            // fprintf(stderr,"patching length from %d to %d in %p (prev %p)\n", s->c, array_length,s,s->prev);
+            // asm("int $3");
             s->c = array_length;
         }
-    } else if ((type->t & VT_BTYPE) == VT_STRUCT &&
-               (sec || !first || tok == '{')) {
+#else
+            s->c = array_length;
+#endif
+    }
+    else if ((type->t & VT_BTYPE) == VT_STRUCT &&
+             (sec || !first || tok == '{'))
+    {
         int par_count;
 
         /* NOTE: the previous test is a specific case for automatic
@@ -8839,11 +10398,13 @@ static void decl_initializer(CType *type, Section *sec, unsigned long c,
            to do it correctly (ideally, the expression parser should
            be used in all cases) */
         par_count = 0;
-        if (tok == '(') {
+        if (tok == '(')
+        {
             AttributeDef ad1;
             CType type1;
             next();
-            while (tok == '(') {
+            while (tok == '(')
+            {
                 par_count++;
                 next();
             }
@@ -8857,7 +10418,8 @@ static void decl_initializer(CType *type, Section *sec, unsigned long c,
             skip(')');
         }
         no_oblock = 1;
-        if (first || tok == '{') {
+        if (first || tok == '{')
+        {
             skip('{');
             no_oblock = 0;
         }
@@ -8866,23 +10428,29 @@ static void decl_initializer(CType *type, Section *sec, unsigned long c,
         array_length = 0;
         index = 0;
         n = s->c;
-        if(!size_only && n != -1) {
-          /* zeroing the entire struct before filling in the values ensures
-             that decl_designator() won't forget filling in holes in structs inside
-             this one, and is probably more efficient anyway than filling each hole
-             with its own memset() call. */
-          init_putz(type, sec, c, n);
+#ifdef TCC_TARGET_816
+        if (!size_only && n != -1)
+        {
+            /* zeroing the entire struct before filling in the values ensures
+               that decl_designator() won't forget filling in holes in structs inside
+               this one, and is probably more efficient anyway than filling each hole
+               with its own memset() call. */
+            init_putz(type, sec, c, n);
         }
-        while (tok != '}') {
-            //asm("int $3");
+#endif
+        while (tok != '}')
+        {
+            // asm("int $3");
             decl_designator(type, sec, c, NULL, &f, size_only);
             index = f->c;
-            //printf("n %d index %d array_length %d\n",n,index,array_length);
-            if (!size_only && array_length < index) {
-                //printf("; init_putz 1\n");
-                //init_putz(type, sec, c + array_length, 
-                //          index - array_length);
+            // printf("n %d index %d array_length %d\n",n,index,array_length);
+            if (!size_only && array_length < index)
+#ifndef TCC_TARGET_816
+            {
+                init_putz(type, sec, c + array_length,
+                          index - array_length);
             }
+#endif
             index = index + type_size(&f->type, &align1);
             if (index > array_length)
                 array_length = index;
@@ -8893,38 +10461,55 @@ static void decl_initializer(CType *type, Section *sec, unsigned long c,
                 break;
             skip(',');
         }
-        if(n == -1) n = s->c = array_length; /* size was unknown before, set it properly */
-        
+#ifdef TCC_TARGET_816
+        if (n == -1)
+            n = s->c = array_length; /* size was unknown before, set it properly */
+
 #if 0
         /* put zeros at the end */
         if (!size_only && array_length < n) {
             printf("; init_putz 2\n");
-            init_putz(type, sec, c + array_length, 
+            init_putz(type, sec, c + array_length,
+                      n - array_length);
+        }
+#endif
+#else
+        if (!size_only && array_length < n)
+        {
+            init_putz(type, sec, c + array_length,
                       n - array_length);
         }
 #endif
         if (!no_oblock)
             skip('}');
-        while (par_count) {
+        while (par_count)
+        {
             skip(')');
             par_count--;
         }
-    } else if (tok == '{') {
+    }
+    else if (tok == '{')
+    {
         next();
         decl_initializer(type, sec, c, first, size_only);
         skip('}');
-    } else if (size_only) {
+    }
+    else if (size_only)
+    {
         /* just skip expression */
         parlevel = 0;
-        while ((parlevel > 0 || (tok != '}' && tok != ',')) && 
-               tok != -1) {
+        while ((parlevel > 0 || (tok != '}' && tok != ',')) &&
+               tok != -1)
+        {
             if (tok == '(')
                 parlevel++;
             else if (tok == ')')
                 parlevel--;
             next();
         }
-    } else {
+    }
+    else
+    {
         /* currently, we always use constant expression for globals
            (may change for scripting case) */
         expr_type = EXPR_CONST;
@@ -8941,7 +10526,7 @@ static void decl_initializer(CType *type, Section *sec, unsigned long c,
    parsed. If 'v' is zero, then a reference to the new object is put
    in the value stack. If 'has_init' is 2, a special parsing is done
    to handle string constants. */
-static void decl_initializer_alloc(CType *type, AttributeDef *ad, int r, 
+static void decl_initializer_alloc(CType *type, AttributeDef *ad, int r,
                                    int has_init, int v, int scope)
 {
     int size, align, addr, data_offset;
@@ -8958,25 +10543,32 @@ static void decl_initializer_alloc(CType *type, AttributeDef *ad, int r,
        literals). It also simplifies local
        initializers handling */
     tok_str_new(&init_str);
-    if (size < 0) {
-        if (!has_init) 
+    if (size < 0)
+    {
+        if (!has_init)
             error("unknown type size");
         /* get all init string */
-        if (has_init == 2) {
+        if (has_init == 2)
+        {
             /* only get strings */
-            while (tok == TOK_STR || tok == TOK_LSTR) {
+            while (tok == TOK_STR || tok == TOK_LSTR)
+            {
                 tok_str_add_tok(&init_str);
                 next();
             }
-        } else {
+        }
+        else
+        {
             level = 0;
-            while (level > 0 || (tok != ',' && tok != ';')) {
+            while (level > 0 || (tok != ',' && tok != ';'))
+            {
                 if (tok < 0)
                     error("unexpected end of file in initializer");
                 tok_str_add_tok(&init_str);
                 if (tok == '{')
                     level++;
-                else if (tok == '}') {
+                else if (tok == '}')
+                {
                     if (level == 0)
                         break;
                     level--;
@@ -8986,7 +10578,7 @@ static void decl_initializer_alloc(CType *type, AttributeDef *ad, int r,
         }
         tok_str_add(&init_str, -1);
         tok_str_add(&init_str, 0);
-        
+
         /* compute size */
         save_parse_state(&saved_parse_state);
 
@@ -8996,29 +10588,34 @@ static void decl_initializer_alloc(CType *type, AttributeDef *ad, int r,
         /* prepare second initializer parsing */
         macro_ptr = init_str.str;
         next();
-        
+
         /* if still unknown size, error */
         size = type_size(type, &align);
-        if (size < 0) 
+        if (size < 0)
             error("unknown type size");
     }
     /* take into account specified alignment if bigger */
-    if (ad->aligned) {
+    if (ad->aligned)
+    {
         if (ad->aligned > align)
             align = ad->aligned;
-    } else if (ad->packed) {
+    }
+    else if (ad->packed)
+    {
         align = 1;
     }
-    if ((r & VT_VALMASK) == VT_LOCAL) {
+    if ((r & VT_VALMASK) == VT_LOCAL)
+    {
         sec = NULL;
-        if (do_bounds_check && (type->t & VT_ARRAY)) 
+        if (do_bounds_check && (type->t & VT_ARRAY))
             loc--;
         loc = (loc - size) & -align;
         addr = loc;
         /* handles bounds */
         /* XXX: currently, since we do only one pass, we cannot track
            '&' operators, so we add only arrays */
-        if (do_bounds_check && (type->t & VT_ARRAY)) {
+        if (do_bounds_check && (type->t & VT_ARRAY))
+        {
             unsigned long *bounds_ptr;
             /* add padding between regions */
             loc--;
@@ -9027,34 +10624,44 @@ static void decl_initializer_alloc(CType *type, AttributeDef *ad, int r,
             bounds_ptr[0] = addr;
             bounds_ptr[1] = size;
         }
-        if (v) {
+        if (v)
+        {
             /* local variable */
             sym_push(v, type, r, addr);
-        } else {
+        }
+        else
+        {
             /* push local reference */
             vset(type, r, addr);
         }
-    } else {
+    }
+    else
+    {
         Sym *sym;
 
         sym = NULL;
-        if (v && scope == VT_CONST) {
+        if (v && scope == VT_CONST)
+        {
             /* see if the symbol was already defined */
             sym = sym_find(v);
-            if (sym) {
+            if (sym)
+            {
                 if (!is_compatible_types(&sym->type, type))
-                    error("incompatible types for redefinition of '%s'", 
+                    error("incompatible types for redefinition of '%s'",
                           get_tok_str(v, NULL));
-                if (sym->type.t & VT_EXTERN) {
+                if (sym->type.t & VT_EXTERN)
+                {
                     /* if the variable is extern, it was not allocated */
                     sym->type.t &= ~VT_EXTERN;
                     /* set array size if it was ommited in extern
                        declaration */
-                    if ((sym->type.t & VT_ARRAY) && 
+                    if ((sym->type.t & VT_ARRAY) &&
                         sym->type.ref->c < 0 &&
                         type->ref->c >= 0)
                         sym->type.ref->c = type->ref->c;
-                } else {
+                }
+                else
+                {
                     /* we accept several definitions of the same
                        global variable. this is tricky, because we
                        must play with the SHN_COMMON type of the symbol */
@@ -9070,17 +10677,22 @@ static void decl_initializer_alloc(CType *type, AttributeDef *ad, int r,
 
         /* allocate symbol in corresponding section */
         sec = ad->section;
-        if (!sec) {
+        if (!sec)
+        {
+#ifdef TCC_TARGET_816
             if (has_init == 2)
                 sec = rodata_section;
-            else
+            else if (has_init)
+#else
             if (has_init)
+#endif
                 sec = data_section;
             else if (tcc_state->nocommon)
                 sec = bss_section;
         }
-        //fprintf(stderr,"SECS %s\n",sec==data_section?"data":sec==bss_section?"bss":sec==rodata_section?"rodata":"unknown");
-        if (sec) {
+        // fprintf(stderr,"SECS %s\n",sec==data_section?"data":sec==bss_section?"bss":sec==rodata_section?"rodata":"unknown");
+        if (sec)
+        {
             data_offset = sec->data_offset;
             data_offset = (data_offset + align - 1) & -align;
             addr = data_offset;
@@ -9092,28 +10704,37 @@ static void decl_initializer_alloc(CType *type, AttributeDef *ad, int r,
                 data_offset++;
             sec->data_offset = data_offset;
             /* allocate section space to put the data */
-            if (sec->sh_type != SHT_NOBITS && 
+            if (sec->sh_type != SHT_NOBITS &&
                 data_offset > sec->data_allocated)
                 section_realloc(sec, data_offset);
             /* align section if needed */
             if (align > sec->sh_addralign)
                 sec->sh_addralign = align;
-        } else {
+        }
+        else
+        {
             addr = 0; /* avoid warning */
         }
 
-        if (v) {
-            if (scope == VT_CONST) {
+        if (v)
+        {
+            if (scope == VT_CONST)
+            {
                 if (!sym)
                     goto do_def;
-            } else {
+            }
+            else
+            {
             do_def:
                 sym = sym_push(v, type, r | VT_SYM, 0);
             }
             /* update symbol definition */
-            if (sec) {
+            if (sec)
+            {
                 put_extern_sym(sym, sec, addr, size);
-            } else {
+            }
+            else
+            {
                 Elf32_Sym *esym;
                 /* put a common area */
                 put_extern_sym(sym, NULL, align, size);
@@ -9121,7 +10742,9 @@ static void decl_initializer_alloc(CType *type, AttributeDef *ad, int r,
                 esym = &((Elf32_Sym *)symtab_section->data)[sym->c];
                 esym->st_shndx = SHN_COMMON;
             }
-        } else {
+        }
+        else
+        {
             CValue cval;
 
             /* push global reference */
@@ -9133,7 +10756,8 @@ static void decl_initializer_alloc(CType *type, AttributeDef *ad, int r,
 
         /* handles bounds now because the symbol must be defined
            before for the relocation */
-        if (do_bounds_check) {
+        if (do_bounds_check)
+        {
             unsigned long *bounds_ptr;
 
             greloc(bounds_section, sym, bounds_section->data_offset, R_DATA_32);
@@ -9143,15 +10767,17 @@ static void decl_initializer_alloc(CType *type, AttributeDef *ad, int r,
             bounds_ptr[1] = size;
         }
     }
-    if (has_init) {
+    if (has_init)
+    {
         decl_initializer(type, sec, addr, 1, 0);
         /* restore parse state if needed */
-        if (init_str.str) {
+        if (init_str.str)
+        {
             tok_str_free(init_str.str);
             restore_parse_state(&saved_parse_state);
         }
     }
- no_alloc: ;
+no_alloc:;
 }
 
 void put_func_debug(Sym *sym)
@@ -9160,7 +10786,7 @@ void put_func_debug(Sym *sym)
 
     /* stabs info */
     /* XXX: we put here a dummy type */
-    snprintf(buf, sizeof(buf), "%s:%c1", 
+    snprintf(buf, sizeof(buf), "%s:%c1",
              funcname, sym->type.t & VT_STATIC ? 'f' : 'F');
     put_stabs_r(buf, N_FUN, 0, file->line_num, 0,
                 cur_text_section, sym->c);
@@ -9178,20 +10804,26 @@ static void func_decl_list(Sym *func_sym)
     CType btype, type;
 
     /* parse each declaration */
-    while (tok != '{' && tok != ';' && tok != ',' && tok != TOK_EOF) {
-        if (!parse_btype(&btype, &ad)) 
+    while (tok != '{' && tok != ';' && tok != ',' && tok != TOK_EOF)
+    {
+        if (!parse_btype(&btype, &ad))
             expect("declaration list");
         if (((btype.t & VT_BTYPE) == VT_ENUM ||
-             (btype.t & VT_BTYPE) == VT_STRUCT) && 
-            tok == ';') {
+             (btype.t & VT_BTYPE) == VT_STRUCT) &&
+            tok == ';')
+        {
             /* we accept no variable after */
-        } else {
-            for(;;) {
+        }
+        else
+        {
+            for (;;)
+            {
                 type = btype;
                 type_decl(&type, &ad, &v, TYPE_DIRECT);
                 /* find parameter in function parameter list */
                 s = func_sym->next;
-                while (s != NULL) {
+                while (s != NULL)
+                {
                     if ((s->v & ~SYM_FIELD) == v)
                         goto found;
                     s = s->next;
@@ -9201,7 +10833,7 @@ static void func_decl_list(Sym *func_sym)
             found:
                 /* check that no storage specifier except 'register' was given */
                 if (type.t & VT_STORAGE)
-                    error("storage class specified for '%s'", get_tok_str(v, NULL)); 
+                    error("storage class specified for '%s'", get_tok_str(v, NULL));
                 convert_parameter_type(&type);
                 /* we can add the type (NOTE: it could be local to the function) */
                 s->type = type;
@@ -9236,23 +10868,26 @@ static void gen_function(Sym *sym)
     gsym(rsym);
     gfunc_epilog();
     cur_text_section->data_offset = ind;
+#ifdef TCC_TARGET_816
 #if 0
     Sym* ls = global_label_stack;
     fprintf(stderr,"dumping global_label_stack\n");
     for(;ls;ls=ls->next) fprintf(stderr,"--- glabel %s r 0x%x c 0x%x\n",get_tok_str(ls->v,NULL),ls->r,ls->c);
 #endif
+#endif
     label_pop(&global_label_stack, NULL);
     sym_pop(&local_stack, NULL); /* reset local stack */
     /* end of function */
     /* patch symbol size */
-    ((Elf32_Sym *)symtab_section->data)[sym->c].st_size = 
+    ((Elf32_Sym *)symtab_section->data)[sym->c].st_size =
         ind - func_ind;
-    if (do_debug) {
+    if (do_debug)
+    {
         put_stabn(N_FUN, 0, 0, ind - func_ind);
     }
-    funcname = ""; /* for safety */
+    funcname = "";       /* for safety */
     func_vt.t = VT_VOID; /* for safety */
-    ind = 0; /* for safety */
+    ind = 0;             /* for safety */
 }
 
 static void gen_inline_functions(void)
@@ -9262,14 +10897,17 @@ static void gen_inline_functions(void)
     int *str, inline_generated;
 
     /* iterate while inline function are referenced */
-    for(;;) {
+    for (;;)
+    {
         inline_generated = 0;
-        for(sym = global_stack; sym != NULL; sym = sym->prev) {
+        for (sym = global_stack; sym != NULL; sym = sym->prev)
+        {
             type = &sym->type;
             if (((type->t & VT_BTYPE) == VT_FUNC) &&
-                (type->t & (VT_STATIC | VT_INLINE)) == 
-                (VT_STATIC | VT_INLINE) &&
-                sym->c != 0) {
+                (type->t & (VT_STATIC | VT_INLINE)) ==
+                    (VT_STATIC | VT_INLINE) &&
+                sym->c != 0)
+            {
                 /* the function was used: generate its code and
                    convert it to a normal function */
                 str = (int *)sym->r;
@@ -9291,11 +10929,13 @@ static void gen_inline_functions(void)
     }
 
     /* free all remaining inline function tokens */
-    for(sym = global_stack; sym != NULL; sym = sym->prev) {
+    for (sym = global_stack; sym != NULL; sym = sym->prev)
+    {
         type = &sym->type;
         if (((type->t & VT_BTYPE) == VT_FUNC) &&
-            (type->t & (VT_STATIC | VT_INLINE)) == 
-            (VT_STATIC | VT_INLINE)) {
+            (type->t & (VT_STATIC | VT_INLINE)) ==
+                (VT_STATIC | VT_INLINE))
+        {
             str = (int *)sym->r;
             tok_str_free(str);
             sym->r = 0; /* fail safe */
@@ -9310,17 +10950,21 @@ static void decl(int l)
     CType type, btype;
     Sym *sym;
     AttributeDef ad;
-    
-    while (1) {
-        if (!parse_btype(&btype, &ad)) {
+
+    while (1)
+    {
+        if (!parse_btype(&btype, &ad))
+        {
             /* skip redundant ';' */
             /* XXX: find more elegant solution */
-            if (tok == ';') {
+            if (tok == ';')
+            {
                 next();
                 continue;
             }
             if (l == VT_CONST &&
-                (tok == TOK_ASM1 || tok == TOK_ASM2 || tok == TOK_ASM3)) {
+                (tok == TOK_ASM1 || tok == TOK_ASM2 || tok == TOK_ASM3))
+            {
                 /* global asm block */
                 asm_global_instr();
                 continue;
@@ -9332,15 +10976,18 @@ static void decl(int l)
             btype.t = VT_INT;
         }
         if (((btype.t & VT_BTYPE) == VT_ENUM ||
-             (btype.t & VT_BTYPE) == VT_STRUCT) && 
-            tok == ';') {
+             (btype.t & VT_BTYPE) == VT_STRUCT) &&
+            tok == ';')
+        {
             /* we accept no variable after */
             next();
             continue;
         }
-        while (1) { /* iterate thru each declaration */
+        while (1)
+        { /* iterate thru each declaration */
             type = btype;
             type_decl(&type, &ad, &v, TYPE_DIRECT);
+#ifdef TCC_TARGET_B16
 #if 0
             {
                 char buf[500];
@@ -9348,7 +10995,17 @@ static void decl(int l)
                 printf("type = '%s'\n", buf);
             }
 #endif
-            if ((type.t & VT_BTYPE) == VT_FUNC) {
+#else
+#if 0
+            {
+                char buf[500];
+                type_to_str(buf, sizeof(buf), t, get_tok_str(v, NULL));
+                printf("type = '%s'\n", buf);
+            }
+#endif
+#endif
+            if ((type.t & VT_BTYPE) == VT_FUNC)
+            {
                 /* if old style function prototype, we accept a
                    declaration list */
                 sym = type.ref;
@@ -9356,7 +11013,8 @@ static void decl(int l)
                     func_decl_list(sym);
             }
 
-            if (tok == '{') {
+            if (tok == '{')
+            {
                 if (l == VT_LOCAL)
                     error("cannot use local functions");
                 if (!(type.t & VT_FUNC))
@@ -9366,14 +11024,15 @@ static void decl(int l)
                 sym = type.ref;
                 while ((sym = sym->next) != NULL)
                     if (!(sym->v & ~SYM_FIELD))
-                       expect("identifier");
-                
+                        expect("identifier");
+
                 /* XXX: cannot do better now: convert extern line to static inline */
                 if ((type.t & (VT_EXTERN | VT_INLINE)) == (VT_EXTERN | VT_INLINE))
                     type.t = (type.t & ~VT_EXTERN) | VT_STATIC;
-                
+
                 sym = sym_find(v);
-                if (sym) {
+                if (sym)
+                {
                     if ((sym->type.t & VT_BTYPE) != VT_FUNC)
                         goto func_error1;
                     /* specific case: if not func_call defined, we put
@@ -9382,14 +11041,17 @@ static void decl(int l)
                     if (sym->type.ref->r != FUNC_CDECL &&
                         type.ref->r == FUNC_CDECL)
                         type.ref->r = sym->type.ref->r;
-                    if (!is_compatible_types(&sym->type, &type)) {
+                    if (!is_compatible_types(&sym->type, &type))
+                    {
                     func_error1:
-                        error("incompatible types for redefinition of '%s'", 
+                        error("incompatible types for redefinition of '%s'",
                               get_tok_str(v, NULL));
                     }
                     /* if symbol is already defined, then put complete type */
                     sym->type = type;
-                } else {
+                }
+                else
+                {
                     /* put function symbol */
                     sym = global_identifier_push(v, type.t, 0);
                     sym->type.ref = type.ref;
@@ -9398,24 +11060,29 @@ static void decl(int l)
                 /* static inline functions are just recorded as a kind
                    of macro. Their code will be emitted at the end of
                    the compilation unit only if they are used */
-                if ((type.t & (VT_INLINE | VT_STATIC)) == 
-                    (VT_INLINE | VT_STATIC)) {
+                if ((type.t & (VT_INLINE | VT_STATIC)) ==
+                    (VT_INLINE | VT_STATIC))
+                {
                     TokenString func_str;
                     int block_level;
-                           
+
                     tok_str_new(&func_str);
-                    
+
                     block_level = 0;
-                    for(;;) {
+                    for (;;)
+                    {
                         int t;
                         if (tok == TOK_EOF)
                             error("unexpected end of file");
                         tok_str_add_tok(&func_str);
                         t = tok;
                         next();
-                        if (t == '{') {
+                        if (t == '{')
+                        {
                             block_level++;
-                        } else if (t == '}') {
+                        }
+                        else if (t == '}')
+                        {
                             block_level--;
                             if (block_level == 0)
                                 break;
@@ -9423,8 +11090,14 @@ static void decl(int l)
                     }
                     tok_str_add(&func_str, -1);
                     tok_str_add(&func_str, 0);
+#ifdef TCC_TARGET_816
                     sym->r = (long)func_str.str;
-                } else {
+#else
+                    sym->r = (int)func_str.str;
+#endif
+                }
+                else
+                {
                     /* compute text section */
                     cur_text_section = ad.section;
                     if (!cur_text_section)
@@ -9432,54 +11105,71 @@ static void decl(int l)
                     sym->r = VT_SYM | VT_CONST;
                     gen_function(sym);
 #ifdef TCC_TARGET_PE
-                    if (ad.dllexport) {
+                    if (ad.dllexport)
+                    {
                         ((Elf32_Sym *)symtab_section->data)[sym->c].st_other |= 1;
                     }
 #endif
                 }
                 break;
-            } else {
-                if (btype.t & VT_TYPEDEF) {
+            }
+            else
+            {
+                if (btype.t & VT_TYPEDEF)
+                {
                     /* save typedefed type  */
                     /* XXX: test storage specifiers ? */
                     sym = sym_push(v, &type, 0, 0);
                     sym->type.t |= VT_TYPEDEF;
-                } else if ((type.t & VT_BTYPE) == VT_FUNC) {
+                }
+                else if ((type.t & VT_BTYPE) == VT_FUNC)
+                {
                     /* external function definition */
                     /* specific case for func_call attribute */
                     if (ad.func_call)
                         type.ref->r = ad.func_call;
                     external_sym(v, &type, 0);
-                } else {
+                }
+                else
+                {
                     /* not lvalue if array */
                     r = 0;
                     if (!(type.t & VT_ARRAY))
                         r |= lvalue_type(type.t);
                     has_init = (tok == '=');
-                    if ((btype.t & VT_EXTERN) || 
+                    if ((btype.t & VT_EXTERN) ||
                         ((type.t & VT_ARRAY) && (type.t & VT_STATIC) &&
-                         !has_init && l == VT_CONST && type.ref->c < 0)) {
+                         !has_init && l == VT_CONST && type.ref->c < 0))
+                    {
                         /* external variable */
                         /* NOTE: as GCC, uninitialized global static
                            arrays of null size are considered as
                            extern */
                         external_sym(v, &type, r);
-                    } else {
-                        if (type.t & VT_STATIC) {
+                    }
+                    else
+                    {
+                        if (type.t & VT_STATIC)
+#ifndef TCC_TARGET_816
+                            r |= VT_CONST;
+#else
+                        {
                             r |= VT_CONST;
                             // handle with care: introducing a new flag seems to introduce subtle lossage
-                            if(l == VT_LOCAL)
-                              type.t |= VT_STATICLOCAL;
+                            if (l == VT_LOCAL)
+                                type.t |= VT_STATICLOCAL;
                         }
+#endif
                         else
                             r |= l;
                         if (has_init)
                             next();
-                        decl_initializer_alloc(&type, &ad, r, 
+                        decl_initializer_alloc(&type, &ad, r,
                                                has_init, v, l);
                     }
                 }
-                if (tok != ',') {
+                if (tok != ',')
+                {
                     skip(';');
                     break;
                 }
@@ -9518,30 +11208,33 @@ static int tcc_compile(TCCState *s1)
     preprocess_init(s1);
 
     funcname = "";
-    anon_sym = SYM_FIRST_ANOM; 
+    anon_sym = SYM_FIRST_ANOM;
 
     /* file info: full path + filename */
     section_sym = 0; /* avoid warning */
-    if (do_debug) {
-        section_sym = put_elf_sym(symtab_section, 0, 0, 
-                                  ELF32_ST_INFO(STB_LOCAL, STT_SECTION), 0, 
+    if (do_debug)
+    {
+        section_sym = put_elf_sym(symtab_section, 0, 0,
+                                  ELF32_ST_INFO(STB_LOCAL, STT_SECTION), 0,
                                   text_section->sh_num, NULL);
         getcwd(buf, sizeof(buf));
         pstrcat(buf, sizeof(buf), "/");
-        put_stabs_r(buf, N_SO, 0, 0, 
+        put_stabs_r(buf, N_SO, 0, 0,
                     text_section->data_offset, text_section, section_sym);
-        put_stabs_r(file->filename, N_SO, 0, 0, 
+        put_stabs_r(file->filename, N_SO, 0, 0,
                     text_section->data_offset, text_section, section_sym);
     }
     /* an elf symbol of type STT_FILE must be put so that STB_LOCAL
        symbols can be safely used */
-    put_elf_sym(symtab_section, 0, 0, 
-                ELF32_ST_INFO(STB_LOCAL, STT_FILE), 0, 
+    put_elf_sym(symtab_section, 0, 0,
+                ELF32_ST_INFO(STB_LOCAL, STT_FILE), 0,
                 SHN_ABS, file->filename);
 
     /* define some often used types */
     int_type.t = VT_INT;
+#ifdef TCC_TARGET_816
     ptr_type.t = VT_PTR;
+#endif
 
     char_pointer_type.t = VT_BYTE;
     mk_pointer(&char_pointer_type);
@@ -9565,7 +11258,8 @@ static int tcc_compile(TCCState *s1)
 
     define_start = define_stack;
 
-    if (setjmp(s1->error_jmp_buf) == 0) {
+    if (setjmp(s1->error_jmp_buf) == 0)
+    {
         s1->nb_errors = 0;
         s1->error_set_jmp_enabled = 1;
 
@@ -9578,8 +11272,9 @@ static int tcc_compile(TCCState *s1)
             expect("declaration");
 
         /* end of translation unit info */
-        if (do_debug) {
-            put_stabs_r(NULL, N_SO, 0, 0, 
+        if (do_debug)
+        {
+            put_stabs_r(NULL, N_SO, 0, 0,
                         text_section->data_offset, text_section, section_sym);
         }
     }
@@ -9587,11 +11282,13 @@ static int tcc_compile(TCCState *s1)
 
     /* reset define stack, but leave -Dsymbols (may be incorrect if
        they are undefined) */
-    free_defines(define_start); 
+    free_defines(define_start);
 
     gen_inline_functions();
 
-    //sym_pop(&global_stack, NULL);
+#ifndef TCC_TARGET_816
+    sym_pop(&global_stack, NULL);
+#endif
 
     return s1->nb_errors != 0 ? -1 : 0;
 }
@@ -9617,9 +11314,9 @@ int tcc_compile_string(TCCState *s, const char *str)
     pstrcpy(bf->filename, sizeof(bf->filename), "<string>");
     bf->line_num = 1;
     file = bf;
-    
+
     ret = tcc_compile(s);
-    
+
     tcc_free(buf);
 
     /* currently, no need to close */
@@ -9635,10 +11332,10 @@ void tcc_define_symbol(TCCState *s1, const char *sym, const char *value)
     pstrcpy(bf->buffer, IO_BUF_SIZE, sym);
     pstrcat(bf->buffer, IO_BUF_SIZE, " ");
     /* default value */
-    if (!value) 
+    if (!value)
         value = "1";
     pstrcat(bf->buffer, IO_BUF_SIZE, value);
-    
+
     /* init file structure */
     bf->fd = -1;
     bf->buf_ptr = bf->buffer;
@@ -9647,7 +11344,7 @@ void tcc_define_symbol(TCCState *s1, const char *sym, const char *value)
     bf->filename[0] = '\0';
     bf->line_num = 1;
     file = bf;
-    
+
     s1->include_stack_ptr = s1->include_stack;
 
     /* parse with define parser */
@@ -9689,6 +11386,373 @@ static void asm_global_instr(void)
 
 #include "tccelf.c"
 
+#ifndef TCC_TARGET_816
+#ifdef TCC_TARGET_COFF
+#include "tcccoff.c"
+#endif
+
+#ifdef TCC_TARGET_PE
+#include "tccpe.c"
+#endif
+
+/* print the position in the source file of PC value 'pc' by reading
+   the stabs debug information */
+static void rt_printline(unsigned long wanted_pc)
+{
+    Stab_Sym *sym, *sym_end;
+    char func_name[128], last_func_name[128];
+    unsigned long func_addr, last_pc, pc;
+    const char *incl_files[INCLUDE_STACK_SIZE];
+    int incl_index, len, last_line_num, i;
+    const char *str, *p;
+
+    fprintf(stderr, "0x%08lx:", wanted_pc);
+
+    func_name[0] = '\0';
+    func_addr = 0;
+    incl_index = 0;
+    last_func_name[0] = '\0';
+    last_pc = 0xffffffff;
+    last_line_num = 1;
+    sym = (Stab_Sym *)stab_section->data + 1;
+    sym_end = (Stab_Sym *)(stab_section->data + stab_section->data_offset);
+    while (sym < sym_end)
+    {
+        switch (sym->n_type)
+        {
+            /* function start or end */
+        case N_FUN:
+            if (sym->n_strx == 0)
+            {
+                /* we test if between last line and end of function */
+                pc = sym->n_value + func_addr;
+                if (wanted_pc >= last_pc && wanted_pc < pc)
+                    goto found;
+                func_name[0] = '\0';
+                func_addr = 0;
+            }
+            else
+            {
+                str = stabstr_section->data + sym->n_strx;
+                p = strchr(str, ':');
+                if (!p)
+                {
+                    pstrcpy(func_name, sizeof(func_name), str);
+                }
+                else
+                {
+                    len = p - str;
+                    if (len > sizeof(func_name) - 1)
+                        len = sizeof(func_name) - 1;
+                    memcpy(func_name, str, len);
+                    func_name[len] = '\0';
+                }
+                func_addr = sym->n_value;
+            }
+            break;
+            /* line number info */
+        case N_SLINE:
+            pc = sym->n_value + func_addr;
+            if (wanted_pc >= last_pc && wanted_pc < pc)
+                goto found;
+            last_pc = pc;
+            last_line_num = sym->n_desc;
+            /* XXX: slow! */
+            strcpy(last_func_name, func_name);
+            break;
+            /* include files */
+        case N_BINCL:
+            str = stabstr_section->data + sym->n_strx;
+        add_incl:
+            if (incl_index < INCLUDE_STACK_SIZE)
+            {
+                incl_files[incl_index++] = str;
+            }
+            break;
+        case N_EINCL:
+            if (incl_index > 1)
+                incl_index--;
+            break;
+        case N_SO:
+            if (sym->n_strx == 0)
+            {
+                incl_index = 0; /* end of translation unit */
+            }
+            else
+            {
+                str = stabstr_section->data + sym->n_strx;
+                /* do not add path */
+                len = strlen(str);
+                if (len > 0 && str[len - 1] != '/')
+                    goto add_incl;
+            }
+            break;
+        }
+        sym++;
+    }
+
+    /* second pass: we try symtab symbols (no line number info) */
+    incl_index = 0;
+    {
+        Elf32_Sym *sym, *sym_end;
+        int type;
+
+        sym_end = (Elf32_Sym *)(symtab_section->data + symtab_section->data_offset);
+        for (sym = (Elf32_Sym *)symtab_section->data + 1;
+             sym < sym_end;
+             sym++)
+        {
+            type = ELF32_ST_TYPE(sym->st_info);
+            if (type == STT_FUNC)
+            {
+                if (wanted_pc >= sym->st_value &&
+                    wanted_pc < sym->st_value + sym->st_size)
+                {
+                    pstrcpy(last_func_name, sizeof(last_func_name),
+                            strtab_section->data + sym->st_name);
+                    goto found;
+                }
+            }
+        }
+    }
+    /* did not find any info: */
+    fprintf(stderr, " ???\n");
+    return;
+found:
+    if (last_func_name[0] != '\0')
+    {
+        fprintf(stderr, " %s()", last_func_name);
+    }
+    if (incl_index > 0)
+    {
+        fprintf(stderr, " (%s:%d",
+                incl_files[incl_index - 1], last_line_num);
+        for (i = incl_index - 2; i >= 0; i--)
+            fprintf(stderr, ", included from %s", incl_files[i]);
+        fprintf(stderr, ")");
+    }
+    fprintf(stderr, "\n");
+}
+
+#if !defined(WIN32) && !defined(CONFIG_TCCBOOT)
+
+#ifdef __i386__
+
+/* fix for glibc 2.1 */
+#ifndef REG_EIP
+#define REG_EIP EIP
+#define REG_EBP EBP
+#endif
+
+/* return the PC at frame level 'level'. Return non zero if not found */
+static int rt_get_caller_pc(unsigned long *paddr,
+                            ucontext_t *uc, int level)
+{
+    unsigned long fp;
+    int i;
+
+    if (level == 0)
+    {
+#if defined(__FreeBSD__)
+        *paddr = uc->uc_mcontext.mc_eip;
+#elif defined(__dietlibc__)
+        *paddr = uc->uc_mcontext.eip;
+#else
+        *paddr = uc->uc_mcontext.gregs[REG_EIP];
+#endif
+        return 0;
+    }
+    else
+    {
+#if defined(__FreeBSD__)
+        fp = uc->uc_mcontext.mc_ebp;
+#elif defined(__dietlibc__)
+        fp = uc->uc_mcontext.ebp;
+#else
+        fp = uc->uc_mcontext.gregs[REG_EBP];
+#endif
+        for (i = 1; i < level; i++)
+        {
+            /* XXX: check address validity with program info */
+            if (fp <= 0x1000 || fp >= 0xc0000000)
+                return -1;
+            fp = ((unsigned long *)fp)[0];
+        }
+        *paddr = ((unsigned long *)fp)[1];
+        return 0;
+    }
+}
+#else
+
+#warning add arch specific rt_get_caller_pc()
+
+static int rt_get_caller_pc(unsigned long *paddr,
+                            ucontext_t *uc, int level)
+{
+    return -1;
+}
+#endif
+
+/* emit a run time error at position 'pc' */
+void rt_error(ucontext_t *uc, const char *fmt, ...)
+{
+    va_list ap;
+    unsigned long pc;
+    int i;
+
+    va_start(ap, fmt);
+    fprintf(stderr, "Runtime error: ");
+    vfprintf(stderr, fmt, ap);
+    fprintf(stderr, "\n");
+    for (i = 0; i < num_callers; i++)
+    {
+        if (rt_get_caller_pc(&pc, uc, i) < 0)
+            break;
+        if (i == 0)
+            fprintf(stderr, "at ");
+        else
+            fprintf(stderr, "by ");
+        rt_printline(pc);
+    }
+    exit(255);
+    va_end(ap);
+}
+
+/* signal handler for fatal errors */
+static void sig_error(int signum, siginfo_t *siginf, void *puc)
+{
+    ucontext_t *uc = puc;
+
+    switch (signum)
+    {
+    case SIGFPE:
+        switch (siginf->si_code)
+        {
+        case FPE_INTDIV:
+        case FPE_FLTDIV:
+            rt_error(uc, "division by zero");
+            break;
+        default:
+            rt_error(uc, "floating point exception");
+            break;
+        }
+        break;
+    case SIGBUS:
+    case SIGSEGV:
+        if (rt_bound_error_msg && *rt_bound_error_msg)
+            rt_error(uc, *rt_bound_error_msg);
+        else
+            rt_error(uc, "dereferencing invalid pointer");
+        break;
+    case SIGILL:
+        rt_error(uc, "illegal instruction");
+        break;
+    case SIGABRT:
+        rt_error(uc, "abort() called");
+        break;
+    default:
+        rt_error(uc, "caught signal %d", signum);
+        break;
+    }
+    exit(255);
+}
+#endif
+
+/* do all relocations (needed before using tcc_get_symbol()) */
+int tcc_relocate(TCCState *s1)
+{
+    Section *s;
+    int i;
+
+    s1->nb_errors = 0;
+
+#ifdef TCC_TARGET_PE
+    pe_add_runtime(s1);
+#else
+    tcc_add_runtime(s1);
+#endif
+
+    relocate_common_syms();
+
+    tcc_add_linker_symbols(s1);
+
+    build_got_entries(s1);
+
+    /* compute relocation address : section are relocated in place. We
+       also alloc the bss space */
+    for (i = 1; i < s1->nb_sections; i++)
+    {
+        s = s1->sections[i];
+        if (s->sh_flags & SHF_ALLOC)
+        {
+            if (s->sh_type == SHT_NOBITS)
+                s->data = tcc_mallocz(s->data_offset);
+            s->sh_addr = (unsigned long)s->data;
+        }
+    }
+
+    relocate_syms(s1, 1);
+
+    if (s1->nb_errors != 0)
+        return -1;
+
+    /* relocate each section */
+    for (i = 1; i < s1->nb_sections; i++)
+    {
+        s = s1->sections[i];
+        if (s->reloc)
+            relocate_section(s1, s);
+    }
+    return 0;
+}
+
+/* launch the compiled program with the given arguments */
+int tcc_run(TCCState *s1, int argc, char **argv)
+{
+    int (*prog_main)(int, char **);
+
+    if (tcc_relocate(s1) < 0)
+        return -1;
+
+    prog_main = tcc_get_symbol_err(s1, "main");
+
+    if (do_debug)
+    {
+#if defined(WIN32) || defined(CONFIG_TCCBOOT)
+        error("debug mode currently not available for Windows");
+#else
+        struct sigaction sigact;
+        /* install TCC signal handlers to print debug info on fatal
+           runtime errors */
+        sigact.sa_flags = SA_SIGINFO | SA_RESETHAND;
+        sigact.sa_sigaction = sig_error;
+        sigemptyset(&sigact.sa_mask);
+        sigaction(SIGFPE, &sigact, NULL);
+        sigaction(SIGILL, &sigact, NULL);
+        sigaction(SIGSEGV, &sigact, NULL);
+        sigaction(SIGBUS, &sigact, NULL);
+        sigaction(SIGABRT, &sigact, NULL);
+#endif
+    }
+
+#ifdef CONFIG_TCC_BCHECK
+    if (do_bounds_check)
+    {
+        void (*bound_init)(void);
+
+        /* set error function */
+        rt_bound_error_msg = (void *)tcc_get_symbol_err(s1,
+                                                        "__bound_error_msg");
+
+        /* XXX: use .init section so that it also work in binary ? */
+        bound_init = (void *)tcc_get_symbol_err(s1, "__bound_init");
+        bound_init();
+    }
+#endif
+    return (*prog_main)(argc, argv);
+}
+#endif
+
 TCCState *tcc_new(void)
 {
     const char *p, *r;
@@ -9703,18 +11767,20 @@ TCCState *tcc_new(void)
     s->output_type = TCC_OUTPUT_MEMORY;
 
     /* init isid table */
-    for(i=0;i<256;i++)
+    for (i = 0; i < 256; i++)
         isidnum_table[i] = isid(i) || isnum(i);
 
     /* add all tokens */
     table_ident = NULL;
     memset(hash_ident, 0, TOK_HASH_SIZE * sizeof(TokenSym *));
-    
+
     tok_ident = TOK_IDENT;
     p = tcc_keywords;
-    while (*p) {
+    while (*p)
+    {
         r = p;
-        for(;;) {
+        for (;;)
+        {
             c = *r++;
             if (c == '\0')
                 break;
@@ -9759,8 +11825,8 @@ TCCState *tcc_new(void)
     tcc_define_symbol(s, "__SIZE_TYPE__", "unsigned int");
     tcc_define_symbol(s, "__PTRDIFF_TYPE__", "int");
     tcc_define_symbol(s, "__WCHAR_TYPE__", "int");
-    tcc_define_symbol(s, "__CHAR_BIT__", "8");
 #ifdef TCC_TARGET_816
+    tcc_define_symbol(s, "__CHAR_BIT__", "8");
     tcc_define_symbol(s, "__INT_MAX__", "32767");
     tcc_define_symbol(s, "__LONG_MAX__", "32767");
     tcc_define_symbol(s, "__LONG_LONG_MAX__", "2147483647LL");
@@ -9772,7 +11838,7 @@ TCCState *tcc_new(void)
     tcc_define_symbol(s, "__LDBL_MAX__", "0x1.fffffep127");
     tcc_define_symbol(s, "__WCHAR_MAX__", "65535");
 #endif
-    
+
     /* default library paths */
 #ifdef TCC_TARGET_PE
     {
@@ -9792,18 +11858,20 @@ TCCState *tcc_new(void)
     /* create standard sections */
     text_section = new_section(s, ".text", SHT_PROGBITS, SHF_ALLOC | SHF_EXECINSTR);
     data_section = new_section(s, ".data", SHT_PROGBITS, SHF_ALLOC | SHF_WRITE);
+#ifdef TCC_TARGET_816
     rodata_section = new_section(s, ".rodata", SHT_PROGBITS, SHF_ALLOC);
+#endif
     bss_section = new_section(s, ".bss", SHT_NOBITS, SHF_ALLOC | SHF_WRITE);
 
     /* symbols are always generated for linking stage */
     symtab_section = new_symtab(s, ".symtab", SHT_SYMTAB, 0,
                                 ".strtab",
-                                ".hashtab", SHF_PRIVATE); 
+                                ".hashtab", SHF_PRIVATE);
     strtab_section = symtab_section->link;
-    
+
     /* private symbol table for dynamic symbols */
     s->dynsymtab_section = new_symtab(s, ".dynsymtab", SHT_SYMTAB, SHF_PRIVATE,
-                                      ".dynstrtab", 
+                                      ".dynstrtab",
                                       ".dynhashtab", SHF_PRIVATE);
     s->alacarte_link = 1;
 
@@ -9826,7 +11894,7 @@ void tcc_delete(TCCState *s1)
 
     /* free tokens */
     n = tok_ident - TOK_IDENT;
-    for(i = 0; i < n; i++)
+    for (i = 0; i < n; i++)
         tcc_free(table_ident[i]);
     tcc_free(table_ident);
 
@@ -9838,30 +11906,30 @@ void tcc_delete(TCCState *s1)
     free_section(s1->dynsymtab_section->link);
     free_section(s1->dynsymtab_section);
 
-    for(i = 1; i < s1->nb_sections; i++)
+    for (i = 1; i < s1->nb_sections; i++)
         free_section(s1->sections[i]);
     tcc_free(s1->sections);
-    
+
     /* free loaded dlls array */
-    for(i = 0; i < s1->nb_loaded_dlls; i++)
+    for (i = 0; i < s1->nb_loaded_dlls; i++)
         tcc_free(s1->loaded_dlls[i]);
     tcc_free(s1->loaded_dlls);
 
     /* library paths */
-    for(i = 0; i < s1->nb_library_paths; i++)
+    for (i = 0; i < s1->nb_library_paths; i++)
         tcc_free(s1->library_paths[i]);
     tcc_free(s1->library_paths);
 
     /* cached includes */
-    for(i = 0; i < s1->nb_cached_includes; i++)
+    for (i = 0; i < s1->nb_cached_includes; i++)
         tcc_free(s1->cached_includes[i]);
     tcc_free(s1->cached_includes);
 
-    for(i = 0; i < s1->nb_include_paths; i++)
+    for (i = 0; i < s1->nb_include_paths; i++)
         tcc_free(s1->include_paths[i]);
     tcc_free(s1->include_paths);
 
-    for(i = 0; i < s1->nb_sysinclude_paths; i++)
+    for (i = 0; i < s1->nb_sysinclude_paths; i++)
         tcc_free(s1->sysinclude_paths[i]);
     tcc_free(s1->sysinclude_paths);
 
@@ -9871,7 +11939,7 @@ void tcc_delete(TCCState *s1)
 int tcc_add_include_path(TCCState *s1, const char *pathname)
 {
     char *pathname1;
-    
+
     pathname1 = tcc_strdup(pathname);
     dynarray_add((void ***)&s1->include_paths, &s1->nb_include_paths, pathname1);
     return 0;
@@ -9880,7 +11948,7 @@ int tcc_add_include_path(TCCState *s1, const char *pathname)
 int tcc_add_sysinclude_path(TCCState *s1, const char *pathname)
 {
     char *pathname1;
-    
+
     pathname1 = tcc_strdup(pathname);
     dynarray_add((void ***)&s1->sysinclude_paths, &s1->nb_sysinclude_paths, pathname1);
     return 0;
@@ -9889,7 +11957,12 @@ int tcc_add_sysinclude_path(TCCState *s1, const char *pathname)
 static int tcc_add_file_internal(TCCState *s1, const char *filename, int flags)
 {
     const char *ext, *filename1;
+#ifdef TCC_TARGET_816
     int ret;
+#else
+    Elf32_Ehdr ehdr;
+    int fd, ret;
+#endif
     BufferedFile *saved_file;
 
     /* find source file type with extension */
@@ -9905,27 +11978,131 @@ static int tcc_add_file_internal(TCCState *s1, const char *filename, int flags)
     /* open the file */
     saved_file = file;
     file = tcc_open(s1, filename);
-    if (!file) {
-        if (flags & AFF_PRINT_ERROR) {
+    if (!file)
+    {
+        if (flags & AFF_PRINT_ERROR)
+        {
             error_noabort("file '%s' not found", filename);
         }
         ret = -1;
         goto fail1;
     }
 
-    if (!ext || !strcmp(ext, "c")) {
+    if (!ext || !strcmp(ext, "c"))
+    {
         /* C file assumed */
         ret = tcc_compile(s1);
-    } else {
+    }
+    else
+#ifdef TCC_TARGET_816
+    {
         error_noabort("unrecognized file type");
         goto fail;
     }
- the_end:
+#else
+#ifdef CONFIG_TCC_ASM
+        if (!strcmp(ext, "S"))
+    {
+        /* preprocessed assembler */
+        ret = tcc_assemble(s1, 1);
+    }
+    else if (!strcmp(ext, "s"))
+    {
+        /* non preprocessed assembler */
+        ret = tcc_assemble(s1, 0);
+    }
+    else
+#endif
+#ifdef TCC_TARGET_PE
+        if (!strcmp(ext, "def"))
+    {
+        ret = pe_load_def_file(s1, fdopen(file->fd, "rb"));
+    }
+    else
+#endif
+    {
+        fd = file->fd;
+        /* assume executable format: auto guess file type */
+        ret = read(fd, &ehdr, sizeof(ehdr));
+        lseek(fd, 0, SEEK_SET);
+        if (ret <= 0)
+        {
+            error_noabort("could not read header");
+            goto fail;
+        }
+        else if (ret != sizeof(ehdr))
+        {
+            goto try_load_script;
+        }
+
+        if (ehdr.e_ident[0] == ELFMAG0 &&
+            ehdr.e_ident[1] == ELFMAG1 &&
+            ehdr.e_ident[2] == ELFMAG2 &&
+            ehdr.e_ident[3] == ELFMAG3)
+        {
+            file->line_num = 0; /* do not display line number if error */
+            if (ehdr.e_type == ET_REL)
+            {
+                ret = tcc_load_object_file(s1, fd, 0);
+            }
+            else if (ehdr.e_type == ET_DYN)
+            {
+                if (s1->output_type == TCC_OUTPUT_MEMORY)
+                {
+#ifdef TCC_TARGET_PE
+                    ret = -1;
+#else
+                    void *h;
+                    h = dlopen(filename, RTLD_GLOBAL | RTLD_LAZY);
+                    if (h)
+                        ret = 0;
+                    else
+                        ret = -1;
+#endif
+                }
+                else
+                {
+                    ret = tcc_load_dll(s1, fd, filename,
+                                       (flags & AFF_REFERENCED_DLL) != 0);
+                }
+            }
+            else
+            {
+                error_noabort("unrecognized ELF file");
+                goto fail;
+            }
+        }
+        else if (memcmp((char *)&ehdr, ARMAG, 8) == 0)
+        {
+            file->line_num = 0; /* do not display line number if error */
+            ret = tcc_load_archive(s1, fd);
+        }
+        else
+#ifdef TCC_TARGET_COFF
+            if (*(uint16_t *)(&ehdr) == COFF_C67_MAGIC)
+        {
+            ret = tcc_load_coff(s1, fd);
+        }
+        else
+#endif
+        {
+            /* as GNU ld, consider it is an ld script if not recognized */
+        try_load_script:
+            ret = tcc_load_ldscript(s1);
+            if (ret < 0)
+            {
+                error_noabort("unrecognized file type");
+                goto fail;
+            }
+        }
+    }
+#endif
+the_end:
     tcc_close(file);
- fail1:
+fail1:
     file = saved_file;
     return ret;
- fail:
+fail:
     ret = -1;
     goto the_end;
 }
@@ -9938,7 +12115,7 @@ int tcc_add_file(TCCState *s, const char *filename)
 int tcc_add_library_path(TCCState *s, const char *pathname)
 {
     char *pathname1;
-    
+
     pathname1 = tcc_strdup(pathname);
     dynarray_add((void ***)&s->library_paths, &s->nb_library_paths, pathname1);
     return 0;
@@ -9951,8 +12128,9 @@ static int tcc_add_dll(TCCState *s, const char *filename, int flags)
     char buf[1024];
     int i;
 
-    for(i = 0; i < s->nb_library_paths; i++) {
-        snprintf(buf, sizeof(buf), "%s/%s", 
+    for (i = 0; i < s->nb_library_paths; i++)
+    {
+        snprintf(buf, sizeof(buf), "%s/%s",
                  s->library_paths[i], filename);
         if (tcc_add_file_internal(s, buf, flags) == 0)
             return 0;
@@ -9965,9 +12143,10 @@ int tcc_add_library(TCCState *s, const char *libraryname)
 {
     char buf[1024];
     int i;
-    
+
     /* first we look for the dynamic library if not static linking */
-    if (!s->static_link) {
+    if (!s->static_link)
+    {
 #ifdef TCC_TARGET_PE
         snprintf(buf, sizeof(buf), "%s.def", libraryname);
 #else
@@ -9978,8 +12157,9 @@ int tcc_add_library(TCCState *s, const char *libraryname)
     }
 
     /* then we look for the static library */
-    for(i = 0; i < s->nb_library_paths; i++) {
-        snprintf(buf, sizeof(buf), "%s/lib%s.a", 
+    for (i = 0; i < s->nb_library_paths; i++)
+    {
+        snprintf(buf, sizeof(buf), "%s/lib%s.a",
                  s->library_paths[i], libraryname);
         if (tcc_add_file_internal(s, buf, 0) == 0)
             return 0;
@@ -9989,7 +12169,7 @@ int tcc_add_library(TCCState *s, const char *libraryname)
 
 int tcc_add_symbol(TCCState *s, const char *name, unsigned long val)
 {
-    add_elf_sym(symtab_section, val, 0, 
+    add_elf_sym(symtab_section, val, 0,
                 ELF32_ST_INFO(STB_GLOBAL, STT_NOTYPE), 0,
                 SHN_ABS, name);
     return 0;
@@ -9999,7 +12179,8 @@ int tcc_set_output_type(TCCState *s, int output_type)
 {
     s->output_type = output_type;
 
-    if (!s->nostdinc) {
+    if (!s->nostdinc)
+    {
         char buf[1024];
 
         /* default include paths */
@@ -10018,23 +12199,26 @@ int tcc_set_output_type(TCCState *s, int output_type)
 
     /* if bound checking, then add corresponding sections */
 #ifdef CONFIG_TCC_BCHECK
-    if (do_bounds_check) {
+    if (do_bounds_check)
+    {
         /* define symbol */
         tcc_define_symbol(s, "__BOUNDS_CHECKING_ON", NULL);
         /* create bounds sections */
-        bounds_section = new_section(s, ".bounds", 
+        bounds_section = new_section(s, ".bounds",
                                      SHT_PROGBITS, SHF_ALLOC);
-        lbounds_section = new_section(s, ".lbounds", 
+        lbounds_section = new_section(s, ".lbounds",
                                       SHT_PROGBITS, SHF_ALLOC);
     }
 #endif
 
-    if (s->char_is_unsigned) {
+    if (s->char_is_unsigned)
+    {
         tcc_define_symbol(s, "__CHAR_UNSIGNED__", NULL);
     }
 
     /* add debug sections */
-    if (do_debug) {
+    if (do_debug)
+    {
         /* stab symbols */
         stab_section = new_section(s, ".stab", SHT_PROGBITS, 0);
         stab_section->sh_entsize = sizeof(Stab_Sym);
@@ -10048,7 +12232,8 @@ int tcc_set_output_type(TCCState *s, int output_type)
     /* add libc crt1/crti objects */
 #ifndef TCC_TARGET_PE
     if ((output_type == TCC_OUTPUT_EXE || output_type == TCC_OUTPUT_DLL) &&
-        !s->nostdlib) {
+        !s->nostdlib)
+    {
         if (output_type != TCC_OUTPUT_DLL)
             tcc_add_file(s, CONFIG_TCC_CRT_PREFIX "/crt1.o");
         tcc_add_file(s, CONFIG_TCC_CRT_PREFIX "/crti.o");
@@ -10057,21 +12242,22 @@ int tcc_set_output_type(TCCState *s, int output_type)
     return 0;
 }
 
-#define WD_ALL    0x0001 /* warning is activated when using -Wall */
+#define WD_ALL 0x0001    /* warning is activated when using -Wall */
 #define FD_INVERT 0x0002 /* invert value before storing */
 
-typedef struct FlagDef {
+typedef struct FlagDef
+{
     uint16_t offset;
     uint16_t flags;
     const char *name;
 } FlagDef;
 
 static const FlagDef warning_defs[] = {
-    { offsetof(TCCState, warn_unsupported), 0, "unsupported" },
-    { offsetof(TCCState, warn_write_strings), 0, "write-strings" },
-    { offsetof(TCCState, warn_error), 0, "error" },
-    { offsetof(TCCState, warn_implicit_function_declaration), WD_ALL,
-      "implicit-function-declaration" },
+    {offsetof(TCCState, warn_unsupported), 0, "unsupported"},
+    {offsetof(TCCState, warn_write_strings), 0, "write-strings"},
+    {offsetof(TCCState, warn_error), 0, "error"},
+    {offsetof(TCCState, warn_implicit_function_declaration), WD_ALL,
+     "implicit-function-declaration"},
 };
 
 static int set_flag(TCCState *s, const FlagDef *flags, int nb_flags,
@@ -10082,22 +12268,23 @@ static int set_flag(TCCState *s, const FlagDef *flags, int nb_flags,
     const char *r;
 
     r = name;
-    if (r[0] == 'n' && r[1] == 'o' && r[2] == '-') {
+    if (r[0] == 'n' && r[1] == 'o' && r[2] == '-')
+    {
         r += 3;
         value = !value;
     }
-    for(i = 0, p = flags; i < nb_flags; i++, p++) {
+    for (i = 0, p = flags; i < nb_flags; i++, p++)
+    {
         if (!strcmp(r, p->name))
             goto found;
     }
     return -1;
- found:
+found:
     if (p->flags & FD_INVERT)
         value = !value;
     *(int *)((uint8_t *)s + p->offset) = value;
     return 0;
 }
-
 
 /* set/reset a warning */
 int tcc_set_warning(TCCState *s, const char *warning_name, int value)
@@ -10105,23 +12292,27 @@ int tcc_set_warning(TCCState *s, const char *warning_name, int value)
     int i;
     const FlagDef *p;
 
-    if (!strcmp(warning_name, "all")) {
-        for(i = 0, p = warning_defs; i < countof(warning_defs); i++, p++) {
+    if (!strcmp(warning_name, "all"))
+    {
+        for (i = 0, p = warning_defs; i < countof(warning_defs); i++, p++)
+        {
             if (p->flags & WD_ALL)
                 *(int *)((uint8_t *)s + p->offset) = 1;
         }
         return 0;
-    } else {
+    }
+    else
+    {
         return set_flag(s, warning_defs, countof(warning_defs),
                         warning_name, value);
     }
 }
 
 static const FlagDef flag_defs[] = {
-    { offsetof(TCCState, char_is_unsigned), 0, "unsigned-char" },
-    { offsetof(TCCState, char_is_unsigned), FD_INVERT, "signed-char" },
-    { offsetof(TCCState, nocommon), FD_INVERT, "common" },
-    { offsetof(TCCState, leading_underscore), 0, "leading-underscore" },
+    {offsetof(TCCState, char_is_unsigned), 0, "unsigned-char"},
+    {offsetof(TCCState, char_is_unsigned), FD_INVERT, "signed-char"},
+    {offsetof(TCCState, nocommon), FD_INVERT, "common"},
+    {offsetof(TCCState, leading_underscore), 0, "leading-underscore"},
 };
 
 /* set/reset a flag */
@@ -10141,10 +12332,10 @@ static const char *tcc_basename(const char *name)
 #ifdef WIN32
     if (!p)
         p = strrchr(name, '\\');
-#endif    
+#endif
     if (!p)
         p = name;
-    else 
+    else
         p++;
     return p;
 }
@@ -10178,7 +12369,7 @@ void help(void)
            "  -o outfile  set output filename\n"
            "  -Bdir       set tcc internal library path\n"
            "  -bench      output compilation statistics\n"
- 	   "  -run        run compiled source\n"
+           "  -run        run compiled source\n"
            "  -fflag      set or reset (with 'no-' prefix) 'flag' (see man page)\n"
            "  -Wwarning   set or reset (with 'no-' prefix) 'warning' (see man page)\n"
            "  -w          disable all warnings\n"
@@ -10198,20 +12389,21 @@ void help(void)
 #ifdef CONFIG_TCC_BCHECK
            "  -b          compile with built-in memory and bounds checker (implies -g)\n"
 #endif
-           "  -bt N       show N callers in stack traces\n"
-           );
+           "  -bt N       show N callers in stack traces\n");
 }
 
 #define TCC_OPTION_HAS_ARG 0x0001
-#define TCC_OPTION_NOSEP   0x0002 /* cannot have space before option and arg */
+#define TCC_OPTION_NOSEP 0x0002 /* cannot have space before option and arg */
 
-typedef struct TCCOption {
+typedef struct TCCOption
+{
     const char *name;
     uint16_t index;
     uint16_t flags;
 } TCCOption;
 
-enum {
+enum
+{
     TCC_OPTION_HELP,
     TCC_OPTION_I,
     TCC_OPTION_D,
@@ -10244,39 +12436,39 @@ enum {
 };
 
 static const TCCOption tcc_options[] = {
-    { "h", TCC_OPTION_HELP, 0 },
-    { "?", TCC_OPTION_HELP, 0 },
-    { "I", TCC_OPTION_I, TCC_OPTION_HAS_ARG },
-    { "D", TCC_OPTION_D, TCC_OPTION_HAS_ARG },
-    { "U", TCC_OPTION_U, TCC_OPTION_HAS_ARG },
-    { "L", TCC_OPTION_L, TCC_OPTION_HAS_ARG },
-    { "B", TCC_OPTION_B, TCC_OPTION_HAS_ARG },
-    { "l", TCC_OPTION_l, TCC_OPTION_HAS_ARG | TCC_OPTION_NOSEP },
-    { "bench", TCC_OPTION_bench, 0 },
-    { "bt", TCC_OPTION_bt, TCC_OPTION_HAS_ARG },
+    {"h", TCC_OPTION_HELP, 0},
+    {"?", TCC_OPTION_HELP, 0},
+    {"I", TCC_OPTION_I, TCC_OPTION_HAS_ARG},
+    {"D", TCC_OPTION_D, TCC_OPTION_HAS_ARG},
+    {"U", TCC_OPTION_U, TCC_OPTION_HAS_ARG},
+    {"L", TCC_OPTION_L, TCC_OPTION_HAS_ARG},
+    {"B", TCC_OPTION_B, TCC_OPTION_HAS_ARG},
+    {"l", TCC_OPTION_l, TCC_OPTION_HAS_ARG | TCC_OPTION_NOSEP},
+    {"bench", TCC_OPTION_bench, 0},
+    {"bt", TCC_OPTION_bt, TCC_OPTION_HAS_ARG},
 #ifdef CONFIG_TCC_BCHECK
-    { "b", TCC_OPTION_b, 0 },
+    {"b", TCC_OPTION_b, 0},
 #endif
-    { "g", TCC_OPTION_g, TCC_OPTION_HAS_ARG | TCC_OPTION_NOSEP },
-    { "c", TCC_OPTION_c, 0 },
-    { "static", TCC_OPTION_static, 0 },
-    { "shared", TCC_OPTION_shared, 0 },
-    { "o", TCC_OPTION_o, TCC_OPTION_HAS_ARG },
-    { "run", TCC_OPTION_run, TCC_OPTION_HAS_ARG | TCC_OPTION_NOSEP },
-    { "rdynamic", TCC_OPTION_rdynamic, 0 },
-    { "r", TCC_OPTION_r, 0 },
-    { "Wl,", TCC_OPTION_Wl, TCC_OPTION_HAS_ARG | TCC_OPTION_NOSEP },
-    { "W", TCC_OPTION_W, TCC_OPTION_HAS_ARG | TCC_OPTION_NOSEP },
-    { "O", TCC_OPTION_O, TCC_OPTION_HAS_ARG | TCC_OPTION_NOSEP },
-    { "m", TCC_OPTION_m, TCC_OPTION_HAS_ARG },
-    { "f", TCC_OPTION_f, TCC_OPTION_HAS_ARG | TCC_OPTION_NOSEP },
-    { "nostdinc", TCC_OPTION_nostdinc, 0 },
-    { "nostdlib", TCC_OPTION_nostdlib, 0 },
-    { "print-search-dirs", TCC_OPTION_print_search_dirs, 0 }, 
-    { "v", TCC_OPTION_v, 0 },
-    { "w", TCC_OPTION_w, 0 },
-    { "pipe", TCC_OPTION_pipe, 0},
-    { NULL },
+    {"g", TCC_OPTION_g, TCC_OPTION_HAS_ARG | TCC_OPTION_NOSEP},
+    {"c", TCC_OPTION_c, 0},
+    {"static", TCC_OPTION_static, 0},
+    {"shared", TCC_OPTION_shared, 0},
+    {"o", TCC_OPTION_o, TCC_OPTION_HAS_ARG},
+    {"run", TCC_OPTION_run, TCC_OPTION_HAS_ARG | TCC_OPTION_NOSEP},
+    {"rdynamic", TCC_OPTION_rdynamic, 0},
+    {"r", TCC_OPTION_r, 0},
+    {"Wl,", TCC_OPTION_Wl, TCC_OPTION_HAS_ARG | TCC_OPTION_NOSEP},
+    {"W", TCC_OPTION_W, TCC_OPTION_HAS_ARG | TCC_OPTION_NOSEP},
+    {"O", TCC_OPTION_O, TCC_OPTION_HAS_ARG | TCC_OPTION_NOSEP},
+    {"m", TCC_OPTION_m, TCC_OPTION_HAS_ARG},
+    {"f", TCC_OPTION_f, TCC_OPTION_HAS_ARG | TCC_OPTION_NOSEP},
+    {"nostdinc", TCC_OPTION_nostdinc, 0},
+    {"nostdlib", TCC_OPTION_nostdlib, 0},
+    {"print-search-dirs", TCC_OPTION_print_search_dirs, 0},
+    {"v", TCC_OPTION_v, 0},
+    {"w", TCC_OPTION_w, 0},
+    {"pipe", TCC_OPTION_pipe, 0},
+    {NULL},
 };
 
 /* convert 'str' into an array of space separated strings */
@@ -10288,7 +12480,8 @@ static int expand_args(char ***pargv, const char *str)
 
     argc = 0;
     argv = NULL;
-    for(;;) {
+    for (;;)
+    {
         while (is_space(*str))
             str++;
         if (*str == '\0')
@@ -10321,34 +12514,43 @@ int parse_args(TCCState *s, int argc, char **argv)
     const char *optarg, *p1, *r1;
     char *r;
 
+#ifdef TCC_TARGET_816
     s->output_format = TCC_OUTPUT_FORMAT_BINARY;
-    
+#endif
     optind = 0;
-    while (1) {
-        if (optind >= argc) {
+    while (1)
+    {
+        if (optind >= argc)
+        {
             if (nb_files == 0 && !print_search_dirs)
                 goto show_help;
             else
                 break;
         }
         r = argv[optind++];
-        if (r[0] != '-') {
+        if (r[0] != '-')
+        {
             /* add a new file */
             dynarray_add((void ***)&files, &nb_files, r);
-            if (!multiple_files) {
+            if (!multiple_files)
+            {
                 optind--;
                 /* argv[0] will be this file */
                 break;
             }
-        } else {
+        }
+        else
+        {
             /* find option in table (match only the first chars */
             popt = tcc_options;
-            for(;;) {
+            for (;;)
+            {
                 p1 = popt->name;
                 if (p1 == NULL)
                     error("invalid option -- '%s'", r);
                 r1 = r + 1;
-                for(;;) {
+                for (;;)
+                {
                     if (*p1 == '\0')
                         goto option_found;
                     if (*r1 != *p1)
@@ -10359,21 +12561,28 @@ int parse_args(TCCState *s, int argc, char **argv)
                 popt++;
             }
         option_found:
-            if (popt->flags & TCC_OPTION_HAS_ARG) {
-                if (*r1 != '\0' || (popt->flags & TCC_OPTION_NOSEP)) {
+            if (popt->flags & TCC_OPTION_HAS_ARG)
+            {
+                if (*r1 != '\0' || (popt->flags & TCC_OPTION_NOSEP))
+                {
                     optarg = r1;
-                } else {
+                }
+                else
+                {
                     if (optind >= argc)
                         error("argument to '%s' is missing", r);
                     optarg = argv[optind++];
                 }
-            } else {
+            }
+            else
+            {
                 if (*r1 != '\0')
                     goto show_help;
                 optarg = NULL;
             }
-                
-            switch(popt->index) {
+
+            switch (popt->index)
+            {
             case TCC_OPTION_HELP:
             show_help:
                 help();
@@ -10383,17 +12592,18 @@ int parse_args(TCCState *s, int argc, char **argv)
                     error("too many include paths");
                 break;
             case TCC_OPTION_D:
+            {
+                char *sym, *value;
+                sym = (char *)optarg;
+                value = strchr(sym, '=');
+                if (value)
                 {
-                    char *sym, *value;
-                    sym = (char *)optarg;
-                    value = strchr(sym, '=');
-                    if (value) {
-                        *value = '\0';
-                        value++;
-                    }
-                    tcc_define_symbol(s, sym, value);
+                    *value = '\0';
+                    value++;
                 }
-                break;
+                tcc_define_symbol(s, sym, value);
+            }
+            break;
             case TCC_OPTION_U:
                 tcc_undefine_symbol(s, optarg);
                 break;
@@ -10452,17 +12662,18 @@ int parse_args(TCCState *s, int argc, char **argv)
                 print_search_dirs = 1;
                 break;
             case TCC_OPTION_run:
+            {
+                int argc1;
+                char **argv1;
+                argc1 = expand_args(&argv1, optarg);
+                if (argc1 > 0)
                 {
-                    int argc1;
-                    char **argv1;
-                    argc1 = expand_args(&argv1, optarg);
-                    if (argc1 > 0) {
-                        parse_args(s, argc1, argv1);
-                    }
-                    multiple_files = 0;
-                    output_type = TCC_OUTPUT_MEMORY;
+                    parse_args(s, argc1, argv1);
                 }
-                break;
+                multiple_files = 0;
+                output_type = TCC_OUTPUT_MEMORY;
+            }
+            break;
             case TCC_OPTION_v:
                 printf("tcc version %s\n", TCC_VERSION);
                 exit(0);
@@ -10471,7 +12682,7 @@ int parse_args(TCCState *s, int argc, char **argv)
                     goto unsupported_option;
                 break;
             case TCC_OPTION_W:
-                if (tcc_set_warning(s, optarg, 1) < 0 && 
+                if (tcc_set_warning(s, optarg, 1) < 0 &&
                     s->warn_unsupported)
                     goto unsupported_option;
                 break;
@@ -10482,35 +12693,49 @@ int parse_args(TCCState *s, int argc, char **argv)
                 s->rdynamic = 1;
                 break;
             case TCC_OPTION_Wl:
+            {
+                const char *p;
+                if (strstart(optarg, "-Ttext,", &p))
                 {
-                    const char *p;
-                    if (strstart(optarg, "-Ttext,", &p)) {
-                        s->text_addr = strtoul(p, NULL, 16);
-                        s->has_text_addr = 1;
-                    } else if (strstart(optarg, "--oformat,", &p)) {
-                        if (strstart(p, "elf32-", NULL)) {
-                            s->output_format = TCC_OUTPUT_FORMAT_ELF;
-                        } else if (!strcmp(p, "binary")) {
-                            s->output_format = TCC_OUTPUT_FORMAT_BINARY;
-                        } else
+                    s->text_addr = strtoul(p, NULL, 16);
+                    s->has_text_addr = 1;
+                }
+                else if (strstart(optarg, "--oformat,", &p))
+                {
+                    if (strstart(p, "elf32-", NULL))
+                    {
+                        s->output_format = TCC_OUTPUT_FORMAT_ELF;
+                    }
+                    else if (!strcmp(p, "binary"))
+                    {
+                        s->output_format = TCC_OUTPUT_FORMAT_BINARY;
+                    }
+                    else
 #ifdef TCC_TARGET_COFF
-                        if (!strcmp(p, "coff")) {
-                            s->output_format = TCC_OUTPUT_FORMAT_COFF;
-                        } else
+                        if (!strcmp(p, "coff"))
+                    {
+                        s->output_format = TCC_OUTPUT_FORMAT_COFF;
+                    }
+                    else
 #endif
-                        {
-                            error("target %s not found", p);
-                        }
-                    } else {
-                        error("unsupported linker option '%s'", optarg);
+                    {
+                        error("target %s not found", p);
                     }
                 }
-                break;
+                else
+                {
+                    error("unsupported linker option '%s'", optarg);
+                }
+            }
+            break;
+#ifdef TCC_TARGET_816
             case TCC_OPTION_O:
                 s->optimize = 1;
                 break;
+#endif
             default:
-                if (s->warn_unsupported) {
+                if (s->warn_unsupported)
+                {
                 unsupported_option:
                     warning("unsupported option '%s'", r);
                 }
@@ -10529,30 +12754,33 @@ int main(int argc, char **argv)
     char objfilename[1024];
     int64_t start_time = 0;
 
-    strcpy(sztmpnam,&tmpnam(NULL)[1]);      // Alekmaul 201125, create temp file name for token name
-    for(i=0;sztmpnam[i]!='\0';i++)               // Alekmaul 201212, ughly change for linux system
+#ifdef TCC_TARGET_816
+    strcpy(sztmpnam, &tmpnam(NULL)[1]);   // Alekmaul 201125, create temp file name for token name
+    for (i = 0; sztmpnam[i] != '\0'; i++) // Alekmaul 201212, ughly change for linux system
     {
-        if(sztmpnam[i]=='/')
+        if (sztmpnam[i] == '/')
         {
             sztmpnam[i] = 'x';
         }
-        if(sztmpnam[i]=='.')
+        if (sztmpnam[i] == '.')
         {
             sztmpnam[i] = 'x';
         }
     }
+#endif
 #ifdef WIN32
     /* on win32, we suppose the lib and includes are at the location
        of 'tcc.exe' */
     {
         static char path[1024];
         char *p, *d;
-        
+
         GetModuleFileNameA(NULL, path, sizeof path);
         p = d = strlwr(path);
         while (*d)
         {
-            if (*d == '\\') *d = '/', p = d;
+            if (*d == '\\')
+                *d = '/', p = d;
             ++d;
         }
         *p = '\0';
@@ -10572,7 +12800,8 @@ int main(int argc, char **argv)
 
     optind = parse_args(s, argc - 1, argv + 1) + 1;
 
-    if (print_search_dirs) {
+    if (print_search_dirs)
+    {
         /* enough for Linux kernel */
         printf("install: %s/\n", tcc_lib_path);
         return 0;
@@ -10586,54 +12815,66 @@ int main(int argc, char **argv)
         output_type = TCC_OUTPUT_EXE;
 
     /* check -c consistency : only single file handled. XXX: checks file type */
-    if (output_type == TCC_OUTPUT_OBJ && !reloc_output) {
+    if (output_type == TCC_OUTPUT_OBJ && !reloc_output)
+    {
         /* accepts only a single input file */
         if (nb_objfiles != 1)
             error("cannot specify multiple files with -c");
         if (nb_libraries != 0)
             error("cannot specify libraries with -c");
     }
-    
-    if (output_type != TCC_OUTPUT_MEMORY) {
-        if (!outfile) {
-    /* compute default outfile name */
-            pstrcpy(objfilename, sizeof(objfilename) - 1, 
+
+    if (output_type != TCC_OUTPUT_MEMORY)
+    {
+        if (!outfile)
+        {
+            /* compute default outfile name */
+            pstrcpy(objfilename, sizeof(objfilename) - 1,
                     /* strip path */
                     tcc_basename(files[0]));
 #ifdef TCC_TARGET_PE
             pe_guess_outfile(objfilename, output_type);
 #else
-            if (output_type == TCC_OUTPUT_OBJ && !reloc_output) {
+            if (output_type == TCC_OUTPUT_OBJ && !reloc_output)
+            {
                 char *ext = strrchr(objfilename, '.');
-            if (!ext)
-                goto default_outfile;
+                if (!ext)
+                    goto default_outfile;
                 /* add .o extension */
-            strcpy(ext + 1, "o");
-        } else {
-        default_outfile:
-            pstrcpy(objfilename, sizeof(objfilename), "a.out");
-        }
+                strcpy(ext + 1, "o");
+            }
+            else
+            {
+            default_outfile:
+                pstrcpy(objfilename, sizeof(objfilename), "a.out");
+            }
 #endif
-        outfile = objfilename;
+            outfile = objfilename;
         }
     }
 
-    if (do_bench) {
+    if (do_bench)
+    {
         start_time = getclock_us();
     }
 
     tcc_set_output_type(s, output_type);
 
     /* compile or add each files or library */
-    for(i = 0;i < nb_files; i++) {
+    for (i = 0; i < nb_files; i++)
+    {
         const char *filename;
 
         filename = files[i];
-        if (filename[0] == '-') {
+        if (filename[0] == '-')
+        {
             if (tcc_add_library(s, filename + 2) < 0)
                 error("cannot find %s", filename);
-        } else {
-            if (tcc_add_file(s, filename) < 0) {
+        }
+        else
+        {
+            if (tcc_add_file(s, filename) < 0)
+            {
                 ret = 1;
                 goto the_end;
             }
@@ -10643,45 +12884,69 @@ int main(int argc, char **argv)
     /* free all files */
     tcc_free(files);
 
-    if (do_bench) {
+    if (do_bench)
+    {
         double total_time;
         total_time = (double)(getclock_us() - start_time) / 1000000.0;
         if (total_time < 0.001)
             total_time = 0.001;
         if (total_bytes < 1)
             total_bytes = 1;
-        printf("%d idents, %d lines, %d bytes, %0.3f s, %d lines/s, %0.1f MB/s\n", 
+        printf("%d idents, %d lines, %d bytes, %0.3f s, %d lines/s, %0.1f MB/s\n",
                tok_ident - TOK_IDENT, total_lines, total_bytes,
-               total_time, (int)(total_lines / total_time), 
-               total_bytes / total_time / 1000000.0); 
+               total_time, (int)(total_lines / total_time),
+               total_bytes / total_time / 1000000.0);
     }
 
+#ifdef TCC_TARGET_816
     {
-        if (s->optimize) {
+        if (s->optimize)
+        {
             char *outfile_pre = tcc_malloc(strlen(outfile) + 4 + 1);
             sprintf(outfile_pre, "%s.pre", outfile);
             tcc_output_file(s, outfile_pre);
             char *cmd = tcc_malloc(strlen(outfile_pre) + strlen(outfile) + 100);
             sprintf(cmd, CONFIG_TCCDIR "/bin/816-opt %s >%s", outfile_pre, outfile);
-            if (system(cmd)) {
+            if (system(cmd))
+            {
                 error("optimizer failed");
             }
             unlink(outfile_pre);
             tcc_free(outfile_pre);
             tcc_free(cmd);
         }
-        else {
+        else
+        {
             tcc_output_file(s, outfile);
         }
         ret = 0;
     }
- the_end:
+#else
+    if (s->output_type == TCC_OUTPUT_MEMORY)
+    {
+        ret = tcc_run(s, argc - optind, argv + optind);
+    }
+    else
+#ifdef TCC_TARGET_PE
+        if (s->output_type != TCC_OUTPUT_OBJ)
+    {
+        ret = tcc_output_pe(s, outfile);
+    }
+    else
+#endif
+    {
+        tcc_output_file(s, outfile);
+        ret = 0;
+    }
+#endif
+the_end:
     /* XXX: cannot do it with bound checking because of the malloc hooks */
     if (!do_bounds_check)
         tcc_delete(s);
 
 #ifdef MEM_DEBUG
-    if (do_bench) {
+    if (do_bench)
+    {
         printf("memory: %d bytes, max = %d bytes\n", mem_cur_size, mem_max_size);
     }
 #endif

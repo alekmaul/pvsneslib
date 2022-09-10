@@ -7,23 +7,10 @@ ENV DISTRO $DISTRO
 
 RUN apt-get update -y && \
     dpkg --add-architecture i386 && \
-    apt-get install build-essential gcc-multilib git python-is-python3 cmake wget -y
+    apt-get install -y build-essential \
+        gcc-multilib \
+        git python-is-python3 \
+        cmake \
+        wget
 
-CMD /usr/bin/echo -e "\n>>>>> CONTAINER INFORMATIONS" >> ${PVSNESLIB_HOME}/docker/${DISTRO}/infos.log && \
-    /usr/bin/echo -n "O.S version " >> ${PVSNESLIB_HOME}/docker/${DISTRO}/infos.log && \
-    egrep '^PRETTY_NAME' /etc/os-release | \
-        cut -d "=" -f2 |\
-        sed 's/"//g' >> ${PVSNESLIB_HOME}/docker/${DISTRO}/infos.log && \
-    /usr/bin/echo -n "Kernel version " >> ${PVSNESLIB_HOME}/docker/${DISTRO}/infos.log && \
-    uname -a >> ${PVSNESLIB_HOME}/docker/${DISTRO}/infos.log && \
-    /usr/bin/echo "gcc version:" >> ${PVSNESLIB_HOME}/docker/${DISTRO}/infos.log && \
-    gcc -v 2>> ${PVSNESLIB_HOME}/docker/${DISTRO}/infos.log && \
-    /usr/bin/echo -ne "\n\t>> [MAKE]   Cleaning files                   " && \
-    make clean > ${PVSNESLIB_HOME}/docker/${DISTRO}/make_clean.log 2>&1 && \
-    /usr/bin/echo -e "[PASS]\n" || { echo -e "[FAILED]\n"; exit 1; } && \
-    /usr/bin/echo -ne "\t>> [GIT]    Refreshing source code           " && \
-    git submodule update --init > ${PVSNESLIB_HOME}/docker/${DISTRO}/git_refresh.log 2>&1 && \
-    /usr/bin/echo -e "[PASS]\n" || { echo -e "[FAILED]\n"; exit 1; } && \
-    /usr/bin/echo -ne "\t>> [MAKE]   Compiling code and installing it " && \
-    make > ${PVSNESLIB_HOME}/docker/${DISTRO}/make.log 2>&1 && \
-    /usr/bin/echo -e "[PASS]\n" || { echo -e "[FAILED]\n"; exit 1; }
+CMD ./docker/scripts/container.sh "${PVSNESLIB_HOME}" "${DISTRO}"

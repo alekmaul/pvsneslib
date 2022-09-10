@@ -75,7 +75,3 @@ Not critical:
   al. check GetModuleHandle for dlls. check exception code (exception
   filter func).
 - handle void (__attribute__() *ptr)()
-
-
-
-
