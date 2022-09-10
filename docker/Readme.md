@@ -49,8 +49,16 @@ usage: ./dockerrun.sh options:<d|h|c>
 
 ```
 * -d: specify the distribution (mandatory). Fedora, debian and ubuntu are availables (latest version).
+```
+  ./dockerrun -d fedora
+```
 
 * -r: create a zip file (release) for the current build (so fedora, ubuntu or debian). By default it uses `/var/tmp/build/` as destination, but you can provide a custom path who'll be created.
+```
+  ./dockerrun -d fedora -r # zip release will be stored in /var/tmp/build
+# or by providing a custom path
+  ./dockerrun -d fedora -r /somewhere/over/the/rainbow # zip release will be stored in /somewhere/over/the/rainbow
+```
 
 * -b: Remove progression bar, useful in batch mode (no terminal) to avoid dirty output.
 
