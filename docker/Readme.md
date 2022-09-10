@@ -1,6 +1,10 @@
 
 # Build code from docker container
 
+- [Build code from docker container](#build-code-from-docker-container)
+  - [Features](#features)
+  - [Installation](#installation)
+  - [Todo](#todo)
 
 This page explains how to build your code via a linux container.
 
@@ -13,39 +17,39 @@ This page explains how to build your code via a linux container.
 
 ## Installation
 
-Install docker on your linux system
+Install docker-ce according to your distribution
 
-Here an exemple for fedora systems
-```bash
-  sudo dnf -y install docker
-  sudo systemctl enable docker.service
-  sudo systemctl start docker.service
+* [fedora](https://docs.docker.com/engine/install/fedora/)
+* [debian](https://docs.docker.com/engine/install/debian/)
+* [ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+* [centos](https://docs.docker.com/engine/install/centos/)
+
+
+Activate and start the docker service
+```
+ sudo systemctl enable docker
+ sudo systemctl start docker
 ```
 
 Add your current user to the docker group and restart your system to make it effective
-```bash
+```
   sudo usermod -aG docker <username>
 ```
-## Usage/Examples
 
-Clone the pvsneslib repository and move to the root of the project (pvsneslib)
-```bash
-  git clone https://github.com/alekmaul/pvsneslib.git
-  cd pvsneslib
-```
-
-Then, execute the dockerrrun.sh script. Three options are availables
+Then, execute the dockerrrun.sh script. Four options are availables
 * -h: see help
-```bash
+```
   ./dockerrrun -h
 
 usage: ./dockerrun.sh options:<d|h|c>
 -d: name of the linux distrubtion (fedora, ubuntu or debian)
 -h: help, print this message
--r: Create release (zip) to /var/tmp/build
+-r: Create release (zip) to /var/tmp/build by default or by providing a custon path in parameter
+-b: Run this script in batch mode, useful when using without terminal
+
 ```
 * -d: specify the distribution (mandatory). Fedora, debian and ubuntu are availables (latest version)
-```bash
+```
   ./dockerrrun -d fedora
 
 >> [DOCKER] Building image pvsneslib-fedora-image [PASS]
@@ -60,7 +64,7 @@ usage: ./dockerrun.sh options:<d|h|c>
 
 ```
 * -r: create a zip file (release) for the current build (so fedora, ubuntu or debian). Must be used with `-d <distribution>`. Here an output with ubuntu container:
-```bash
+```
     ./dockerrrun -d fedora -r
 
 >> [DOCKER] Building image pvsneslib-ubuntu-image [PASS]
@@ -86,19 +90,9 @@ done
 ```
 
 This script doesn't print any output from the executed tasks.
-Each tasks are stored as logfile in `docker/<distribution>/`, in this order:
+Each tasks are stored in a dedicated logfile in `docker/<distribution>/`
 
-1. docker_build.log: output of `docker build ...`
-2. make_clean.log: output of `make Cleaning`
-3. git_refresh.log: output of `git submodule update --init`
-4. make.log: output of `make` and `make install`
-
-Additionnaly, the `infos.log` provides useful information about the system and the container used (os, kernel, docker and gcc version).
-
-If you use `vscode` as editor, I suggest you to install the `AutoScroll` extension (from Pejman Nikram) to be able to read log in real time from your editor. By default, this extension is configured on **ON** for logfiles.
-
-
-## TODO
+## Todo
 
 - Add tag version when creating the release (zip)
 - Add CI: launch build and tests on each PR to be validated
