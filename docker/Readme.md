@@ -36,10 +36,10 @@ Add your current user to the docker group and restart your system to make it eff
   sudo usermod -aG docker <username>
 ```
 
-Then, execute the dockerrrun.sh script. Four options are availables
+Then, execute the dockerrun.sh script. Four options are availables
 * -h: see help
 ```
-  ./dockerrrun -h
+  ./dockerrun -h
 
 usage: ./dockerrun.sh options:<d|h|c>
 -d: name of the linux distrubtion (fedora, ubuntu or debian)
@@ -48,46 +48,11 @@ usage: ./dockerrun.sh options:<d|h|c>
 -b: Run this script in batch mode, useful when using without terminal
 
 ```
-* -d: specify the distribution (mandatory). Fedora, debian and ubuntu are availables (latest version)
-```
-  ./dockerrrun -d fedora
+* -d: specify the distribution (mandatory). Fedora, debian and ubuntu are availables (latest version).
 
->> [DOCKER] Building image pvsneslib-fedora-image [PASS]
+* -r: create a zip file (release) for the current build (so fedora, ubuntu or debian). By default it uses `/var/tmp/build/` as destination, but you can provide a custom path who'll be created.
 
->> [DOCKER] Running container pvsneslib-fedora-image...
-
-        >> [MAKE]   Cleaning files                   [PASS]
-
-        >> [GIT]    Refreshing source code           [PASS]
-
-        >> [MAKE]   Compiling code and installing it [PASS]
-
-```
-* -r: create a zip file (release) for the current build (so fedora, ubuntu or debian). Must be used with `-d <distribution>`. Here an output with ubuntu container:
-```
-    ./dockerrrun -d fedora -r
-
->> [DOCKER] Building image pvsneslib-ubuntu-image [PASS]
-
->> [DOCKER] Running container pvsneslib-ubuntu-image...
-
-        >> [MAKE]   Cleaning files                   [PASS]
-
-        >> [GIT]    Refreshing source code           [PASS]
-
-        >> [MAKE]   Compiling code and installing it [PASS]
-
-
->> [ZIP] Building release for pvsneslib-ubuntu-image [PASS]
-
-The release is /var/tmp/build/pvsneslib-ubuntu-image.zip
-```
-You can ever build all distrutions et create release (zip) files on the fly as follows
-```bash
-$ for d in fedora debian ubuntu; do
-    ./dockerrun.sh -d $d -r
-done
-```
+* -b: Remove progression bar, useful in batch mode (no terminal) to avoid dirty output.
 
 This script doesn't print any output from the executed tasks.
 Each tasks are stored in a dedicated logfile in `docker/<distribution>/`
