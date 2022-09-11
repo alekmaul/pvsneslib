@@ -39,14 +39,14 @@ int main(void) {
 	
 	// Init sprite engine (0x0000 for 32x32 or 16x16, 0x0100 for 16x16 or 8x8)
 	// In our case, 32x32 sporite graphics & entries are in 0x0000, 0x1000 (with lib) and 0x0100 for sprites 16x16
-	oamInitDynamicSprite(0x0000,0x0000, 0x0100,0x0100, 0,0, OBJ_SIZE8_L16/*OBJ_SIZE16_L32*/);
+	oamInitDynamicSprite(0x0000,0x0000, 0x0100,0x0100, 0,0, OBJ_SIZE8_L32/*OBJ_SIZE16_L32*/);
 	for (i=0;i<SPRNUMBER;i++) {
 		oambuffer[i].oamx=rand() % 240;oambuffer[i].oamy=rand() % 208;
 		oambuffer[i].oamframeid=(i % 24);
 		oambuffer[i].oamrefresh=1;
-		if (i<32) {
+		if (i<8) {
 			oambuffer[i].oamattribute=0x20 | (0<<1); // palette 0 of sprite and sprite 16x16 and priority 2
-			oambuffer[i].oamgraphics=&spr16g;
+			oambuffer[i].oamgraphics=&spr32g;
 		}
 		else {
 			oambuffer[i].oamattribute=0x21 | (0<<1); // palette 0 of sprite and sprite 8x8 and priority 2
@@ -68,8 +68,8 @@ int main(void) {
 				if (oambuffer[i].oamframeid>2) oambuffer[i].oamframeid=0;
 				oambuffer[i].oamrefresh=1;
 			}
-			if (i<32) 
-				oamDynamic16Draw(i);
+			if (i<8) 
+				oamDynamic32Draw(i);
 			else {
 				oamDynamic8Draw(i);
 				
