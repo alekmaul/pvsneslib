@@ -66,7 +66,7 @@ cute_tiled_object_t *objm;          		// objects from Tiled layer objects
 cute_tiled_map_t *map;		        		// map from Tiled
 cute_tiled_tile_descriptor_t *tile; 		// tiles from Tiled tiles attributes
 cute_tiled_property_t *propm;       		// properties from Tiled tiles properties
-unsigned short tileprop[N_METATILES][2];	// to store tiles properties in correct order
+unsigned short tileprop[N_METATILES][3];	// to store tiles properties in correct order with index 0:attribute, 1:priority and 2:palette
 pvsneslib_object_t objsnes[N_OBJECTS];		// to store objects in correct order
 
 //// F U N C T I O N S //////////////////////////////////////////////////////////
@@ -190,15 +190,20 @@ void WriteTileset(void)
 		// browse through all propperties of current tile
         for (i = 0; i < tile->property_count; i++) {
             propm = tile->properties + i;
-			// write blocker property (which is a string)
+			// write attribute (blocker, etc..) property (which is a string)
 			if (strcmp(propm->name.ptr,"bloc")==0) {
 				blkprop=(unsigned short) strtol(propm->data.string.ptr,&pend,16);
 				tileprop[tile->tile_index][0]=blkprop;
 			}
-			// write prio property (which is a string)
+			// write priority property (which is a string)
 			if (strcmp(propm->name.ptr,"prio")==0) {
 				blkprop=(unsigned short) strtol(propm->data.string.ptr,&pend,16);
 				tileprop[tile->tile_index][1]=blkprop;
+			}
+			// write palette property (which is a string)
+			if (strcmp(propm->name.ptr,"pale")==0) {
+				blkprop=(unsigned short) strtol(propm->data.string.ptr,&pend,16);
+				tileprop[tile->tile_index][2]=blkprop;
 			}
 		}
         // switch to next tile
@@ -226,7 +231,10 @@ void WriteTileset(void)
 	if (quietmode == 0)
 		printf("tmx2snes:     Writing %d tiles properties to file...\n",tset->tilecount);
 	for (i = 0; i < tset->tilecount; i++) {
-		PutWord((tileprop[i][1] ? 0x2000 : 0x0000)+i,fpo);
+		// compute attribute to match with vhopppcccccccccc
+		blkprop=tileprop[i][1] ? 0x2000 : 0x0000;		// check priority
+		blkprop|=(tileprop[i][2] << 10); // checkpalette
+		PutWord(blkprop+i,fpo);
 	}
 
 	// close current layer atribute file 
@@ -389,7 +397,7 @@ int main(int argc, char **argv)
 	// test some attributes of Tiled map
 	float currentExportSupportedVersion = 1.9;
 	if(map->version != currentExportSupportedVersion) {
-		printf("tmx2snes: error 'the export version you used (%.1f) is not supported. The tool support only the %.1f version.'\n",map->version, currentExportSupportedVersion);
+		printf("tmx2snes: error 'the export version you used (%.1f) is not yet supported. The tool supports only the %.1f version.'\n",map->version, currentExportSupportedVersion);
 		return 1;
 	}
 
@@ -444,7 +452,6 @@ int main(int argc, char **argv)
 
 		layer = layer->next;
 	}
-    //print_map(map);
 	
 	// free the Tiled map object
     cute_tiled_free_map(map);
