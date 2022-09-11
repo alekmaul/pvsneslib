@@ -122,7 +122,8 @@ function onLoad() {
 
     function exportTiledFormat() {
         const xmlMap = document.createElement("map");
-        xmlMap.setAttribute("version", "1.0");
+        xmlMap.setAttribute("version", "1.9");
+        xmlMap.setAttribute("tiledversion", "1.9.1");
         xmlMap.setAttribute("orientation", "orthogonal");
         xmlMap.setAttribute("renderorder", "right-down");
         xmlMap.setAttribute("width", numCols);
@@ -140,19 +141,52 @@ function onLoad() {
         xmlImage.setAttribute("width", extractedTilesWidth);
         xmlImage.setAttribute("height", extractedTilesHeight);
         xmlTileSet.appendChild(xmlImage);
+
+        for (let i = 0, n = (extractedTilesWidth/tileWidth)*(extractedTilesHeight/tileHeight); i < n; ++i) {
+            const xmlTilep = document.createElement("tile");
+			xmlTilep.setAttribute("id", i);
+
+			const xmlTileProps = document.createElement("properties");
+			const xmlTileProp = document.createElement("property");
+            xmlTileProp.setAttribute("name", "bloc");
+            xmlTileProp.setAttribute("value", "0");
+			xmlTileProps.appendChild(xmlTileProp);
+
+			const xmlTileProp1 = document.createElement("property");
+            xmlTileProp1.setAttribute("name", "pale");
+            xmlTileProp1.setAttribute("value", "0");
+			xmlTileProps.appendChild(xmlTileProp1);
+
+			const xmlTileProp2 = document.createElement("property");
+            xmlTileProp2.setAttribute("name", "prio");
+            xmlTileProp2.setAttribute("value", "0");
+			xmlTileProps.appendChild(xmlTileProp2);
+			xmlTilep.appendChild(xmlTileProps);
+
+            xmlTileSet.appendChild(xmlTilep);
+        }
+
         xmlMap.appendChild(xmlTileSet);
+
         const xmlLayer = document.createElement("layer");
-        xmlLayer.setAttribute("name", "layer");
+        xmlLayer.setAttribute("name", "BG1");
         xmlLayer.setAttribute("width", numCols);
         xmlLayer.setAttribute("height", numRows);
         const xmlData = document.createElement("data");
+		xmlData.setAttribute("encoding", "csv");
         for (let i = 0, n = map.length; i < n; ++i) {
             const xmlTile = document.createElement("tile");
-            xmlTile.setAttribute("gid", map[i] + 1);
+            xmlTile.setAttribute("gid", map[i]+1);
             xmlData.appendChild(xmlTile);
         }
         xmlLayer.appendChild(xmlData);
         xmlMap.appendChild(xmlLayer);
+
+        const xmlObjectGE = document.createElement("objectgroup");
+        xmlObjectGE.setAttribute("name", "Entities");
+		xmlObjectGE.setAttribute("color", "#ff0000");
+        xmlMap.appendChild(xmlObjectGE);
+		
         return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(xmlMap);
     }
 
