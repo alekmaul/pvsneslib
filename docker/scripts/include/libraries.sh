@@ -29,7 +29,7 @@ function f_print_progress_bar {
 
 function f_check_distro {
 
-    if [[ $(echo "${distro}" | grep -Ec 'fedora|debian|ubuntu') -ne 1 ]]; then
+    if [[ $(echo "${distro}" | grep -Ec '^centos$|^fedora$|^debian$|^ubuntu$') -ne 1 ]]; then
 
         echo "Wrong distrution: ${distro}"
 
@@ -60,7 +60,7 @@ function f_build_docker_image {
 
 function f_run_docker_container {
 
-    echo -e "[DOCKER] Starting Container ${distro}\n"
+    echo -e "[DOCKER] Starting Container ${distro} [...]\n"
 
     docker run -ti --rm \
         -w "${pvsneslib_home}" \

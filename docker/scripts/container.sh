@@ -9,10 +9,10 @@ padding_width=35
 export padding_width
 
 git fetch --all >"${PVSNESLIB_HOME}/docker/${DISTRO}/git_fetch_all.log" 2>&1
-f_print_message "GIT" "Feching all" $?
+f_print_message "GIT" "Fechting all" $?
 
 git submodule update --init >"${PVSNESLIB_HOME}/docker/${DISTRO}/git_update_submodule.log" 2>&1
-f_print_message "GIT" "Updating submodules" $?
+f_print_message "GIT" "Updating submodule(s)" $?
 
 make clean >"${PVSNESLIB_HOME}/docker/${DISTRO}/make_clean.log" 2>&1
 f_print_message "MAKE" "Cleaning" $?
