@@ -42,7 +42,7 @@ compilers, it is meant to be self-relying: you do not need an
 external assembler or linker because TCC does that for you.
 
 TCC compiles so @emph{fast} that even for big projects @code{Makefile}s may
-not be necessary. 
+not be necessary.
 
 TCC not only supports ANSI C, but also most of the new ISO C99
 standard and many GNUC extensions including inline assembly.
@@ -94,9 +94,11 @@ the @code{main()} of a.c.
 
 @item @samp{tcc a.c -run b.c arg1}
 Compile @file{a.c} and @file{b.c}, link them together and execute them. arg1 is given
-as first argument to the @code{main()} of the resulting program. Because
-multiple C files are specified, @option{--} are necessary to clearly separate the
-program arguments from the TCC options.
+as first argument to the @code{main()} of the resulting program.
+@ignore
+Because multiple C files are specified, @option{--} are necessary to clearly
+separate the program arguments from the TCC options.
+@end ignore
 
 @item @samp{tcc -o myprog a.c b.c}
 Compile @file{a.c} and @file{b.c}, link them and generate the executable @file{myprog}.
@@ -129,11 +131,18 @@ need to add @code{#!/usr/local/bin/tcc -run} at the start of your C source:
 #!/usr/local/bin/tcc -run
 #include <stdio.h>
 
-int main() 
+int main()
 @{
     printf("Hello World\n");
     return 0;
 @}
+@end example
+
+TCC can read C source code from @emph{standard input} when @option{-} is used in
+place of @option{infile}. Example:
+
+@example
+echo 'main(){puts("hello");}' | tcc -run -
 @end example
 @c man end
 
@@ -144,7 +153,7 @@ General Options:
 @c man begin OPTIONS
 @table @option
 @item -v
-Display current TCC version.
+Display current TCC version, increase verbosity.
 
 @item -c
 Generate an object file (@option{-o} option must also be given).
@@ -160,7 +169,6 @@ Set the path where the tcc internal libraries can be found (default is
 Output compilation statistics.
 
 @item -run source [args...]
-
 Compile file @var{source} and run it with the command line arguments
 @var{args}. In order to be able to give more than one argument to a
 script, several TCC options can be given @emph{after} the
@@ -249,7 +257,7 @@ Make string constants be of type @code{const char *} instead of @code{char
 @item -Werror
 Abort compilation if warnings are issued.
 
-@item -Wall 
+@item -Wall
 Activate all warnings, except @option{-Werror}, @option{-Wunusupported} and
 @option{-Wwrite-strings}.
 
@@ -381,7 +389,7 @@ function name.
 
     int tab[10] = @{ 1, 2, [5] = 5, [9] = 9@};
 @end example
-    
+
 @item Compound initializers are supported:
 @example
     int *p = (int [])@{ 1, 2, 3 @};
@@ -395,7 +403,7 @@ works for structures and strings.
 @end example
 
 @noindent
-is the same as writing 
+is the same as writing
 @example
           double d = 4771840.0;
 @end example
@@ -406,24 +414,17 @@ is the same as writing
 @end itemize
 
 @section GNU C extensions
-@cindex aligned attribute
-@cindex packed attribute
-@cindex section attribute
-@cindex unused attribute
-@cindex cdecl attribute
-@cindex stdcall attribute
-@cindex regparm attribute
 
 TCC implements some GNU C extensions:
 
 @itemize
 
-@item array designators can be used without '=': 
+@item array designators can be used without '=':
 @example
     int a[10] = @{ [0] 1, [5] 2, 3, 4 @};
 @end example
 
-@item Structure field designators can be a label: 
+@item Structure field designators can be a label:
 @example
     struct @{ int x, y; @} st = @{ x: 1, y: 1@};
 @end example
@@ -446,13 +447,22 @@ instead of
     @}
 @end example
 
+@cindex aligned attribute
+@cindex packed attribute
+@cindex section attribute
+@cindex unused attribute
+@cindex cdecl attribute
+@cindex stdcall attribute
+@cindex regparm attribute
+@cindex dllexport attribute
+
 @item The keyword @code{__attribute__} is handled to specify variable or
 function attributes. The following attributes are supported:
   @itemize
 
   @item @code{aligned(n)}: align a variable or a structure field to n bytes
 (must be a power of two).
-  
+
   @item @code{packed}: force alignment of a variable or a structure field to
   1.
 
@@ -470,6 +480,8 @@ section.
 between 1 and 3. The first @var{n} function parameters are respectively put in
 registers @code{%eax}, @code{%edx} and @code{%ecx}.
 
+  @item @code{dllexport}: export function from dll/executable (win32 only)
+
   @end itemize
 
 Here are some examples:
@@ -481,7 +493,7 @@ Here are some examples:
 align variable @code{a} to 8 bytes and put it in section @code{.mysection}.
 
 @example
-    int my_add(int a, int b) __attribute__ ((section(".mycodesection"))) 
+    int my_add(int a, int b) __attribute__ ((section(".mycodesection")))
     @{
         return a + b;
     @}
@@ -498,17 +510,17 @@ generate function @code{my_add} in section @code{.mycodesection}.
     dprintf("one arg %d\n", 1);
 @end example
 
-@item @code{__FUNCTION__} is interpreted as C99 @code{__func__} 
+@item @code{__FUNCTION__} is interpreted as C99 @code{__func__}
 (so it has not exactly the same semantics as string literal GNUC
 where it is a string literal).
 
-@item The @code{__alignof__} keyword can be used as @code{sizeof} 
+@item The @code{__alignof__} keyword can be used as @code{sizeof}
 to get the alignment of a type or an expression.
 
-@item The @code{typeof(x)} returns the type of @code{x}. 
+@item The @code{typeof(x)} returns the type of @code{x}.
 @code{x} is an expression or a type.
 
-@item Computed gotos: @code{&&label} returns a pointer of type 
+@item Computed gotos: @code{&&label} returns a pointer of type
 @code{void *} on the goto label @code{label}. @code{goto *expr} can be
 used to jump on the pointer resulting from @code{expr}.
 
@@ -542,7 +554,7 @@ TCC includes its own x86 inline assembler with a @code{gas}-like (GNU
 assembler) syntax. No intermediate files are generated. GCC 3.x named
 operands are supported.
 
-@item @code{__builtin_types_compatible_p()} and @code{__builtin_constant_p()} 
+@item @code{__builtin_types_compatible_p()} and @code{__builtin_constant_p()}
 are supported.
 
 @item @code{#pragma pack} is supported for win32 compatibility.
@@ -607,7 +619,7 @@ same as C.
 @item +, -
 @end enumerate
 
-@item A value is either an absolute number or a label plus an offset. 
+@item A value is either an absolute number or a label plus an offset.
 All operators accept absolute values except '+' and '-'. '+' or '-' can be
 used to add an offset to a label. '-' supports two labels only if they
 are the same or if they are both defined and in the same section.
@@ -620,7 +632,7 @@ are the same or if they are both defined and in the same section.
 
 @item All labels are considered as local, except undefined ones.
 
-@item Numeric labels can be used as local @code{gas}-like labels. 
+@item Numeric labels can be used as local @code{gas}-like labels.
 They can be defined several times in the same source. Use 'b'
 (backward) or 'f' (forward) as suffix to reference them:
 
@@ -725,10 +737,13 @@ TCC for Windows supports the native Win32 executable file format (PE-i386). It
 generates both EXE and DLL files. DLL symbols can be imported thru DEF files
 generated with the @code{tiny_impdef} tool.
 
-Currently TCC for Windows cannot generate nor read PE object files, so ELF
-object files are used for that purpose. It can be a problem if
-interoperability with MSVC is needed. Moreover, no leading underscore is
-currently generated in the ELF symbols.
+On the object file level, currently TCC supports only the ELF format, not COFF
+as used by MINGW and MSVC. It is not possible to exchange object files or
+libraries between TCC and these compilers.  However libraries for TCC from objects
+by TCC can be made using the @code{tiny_libmaker} tool or MINGW's @code{ar}.
+
+No leading underscore is generated in the ELF symbols.  Only functions (no
+data) can be exported. Bounds checking (@option{-b}) is not supported currently.
 
 @section GNU Linker Scripts
 @cindex scripts, linker
@@ -830,7 +845,7 @@ Here are some examples of caught errors:
 @chapter The @code{libtcc} library
 
 The @code{libtcc} library enables you to use TCC as a backend for
-dynamic code generation. 
+dynamic code generation.
 
 Read the @file{libtcc.h} to have an overview of the API. Read
 @file{libtcc_test.c} to have a very simple example.
@@ -869,10 +884,10 @@ except:
 
 @itemize
 
-@item For initialized arrays with unknown size, a first pass 
+@item For initialized arrays with unknown size, a first pass
 is done to count the number of elements.
 
-@item For architectures where arguments are evaluated in 
+@item For architectures where arguments are evaluated in
 reverse order, a first pass is done to reverse the argument order.
 
 @end itemize
@@ -1072,7 +1087,7 @@ stack.
 @item VT_CMP
 indicates that the value is actually stored in the CPU flags (i.e. the
 value is the consequence of a test). The value is either 0 or 1. The
-actual CPU flags used is indicated in @code{SValue.c.i}. 
+actual CPU flags used is indicated in @code{SValue.c.i}.
 
 If any code is generated which destroys the CPU flags, this value MUST be
 put in a normal register.
@@ -1092,7 +1107,7 @@ taken.
 @item VT_LVAL
 is a flag indicating that the value is actually an lvalue (left value of
 an assignment). It means that the value stored is actually a pointer to
-the wanted value. 
+the wanted value.
 
 Understanding the use @code{VT_LVAL} is very important if you want to
 understand how TCC works.

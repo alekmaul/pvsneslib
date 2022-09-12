@@ -41,6 +41,6 @@ int main()
     abort ();
   if (args[2] != NULL)
     abort ();
-  
+
   exit (0);
 }

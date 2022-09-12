@@ -1,7 +1,7 @@
 /*
 From: niles@fan745.gsfc.nasa.gov
 To: fortran@gnu.org
-Subject: Re: Scary problems in g77 for RedHat 6.0. (glibc-2.1) 
+Subject: Re: Scary problems in g77 for RedHat 6.0. (glibc-2.1)
 Date: Sun, 06 Jun 1999 23:37:23 -0400
 X-UIDL: 9c1e40c572e3b306464f703461764cd5
 */

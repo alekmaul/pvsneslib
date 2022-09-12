@@ -1,4 +1,4 @@
-#!./tcc -run -L/usr/X11R6/lib -lX11
+#!./ tcc - run - L / usr / X11R6 / lib - lX11
 #include <stdlib.h>
 /* Yes, TCC can use X11 too ! */
 #include <stdio.h>
@@ -10,14 +10,15 @@ int main(int argc, char **argv)
     Screen *screen;
 
     display = XOpenDisplay("");
-    if (!display) {
+    if (!display)
+    {
         fprintf(stderr, "Could not open X11 display\n");
         exit(1);
     }
     printf("X11 display opened.\n");
     screen = XScreenOfDisplay(display, 0);
-    printf("width = %d\nheight = %d\ndepth = %d\n", 
-           screen->width, 
+    printf("width = %d\nheight = %d\ndepth = %d\n",
+           screen->width,
            screen->height,
            screen->root_depth);
     XCloseDisplay(display);

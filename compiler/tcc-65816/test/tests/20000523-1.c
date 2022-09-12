@@ -6,9 +6,9 @@ main (void)
 
   if (sizeof (long long) < 8)
     exit (0);
-  
+
   n = 9;
-  x = (((long long) n) << 55) / 0xff; 
+  x = (((long long) n) << 55) / 0xff;
 
   if (x == 0)
     abort ();

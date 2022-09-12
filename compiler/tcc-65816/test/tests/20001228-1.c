@@ -4,7 +4,7 @@ int foo1(void)
     char a[sizeof (unsigned)];
     unsigned b;
   } u;
-  
+
   u.b = 0x01;
   return u.a[0];
 }
@@ -15,7 +15,7 @@ int foo2(void)
     char a[sizeof (unsigned)];
     unsigned b;
   } u;
-  
+
   u.b = 0x01;
   return u.a[0];
 }

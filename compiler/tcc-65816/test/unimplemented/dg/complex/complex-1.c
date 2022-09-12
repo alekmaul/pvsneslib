@@ -4,7 +4,7 @@
 /* Verify that the 6th complex floating-point argument is
    correctly passed as unnamed argument on SPARC64.  */
 
-extern void abort(void);   
+extern void abort(void);
 
 void foo(long arg1, long arg2, long arg3, long arg4, long arg5, ...)
 {

@@ -2,7 +2,7 @@
    declaration.  */
 
 void *volatile p;
-                                                                                
+
 int
 main (void)
 {

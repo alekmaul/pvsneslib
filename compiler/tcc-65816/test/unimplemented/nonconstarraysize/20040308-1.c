@@ -16,6 +16,6 @@ void foo(int n)
 int main(void)
 {
   foo(4);
-  
+
   return 0;
 }

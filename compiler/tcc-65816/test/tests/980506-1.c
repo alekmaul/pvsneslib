@@ -1,7 +1,7 @@
 struct decision
 {
-  char enforce_mode;             
-  struct decision *next;         
+  char enforce_mode;
+  struct decision *next;
 };
 
 

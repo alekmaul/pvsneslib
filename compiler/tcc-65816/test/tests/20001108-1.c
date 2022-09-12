@@ -17,7 +17,7 @@ main (void)
 {
   if (signed_poly (2LL, -3) != -4LL)
     abort ();
-  
+
   if (unsigned_poly (2ULL, 3) != 8ULL)
     abort ();
 

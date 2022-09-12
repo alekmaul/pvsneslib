@@ -35,6 +35,6 @@ int main(void)
   global = 1;
   if (bar () != 0)
     abort();
-  
+
   return 0;
 }

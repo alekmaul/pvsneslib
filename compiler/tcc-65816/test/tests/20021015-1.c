@@ -18,7 +18,7 @@ int main (void)
   char *element;
   int i, length = 100;
 
-  for (i = 0; *list != 0; i++) 
+  for (i = 0; *list != 0; i++)
     {
       char *prevList = list;
       g (0, list, length, &element, &list);

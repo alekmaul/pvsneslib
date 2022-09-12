@@ -18,6 +18,6 @@ void fn(struct fbs *fbs_ptr)
 
 int main(void)
 {
-  fn(&fbs1); 
+  fn(&fbs1);
   return 0;
 }

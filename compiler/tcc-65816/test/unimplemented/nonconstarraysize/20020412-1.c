@@ -40,7 +40,7 @@ int main (void)
 {
   int z = 5;
   struct { char a[z]; } x, y;
-          
+
   x.a[0] = '0';
   x.a[1] = '1';
   x.a[2] = '2';

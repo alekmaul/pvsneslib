@@ -14,7 +14,7 @@ output_25 (void)
     case 2:
       return "ld	%1,%0";
     case 3:
-      return "st	%1,%0";      
+      return "st	%1,%0";
     }
 }
 

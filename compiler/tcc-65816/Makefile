@@ -42,7 +42,7 @@ Makefile: config.mak
 test: test.ref test.out
 	@if diff -u test.ref test.out ; then echo "Auto Test OK"; fi
 
-tcctest.ref: tcctest.c 
+tcctest.ref: tcctest.c
 	$(CC) $(CFLAGS) -I. -o $@ $<
 
 test.ref: tcctest.ref
@@ -204,7 +204,7 @@ tcc_p: tcc.c Makefile
 	$(CC) $(CFLAGS_P) -o $@ $< $(LIBS_P)
 
 # libtcc generation and example
-libinstall: libtcc.a 
+libinstall: libtcc.a
 	mkdir -p "$(libdir)"
 	$(INSTALL) -m644 libtcc.a "$(libdir)"
 	mkdir -p "$(includedir)"
@@ -213,7 +213,7 @@ libinstall: libtcc.a
 libtcc.o: tcc.c Makefile
 	$(CC) $(CFLAGS) -DLIBTCC -c -o $@ $<
 
-libtcc.a: libtcc.o 
+libtcc.a: libtcc.o
 	$(AR) rcs $@ $^
 
 libtcc_test$(EXESUF): libtcc_test.c libtcc.a

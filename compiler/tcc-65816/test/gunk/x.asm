@@ -12,7 +12,7 @@
 
 .SNESHEADER
   ID "SNES"                     ; 1-4 letter string, just leave it as "SNES"
-  
+
   NAME "SNES Tile Demo       "  ; Program Title - can't be over 21 bytes,
   ;    "123456789012345678901"  ; use spaces for unused bytes of the name.
 
@@ -59,7 +59,7 @@ EmptyHandler:
 
 .ENDS
 
-.EMPTYFILL $00                  ; fill unused areas with $00, opcode for BRK.  
+.EMPTYFILL $00                  ; fill unused areas with $00, opcode for BRK.
                                 ; BRK will crash the snes if executed.
 .MACRO Snes_Init
         sei             ; Disabled interrupts
@@ -77,8 +77,8 @@ EmptyHandler:
 Init:
         sep     #$30    ; X,Y,A are 8 bit numbers
         lda     #$8F    ; screen off, full brightness
-        sta     $2100   ; brightness + screen enable register 
-        stz     $2101   ; Sprite register (size + address in VRAM) 
+        sta     $2100   ; brightness + screen enable register
+        stz     $2101   ; Sprite register (size + address in VRAM)
         stz     $2102   ; Sprite registers (address of sprite memory [OAM])
         stz     $2103   ;    ""                       ""
         stz     $2105   ; Mode 0, = Graphic mode register

@@ -8,7 +8,7 @@ int foo (int i)
   r = (80 - 4 * i) / 20;
   return r;
 }
-    
+
 int main ()
 {
   if (foo (1) != 3)

@@ -21,7 +21,7 @@ static int is_addressable(void *p, size_t size)
    volatile int ret;
    struct sigaction sa, origsa;
    sigset_t mask;
-   
+
    sa.sa_handler = segv_handler;
    sa.sa_flags = 0;
    sigfillset(&sa.sa_mask);

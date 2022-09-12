@@ -37,7 +37,7 @@ void vat(va_list param, ...)
   va_end (param);
 }
 
-int main(void) 
+int main(void)
 {
   va_list t;
   vat (t, 1);

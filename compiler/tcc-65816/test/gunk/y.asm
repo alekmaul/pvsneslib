@@ -12,7 +12,7 @@
 
 .SNESHEADER
   ID "SNES"                     ; 1-4 letter string, just leave it as "SNES"
-  
+
   NAME "SNES Tile Demo       "  ; Program Title - can't be over 21 bytes,
   ;    "123456789012345678901"  ; use spaces for unused bytes of the name.
 

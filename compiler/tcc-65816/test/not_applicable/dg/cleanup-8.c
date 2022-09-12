@@ -25,13 +25,13 @@ static void force_unwind ()
   struct _Unwind_Exception *exc = malloc (sizeof (*exc));
   memset (&exc->exception_class, 0, sizeof (exc->exception_class));
   exc->exception_cleanup = 0;
-                   
+
 #ifndef __USING_SJLJ_EXCEPTIONS__
   _Unwind_ForcedUnwind (exc, force_unwind_stop, 0);
 #else
   _Unwind_SjLj_ForcedUnwind (exc, force_unwind_stop, 0);
 #endif
-                   
+
   abort ();
 }
 
@@ -93,7 +93,7 @@ static int __attribute__((noinline)) fn0 ()
 }
 
 int main()
-{ 
+{
   fn0 ();
   abort ();
 }

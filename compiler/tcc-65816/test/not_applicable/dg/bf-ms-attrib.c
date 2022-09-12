@@ -1,7 +1,7 @@
 /* bf-ms-attrib.c */
 /* Adapted from Donn Terry <donnte@microsoft.com> testcase
    posted to GCC-patches
-   http://gcc.gnu.org/ml/gcc-patches/2000-08/msg00577.html */ 
+   http://gcc.gnu.org/ml/gcc-patches/2000-08/msg00577.html */
 
 /* { dg-do run { target *-*-interix* *-*-mingw* *-*-cygwin* } } */
 
@@ -27,7 +27,7 @@ struct one_ms {
 } __attribute__((__ms_struct__));
 
 
-main() 
+main()
   {
     /* As long as the sizes are as expected, we know attributes are working.
        bf-ms-layout.c makes sure the right thing happens when the attribute

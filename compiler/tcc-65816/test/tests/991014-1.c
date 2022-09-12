@@ -43,7 +43,7 @@ int main()
     abort();
 
   if (struct_a_offset() < sizeof(short) * bufsize)
-    abort();  
+    abort();
 
   return 0;
 }

@@ -18,12 +18,12 @@ main ()
 {
   int * p;
   int x;
-  
+
   s1.a = 9;
   p    = & s1.a;
   s1   = s2;
   x    = * p;
-  
+
   check (x, 1);
 }
 

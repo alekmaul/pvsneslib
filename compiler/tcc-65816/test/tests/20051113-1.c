@@ -2,7 +2,7 @@ extern void *malloc(__SIZE_TYPE__);
 extern void *memset(void *, int, __SIZE_TYPE__);
 typedef struct
 {
-  short a;  
+  short a;
   unsigned short b;
   unsigned short c;
   unsigned long long Count;
@@ -36,7 +36,7 @@ unsigned long long Sum (Struct3 *instrs)
 {
     unsigned long long  count = 0;
     int     i;
-    
+
     for (i = 0; i < instrs->Count; i++) {
         count += instrs->List[i].a.Count;
     }
@@ -47,7 +47,7 @@ long long Sum2 (Struct3 *instrs)
 {
     long long  count = 0;
     int     i;
-    
+
     for (i = 0; i < instrs->Count; i++) {
         count += instrs->List[i].a.Count2;
     }

@@ -18,7 +18,7 @@ bar (int k)
 
 int
 main (void)
-{  
+{
   bar (1);
   exit (0);
 }

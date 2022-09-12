@@ -149,7 +149,7 @@ WorkEntrySType;
 
 WorkEntrySType Workspace;
 
-static void 
+static void
 setStatPointers (ShrPcStatsSType * statsPtr, long sessionId)
 {
   statsPtr->sessionId = sessionId;
@@ -207,7 +207,7 @@ typedef struct
 
 ShrPcPteSType MyPte;
 
-static void 
+static void
 initPte (void *shrpcPtr, long sessionId)
 {
   ShrPcPteSType *ptePtr;
@@ -216,13 +216,13 @@ initPte (void *shrpcPtr, long sessionId)
   setStatPointers (&ptePtr->stats, sessionId);
 }
 
-void 
+void
 InitCache (int sessionId)
 {
   initPte (0, sessionId);
 }
 
-int 
+int
 main (int argc, char *argv[])
 {
   InitCache (5);

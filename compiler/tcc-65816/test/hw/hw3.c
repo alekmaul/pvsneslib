@@ -299,7 +299,7 @@ gen_testunaryop(float)
   gen_test(op, sop, __uchar) \
   gen_test(op, sop, __longlong) \
   gen_test(op, sop, __ulonglong)
-  
+
 #define gen_testallnotzero(op, sop) \
   gen_testnotzero(op, sop, int) \
   gen_testnotzero(op, sop, __uint) \
@@ -307,7 +307,7 @@ gen_testunaryop(float)
   gen_testnotzero(op, sop, __uchar) \
   gen_testnotzero(op, sop, __longlong) \
   gen_testnotzero(op, sop, __ulonglong)
-  
+
 #else
 #define gen_testall(op, sop)
 #endif
@@ -666,9 +666,9 @@ int main(void)
   testlonglong();
   testptrconv();
   testellipsis();
-  
+
   for(i = 0; i < 25; i++) testcontrol(i);
-  
+
 
   // conversion of certain boundary values
   float a = 0xffffU;
@@ -902,7 +902,7 @@ void testcasts(void)
     run_cast(__ulonglong, ull1[i]);
   }
 #endif
-  
+
 #if 1
   for(i = 0; i < (sizeof(char1)/sizeof(char)); i++) {
     run_cast(char, char1[i]);
@@ -930,20 +930,20 @@ void testptrconv(void)
 {
   int* fritz;
   int hannes;
-  
+
   fritz = hans;
   write("fritzhans "); hexn(*fritz);
-  
+
 #if 0 // TCC does not allow conversion between pointers and long longs
   __longlong herbert;
   __ulonglong markus;
   herbert = (__longlong)fritz;
   write("herberthans "); hexn(*((int*)herbert));
-  
+
   markus = (__ulonglong)fritz;
   write("markushans "); hexn(*((int*)markus));
 #endif
-  
+
   hannes = (int)fritz;
 
 #if 0	// arithmetics are 16-bit only, so this is true on 65816
@@ -953,7 +953,7 @@ void testptrconv(void)
 
   if(hannes == (int)hans) write("hans2int OK\n");
   else write("hans2int funky\n");
-  
+
   int ax = 3;
   bx += 1;
   if((int)ax == (int)bx) write("huhu\n");
@@ -973,12 +973,12 @@ void testcontrol(int num)
   }
   OUTC('\n');
 #endif
-  
+
 #if 1
   if(num <= 10) write("<= 10\n");
   else if(num > 11) write("> 11\n");
   else write("== 11\n");
-  
+
   int i;
   for(i = num; i; --i) hex(i);
   OUTC('\n');
@@ -989,7 +989,7 @@ void testcontrol(int num)
     hex(i);
   } while(i--);
   OUTC('\n');
-  
+
   i = num;
 label:
   hex(i);

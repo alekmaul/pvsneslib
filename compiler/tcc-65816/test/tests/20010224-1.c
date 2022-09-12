@@ -15,16 +15,16 @@ void ba_compute_psd (int16_t start)
   int i,j,k;
   int16_t lastbin = 4;
 
-  j = start; 
-  k = masktab[start]; 
+  j = start;
+  k = masktab[start];
 
-  bndpsd[k] = psd[j]; 
-  j++; 
+  bndpsd[k] = psd[j];
+  j++;
 
-  for (i = j; i < lastbin; i++) { 
+  for (i = j; i < lastbin; i++) {
     bndpsd[k] = logadd(&bndpsd[k], &psd[j]);
-    j++; 
-  } 
+    j++;
+  }
 }
 
 int16_t logadd (int16_t *a, int16_t *b)
@@ -41,4 +41,4 @@ int main (void)
   if (bndpsd[1] != 140) abort ();
   return 0;
 }
-  
+

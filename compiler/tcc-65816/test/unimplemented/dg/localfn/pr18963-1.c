@@ -4,7 +4,7 @@
 static int barf ();
 
 int foo ()
-{ 
+{
   auto int barf ();
   int j = 4;
 

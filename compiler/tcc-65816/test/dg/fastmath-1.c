@@ -3,12 +3,12 @@
 
 extern void abort (void);
 
-int foo ( float* dists,  int k) 
-{ 
-if ( ( dists [ 0 ] > 0 ) == ( dists [ 1 ] > 0 ) ) 
+int foo ( float* dists,  int k)
+{
+if ( ( dists [ 0 ] > 0 ) == ( dists [ 1 ] > 0 ) )
   return k;
 return 0;
-} 
+}
 main() {
   float dists[16] = { 0., 1., 1., 0., 0., -1., -1., 0.,
 		     1., 1., 1., -1., -1., 1., -1., -1. };

@@ -24,7 +24,7 @@ bar (void)
       exit (2);
       break;
     }
-    
+
   if(r != &x) exit(42);
   return r;
 #else

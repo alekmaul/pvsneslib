@@ -15,7 +15,7 @@ struct s a = { 0x100000, 0x100000, 0x100000 };
 struct s b = { 0x100000000ULL, 0x100000000ULL, 0x100000000ULL };
 struct s c = { 0x1FFFFFFFFULL, 0, 0 };
 
-int 
+int
 main (void)
 {
   if (a.u33 * a.u33 != 0 || a.u33 * a.u40 != 0 || a.u40 * a.u33 != 0

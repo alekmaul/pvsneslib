@@ -9,7 +9,7 @@ char* bums = "bums";
 char* fallera = "fallera";
 char* chachacha = "chachacha";
 
-void other_func(int y) 
+void other_func(int y)
 {
 }
 

@@ -18,7 +18,7 @@ struct s
 int
 main (void)
 {
-  if (sizeof (struct s) != (sizeof (char) + sizeof (union u))) 
+  if (sizeof (struct s) != (sizeof (char) + sizeof (union u)))
     abort ();
 
   return 0;

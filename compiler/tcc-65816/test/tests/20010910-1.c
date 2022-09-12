@@ -10,12 +10,12 @@
 
 extern void abort(void);
 
-struct epic_rx_desc 
+struct epic_rx_desc
 {
   unsigned int next;
 };
 
-struct epic_private 
+struct epic_private
 {
   struct epic_rx_desc *rx_ring;
   unsigned int rx_skbuff[5];
@@ -25,7 +25,7 @@ static void epic_init_ring(struct epic_private *ep)
 {
   int i;
 
-  for (i = 0; i < 5; i++) 
+  for (i = 0; i < 5; i++)
   {
     ep->rx_ring[i].next = 10 + (i+1)*2;
     ep->rx_skbuff[i] = 0;
@@ -46,10 +46,10 @@ int main(void)
     rx_ring[i].next=0;
     ep.rx_skbuff[i]=5;
   }
-  
+
   ep.rx_ring=rx_ring;
   epic_init_ring(&ep);
-  
+
   for (i=0;i<5;i++)
   {
     if ( rx_ring[i].next != check_rx_ring[i] ) abort();

@@ -16,19 +16,19 @@ doit(int sel, int n, void *p)
   switch (sel)
     {
     case 0:
-      do 
+      do
 	*p0 += *p0;
       while (--n);
       return *p0 == 0;
 
     case 1:
-      do 
+      do
 	*p1 += *p1;
       while (--n);
       return *p1 == 0;
 
     case 2:
-      do 
+      do
 	*p2 += *p2;
       while (--n);
       return *p2 == 0;

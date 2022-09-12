@@ -1,15 +1,15 @@
-/* 
+/*
  This test checks promotion of bitfields.  Bitfields should be promoted
- very much like chars and shorts: 
+ very much like chars and shorts:
 
  Bitfields (signed or unsigned) should be promoted to signed int if their
- value will fit in a signed int, otherwise to an unsigned int if their 
+ value will fit in a signed int, otherwise to an unsigned int if their
  value will fit in an unsigned int, otherwise we don't promote them (ANSI/ISO
  does not specify the behavior of bitfields larger than an unsigned int).
 
  We test the behavior by subtracting two from the promoted value: this will
  result in a negitive value for signed types, a positive value for unsigned
- types.  This test (of course) assumes that the compiler is correctly 
+ types.  This test (of course) assumes that the compiler is correctly
  implementing signed and unsigned arithmetic.
  */
 

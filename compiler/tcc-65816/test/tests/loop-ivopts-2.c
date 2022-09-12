@@ -1,5 +1,5 @@
 /* PR rtl-optimization/20290  */
-   
+
 /* We used to mis-optimize the second loop in main on at least ppc and
    arm, because tree loop would change the loop to something like:
 
@@ -14,7 +14,7 @@
 <L4>:;
   ivtmp.16 = ivtmp.16 - 1;
   ivtmp.65 = ivtmp.65 + 4B;
-  if (ivtmp.16 != 0) goto <L3>; 
+  if (ivtmp.16 != 0) goto <L3>;
 
   We used to consider the increment of i as executed in every
   iteration, so we'd miscompute the final value.  */

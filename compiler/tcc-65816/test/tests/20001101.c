@@ -1,5 +1,5 @@
 extern void abort(void);
-			 
+			
 typedef struct
 {
   unsigned int unchanging : 1;

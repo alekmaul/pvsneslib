@@ -2,7 +2,7 @@
 /* Contributed by Glen Nakamura */
 
 extern void abort (void);
- 
+
 int main (void)
 {
   char buf[16] = "1234567890";

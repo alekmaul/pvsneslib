@@ -15,7 +15,7 @@ main (argc, argv)
   int i,A1;
 
   for (i = number_columns-1; i != 0; i--)
-    {         
+    {
       if (i == 1)
 	{
 	  dummy(&A1, i);

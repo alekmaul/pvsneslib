@@ -56,32 +56,32 @@ create_array_type (struct type *result_type, struct type *element_type)
     (element_type)->length * (high_bound - low_bound + 1);
   (result_type)->nfields = 1;
   (result_type)->fields =
-    (struct field *) ((result_type)->objfile != ((void *)0) 
+    (struct field *) ((result_type)->objfile != ((void *)0)
 		      ? (
 		      {
-			struct obstack *__h = 
+			struct obstack *__h =
 			  (&(result_type)->objfile -> type_obstack);
 			{
 			  struct obstack *__o = (__h);
 			  int __len = ((sizeof (struct field)));
 			  if (__o->chunk_limit - __o->next_free < __len)
-			    _obstack_newchunk (__o, __len); 
+			    _obstack_newchunk (__o, __len);
 			  __o->next_free += __len; (void) 0;
 			};
 			({
-			  struct obstack *__o1 = (__h); 
-			  void *value; 
+			  struct obstack *__o1 = (__h);
+			  void *value;
 			  value = (void *) __o1->object_base;
 			  if (__o1->next_free == value)
 			    __o1->maybe_empty_object = 1;
 			  __o1->next_free = (((((__o1->next_free) - (char *) 0)
-					       +__o1->alignment_mask) 
-					      & ~ (__o1->alignment_mask)) 
+					       +__o1->alignment_mask)
+					      & ~ (__o1->alignment_mask))
 					     + (char *) 0);
-			  if (__o1->next_free - (char *)__o1->chunk 
+			  if (__o1->next_free - (char *)__o1->chunk
 			      > __o1->chunk_limit - (char *)__o1->chunk)
 			    __o1->next_free = __o1->chunk_limit;
-			  __o1->object_base = __o1->next_free; 
+			  __o1->object_base = __o1->next_free;
 			  value;
 			});
 		      }) : xmalloc (sizeof (struct field)));
@@ -112,7 +112,7 @@ int main(void)
 {
   struct type element_type;
   struct type result_type;
-  
+
   memset (&element_type, 0, sizeof (struct type));
   memset (&result_type, 0, sizeof (struct type));
   element_type.length = 4;

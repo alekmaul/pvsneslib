@@ -20,13 +20,13 @@ void foo(long x)
 {
   switch (x)
     {
-    case -6: 
+    case -6:
       fail1 (); break;
-    case 0: 
+    case 0:
       fail2 (); break;
-    case 1: case 2: 
+    case 1: case 2:
       break;
-    case 3: case 4: case 5: 
+    case 3: case 4: case 5:
       fail3 ();
       break;
     default:
@@ -35,14 +35,14 @@ void foo(long x)
     }
   switch (x)
     {
-      
-    case -3: 
+
+    case -3:
       fail1 (); break;
-    case 0: case 4: 
+    case 0: case 4:
       fail2 (); break;
-    case 1: case 3: 
+    case 1: case 3:
       break;
-    case 2: case 8: 
+    case 2: case 8:
       abort ();
       break;
     default:

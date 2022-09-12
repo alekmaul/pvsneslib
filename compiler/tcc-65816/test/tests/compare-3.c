@@ -28,7 +28,7 @@ test3 (int x, int y)
     link_error0();
 }
 
-void 
+void
 test4 (int x, int y)
 {
   if ((x==y) || (x!=y))

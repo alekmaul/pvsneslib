@@ -7,12 +7,12 @@ unsigned int y;
    else
      return 1;
 }
- 
+
 main()
 {
  unsigned int i, j, k, l;
  i = 5; j = 2; k=0; l=2;
- if (compare(5%(~(unsigned) 2), i%~j) 
+ if (compare(5%(~(unsigned) 2), i%~j)
      || compare(0, k%~l))
     abort();
  else

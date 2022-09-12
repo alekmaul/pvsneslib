@@ -5,7 +5,7 @@
 typedef struct {
   void *stream;
   va_list ap;
-  int nChar;  
+  int nChar;
 } ScanfState;
 
 void dummy (va_list vap)
@@ -23,11 +23,11 @@ void test (int fmt, ...)
   va_start (statep->ap, fmt);
   dummy (statep->ap);
   va_end (statep->ap);
-  
+
   va_start (state.ap, fmt);
   dummy (state.ap);
   va_end (state.ap);
-  
+
   return;
 }
 

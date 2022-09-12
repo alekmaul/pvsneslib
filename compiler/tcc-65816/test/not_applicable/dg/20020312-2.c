@@ -1,4 +1,4 @@
-/* PR 5878. 
+/* PR 5878.
 
    We ICEd in verify_local_live_at_start because we incorrectly forced
    the PIC register live between BAR and BAZ.  We did this because the

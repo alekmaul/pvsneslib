@@ -9,7 +9,7 @@ u_l_l mpy (long a, long b)
 {
   return (u_l_l) a * (u_l_l) b;
 }
- 
+
 int main(void)
 {
   mpy_res = mpy(1,-1);

@@ -17,7 +17,7 @@ main ()
   unsigned int iy;
   unsigned long ly;
   unsigned long long Ly;
-  
+
   cy = cx / 6; if (cy != 1) abort ();
   cy = cx % 6; if (cy != 1) abort ();
 

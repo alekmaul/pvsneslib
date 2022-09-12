@@ -1,3 +1,78 @@
+version 0.9.24:
+
+- added verbosity levels -v, -vv, -vvv
+- Accept standard input as an inputstream (Hanzac Chen)
+- Support c89 compilers other than gcc (Hanzac Chen)
+- -soname linker option (Marc Andre Tanner)
+- Just warn about unknown directives, ignore quotes in #error/#warning
+- Define __STDC_VERSION__=199901L (477)
+- Switch to newer tccpe.c (includes support for resources)
+- Handle backslashes within #include/#error/#warning
+- Import changesets (part 4) 428,457,460,467: defines for openbsd etc.
+- Use _WIN32 for a windows hosted tcc and define it for the PE target,
+  otherwise define __unix / __linux (Detlef Riekenberg)
+- Import changesets (part 3) 409,410: ARM EABI by Daniel Glöckner
+- Some in-between fixes:
+  TCC -E no longer hangs with macro calls involving newlines.
+  (next_nomacro1 now advances the read-pointer with TOK_LINEFEED)
+  Global cast (int g_i = 1LL;) no longer crashes tcc.
+  (nocode_wanted is initially 1, and only 0 for gen_function)
+  On win32 now tcc.exe finds 'include' & 'lib' even if itself is in 'bin'.
+  (new function w32_tcc_lib_path removes 'bin' if detected)
+  Added quick build batch file for mingw (win32/build-tcc.bat)
+  Last added case label optimization (455) produced wrong code. Reverted.
+
+- Import more changesets from Rob Landley's fork (part 2):
+  487: Handle long long constants in gen_opic() (Rob Landley)
+  484: Handle parentheses within __attribute__((...)) (Rob Landley)
+  480: Remove a goto in decl_initializer_alloc (Rob Landley)
+  475: Fix dereferences in inline assembly output (Joshua Phillips)
+  474: Cast ptrs to ints of different sizes correctly (Joshua Phillips)
+  473: Fix size of structs with empty array member (Joshua Phillips)
+  470: No warning for && and || with mixed pointers/integers (Rob Landley)
+  469: Fix symbol visibility problems in the linker (Vincent Pit)
+  468: Allow && and || involving pointer arguments (Rob Landley)
+  455: Optimize case labels with no code in between (Zdenek Pavlas)
+  450: Implement alloca for x86 (grischka)
+  415: Parse unicode escape sequences (Axel Liljencrantz)
+  407: Add a simple va_copy() in stdarg.h (Hasso Tepper)
+  400: Allow typedef names as symbols (Dave Dodge)
+
+- Import some changesets from Rob Landley's fork (part 1):
+  462: Use LGPL with bcheck.c and il-gen.c
+  458: Fix global compound literals (in unary: case '&':) (Andrew Johnson)
+  456: Use return code from tcc_output_file in main() (Michael Somos)
+  442: Fix indirections with function pointers (***fn)() (grischka)
+  441: Fix LL left shift in libtcc1.c:__shldi3 (grischka)
+  440: Pass structures and function ptrs through ?: (grischka)
+  439: Keep rvalue in bit assignment (bit2 = bit1 = x) (grischka)
+  438: Degrade nonportable pointer assignment to warning (grischka)
+  437: Call 'saveregs()' before jumping with logical and/or/not (grischka)
+  435: Put local static variables into global memory (grischka)
+  432/434: Cast double and ptr to bool (grischka)
+  420: Zero pad x87 tenbyte long doubles (Felix Nawothnig)
+  417: Make 'sizeof' unsigned (Rob Landley)
+  397: Fix save_reg for longlongs (Daniel Glöckner)
+  396: Fix "invalid relocation entry" problem on ubuntu - (Bernhard Fischer)
+
+- ignore AS_NEEDED ld command
+- mark executable sections as executable when running in memory
+- added support for win32 wchar_t (Filip Navara)
+- segment override prefix support (Filip Navara)
+- normalized slashes in paths (Filip Navara)
+- windows style fastcall (Filip Navara)
+- support for empty input register section in asm (Filip Navara)
+- anonymous union/struct support (Filip Navara)
+- fixed parsing of function parameters
+- workaround for function pointers in conditional expressions (Dave Dodge)
+- initial '-E' option support to use the C preprocessor alone
+- discard type qualifiers when comparing function parameters (Dave Dodge)
+- Bug fix: A long long value used as a test expression ignores the
+  upper 32 bits at runtime (Dave Dodge)
+- fixed multiple concatenation of PPNUM tokens (initial patch by Dave Dodge)
+- fixed multiple typedef specifiers handling
+- fixed sign extension in some type conversions (Dave Dodge)
+
 version 0.9.23:
 
 - initial PE executable format for windows version (grischka)

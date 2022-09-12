@@ -39,11 +39,11 @@ test_store_copy_prop (int i)
 main()
 {
   int x;
-  
+
   x = test_store_ccp (10);
   if (x == 12)
     abort ();
-  
+
   x = test_store_copy_prop (9);
   if (x == 9)
     abort ();

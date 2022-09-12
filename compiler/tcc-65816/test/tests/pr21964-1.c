@@ -8,7 +8,7 @@ foo (int n, int m)
   else
     foo (n++, m - 1);
 }
- 
+
 int
 main (void)
 {

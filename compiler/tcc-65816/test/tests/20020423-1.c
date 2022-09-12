@@ -13,7 +13,7 @@ int main (void)
   result = ((my_int*2 + 4) - 8U) / 2;
   if (result != 922U)
     abort();
-         
+
   result = ((my_int*2 - 4U) + 2) / 2;
   if (result != 923U)
     abort();

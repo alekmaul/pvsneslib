@@ -43,13 +43,13 @@ mod5 (signed long x, signed long y)
 {
   return x % y;
 }
-     
+
 unsigned long
 mod6 (unsigned long x, unsigned long y)
 {
   return x % y;
 }
-     
+
 main ()
 {
   if (div1 (-(1 << 7)) != 1 << 7)
@@ -72,6 +72,6 @@ main ()
     abort ();
   if (mod6 (0x50000000, 2) != 0)
     abort ();
-  
+
   exit (0);
 }

@@ -1,20 +1,20 @@
 extern void abort (void);
 
-struct type 
+struct type
 {
   int *a;
-  
+
   int b:16;
   unsigned int p:9;
 } t;
 
-unsigned int 
+unsigned int
 foo ()
 {
   return t.p;
 }
 
-int 
+int
 main (void)
 {
   t.p = 8;

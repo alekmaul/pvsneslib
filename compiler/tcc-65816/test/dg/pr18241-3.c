@@ -1,5 +1,5 @@
 /* { dg-do run } */
-/* { dg-options "-O1" } */ 
+/* { dg-options "-O1" } */
 
 void abort (void);
 
