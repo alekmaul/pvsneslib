@@ -1,4 +1,4 @@
-FROM fedora:latest
+FROM centos:latest
 LABEL maintainer="kobenairb <kobenairb@gmail.com>"
 
 ENV TERM xterm
@@ -8,21 +8,25 @@ ENV DISTRO $DISTRO
 
 RUN echo 'PS1=$PS1A' >> ~/.bashrc
 
+RUN sed -i 's/mirrorlist/#mirrorlist/g' \
+        /etc/yum.repos.d/CentOS-*
+RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' \
+        /etc/yum.repos.d/CentOS-*
+
 RUN echo "minrate=30k" >> /etc/dnf/dnf.conf
 
 RUN echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf
 
-RUN sed -i 's|enabled=1|enabled=0|g' /etc/yum.repos.d/fedora-cisco-openh264.repo
-
-RUN sed -i 's|enabled=1|enabled=0|g' /etc/yum.repos.d/fedora-modular.repo
-
 RUN dnf -y upgrade && \
     dnf -y groupinstall "Development Tools" && \
+    dnf -y install dnf-plugins-core && \
+    dnf -y config-manager --set-enabled powertools && \
     dnf -y install glibc-devel.i686 \
         cmake\
         gcc-c++ \
-        python \
+        python3 \
         glibc-static \
-        libstdc++-static
+        libstdc++-static && \
+    alternatives --set python /usr/bin/python3
 
 CMD ./docker/scripts/container.sh "${PVSNESLIB_HOME}" "${DISTRO}"
