@@ -270,12 +270,12 @@ void WriteEntities(void)
 	objidx=layer->object_count-1;
 	
 	// if we have some objects to store
-	if (objidx) {
+	if (layer->object_count) {
 		while (objm) {
 			// put object in reverse order 
 			objsnes[objidx].type=(unsigned short) strtol(objm->type.ptr,&pend,10);
-			objsnes[objidx].x=(int) objm->x;
-			objsnes[objidx].y=(int) objm->y;
+			objsnes[objidx].x=(int) (objm->x);
+			objsnes[objidx].y=(int) (objm->y);
 			for (i = 0; i < objm->property_count; i++) {
 				propm = objm->properties + i;
 				// write blocker property (which is a string)
