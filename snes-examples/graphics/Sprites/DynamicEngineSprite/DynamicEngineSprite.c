@@ -37,9 +37,8 @@ int main(void) {
 	setMode(BG_MODE1,0);  bgSetDisable(1); bgSetDisable(2);
 	setScreenOn();
 	
-	// Init sprite engine (0x0000 for 32x32 or 16x16, 0x0100 for 16x16 or 8x8)
-	// In our case, 32x32 sporite graphics & entries are in 0x0000, 0x1000 (with lib) and 0x0100 for sprites 16x16
-	oamInitDynamicSprite(0x0000,0x0000, 0x0100,0x0100, 0,0, OBJ_SIZE8_L32/*OBJ_SIZE16_L32*/);
+	// Init sprite engine (0x0000 for large, 0x1000 for small)
+	oamInitDynamicSprite(0x0000,0x1000, 0,0, OBJ_SIZE16_L32);
 	for (i=0;i<SPRNUMBER;i++) {
 		oambuffer[i].oamx=rand() % 240;oambuffer[i].oamy=rand() % 208;
 		oambuffer[i].oamframeid=(i % 24);
@@ -49,15 +48,15 @@ int main(void) {
 			oambuffer[i].oamgraphics=&spr32g;
 		}
 		else {
-			oambuffer[i].oamattribute=0x21 | (0<<1); // palette 0 of sprite and sprite 8x8 and priority 2
-			oambuffer[i].oamgraphics=&spr8g;
+			oambuffer[i].oamattribute=0x21 | (0<<1); // palette 0 of sprite and sprite 16x16 and priority 2
+			oambuffer[i].oamgraphics=&spr16g;
 		}
 	}
 
 	// Wait for nothing :P
 	while(1) {
 		// Draw sprite
-		for (i=0;i<SPRNUMBER;i++) {
+		for (i=0;i<SPRNUMBER;i++) {  
 			// change sprites coordinates and frame randomly
 			if ((rand() & 7)==7) {if (oambuffer[i].oamx<240) oambuffer[i].oamx+=2; }
 			else if ((rand() & 5)==5) {if (oambuffer[i].oamx>0) oambuffer[i].oamx-=2; }
@@ -68,17 +67,18 @@ int main(void) {
 				if (oambuffer[i].oamframeid>2) oambuffer[i].oamframeid=0;
 				oambuffer[i].oamrefresh=1;
 			}
-			if (i<8) 
+			if (i<8) {
 				oamDynamic32Draw(i);
+			}
 			else {
-				oamDynamic8Draw(i);
+				oamDynamic16Draw(i);
 				
 			}
 		}
 
 		// prepare next frame and wait vblank
 		oamInitDynamicSpriteEndFrame();
-		WaitForVBlank();
+		WaitForVBlank(); 
 		oamVramQueueUpdate();
 	}
 	return 0;
