@@ -24,7 +24,7 @@
 
 .EQU REG_OBSEL					$2101
 
-;.DEFINE GFXSPR0ADR 				$0000						  ; sprite graphics entry #0 & #1 (not used, for information pourpose)
+;.DEFINE GFXSPR0ADR 				$0000						  ; sprite graphics entry #0 & #1 (not used, for information purpose)
 ;.DEFINE GFXSPR1ADR 				$1000   					  ; 
 
 .EQU OBJ_SPRITE32				1							  ; sprite with 32x32 identifier
