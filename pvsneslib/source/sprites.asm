@@ -1,6 +1,6 @@
 ;---------------------------------------------------------------------------------
 ;
-;	Copyright (C) 2012-2021
+;	Copyright (C) 2012-2022
 ;		Alekmaul 
 ;
 ;	This software is provided 'as-is', without any express or implied
@@ -24,8 +24,8 @@
 
 .EQU REG_OBSEL					$2101
 
-.DEFINE GFXSPR0ADR 				$0000						  ; sprite graphics entry #0 & #1
-.DEFINE GFXSPR1ADR 				$1000   					  ; need to fix that with variable
+;.DEFINE GFXSPR0ADR 				$0000						  ; sprite graphics entry #0 & #1 (not used, for information pourpose)
+;.DEFINE GFXSPR1ADR 				$1000   					  ; 
 
 .EQU OBJ_SPRITE32				1							  ; sprite with 32x32 identifier
 .EQU OBJ_SPRITE16				2							  ; sprite with 16x16 identifier
@@ -62,22 +62,15 @@ oamqueuenumber					DW
 oamnumberperframe				DW							  ; number of sprite added during current frame (current, old)
 oamnumberperframeold			DW							  
 
-oamblock32Id					DW							  ; block & tile identifier for 32x32 sprites
-oamtile32Id						DW
-oamblock32IdInit				DW							  ; initial frame value for block & tile identifier for 32x32 sprites
-oamtile32IdInit					DW
-
-oamblock16Id					DW							  ; block & tile identifier for 16x16 sprites
-oamtile16Id						DW
-oamblock16IdInit				DW							  ; initial frame value for block & tile identifier for 16x16 sprites
-oamtile16IdInit					DW
-
 oamnumberspr0					DW							  ; number entry of sprite (and initial value) for 32x32,16x16 and 8x8 sprites	
 oamnumberspr0Init				DW							  ; number is a multiple of 4
 oamnumberspr1					DW
 oamnumberspr1Init				DW
 
-spr16addrgfx					DW							  ; address for 16x16 sprites (default is $1000)
+spr16addrgfx					DW							  ; graphic address for 16x16 sprites (default is $1000)
+
+spr0addrgfx						DW							  ; graphic address for large sprites (default is $0000)
+spr1addrgfx						DW							  ; graphic address for small sprites (default is $1000)
 
 .ENDS
 
@@ -757,7 +750,7 @@ lkup8idB:  ; lookup table for 8x8 sprites block identification
 .SECTION ".sprites7_text" SUPERFREE
 
 //---------------------------------------------------------------------------------
-; void oamInitDynamicSprite(u16 blk32init, u16 id32init, u16 blk16init, u16 id16init, u16 oam32init, u16 oam16init, u8 oamsize) {
+; oamInitDynamicSprite(u16 gfxsp0adr,u16 gfxsp1adr, u16 oamsp0init, u16 oamsp1init, u8 oamsize) {
 ; stack init is 10
 oamInitDynamicSprite:
   	php
@@ -765,12 +758,12 @@ oamInitDynamicSprite:
 	phx
 	phy
 
-	sep #$20							; change to correct bank
+	sep #$20												  ; change to correct bank
 	lda #$7e
 	pha
 	plb
 
-	ldx #$0000							 ; init queue size for sprites 32x32,16x16 and 8x8
+	ldx #$0000							 					  ; init queue size for sprites 32x32,16x16 and 8x8
 	lda #$0
 -   sta oamQueueEntry,x
 	inx
@@ -783,33 +776,35 @@ oamInitDynamicSprite:
 	stz.w oamnumberperframeold				 				  ; init current oam per frame number
 	stz.w oamnumberperframe
 
-	; init default adress for each block & tile sprite entries (type 1 & 2)
-    lda 10,s							 ; get blk32init
-    sta oamblock32Id
-	sta oamblock32IdInit
-    lda 12,s							 ; get id32init
-    sta oamtile32Id
-	sta oamtile32IdInit
-    lda 14,s							 ; get blk16init
-    sta oamblock16Id
-	sta oamblock16IdInit
-    lda 16,s							 ; get id16init
-    sta oamtile16Id
-	sta oamtile16IdInit
+	; init graphic address for each sprite size 
+    lda 10,s							 					  ; get gfxsp0adr					
+    sta spr0addrgfx
+    lda 12,s							 					  ; get gfxsp1adr					
+    sta spr1addrgfx
 
 	; init current entry for each sprite size (multiple of 4)
-    lda 18,s							 ; get oam32init					
+    lda 14,s							 					  ; get oamsp0init					
     sta oamnumberspr0
 	sta oamnumberspr0Init
-    lda 20,s							 ; get oam16init					
+    lda 16,s							 					  ; get oamsp1init					
     sta oamnumberspr1
 	sta oamnumberspr1Init
 
-	sep #$20							 ; oamInitGfxAttr(GFXSPR0ADR,OBJ_SIZE8_L16);
-    lda 22,s 							 ; get oamsize which is #OBJ_SIZE8_L16 or stufs like that
+	lda spr1addrgfx						 					  ; change  default graphic address for sprite 16x16 (it is the only one who need that)
+	sta spr16addrgfx
+	sep #$20
+	lda 18,s 							 					  ; get oamsize to compute sprite 16 large or small size graphic adress
+	cmp #OBJ_SIZE16_L32
+	beq +
+	rep #$20
+	lda spr0addrgfx						 					  ; change default graphic address for sprite 16x16 at $0000
+	sta spr16addrgfx
+
++:	sep #$20							 					  ; oamInitGfxAttr(GFXSPR0ADR,OBJ_SIZE8_L16);
+    lda 18,s 							 					  ; get oamsize which is #OBJ_SIZE8_L16 or stufs like that
     pha
     rep #$20
-    lda #GFXSPR0ADR						 ; initial adress is from big sprites (always 0)
+    lda spr0addrgfx						 					  ; initial adress is from big sprites (always 0)
 	pha
     jsl oamInitGfxAttr
 	pla
@@ -818,15 +813,6 @@ oamInitDynamicSprite:
 	rep #$20
 	jsl oamInit
 
-	lda #GFXSPR1ADR						 ; push default graphic address for sprite 16x16 (it is the only one who need that)
-	sta spr16addrgfx
-	lda 22,s 							 ; get oamsize to compute sprite 16 large or small size graphic adress
-	cmp #OBJ_SIZE16_L32
-	beq +
-	lda #GFXSPR0ADR						 ; push default graphic address for sprite 16x16 at $0000
-	sta spr16addrgfx
-
-+:
 	ply
 	plx
 	plb
@@ -853,16 +839,6 @@ oamInitDynamicSpriteScreen:
 	pla
 	pla
 	
-    lda oamblock32IdInit				 					 ; init tile & block id for each sprite size
-    sta oamblock32Id
-    lda oamtile32IdInit
-    sta oamtile32Id
-    
-    lda oamblock16IdInit
-    sta oamblock16Id
-    lda oamtile16IdInit
-    sta oamtile16Id
-
 	lda oamnumberperframe					 				 ; init current oam per frame number on screen
 	sta oamnumberperframeold				 
 	stz.w oamnumberperframe
@@ -942,17 +918,6 @@ _oamIDSEndFrame2:
     lda #$00
 	sta oamnumberperframe
 	
-    lda oamblock32IdInit
-    sta oamblock32Id
-    lda oamtile32IdInit
-    sta oamtile32Id
-    
-    lda oamblock16IdInit
-    sta oamblock16Id
-    lda oamtile16IdInit
-    sta oamtile16Id
-
-
     lda oamnumberspr0Init
     sta oamnumberspr0
     lda oamnumberspr1Init
@@ -1234,7 +1199,7 @@ oamDynamic32Draw:
     lda.l lkup32idB,x
     plx
 	clc
-	adc #GFXSPR0ADR
+	adc spr0addrgfx
 	sta.l oamQueueEntry+3,x
 	lda sprit_val2											  ; get tileSource (lower 16 bits)
 	sta.l oamQueueEntry,x
@@ -1378,7 +1343,7 @@ oamDynamic16Draw:
 
     phx
 	lda spr16addrgfx										  ; if large sprite, adjust adress
-	cmp #GFXSPR0ADR						 
+	cmp spr0addrgfx
 	beq + 
     lda oamnumberspr1                             			  ;  get address
 	brl _o16DRep0p
@@ -1407,7 +1372,7 @@ _o16DRep1:
 
     phx
 	lda spr16addrgfx										  ; if large sprite, adjust adress
-	cmp #GFXSPR0ADR						 
+	cmp spr0addrgfx						 
 	beq + 
     lda oamnumberspr1                             			  ;  get address
 	brl _o16DRep1p
@@ -1476,7 +1441,7 @@ _o16DRep3:
 
 	rep #$20
 	lda spr16addrgfx										  ; if large sprite, adjust it
-	cmp #GFXSPR1ADR						 
+	cmp spr1addrgfx						 
 	beq + 
 	sep #$20
 	lda.l oamSizeshift,x         							  ; get shifted value of hide (<<1, <<3, <<5, <<7
@@ -1485,7 +1450,7 @@ _o16DRep3:
 
 +:  rep #$20
 	lda spr16addrgfx										  ; if large sprite, adjust adress
-	cmp #GFXSPR0ADR						 
+	cmp spr0addrgfx						 
 	beq + 
     inc.w oamnumberspr1										  ; one more sprite 16x16 small
 	brl _o16DRep2p
@@ -1557,7 +1522,7 @@ oamDynamic8Draw:
     lda.l lkup8idB,x
     plx
 	clc
-	adc #GFXSPR1ADR											  ; not variable, always the second gfx entry
+	adc spr1addrgfx											  ; not variable, always the second gfx entry
 	sta.l oamQueueEntry+3,x
 	lda sprit_val2											  ; get tileSource (lower 8 bits)
 	sta.l oamQueueEntry,x
