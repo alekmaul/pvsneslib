@@ -49,7 +49,7 @@
 .DEFINE MAX_Y_VELOCITY      (10*256) 
 .DEFINE FRICTION            $10
 
-.DEFINE FRICTION1D          $0200
+.DEFINE FRICTION1D          $0100
 
 .STRUCT t_objs
 prev	        DW				            ;  0 previous object linked list
