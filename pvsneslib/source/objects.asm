@@ -41,16 +41,15 @@
 .DEFINE T_SPIKE				$0004
 .DEFINE T_PLATE				$0008
 
-.DEFINE ACT_WALK			$0001
-.DEFINE ACT_JUMP			$0002
-.DEFINE ACT_FALL			$0004
-.DEFINE ACT_CLIMB			$0008
-.DEFINE ACT_DIE				$0010
-.DEFINE ACT_BURN			$0020
+.DEFINE ACT_CLIMB			$2000
+.DEFINE ACT_DIE				$4000
+.DEFINE ACT_BURN			$8000
 
-.DEFINE GRAVITY       	    41
+.DEFINE GRAVITY       	    41              ; default values
 .DEFINE MAX_Y_VELOCITY      (10*256) 
 .DEFINE FRICTION            $10
+
+.DEFINE FRICTION1D          $0200
 
 .STRUCT t_objs
 prev	        DW				            ;  0 previous object linked list
@@ -117,6 +116,10 @@ objfctcallh	    DSB 2						; high address for C function call
 
 objptr		    DW							; pointer to current object
 objcidx		    DW							; index of loop object
+
+objgravity	    DW							; default gravity for objects
+objfriction     DW                          ; default friction for objects
+objmaxvelocity  DW                          ; default maximum y velocity
 
 objtokill       DB							; =1 if need to kill object
 
@@ -201,8 +204,40 @@ _oieR3:
 	lda #$1
 	sta objnextid
 	
+    rep #$20
+    lda #GRAVITY                                        ; set default values for gravity and other variables
+    sta objgravity
+    lda #FRICTION                                        
+    sta objfriction
+    lda #MAX_Y_VELOCITY                                 
+    sta objmaxvelocity
+
 	ply
 	plx
+	plb 
+	plp
+	
+	rtl
+
+;---------------------------------------------------------------------------------
+; void objInitGravity(u16 objgravity, u16 objfriction, u16 objvelocity)
+objInitGravity:
+	php
+	phb
+	
+	sep #$20                                            ; change bank for object bank
+	lda #$7e
+	pha
+	plb
+	
+    lda 7,s												; get gravity (5+2)
+    sta objgravity
+    lda 8,s												; get friction (6+2)
+    sta objfriction
+    rep #$20        
+    lda 9,s												; get maximum velocity (7+2)
+    sta objmaxvelocity
+
 	plb 
 	plp
 	
@@ -726,7 +761,11 @@ _oiuaend:
 	plb
 	plp
 	rtl
-    
+
+.ENDS    
+
+.SECTION ".objects1_text" superfree
+
 ;---------------------------------------------------------------------------------
 ; void objCollidMap(u16 objhandle)
 objCollidMap:
@@ -764,10 +803,7 @@ _oicm1:
     adc objbuffers.1.yofs,x
     clc
     adc objbuffers.1.height,x
-	bpl + 												; if y<0, put it to 0 
-	lda #0000
-
-+   lsr a
+    lsr a
     lsr a
     and	#$FFFE
     tay
@@ -835,8 +871,6 @@ _oicm21:
     sta objbuffers.1.tilesprop,x
     lda objbuffers.1.tilesprop,x
     cmp #T_LADDE										; if ladder, well avoid doing stuffs
-	beq _oicm3
-	cmp #T_PLATE										; if on a plate, do same thing
 	beq _oicm3
 
     cmp #T_FIRES                                        ; if fire, player is burning
@@ -919,10 +953,7 @@ _oicmtstyn:
     adc	objbuffers.1.ypos+1,x
     clc
     adc objbuffers.1.yofs,x
-	bpl +     												; if y < 0, put it to 0 
-	lda #0000
-
-+	lsr a
+    lsr a
     lsr a
 	and	#$FFFE
 	tay
@@ -1036,7 +1067,7 @@ _oicmtstx1:
     jmp _oicmtstxn
 _oicmtstx11:
     sec                                                 ; moving right
-    sbc #FRICTION
+    sbc objfriction
     bpl _oicmtstx12
     stz objbuffers.1.xvel,x
     jmp _oicmend
@@ -1046,10 +1077,7 @@ _oicmtstx12:
 	lda objbuffers.1.ypos+1,x
 	clc
 	adc objbuffers.1.yofs,x
-	bpl +     											 ; if y < 0, put it to 0 
-	lda #0000
-
-+	pha
+	pha
 	
     and	#$0007
     clc
@@ -1133,7 +1161,7 @@ _oicmtstx14:
 
 _oicmtstxn:
     clc                                                 ; moving left (xvel<0)
-    adc #FRICTION
+    adc objfriction
     bmi _oicmtstxna
     stz objbuffers.1.xvel,x                             ; currently it is not ok to go left
     brl _oicmend
@@ -1143,10 +1171,7 @@ _oicmtstxna:
     lda objbuffers.1.ypos+1,x
     clc
     adc objbuffers.1.yofs,x
-	bpl +     											  ; if y < 0, put it to 0 
-	lda #0000
-
-+   pha
+    pha
 
     and	#$0007
     clc
@@ -1238,7 +1263,535 @@ _oicmend:
 
 .ENDS
 
-.SECTION ".objects1_text" superfree
+.SECTION ".objects2_text" superfree
+
+;---------------------------------------------------------------------------------
+; void objCollidMap1D(u16 objhandle)
+objCollidMap1D:
+    php
+    phb
+
+    phx
+    phy
+
+    sep #$20                                            ; go to bank objects
+    lda #$7e
+    pha
+    plb
+	
+	rep #$20
+	lda 10,s											; grad the index of object (5+1+2+2)
+	asl a
+	asl a
+	asl a
+	asl a
+	asl a
+	asl a
+	tax 
+	sta objtmp2                                         ; to keep global handle for object
+
+	lda objbuffers.1.yvel,x                               ; if yvel>=0 -> if object is falling
+	bpl	_oicm1d1
+	jmp _oicm1dtstyn
+_oicm1d1:
+    xba                                                ; compute ypos 
+    and	#$00FF
+    clc
+    adc	objbuffers.1.ypos+1,x
+    clc
+    adc objbuffers.1.yofs,x
+    clc
+    adc objbuffers.1.height,x
+	bpl + 												; if y<0, put it to 0 
+	lda #0000
+
++   lsr a
+    lsr a
+    and	#$FFFE
+    tay
+		
+    lda objbuffers.1.xpos+1,x
+    clc
+    adc	objbuffers.1.xofs,x
+    pha
+
+    and	#$0007                                          ; compute the number of tiles to test
+    clc
+    adc	objbuffers.1.width,x
+    dec a
+    lsr a
+    lsr a
+    lsr a
+    inc a
+    sta	objtmp1
+
+    pla                                                 ; compute the offset line for y
+    lsr a
+    lsr a
+    and	#$FFFE
+    clc
+    adc.w mapadrrowlut, y
+    tay
+
+    clc
+    adc maptile_L1d                                     ; get direct rom value
+    tax
+    phb
+    sep #$20                                
+    lda maptile_L1b.b
+    pha
+    plb
+    rep #$20
+    lda 0,x
+    plb
+	asl a                                               ; to have a 16 bit value for 8 pix
+    tax
+    lda	metatilesprop, x
+    sta objtmp3
+    bra	_oicm1d21         		                        ; speedup, saves some cycles
+        
+_oicm1d2:
+    tya
+    clc
+    adc maptile_L1d  				                    ; get direct rom value
+    tax
+    phb
+    sep #$20
+    lda maptile_L1b.b
+    pha
+    plb
+    rep #$20
+    lda 0,x
+    plb
+    asl a                                               ; to have a 16 bit value for 8 pix
+    tax
+    lda	metatilesprop, x
+    sta objtmp3
+
+_oicm1d21:
+    ldx objtmp2
+    sta objbuffers.1.tilesprop,x
+    lda objbuffers.1.tilesprop,x
+    cmp #T_LADDE										; if ladder, well avoid doing stuffs
+	beq _oicm1d3
+	cmp #T_PLATE										; if on a plate, do same thing
+	beq _oicm1d3
+
+    cmp #T_FIRES                                        ; if fire, player is burning
+    bne _oicm1d22
+    lda #ACT_BURN										; player is now dying, no more checking
+    sta objbuffers.1.action
+    brl  _oicm1dtstx
+
+_oicm1d22:
+    cmp #T_SPIKE                                        ; if spike, player is dying too
+	bne _oicm1d23
+	lda #ACT_DIE																
+	sta objbuffers.1.action
+	brl  _oicm1dtstx
+
+_oicm1d23:
+    and #$ff00											; keep only the high values for collision 
+    beq _oicm1d4
+
+_oicm1d3:
+    lda objtmp3
+    sta objbuffers.1.tilestand,x                           ; store the tile we are standing on
+
+    lda objbuffers.1.yvel+1,x 
+    and #$00ff
+    clc
+    adc objbuffers.1.ypos+1,x
+    clc
+    adc objbuffers.1.yofs,x
+    clc 
+    adc objbuffers.1.height,x
+    inc a
+
+    and #$fff8
+    sec
+    sbc objbuffers.1.yofs,x
+    sec 
+    sbc objbuffers.1.height,x
+    sta objbuffers.1.ypos+1,x
+    stz objbuffers.1.yvel,x
+    jmp	_oicm1dtstx
+
+_oicm1d4:
+    rep #$20                                            ; continue to test the tiles on x 
+    iny
+    iny
+    dec	objtmp1
+    beq _oicm1d5
+    brl _oicm1d2
+
+_oicm1d5:
+    ldx objtmp2                                         ; not standing on anything or ladder, now falling if not climbing
+	stz objbuffers.1.tilestand,x
+
+    lda objbuffers.1.tilesprop,x			                ; need again to verify if not tile standing
+    beq _oicm1d61
+    lda objbuffers.1.action,x				            ; if not climbing, well doing like if falling
+    and #ACT_CLIMB
+    beq _oicm1d61
+    brl  _oicm1dtstx
+
+_oicm1d61:
+    lda objbuffers.1.yvel,x
+    sec                                                 ; moving down
+    sbc #FRICTION1D
+    bpl _oicm1d6
+    stz objbuffers.1.yvel,x
+    jmp _oicm1dtstx
+
+;    lda objbuffers.1.yvel,x
+;    clc
+;    adc objgravity
+;    cmp #MAX_Y_VELOCITY+1                               ; add velocity regarding if we do not reach the maximum
+;    bmi _oicm1d6
+;    lda #MAX_Y_VELOCITY
+
+_oicm1d6:
+    sta objbuffers.1.yvel,x
+	brl  _oicm1dtstx
+
+_oicm1dtstyn:
+    stz objbuffers.1.tilestand,x                           ; yvel<0, object is moving upwards
+
+    xba
+    ora	#$FF00
+    clc
+    adc	objbuffers.1.ypos+1,x
+    clc
+    adc objbuffers.1.yofs,x
+	bpl +     												; if y < 0, put it to 0 
+	lda #0000
+
++	lsr a
+    lsr a
+	and	#$FFFE
+	tay
+		
+    lda objbuffers.1.xpos+1,x
+    clc
+    adc	objbuffers.1.xofs,x
+    pha
+
+    and	#$0007
+	clc
+	adc	objbuffers.1.width,x
+    dec a
+    lsr a
+    lsr a
+    lsr a
+    inc a
+    sta	objtmp1
+
+    pla
+    lsr a
+    lsr a
+    and	#$FFFE
+    clc
+    adc.w mapadrrowlut, y
+    tay
+		
+    clc
+    adc maptile_L1d 					                ; get direct rom value
+    tax
+    phb
+    sep #$20
+    lda maptile_L1b.b
+    pha
+    plb
+    rep #$20
+    lda 0,x
+    plb
+    asl a                                               ; to have a 16 bit value for 8 pix
+    tax
+    lda	metatilesprop, x
+    bra	_oicm1dtstyn2		                                ; speedup, saves some cycles
+
+_oicm1dtstyn1:
+    tya
+    clc
+    adc maptile_L1d 					                ; get direct rom value
+    tax
+    phb
+    sep #$20
+    lda maptile_L1b.b
+    pha
+    plb
+    rep #$20
+    lda 0,x
+    plb
+    asl a                                               ; to have a 16 bit value for 8 pix
+    tax
+    lda	metatilesprop, x
+		
+_oicm1dtstyn2:
+    ldx objtmp2
+    sta objbuffers.1.tilesprop,x
+    lda objbuffers.1.tilesprop,x
+    cmp #T_LADDE										; if ladder, well avoid doing stuffs
+    beq _oicm1dtstyn4
+
+    and #$ff00											; keep only the high values for collision
+    beq _oicm1dtstyn3
+
+    lda objbuffers.1.yvel+1,x  
+    ora #$ff00
+    clc
+    adc objbuffers.1.ypos+1,x
+    clc
+    adc objbuffers.1.yofs,x
+    clc 
+    adc #8
+    and #$fff8
+    sec
+    sbc objbuffers.1.yofs,x
+    sta objbuffers.1.ypos+1,x
+    stz objbuffers.1.yvel,x 
+    brl _oicm1dtstyn4
+
+_oicm1dtstyn3:
+    iny                                                 ; continue to test the tiles on x 
+    iny
+    dec	objtmp1
+    bne _oicm1dtstyn1
+
+_oicm1dtstyn4:
+    ldx objtmp2                                         ; not standing on anything, now falling
+
+    lda objbuffers.1.yvel,x
+    clc                                                 ; moving left (xvel<0)
+    adc #FRICTION1D
+    bmi _oicm1dtstyn5
+    stz objbuffers.1.yvel,x
+    jmp _oicm1dtstx
+
+;    lda objbuffers.1.yvel,x
+;    clc
+;    adc objgravity
+;    cmp #MAX_Y_VELOCITY+1
+;    bmi _oicm1dtstyn5                                     ; add velocity regarding if we do not reach the maximum
+;    lda #MAX_Y_VELOCITY
+
+_oicm1dtstyn5:
+    sta objbuffers.1.yvel,x
+		
+_oicm1dtstx:   
+	ldx objtmp2
+	lda objbuffers.1.xvel,x                               ; if xvel>=0 -> moving right
+	bne _oicm1dtstx1
+	jmp _oicm1dend
+_oicm1dtstx1:
+    bpl	_oicm1dtstx11
+    jmp _oicm1dtstxn
+_oicm1dtstx11:
+    sec                                                  ; moving right
+    sbc #FRICTION1D
+    bpl _oicm1dtstx12
+    stz objbuffers.1.xvel,x
+    jmp _oicm1dend
+
+_oicm1dtstx12:
+    sta objbuffers.1.xvel,x
+	lda objbuffers.1.ypos+1,x
+	clc
+	adc objbuffers.1.yofs,x
+	bpl +     											 ; if y < 0, put it to 0 
+	lda #0000
+
++	pha
+	
+    and	#$0007
+    clc
+    adc objbuffers.1.height,x
+    dec a
+    lsr a
+    lsr a
+    lsr a
+    inc a
+    sta objtmp1
+
+    pla
+    lsr a
+    lsr a
+    and	#$fffe
+    tay
+    
+    lda objbuffers.1.xvel+1,x  
+    and #$00ff
+    clc
+    adc objbuffers.1.xpos+1,x
+    clc
+    adc objbuffers.1.xofs,x
+    clc
+    adc objbuffers.1.width,x
+    lsr a
+    lsr a
+    and	#$fffe
+    clc
+    adc.w mapadrrowlut, y
+
+_oicm1dtstx13:
+    tay
+    clc
+    adc maptile_L1d
+    tax
+    phb
+    sep #$20
+    lda maptile_L1b.b
+    pha
+    plb
+    rep #$20
+    lda 0,x
+    plb
+    asl a                                               ; to have a 16 bit value for 8 pix
+    tax
+    lda	metatilesprop, x
+
+    ldx objtmp2
+    sta objbuffers.1.tilebprop,x
+    lda objbuffers.1.tilebprop,x
+    beq _oicm1dtstx14
+    and #$ff00											; keep only the high values for collision
+    beq _oicm1dtstx14
+
+    lda objbuffers.1.xvel+1,x 
+    and #$00ff
+    clc
+    adc objbuffers.1.xpos+ 1,x
+    clc
+    adc objbuffers.1.xofs,x
+    clc
+    adc objbuffers.1.width,x
+    inc a
+    and #$fff8
+    sec
+    sbc objbuffers.1.xofs,x
+    sec
+    sbc objbuffers.1.width,x
+    sta objbuffers.1.xpos+ 1,x
+    stz objbuffers.1.xvel,x
+    brl _oicm1dend
+
+_oicm1dtstx14:
+    tya                                                 ; go through all y available
+    clc
+    adc.l maprowsize
+    dec	objtmp1
+    bne _oicm1dtstx13
+    brl _oicm1dend
+
+_oicm1dtstxn:
+    clc                                                 ; moving left (xvel<0)
+    adc #FRICTION1D
+    bmi _oicm1dtstxna
+    stz objbuffers.1.xvel,x                             ; currently it is not ok to go left
+    brl _oicm1dend
+	
+_oicm1dtstxna:
+    sta objbuffers.1.xvel,x
+    lda objbuffers.1.ypos+1,x
+    clc
+    adc objbuffers.1.yofs,x
+	bpl +     											  ; if y < 0, put it to 0 
+	lda #0000
+
++   pha
+
+    and	#$0007
+    clc
+    adc objbuffers.1.height,x
+    dec a
+    lsr a
+    lsr a
+    lsr a
+    inc a
+    sta objtmp1
+
+    pla
+    lsr a
+    lsr a
+    and	#$fffe
+    tay
+
+    lda objbuffers.1.xvel+1,x 
+    ora #$ff00
+    clc
+    adc objbuffers.1.xpos+1,x
+    clc
+    adc objbuffers.1.xofs,x 
+    
+bpl _oicm1dtstxnb                                         ; if negative, don't bother to test, will change screen
+    jmp _oicm1dend
+
+_oicm1dtstxnb:
+    lsr a
+    lsr a
+    and	#$fffe
+    clc
+    adc.w mapadrrowlut, y
+
+_oicm1dtstxnc:
+    tay
+    clc
+    adc maptile_L1d 					                ; get direct rom value
+    tax
+    phb
+    sep #$20
+    lda maptile_L1b.b
+    pha
+    plb
+    rep #$20
+    lda 0,x
+    plb
+    asl a                                               ; to have a 16 bit value for 8 pix
+    tax
+    lda	metatilesprop, x
+
+    ldx objtmp2
+    sta objbuffers.1.tilebprop,x
+    lda objbuffers.1.tilebprop,x
+    beq _oicm1dtstxnd
+
+    and #$ff00											; keep only the high values for collision
+    beq _oicm1dtstxnd
+
+    lda objbuffers.1.xvel+1,x 
+    ora #$ff00
+    clc
+    adc objbuffers.1.xpos+ 1,x
+    clc
+    adc objbuffers.1.xofs,x 
+    clc
+    adc #8
+    and #$fff8
+    sec
+    sbc objbuffers.1.xofs,x
+    sta objbuffers.1.xpos+ 1,x
+    stz objbuffers.1.xvel,x
+
+    brl _oicm1dend
+
+_oicm1dtstxnd:
+    tya 
+    clc
+    adc.l maprowsize
+    dec	objtmp1
+    bne _oicm1dtstxnc				                        ; go through all y available
+			
+_oicm1dend:
+	ply
+	plx
+	plb
+	plp
+	rtl
+
+.ENDS
+
+.SECTION ".objects3_text" superfree
 
 ;---------------------------------------------------------------------------------
 ; void objLoadObjects(u8 *sourceO)
@@ -1335,7 +1888,7 @@ _oiloend:
     
 .ENDS
 
-.SECTION ".objects2_text" superfree
+.SECTION ".objects4_text" superfree
 
 ;---------------------------------------------------------------------------------
 ; void objCollidObj(u16 objidx,u16 obj1idx)
@@ -1440,7 +1993,7 @@ _oicoend:
 
 .ENDS    
 
-.SECTION ".objects3_text" superfree
+.SECTION ".objects5_text" superfree
 
 ;---------------------------------------------------------------------------------
 ; void objUpdateXY(u16 objhandle)

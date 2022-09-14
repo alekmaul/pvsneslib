@@ -93,6 +93,15 @@ extern t_objs objbuffers[OB_MAX];                    /*!< \brief current object 
 */
 void objInitEngine(void);
 
+/*! \fn objInitGravity(u8 objgravity, u8 objfriction, u16 objvelocity)
+	\brief Initialize the object type functions (initialize, update)
+    \param objgravity  The gravity of object when falling (default is 41)
+	\param objfriction 	Friction for object when walking (default is 16)
+	\param objvelocity  maximum velocity when falling (default is 10*256)
+*/
+void objInitGravity(u16 objgravity, u16 objfriction, u16 objvelocity);
+
+
 /*! \fn objInitFunctions(u8 objtype, void *initfct,void *updfct)
 	\brief Initialize the object type functions (initialize, update)
     \param objtype  The type of object depending of the game
@@ -153,6 +162,14 @@ void objUpdateAll(void);
     \param objhandle handle of the object
 */
 void objCollidMap(u16 objhandle);
+
+/*! \fn objCollidMap1D(u16 objhandle)
+	\brief check if an object collides the map
+    \brief update tilestand, tileabove with tiles on map regarding object attributes
+    \brief update xvel, yvel with no gravity regarding tiles on map 
+    \param objhandle handle of the object
+*/
+void objCollidMap1D(u16 objhandle);
 
 /*! \fn objCollidObj(u16 objhandle1,u16 objhandle2)
 	\brief check if two objects are colliding
