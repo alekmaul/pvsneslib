@@ -5,8 +5,8 @@ endif
 export TOPDIR	:=	$(CURDIR)
 
 # create version number which will be used everywhere
-export PVSNESLIB_MAJOR	:= 3
-export PVSNESLIB_MINOR	:= 5
+export PVSNESLIB_MAJOR	:= 4
+export PVSNESLIB_MINOR	:= 0
 export PVSNESLIB_PATCH	:= 0
 
 .PHONY: release clean all docs
