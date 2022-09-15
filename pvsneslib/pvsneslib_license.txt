@@ -21,6 +21,14 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
+V4.0 (dd, mmm, 2022)
+- Fix getPalette which has a bad entry for palette values
+- Add dynamic sprite management (from 8x8 to 32x32 sprites)
+- Add objInitGravity function to change default value for gravity, fiction,y max velocity for object (useful for some  games ?)
+- Add objCollidMap1D function to manage collisison with no gravity (useful for zelda like games)
+- Change default console text display (*BREAKING CHANGE*)
+- Add consoleSetTextVramBGAdr, consoleSetTextVramAdr, consoleSetTextOffset for text management
+
 V3.5.0 (29, May, 2022)
 - Add 32 bit supports for variables
 - Clean up a few weird sounding sentences in README (thanks  mattbruv)

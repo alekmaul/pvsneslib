@@ -22,14 +22,21 @@ SPECIAL THANKS
   RetroAntho (https://github.com/RetroAntho) for his great help to move wla-dx to last version
     and also for all compilation optimizations in Makefile, snes_rules
     and, at least, for keeping me motivated to use the last version of wla-dx ;)
+  KungFuFurby for snesmod help
   RedBug for constify tcc bug fix and tips for Linux and Docker
   mills32 (https://github.com/mills32) for his mode7 3D example
   n_Arno for his help on Linux version (https://github.com/nArnoSNES/)
+  kobenairb for python & docker optimizations
                
 CHANGE LOG
 ----------------------
-VERSION 3.60 (dd, mmm, 2022)
+VERSION 4.0 (dd, mmm, 2022)
 - Add tmx2snes (tool to conveter Tiled map to a SNES format)
+- Improve 816-opt.py (thanks kobenairb)
+- Improve docker integration (thanks kobenairb)
+- Change tcc to last version (really a big THANKS to kobenairb !)
+- Remove map management from gfx2 snes (in tmx2snes now)
+
 VERSION 3.50 (29, May, 2022)
 - Add romsize update in snestools
 - Fix country value update in snestools

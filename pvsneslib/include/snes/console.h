@@ -54,17 +54,48 @@ extern u8	snes_50hz; /*!< \brief 1 if on a PAL/50Hz SNES */
 */
 u16 rand(void);
 
-/*! \fn consoleSetTextCol(u16 colorChar, u16 colorBG)
-	\brief Change Character and Background color of text
-	\param colorChar	The BG color palette with RGB5 values of text itself
-	\param colorBG	The BG color palette with RGB5 values of text background
-*/
-void consoleSetTextCol(u16  colorChar, u16 colorBG);
-
 /*! \fn consoleUpdate(void);
 	\brief Update current text buffer on screen
 */
 void consoleUpdate(void);
+
+/*! \brief Initialize the Text System
+	\param palnum	palette entry (0..7)
+	\param palsize	size of palette of text (4,16,etc ...)
+	\param tilfont	Pointer to tiles gfx for printing
+	\param palfont	Pointer to palette of text
+
+	Reserve a BG and load the font characters into VRAM. It will only work in tiled display modes. 
+	You can change address of graphics and map with consoleSetTextVramAdr() and consoleSetTextVramBGAdr().
+	Also, consoleSetTextPal can change the text palette.
+*/
+void consoleInitText(u8 palnum, u8 palsize, u8 *tilfont, u8 *palfont);
+
+/*! \fn consoleSetTextVramAdr(u16 vramfont)
+	\brief Change text graphics address (4K aligned)
+	\param vramfont	VRAM Background address (4K aligned)  (default is $0800)
+*/
+void consoleSetTextVramAdr(u16 vramfont);
+
+/*! \fn consoleSetTextVramBGAdr(u16 vrambgfont)
+	\brief Change text Background map address for display (must be BG address)
+	\param vrambgfont	VRAM Background map address (default is $0800)
+*/
+void consoleSetTextVramBGAdr(u16 offsetfont);
+
+/*! \fn consoleSetTextOffset(u16 offsetfont)
+	\brief Change text Background map address for display (must be BG address)
+	\param offsetfont	VRAM offset for text (default is 0, as it is aligned with BG tiles)
+*/
+void consoleSetTextOffset(u16 offsetfont);
+
+/*! \fn consoleSetTextPal(u8 palnum, u8 *palfont, u8 palsize)
+	\brief Change text font palette
+	\param palnum	palette entry (0..7)
+	\param palfont	pointer to the new palette
+	\param palsize	size of palette of text (4,16,etc ...)
+*/
+void consoleSetTextPal(u8 palnum, u8 *palfont, u8 palsize);
 
 /*! \brief Output formatted string on a screen (tiles mode)
 	\param x 	The X character number the string should start on
@@ -99,17 +130,6 @@ consoleDrawTextMap(u16 x, u16 y, u8 *map, u8 attributes, char *fmt, ...);
 	The text will be centered on x axis.
 */
 void consoleDrawTextMapCenter(u16 y, u16 *map, u8 attributes, char *fmt, ...);
-
-/*! \brief Initialize the Text System
-	\param bgNumber	The BG number to show Text on.
-	\param paletteNumber	Palette number (0..16).
-	\param gfxText	Pointer to tiles gfx for printing
-
-	Reserve a BG and load the font characters into VRAM. It will only work in tiled display modes. 
-	Also, please note that this function will overwrite BG palette number 0 and 1 to black and white, 
-	and set the Font to use these two colors. You can change colors by calling consoleSetTextCol().
-*/
-void consoleInitText(u8 bgNumber,u8 paletteNumber, u8 *gfxText);
 
 /*! \fn  consoleInit()
 	\brief Initialize console
