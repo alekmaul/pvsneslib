@@ -1,0 +1,37 @@
+# Set default behaviour to automatically normalize line endings
+*       text=auto
+*.sh    text eol=lf
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+
+# Large File System will only get last version of binary files when cloning the repo
+# A binary file is by default identified by git when the first 8 000 bytes contains a NUL character
+# Otherwise, it can be enumerate :
+
+
+# sound / musics
+*.brr filter=lfs diff=lfs merge=lfs -text
+*.it filter=lfs diff=lfs merge=lfs -text
+*.bnk filter=lfs diff=lfs merge=lfs -text
+
+# images / graphics
+
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.bmp filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+
+*.pic filter=lfs diff=lfs merge=lfs -text
+*.pal filter=lfs diff=lfs merge=lfs -text
+
+# others
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.exe filter=lfs diff=lfs merge=lfs -text
+*.bin filter=lfs diff=lfs merge=lfs -text
+
+*.o filter=lfs diff=lfs merge=lfs -text
+*.a filter=lfs diff=lfs merge=lfs -text
+*.lib filter=lfs diff=lfs merge=lfs -text
+*.obj filter=lfs diff=lfs merge=lfs -text
+
+*.sfc filter=lfs diff=lfs merge=lfs -text
+
