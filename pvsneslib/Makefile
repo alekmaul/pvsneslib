@@ -9,44 +9,43 @@ export PVSNESLIB_MAJOR	:= 4
 export PVSNESLIB_MINOR	:= 0
 export PVSNESLIB_PATCH	:= 0
 
+# Directory with docs config and output (via doxygen)
+export PVSDOCSDIR = $(TOPDIR)/docs
+
 .PHONY: release clean all docs
 
 all: include/snes/libversion.h pvsneslibversion release docs
 
 #-------------------------------------------------------------------------------
 release: lib
-#-------------------------------------------------------------------------------
 	make -C source all
 
 #-------------------------------------------------------------------------------
 lib:
-#-------------------------------------------------------------------------------
 	mkdir lib
 
 #-------------------------------------------------------------------------------
 clean:
-#-------------------------------------------------------------------------------
 	make -C source clean
-	rm -rf docs
+	rm -rf $(PVSDOCSDIR)/html
 	rm -f pvsneslib_version.txt
 
 #---------------------------------------------------------------------------------
 doxygenInstalled := $(shell command -v doxygen 2> /dev/null)
 docs: 
-#---------------------------------------------------------------------------------
 ifndef doxygenInstalled
 	@echo "doxygen is not installed, documentation will be not generated.";
 else
-# the pvsneslib version is set dynamically in the doc
-	( cat pvsneslib.dox && echo "PROJECT_NUMBER = $(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)" ) | doxygen -
+	@rm -rf $(PVSDOCSDIR)/html; \
+	PVSDOCSDIR="$(PVSDOCSDIR)" PVSVERSION="$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)" doxygen "$(PVSDOCSDIR)/pvsneslib.dox" 
 	@if [ -f 'warn.log' ]; then \
-        @cat warn.log; \
+			@cat warn.log; \
 	fi	
+	@rm -rf $(PVSDOCSDIR)/latex
 endif
 
 #---------------------------------------------------------------------------------
 include/snes/libversion.h : Makefile
-#---------------------------------------------------------------------------------
 	@echo "#ifndef __PVSNESLIBVERSION_H__" > $@
 	@echo "#define __PVSNESLIBVERSION_H__" >> $@
 	@echo >> $@
