@@ -314,14 +314,14 @@ img {
 }
 
 
-/* *** GBDK 2020 Docs modifications *** */
+/* *** PVSnesLib modifications *** */
 
 /* A bunch of overrides from the main and other style sheets */
 
 
 /* Top Title Area */
 #titlearea {
-    background-color: rgb(36, 41, 46) !important;
+    background-color: rgb(241, 248, 255) !important;
     border-bottom:none !important;
 }
 

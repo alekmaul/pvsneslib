@@ -38,11 +38,28 @@ ifndef doxygenInstalled
 else
 	@rm -rf $(PVSDOCSDIR)/html; \
 	PVSDOCSDIR="$(PVSDOCSDIR)" PVSVERSION="$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)" doxygen "$(PVSDOCSDIR)/pvsneslib.dox" 
+	@if [ "$(DOCS_PDF_ON)" = "YES" ]; then\
+		$(MAKE) -C $(PVSDOCSDIR)/latex;\
+		cp $(PVSDOCSDIR)/latex/refman.pdf $(PVSDOCSDIR)/pvsneslib_manual.pdf;\
+	fi
 	@if [ -f 'warn.log' ]; then \
 			@cat warn.log; \
 	fi	
 	@rm -rf $(PVSDOCSDIR)/latex
 endif
+
+# Turn on Latex -> PDF conversion to run run at end of regular docs build
+# (which includes latex output but deletes it at the end).
+#
+# The conversion process requires a Latex install. 
+# For Windows there are various Latex packages to choose from.
+# For Linux this appears to be the minimum:
+#   sudo apt install texlive-latex-base
+#   sudo apt install texlive-latex-recommended
+#   sudo apt install texlive-latex-extra
+#
+docspdf: DOCS_PDF_ON=YES
+docspdf: docs 
 
 #---------------------------------------------------------------------------------
 include/snes/libversion.h : Makefile
