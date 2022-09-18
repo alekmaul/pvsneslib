@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 
 
-	Simple console 'hello world' demo
+	Simple brr sound demo
 	-- alekmaul
 
 
@@ -11,7 +11,7 @@
 extern char soundbrr,soundbrrend;
 brrsamples tadasound;
 
-extern char snesfont;
+extern char snesfont, snespal;
 
 unsigned short bgcolor =128;
 u8 keyapressed=0;
@@ -25,11 +25,14 @@ int main(void) {
     // Initialize SNES 
 	consoleInit();
 
+    // Initialize text console with our font
+	consoleSetTextVramBGAdr(0x6800);
+	consoleSetTextVramAdr(0x3000);
+	consoleSetTextOffset(0x0100);
+	consoleInitText(0, 16*2, &snesfont,&snespal);
+    
 	// allocate around 10K of sound ram (39 256-byte blocks)
 	spcAllocateSoundRegion(39);
-
-	// Initialize text console with our font
-	consoleInitText(0, 0, &snesfont);
 
 	// Now Put in 16 color mode and disable Bgs except current
 	setMode(BG_MODE1,0);  bgSetDisable(1);  bgSetDisable(2);

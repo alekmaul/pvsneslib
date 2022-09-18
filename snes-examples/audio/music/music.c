@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 
 
-	Simple console 'hello world' demo
+	Simple music demo
 	-- alekmaul
 
 
@@ -10,7 +10,7 @@
 
 #include "res/soundbank.h"
 
-extern char snesfont;
+extern char snesfont, snespal;
 extern char SOUNDBANK__;
 
 unsigned short bgcolor =0;
@@ -24,18 +24,18 @@ int main(void) {
     // Initialize SNES 
 	consoleInit(); 
 
+    // Initialize text console with our font
+	consoleSetTextVramBGAdr(0x6800);
+	consoleSetTextVramAdr(0x3000);
+	consoleSetTextOffset(0x0100);
+	consoleInitText(0, 16*2, &snesfont,&snespal);
+    
 	// Set give soundbank
 	spcSetBank(&SOUNDBANK__);
 	
-	// allocate around 10K of sound ram (39 256-byte blocks)
-	spcAllocateSoundRegion(39);
-
 	// Load music
 	spcLoad(MOD_POLLEN8);
 	
-	// Initialize text console with our font
-	consoleInitText(0, 0, &snesfont);
-
 	// Now Put in 16 color mode and disable Bgs except current
 	setMode(BG_MODE1,0);  bgSetDisable(1);  bgSetDisable(2);
 

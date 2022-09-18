@@ -5,6 +5,9 @@
 snesfont:
 .incbin "pvsneslibfont.pic"
 
+snespal:
+.incbin "pvsneslibfont.pal"
+
 soundbrr:
 .incbin "tada.brr"
 soundbrrend:
