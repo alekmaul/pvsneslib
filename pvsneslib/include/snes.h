@@ -98,17 +98,21 @@
     \example graphics/Effects/HDMAGradient/HDMAGradient.c
     \example graphics/Effects/MosaicShading/MosaicShading.c
     \example graphics/Effects/Transparency/Transparency.c
+    \example graphics/Effects/ParallaxScrolling/ParallaxScrolling.c
 
     <!-- sprites -->
     \example graphics/Sprites/SimpleSprite/SimpleSprite.c
     \example graphics/Sprites/AnimatedSprite/AnimatedSprite.c
     \example graphics/Sprites/DynamicSprite/DynamicSprite.c
+    \example graphics/Sprites/ObjectSize/ObjectSize.c
+    \example graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c
 
     <!-- palettes -->
     \example graphics/Palette/GetColors/GetColors.c
 
     <!-- keypad -->
-    \example input/input.c
+    \example pads/input/input.c
+    \example pads/input/multiplay5.c
 
     <!-- timing -->
     \example timer/timer.c
@@ -120,6 +124,7 @@
     <!-- audio -->
     \example audio/music/Music.c
     \example audio/tada/Tada.c
+    \example audio/musicGreaterThan32k/musicGreaterThan32k.c
 
     <!-- maps -->
     \example maps/mapscroll/mapscroll.c
