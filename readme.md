@@ -44,6 +44,23 @@ PVSneslib and affiliated tools are distributed under the MIT license (see pvsnes
 PVSneslib is free but you can donate to support its development:<br>
 [![Paypal](https://www.paypalobjects.com/fr_FR/FR/i/btn/x-click-but04.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5USKF23DQVLC)
 
+# Powered by PVSneslib #
+
+These projects are based on the PVSnesLib _(non-exhaustive list)_:
+
+![alt text](pvsneslib/docs/images/yoyoshuriken.gif)
+ 
+Yo-Yo Shuriken by [Dr. Ludos](https://drludos.itch.io/yo-yo-shuriken)
+
+![alt text](pvsneslib/docs/images/eyra.gif)
+ 
+Eyra by [Second Dimension](https://www.second-dimension.com/store/eyra-the-crow-maiden-snes)
+
+![alt text](pvsneslib/docs/images/sydneycod.gif)
+ 
+Sydney Hunter by [CollectorVision](https://collectorvision.com/store/shop/snes/snes-sydney-hunter-the-caverns-of-death-pal/)
+
+
 # Special thanks #
 
 -RetroAntho (https://github.com/RetroAntho) for his great help to move wla-dx to last version and also for all compilation optimizations in Makefile, snes_rules and, at least, for keeping me motivated to update PVSnesLib ;)  
