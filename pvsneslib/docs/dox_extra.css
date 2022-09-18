@@ -1,7 +1,7 @@
 /*
  *  GitHub Markdown style CSS for doxygen 1.8.14
  *  Source:  https://github.com/sindresorhus/github-markdown-css
- *  License: MIT © Sindre Sorhus
+ *  License: MIT ï¿½ Sindre Sorhus
  *  + bbbbbr
  */
 
@@ -327,7 +327,7 @@ img {
 
 /* Top Menu */
 #projectalign > div {
-    color: rgb(255, 255, 255) !important;
+    color: rgb(0, 84, 250) !important;
     font-weight:normal !important;
     font-family: Arial, Helvetica, sans-serif !important;
 }
@@ -352,18 +352,18 @@ img {
 
 /* Member Info boxes */
 .memtitle {
-    background-color: #f1f8ff !important;
-    border-color:#c8e1ff !important;
+    background-color: rgb(255,210,209) !important;
+    border-color:rgb(237,12,8) !important;
 }
 
 .memproto {
-    background-color: #f1f8ff !important;
-    border-color:#c8e1ff !important;
+    background-color: rgb(255,210,209) !important;
+    border-color:rgb(237,12,8) !important;
 }
 
 .memdoc {
-    border:1px rgb(209, 213, 218) solid !important;
-    background-color: #fafbfc !important;
+    border:1px rgb(237,12,8) solid !important;
+    background-color: rgb(255,210,209) !important;
 }
 
 /* Navigation Tree */
@@ -407,8 +407,8 @@ img {
     font-size:14px !important;
     position: absolute;
     top: -42px;
-    /* background-color: rgba(255, 255, 255, 0.125); */
-    background-color: #404448 !important;
+    background-color: rgba(8,150,75, 0.125); 
+    /*background-color: #089648 !important;*/
     border-radius: 6px;
     margin-right:20px !important;
 }
@@ -424,7 +424,7 @@ img {
 /* And override it with a hamburger menu character */
 #MSearchBox span.left::after {
     font-weight:bold !important;
-    color:rgb(255,255,255,0.75) !important;
+    color:rgb(8,150,75,0.75) !important;
     font-size:15px !important;
     content:"\2630";
 }
@@ -444,7 +444,7 @@ img {
 }
 /* Change text color when it's being typed in */
 .MSearchBoxActive #MSearchField {
-  color:rgb(255,255,255,0.75) !important;
+  color:rgb(8,150,75,0.75) !important;
 }
 
 /* Hide right-column border image */
@@ -458,7 +458,7 @@ img {
 }
 #MSearchBox span.right::after {
     font-weight:bold !important;
-    color:rgb(255,255,255,0.30) !important;
+    color:rgb(8,150,75,0.30) !important;
     font-size:15px !important;
     content:"\2715";
 }
