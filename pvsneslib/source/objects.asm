@@ -119,7 +119,6 @@ objcidx		    DW							; index of loop object
 
 objgravity	    DW							; default gravity for objects
 objfriction     DW                          ; default friction for objects
-objmaxvelocity  DW                          ; default maximum y velocity
 
 objtokill       DB							; =1 if need to kill object
 
@@ -209,8 +208,6 @@ _oieR3:
     sta objgravity
     lda #FRICTION                                        
     sta objfriction
-    lda #MAX_Y_VELOCITY                                 
-    sta objmaxvelocity
 
 	ply
 	plx
@@ -220,7 +217,7 @@ _oieR3:
 	rtl
 
 ;---------------------------------------------------------------------------------
-; void objInitGravity(u16 objgravity, u16 objfriction, u16 objvelocity)
+; void objInitGravity(u16 objgravity, u16 objfriction)
 objInitGravity:
 	php
 	phb
@@ -235,8 +232,6 @@ objInitGravity:
     lda 8,s												; get friction (6+2)
     sta objfriction
     rep #$20        
-    lda 9,s												; get maximum velocity (7+2)
-    sta objmaxvelocity
 
 	plb 
 	plp

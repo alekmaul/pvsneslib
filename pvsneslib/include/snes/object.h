@@ -97,9 +97,8 @@ void objInitEngine(void);
 	\brief Initialize the object type functions (initialize, update)
     \param objgravity  The gravity of object when falling (default is 41)
 	\param objfriction 	Friction for object when walking (default is 16)
-	\param objvelocity  maximum velocity when falling (default is 10*256)
 */
-void objInitGravity(u16 objgravity, u16 objfriction, u16 objvelocity);
+void objInitGravity(u16 objgravity, u16 objfriction);
 
 
 /*! \fn objInitFunctions(u8 objtype, void *initfct,void *updfct)
