@@ -28,17 +28,15 @@ int main(void) {
     bgInitTileSet(0, &tileset,&tilepal, 0, (&tilesetend - &tileset), 16*2, BG_16COLORS, 0x2000);
 	bgSetMapPtr(0, 0x6800, SC_64x32);
     
+	// Init Sprites palette 
+	setPalette(&pallink,128+0*16,16*2);
+
 	// Now Put in 16 color mode and disable Bgs except current
 	setMode(BG_MODE1,0);  bgSetDisable(1);  bgSetDisable(2);
 	
-    
-	// Init goomba sprite gfx with default size of 16x16 just after link sprite
-    WaitForVBlank();
-	oamInitGfxSet(&sprlink, (&sprlink_end-&sprlink), &pallink, 16*2, 0, 0x0000, OBJ_SIZE16_L32);
+   	// Init sprite engine (0x0000 for large, 0x1000 for small)
+	oamInitDynamicSprite(0x0000,0x1000, 0,0, OBJ_SIZE8_L16);
 
-    // Screen activated
-	setScreenOn();  
-	
     // Object engine activate
     objInitEngine();   
     
@@ -51,21 +49,22 @@ int main(void) {
     // Load map in memory and update it regarding current location of the sprite
     mapLoad((u8 *) &mapzelda,(u8 *) &tilesetdef, (u8 *) &tilesetatt);
   
+      // Screen activated
+	setScreenOn();  
+	
     // generic playing loop
 	while(1) {
-        // reinit sprites (we have less than 10 object in game)
-        sprnum=0;
-        oamClear(0, 10);
-        
         // Update the map regarding the camera
         mapUpdate();
         
         // Update all the available objects
         objUpdateAll();
         
-        // Wait vblank and display map on screen
-        WaitForVBlank();
-        mapVblank();
+		// prepare next frame and wait vblank
+		oamInitDynamicSpriteEndFrame();
+		WaitForVBlank(); 
+		mapVblank();
+		oamVramQueueUpdate();
 	} 
 	return 0; 
 }

@@ -13,20 +13,15 @@
  
 extern u16 sprnum;              // from main file to have sprite index
 
-// to update sprite with correct index value
-const char sprTiles[4]=
-{
-    0,2,4, 6,
-};  
-
 u16 pad0;                       // because link will be managed with the snes pad
 
-u16 linkid;                    // useful for object collision detection
-t_objs *linkobj;               // pointer to link object
+t_objs *linkobj;                // pointer to link object
 s16 *linkox,*linkoy;			// basics x/y coordinates pointers with fixed point 
 s16 *linkxv,*linkyv;			// basics x/y velocity pointers with fixed point 
 u16 linkx,linky;              // x & y coordinates of link with map depth (not only screen)
 u8 linkfidx, linkflp,flip;    // to manage sprite display
+
+extern char sprlink;                    // for link sprite
 
 //---------------------------------------------------------------------------------
 // Init function for link object
@@ -41,7 +36,6 @@ void linkinit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx) {
 	
 	// Init some vars for snes sprite (objgetid is the current object id)
 	objGetPointer(objgetid);
-    linkid=objgetid;
 	linkobj = &objbuffers[objptr-1];
 	linkobj->width=16; linkobj->height=16;
 
@@ -51,7 +45,14 @@ void linkinit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx) {
 
     // update some variables for link
     linkfidx=0; linkflp=0;
-    linkobj->action=ACT_WALK;
+    linkobj->action=ACT_STAND;
+
+	// prepare dynamic sprite object
+	oambuffer[0].oamx=xp;oambuffer[0].oamy=yp;
+	oambuffer[0].oamframeid=0;
+	oambuffer[0].oamrefresh=1;
+	oambuffer[0].oamattribute=0x20 | (0<<1); // palette 0 of sprite and sprite 16x16 and priority 2
+	oambuffer[0].oamgraphics=&sprlink;
 }
 
 //---------------------------------------------------------------------------------
@@ -62,7 +63,8 @@ void linkwalk(u8 idx) {
     if ((flip & 3)==3) {
         linkfidx++;
         linkfidx=linkfidx&1;
-        linkobj->sprframe=sprTiles[linkfidx];
+        oambuffer[0].oamframeid=linkflp+linkfidx;
+		oambuffer[0].oamrefresh=1;
     }
     
     // check if we are still walking or not with the velocity properties of object
@@ -73,58 +75,58 @@ void linkwalk(u8 idx) {
 //---------------------------------------------------------------------------------
 // Update function for link object
 void linkupdate(u8 idx) {
-    // go to current object
-	linkobj = &objbuffers[idx];
-    
-    // Get pad value and change sprite location and camera if need
+    // Get pad value, no move for the moment
     pad0 = padsCurrent(0);
-    
+	*linkxv=0;*linkyv=0;
+
     if (pad0) {
         // go to the left
         if(pad0 & KEY_LEFT) {   
-            // flip sprite
-            linkflp=1; 
+            // update anim (sprites 2-3)
+            if ((linkflp>3) || (linkflp<2) ) {
+				linkflp=2;
+			}
+			oambuffer[0].oamattribute|=0x40; // flip sprite
             
             // update velocity
             linkobj->action=ACT_WALK;
-            *linkxv-=(LINK_ACCEL);
-            if (*linkxv<=(-LINK_ACCEL))
-                *linkxv=(-LINK_ACCEL);
+            *linkxv=-(LINK_ACCEL);
         }
         // go to the right
         if(pad0 & KEY_RIGHT) {
-            // flip sprite
-            linkflp=0; 
+            // update anim (sprites 2-3)
+            if ((linkflp>3) || (linkflp<2) ) {
+				linkflp=2;
+			}
+			oambuffer[0].oamattribute&=~0x40; // do not flip sprite
             
             // update velocity
             linkobj->action=ACT_WALK;
-            *linkxv+=(LINK_ACCEL);
-            if (*linkxv>=(LINK_ACCEL))
-                *linkxv=(LINK_ACCEL);
-                
+            *linkxv=(LINK_ACCEL);
         }
 		// go to the up
         if(pad0 & KEY_UP) {   
-            // flip sprite
-            linkflp=1; 
+            // update anim (sprites 4,5)
+            if ((linkflp<4) ) {
+				linkflp=4;
+			}
+			oambuffer[0].oamattribute&=~0x40; // do not flip sprite
             
             // update velocity
             linkobj->action=ACT_WALK;
-            *linkyv-=(LINK_ACCEL);
-            if (*linkyv<=(-LINK_MAXACCEL))
-                *linkyv=(-LINK_MAXACCEL);
+            *linkyv=-(LINK_ACCEL);
         }
         // go to the right
         if(pad0 & KEY_DOWN) {
-            // flip sprite
-            linkflp=0; 
+            // update anim (sprites 0-1)
+            if ((linkflp>1)  ) {
+				linkflp=0;
+			}
+			oambuffer[0].oamattribute&=~0x40; // do not flip sprite
             
             // update velocity
             linkobj->action=ACT_WALK;
-            *linkyv+=(LINK_ACCEL);
-            if (*linkyv>=(LINK_MAXACCEL))
-                *linkyv=(LINK_MAXACCEL);
-                
+            *linkyv=(LINK_ACCEL);
         }
     }
     // 1st, check collision with map
@@ -134,22 +136,17 @@ void linkupdate(u8 idx) {
     if (linkobj->action==ACT_WALK)
         linkwalk(idx);
         
-    // Update position
+    // Update position & reset velocity
     objUpdateXY(idx);
     
     // check boundaries
-    if (*linkox<=0)
-        *linkox=0;
-    if (*linkoy<=0)
-        *linkoy=0;
+    if (*linkox<=0) *linkox=0;
+    if (*linkoy<=0) *linkoy=0;
 
-    // change sprite display
-    linkx = *linkox; linky=*linkoy;
-    oamSet(sprnum, linkx-x_pos,linky-y_pos, 2, linkflp, 0, linkobj->sprframe, 0); 
-    oamSetEx(sprnum, OBJ_SMALL, OBJ_SHOW);
-
-    // update sprite entry for the next one
-    sprnum+=4;
+    // change sprite coordinates regarding map location
+    linkx = (*linkox); linky=(*linkoy);
+	oambuffer[0].oamx=linkx-x_pos;oambuffer[0].oamy=linky-y_pos;
+	oamDynamic16Draw(0);
     
     // update camera regarding link obejct
     mapUpdateCamera(linkx,linky);

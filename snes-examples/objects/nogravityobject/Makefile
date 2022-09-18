@@ -13,7 +13,7 @@ export ROMNAME := nogravityobjects
 all: bitmaps $(ROMNAME).sfc
 
 clean: cleanBuildRes cleanRom cleanGfx
-	rm *.m16 *.b16 *.o16
+	rm -f *.m16 *.b16 *.o16
 
 #---------------------------------------------------------------------------------
 mapzelda.m16: mapzelda.tmj

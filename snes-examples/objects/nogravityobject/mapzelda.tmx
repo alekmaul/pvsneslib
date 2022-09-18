@@ -63,7 +63,7 @@
   </tile>
   <tile id="8">
    <properties>
-    <property name="bloc" value="FF00"/>
+    <property name="bloc" value="0"/>
     <property name="pale" value="0"/>
     <property name="prio" value="1"/>
    </properties>
@@ -513,7 +513,7 @@
    <properties>
     <property name="bloc" value="0"/>
     <property name="pale" value="0"/>
-    <property name="prio" value="0"/>
+    <property name="prio" value="1"/>
    </properties>
   </tile>
   <tile id="73">
@@ -615,7 +615,7 @@
 </data>
  </layer>
  <objectgroup color="#ff0000" id="2" name="Entities">
-  <object id="1" name="Link" x="144" y="80" width="16" height="16">
+  <object id="1" name="Link" x="128" y="80" width="16" height="16">
    <properties>
     <property name="Type" value="0"/>
    </properties>

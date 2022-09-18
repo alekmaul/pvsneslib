@@ -77,7 +77,7 @@
                  "rotation":0,
                  "visible":true,
                  "width":16,
-                 "x":144,
+                 "x":128,
                  "y":80
                 }],
          "opacity":1,
@@ -263,7 +263,7 @@
                         {
                          "name":"bloc",
                          "type":"string",
-                         "value":"FF00"
+                         "value":"0"
                         }, 
                         {
                          "name":"pale",
@@ -1489,7 +1489,7 @@
                         {
                          "name":"prio",
                          "type":"string",
-                         "value":"0"
+                         "value":"1"
                         }]
                 }, 
                 {
