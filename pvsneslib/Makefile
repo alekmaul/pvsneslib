@@ -25,6 +25,12 @@ lib:
 	mkdir lib
 
 #-------------------------------------------------------------------------------
+examples:
+	cd ../snes-examples && \
+	make && \
+	make install 
+    
+#-------------------------------------------------------------------------------
 clean:
 	make -C source clean
 	rm -rf $(PVSDOCSDIR)/html

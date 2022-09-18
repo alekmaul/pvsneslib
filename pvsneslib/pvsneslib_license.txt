@@ -21,7 +21,7 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
-V4.0 (dd, mmm, 2022)
+V4.0.0 (dd, mmm, 2022)
 - Fix getPalette which has a bad entry for palette values
 - Add dynamic sprite management (from 8x8 to 32x32 sprites)
 - Add objInitGravity function to change default value for gravity, fiction,y max velocity for object (useful for some  games ?)
