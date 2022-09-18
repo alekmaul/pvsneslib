@@ -1,6 +1,6 @@
 # A library to code in C or ASM for the Nintendo SNES #
 
-[PVSneslib V3.5.0 (29, May, 2022) ](http://www.portabledev.com/jeux/supernes/pvsneslib/)
+[PVSneslib V4.0.0 (dd, mmm, 2022) ](http://www.portabledev.com/jeux/supernes/pvsneslib/)
 
 **PVSnesLib** (**P**rogrammer **V**aluable **Snes** **Lib**rary) is an open and free library to develop programs for the Nintendo SNES using the C programming language.
 
@@ -73,5 +73,6 @@ Sydney Hunter by [CollectorVision](https://collectorvision.com/store/shop/snes/s
 -RedBug for constify tcc bug fix and tips for Linux and Docker  
 -mills32 (https://github.com/mills32) for his mode7 3D example  
 -n_Arno for his help on Linux version (https://github.com/nArnoSNES/)  
+-kobenairb for python & docker optimizations
   
 Thanks !
