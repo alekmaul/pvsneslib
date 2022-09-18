@@ -46,7 +46,7 @@ PVSneslib is free but you can donate to support its development:<br>
 
 # Powered by PVSneslib #
 
-These projects are based on the PVSnesLib _(non-exhaustive list)_:
+These projects are based on PVSnesLib _(non-exhaustive list)_:
 
 ![alt text](pvsneslib/docs/images/yoyoshuriken.gif)
  
