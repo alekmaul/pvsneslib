@@ -112,7 +112,7 @@
 
     <!-- keypad -->
     \example pads/input/input.c
-    \example pads/input/multiplay5.c
+    \example pads/multiplay5/multiplay5.c
 
     <!-- timing -->
     \example timer/timer.c
