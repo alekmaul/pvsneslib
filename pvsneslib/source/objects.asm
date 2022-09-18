@@ -1269,13 +1269,13 @@ objCollidMap1D:
     phx
     phy
 
-    sep #$20                                            ; go to bank objects
+    sep #$20                                                  ; go to bank objects
     lda #$7e
     pha
     plb
 	
 	rep #$20
-	lda 10,s											; grad the index of object (5+1+2+2)
+	lda 10,s											      ; grad the index of object (5+1+2+2)
 	asl a
 	asl a
 	asl a
@@ -1283,13 +1283,13 @@ objCollidMap1D:
 	asl a
 	asl a
 	tax 
-	sta objtmp2                                         ; to keep global handle for object
+	sta objtmp2                                               ; to keep global handle for object
 
-	lda objbuffers.1.yvel,x                               ; if yvel>=0 -> if object is falling
-	bpl	_oicm1d1
+	lda objbuffers.1.yvel,x                                   ;-- TEST Y ---------
+	bpl	_oicm1d1                                              ; if yvel>=0 -> if object is moving down
 	jmp _oicm1dtstyn
 _oicm1d1:
-    xba                                                ; compute ypos 
+    xba                                                       ; compute ypos 
     and	#$00FF
     clc
     adc	objbuffers.1.ypos+1,x
@@ -1297,7 +1297,7 @@ _oicm1d1:
     adc objbuffers.1.yofs,x
     clc
     adc objbuffers.1.height,x
-	bpl + 												; if y<0, put it to 0 
+	bpl + 												      ; if y<0, put it to 0 
 	lda #0000
 
 +   lsr a
@@ -1432,34 +1432,17 @@ _oicm1d5:
     brl  _oicm1dtstx
 
 _oicm1d61:
-    lda objbuffers.1.yvel,x
-    sec                                                 ; moving down
-    sbc #FRICTION1D
-    bpl _oicm1d6
-    stz objbuffers.1.yvel,x
-    jmp _oicm1dtstx
-
-;    lda objbuffers.1.yvel,x
-;    clc
-;    adc objgravity
-;    cmp #MAX_Y_VELOCITY+1                               ; add velocity regarding if we do not reach the maximum
-;    bmi _oicm1d6
-;    lda #MAX_Y_VELOCITY
-
-_oicm1d6:
-    sta objbuffers.1.yvel,x
-	brl  _oicm1dtstx
+	brl  _oicm1dtstx                                          ; test x now
 
 _oicm1dtstyn:
-    stz objbuffers.1.tilestand,x                           ; yvel<0, object is moving upwards
-
+    stz objbuffers.1.tilestand,x                              ; yvel<0, object is moving upwards
     xba
     ora	#$FF00
     clc
     adc	objbuffers.1.ypos+1,x
     clc
     adc objbuffers.1.yofs,x
-	bpl +     												; if y < 0, put it to 0 
+	bpl +     												  ; if y < 0, put it to 0 
 	lda #0000
 
 +	lsr a
@@ -1528,7 +1511,7 @@ _oicm1dtstyn2:
     sta objbuffers.1.tilesprop,x
     lda objbuffers.1.tilesprop,x
     cmp #T_LADDE										; if ladder, well avoid doing stuffs
-    beq _oicm1dtstyn4
+    beq _oicm1dtstx
 
     and #$ff00											; keep only the high values for collision
     beq _oicm1dtstyn3
@@ -1546,51 +1529,25 @@ _oicm1dtstyn2:
     sbc objbuffers.1.yofs,x
     sta objbuffers.1.ypos+1,x
     stz objbuffers.1.yvel,x 
-    brl _oicm1dtstyn4
+    brl _oicm1dtstx
 
 _oicm1dtstyn3:
-    iny                                                 ; continue to test the tiles on x 
+    iny                                                       ;  continue to test the tiles on x 
     iny
     dec	objtmp1
     bne _oicm1dtstyn1
 
-_oicm1dtstyn4:
-    ldx objtmp2                                         ; not standing on anything, now falling
 
-    lda objbuffers.1.yvel,x
-    clc                                                 ; moving left (xvel<0)
-    adc #FRICTION1D
-    bmi _oicm1dtstyn5
-    stz objbuffers.1.yvel,x
-    jmp _oicm1dtstx
-
-;    lda objbuffers.1.yvel,x
-;    clc
-;    adc objgravity
-;    cmp #MAX_Y_VELOCITY+1
-;    bmi _oicm1dtstyn5                                     ; add velocity regarding if we do not reach the maximum
-;    lda #MAX_Y_VELOCITY
-
-_oicm1dtstyn5:
-    sta objbuffers.1.yvel,x
-		
-_oicm1dtstx:   
+_oicm1dtstx:                                                  ;-- TEST X ---------------------------
 	ldx objtmp2
-	lda objbuffers.1.xvel,x                               ; if xvel>=0 -> moving right
+	lda objbuffers.1.xvel,x                                   ; if xvel>=0 -> moving right
 	bne _oicm1dtstx1
 	jmp _oicm1dend
 _oicm1dtstx1:
     bpl	_oicm1dtstx11
     jmp _oicm1dtstxn
-_oicm1dtstx11:
-    sec                                                  ; moving right
-    sbc #FRICTION1D
-    bpl _oicm1dtstx12
-    stz objbuffers.1.xvel,x
-    jmp _oicm1dend
 
-_oicm1dtstx12:
-    sta objbuffers.1.xvel,x
+_oicm1dtstx11:
 	lda objbuffers.1.ypos+1,x
 	clc
 	adc objbuffers.1.yofs,x
@@ -1598,7 +1555,6 @@ _oicm1dtstx12:
 	lda #0000
 
 +	pha
-	
     and	#$0007
     clc
     adc objbuffers.1.height,x
@@ -1680,14 +1636,6 @@ _oicm1dtstx14:
     brl _oicm1dend
 
 _oicm1dtstxn:
-    clc                                                 ; moving left (xvel<0)
-    adc #FRICTION1D
-    bmi _oicm1dtstxna
-    stz objbuffers.1.xvel,x                             ; currently it is not ok to go left
-    brl _oicm1dend
-	
-_oicm1dtstxna:
-    sta objbuffers.1.xvel,x
     lda objbuffers.1.ypos+1,x
     clc
     adc objbuffers.1.yofs,x
@@ -1719,7 +1667,7 @@ _oicm1dtstxna:
     clc
     adc objbuffers.1.xofs,x 
     
-bpl _oicm1dtstxnb                                         ; if negative, don't bother to test, will change screen
+    bpl _oicm1dtstxnb                                         ; if negative, don't bother to test, will change screen
     jmp _oicm1dend
 
 _oicm1dtstxnb:
