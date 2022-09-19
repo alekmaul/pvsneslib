@@ -8,7 +8,7 @@
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-extern char snesfont;
+extern char snesfont, snespal;
 
 scoMemory scoretst,scoretst1;
 char sz[128];
@@ -19,8 +19,11 @@ int main(void) {
 	consoleInit();
     
     // Initialize text console with our font
-	consoleInitText(0, 0, &snesfont);
-
+	consoleSetTextVramBGAdr(0x6800);
+	consoleSetTextVramAdr(0x3000);
+	consoleSetTextOffset(0x0100);
+	consoleInitText(0, 16*2, &snesfont,&snespal);
+    
 	// Clear the score
 	scoretst.scohi=18;scoretst.scolo=900;
 	scoreClear(&scoretst);
