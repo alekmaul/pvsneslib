@@ -280,5 +280,11 @@ void oamDynamic16Draw(u16 id);
 */
 void oamDynamic8Draw(u16 id);
 
+/*!\brief Add a 8x8 sprite on screen.<br>oambuffer[id] needs to be populate before.
+	\param id the oam number to be set [0 - 127]
+	\param sprmeta	pointer to metasprite structure (must finish with 0xFFFF)
+*/
+void oamDynamicMetaDraw(u16 id, u16 *sprmeta);
+
 #endif //SNES_SPRITES_INCLUDE
 

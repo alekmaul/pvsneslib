@@ -1616,3 +1616,148 @@ _o8DRep3:
 
 .ENDS
 
+.SECTION ".spritesb_text" SUPERFREE
+
+;---------------------------------------------------------------------------------
+; void oamDynamicMetaDraw(u16 id, u16 *sprmeta)
+oamDynamicMetaDraw:
+	php
+	phb
+	phx
+    phy
+  	
+	sep #$20
+	lda #$7e
+	pha
+	plb
+	
+	rep #$20
+	lda	10,s                     							  ; get id
+	asl a													  ; to be on correct index (8 bytes per oam)
+	asl a
+	asl a
+	asl a
+	
+	tay
+	sep #$20
+	lda oambuffer.1.oamrefresh,y						      ; check if we need to update graphics
+	beq _o8DRep1
+    lda #$00
+	sta oambuffer.1.oamrefresh,y                              ; reinit it
+
+	rep #$20
+	lda oambuffer.1.oamframeid,y 							  ; get sprite entry number for graphics
+	asl a
+	tax
+	lda.l lkup8oamS,x
+	clc
+	adc.w oambuffer.1.oamgraphics,y
+	sta.w sprit_val2
+
+    lda.l oamqueuenumber									  ; oamAddGfxQueue8(pgfx,GFXSPR0.1ADR+idBlock8);
+	tax														  ; go to next graphic entry
+	clc
+	adc #$0006
+	sta.l oamqueuenumber
+
+    phx
+    lda oamnumberspr1                             			  ;  get address
+    asl a
+    tax
+    lda.l lkup8idB,x
+    plx
+	clc
+	adc spr1addrgfx											  ; not variable, always the second gfx entry
+	sta.l oamQueueEntry+3,x
+	lda sprit_val2											  ; get tileSource (lower 8 bits)
+	sta.l oamQueueEntry,x
+	sep #$20                      							  ; A 8 bits
+	lda oambuffer.1.oamgraphics+2,y                		      ; get tileSource (bank)
+	sta.l oamQueueEntry+2,x
+	
+	lda #OBJ_SPRITE8                      					  ; store that it is a 8pix sprite 
+	sta.l oamQueueEntry+5,x
+
+_o8DRep1:
+	rep #$20
+	ldx oamnumberperframe                                     ; get curent sprite number (x4 entry)
+
+    phx
+    lda oamnumberspr1                  						  ; get graphics offset of 8x8 sprites
+    asl a
+    tax
+    lda.l lkup8idT,x
+    plx
+	sta.w oamMemory+2,x										  ; store in oam memory
+
+	lda oambuffer.1.oamx,y				                      ; get x coordinate
+	xba														  ; save it
+	sep #$20                  								  ; A 8 bits
+	ror a                         						      ; x msb into carry (saved if x>255)
+
+	lda oambuffer.1.oamy,y                     				  ; get y coordinate
+	xba
+	rep #$20                      							  ; A 8 bits 
+	sta.w oamMemory,x										  ; store x & y in oam memory
+
+	lda.w #$0200                  							  ; put $02 into MSB
+	sep #$20                      							  ;	 A 8 bits
+	lda.l oammask+2,x            							  ; get offset in the extra OAM data
+	phy
+	tay
+
+	bcs _o8DRep3											  ; if no x<255, no need to update
+
+	lda.l oammask+1,x
+	and.w oamMemory,y
+	sta.w oamMemory,y										  ; store x in oam memory
+    brl +
+
+_o8DRep3:
+	lda.l oammask,x
+	ora.w oamMemory,y
+	sta.w oamMemory,y										  ; store x in oam memory
+ 
++:	
+	ply
+	lda oambuffer.1.oamattribute,y     						  ; get attr
+	sta oamMemory+3,x										  ; store attrbutes in oam memory
+
+	rep #$20												  ; oamSetEx(nb_sprites_oam, OBJ_SMALL, OBJ_SHOW);
+	lda oamnumberperframe									  ; always small for 8px sprites
+	lsr a
+	lsr a
+	lsr a
+	lsr a
+	clc
+	adc.w #512                                                ; id>>4 + 512
+	tay                          							  ; oam pointer is now on oam table #2
+	
+	lda oamnumberperframe                   				  ; id
+	lsr a
+	lsr a
+	and.w #$0003                 							  ; id >> 2 & 3
+	tax
+
+	sep #$20
+	lda oamMemory,y              							  ; get value of oam table #2
+	and.l oamSetExand,x
+	sta oamMemory,y              							  ; store new value in oam table #2
+
+    rep #$20
+    inc.w oamnumberspr1										  ; one more sprite 8x8
+
+	lda oamnumberperframe										  ; go to next sprite entry (x4 multiplier)
+	clc
+	adc #$0004
+	sta.w oamnumberperframe
+
+	ply
+	plx
+	
+	plb
+	plp
+	rtl
+
+.ENDS
+
