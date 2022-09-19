@@ -867,6 +867,8 @@ _oicm21:
     lda objbuffers.1.tilesprop,x
     cmp #T_LADDE										; if ladder, well avoid doing stuffs
 	beq _oicm3
+	cmp #T_PLATE										; if on a plate, do same thing
+	beq _oicm3
 
     cmp #T_FIRES                                        ; if fire, player is burning
     bne _oicm22
