@@ -8,7 +8,7 @@
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-extern char snesfont;
+extern char snesfont, snespal;
 
 unsigned short pad0;
 
@@ -18,7 +18,10 @@ int main(void) {
 	consoleInit();
     
     // Initialize text console with our font
-	consoleInitText(0, 0, &snesfont);
+	consoleSetTextVramBGAdr(0x6800);
+	consoleSetTextVramAdr(0x3000);
+	consoleSetTextOffset(0x0100);
+	consoleInitText(0, 16*2, &snesfont,&snespal)
 
 	// Draw a wonderfull text :P
 	consoleDrawText(5,8,"JUST DO RANDOM NUMBERS");

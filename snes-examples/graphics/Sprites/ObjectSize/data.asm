@@ -33,4 +33,7 @@ palsprite64:
 snesfont:
 .incbin "pvsneslibfont.pic"
 
+snespal:
+.incbin "pvsneslibfont.pal"
+
 .ends

@@ -12,7 +12,7 @@ extern char patterns, patterns_end;
 extern char palette;
 extern char map, map_end;
 
-extern char snesfont;
+extern char snesfont,snespal;
 
 //---------------------------------------------------------------------------------
 int main(void) {
@@ -23,7 +23,10 @@ int main(void) {
 	consoleInit();
     
     // Initialize text console with our font
-	consoleInitText(0, 1, &snesfont);
+	consoleSetTextVramBGAdr(0x6800);
+	consoleSetTextVramAdr(0x3000);
+	consoleSetTextOffset(0x0100);
+	consoleInitText(0, 16*2, &snesfont,&snespal);
 
 	// Copy tiles to VRAM
 	bgInitTileSet(1, &patterns, &palette, 0, (&patterns_end - &patterns), 16*2, BG_16COLORS, 0x4000);

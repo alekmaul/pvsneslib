@@ -22,7 +22,7 @@ extern char mariogfx, mariogfx_end;
 extern char mariopal;
 extern char mapcol;
 
-extern char snesfont;
+extern char snesfont, snespal;
 
 #define GRAVITY 48
 #define JUMPVALUE (GRAVITY*20)
@@ -232,9 +232,8 @@ int main(void) {
 	// Load sample
 	spcSetSoundEntry(15, 8, 6, &jumpsndend-&jumpsnd, &jumpsnd, &Jump);
 	
-	// Initialize text console with our font and invert color (black with BG white)
-	consoleInitText(0, 1, &snesfont);
-	consoleSetTextCol(RGB5(0,0,0), RGB5(31,31,31));
+	// Initialize text console with our font 
+	consoleInitText(0, 16*2, &snesfont,&snespal);
 	
 	// Copy tiles to VRAM
 	bgInitTileSet(1, &mapgfx, &mappal, 0, (&mapgfx_end - &mapgfx), 16*2, BG_16COLORS, 0x6000);

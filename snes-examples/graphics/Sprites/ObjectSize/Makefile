@@ -33,6 +33,6 @@ sprite64.pic: sprite64.bmp
 	
 pvsneslibfont.pic: pvsneslibfont.bmp
 	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFXCONV) -n -gs8 -po2 -pc16 -pe1 -mR! -m! -p! $<
+	$(GFXCONV) -n -gs8 -po2 -pc16 -pe1 -mR! -m! $<
 
 bitmaps : pvsneslibfont.pic sprite8.pic sprite16.pic sprite32.pic sprite64.pic

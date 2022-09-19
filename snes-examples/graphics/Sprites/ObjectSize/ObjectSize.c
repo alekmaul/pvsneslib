@@ -7,7 +7,7 @@
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-extern char snesfont;
+extern char snesfont,snespal;
 extern char sprite8, sprite8_end, palsprite8, palsprite8_end;
 extern char sprite16, sprite16_end, palsprite16, palsprite16_end;
 extern char sprite32, sprite32_end, palsprite32, palsprite32_end;
@@ -106,8 +106,11 @@ int main(void) {
     // Initialize SNES 
 	consoleInit();
 	
-	// Initialize text console with our font
-	consoleInitText(0, 0, &snesfont);
+    // Initialize text console with our font
+	consoleSetTextVramBGAdr(0x6800);
+	consoleSetTextVramAdr(0x3000);
+	consoleSetTextOffset(0x0100);
+	consoleInitText(0, 16*2, &snesfont,&snespal);
 		
 	// Now Put in 16 color mode and disable all backgrounds
 	setMode(BG_MODE1,0);  bgSetDisable(1);  bgSetDisable(2);
