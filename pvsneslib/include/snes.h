@@ -128,7 +128,8 @@
 
     <!-- maps -->
     \example maps/mapscroll/mapscroll.c
-
+    \example maps/tiled/tiled.c
+    
     <!-- objects -->
     \example objects/moveobjects/moveobjects.c
 
