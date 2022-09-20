@@ -35,6 +35,11 @@
 .DEFINE OB_SCR_YLR_CHK      -64             ; -64 is the minimum on "virtual" screen y position to update object
 .DEFINE OB_SCR_YRR_CHK      288             ; 224+64 is the maximum on "virtual" screen y position to update object
 
+.DEFINE OB_SCR_XLE_CHK      -32             ; -32 is the minimum on screen x position to display sprite object
+.DEFINE OB_SCR_XRI_CHK      256             ; 255 is the maximum on screen x position to display sprite object
+.DEFINE OB_SCR_YLE_CHK      -32             ; -32 is the minimum on screen y position to display sprite object
+.DEFINE OB_SCR_YRI_CHK      224             ; 224 is the maximum on screen y position to display sprite object
+
 .DEFINE T_SOLID				$FF00
 .DEFINE T_LADDE				$0001
 .DEFINE T_FIRES				$0002
@@ -103,6 +108,7 @@ objactives      DSW OB_TYPE_MAX				; active object list
 
 objfctinit      DSB 4*OB_TYPE_MAX			; pointer to init function of objects
 objfctupd	    DSB 4*OB_TYPE_MAX			; pointer to update function of object
+objfctref	    DSB 4*OB_TYPE_MAX			; pointer to refresh function of sprite object
 
 objtmpbuf	    DSW (OB_MAX*5)+1			; temporary buffer for object 
 
@@ -239,8 +245,8 @@ objInitGravity:
 	rtl
 
 ;---------------------------------------------------------------------------------
-; void objInitFunctions(u8 objtype, void *initfct,void *updfct)
-; 5 6-9 10-13 
+; void objInitFunctions(u8 objtype, void *initfct,void *updfct,void *reffct)
+; 5 6-9 10-13 14-16
 objInitFunctions:
     php
     phb
@@ -268,6 +274,11 @@ objInitFunctions:
     sta objfctupd,x
     lda 15,s
     sta objfctupd+2,x
+
+    lda 17,s										    ; get bank + data update fonction address (14+1+2 & 16+1+2) 
+    sta objfctref,x
+    lda 19,s
+    sta objfctref+2,x
 
     plx
     plb
@@ -751,6 +762,107 @@ _oiual2:
 	brl _oiual1
 
 _oiuaend:
+	ply
+	plx
+	plb
+	plp
+	rtl
+
+;---------------------------------------------------------------------------------
+; void objRefreshAll(void)
+objRefreshAll:
+	php
+	phb
+    
+	phx
+	phy
+	
+	sep #$20                                            ; goto object bank
+	lda #$7e
+	pha
+	plb
+	
+	rep #$20
+	ldx #$0000
+	
+_oiral1:
+    lda objactives,x									; walk through entire active buffer
+	phx
+_oiral10:
+    sta objcidx                                         ; to keep value of current index 
+    cmp #OB_NULL                                        ; there are still object left in the list
+    bne _oiral3
+    brl _oiral2
+_oiral3:
+    asl a
+    asl a
+    asl a
+    asl a
+    asl a
+    asl a
+    tax 				                                ; x is now the current object															
+
+    lda objbuffers.1.next,x                             ; grab the next object to update
+    pha                                                 ; will be restore at the end
+
+    lda objbuffers.1.xpos+1,x
+    sec
+    sbc.l x_pos
+
+    cmp.w #OB_SCR_XLE_CHK
+    bcc _oiral3y                                        ; x is lower than max
+    cmp.w #OB_SCR_XRI_CHK
+    bcc _oiral3y1                                       ; but x is lower than min
+
+_oiral3y:                                               ; check now y coordinates
+    lda objbuffers.1.ypos+1,x
+    sec
+    sbc.l y_pos
+
+    cmp.w #OB_SCR_YRI_CHK
+    bcc _oiral32                                        ; y is lower than max
+    cmp.w #OB_SCR_YLE_CHK
+    bcs _oiral32                                        ; but y is greater than min
+
+_oiral3y1:
+    rep #$20
+    bra _oiral31
+            
+_oiral32:            
+    sep #$20
+    lda objbuffers.1.type,x
+    rep #$20
+    and #$00ff
+    asl a
+    asl a
+    tay
+		
+    lda objfctref,y		                                ; get address of update function and call it
+    sta objfctcall
+    lda objfctref+2,y
+    sta objfctcallh
+		
+    lda objcidx
+    pha
+
+    sep #$20
+	jsl jslcallfct
+    rep #$20
+    pla
+
+_oiral31:
+    pla
+    brl _oiral10
+
+_oiral2:
+    plx
+    inx
+    inx
+    cpx #OB_TYPE_MAX*2                                  ; loop with all type of objects
+    beq _oiraend
+	brl _oiral1
+
+_oiraend:
 	ply
 	plx
 	plb

@@ -104,10 +104,11 @@ void objInitGravity(u16 objgravity, u16 objfriction);
 /*! \fn objInitFunctions(u8 objtype, void *initfct,void *updfct)
 	\brief Initialize the object type functions (initialize, update)
     \param objtype  The type of object depending of the game
-	\param initfct 	The address of the function when we init the type of object
+	\param initfct  The address of the function when we init the type of object
 	\param updfct   The address of the function when we update the type of object (will be called once per frame)
+	\param reffct   The address of the function when we refresh sprites of object (will be called once per frame)
 */
-void objInitFunctions(u8 objtype, void *initfct,void *updfct);
+void objInitFunctions(u8 objtype, void *initfct,void *updfct,void *reffct);
 
 /*! \fn objLoadObjects(u8 *sourceO)
 	\brief Load all objects for a specific table in memory
@@ -150,9 +151,17 @@ void objKill(u16 objhandle);
 void objKillAll(void);
 
 /*! \fn objUpdateAll(void)
-	\brief call update fonction for all objects currently active
+	\brief call update fonction for all objects currently active (if they are in "virtual screen" coordinates).
+	\brief  "virtual screen" coordinates are -64<x<320 and -64<y<288.
 */
 void objUpdateAll(void);
+
+/*! \fn objRefreshAll(void)
+	\brief call refresh fonction for all objects currently on screen.
+	\brief  useful to avoid flickering when using a platform scrolling game.
+	\brief  screen coordinates are -32<x<256 and -32<y<y<224.
+*/
+void objRefreshAll(void);
 
 /*! \fn objCollidMap(u16 objhandle)
 	\brief check if an object collides the map
