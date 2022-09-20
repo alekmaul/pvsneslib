@@ -2,13 +2,12 @@
 
 .section ".rodata1" superfree
 
-mapgfx: .incbin "map_1_1.pic"
-mapgfx_end:
+tileset:
+.incbin "tiles.pic"
+tilesetend:
 
-map: .incbin "map_1_1.map"
-map_end:
-
-mappal: .incbin "map_1_1.pal"
+tilepal:
+.incbin "tiles.pal"
 
 mariogfx: .incbin "mario_sprite.pic"
 mariogfx_end:
@@ -27,7 +26,16 @@ jumpsndend:
 
 .section ".rodata2" superfree
 
-mapcol: .incbin "map_1_1_col.clm"
-mapcol_end:
+mapmario:
+.incbin "BG1.m16"
+
+objmario:
+.incbin "map_1_1.o16"
+
+tilesetatt:
+.incbin "map_1_1.b16"
+
+tilesetdef:
+.incbin "map_1_1.t16"
 
 .ends
