@@ -56,7 +56,8 @@ extern u8 mapupdbuf; /*!< \brief State of buffer update (vert / horiz / all) */
 extern u16 x_pos,y_pos; /*!< \brief Current value of camera in x & y coordinates */
 
 /*!	\fn mapLoad(u8 *layer1map, u8 *layertiles, u8 *tilesprop)
-	\brief Load map definition into memory
+	\brief Load map definition into memory.
+	\brief WARNING! Map engine must be used on Background #0.
 	\param layer1map address of map with tiles
     \param layertiles address of tiles definition
     \param tilesprop address of tiles property definition (blocker, spikes, and so on)
