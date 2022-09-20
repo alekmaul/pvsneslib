@@ -36,7 +36,7 @@ map_1_1.m16: map_1_1.tmj
 
 tiles.pic: tiles.png
 	@echo convert map tileset... $(notdir $@)
-	$(GFXCONV) -gs8 -pc16 -po16 -m! -fpng -n $<
+	$(GFXCONV) -gs8 -pc16 -po16 -m! -mR! -fpng -n $<
 
 mariofont.pic: mariofont.bmp
 	@echo convert font with no tile reduction ... $(notdir $@)
