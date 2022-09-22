@@ -22,8 +22,6 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v3
         with:
-          repository: alekmaul/pvsneslib
-          path: pvsneslib
           persist-credentials: false
 
       # 2. Partie spécifique à Sphinx (installation des
