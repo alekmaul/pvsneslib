@@ -34,8 +34,7 @@ jobs:
       
       - name: "Build Doxygen Doc"
         run: |
-          cd pvsneslib
-          doxygen pvsneslib.dox
+          doxygen pvsneslib/pvsneslib.dox
         shell: bash
 
       # 3. Déploiement sur les Github Pages
