@@ -36,7 +36,7 @@ jobs:
       
       - name: "Build Doxygen Doc"
         run: |
-          PVSDOCSDIR="/pvsneslib/docs" PVSVERSION="4.0.0" doxygen pvsneslib/docs/pvsneslib.dox
+          PVSDOCSDIR="pvsneslib/docs" PVSVERSION="4.0.0" doxygen pvsneslib/docs/pvsneslib.dox
         shell: bash
 
       # 3. Déploiement sur les Github Pages
