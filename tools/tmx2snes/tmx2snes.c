@@ -110,10 +110,16 @@ void PrintVersion(void)
 void WriteMap(void)
 {
     int tileattr, tilesnes, i;
+	char *lastpostslash;
+	
+    // We use directory and replace file name with layer name
+	strcpy(filemapname,filebase);
+    lastpostslash = strrchr( filemapname, '/' );
+	sprintf(lastpostslash+1,"%s.m16",layer->name.ptr);
 
 	if (quietmode == 0)
 		printf("tmx2snes:     Writing tiles map file...\n");
-	sprintf(filemapname,"%s.m16",layer->name.ptr);
+	//sprintf(filemapname,"%s.m16",layer->name.ptr);
 	fpo = fopen(filemapname,"wb");
 	if(fpo==NULL)
 	{	
@@ -320,6 +326,10 @@ int main(int argc, char **argv)
 	CUTE_TILED_UNUSED(argc);
     CUTE_TILED_UNUSED(argv);    
 	
+    // init all filenames
+    strcpy(filebase,"");
+    strcpy(filemapname,"");
+
 	//parse the arguments
 	for(i=1;i<argc;i++)
 	{
@@ -414,7 +424,7 @@ int main(int argc, char **argv)
         return 1;
 	}
 
-	// remove filename extension
+	// remove filename extension (tmj or json)
 	if (filebase[strlen(filebase)-5] == '.') {
 		filebase[strlen(filebase)-5] = '\0';
 	}
