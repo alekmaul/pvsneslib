@@ -37,6 +37,7 @@ jobs:
       - name: "Build Doxygen Doc"
         run: |
           cd pvsneslib/docs/
+          mkdir html
           doxygen pvsneslib.dox
         shell: bash
 
