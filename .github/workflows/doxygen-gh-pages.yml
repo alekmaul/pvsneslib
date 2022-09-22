@@ -6,6 +6,7 @@ on:
   push:         # <- Déclenché lorsque l'on pousse du code...
     branches:
       - develop  # <- ... mais seulement sur la branche "develop"
+  workflow_dispatch:
 
 jobs:
 
