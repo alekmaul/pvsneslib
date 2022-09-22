@@ -22,6 +22,8 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v3
         with:
+          ref: develop
+          fetch-depth: 0
           persist-credentials: false
 
       # 2. Partie spécifique à Sphinx (installation des
@@ -34,7 +36,8 @@ jobs:
       
       - name: "Build Doxygen Doc"
         run: |
-          doxygen pvsneslib/pvsneslib.dox
+          cd pvsneslib/docs/
+          doxygen pvsneslib/docs/pvsneslib.dox
         shell: bash
 
       # 3. Déploiement sur les Github Pages
