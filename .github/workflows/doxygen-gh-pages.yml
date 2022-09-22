@@ -48,4 +48,4 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages     # <- Branche sur laquelle seront commités les fichiers
-          FOLDER: docs/html/  # <- Dossier contenant notre documentation générée
+          FOLDER: pvsneslib/docs/html/  # <- Dossier contenant notre documentation générée
