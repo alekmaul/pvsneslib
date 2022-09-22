@@ -20,17 +20,13 @@ jobs:
       # 1. On récupère le contenu du dépôt
 
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
+          path: pvsneslib
           persist-credentials: false
 
       # 2. Partie spécifique à Sphinx (installation des
       #    dépendances et génération de la doc)
-
-      - name: "Set up Python"
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
 
       - name: Install Doxygen
         run: |
