@@ -1,18 +1,51 @@
-name: Doxygen GitHub Pages Deploy Action
+# Nom de notre workflow
+name: "Build and deploy Github pages"
 
+# Événements sur lesquels il doit être déclenché
 on:
-  push:
+  push:         # <- Déclenché lorsque l'on pousse du code...
     branches:
-      - develop
-  workflow_dispatch:
+      - develop  # <- ... mais seulement sur la branche "develop"
 
 jobs:
-  deploy:
+
+  # Notre job
+  build-and-deploy:
     runs-on: ubuntu-latest
+
+    # Tâches à effectuer, comme expliquées ci-dessus
     steps:
-      - uses: DenverCoder1/doxygen-github-pages-action@v1.1.0
+
+      # 1. On récupère le contenu du dépôt
+
+      - name: "Checkout"
+        uses: actions/checkout@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
-          folder: pvsneslib/docs/html
-          config_file: pvsneslib/pvsneslib.dox
+          persist-credentials: false
+
+      # 2. Partie spécifique à Sphinx (installation des
+      #    dépendances et génération de la doc)
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Install Doxygen
+        run: |
+          sudo apt-get install doxygen -y
+        shell: bash
+      
+      - name: "Build Doxygen Doc"
+        run: |
+          doxygen pvsneslib/pvsneslib.dox
+        shell: bash
+
+      # 3. Déploiement sur les Github Pages
+
+      - name: "Deploy Github Pages"
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages     # <- Branche sur laquelle seront commités les fichiers
+          FOLDER: pvsneslib/docs/html/  # <- Dossier contenant notre documentation générée
