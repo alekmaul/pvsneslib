@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['cgram_5fpalette_39',['CGRAM_PALETTE',['../video_8h.html#afe3cc8b2ea5f41a791be1b3a3cf04cb2',1,'video.h']]],
+  ['cm_5fdircolor_40',['CM_DIRCOLOR',['../video_8h.html#afbe2b768602914630a49573d20359eb1',1,'video.h']]],
+  ['colwin_5fmb24w1enablein_41',['COLWIN_MB24W1ENABLEIN',['../background_8h.html#a7f85311a4643785618d9ebc9dd047a44',1,'background.h']]],
+  ['colwin_5fmb24w1enableout_42',['COLWIN_MB24W1ENABLEOUT',['../background_8h.html#a6c5d3817485ae11899798a7e0a010ca7',1,'background.h']]],
+  ['colwin_5fmb24w2enablein_43',['COLWIN_MB24W2ENABLEIN',['../background_8h.html#a8f8c84ebe0a9545ea9c96b8abf19c7a4',1,'background.h']]],
+  ['colwin_5fmb24w2enableout_44',['COLWIN_MB24W2ENABLEOUT',['../background_8h.html#a6968bfe23f006bdf39824555c09584af',1,'background.h']]],
+  ['colwin_5fob13w1enablein_45',['COLWIN_OB13W1ENABLEIN',['../background_8h.html#a86db2ab0941ca4f332512d07474b4a49',1,'background.h']]],
+  ['colwin_5fob13w1enableout_46',['COLWIN_OB13W1ENABLEOUT',['../background_8h.html#a9e2d699d3d545034704c49ba61aeef22',1,'background.h']]],
+  ['colwin_5fob13w2enablein_47',['COLWIN_OB13W2ENABLEIN',['../background_8h.html#a8788aace2f7d5508738fdd0aaf54c346',1,'background.h']]],
+  ['colwin_5fob13w2enableout_48',['COLWIN_OB13W2ENABLEOUT',['../background_8h.html#a9b244a78c2d213c4f73c72734039aea1',1,'background.h']]],
+  ['console_2eh_49',['console.h',['../console_8h.html',1,'']]],
+  ['consolecopysram_50',['consoleCopySram',['../console_8h.html#ac3c55f6e16ff70d19c046404b9aa8a9b',1,'console.h']]],
+  ['consoledrawtext_51',['consoleDrawText',['../console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c',1,'console.h']]],
+  ['consoledrawtextmap_52',['consoleDrawTextMap',['../console_8h.html#a882be7db6fd3f16e7cccbe28cbecd025',1,'console.h']]],
+  ['consoledrawtextmapcenter_53',['consoleDrawTextMapCenter',['../console_8h.html#a514ade13c61cd2f237bd100d78d5e11d',1,'console.h']]],
+  ['consoleinit_54',['consoleInit',['../console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad',1,'console.h']]],
+  ['consoleinittext_55',['consoleInitText',['../console_8h.html#a5413265662e30a0ded3fee6d3c4781f9',1,'console.h']]],
+  ['consoleloadsram_56',['consoleLoadSram',['../console_8h.html#abe1fabedc24a3adef79f32e02c3bc2d5',1,'console.h']]],
+  ['consolenocashmessage_57',['consoleNocashMessage',['../console_8h.html#a3a226cebe7d59aac755e03e1061ff727',1,'console.h']]],
+  ['consoleregionisok_58',['consoleRegionIsOK',['../console_8h.html#ad9f96595d599dca8d09df3da5200a8a8',1,'console.h']]],
+  ['consolesettextoffset_59',['consoleSetTextOffset',['../console_8h.html#aaddd205f7bb20885a420f26e28214cfb',1,'console.h']]],
+  ['consolesettextpal_60',['consoleSetTextPal',['../console_8h.html#a89a3c9953b95485d2d19db1846aa0755',1,'console.h']]],
+  ['consolesettextvramadr_61',['consoleSetTextVramAdr',['../console_8h.html#a344184ac8dda28ea0170c153c854aa16',1,'console.h']]],
+  ['consolesettextvrambgadr_62',['consoleSetTextVramBGAdr',['../console_8h.html#ab2c949172b9690e58ffb9b3294a36b38',1,'console.h']]],
+  ['consoleupdate_63',['consoleUpdate',['../console_8h.html#a9bfb9c53fa37e76873d14be4446e71e5',1,'console.h']]]
+];

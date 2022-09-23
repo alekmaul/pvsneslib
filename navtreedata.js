@@ -22,12 +22,47 @@ for the JavaScript code in this file
 */
 var NAVTREE =
 [
-  [ "PVSnesLib", "index.html", ]
+  [ "PVSnesLib", "index.html", [
+    [ "PVSnesLib Documentation", "index.html", [
+      [ "Introduction", "index.html#intro", null ],
+      [ "2D engine API", "index.html#video_2D_api", null ],
+      [ "Audio API", "index.html#audio_api", null ],
+      [ "Memory", "index.html#memory_api", null ],
+      [ "System", "index.html#system_api", null ],
+      [ "User Input/ouput", "index.html#user_io_api", null ],
+      [ "Engine API functions", "index.html#engine_api", null ],
+      [ "Miscellaneous functions", "index.html#misc_api", null ],
+      [ "Usefull links", "index.html#external_links", null ],
+      [ "Special Thanks", "index.html#special_thanks", null ]
+    ] ],
+    [ "Data Structures", "annotated.html", [
+      [ "Data Structures", "annotated.html", "annotated_dup" ],
+      [ "Data Structure Index", "classes.html", null ],
+      [ "Data Fields", "functions.html", [
+        [ "All", "functions.html", null ],
+        [ "Variables", "functions_vars.html", null ]
+      ] ]
+    ] ],
+    [ "Files", "files.html", [
+      [ "File List", "files.html", "files_dup" ],
+      [ "Globals", "globals.html", [
+        [ "All", "globals.html", "globals_dup" ],
+        [ "Functions", "globals_func.html", null ],
+        [ "Variables", "globals_vars.html", null ],
+        [ "Typedefs", "globals_type.html", null ],
+        [ "Enumerations", "globals_enum.html", null ],
+        [ "Enumerator", "globals_eval.html", null ],
+        [ "Macros", "globals_defs.html", null ]
+      ] ]
+    ] ],
+    [ "Examples", "examples.html", "examples" ]
+  ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"index.html"
+"annotated.html",
+"pad_8h.html#a42632e79292dc47a567aab4dc3e4407d"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
