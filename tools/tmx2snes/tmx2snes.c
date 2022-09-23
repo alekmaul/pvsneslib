@@ -48,7 +48,7 @@ typedef struct
 {
 	int x;                            		// x coordinate in pixels.
 	int y;                           		// y coordinate in pixels.
-	int type;          						// type of object (0=main character, 1..63 other types)
+	int class;         						// class of object (0=main character, 1..63 other classes)
 	int minx;                          		// horizontal or vertical min x coordinate in pixels.
 	int maxx;                         		// horizontal or vertical max x coordinate in pixels.
 } pvsneslib_object_t;
@@ -197,17 +197,17 @@ void WriteTileset(void)
         for (i = 0; i < tile->property_count; i++) {
             propm = tile->properties + i;
 			// write attribute (blocker, etc..) property (which is a string)
-			if (strcmp(propm->name.ptr,"bloc")==0) {
+			if (strcmp(propm->name.ptr,"attribute")==0) {
 				blkprop=(unsigned short) strtol(propm->data.string.ptr,&pend,16);
 				tileprop[tile->tile_index][0]=blkprop;
 			}
 			// write priority property (which is a string)
-			if (strcmp(propm->name.ptr,"prio")==0) {
+			if (strcmp(propm->name.ptr,"priority")==0) {
 				blkprop=(unsigned short) strtol(propm->data.string.ptr,&pend,16);
 				tileprop[tile->tile_index][1]=blkprop;
 			}
 			// write palette property (which is a string)
-			if (strcmp(propm->name.ptr,"pale")==0) {
+			if (strcmp(propm->name.ptr,"palette")==0) {
 				blkprop=(unsigned short) strtol(propm->data.string.ptr,&pend,16);
 				tileprop[tile->tile_index][2]=blkprop;
 			}
@@ -279,7 +279,7 @@ void WriteEntities(void)
 	if (layer->object_count) {
 		while (objm) {
 			// put object in reverse order 
-			objsnes[objidx].type=(unsigned short) strtol(objm->type.ptr,&pend,10);
+			objsnes[objidx].class=atoi(objm->type.ptr); //(unsigned short) strtol(objm->class.ptr,&pend,10);
 			objsnes[objidx].x=(int) (objm->x);
 			objsnes[objidx].y=(int) (objm->y);
 			for (i = 0; i < objm->property_count; i++) {
@@ -308,7 +308,7 @@ void WriteEntities(void)
 	for (i = 0; i < layer->object_count; i++) {
 		PutWord(objsnes[i].x,fpo);
 		PutWord(objsnes[i].y,fpo);
-		PutWord(objsnes[i].type,fpo);
+		PutWord(objsnes[i].class,fpo);
 		PutWord(objsnes[i].minx,fpo);
 		PutWord(objsnes[i].maxx,fpo);
 	}
