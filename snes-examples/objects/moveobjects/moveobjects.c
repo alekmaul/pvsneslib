@@ -123,7 +123,7 @@ int main(void) {
     objInitEngine();
     
     // Init function for state machine
-    objInitFunctions(0, &testInit,&testUpdate);
+    objInitFunctions(0, &testInit,&testUpdate,NULL);
     
     // Load all objects into memory
     numspr=0;
