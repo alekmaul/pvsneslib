@@ -9,8 +9,8 @@ CFLAGS=-g -O2 -Wall -Wno-literal-suffix -Wno-overflow -static -D__BUILD_DATE="\"
 SOURCES=constify.cpp
 OBJS=constify.o
 EXE=constify
-DEFINES= 
-LIBS= 
+DEFINES=
+LIBS=
 
 ifeq ($(OS),Windows_NT)
         EXT=.exe
@@ -23,20 +23,20 @@ all: $(EXE)$(EXT)
 
 #---------------------------------------------------------------------------------
 $(EXE)$(EXT) : $(OBJS)
-	@echo make exe $(notdir $<) 
+	@echo make exe $(notdir $<)
 	$(CC) $(CFLAGS) $(OBJS) -o $@
 	
 constify.o : constify.cpp
-	@echo make obj $(notdir $<) 
+	@echo make obj $(notdir $<)
 	$(CC) $(CFLAGS) -c $<
 
 lzss.o : lzss.c
-	@echo make obj $(notdir $<) 
+	@echo make obj $(notdir $<)
 	$(CC) $(CFLAGS) -c $<
 
 #---------------------------------------------------------------------------------
 clean:
-	rm -f $(EXE)$(EXT) $(OBJS) 
+	rm -f $(EXE)$(EXT) $(OBJS)
 
 install:
 	mkdir -p ../../devkitsnes/bin && cp $(EXE)$(EXT) ../../devkitsnes/bin/$(EXE)$(EXT)

@@ -3,7 +3,7 @@ $(error "Please create an environment variable PVSNESLIB_HOME with path to its f
 endif
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
- 
+
 .PHONY: bitmaps all
 
 #---------------------------------------------------------------------------------

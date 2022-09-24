@@ -3,9 +3,9 @@ $(error "Please create an environment variable PVSNESLIB_HOME with path to its f
 endif
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
- 
+
 .PHONY: bitmaps all
- 
+
 #---------------------------------------------------------------------------------
 # ROMNAME is used in snes_rules file
 export ROMNAME := tiled
@@ -22,5 +22,5 @@ BG1.m16: maplevel01.json
 tileslevel1.pic: tileslevel1.png
 	@echo convert map tileset ... $(notdir $@)
 	$(GFXCONV) -gs8 -pc16 -po48 -m! -mR! -fpng -n $<
-    
+
 bitmaps : BG1.m16 tileslevel1.pic

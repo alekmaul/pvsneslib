@@ -3,7 +3,7 @@
 .section ".rodata2" superfree
 
 back:
-.incbin "back.pic" 
+.incbin "back.pic"
 back_end:
 
 map:

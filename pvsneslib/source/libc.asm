@@ -58,11 +58,11 @@ memmove:
       cmp.b 10,s
       beq memcpy	; different banks -> no overlap
       sta.b tcc__r0h
-      lda.b 4,s ; dest 
+      lda.b 4,s ; dest
       cmp.b 8,s ; src
       beq __local_finished ; nop
       bcc memcpy        ; dest before src -> forward
-      
+
       sta.b tcc__r0	; dest
       clc
       adc.b 12,s	; +size -> end of dest
@@ -120,7 +120,7 @@ bzero:
 
 .accu 16
 .index 16
-      
+
 __builtin_strcmp:
 strcmp:
       lda.b 4,s		; dest

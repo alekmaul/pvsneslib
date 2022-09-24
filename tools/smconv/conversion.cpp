@@ -1,8 +1,9 @@
 #include "conversion.h"
 
-namespace Conversion {
+namespace Conversion
+{
 
-	void Bank::AddModule( const char *filename ) {
-		
-	}
+    void Bank::AddModule(const char *filename)
+    {
+    }
 };

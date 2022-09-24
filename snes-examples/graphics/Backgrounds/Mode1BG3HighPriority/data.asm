@@ -2,13 +2,13 @@
 
 .section ".rodata1" superfree
 
-BG1_tiles: .incbin "BG1.pic" 
+BG1_tiles: .incbin "BG1.pic"
 BG1_tiles_end
 
-BG2_tiles: .incbin "BG2.pic" 
+BG2_tiles: .incbin "BG2.pic"
 BG2_tiles_end
 
-BG3_tiles: .incbin "BG3.pic" 
+BG3_tiles: .incbin "BG3.pic"
 BG3_tiles_end
 
 .ends

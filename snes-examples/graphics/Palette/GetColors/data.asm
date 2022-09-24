@@ -6,7 +6,7 @@ snesfont:
 .incbin "pvsneslibfont.pic"
 
 patterns:
-.incbin "ortf.pic" 
+.incbin "ortf.pic"
 patterns_end:
 
 map:

@@ -54,7 +54,7 @@ EmptyNMI:
 
 .ENDS
 
-.EMPTYFILL $00                         ; fill unused areas with $00, opcode for BRK.  
+.EMPTYFILL $00                         ; fill unused areas with $00, opcode for BRK.
                                        ; BRK will crash the snes if executed.
 
 .BANK 0
@@ -63,8 +63,8 @@ tcc__snesinit:
 	rep #$10	; X/Y 16 bit
         sep     #$20    ; A is 8 bit
         lda     #$8F    ; screen off, full brightness
-        sta     $2100   ; brightness + screen enable register 
-        stz     $2101   ; Sprite register (size + address in VRAM) 
+        sta     $2100   ; brightness + screen enable register
+        stz     $2101   ; Sprite register (size + address in VRAM)
         stz     $2102   ; Sprite registers (address of sprite memory [OAM])
         stz     $2103   ;    ""                       ""
 
@@ -229,7 +229,7 @@ VBlank:
 .index 16
 .16bit
 
-      
+
 tcc__start:
     ; Initialize the SNES.
     sei             ; Disabled interrupts

@@ -17,7 +17,7 @@ sm_spc.asm : sm_spc.as7
 	$(TA) -07 -b -l $< sm_spc.obj sm_spc.lst
 	$(TXCONV) -ca sm_spc.obj
 	@rm sm_spc.obj sm_spc.lst
-    
+
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...

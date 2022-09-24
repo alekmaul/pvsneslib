@@ -1,7 +1,7 @@
 ;---------------------------------------------------------------------------------
 ;
 ;	Copyright (C) 2014-2020
-;		Alekmaul 
+;		Alekmaul
 ;
 ;	This software is provided 'as-is', without any express or implied
 ;	warranty.  In no event will the authors be held liable for any
@@ -196,7 +196,7 @@ _ldv_flag_clear:
  	lda	LZSS_FLIPFLOP
  	and	#1
  	bne	_ldv_copy_string_odd
-  
+
 _ldv_copy_string_even:
 	lda.w	$8000,x
 	sta.w	$8000,y	
@@ -215,7 +215,7 @@ _ldv_copy_string_even:
 	bne	_ldv_copy_string_odd	; (2.n) (tot 47.n)
 	lda	#1
 	sta	LZSS_FLIPFLOP		; If the last write was an even one then the flip-flop should be odd
-	bra	_ldv_copy_string_done	 
+	bra	_ldv_copy_string_done	
 _ldv_copy_string_odd:
 	lda.w	$8000,x
 	sta.w	$8000,y
