@@ -181,6 +181,7 @@ function f_check_sfc_md5 {
             for sfc in "${wrong_sfc_md5[@]}"; do
                 echo "  - ${sfc}"
             done
+            echo
 
         fi
     fi

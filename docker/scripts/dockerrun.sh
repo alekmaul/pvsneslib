@@ -64,3 +64,5 @@ f_build_docker_image
 f_run_docker_container
 
 f_create_zip
+
+f_check_sfc_md5
