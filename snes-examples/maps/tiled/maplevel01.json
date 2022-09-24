@@ -78,17 +78,17 @@
                  "id":0,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"1"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]

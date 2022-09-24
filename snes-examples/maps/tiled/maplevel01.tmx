@@ -7,9 +7,9 @@
   <image source="tiles.png" width="152" height="136"/>
   <tile id="0">
    <properties>
-    <property name="bloc" value="0"/>
-    <property name="pale" value="1"/>
-    <property name="prio" value="0"/>
+    <property name="attribute" value="0"/>
+    <property name="palette" value="1"/>
+    <property name="priority" value="0"/>
    </properties>
   </tile>
   <tile id="1">

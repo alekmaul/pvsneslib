@@ -73,9 +73,9 @@ int main(void) {
     objInitEngine();
     
     // Init function for state machine
-    objInitFunctions(0, &marioinit,&marioupdate);
-    objInitFunctions(1, &goombainit,&goombaupdate);
-    objInitFunctions(2, &koopatroopainit,&koopatroopaupdate);
+    objInitFunctions(0, &marioinit,&marioupdate,NULL);
+    objInitFunctions(1, &goombainit,&goombaupdate,NULL);
+    objInitFunctions(2, &koopatroopainit,&koopatroopaupdate,NULL);
 
     // Load all objects into memory
     objLoadObjects((char *) &tabobjects);

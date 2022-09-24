@@ -50,16 +50,10 @@
          "name":"Entities",
          "objects":[
                 {
-                 "class":"",
+                 "class":"0",
                  "height":16,
                  "id":1,
                  "name":"Mario",
-                 "properties":[
-                        {
-                         "name":"type",
-                         "type":"string",
-                         "value":"0"
-                        }],
                  "rotation":0,
                  "visible":true,
                  "width":16,
@@ -95,17 +89,17 @@
                  "id":0,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"FF00"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -114,17 +108,17 @@
                  "id":1,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -133,17 +127,17 @@
                  "id":2,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -152,17 +146,17 @@
                  "id":3,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -171,17 +165,17 @@
                  "id":4,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -190,17 +184,17 @@
                  "id":5,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -209,17 +203,17 @@
                  "id":6,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -228,17 +222,17 @@
                  "id":7,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -247,17 +241,17 @@
                  "id":8,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -266,17 +260,17 @@
                  "id":9,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -285,17 +279,17 @@
                  "id":10,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -304,17 +298,17 @@
                  "id":11,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"FF00"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -323,17 +317,17 @@
                  "id":12,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -342,17 +336,17 @@
                  "id":13,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -361,17 +355,17 @@
                  "id":14,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -380,17 +374,17 @@
                  "id":15,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -399,17 +393,17 @@
                  "id":16,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -418,17 +412,17 @@
                  "id":17,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -437,17 +431,17 @@
                  "id":18,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -456,17 +450,17 @@
                  "id":19,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -475,17 +469,17 @@
                  "id":20,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -494,17 +488,17 @@
                  "id":21,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -513,17 +507,17 @@
                  "id":22,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"FF00"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -532,17 +526,17 @@
                  "id":23,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -551,17 +545,17 @@
                  "id":24,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -570,17 +564,17 @@
                  "id":25,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -589,17 +583,17 @@
                  "id":26,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -608,17 +602,17 @@
                  "id":27,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -627,17 +621,17 @@
                  "id":28,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"FF00"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -646,17 +640,17 @@
                  "id":29,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"FF00"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -665,17 +659,17 @@
                  "id":30,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -684,17 +678,17 @@
                  "id":31,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"FF00"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -703,17 +697,17 @@
                  "id":32,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"FF00"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -722,17 +716,17 @@
                  "id":33,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -741,17 +735,17 @@
                  "id":34,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -760,17 +754,17 @@
                  "id":35,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -779,17 +773,17 @@
                  "id":36,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -798,17 +792,17 @@
                  "id":37,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -817,17 +811,17 @@
                  "id":38,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -836,17 +830,17 @@
                  "id":39,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -855,17 +849,17 @@
                  "id":40,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"FF00"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -874,17 +868,17 @@
                  "id":41,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -893,17 +887,17 @@
                  "id":42,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -912,17 +906,17 @@
                  "id":43,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -931,17 +925,17 @@
                  "id":44,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -950,17 +944,17 @@
                  "id":45,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -969,17 +963,17 @@
                  "id":46,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
@@ -988,17 +982,17 @@
                  "id":47,
                  "properties":[
                         {
-                         "name":"bloc",
+                         "name":"attribute",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"pale",
+                         "name":"palette",
                          "type":"string",
                          "value":"0"
                         }, 
                         {
-                         "name":"prio",
+                         "name":"priority",
                          "type":"string",
                          "value":"0"
                         }]
