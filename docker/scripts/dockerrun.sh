@@ -4,16 +4,17 @@
 # M A I N
 # --------------- #
 
-source "./docker/scripts/include/libraries.sh"
+source "docker/scripts/include/libraries.sh"
 
 trap f_quit SIGINT
 trap f_quit SIGTERM
 
 clear
 
+PVSNESLIB_HOME="$(pwd)"
+
 no_args="true"
 create_zip="false"
-pvsneslib_home="$(pwd)"
 padding_width=50
 batch_mode="false"
 
@@ -48,7 +49,7 @@ export padding_width \
     release_path \
     create_zip \
     batch_mode \
-    pvsneslib_home \
+    PVSNESLIB_HOME \
     image
 
 [[ "$no_args" == "true" ]] && {

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "./docker/scripts/include/libraries.sh"
+source "docker/scripts/include/libraries.sh"
 
 PVSNESLIB_HOME="${1}"
 DISTRO="${2}"
