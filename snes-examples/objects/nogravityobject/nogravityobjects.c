@@ -41,7 +41,7 @@ int main(void) {
     objInitEngine();   
     
     // Init function for state machine
-    objInitFunctions(0, &linkinit,&linkupdate);
+    objInitFunctions(0, &linkinit,&linkupdate,NULL);
 
     // Load all objects into memory
     objLoadObjects((char *) &objzelda);
