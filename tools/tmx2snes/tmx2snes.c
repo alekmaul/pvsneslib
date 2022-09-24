@@ -112,11 +112,16 @@ void WriteMap(void)
     int tileattr, tilesnes, i;
 	char *lastpostslash;
 	
+	printf("WriteMap\n");
+	
     // We use directory and replace file name with layer name
 	strcpy(filemapname,filebase);
     lastpostslash = strrchr( filemapname, '/' );
-	sprintf(lastpostslash+1,"%s.m16",layer->name.ptr);
-
+	if (lastpostslash!=NULL)
+		sprintf(lastpostslash+1,"%s.m16",layer->name.ptr);
+	else
+		sprintf(filemapname,"%s.m16",layer->name.ptr);
+	
 	if (quietmode == 0)
 		printf("tmx2snes:     Writing tiles map file...\n");
 	//sprintf(filemapname,"%s.m16",layer->name.ptr);
@@ -166,6 +171,8 @@ void WriteTileset(void)
 {
 	int i,blkprop;
 	char *pend;
+	
+	printf("WriteTileset\n");
 	
 	if (quietmode == 0)
 		printf("tmx2snes: Writing tiles attribute file...\n");
@@ -274,6 +281,8 @@ void WriteEntities(void)
 	fflush(stdout);
 	memset(objsnes,0x00,sizeof(objsnes));
 	objidx=layer->object_count-1;
+	
+	fflush(stdout);
 	
 	// if we have some objects to store
 	if (layer->object_count) {

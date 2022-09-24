@@ -2041,7 +2041,7 @@ cute_tiled_object_t* cute_tiled_read_object(cute_tiled_map_internal_t* m)
 		
 		default:
 			//DEBUG ONLY printf("%lld\n",h);
-			CUTE_TILED_CHECK(0, "Unknown identifier found.");
+			CUTE_TILED_CHECK(0, "cute_tiled_read_object: Unknown identifier found.");
 		}
 
 		cute_tiled_try(m, ',');
@@ -2195,7 +2195,7 @@ cute_tiled_layer_t* cute_tiled_layers(cute_tiled_map_internal_t* m)
 		break;
 
 		default:
-			CUTE_TILED_CHECK(0, "Unknown identifier found.");
+			CUTE_TILED_CHECK(0, "cute_tiled_layers: Unknown identifier found.");
 		}
 
 		cute_tiled_try(m, ',');
@@ -2320,7 +2320,7 @@ cute_tiled_tile_descriptor_t* cute_tiled_read_tile_descriptor(cute_tiled_map_int
 			break;
 
 		default:
-			CUTE_TILED_CHECK(0, "Unknown identifier found.");
+			CUTE_TILED_CHECK(0, "cute_tiled_read_tile_descriptor: Unknown identifier found.");
 		}
 
 		cute_tiled_try(m, ',');
@@ -2357,7 +2357,7 @@ int cute_tiled_read_point_internal(cute_tiled_map_internal_t* m, int* point_x, i
 			break;
 
 		default:
-			CUTE_TILED_CHECK(0, "Unknown identifier found.");
+			CUTE_TILED_CHECK(0, "cute_tiled_read_point_internal: Unknown identifier found.");
 		}
 
 		cute_tiled_try(m, ',');
