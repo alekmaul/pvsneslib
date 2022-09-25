@@ -111,9 +111,7 @@ void WriteMap(void)
 {
     int tileattr, tilesnes, i;
 	char *lastpostslash;
-	
-	printf("WriteMap\n");
-	
+		
     // We use directory and replace file name with layer name
 	strcpy(filemapname,filebase);
     lastpostslash = strrchr( filemapname, '/' );
@@ -244,7 +242,7 @@ void WriteTileset(void)
 	if (quietmode == 0)
 		printf("tmx2snes:     Writing %d tiles properties to file...\n",tset->tilecount);
 	for (i = 0; i < tset->tilecount; i++) {
-		// compute attribute to match with vhopppcccccccccc
+		// compute attribute to match with vhopppcc cccccccc
 		blkprop=tileprop[i][1] ? 0x2000 : 0x0000;		// check priority
 		blkprop|=(tileprop[i][2] << 10); // checkpalette
 		PutWord(blkprop+i,fpo);
@@ -281,9 +279,7 @@ void WriteEntities(void)
 	fflush(stdout);
 	memset(objsnes,0x00,sizeof(objsnes));
 	objidx=layer->object_count-1;
-	
-	fflush(stdout);
-	
+		
 	// if we have some objects to store
 	if (layer->object_count) {
 		while (objm) {
