@@ -174,7 +174,7 @@ void objUpdateAll(void);
 /*! \fn objRefreshAll(void)
 	\brief call refresh fonction for all objects currently on screen.
 	\brief  useful to avoid flickering when using a platform scrolling game.
-	\brief  screen coordinates are -32<x<256 and -32<y<y<224.
+	\brief  only if refresh attribute is set and screen coordinates are -32<x<256 and -32<y<y<224.
 */
 void objRefreshAll(void);
 

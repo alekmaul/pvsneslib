@@ -830,6 +830,9 @@ _oiral3y1:
             
 _oiral32:            
     sep #$20
+    lda objbuffers.1.refresh,x                          ; only do the call if refresh is set
+    beq _oiral3y1
+
     lda objbuffers.1.type,x
     rep #$20
     and #$00ff
