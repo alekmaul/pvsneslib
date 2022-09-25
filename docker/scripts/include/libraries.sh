@@ -44,14 +44,14 @@ function f_build_docker_image {
     if [[ ${batch_mode} == "false" ]]; then
         docker build \
             -f "docker/${distro}/Dockerfile" \
-            -t "${image}" . >"${pvsneslib_home}/docker/${distro}/docker_build.log" 2>&1 &
+            -t "${image}" . >"${PVSNESLIB_HOME}/docker/${distro}/docker_build.log" 2>&1 &
         my_pid=$!
         f_print_progress_bar ${my_pid}
         wait ${my_pid}
     else
         docker build \
             -f "docker/${distro}/Dockerfile" \
-            -t "${image}" . >"${pvsneslib_home}/docker/${distro}/docker_build.log" 2>&1
+            -t "${image}" . >"${PVSNESLIB_HOME}/docker/${distro}/docker_build.log" 2>&1
     fi
 
     f_print_message "DOCKER" "Building image $image" $?
@@ -63,12 +63,12 @@ function f_run_docker_container {
     echo -e "[DOCKER] Starting Container ${distro} [...]\n"
 
     docker run -ti --rm \
-        -w "${pvsneslib_home}" \
-        -v "${pvsneslib_home}:${pvsneslib_home}" \
+        -w "${PVSNESLIB_HOME}" \
+        -v "${PVSNESLIB_HOME}:${PVSNESLIB_HOME}" \
         -v "/etc/group:/etc/group:ro" \
         -v "/etc/passwd:/etc/passwd:ro" \
         -u "$(id -u):$(id -g)" \
-        -e "PVSNESLIB_HOME=${pvsneslib_home}" \
+        -e "PVSNESLIB_HOME=${PVSNESLIB_HOME}" \
         -e "DISTRO=${distro}" \
         "${image}"
 
@@ -91,7 +91,7 @@ function f_create_zip {
 
         {
             rm -rf pvsneslib
-            cd "${pvsneslib_home}" || exit 1
+            cd "${PVSNESLIB_HOME}" || exit 1
         } >/dev/null 2>&1
 
         f_print_message "ZIP" "Building the release file ${release_file}" ${exit_code}
@@ -102,7 +102,7 @@ function f_create_zip {
 
 function f_print_os_info {
 
-    echo ">>>> SYSTEM INFORMATION" >"${pvsneslib_home}/docker/${distro}/infos.log"
+    echo ">>>> SYSTEM INFORMATION" >"${PVSNESLIB_HOME}/docker/${distro}/infos.log"
 
     {
         echo -n "O.S version "
@@ -112,7 +112,7 @@ function f_print_os_info {
         echo -n "Kernel version "
         uname -a
         docker -v
-    } >>"${pvsneslib_home}/docker/${distro}/infos.log"
+    } >>"${PVSNESLIB_HOME}/docker/${distro}/infos.log"
     echo
 
 }
@@ -143,6 +143,47 @@ function f_quit {
     read -re ctrlc
     if [ "$ctrlc" = 'y' ]; then
         exit 1
+    fi
+
+}
+
+function f_check_sfc_md5 {
+
+    mapfile -t sfc_md5hash < <(cat "${PVSNESLIB_HOME}/docker/md5/sfc_md5sum.ref")
+
+    sfc_missing=0
+    declare -a wrong_sfc_md5=()
+
+    for line in "${sfc_md5hash[@]}"; do
+            sfc_hash="$(echo "${line}" | cut -d "|" -f1)"
+            sfc_file="$(echo "${line}" | cut -d "|" -f2)"
+
+            if [[ ! -f ${sfc_file} ]]; then
+               echo "<!!> ${sfc_file} is missing"
+                sfc_missing=1
+                break
+
+            fi
+
+            if [[ "$(md5sum "${PVSNESLIB_HOME}/${sfc_file}" | cut -d " " -f1)" != "${sfc_hash}" ]]; then
+                    {
+                        wrong_sfc_md5+=("${sfc_file}")
+                    }
+            fi
+    done
+
+    if [[ ${sfc_missing} -eq 1 ]]; then
+        f_print_message "SFC" "Checking SFC file(s)" 1
+    else
+        f_print_message "SFC" "Checking SFC file(s)" 0
+        if [[ ${#wrong_sfc_md5[@]} -ne 0 ]]; then
+            echo "<!> ${#wrong_sfc_md5[@]} SFC rom(s) differ, please check it with an emulator:"
+            for sfc in "${wrong_sfc_md5[@]}"; do
+                echo "  - ${sfc}"
+            done
+            echo
+
+        fi
     fi
 
 }

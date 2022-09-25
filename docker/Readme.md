@@ -28,6 +28,8 @@ This readme explains how and why to use docker containers.
 - Create ready-to-use releases in zip form
 - Check that pvsneslib compiles correctly on different linux distributions, and thus test different versions of tools and libraries used to compile.
 
+> There is no relationship between the version of Linux you are using and the type of container used. The binaries do not use the OS libraries.
+
 ## Integrated linux distributions
 
 - ![Cent OS](https://img.shields.io/badge/cent%20os-002260?style=for-the-badge&logo=centos&logoColor=F0F0F0)
@@ -81,8 +83,10 @@ usage: ./dockerrun.sh options:<d|h|c>
 
 I just want to compile my code for my ubuntu distribution.
 
+> Notes: dockerrun.sh *must* be lauched at the root of the repository as it used the current working directory to set `PVSNESLIB_HOME`.
+
 ```
-  ./dockerrun -d ubuntu
+  docker/scripts/dockerrun.sh -d ubuntu
 
 ```
 > Notes: The `-d` option is the only mandatory option (except help `-h` menu).
@@ -90,7 +94,7 @@ I just want to compile my code for my ubuntu distribution.
 I want to compile my code for my **ubuntu** distribution and create my own release (zip).
 
 ```
-  ./dockerrun -d ubuntu -r
+  docker/scripts/dockerrun.sh -d ubuntu -r
 
 ```
 
@@ -99,7 +103,7 @@ In this case, the archive will be located in `/var/tmp`.
 Ditto but I want to put my archive in a custom directory.
 
 ```
-  ./dockerrun -d ubuntu -r /somewhere/over/the/rainbow
+  docker/scripts/dockerrun.sh -d ubuntu -r /somewhere/over/the/rainbow
 
 ```
 
