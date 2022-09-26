@@ -18,16 +18,9 @@ devkitsnes/bin
 # except the python script !
 !devkitsnes/bin/816-opt.py
 
-# tcc files generated with ./configure command or binary
-compiler/tcc-65816/config.h
-compiler/tcc-65816/config.mak
-compiler/tcc-65816/config.texi
-compiler/tcc-65816/tcc-doc.html
-compiler/tcc-65816/816-tcc
-compiler/tcc-65816/816-tcc.exe
-
-# everything related to wla-dx
+# everything related to submodules
 compiler/wla-dx
+compiler/tcc-65816
 
 # all binaries in tools folder
 tools/bin2txt/bin2txt
