@@ -1,29 +1,29 @@
 /*---------------------------------------------------------------------------------
 
-    Copyright (C) 2022
-        Alekmaul
+	Copyright (C) 2022
+		Alekmaul 
 
-    This software is provided 'as-is', without any express or implied
-    warranty.  In no event will the authors be held liable for any
-    damages arising from the use of this software.
+	This software is provided 'as-is', without any express or implied
+	warranty.  In no event will the authors be held liable for any
+	damages arising from the use of this software.
 
-    Permission is granted to anyone to use this software for any
-    purpose, including commercial applications, and to alter it and
-    redistribute it freely, subject to the following restrictions:
+	Permission is granted to anyone to use this software for any
+	purpose, including commercial applications, and to alter it and
+	redistribute it freely, subject to the following restrictions:
 
-    1.	The origin of this software must not be misrepresented; you
-        must not claim that you wrote the original software. If you use
-        this software in a product, an acknowledgment in the product
-        documentation would be appreciated but is not required.
-    2.	Altered source versions must be plainly marked as such, and
-        must not be misrepresented as being the original software.
-    3.	This notice may not be removed or altered from any source
-        distribution.
+	1.	The origin of this software must not be misrepresented; you
+		must not claim that you wrote the original software. If you use
+		this software in a product, an acknowledgment in the product
+		documentation would be appreciated but is not required.
+	2.	Altered source versions must be plainly marked as such, and
+		must not be misrepresented as being the original software.
+	3.	This notice may not be removed or altered from any source
+		distribution.
 
     Convert Tiled tmx file to binary files compatible with pvsneslib
-
-    Tiled is a tool to make graphic maps based on tiles
-        https://www.mapeditor.org/
+	
+	Tiled is a tool to make graphic maps based on tiles
+		https://www.mapeditor.org/
 
 ---------------------------------------------------------------------------------*/
 
@@ -57,6 +57,7 @@ int quietmode = 0;     // 0 = not quiet, 1 = i can't say anything :P
 FILE *fpi, *fpo;       // input and output file handlers
 unsigned int filesize; // input file size
 char filebase[256];    // input filename
+char filebasetil[256]; // input filename for tiles (map filename)
 char filemapname[260]; // output filename for map & objects
 
 int *data;                               // data from Tiled layer
@@ -76,17 +77,19 @@ void PutWord(int data, FILE *fp)
 {
     putc(LOW_BYTE(data), fp);
     putc(HI_BYTE(data), fp);
-} // end of PutWord
+} //end of PutWord
 
 //////////////////////////////////////////////////////////////////////////////
 void PrintOptions(char *str)
 {
-    printf("\n\nUsage : tmx2snes [options] filename ...");
+    printf("\n\nUsage : tmx2snes [options] -i filename -m mapfilename");
     printf("\n  where filename is a Tiled tmx file");
+    printf("\n        mapfilename is the map file of tileset for tileset optimization");
     printf("\n\n  tmx2snes will do:");
     printf("\n  	.m16 file for map");
-    printf("\n  	.b16 file for tile attributes");
+    printf("\n  	.b16 file for tileset attribute (blocker, etc...)");
     printf("\n  	.o16 file for objects");
+    printf("\n  	.t16 file for tileset properties (palette,priority)");
 
     if (str[0] != 0)
         printf("\ntmx2snes: error 'The [%s] parameter is not recognized'", str);
@@ -97,7 +100,7 @@ void PrintOptions(char *str)
     printf("\n-v                Display version information");
     printf("\n");
 
-} // end of PrintOptions()
+} //end of PrintOptions()
 
 //////////////////////////////////////////////////////////////////////////////
 void PrintVersion(void)
@@ -110,9 +113,9 @@ void PrintVersion(void)
 void WriteMap(void)
 {
     int tileattr, tilesnes, i;
-	char *lastpostslash;
+    char *lastpostslash;
 
-// We use directory and replace file name with layer name
+    // We use directory and replace file name with layer name
     strcpy(filemapname, filebase);
     lastpostslash = strrchr(filemapname, '/');
     if (lastpostslash != NULL)
@@ -122,7 +125,7 @@ void WriteMap(void)
 
     if (quietmode == 0)
         printf("tmx2snes:     Writing tiles map file...\n");
-    // sprintf(filemapname,"%s.m16",layer->name.ptr);
+    //sprintf(filemapname,"%s.m16",layer->name.ptr);
     fpo = fopen(filemapname, "wb");
     if (fpo == NULL)
     {
@@ -239,7 +242,7 @@ void WriteTileset(void)
     // close current layer atribute file
     fclose(fpo);
 
-    // now write tileset file with properties (only priority for the moment)
+    // now write tileset file with properties (only priority & palette for the moment)
     sprintf(filemapname, "%s.t16", filebase);
     fpo = fopen(filemapname, "wb");
     if (fpo == NULL)
@@ -251,9 +254,9 @@ void WriteTileset(void)
         printf("tmx2snes:     Writing %d tiles properties to file...\n", tset->tilecount);
     for (i = 0; i < tset->tilecount; i++)
     {
-        // compute attribute to match with vhopppcccccccccc
+        // compute attribute to match with vhopppcc cccccccc
         blkprop = tileprop[i][1] ? 0x2000 : 0x0000; // check priority
-        blkprop |= (tileprop[i][2] << 10);          // checkpalette
+        blkprop |= (tileprop[i][2] << 10);          // check palette
         PutWord(blkprop + i, fpo);
     }
 
@@ -277,6 +280,65 @@ void WriteEntities(void)
     }
 
     // write objects to file
+    objm = layer->objects;
+    if (layer->object_count > N_OBJECTS)
+    {
+        printf("tmx2snes: error 'too much entities in map (%d entities, %d max expected)'\n", layer->object_count, N_OBJECTS);
+        exit(1);
+    }
+
+    // browse and store in table
+    fflush(stdout);
+    memset(objsnes, 0x00, sizeof(objsnes));
+    objidx = layer->object_count - 1;
+
+    // if we have some objects to store
+    if (layer->object_count)
+    {
+        while (objm)
+        {
+            // put object in reverse order
+            objsnes[objidx].class = atoi(objm->type.ptr); //(unsigned short) strtol(objm->class.ptr,&pend,10);
+            objsnes[objidx].x = (int)(objm->x);
+            objsnes[objidx].y = (int)(objm->y);
+            for (i = 0; i < objm->property_count; i++)
+            {
+                propm = objm->properties + i;
+                // write blocker property (which is a string)
+                if (strcmp(propm->name.ptr, "minx") == 0)
+                {
+                    blkprop = (unsigned short)strtol(propm->data.string.ptr, &pend, 10);
+                    objsnes[objidx].minx = blkprop;
+                }
+                // write prio property (which is a string)
+                if (strcmp(propm->name.ptr, "maxx") == 0)
+                {
+                    blkprop = (unsigned short)strtol(propm->data.string.ptr, &pend, 10);
+                    objsnes[objidx].maxx = blkprop;
+                }
+            }
+
+            // switch to next object
+            objm = objm->next;
+            objidx--;
+        }
+    }
+
+    // now write to file
+    if (quietmode == 0)
+        printf("tmx2snes:     Writing %d objects to file...\n", layer->object_count);
+    for (i = 0; i < layer->object_count; i++)
+    {
+        PutWord(objsnes[i].x, fpo);
+        PutWord(objsnes[i].y, fpo);
+        PutWord(objsnes[i].class, fpo);
+        PutWord(objsnes[i].minx, fpo);
+        PutWord(objsnes[i].maxx, fpo);
+    }
+    PutWord(0xFFFF, fpo);
+
+    // close current layer map file
+    fclose(fpo);
 }
 
 /// M A I N ////////////////////////////////////////////////////////////
@@ -289,9 +351,10 @@ int main(int argc, char **argv)
 
     // init all filenames
     strcpy(filebase, "");
+    strcpy(filebasetil, "");
     strcpy(filemapname, "");
 
-    // parse the arguments
+    //parse the arguments
     for (i = 1; i < argc; i++)
     {
         if (argv[i][0] == '-')
@@ -306,11 +369,11 @@ int main(int argc, char **argv)
                 PrintOptions((char *)"");
                 exit(0);
             }
-            else if (argv[i][1] == 'q') // quiet mode
+            else if (argv[i][1] == 'q') //quiet mode
             {
                 quietmode = 1;
             }
-            else // invalid option
+            else //invalid option
             {
                 PrintOptions(argv[i]);
                 exit(1);
@@ -318,7 +381,7 @@ int main(int argc, char **argv)
         }
         else
         {
-            // its not an option flag, so it must be the filebase
+            //its not an option flag, so it must be the filebase
             if (filebase[0] != 0) // if already defined... there's a problem
             {
                 PrintOptions(argv[i]);
@@ -331,7 +394,7 @@ int main(int argc, char **argv)
         }
     }
 
-    // make sure options are valid
+    //make sure options are valid
     if (filebase[0] == 0)
     {
         printf("\ntmx2snes: error 'You must specify a base filename'");
