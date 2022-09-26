@@ -100,7 +100,7 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_object_size_2_obj
 <div class="line"><span class="comment">---------------------------------------------------------------------------------*/</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="snes_8h.html">snes.h</a>&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> snesfont,snespal;</div>
+<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> snesfont, snespal;</div>
 <div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> sprite8, sprite8_end, palsprite8, palsprite8_end;</div>
 <div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> sprite16, sprite16_end, palsprite16, palsprite16_end;</div>
 <div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> sprite32, sprite32_end, palsprite32, palsprite32_end;</div>
@@ -109,133 +109,140 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_object_size_2_obj
 <div class="line">u16 selectedItem;</div>
 <div class="line"><span class="keywordtype">bool</span> keyPressed;</div>
 <div class="line"> </div>
-<div class="line"><span class="preprocessor">#define ADRSPRITE           0x2000</span></div>
-<div class="line"><span class="preprocessor">#define ADRSPRITLARDGE      0x2400          // arbitrary to have enough space but small &amp; large one</span></div>
+<div class="line"><span class="preprocessor">#define ADRSPRITE 0x2000</span></div>
+<div class="line"><span class="preprocessor">#define ADRSPRITLARDGE 0x2400 // arbitrary to have enough space but small &amp; large one</span></div>
 <div class="line"> </div>
-<div class="line"><span class="preprocessor">#define PALETTESPRSIZE      (16*2)          // We are using words for palette entry</span></div>
+<div class="line"><span class="preprocessor">#define PALETTESPRSIZE (16 * 2) // We are using words for palette entry</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Put menu for each sprite size test</span></div>
 <div class="line"><span class="keywordtype">void</span> draw()</div>
 <div class="line">{</div>
-<div class="line">    <a name="a0"></a><a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3,2,<span class="stringliteral">&quot;Object size :&quot;</span>);</div>
-<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3,3,<span class="stringliteral">&quot;%s %s&quot;</span>,selectedItem == 0 ? <span class="stringliteral">&quot;&gt;&quot;</span> : <span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;Small:  8 - Large: 16&quot;</span>);</div>
-<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3,4,<span class="stringliteral">&quot;%s %s&quot;</span>,selectedItem == 1 ? <span class="stringliteral">&quot;&gt;&quot;</span> : <span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;Small:  8 - Large: 32&quot;</span>);</div>
-<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3,5,<span class="stringliteral">&quot;%s %s&quot;</span>,selectedItem == 2 ? <span class="stringliteral">&quot;&gt;&quot;</span> : <span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;Small:  8 - Large: 64&quot;</span>);</div>
-<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3,6,<span class="stringliteral">&quot;%s %s&quot;</span>,selectedItem == 3 ? <span class="stringliteral">&quot;&gt;&quot;</span> : <span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;Small: 16 - Large: 32&quot;</span>);</div>
-<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3,7,<span class="stringliteral">&quot;%s %s&quot;</span>,selectedItem == 4 ? <span class="stringliteral">&quot;&gt;&quot;</span> : <span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;Small: 16 - Large: 64&quot;</span>);</div>
-<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3,8,<span class="stringliteral">&quot;%s %s&quot;</span>,selectedItem == 5 ? <span class="stringliteral">&quot;&gt;&quot;</span> : <span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;Small: 32 - Large: 64&quot;</span>);</div>
+<div class="line">    <a name="a0"></a><a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 2, <span class="stringliteral">&quot;Object size :&quot;</span>);</div>
+<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 3, <span class="stringliteral">&quot;%s %s&quot;</span>, selectedItem == 0 ? <span class="stringliteral">&quot;&gt;&quot;</span> : <span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;Small:  8 - Large: 16&quot;</span>);</div>
+<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 4, <span class="stringliteral">&quot;%s %s&quot;</span>, selectedItem == 1 ? <span class="stringliteral">&quot;&gt;&quot;</span> : <span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;Small:  8 - Large: 32&quot;</span>);</div>
+<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 5, <span class="stringliteral">&quot;%s %s&quot;</span>, selectedItem == 2 ? <span class="stringliteral">&quot;&gt;&quot;</span> : <span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;Small:  8 - Large: 64&quot;</span>);</div>
+<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 6, <span class="stringliteral">&quot;%s %s&quot;</span>, selectedItem == 3 ? <span class="stringliteral">&quot;&gt;&quot;</span> : <span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;Small: 16 - Large: 32&quot;</span>);</div>
+<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 7, <span class="stringliteral">&quot;%s %s&quot;</span>, selectedItem == 4 ? <span class="stringliteral">&quot;&gt;&quot;</span> : <span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;Small: 16 - Large: 64&quot;</span>);</div>
+<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 8, <span class="stringliteral">&quot;%s %s&quot;</span>, selectedItem == 5 ? <span class="stringliteral">&quot;&gt;&quot;</span> : <span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;Small: 32 - Large: 64&quot;</span>);</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Load current sprites regarding size for small &amp; large one</span></div>
 <div class="line"><span class="keywordtype">void</span> changeObjSize()</div>
 <div class="line">{</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Force VBlank and prepare for graphics initialization</span></div>
-<div class="line">    <a name="a1"></a><a class="code" href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">setBrightness</a>(0); </div>
+<div class="line">    <a name="a1"></a><a class="code" href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">setBrightness</a>(0);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// check regarding the current selection</span></div>
-<div class="line">    <span class="keywordflow">if</span>(selectedItem == 0)</div>
+<div class="line">    <span class="keywordflow">if</span> (selectedItem == 0)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// load small sprite with 16 colors palette</span></div>
-<div class="line">        <a name="a2"></a><a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;sprite8, (&amp;sprite8_end-&amp;sprite8), &amp;palsprite8, PALETTESPRSIZE, 0, ADRSPRITE, <a name="a3"></a><a class="code" href="sprite_8h.html#aa91348e1375ed07236694a7d81fa9ecf">OBJ_SIZE8_L16</a>);</div>
-<div class="line">        </div>
+<div class="line">        <a name="a2"></a><a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;sprite8, (&amp;sprite8_end - &amp;sprite8), &amp;palsprite8, PALETTESPRSIZE, 0, ADRSPRITE, <a name="a3"></a><a class="code" href="sprite_8h.html#aa91348e1375ed07236694a7d81fa9ecf">OBJ_SIZE8_L16</a>);</div>
+<div class="line"> </div>
 <div class="line">        <span class="comment">// load large sprite with palette</span></div>
-<div class="line">        <a name="a4"></a><a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;sprite16, ADRSPRITLARDGE, (&amp;sprite16_end-&amp;sprite16));</div>
-<div class="line">        <a name="a5"></a><a class="code" href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a>(&amp;palsprite16, (128+1*16), PALETTESPRSIZE);        </div>
+<div class="line">        <a name="a4"></a><a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;sprite16, ADRSPRITLARDGE, (&amp;sprite16_end - &amp;sprite16));</div>
+<div class="line">        <a name="a5"></a><a class="code" href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a>(&amp;palsprite16, (128 + 1 * 16), PALETTESPRSIZE);</div>
 <div class="line">    }</div>
-<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(selectedItem == 1)</div>
+<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (selectedItem == 1)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// load small sprite</span></div>
-<div class="line">        <a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;sprite8, (&amp;sprite8_end-&amp;sprite8), &amp;palsprite8, PALETTESPRSIZE, 0, ADRSPRITE, <a name="a6"></a><a class="code" href="sprite_8h.html#a4e8556727bbae22ac2e0fa8392a13fc4">OBJ_SIZE8_L32</a>);</div>
-<div class="line">        </div>
+<div class="line">        <a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;sprite8, (&amp;sprite8_end - &amp;sprite8), &amp;palsprite8, PALETTESPRSIZE, 0, ADRSPRITE, <a name="a6"></a><a class="code" href="sprite_8h.html#a4e8556727bbae22ac2e0fa8392a13fc4">OBJ_SIZE8_L32</a>);</div>
+<div class="line"> </div>
 <div class="line">        <span class="comment">// load large sprite with palette</span></div>
-<div class="line">        <a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;sprite32, ADRSPRITLARDGE, (&amp;sprite32_end-&amp;sprite32));</div>
-<div class="line">        <a class="code" href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a>(&amp;palsprite32, (128+1*16), PALETTESPRSIZE);       </div>
+<div class="line">        <a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;sprite32, ADRSPRITLARDGE, (&amp;sprite32_end - &amp;sprite32));</div>
+<div class="line">        <a class="code" href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a>(&amp;palsprite32, (128 + 1 * 16), PALETTESPRSIZE);</div>
 <div class="line">    }</div>
-<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(selectedItem == 2)</div>
+<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (selectedItem == 2)</div>
 <div class="line">    {</div>
-<div class="line">        <a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;sprite8, (&amp;sprite8_end-&amp;sprite8), &amp;palsprite8, PALETTESPRSIZE, 0, ADRSPRITE, <a name="a7"></a><a class="code" href="sprite_8h.html#a35468d3300e6ad4bdb2c027c93c7dbe5">OBJ_SIZE8_L64</a>);</div>
-<div class="line">        </div>
-<div class="line">        <a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;sprite64, ADRSPRITLARDGE, (&amp;sprite64_end-&amp;sprite64));</div>
-<div class="line">        <a class="code" href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a>(&amp;palsprite64, (128+1*16), PALETTESPRSIZE);       </div>
+<div class="line">        <a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;sprite8, (&amp;sprite8_end - &amp;sprite8), &amp;palsprite8, PALETTESPRSIZE, 0, ADRSPRITE, <a name="a7"></a><a class="code" href="sprite_8h.html#a35468d3300e6ad4bdb2c027c93c7dbe5">OBJ_SIZE8_L64</a>);</div>
+<div class="line"> </div>
+<div class="line">        <a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;sprite64, ADRSPRITLARDGE, (&amp;sprite64_end - &amp;sprite64));</div>
+<div class="line">        <a class="code" href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a>(&amp;palsprite64, (128 + 1 * 16), PALETTESPRSIZE);</div>
 <div class="line">    }</div>
-<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(selectedItem == 3)</div>
+<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (selectedItem == 3)</div>
 <div class="line">    {</div>
-<div class="line">        <a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;sprite16, (&amp;sprite16_end-&amp;sprite16), &amp;palsprite16, PALETTESPRSIZE, 0, ADRSPRITE, <a name="a8"></a><a class="code" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>);</div>
-<div class="line">    </div>
-<div class="line">        <a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;sprite32, ADRSPRITLARDGE, (&amp;sprite32_end-&amp;sprite32));</div>
-<div class="line">        <a class="code" href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a>(&amp;palsprite32, (128+1*16), PALETTESPRSIZE);      </div>
+<div class="line">        <a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;sprite16, (&amp;sprite16_end - &amp;sprite16), &amp;palsprite16, PALETTESPRSIZE, 0, ADRSPRITE, <a name="a8"></a><a class="code" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>);</div>
+<div class="line"> </div>
+<div class="line">        <a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;sprite32, ADRSPRITLARDGE, (&amp;sprite32_end - &amp;sprite32));</div>
+<div class="line">        <a class="code" href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a>(&amp;palsprite32, (128 + 1 * 16), PALETTESPRSIZE);</div>
 <div class="line">    }</div>
-<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(selectedItem == 4)</div>
+<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (selectedItem == 4)</div>
 <div class="line">    {</div>
-<div class="line">        <a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;sprite16, (&amp;sprite16_end-&amp;sprite16), &amp;palsprite16, PALETTESPRSIZE, 0, ADRSPRITE, <a name="a9"></a><a class="code" href="sprite_8h.html#ae03805d727184864087a4cc26e8034e9">OBJ_SIZE16_L64</a>);</div>
-<div class="line">        </div>
-<div class="line">        <a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;sprite64, ADRSPRITLARDGE, (&amp;sprite64_end-&amp;sprite64));</div>
-<div class="line">        <a class="code" href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a>(&amp;palsprite64, (128+1*16), PALETTESPRSIZE);      </div>
+<div class="line">        <a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;sprite16, (&amp;sprite16_end - &amp;sprite16), &amp;palsprite16, PALETTESPRSIZE, 0, ADRSPRITE, <a name="a9"></a><a class="code" href="sprite_8h.html#ae03805d727184864087a4cc26e8034e9">OBJ_SIZE16_L64</a>);</div>
+<div class="line"> </div>
+<div class="line">        <a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;sprite64, ADRSPRITLARDGE, (&amp;sprite64_end - &amp;sprite64));</div>
+<div class="line">        <a class="code" href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a>(&amp;palsprite64, (128 + 1 * 16), PALETTESPRSIZE);</div>
 <div class="line">    }</div>
-<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(selectedItem == 5)</div>
+<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (selectedItem == 5)</div>
 <div class="line">    {</div>
-<div class="line">        <a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;sprite32, (&amp;sprite32_end-&amp;sprite32), &amp;palsprite32, PALETTESPRSIZE, 0, ADRSPRITE, <a name="a10"></a><a class="code" href="sprite_8h.html#a449cd6f7c4fc8ca09a632e0c58cdb365">OBJ_SIZE32_L64</a>);</div>
-<div class="line">                </div>
-<div class="line">        <a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;sprite64, ADRSPRITLARDGE, (&amp;sprite64_end-&amp;sprite64));</div>
-<div class="line">        <a class="code" href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a>(&amp;palsprite64, (128+1*16), PALETTESPRSIZE);      </div>
+<div class="line">        <a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;sprite32, (&amp;sprite32_end - &amp;sprite32), &amp;palsprite32, PALETTESPRSIZE, 0, ADRSPRITE, <a name="a10"></a><a class="code" href="sprite_8h.html#a449cd6f7c4fc8ca09a632e0c58cdb365">OBJ_SIZE32_L64</a>);</div>
+<div class="line"> </div>
+<div class="line">        <a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;sprite64, ADRSPRITLARDGE, (&amp;sprite64_end - &amp;sprite64));</div>
+<div class="line">        <a class="code" href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a>(&amp;palsprite64, (128 + 1 * 16), PALETTESPRSIZE);</div>
 <div class="line">    }</div>
-<div class="line">    </div>
-<div class="line">    <a name="a11"></a><a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(0,  70, 120, 0, 0, 0, 0, 0);</div>
+<div class="line"> </div>
+<div class="line">    <a name="a11"></a><a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(0, 70, 120, 0, 0, 0, 0, 0);</div>
 <div class="line">    <a name="a12"></a><a class="code" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a>(0, OBJ_SMALL, OBJ_SHOW);</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// because we load graphics at 0x2400, offset is 0x40 (0x2400-0x2000)/16</span></div>
 <div class="line">    <a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(4, 170, 120, 0, 0, 0, 0x0040, 1);</div>
 <div class="line">    <a class="code" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a>(4, OBJ_LARGE, OBJ_SHOW);</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Reallow graphics (avoid glitch during init)</span></div>
 <div class="line">    <a class="code" href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">setBrightness</a>(0x0F);</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
-<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>) {</div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
+<div class="line">{</div>
 <div class="line">    <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> pad0;</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// Initialize SNES </span></div>
+<div class="line">    <span class="comment">// Initialize SNES</span></div>
 <div class="line">    <a name="a13"></a><a class="code" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a>();</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Initialize text console with our font</span></div>
 <div class="line">    <a name="a14"></a><a class="code" href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">consoleSetTextVramBGAdr</a>(0x6800);</div>
 <div class="line">    <a name="a15"></a><a class="code" href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">consoleSetTextVramAdr</a>(0x3000);</div>
 <div class="line">    <a name="a16"></a><a class="code" href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a>(0x0100);</div>
-<div class="line">    <a name="a17"></a><a class="code" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(0, 16*2, &amp;snesfont,&amp;snespal);</div>
-<div class="line">        </div>
+<div class="line">    <a name="a17"></a><a class="code" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(0, 16 * 2, &amp;snesfont, &amp;snespal);</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode and disable all backgrounds</span></div>
-<div class="line">    <a name="a18"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a19"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>,0);  <a name="a20"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);  <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
-<div class="line">    </div>
+<div class="line">    <a name="a18"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a19"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>, 0);</div>
+<div class="line">    <a name="a20"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
+<div class="line">    <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
+<div class="line"> </div>
 <div class="line">    selectedItem = 0;</div>
 <div class="line">    keyPressed = <span class="keyword">false</span>;</div>
 <div class="line">    draw();</div>
 <div class="line">    changeObjSize();</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">    <a name="a21"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
-<div class="line">    </div>
-<div class="line">    <span class="keywordflow">while</span>(1) {</div>
-<div class="line">    </div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">while</span> (1)</div>
+<div class="line">    {</div>
+<div class="line"> </div>
 <div class="line">        pad0 = <a name="a22"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
-<div class="line">        </div>
-<div class="line">        <span class="keywordflow">if</span> (pad0) {</div>
-<div class="line">            <span class="keywordflow">if</span>(pad0 &amp; <a name="a23"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a>) {</div>
-<div class="line">                <span class="keywordflow">if</span>(selectedItem &gt; 0 &amp;&amp; !keyPressed)</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">if</span> (pad0)</div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">if</span> (pad0 &amp; <a name="a23"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a>)</div>
+<div class="line">            {</div>
+<div class="line">                <span class="keywordflow">if</span> (selectedItem &gt; 0 &amp;&amp; !keyPressed)</div>
 <div class="line">                {</div>
 <div class="line">                    selectedItem--;</div>
 <div class="line">                    draw();</div>
 <div class="line">                    changeObjSize();</div>
-<div class="line">                    keyPressed=<span class="keyword">true</span>;</div>
+<div class="line">                    keyPressed = <span class="keyword">true</span>;</div>
 <div class="line">                }</div>
 <div class="line">            }</div>
-<div class="line">            <span class="keywordflow">if</span>(pad0 &amp; <a name="a24"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a>) {</div>
-<div class="line">                <span class="keywordflow">if</span>(selectedItem &lt; 5 &amp;&amp; !keyPressed)</div>
+<div class="line">            <span class="keywordflow">if</span> (pad0 &amp; <a name="a24"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a>)</div>
+<div class="line">            {</div>
+<div class="line">                <span class="keywordflow">if</span> (selectedItem &lt; 5 &amp;&amp; !keyPressed)</div>
 <div class="line">                {</div>
 <div class="line">                    selectedItem++;</div>
 <div class="line">                    draw();</div>
 <div class="line">                    changeObjSize();</div>
-<div class="line">                    keyPressed=<span class="keyword">true</span>;</div>
+<div class="line">                    keyPressed = <span class="keyword">true</span>;</div>
 <div class="line">                }</div>
 <div class="line">            }</div>
 <div class="line">        }</div>
@@ -252,17 +259,17 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_object_size_2_obj
 <div class="ttc" id="ainterrupt_8h_html_a815e2626bd26d0e936d507a363ecd723"><div class="ttname"><a href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt Waits for a vertical blank interrupt.</div></div>
 <div class="ttc" id="asprite_8h_html_a4e8556727bbae22ac2e0fa8392a13fc4"><div class="ttname"><a href="sprite_8h.html#a4e8556727bbae22ac2e0fa8392a13fc4">OBJ_SIZE8_L32</a></div><div class="ttdeci">#define OBJ_SIZE8_L32</div><div class="ttdoc">default OAM size 8x8 (SM) and 32x32 (LG) pix for OBJSEL register</div><div class="ttdef"><b>Definition:</b> sprite.h:40</div></div>
 <div class="ttc" id="aconsole_8h_html_a344184ac8dda28ea0170c153c854aa16"><div class="ttname"><a href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">consoleSetTextVramAdr</a></div><div class="ttdeci">void consoleSetTextVramAdr(u16 vramfont)</div><div class="ttdoc">Change text graphics address (4K aligned)</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a></div><div class="ttdeci">@ KEY_UP</div><div class="ttdoc">pad UP button.</div><div class="ttdef"><b>Definition:</b> pad.h:54</div></div>
+<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a></div><div class="ttdeci">@ KEY_UP</div><div class="ttdoc">pad UP button.</div><div class="ttdef"><b>Definition:</b> pad.h:55</div></div>
 <div class="ttc" id="aconsole_8h_html_aaddd205f7bb20885a420f26e28214cfb"><div class="ttname"><a href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a></div><div class="ttdeci">void consoleSetTextOffset(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
 <div class="ttc" id="asprite_8h_html_ae03805d727184864087a4cc26e8034e9"><div class="ttname"><a href="sprite_8h.html#ae03805d727184864087a4cc26e8034e9">OBJ_SIZE16_L64</a></div><div class="ttdeci">#define OBJ_SIZE16_L64</div><div class="ttdoc">default OAM size 16x16 (SM) and 64x64 (LG) pix for OBJSEL register</div><div class="ttdef"><b>Definition:</b> sprite.h:43</div></div>
 <div class="ttc" id="abackground_8h_html_a05c862edb7f8f75036f10c04dcc3c2a6"><div class="ttname"><a href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a></div><div class="ttdeci">#define BG_MODE1</div><div class="ttdoc">16-color 16-color 4-color - ;Normal</div><div class="ttdef"><b>Definition:</b> background.h:55</div></div>
 <div class="ttc" id="avideo_8h_html_a4c257abebd75e4653441e8afe672bb5e"><div class="ttname"><a href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">setBrightness</a></div><div class="ttdeci">void setBrightness(u8 level)</div><div class="ttdoc">sets the screens brightness.</div></div>
-<div class="ttc" id="asprite_8h_html_a2f62a591672b786d90ebb03fdf25f159"><div class="ttname"><a href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a></div><div class="ttdeci">#define oamSet(id, xspr, yspr, priority, hflip, vflip, gfxoffset, paletteoffset)</div><div class="ttdoc">sets an oam entry to the supplied values</div><div class="ttdef"><b>Definition:</b> sprite.h:182</div></div>
+<div class="ttc" id="asprite_8h_html_a2f62a591672b786d90ebb03fdf25f159"><div class="ttname"><a href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a></div><div class="ttdeci">#define oamSet(id, xspr, yspr, priority, hflip, vflip, gfxoffset, paletteoffset)</div><div class="ttdoc">sets an oam entry to the supplied values</div><div class="ttdef"><b>Definition:</b> sprite.h:183</div></div>
 <div class="ttc" id="asprite_8h_html_aa91348e1375ed07236694a7d81fa9ecf"><div class="ttname"><a href="sprite_8h.html#aa91348e1375ed07236694a7d81fa9ecf">OBJ_SIZE8_L16</a></div><div class="ttdeci">#define OBJ_SIZE8_L16</div><div class="ttdoc">default OAM size 8x8 (SM) and 16x16 (LG) pix for OBJSEL register</div><div class="ttdef"><b>Definition:</b> sprite.h:39</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
-<div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:121</div></div>
+<div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:122</div></div>
 <div class="ttc" id="asprite_8h_html_a4120a8ff32c39973babeca3615a0a2fd"><div class="ttname"><a href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a></div><div class="ttdeci">void oamSetEx(u16 id, u8 size, u8 hide)</div><div class="ttdoc">Put the correct size and hide or not a oam.</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a></div><div class="ttdeci">@ KEY_DOWN</div><div class="ttdoc">pad DOWN button.</div><div class="ttdef"><b>Definition:</b> pad.h:53</div></div>
+<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a></div><div class="ttdeci">@ KEY_DOWN</div><div class="ttdoc">pad DOWN button.</div><div class="ttdef"><b>Definition:</b> pad.h:54</div></div>
 <div class="ttc" id="adma_8h_html_adddf1dea4bd52a083b3ee4b39f1e20f2"><div class="ttname"><a href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a></div><div class="ttdeci">void dmaCopyVram(u8 *source, u16 address, u16 size)</div><div class="ttdoc">copy data from source to destination using channel 0 of DMA available channels in half words</div></div>
 <div class="ttc" id="asprite_8h_html_a1893eab6ffef9928ff2de22d49bd18c0"><div class="ttname"><a href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a></div><div class="ttdeci">#define OBJ_SIZE16_L32</div><div class="ttdoc">default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register</div><div class="ttdef"><b>Definition:</b> sprite.h:42</div></div>
 <div class="ttc" id="asprite_8h_html_a46e0be47f8fc865a7f43c1b0b126e59a"><div class="ttname"><a href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a></div><div class="ttdeci">void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize)</div><div class="ttdoc">Initializes a sprites Gfx and Loads the GFX into VRAM.</div></div>
@@ -278,7 +285,7 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_object_size_2_obj
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sat Sep 24 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Mon Sep 26 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>

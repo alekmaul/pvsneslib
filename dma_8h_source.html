@@ -128,92 +128,95 @@ $(document).ready(function(){initNavTree('dma_8h_source.html',''); initResizable
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="dma_8h.html#af57b905f605a7fe58fc009025fb3d30b">   41</a></span>&#160;<span class="preprocessor">#define DMA_ENABLE 1</span></div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>dmaMemory {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keyword">union </span>{</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">struct </span>{</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> addr;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> bank;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> __pad;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    } c;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> *p;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  } mem;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;} dmaMemory;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="dma_8h.html#abccd357db38cf6e7528e807b8692ef0f">   68</a></span>&#160;<span class="preprocessor">#define REG_MDMAEN  (*(vuint8*)0x420B)</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="dma_8h.html#a468ac9497087f0cbab21a3e0453f438b">   75</a></span>&#160;<span class="preprocessor">#define REG_HDMAEN  (*(vuint8*)0x420C)</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor">#define REG_DMAP0   (*(vuint8*)0x4300)</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="preprocessor">#define REG_DMAP1   (*(vuint8*)0x4310)</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">#define REG_DMAP2   (*(vuint8*)0x4320)</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#define REG_DMAP3   (*(vuint8*)0x4330)</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#define REG_DMAP4   (*(vuint8*)0x4340)</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor">#define REG_DMAP5   (*(vuint8*)0x4350)</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor">#define REG_DMAP6   (*(vuint8*)0x4360)</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">#define REG_DMAP7   (*(vuint8*)0x4370)</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="preprocessor">#define REG_BBAD0   (*(vuint8*)0x4301)</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="preprocessor">#define REG_BBAD1   (*(vuint8*)0x4311)</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="preprocessor">#define REG_BBAD2   (*(vuint8*)0x4321)</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor">#define REG_BBAD3   (*(vuint8*)0x4331)</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="preprocessor">#define REG_BBAD4   (*(vuint8*)0x4341)</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="preprocessor">#define REG_BBAD5   (*(vuint8*)0x4351)</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="preprocessor">#define REG_BBAD6   (*(vuint8*)0x4361)</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno"><a class="line" href="dma_8h.html#a2acebf455ea5a03345af0a3af2340a97">  131</a></span>&#160;<span class="preprocessor">#define REG_BBAD7   (*(vuint8*)0x4371)</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="preprocessor">#define REG_A1T0LH  (*(vuint16*)0x4302)</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="preprocessor">#define REG_A1T1LH  (*(vuint16*)0x4312)</span></div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="preprocessor">#define REG_A1T2LH  (*(vuint16*)0x4322)</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="preprocessor">#define REG_A1T3LH  (*(vuint16*)0x4332)</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="preprocessor">#define REG_A1T4LH  (*(vuint16*)0x4342)</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="preprocessor">#define REG_A1T5LH  (*(vuint16*)0x4352)</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="preprocessor">#define REG_A1T6LH  (*(vuint16*)0x4362)</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="preprocessor">#define REG_A1T7LH  (*(vuint16*)0x4372)</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="preprocessor">#define REG_A1B0    (*(vuint8*)0x4304)</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="preprocessor">#define REG_A1B1    (*(vuint8*)0x4314)</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="preprocessor">#define REG_A1B2    (*(vuint8*)0x4324)</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor">#define REG_A1B3    (*(vuint8*)0x4334)</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="preprocessor">#define REG_A1B4    (*(vuint8*)0x4344)</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="preprocessor">#define REG_A1B5    (*(vuint8*)0x4354)</span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="preprocessor">#define REG_A1B6    (*(vuint8*)0x4364)</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno"><a class="line" href="dma_8h.html#a384405596b1aadf2454e966455d74228">  178</a></span>&#160;<span class="preprocessor">#define REG_A1B7    (*(vuint8*)0x4374)</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160; </div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="preprocessor">#define REG_DAS0LH  (*(vuint16*)0x4305)</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="preprocessor">#define REG_DAS1LH  (*(vuint16*)0x4315)</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="preprocessor">#define REG_DAS2LH  (*(vuint16*)0x4325)</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="preprocessor">#define REG_DAS3LH  (*(vuint16*)0x4335)</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="preprocessor">#define REG_DAS4LH  (*(vuint16*)0x4345)</span></div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="preprocessor">#define REG_DAS5LH  (*(vuint16*)0x4355)</span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="preprocessor">#define REG_DAS6LH  (*(vuint16*)0x4365)</span></div>
-<div class="line"><a name="l00207"></a><span class="lineno"><a class="line" href="dma_8h.html#ac9dca819788af60976b8d4956f76ead6">  207</a></span>&#160;<span class="preprocessor">#define REG_DAS7LH  (*(vuint16*)0x4375)</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160; </div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>[224+1]; </div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a>(u8 * source, u16 address, u16 size);</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160; </div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(u8 * source, u16 address, u16 size);</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160; </div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#abbf81dbfd5a87cb2cd2181b12fcd56c5">dmaCopySpr32Vram</a>(u8 * source, u16 address);</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160; </div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#a6104d97fae7422dbba10f062c1044462">dmaCopySpr16Vram</a>(u8 * source, u16 address);</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160; </div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#a235e242d89d3c81b9e697e99a96198f7">dmaFillVram</a>(u8 * source, u16 address, u16 size);</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#a72b64de8d06ad5bae1995fb1baf1a458">dmaClearVram</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#a72ec813d4b395cafa59852cbd1ffa8b2">dmaCopyOAram</a>(u8 *source, u16 address, u16 size);</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#ac0ba95e6b8e91380c0a67ee3b0707582">dmaCopyVram7</a>(u8 *source, u16 address, u16 size, u8 vrammodeinc, u16 dmacontrol);</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#acf06b5c6b9733a2fdb5cb466dd6b16bf">setModeHdmaGradient</a>(u8 maxLevels);</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160; </div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#a68c89ad2f21c471cf6bf07583576f0a2">setModeHdmaShadeUpDown</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160; </div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#a17730c5eb2e9c19d4ce49c6c5930af73">setModeHdmaShading</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> mode);</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160; </div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#aa03948bd578cc7311908ca96fec14a93">setParallaxScrolling</a>(u8 bgrnd);</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160; </div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="preprocessor">#endif //SNES_DMA_INCLUDE</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>dmaMemory</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">union</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">struct</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> addr;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> bank;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> __pad;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        } c;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">void</span> *p;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    } mem;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;} dmaMemory;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="dma_8h.html#abccd357db38cf6e7528e807b8692ef0f">   71</a></span>&#160;<span class="preprocessor">#define REG_MDMAEN (*(vuint8 *)0x420B)</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="dma_8h.html#a468ac9497087f0cbab21a3e0453f438b">   78</a></span>&#160;<span class="preprocessor">#define REG_HDMAEN (*(vuint8 *)0x420C)</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#define REG_DMAP0 (*(vuint8 *)0x4300)</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#define REG_DMAP1 (*(vuint8 *)0x4310)</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor">#define REG_DMAP2 (*(vuint8 *)0x4320)</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor">#define REG_DMAP3 (*(vuint8 *)0x4330)</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">#define REG_DMAP4 (*(vuint8 *)0x4340)</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="preprocessor">#define REG_DMAP5 (*(vuint8 *)0x4350)</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">#define REG_DMAP6 (*(vuint8 *)0x4360)</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor">#define REG_DMAP7 (*(vuint8 *)0x4370)</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor">#define REG_BBAD0 (*(vuint8 *)0x4301)</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="preprocessor">#define REG_BBAD1 (*(vuint8 *)0x4311)</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="preprocessor">#define REG_BBAD2 (*(vuint8 *)0x4321)</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="preprocessor">#define REG_BBAD3 (*(vuint8 *)0x4331)</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="preprocessor">#define REG_BBAD4 (*(vuint8 *)0x4341)</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="preprocessor">#define REG_BBAD5 (*(vuint8 *)0x4351)</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="preprocessor">#define REG_BBAD6 (*(vuint8 *)0x4361)</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="dma_8h.html#a2acebf455ea5a03345af0a3af2340a97">  134</a></span>&#160;<span class="preprocessor">#define REG_BBAD7 (*(vuint8 *)0x4371)</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="preprocessor">#define REG_A1T0LH (*(vuint16 *)0x4302)</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="preprocessor">#define REG_A1T1LH (*(vuint16 *)0x4312)</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="preprocessor">#define REG_A1T2LH (*(vuint16 *)0x4322)</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="preprocessor">#define REG_A1T3LH (*(vuint16 *)0x4332)</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="preprocessor">#define REG_A1T4LH (*(vuint16 *)0x4342)</span></div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="preprocessor">#define REG_A1T5LH (*(vuint16 *)0x4352)</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="preprocessor">#define REG_A1T6LH (*(vuint16 *)0x4362)</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="preprocessor">#define REG_A1T7LH (*(vuint16 *)0x4372)</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor">#define REG_A1B0 (*(vuint8 *)0x4304)</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="preprocessor">#define REG_A1B1 (*(vuint8 *)0x4314)</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="preprocessor">#define REG_A1B2 (*(vuint8 *)0x4324)</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="preprocessor">#define REG_A1B3 (*(vuint8 *)0x4334)</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="preprocessor">#define REG_A1B4 (*(vuint8 *)0x4344)</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="preprocessor">#define REG_A1B5 (*(vuint8 *)0x4354)</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="preprocessor">#define REG_A1B6 (*(vuint8 *)0x4364)</span></div>
+<div class="line"><a name="l00181"></a><span class="lineno"><a class="line" href="dma_8h.html#a384405596b1aadf2454e966455d74228">  181</a></span>&#160;<span class="preprocessor">#define REG_A1B7 (*(vuint8 *)0x4374)</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160; </div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="preprocessor">#define REG_DAS0LH (*(vuint16 *)0x4305)</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="preprocessor">#define REG_DAS1LH (*(vuint16 *)0x4315)</span></div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="preprocessor">#define REG_DAS2LH (*(vuint16 *)0x4325)</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="preprocessor">#define REG_DAS3LH (*(vuint16 *)0x4335)</span></div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="preprocessor">#define REG_DAS4LH (*(vuint16 *)0x4345)</span></div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="preprocessor">#define REG_DAS5LH (*(vuint16 *)0x4355)</span></div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="preprocessor">#define REG_DAS6LH (*(vuint16 *)0x4365)</span></div>
+<div class="line"><a name="l00210"></a><span class="lineno"><a class="line" href="dma_8h.html#ac9dca819788af60976b8d4956f76ead6">  210</a></span>&#160;<span class="preprocessor">#define REG_DAS7LH (*(vuint16 *)0x4375)</span></div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>[224 + 1]; </div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a>(u8 *source, u16 address, u16 size);</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160; </div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(u8 *source, u16 address, u16 size);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160; </div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#abbf81dbfd5a87cb2cd2181b12fcd56c5">dmaCopySpr32Vram</a>(u8 *source, u16 address);</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160; </div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#a6104d97fae7422dbba10f062c1044462">dmaCopySpr16Vram</a>(u8 *source, u16 address);</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160; </div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#a235e242d89d3c81b9e697e99a96198f7">dmaFillVram</a>(u8 *source, u16 address, u16 size);</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160; </div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#a72b64de8d06ad5bae1995fb1baf1a458">dmaClearVram</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#a72ec813d4b395cafa59852cbd1ffa8b2">dmaCopyOAram</a>(u8 *source, u16 address, u16 size);</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160; </div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#ac0ba95e6b8e91380c0a67ee3b0707582">dmaCopyVram7</a>(u8 *source, u16 address, u16 size, u8 vrammodeinc, u16 dmacontrol);</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160; </div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#acf06b5c6b9733a2fdb5cb466dd6b16bf">setModeHdmaGradient</a>(u8 maxLevels);</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#a68c89ad2f21c471cf6bf07583576f0a2">setModeHdmaShadeUpDown</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160; </div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#a17730c5eb2e9c19d4ce49c6c5930af73">setModeHdmaShading</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> mode);</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160; </div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dma_8h.html#aa03948bd578cc7311908ca96fec14a93">setParallaxScrolling</a>(u8 bgrnd);</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160; </div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="preprocessor">#endif // SNES_DMA_INCLUDE</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="adma_8h_html_a68c89ad2f21c471cf6bf07583576f0a2"><div class="ttname"><a href="dma_8h.html#a68c89ad2f21c471cf6bf07583576f0a2">setModeHdmaShadeUpDown</a></div><div class="ttdeci">void setModeHdmaShadeUpDown(void)</div><div class="ttdoc">Do a brightness gradient from up/down to center of the screen.</div></div>
@@ -237,7 +240,7 @@ $(document).ready(function(){initNavTree('dma_8h_source.html',''); initResizable
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="dma_8h.html">dma.h</a></li>
-    <li class="footer">Generated on Sat Sep 24 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Mon Sep 26 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>

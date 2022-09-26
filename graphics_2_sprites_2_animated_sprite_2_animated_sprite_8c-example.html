@@ -122,73 +122,99 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_animated_sprite_2
 <div class="line"><span class="comment">//---------------------------------------------------------------------</span></div>
 <div class="line"><span class="comment">// The state of the sprite (which way it is walking)</span></div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------</span></div>
-<div class="line"><span class="keyword">enum</span> SpriteState {W_DOWN = 0, W_UP = 1, W_RIGHT = 2,  W_LEFT = 2};</div>
+<div class="line"><span class="keyword">enum</span> SpriteState</div>
+<div class="line">{</div>
+<div class="line">    W_DOWN = 0,</div>
+<div class="line">    W_UP = 1,</div>
+<div class="line">    W_RIGHT = 2,</div>
+<div class="line">    W_LEFT = 2</div>
+<div class="line">};</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------</span></div>
 <div class="line"><span class="comment">// Screen dimentions</span></div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------</span></div>
-<div class="line"><span class="keyword">enum</span> {SCREEN_TOP = 0, SCREEN_BOTTOM = 224, SCREEN_LEFT = 0, SCREEN_RIGHT = 256};</div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">const</span> <span class="keywordtype">char</span> sprTiles[9]=</div>
+<div class="line"><span class="keyword">enum</span></div>
 <div class="line">{</div>
-<div class="line">    0,2,4, 6,8,10, 12,14,32</div>
-<div class="line">};  <span class="comment">// Remeber that sprites are interleave with 128 pix width,</span></div>
+<div class="line">    SCREEN_TOP = 0,</div>
+<div class="line">    SCREEN_BOTTOM = 224,</div>
+<div class="line">    SCREEN_LEFT = 0,</div>
+<div class="line">    SCREEN_RIGHT = 256</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">const</span> <span class="keywordtype">char</span> sprTiles[9] =</div>
+<div class="line">    {</div>
+<div class="line">        0, 2, 4, 6, 8, 10, 12, 14, 32}; <span class="comment">// Remeber that sprites are interleave with 128 pix width,</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
-<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>) {</div>
-<div class="line">    <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> pad0,i;</div>
-<div class="line">    Monster monster = {100,100};</div>
-<div class="line">    </div>
-<div class="line">    <span class="comment">// Initialize SNES </span></div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> pad0, i;</div>
+<div class="line">    Monster monster = {100, 100};</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Initialize SNES</span></div>
 <div class="line">    <a name="a0"></a><a class="code" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a>();</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Init Sprites gfx and palette with default size of 16x16</span></div>
-<div class="line">    <a name="a1"></a><a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;gfxpsrite, (&amp;gfxpsrite_end-&amp;gfxpsrite), &amp;palsprite, (&amp;palsprite_end-&amp;palsprite), 0, 0x0000, <a name="a2"></a><a class="code" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>);</div>
+<div class="line">    <a name="a1"></a><a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;gfxpsrite, (&amp;gfxpsrite_end - &amp;gfxpsrite), &amp;palsprite, (&amp;palsprite_end - &amp;palsprite), 0, 0x0000, <a name="a2"></a><a class="code" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Define sprites parameters</span></div>
-<div class="line">    <a name="a3"></a><a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(0,  monster.x, monster.y, 0, 0, 0, 0, 0); </div>
+<div class="line">    <a name="a3"></a><a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(0, monster.x, monster.y, 0, 0, 0, 0, 0);</div>
 <div class="line">    <a name="a4"></a><a class="code" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a>(0, OBJ_SMALL, OBJ_SHOW);</div>
-<div class="line">    <a name="a5"></a><a class="code" href="sprite_8h.html#a35a0da9852240ef41b5030ed21b6eeb2">oamSetVisible</a>(0,OBJ_SHOW);</div>
-<div class="line">    </div>
+<div class="line">    <a name="a5"></a><a class="code" href="sprite_8h.html#a35a0da9852240ef41b5030ed21b6eeb2">oamSetVisible</a>(0, OBJ_SHOW);</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode and disable all backgrounds</span></div>
-<div class="line">    <a name="a6"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a7"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>,0); <a name="a8"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(0); <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1); <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
+<div class="line">    <a name="a6"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a7"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>, 0);</div>
+<div class="line">    <a name="a8"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(0);</div>
+<div class="line">    <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
+<div class="line">    <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
 <div class="line">    <a name="a9"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Wait for nothing :P</span></div>
-<div class="line">    <span class="keywordflow">while</span>(1) {</div>
+<div class="line">    <span class="keywordflow">while</span> (1)</div>
+<div class="line">    {</div>
 <div class="line">        <span class="comment">// Refresh pad values in VBL and Get current #0 pad</span></div>
 <div class="line">        pad0 = <a name="a10"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
-<div class="line">        </div>
-<div class="line">        <span class="keywordflow">if</span> (pad0) {</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">if</span> (pad0)</div>
+<div class="line">        {</div>
 <div class="line">            <span class="comment">// Update sprite with current pad</span></div>
-<div class="line">            <span class="keywordflow">if</span>(pad0 &amp; <a name="a11"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a>) {</div>
-<div class="line">                <span class="keywordflow">if</span>(monster.y &gt;= SCREEN_TOP) monster.y--;</div>
+<div class="line">            <span class="keywordflow">if</span> (pad0 &amp; <a name="a11"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a>)</div>
+<div class="line">            {</div>
+<div class="line">                <span class="keywordflow">if</span> (monster.y &gt;= SCREEN_TOP)</div>
+<div class="line">                    monster.y--;</div>
 <div class="line">                monster.state = W_UP;</div>
 <div class="line">                monster.flipx = 0;</div>
 <div class="line">            }</div>
-<div class="line">            <span class="keywordflow">if</span>(pad0 &amp; <a name="a12"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>) {</div>
-<div class="line">                <span class="keywordflow">if</span>(monster.x &gt;= SCREEN_LEFT) monster.x--;</div>
+<div class="line">            <span class="keywordflow">if</span> (pad0 &amp; <a name="a12"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
+<div class="line">            {</div>
+<div class="line">                <span class="keywordflow">if</span> (monster.x &gt;= SCREEN_LEFT)</div>
+<div class="line">                    monster.x--;</div>
 <div class="line">                monster.state = W_LEFT;</div>
 <div class="line">                monster.flipx = 1;</div>
 <div class="line">            }</div>
-<div class="line">            <span class="keywordflow">if</span>(pad0 &amp; <a name="a13"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>) {</div>
-<div class="line">                <span class="keywordflow">if</span>(monster.x &lt;= SCREEN_RIGHT) monster.x++;</div>
+<div class="line">            <span class="keywordflow">if</span> (pad0 &amp; <a name="a13"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
+<div class="line">            {</div>
+<div class="line">                <span class="keywordflow">if</span> (monster.x &lt;= SCREEN_RIGHT)</div>
+<div class="line">                    monster.x++;</div>
 <div class="line">                monster.state = W_LEFT;</div>
 <div class="line">                monster.flipx = 0;</div>
 <div class="line">            }</div>
-<div class="line">            <span class="keywordflow">if</span>(pad0 &amp; <a name="a14"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a>) {</div>
-<div class="line">                <span class="keywordflow">if</span>(monster.y &lt;= SCREEN_BOTTOM) monster.y++;</div>
+<div class="line">            <span class="keywordflow">if</span> (pad0 &amp; <a name="a14"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a>)</div>
+<div class="line">            {</div>
+<div class="line">                <span class="keywordflow">if</span> (monster.y &lt;= SCREEN_BOTTOM)</div>
+<div class="line">                    monster.y++;</div>
 <div class="line">                monster.state = W_DOWN;</div>
 <div class="line">                monster.flipx = 0;</div>
 <div class="line">            }</div>
 <div class="line">            monster.anim_frame++;</div>
-<div class="line">            <span class="keywordflow">if</span>(monster.anim_frame &gt;= FRAMES_PER_ANIMATION) monster.anim_frame = 0;</div>
+<div class="line">            <span class="keywordflow">if</span> (monster.anim_frame &gt;= FRAMES_PER_ANIMATION)</div>
+<div class="line">                monster.anim_frame = 0;</div>
 <div class="line">        }</div>
-<div class="line">        </div>
+<div class="line"> </div>
 <div class="line">        <span class="comment">// Now, get current sprite in current animation</span></div>
-<div class="line">        monster.gfx_frame = sprTiles[monster.anim_frame + monster.state*FRAMES_PER_ANIMATION ];</div>
-<div class="line">        <a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(0,  monster.x, monster.y, 3, monster.flipx, 0, monster.gfx_frame, 0);</div>
-<div class="line">        </div>
+<div class="line">        monster.gfx_frame = sprTiles[monster.anim_frame + monster.state * FRAMES_PER_ANIMATION];</div>
+<div class="line">        <a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(0, monster.x, monster.y, 3, monster.flipx, 0, monster.gfx_frame, 0);</div>
+<div class="line"> </div>
 <div class="line">        <span class="comment">// Wait VBL &#39;and update sprites too ;-) )</span></div>
 <div class="line">        <a name="a15"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
 <div class="line">    }</div>
@@ -198,15 +224,15 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_animated_sprite_2
 </div><!-- doc-content -->
 <div class="ttc" id="avideo_8h_html_abc7d4ef8ebc22f5b710927909bb3f144"><div class="ttname"><a href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a></div><div class="ttdeci">void setScreenOn(void)</div><div class="ttdoc">Put screen On.</div></div>
 <div class="ttc" id="ainterrupt_8h_html_a815e2626bd26d0e936d507a363ecd723"><div class="ttname"><a href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt Waits for a vertical blank interrupt.</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a></div><div class="ttdeci">@ KEY_LEFT</div><div class="ttdoc">pad LEFT button.</div><div class="ttdef"><b>Definition:</b> pad.h:52</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a></div><div class="ttdeci">@ KEY_UP</div><div class="ttdoc">pad UP button.</div><div class="ttdef"><b>Definition:</b> pad.h:54</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a></div><div class="ttdeci">@ KEY_RIGHT</div><div class="ttdoc">pad RIGHT button.</div><div class="ttdef"><b>Definition:</b> pad.h:51</div></div>
+<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a></div><div class="ttdeci">@ KEY_LEFT</div><div class="ttdoc">pad LEFT button.</div><div class="ttdef"><b>Definition:</b> pad.h:53</div></div>
+<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a></div><div class="ttdeci">@ KEY_UP</div><div class="ttdoc">pad UP button.</div><div class="ttdef"><b>Definition:</b> pad.h:55</div></div>
+<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a></div><div class="ttdeci">@ KEY_RIGHT</div><div class="ttdoc">pad RIGHT button.</div><div class="ttdef"><b>Definition:</b> pad.h:52</div></div>
 <div class="ttc" id="abackground_8h_html_a05c862edb7f8f75036f10c04dcc3c2a6"><div class="ttname"><a href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a></div><div class="ttdeci">#define BG_MODE1</div><div class="ttdoc">16-color 16-color 4-color - ;Normal</div><div class="ttdef"><b>Definition:</b> background.h:55</div></div>
-<div class="ttc" id="asprite_8h_html_a2f62a591672b786d90ebb03fdf25f159"><div class="ttname"><a href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a></div><div class="ttdeci">#define oamSet(id, xspr, yspr, priority, hflip, vflip, gfxoffset, paletteoffset)</div><div class="ttdoc">sets an oam entry to the supplied values</div><div class="ttdef"><b>Definition:</b> sprite.h:182</div></div>
+<div class="ttc" id="asprite_8h_html_a2f62a591672b786d90ebb03fdf25f159"><div class="ttname"><a href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a></div><div class="ttdeci">#define oamSet(id, xspr, yspr, priority, hflip, vflip, gfxoffset, paletteoffset)</div><div class="ttdoc">sets an oam entry to the supplied values</div><div class="ttdef"><b>Definition:</b> sprite.h:183</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
-<div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:121</div></div>
+<div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:122</div></div>
 <div class="ttc" id="asprite_8h_html_a4120a8ff32c39973babeca3615a0a2fd"><div class="ttname"><a href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a></div><div class="ttdeci">void oamSetEx(u16 id, u8 size, u8 hide)</div><div class="ttdoc">Put the correct size and hide or not a oam.</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a></div><div class="ttdeci">@ KEY_DOWN</div><div class="ttdoc">pad DOWN button.</div><div class="ttdef"><b>Definition:</b> pad.h:53</div></div>
+<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a></div><div class="ttdeci">@ KEY_DOWN</div><div class="ttdoc">pad DOWN button.</div><div class="ttdef"><b>Definition:</b> pad.h:54</div></div>
 <div class="ttc" id="asprite_8h_html_a1893eab6ffef9928ff2de22d49bd18c0"><div class="ttname"><a href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a></div><div class="ttdeci">#define OBJ_SIZE16_L32</div><div class="ttdoc">default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register</div><div class="ttdef"><b>Definition:</b> sprite.h:42</div></div>
 <div class="ttc" id="asprite_8h_html_a46e0be47f8fc865a7f43c1b0b126e59a"><div class="ttname"><a href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a></div><div class="ttdeci">void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize)</div><div class="ttdoc">Initializes a sprites Gfx and Loads the GFX into VRAM.</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
@@ -216,7 +242,7 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_animated_sprite_2
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sat Sep 24 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Mon Sep 26 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>

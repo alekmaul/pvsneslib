@@ -123,75 +123,75 @@ $(document).ready(function(){initNavTree('object_8h_source.html',''); initResiza
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="snestypes_8h.html">snes/snestypes.h</a>&gt;</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#define OB_MAX              64                      // total number of objects in the game</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#define OB_MAX 64 // total number of objects in the game</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    u16 prev;                                       <span class="comment">//  0 previous object linked list</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    u16 next;                                       <span class="comment">//  2 next object in linked list</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    u8 type;                                        <span class="comment">//  4 type of object, depend of the game</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    u8 nID;                                         <span class="comment">//  5 obj ID in linked list</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    u16 sprnum;                                     <span class="comment">//  6 sprite oam number of the object (multiple of 4)</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    u16 sprid3216;                                  <span class="comment">//  8 sprite oam id in sprite oam memory</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    u16 sprblk3216;                                 <span class="comment">// 10 sprite oam address in sprites tiles memory</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    u8 sprflip;                                     <span class="comment">// 12 sprite flip attribute</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    u8 sprpal;                                      <span class="comment">// 13 sprite palette</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    u16 sprframe;                                   <span class="comment">// 14 current frame</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    u8 xpos[3];                                     <span class="comment">// 16 x position on the screen (3 fixed point)</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    u8 ypos[3];                                     <span class="comment">// 19 y position on the screen (3 fixed point)</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    u16 xofs;                                       <span class="comment">// 22 x offset of the object (from the square 16x16 or 32x32)</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    u16 yofs;                                       <span class="comment">// 24 y offset of the object (from the square 16x16 or 32x32)</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    u16 width;                                      <span class="comment">// 26 width of the object (from the square 16x16 or 32x32)</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    u16 height;                                     <span class="comment">// 28 height of the object (from the square 16x16 or 32x32)</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    u16 xmin;                                       <span class="comment">// 30 min x coordinate for action of object, depends of game (ex: revert direction)</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    u16 xmax;                                       <span class="comment">// 32 max x coordinate for action of object, depends of game (ex: revert direction)</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    u16 xvel;                                       <span class="comment">// 34 x velocity</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    u16 yvel;                                       <span class="comment">// 36 y velocity</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    u16 tilestand;                                  <span class="comment">// 38 tile number object is standing on</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    u16 tileabove;                                  <span class="comment">// 40 tile number above object </span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    u16 tilesprop;                                  <span class="comment">// 42 tile property stand on</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    u16 tilebprop;                                  <span class="comment">// 44 tile property on left/right side</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    u16 action;                                     <span class="comment">// 46 current action of the object, depends of game</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    u8 status;                                      <span class="comment">// 48 status of object regarding collision</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    u8 tempo;                                       <span class="comment">// 49 if object needs tempo</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    u8 count;                                       <span class="comment">// 50 if object needs a counter</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    u8 dir;                                         <span class="comment">// 51 if object needs to manage direction</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    u16 parentID;                                   <span class="comment">// 52 obj ID of parent (useful for projectiles) </span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    u8 hitpoints;                                   <span class="comment">// 54 number of hit points of object</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    u8 sprrefresh;                                  <span class="comment">// 55 if object needs sprite to be refresh</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    u8 objnotused[8];                              <span class="comment">// OB_SIZE-55-1 for future use</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;} t_objs __attribute__((__packed__));               <span class="comment">// seems to do nothing :/</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keyword">extern</span> u16 <a class="code" href="object_8h.html#a9e81915d1e68d22798a93bb27eb74188">objptr</a>; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="object_8h.html#adbc29a5fc1d8493c4a23d739727aaef3">objtokill</a>; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keyword">extern</span> u16 <a class="code" href="object_8h.html#ad4b2cf3a008d2011baf65b7ed74eaf65">objgetid</a>; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">extern</span> t_objs <a class="code" href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a>[OB_MAX];                    </div>
-<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="object_8h.html#a64b628522c7aaec4fd687d8cd3c15797">   91</a></span>&#160;<span class="preprocessor">#define T_EMPTY             0x0000      </span></div>
-<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="object_8h.html#af873aaa17834669d0f263af08c2912c3">   92</a></span>&#160;<span class="preprocessor">#define T_SOLID             0xFF00      </span></div>
-<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="object_8h.html#a56af090251f58d0f37002c5a1184252e">   93</a></span>&#160;<span class="preprocessor">#define T_LADDE             0x0001      </span></div>
-<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="object_8h.html#a6cc6b73b3328f0e2a7553a4e1db3a5e9">   94</a></span>&#160;<span class="preprocessor">#define T_FIRES             0x0002      </span></div>
-<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="object_8h.html#a87a89f657f33f4eab646bb7f6ad21fa3">   95</a></span>&#160;<span class="preprocessor">#define T_SPIKE             0x0004      </span></div>
-<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="object_8h.html#ad36b80734e14117314d2ec683f552969">   96</a></span>&#160;<span class="preprocessor">#define T_PLATE             0x0008      </span></div>
-<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="object_8h.html#a227eedee0994ff2eac6ed2b691d9bcb3">   98</a></span>&#160;<span class="preprocessor">#define ACT_STAND           0x0000      </span></div>
-<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="object_8h.html#a912cfae6ccf6375f3c2831d65646c76b">   99</a></span>&#160;<span class="preprocessor">#define ACT_WALK            0x0001      </span></div>
-<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="object_8h.html#a4617d14626ea66580d7996705d0a5bce">  100</a></span>&#160;<span class="preprocessor">#define ACT_JUMP            0x0002      </span></div>
-<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="object_8h.html#a8c450076e1da6d4f8aa6e1f7e6737444">  101</a></span>&#160;<span class="preprocessor">#define ACT_FALL            0x0004      </span></div>
-<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="object_8h.html#ab9c13fbe07aac09e69bc677fe3f0fcaa">  102</a></span>&#160;<span class="preprocessor">#define ACT_CLIMB           0x0008      </span></div>
-<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="object_8h.html#a7843ff58f7ae21834eee28a3cefbbd3a">  103</a></span>&#160;<span class="preprocessor">#define ACT_DIE             0x0010      </span></div>
-<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="object_8h.html#aab4c8cebd89d6e8b2a68e709784829d5">  104</a></span>&#160;<span class="preprocessor">#define ACT_BURN            0x0020      </span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor">void objInitEngine(void);</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="keywordtype">void</span> objInitGravity(u16 objgravity, u16 objfriction);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    u16 prev; <span class="comment">//  0 previous object linked list</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    u16 next; <span class="comment">//  2 next object in linked list</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    u8 type;  <span class="comment">//  4 type of object, depend of the game</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    u8 nID;   <span class="comment">//  5 obj ID in linked list</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    u16 sprnum;     <span class="comment">//  6 sprite oam number of the object (multiple of 4)</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    u16 sprid3216;  <span class="comment">//  8 sprite oam id in sprite oam memory</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    u16 sprblk3216; <span class="comment">// 10 sprite oam address in sprites tiles memory</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    u8 sprflip;     <span class="comment">// 12 sprite flip attribute</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    u8 sprpal;      <span class="comment">// 13 sprite palette</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    u16 sprframe;   <span class="comment">// 14 current frame</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    u8 xpos[3]; <span class="comment">// 16 x position on the screen (3 fixed point)</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    u8 ypos[3]; <span class="comment">// 19 y position on the screen (3 fixed point)</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    u16 xofs;   <span class="comment">// 22 x offset of the object (from the square 16x16 or 32x32)</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    u16 yofs;   <span class="comment">// 24 y offset of the object (from the square 16x16 or 32x32)</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    u16 width;  <span class="comment">// 26 width of the object (from the square 16x16 or 32x32)</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    u16 height; <span class="comment">// 28 height of the object (from the square 16x16 or 32x32)</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    u16 xmin;   <span class="comment">// 30 min x coordinate for action of object, depends of game (ex: revert direction)</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    u16 xmax;   <span class="comment">// 32 max x coordinate for action of object, depends of game (ex: revert direction)</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    u16 xvel; <span class="comment">// 34 x velocity</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    u16 yvel; <span class="comment">// 36 y velocity</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    u16 tilestand; <span class="comment">// 38 tile number object is standing on</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    u16 tileabove; <span class="comment">// 40 tile number above object</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    u16 tilesprop; <span class="comment">// 42 tile property stand on</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    u16 tilebprop; <span class="comment">// 44 tile property on left/right side</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    u16 action; <span class="comment">// 46 current action of the object, depends of game</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    u8 status;  <span class="comment">// 48 status of object regarding collision</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    u8 tempo;   <span class="comment">// 49 if object needs tempo</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    u8 count;   <span class="comment">// 50 if object needs a counter</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    u8 dir;     <span class="comment">// 51 if object needs to manage direction</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    u16 parentID;  <span class="comment">// 52 obj ID of parent (useful for projectiles)</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    u8 hitpoints;  <span class="comment">// 54 number of hit points of object</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    u8 sprrefresh; <span class="comment">// 55 if object needs sprite to be refresh</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    u8 objnotused[8];                 <span class="comment">// OB_SIZE-55-1 for future use</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;} t_objs __attribute__((__packed__)); <span class="comment">// seems to do nothing :/</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keyword">extern</span> u16 <a class="code" href="object_8h.html#a9e81915d1e68d22798a93bb27eb74188">objptr</a>;   </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="object_8h.html#adbc29a5fc1d8493c4a23d739727aaef3">objtokill</a>; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">extern</span> u16 <a class="code" href="object_8h.html#ad4b2cf3a008d2011baf65b7ed74eaf65">objgetid</a>; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">extern</span> t_objs <a class="code" href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a>[OB_MAX]; </div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="object_8h.html#a64b628522c7aaec4fd687d8cd3c15797">   92</a></span>&#160;<span class="preprocessor">#define T_EMPTY 0x0000 </span></div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="object_8h.html#af873aaa17834669d0f263af08c2912c3">   93</a></span>&#160;<span class="preprocessor">#define T_SOLID 0xFF00 </span></div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="object_8h.html#a56af090251f58d0f37002c5a1184252e">   94</a></span>&#160;<span class="preprocessor">#define T_LADDE 0x0001 </span></div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="object_8h.html#a6cc6b73b3328f0e2a7553a4e1db3a5e9">   95</a></span>&#160;<span class="preprocessor">#define T_FIRES 0x0002 </span></div>
+<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="object_8h.html#a87a89f657f33f4eab646bb7f6ad21fa3">   96</a></span>&#160;<span class="preprocessor">#define T_SPIKE 0x0004 </span></div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="object_8h.html#ad36b80734e14117314d2ec683f552969">   97</a></span>&#160;<span class="preprocessor">#define T_PLATE 0x0008 </span></div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="object_8h.html#a227eedee0994ff2eac6ed2b691d9bcb3">   99</a></span>&#160;<span class="preprocessor">#define ACT_STAND 0x0000 </span></div>
+<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="object_8h.html#a912cfae6ccf6375f3c2831d65646c76b">  100</a></span>&#160;<span class="preprocessor">#define ACT_WALK 0x0001  </span></div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="object_8h.html#a4617d14626ea66580d7996705d0a5bce">  101</a></span>&#160;<span class="preprocessor">#define ACT_JUMP 0x0002  </span></div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="object_8h.html#a8c450076e1da6d4f8aa6e1f7e6737444">  102</a></span>&#160;<span class="preprocessor">#define ACT_FALL 0x0004  </span></div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="object_8h.html#ab9c13fbe07aac09e69bc677fe3f0fcaa">  103</a></span>&#160;<span class="preprocessor">#define ACT_CLIMB 0x0008 </span></div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="object_8h.html#a7843ff58f7ae21834eee28a3cefbbd3a">  104</a></span>&#160;<span class="preprocessor">#define ACT_DIE 0x0010   </span></div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="object_8h.html#aab4c8cebd89d6e8b2a68e709784829d5">  105</a></span>&#160;<span class="preprocessor">#define ACT_BURN 0x0020  </span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">void objInitEngine(void);</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="keywordtype">void</span> objInitGravity(u16 objgravity, u16 objfriction);</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="keywordtype">void</span> objInitFunctions(u8 objtype, <span class="keywordtype">void</span> *initfct,<span class="keywordtype">void</span> *updfct,<span class="keywordtype">void</span> *reffct);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="keywordtype">void</span> objInitFunctions(u8 objtype, <span class="keywordtype">void</span> *initfct, <span class="keywordtype">void</span> *updfct, <span class="keywordtype">void</span> *reffct);</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="keywordtype">void</span> <a class="code" href="object_8h.html#aeda7828a0cb93ff1985ac0237ac5871b">objLoadObjects</a>(u8 *sourceO);</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
@@ -211,12 +211,11 @@ $(document).ready(function(){initNavTree('object_8h_source.html',''); initResiza
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="keywordtype">void</span> <a class="code" href="object_8h.html#ad1afd89929dc692a0171a258cedab7e4">objCollidMap1D</a>(u16 objhandle);</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;u16 <a class="code" href="object_8h.html#adc88e10acad45614f14d47e4af413b33">objCollidObj</a>(u16 objhandle1,u16 objhandle2);</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;u16 <a class="code" href="object_8h.html#adc88e10acad45614f14d47e4af413b33">objCollidObj</a>(u16 objhandle1, u16 objhandle2);</div>
 <div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="keywordtype">void</span> <a class="code" href="object_8h.html#a1567925f4b8a87ce6f09aa10980df652">objUpdateXY</a>(u16 objhandle);</div>
 <div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="preprocessor">#endif //SNES_OBJECTS_INCLUDE</span></div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160; </div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="preprocessor">#endif // SNES_OBJECTS_INCLUDE</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aobject_8h_html_a79ff81c8642b2398a03519c279c2f132"><div class="ttname"><a href="object_8h.html#a79ff81c8642b2398a03519c279c2f132">objNew</a></div><div class="ttdeci">u16 objNew(u8 objtype, u16 x, u16 y)</div><div class="ttdoc">Initialize a new object in game, objgetid will has the id of the object.</div></div>
@@ -239,7 +238,7 @@ $(document).ready(function(){initNavTree('object_8h_source.html',''); initResiza
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="object_8h.html">object.h</a></li>
-    <li class="footer">Generated on Sat Sep 24 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Mon Sep 26 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>

@@ -122,20 +122,21 @@ $(document).ready(function(){initNavTree('scores_8h_source.html',''); initResiza
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="snestypes_8h.html">snes/snestypes.h</a>&gt;</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{ </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    u16 scolo; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    u16 scohi; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;} scoMemory;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordtype">void</span> <a class="code" href="scores_8h.html#a610bffa01efc5915459764c57f0a7d32">scoreClear</a>(scoMemory *source);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keywordtype">void</span> <a class="code" href="scores_8h.html#a95d4103529817bc4d7efbaa7098ae2e5">scoreAdd</a>(scoMemory *source, u16 value);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keywordtype">void</span> <a class="code" href="scores_8h.html#afc036e454a935daea483dc85ee1d95a8">scoreCpy</a>(scoMemory *source, scoMemory *dest);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;u8 <a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(scoMemory *source, scoMemory *dest);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#endif //SNES_SCORE_INCLUDE</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    u16 scolo;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    u16 scohi;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;} scoMemory;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">void</span> <a class="code" href="scores_8h.html#a610bffa01efc5915459764c57f0a7d32">scoreClear</a>(scoMemory *source);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keywordtype">void</span> <a class="code" href="scores_8h.html#a95d4103529817bc4d7efbaa7098ae2e5">scoreAdd</a>(scoMemory *source, u16 value);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">void</span> <a class="code" href="scores_8h.html#afc036e454a935daea483dc85ee1d95a8">scoreCpy</a>(scoMemory *source, scoMemory *dest);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;u8 <a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(scoMemory *source, scoMemory *dest);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#endif // SNES_SCORE_INCLUDE</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="ascores_8h_html_ab961bc25a6ecc6ee901a90827460df62"><div class="ttname"><a href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a></div><div class="ttdeci">u8 scoreCmp(scoMemory *source, scoMemory *dest)</div><div class="ttdoc">comapre a score memory to another score memory</div></div>
@@ -147,7 +148,7 @@ $(document).ready(function(){initNavTree('scores_8h_source.html',''); initResiza
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="scores_8h.html">scores.h</a></li>
-    <li class="footer">Generated on Sat Sep 24 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Mon Sep 26 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>

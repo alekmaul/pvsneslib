@@ -111,13 +111,13 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a3e2d51ca1a0ddadfbb339450c70f4f2f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a3e2d51ca1a0ddadfbb339450c70f4f2f">OAM_ATTR</a>(priority,  hflip,  vflip,  gfxoffset,  paletteoffset)&#160;&#160;&#160;((vflip&lt;&lt;7) | (hflip&lt;&lt;6) | (priority&lt;&lt;4) | (paletteoffset&lt;&lt;1) | ((gfxoffset&gt;&gt;8) &amp; 1))</td></tr>
+<tr class="memitem:a3e2d51ca1a0ddadfbb339450c70f4f2f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a3e2d51ca1a0ddadfbb339450c70f4f2f">OAM_ATTR</a>(priority,  hflip,  vflip,  gfxoffset,  paletteoffset)&#160;&#160;&#160;((vflip &lt;&lt; 7) | (hflip &lt;&lt; 6) | (priority &lt;&lt; 4) | (paletteoffset &lt;&lt; 1) | ((gfxoffset &gt;&gt; 8) &amp; 1))</td></tr>
 <tr class="memdesc:a3e2d51ca1a0ddadfbb339450c70f4f2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">defined attribute of a sprite  <a href="sprite_8h.html#a3e2d51ca1a0ddadfbb339450c70f4f2f">More...</a><br /></td></tr>
 <tr class="separator:a3e2d51ca1a0ddadfbb339450c70f4f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefa2b9ce227904e69830a6ad981b1f19"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#aefa2b9ce227904e69830a6ad981b1f19">oamGetX</a>(id)&#160;&#160;&#160;(<a class="el" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[id+0])</td></tr>
+<tr class="memitem:aefa2b9ce227904e69830a6ad981b1f19"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#aefa2b9ce227904e69830a6ad981b1f19">oamGetX</a>(id)&#160;&#160;&#160;(<a class="el" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[id + 0])</td></tr>
 <tr class="memdesc:aefa2b9ce227904e69830a6ad981b1f19"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the x oam coordinate to the supplied values  <a href="sprite_8h.html#aefa2b9ce227904e69830a6ad981b1f19">More...</a><br /></td></tr>
 <tr class="separator:aefa2b9ce227904e69830a6ad981b1f19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6b605303fc7a5caa3b97fd254b5d450"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#af6b605303fc7a5caa3b97fd254b5d450">oamGetY</a>(id)&#160;&#160;&#160;(<a class="el" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[id+1])</td></tr>
+<tr class="memitem:af6b605303fc7a5caa3b97fd254b5d450"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#af6b605303fc7a5caa3b97fd254b5d450">oamGetY</a>(id)&#160;&#160;&#160;(<a class="el" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[id + 1])</td></tr>
 <tr class="memdesc:af6b605303fc7a5caa3b97fd254b5d450"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the y oam coordinate to the supplied values  <a href="sprite_8h.html#af6b605303fc7a5caa3b97fd254b5d450">More...</a><br /></td></tr>
 <tr class="separator:af6b605303fc7a5caa3b97fd254b5d450"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f62a591672b786d90ebb03fdf25f159"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(id,  xspr,  yspr,  priority,  hflip,  vflip,  gfxoffset,  paletteoffset)</td></tr>
@@ -127,42 +127,42 @@ Macros</h2></td></tr>
 <tr class="memdesc:abec859fb490fe23b87fc34b75d8ce804"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets an oam graphic offset to the supplied values  <a href="sprite_8h.html#abec859fb490fe23b87fc34b75d8ce804">More...</a><br /></td></tr>
 <tr class="separator:abec859fb490fe23b87fc34b75d8ce804"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1893eab6ffef9928ff2de22d49bd18c0"><td class="memItemLeft" align="right" valign="top"><a id="a1893eab6ffef9928ff2de22d49bd18c0"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>&#160;&#160;&#160;(3&lt;&lt;5)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>&#160;&#160;&#160;(3 &lt;&lt; 5)</td></tr>
 <tr class="memdesc:a1893eab6ffef9928ff2de22d49bd18c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register <br /></td></tr>
 <tr class="separator:a1893eab6ffef9928ff2de22d49bd18c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae03805d727184864087a4cc26e8034e9"><td class="memItemLeft" align="right" valign="top"><a id="ae03805d727184864087a4cc26e8034e9"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#ae03805d727184864087a4cc26e8034e9">OBJ_SIZE16_L64</a>&#160;&#160;&#160;(4&lt;&lt;5)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#ae03805d727184864087a4cc26e8034e9">OBJ_SIZE16_L64</a>&#160;&#160;&#160;(4 &lt;&lt; 5)</td></tr>
 <tr class="memdesc:ae03805d727184864087a4cc26e8034e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">default OAM size 16x16 (SM) and 64x64 (LG) pix for OBJSEL register <br /></td></tr>
 <tr class="separator:ae03805d727184864087a4cc26e8034e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a449cd6f7c4fc8ca09a632e0c58cdb365"><td class="memItemLeft" align="right" valign="top"><a id="a449cd6f7c4fc8ca09a632e0c58cdb365"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a449cd6f7c4fc8ca09a632e0c58cdb365">OBJ_SIZE32_L64</a>&#160;&#160;&#160;(5&lt;&lt;5)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a449cd6f7c4fc8ca09a632e0c58cdb365">OBJ_SIZE32_L64</a>&#160;&#160;&#160;(5 &lt;&lt; 5)</td></tr>
 <tr class="memdesc:a449cd6f7c4fc8ca09a632e0c58cdb365"><td class="mdescLeft">&#160;</td><td class="mdescRight">default OAM size 32x32 (SM) and 64x64 (LG) pix for OBJSEL register <br /></td></tr>
 <tr class="separator:a449cd6f7c4fc8ca09a632e0c58cdb365"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa91348e1375ed07236694a7d81fa9ecf"><td class="memItemLeft" align="right" valign="top"><a id="aa91348e1375ed07236694a7d81fa9ecf"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#aa91348e1375ed07236694a7d81fa9ecf">OBJ_SIZE8_L16</a>&#160;&#160;&#160;(0&lt;&lt;5)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#aa91348e1375ed07236694a7d81fa9ecf">OBJ_SIZE8_L16</a>&#160;&#160;&#160;(0 &lt;&lt; 5)</td></tr>
 <tr class="memdesc:aa91348e1375ed07236694a7d81fa9ecf"><td class="mdescLeft">&#160;</td><td class="mdescRight">default OAM size 8x8 (SM) and 16x16 (LG) pix for OBJSEL register <br /></td></tr>
 <tr class="separator:aa91348e1375ed07236694a7d81fa9ecf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e8556727bbae22ac2e0fa8392a13fc4"><td class="memItemLeft" align="right" valign="top"><a id="a4e8556727bbae22ac2e0fa8392a13fc4"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a4e8556727bbae22ac2e0fa8392a13fc4">OBJ_SIZE8_L32</a>&#160;&#160;&#160;(1&lt;&lt;5)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a4e8556727bbae22ac2e0fa8392a13fc4">OBJ_SIZE8_L32</a>&#160;&#160;&#160;(1 &lt;&lt; 5)</td></tr>
 <tr class="memdesc:a4e8556727bbae22ac2e0fa8392a13fc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">default OAM size 8x8 (SM) and 32x32 (LG) pix for OBJSEL register <br /></td></tr>
 <tr class="separator:a4e8556727bbae22ac2e0fa8392a13fc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35468d3300e6ad4bdb2c027c93c7dbe5"><td class="memItemLeft" align="right" valign="top"><a id="a35468d3300e6ad4bdb2c027c93c7dbe5"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a35468d3300e6ad4bdb2c027c93c7dbe5">OBJ_SIZE8_L64</a>&#160;&#160;&#160;(2&lt;&lt;5)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a35468d3300e6ad4bdb2c027c93c7dbe5">OBJ_SIZE8_L64</a>&#160;&#160;&#160;(2 &lt;&lt; 5)</td></tr>
 <tr class="memdesc:a35468d3300e6ad4bdb2c027c93c7dbe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">default OAM size 8x8 (SM) and 64x64 (LG) pix for OBJSEL register <br /></td></tr>
 <tr class="separator:a35468d3300e6ad4bdb2c027c93c7dbe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8e30bb8ad62f2a58545ff770db95174"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#ad8e30bb8ad62f2a58545ff770db95174">REG_OAMADDH</a>&#160;&#160;&#160;(*(vuint8*)0x2103)</td></tr>
+<tr class="memitem:ad8e30bb8ad62f2a58545ff770db95174"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#ad8e30bb8ad62f2a58545ff770db95174">REG_OAMADDH</a>&#160;&#160;&#160;(*(vuint8 *)0x2103)</td></tr>
 <tr class="memdesc:ad8e30bb8ad62f2a58545ff770db95174"><td class="mdescLeft">&#160;</td><td class="mdescRight">OAM Address and Priority Rotation (W) 15 OAM Priority Rotation (0=OBJ num 0, 1=OBJ num N) (OBJ with highest priority) 9-14 Not used 7-1 OBJ Number num N (for OBJ Priority) ;bit7-1 are used for two purposes 8-0 OAM Address (for OAM read/write) ;.  <a href="sprite_8h.html#ad8e30bb8ad62f2a58545ff770db95174">More...</a><br /></td></tr>
 <tr class="separator:ad8e30bb8ad62f2a58545ff770db95174"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7a5db74119e971459fad469a4caa92c"><td class="memItemLeft" align="right" valign="top"><a id="ac7a5db74119e971459fad469a4caa92c"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#ac7a5db74119e971459fad469a4caa92c">REG_OAMDATA</a>&#160;&#160;&#160;(*(vuint8*)0x2104)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#ac7a5db74119e971459fad469a4caa92c">REG_OAMDATA</a>&#160;&#160;&#160;(*(vuint8 *)0x2104)</td></tr>
 <tr class="memdesc:ac7a5db74119e971459fad469a4caa92c"><td class="mdescLeft">&#160;</td><td class="mdescRight">OAM Data Write (W) <br /></td></tr>
 <tr class="separator:ac7a5db74119e971459fad469a4caa92c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa54aeab41da41947862d2317074d500a"><td class="memItemLeft" align="right" valign="top"><a id="aa54aeab41da41947862d2317074d500a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#aa54aeab41da41947862d2317074d500a">REG_OBSEL</a>&#160;&#160;&#160;(*(vuint8*)0x2101)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#aa54aeab41da41947862d2317074d500a">REG_OBSEL</a>&#160;&#160;&#160;(*(vuint8 *)0x2101)</td></tr>
 <tr class="memdesc:aa54aeab41da41947862d2317074d500a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Object Size and Object Base (W) 7-5 OBJ Size Selection (0-5, see below) (6-7=Reserved) Val Small Large 0 = 8x8 16x16 ;Caution: 1 = 8x8 32x32 ;In 224-lines mode, OBJs with 64-pixel height 2 = 8x8 64x64 ;may wrap from lower to upper screen border. 3 = 16x16 32x32 ;In 239-lines mode, the same problem applies 4 = 16x16 64x64 ;also for OBJs with 32-pixel height. 5 = 32x32 64x64 6 = 16x32 32x64 (undocumented) 7 = 16x32 32x32 (undocumented) (Ie. a setting of 0 means Small OBJs=8x8, Large OBJs=16x16 pixels) (Whether an OBJ is "small" or "large" is selected by a bit in OAM) 4-3 Gap between OBJ 0FFh and 100h (0=None) (4K-word steps) (8K-byte steps) 2-0 Base Address for OBJ Tiles 000h..0FFh (8K-word steps) (16K-byte steps) <br /></td></tr>
 <tr class="separator:aa54aeab41da41947862d2317074d500a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac815cf72d6b31fb9e38042a0eacee023"><td class="memItemLeft" align="right" valign="top"><a id="ac815cf72d6b31fb9e38042a0eacee023"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#ac815cf72d6b31fb9e38042a0eacee023">REG_RDOAM</a>&#160;&#160;&#160;(*(vuint8*)0x2138)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#ac815cf72d6b31fb9e38042a0eacee023">REG_RDOAM</a>&#160;&#160;&#160;(*(vuint8 *)0x2138)</td></tr>
 <tr class="memdesc:ac815cf72d6b31fb9e38042a0eacee023"><td class="mdescLeft">&#160;</td><td class="mdescRight">OAM Data Read (R) <br /></td></tr>
 <tr class="separator:ac815cf72d6b31fb9e38042a0eacee023"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -192,8 +192,7 @@ oambuffer[id] needs to be populate before.  <a href="sprite_8h.html#af269b675edc
 <tr class="separator:af206f6568efabd13b1d65db1c2d4e24a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a274b5d953c60f5455937be288f6652ee"><td class="memItemLeft" align="right" valign="top"><a id="a274b5d953c60f5455937be288f6652ee"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a274b5d953c60f5455937be288f6652ee">oamInit</a> (void)</td></tr>
-<tr class="memdesc:a274b5d953c60f5455937be288f6652ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the 2D sprite engine <br  />
- <br /></td></tr>
+<tr class="memdesc:a274b5d953c60f5455937be288f6652ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the 2D sprite engine. <br /></td></tr>
 <tr class="separator:a274b5d953c60f5455937be288f6652ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc3b431ee9b6bc613e5e4e6734dbfc08"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#adc3b431ee9b6bc613e5e4e6734dbfc08">oamInitDynamicSprite</a> (u16 gfxsp0adr, u16 gfxsp1adr, u16 oamsp0init, u16 oamsp1init, u8 oamsize)</td></tr>
 <tr class="memdesc:adc3b431ee9b6bc613e5e4e6734dbfc08"><td class="mdescLeft">&#160;</td><td class="mdescRight">initialize the dynamic sprite engine with each sprite size entries  <a href="sprite_8h.html#adc3b431ee9b6bc613e5e4e6734dbfc08">More...</a><br /></td></tr>
@@ -309,7 +308,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;((vflip&lt;&lt;7) | (hflip&lt;&lt;6) | (priority&lt;&lt;4) | (paletteoffset&lt;&lt;1) | ((gfxoffset&gt;&gt;8) &amp; 1))</td>
+          <td></td><td>&#160;&#160;&#160;((vflip &lt;&lt; 7) | (hflip &lt;&lt; 6) | (priority &lt;&lt; 4) | (paletteoffset &lt;&lt; 1) | ((gfxoffset &gt;&gt; 8) &amp; 1))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -339,7 +338,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">id</td><td>)</td>
-          <td>&#160;&#160;&#160;(<a class="el" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[id+0])</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[id + 0])</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -365,7 +364,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">id</td><td>)</td>
-          <td>&#160;&#160;&#160;(<a class="el" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[id+1])</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[id + 1])</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -441,11 +440,11 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    { \</div>
-<div class="line">    oamMemory[<span class="keywordtype">id</span>+0] = (xspr); \</div>
-<div class="line">    oamMemory[<span class="keywordtype">id</span>+1] = (yspr); \</div>
-<div class="line">    oamMemory[<span class="keywordtype">id</span>+2] = (gfxoffset); \</div>
-<div class="line">    oamMemory[<span class="keywordtype">id</span>+3] = (vflip&lt;&lt;7) | (hflip&lt;&lt;6) | (priority&lt;&lt;4) | (paletteoffset&lt;&lt;1) | ((gfxoffset&gt;&gt;8) &amp; 1); \</div>
+<b>Value:</b><div class="fragment"><div class="line">    {                                                                                                                      \</div>
+<div class="line">        oamMemory[<span class="keywordtype">id</span> + 0] = (xspr);                                                                                        \</div>
+<div class="line">        oamMemory[<span class="keywordtype">id</span> + 1] = (yspr);                                                                                        \</div>
+<div class="line">        oamMemory[<span class="keywordtype">id</span> + 2] = (gfxoffset);                                                                                   \</div>
+<div class="line">        oamMemory[<span class="keywordtype">id</span> + 3] = (vflip &lt;&lt; 7) | (hflip &lt;&lt; 6) | (priority &lt;&lt; 4) | (paletteoffset &lt;&lt; 1) | ((gfxoffset &gt;&gt; 8) &amp; 1); \</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>sets an oam entry to the supplied values </p>
@@ -492,8 +491,8 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    <a class="code" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[<span class="keywordtype">id</span>+2] = (gfxoffset); \</div>
-<div class="line">    oamMemory[<span class="keywordtype">id</span>+3] = (<a class="code" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[<span class="keywordtype">id</span>+3] &amp; 0xFE) | ((gfxoffset&gt;&gt;8) &amp; 1);</div>
+<b>Value:</b><div class="fragment"><div class="line">    <a class="code" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[<span class="keywordtype">id</span> + 2] = (gfxoffset);   \</div>
+<div class="line">    oamMemory[<span class="keywordtype">id</span> + 3] = (<a class="code" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[<span class="keywordtype">id</span> + 3] &amp; 0xFE) | ((gfxoffset &gt;&gt; 8) &amp; 1);</div>
 </div><!-- fragment -->
 <p>sets an oam graphic offset to the supplied values </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -513,7 +512,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define REG_OAMADDH&#160;&#160;&#160;(*(vuint8*)0x2103)</td>
+          <td class="memname">#define REG_OAMADDH&#160;&#160;&#160;(*(vuint8 *)0x2103)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1137,7 +1136,7 @@ oambuffer[id] needs to be populate before. </p>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="sprite_8h.html">sprite.h</a></li>
-    <li class="footer">Generated on Sat Sep 24 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Mon Sep 26 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>

@@ -103,61 +103,78 @@ $(document).ready(function(){initNavTree('scoring_2scoring_8c-example.html','');
 <div class="line"> </div>
 <div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> snesfont, snespal;</div>
 <div class="line"> </div>
-<div class="line">scoMemory scoretst,scoretst1;</div>
+<div class="line">scoMemory scoretst, scoretst1;</div>
 <div class="line"><span class="keywordtype">char</span> sz[128];</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
-<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>) {</div>
-<div class="line">    <span class="comment">// Initialize SNES </span></div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
+<div class="line">{</div>
+<div class="line">    <span class="comment">// Initialize SNES</span></div>
 <div class="line">    <a name="a0"></a><a class="code" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a>();</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Initialize text console with our font</span></div>
 <div class="line">    <a name="a1"></a><a class="code" href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">consoleSetTextVramBGAdr</a>(0x6800);</div>
 <div class="line">    <a name="a2"></a><a class="code" href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">consoleSetTextVramAdr</a>(0x3000);</div>
 <div class="line">    <a name="a3"></a><a class="code" href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a>(0x0100);</div>
-<div class="line">    <a name="a4"></a><a class="code" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(0, 16*2, &amp;snesfont,&amp;snespal);</div>
-<div class="line">    </div>
+<div class="line">    <a name="a4"></a><a class="code" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(0, 16 * 2, &amp;snesfont, &amp;snespal);</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Clear the score</span></div>
-<div class="line">    scoretst.scohi=18;scoretst.scolo=900;</div>
+<div class="line">    scoretst.scohi = 18;</div>
+<div class="line">    scoretst.scolo = 900;</div>
 <div class="line">    <a name="a5"></a><a class="code" href="scores_8h.html#a610bffa01efc5915459764c57f0a7d32">scoreClear</a>(&amp;scoretst);</div>
-<div class="line">    sprintf(sz,<span class="stringliteral">&quot;score hi %04x score lo %04x&quot;</span>,(u16) scoretst.scohi,(u16) scoretst.scolo);</div>
-<div class="line">    <a name="a6"></a><a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2,8,sz);</div>
-<div class="line">    </div>
+<div class="line">    sprintf(sz, <span class="stringliteral">&quot;score hi %04x score lo %04x&quot;</span>, (u16)scoretst.scohi, (u16)scoretst.scolo);</div>
+<div class="line">    <a name="a6"></a><a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 8, sz);</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Add a value</span></div>
-<div class="line">    <a name="a7"></a><a class="code" href="scores_8h.html#a95d4103529817bc4d7efbaa7098ae2e5">scoreAdd</a>(&amp;scoretst,0x4DB);</div>
-<div class="line">    sprintf(sz,<span class="stringliteral">&quot;score hi %04x score lo %04x&quot;</span>,(u16) scoretst.scohi,(u16) scoretst.scolo);</div>
-<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2,9,sz);</div>
+<div class="line">    <a name="a7"></a><a class="code" href="scores_8h.html#a95d4103529817bc4d7efbaa7098ae2e5">scoreAdd</a>(&amp;scoretst, 0x4DB);</div>
+<div class="line">    sprintf(sz, <span class="stringliteral">&quot;score hi %04x score lo %04x&quot;</span>, (u16)scoretst.scohi, (u16)scoretst.scolo);</div>
+<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 9, sz);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Add more than 10000</span></div>
-<div class="line">    <a class="code" href="scores_8h.html#a95d4103529817bc4d7efbaa7098ae2e5">scoreAdd</a>(&amp;scoretst,0x2710);</div>
-<div class="line">    sprintf(sz,<span class="stringliteral">&quot;score hi %04x score lo %04x&quot;</span>,(u16) scoretst.scohi,(u16) scoretst.scolo);</div>
-<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2,10,sz);</div>
+<div class="line">    <a class="code" href="scores_8h.html#a95d4103529817bc4d7efbaa7098ae2e5">scoreAdd</a>(&amp;scoretst, 0x2710);</div>
+<div class="line">    sprintf(sz, <span class="stringliteral">&quot;score hi %04x score lo %04x&quot;</span>, (u16)scoretst.scohi, (u16)scoretst.scolo);</div>
+<div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 10, sz);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Compare two scores</span></div>
-<div class="line">    scoretst.scohi=18;scoretst.scolo=900;</div>
-<div class="line">    scoretst1.scohi=17;scoretst1.scolo=900;</div>
-<div class="line">    <span class="keywordflow">if</span> (<a name="a8"></a><a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst,&amp;scoretst1)==0)  <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2,12,<span class="stringliteral">&quot;1 scores equals&quot;</span>);</div>
-<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst,&amp;scoretst1)==0xFF)  <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2,12,<span class="stringliteral">&quot;1 scoretst higher&quot;</span>);</div>
-<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst,&amp;scoretst1)==1)  <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2,12,<span class="stringliteral">&quot;1 scoretst lower&quot;</span>);</div>
-<div class="line">    </div>
-<div class="line">    scoretst1.scohi=18;scoretst1.scolo=901;</div>
-<div class="line">    <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst,&amp;scoretst1)==0)  <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2,13,<span class="stringliteral">&quot;2 scores equals&quot;</span>);</div>
-<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst,&amp;scoretst1)==-1)  <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2,13,<span class="stringliteral">&quot;2 scoretst higher&quot;</span>);</div>
-<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst,&amp;scoretst1)==1)  <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2,13,<span class="stringliteral">&quot;2 scoretst lower&quot;</span>);</div>
-<div class="line">    </div>
-<div class="line">    scoretst1.scohi=19;scoretst1.scolo=900;</div>
-<div class="line">    <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst,&amp;scoretst)==0)  <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2,14,<span class="stringliteral">&quot;3 scores equals&quot;</span>);</div>
-<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst,&amp;scoretst1)==-1)  <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2,14,<span class="stringliteral">&quot;3 scoretst higher&quot;</span>);</div>
-<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst,&amp;scoretst1)==1)  <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2,14,<span class="stringliteral">&quot;3 scoretst lower&quot;</span>);</div>
+<div class="line">    scoretst.scohi = 18;</div>
+<div class="line">    scoretst.scolo = 900;</div>
+<div class="line">    scoretst1.scohi = 17;</div>
+<div class="line">    scoretst1.scolo = 900;</div>
+<div class="line">    <span class="keywordflow">if</span> (<a name="a8"></a><a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst, &amp;scoretst1) == 0)</div>
+<div class="line">        <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 12, <span class="stringliteral">&quot;1 scores equals&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst, &amp;scoretst1) == 0xFF)</div>
+<div class="line">        <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 12, <span class="stringliteral">&quot;1 scoretst higher&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst, &amp;scoretst1) == 1)</div>
+<div class="line">        <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 12, <span class="stringliteral">&quot;1 scoretst lower&quot;</span>);</div>
 <div class="line"> </div>
+<div class="line">    scoretst1.scohi = 18;</div>
+<div class="line">    scoretst1.scolo = 901;</div>
+<div class="line">    <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst, &amp;scoretst1) == 0)</div>
+<div class="line">        <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 13, <span class="stringliteral">&quot;2 scores equals&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst, &amp;scoretst1) == -1)</div>
+<div class="line">        <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 13, <span class="stringliteral">&quot;2 scoretst higher&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst, &amp;scoretst1) == 1)</div>
+<div class="line">        <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 13, <span class="stringliteral">&quot;2 scoretst lower&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    scoretst1.scohi = 19;</div>
+<div class="line">    scoretst1.scolo = 900;</div>
+<div class="line">    <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst, &amp;scoretst) == 0)</div>
+<div class="line">        <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 14, <span class="stringliteral">&quot;3 scores equals&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst, &amp;scoretst1) == -1)</div>
+<div class="line">        <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 14, <span class="stringliteral">&quot;3 scoretst higher&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst, &amp;scoretst1) == 1)</div>
+<div class="line">        <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 14, <span class="stringliteral">&quot;3 scoretst lower&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode and disable Bgs except current</span></div>
-<div class="line">    <a name="a9"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a10"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>,0);  <a name="a11"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);  <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
+<div class="line">    <a name="a9"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a10"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>, 0);</div>
+<div class="line">    <a name="a11"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
+<div class="line">    <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Wait for nothing :P</span></div>
-<div class="line">    <a name="a12"></a><a class="code" href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">setBrightness</a>(0xF);  </div>
-<div class="line">    </div>
-<div class="line">    <span class="keywordflow">while</span>(1) {</div>
+<div class="line">    <a name="a12"></a><a class="code" href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">setBrightness</a>(0xF);</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">while</span> (1)</div>
+<div class="line">    {</div>
 <div class="line">        <a name="a13"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
@@ -182,7 +199,7 @@ $(document).ready(function(){initNavTree('scoring_2scoring_8c-example.html','');
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sat Sep 24 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Mon Sep 26 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>

@@ -101,62 +101,68 @@ $(document).ready(function(){initNavTree('audio_2tada_2_tada_8c-example.html',''
 <div class="line"><span class="comment">---------------------------------------------------------------------------------*/</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="snes_8h.html">snes.h</a>&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> soundbrr,soundbrrend;</div>
+<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> soundbrr, soundbrrend;</div>
 <div class="line"><a name="_a0"></a><a class="code" href="structbrrsamples.html">brrsamples</a> tadasound;</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> snesfont, snespal;</div>
 <div class="line"> </div>
-<div class="line"><span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> bgcolor =128;</div>
-<div class="line">u8 keyapressed=0;</div>
+<div class="line"><span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> bgcolor = 128;</div>
+<div class="line">u8 keyapressed = 0;</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
-<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>) {</div>
-<div class="line">    </div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
+<div class="line">{</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Initialize sound engine (take some time)</span></div>
 <div class="line">    <a name="a1"></a><a class="code" href="sound_8h.html#ad8753cb6edb38834257bbf0020700689">spcBoot</a>();</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// Initialize SNES </span></div>
+<div class="line">    <span class="comment">// Initialize SNES</span></div>
 <div class="line">    <a name="a2"></a><a class="code" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Initialize text console with our font</span></div>
 <div class="line">    <a name="a3"></a><a class="code" href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">consoleSetTextVramBGAdr</a>(0x6800);</div>
 <div class="line">    <a name="a4"></a><a class="code" href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">consoleSetTextVramAdr</a>(0x3000);</div>
 <div class="line">    <a name="a5"></a><a class="code" href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a>(0x0100);</div>
-<div class="line">    <a name="a6"></a><a class="code" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(0, 16*2, &amp;snesfont,&amp;snespal);</div>
-<div class="line">    </div>
+<div class="line">    <a name="a6"></a><a class="code" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(0, 16 * 2, &amp;snesfont, &amp;snespal);</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// allocate around 10K of sound ram (39 256-byte blocks)</span></div>
 <div class="line">    <a name="a7"></a><a class="code" href="sound_8h.html#a2113060be24b307d1e03f167eb241b90">spcAllocateSoundRegion</a>(39);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode and disable Bgs except current</span></div>
-<div class="line">    <a name="a8"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a9"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>,0);  <a name="a10"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);  <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
+<div class="line">    <a name="a8"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a9"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>, 0);</div>
+<div class="line">    <a name="a10"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
+<div class="line">    <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Draw a wonderfull text :P</span></div>
-<div class="line">    <a name="a11"></a><a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(5,10,<span class="stringliteral">&quot;Press A to play effect !&quot;</span>);</div>
+<div class="line">    <a name="a11"></a><a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(5, 10, <span class="stringliteral">&quot;Press A to play effect !&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Wait for nothing :P</span></div>
-<div class="line">    <a name="a12"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();  </div>
+<div class="line">    <a name="a12"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Load effect</span></div>
-<div class="line">    <a name="a13"></a><a class="code" href="sound_8h.html#a4ef9d5d4b7618a2e091194b6c17f75a5">spcSetSoundEntry</a>(15, 15, 4, &amp;soundbrrend-&amp;soundbrr, &amp;soundbrr, &amp;tadasound);</div>
-<div class="line">    </div>
+<div class="line">    <a name="a13"></a><a class="code" href="sound_8h.html#a4ef9d5d4b7618a2e091194b6c17f75a5">spcSetSoundEntry</a>(15, 15, 4, &amp;soundbrrend - &amp;soundbrr, &amp;soundbrr, &amp;tadasound);</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Wait for nothing :D !</span></div>
-<div class="line">    <span class="keywordflow">while</span>(1) {</div>
+<div class="line">    <span class="keywordflow">while</span> (1)</div>
+<div class="line">    {</div>
 <div class="line">        <span class="comment">// Refresh pad values and test key a (without repeating sound if still pressed)</span></div>
 <div class="line">        <a name="a14"></a><a class="code" href="pad_8h.html#a42632e79292dc47a567aab4dc3e4407d">scanPads</a>();</div>
-<div class="line">        <span class="keywordflow">if</span> (<a name="a15"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) &amp; <a name="a16"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>) {</div>
-<div class="line">            <span class="keywordflow">if</span> (keyapressed ==0) { </div>
+<div class="line">        <span class="keywordflow">if</span> (<a name="a15"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) &amp; <a name="a16"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>)</div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">if</span> (keyapressed == 0)</div>
+<div class="line">            {</div>
 <div class="line">                keyapressed = 1;</div>
 <div class="line">                <span class="comment">// Play effect</span></div>
 <div class="line">                <a name="a17"></a><a class="code" href="sound_8h.html#a8e5286554841ea48b028b4b782364ab0">spcPlaySound</a>(0);</div>
 <div class="line"> </div>
 <div class="line">                <span class="comment">// change background color</span></div>
-<div class="line">                bgcolor+=16;</div>
+<div class="line">                bgcolor += 16;</div>
 <div class="line">                <a name="a18"></a><a class="code" href="video_8h.html#a549263481ac687a7e1d6f6cd5bd85d29">setPaletteColor</a>(0x00, bgcolor);</div>
 <div class="line">            }</div>
 <div class="line">        }</div>
 <div class="line">        <span class="keywordflow">else</span></div>
 <div class="line">            keyapressed = 0;</div>
-<div class="line">            </div>
+<div class="line"> </div>
 <div class="line">        <span class="comment">// Update music / sfx stream and wait vbl</span></div>
 <div class="line">        <a name="a19"></a><a class="code" href="sound_8h.html#acab7d87110bac6baa9d74ab314772c98">spcProcess</a>();</div>
 <div class="line">        <a name="a20"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
@@ -175,8 +181,8 @@ $(document).ready(function(){initNavTree('audio_2tada_2_tada_8c-example.html',''
 <div class="ttc" id="abackground_8h_html_a05c862edb7f8f75036f10c04dcc3c2a6"><div class="ttname"><a href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a></div><div class="ttdeci">#define BG_MODE1</div><div class="ttdoc">16-color 16-color 4-color - ;Normal</div><div class="ttdef"><b>Definition:</b> background.h:55</div></div>
 <div class="ttc" id="asound_8h_html_ad8753cb6edb38834257bbf0020700689"><div class="ttname"><a href="sound_8h.html#ad8753cb6edb38834257bbf0020700689">spcBoot</a></div><div class="ttdeci">void spcBoot(void)</div><div class="ttdoc">boots the spc700 with sm-spc. call once at startup</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
-<div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:121</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition:</b> pad.h:47</div></div>
+<div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:122</div></div>
+<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition:</b> pad.h:48</div></div>
 <div class="ttc" id="asound_8h_html_a4ef9d5d4b7618a2e091194b6c17f75a5"><div class="ttname"><a href="sound_8h.html#a4ef9d5d4b7618a2e091194b6c17f75a5">spcSetSoundEntry</a></div><div class="ttdeci">void spcSetSoundEntry(u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, brrsamples *ptr)</div><div class="ttdoc">set the values and address of the SOUND TABLE for a sound entry</div></div>
 <div class="ttc" id="asound_8h_html_acab7d87110bac6baa9d74ab314772c98"><div class="ttname"><a href="sound_8h.html#acab7d87110bac6baa9d74ab314772c98">spcProcess</a></div><div class="ttdeci">void spcProcess(void)</div><div class="ttdoc">Process messages This function will try to give messages to the spc until a few scanlines pass.</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
@@ -190,7 +196,7 @@ $(document).ready(function(){initNavTree('audio_2tada_2_tada_8c-example.html',''
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sat Sep 24 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Mon Sep 26 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>

@@ -125,17 +125,17 @@ $(document).ready(function(){initNavTree('interrupt_8h_source.html',''); initRes
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="snestypes_8h.html">snes/snestypes.h</a>&gt;</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span>* nmi_handler;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> *nmi_handler;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a435380b6460ebd669f2b344ea79316d6">   42</a></span>&#160;<span class="preprocessor">#define INT_VBLENABLE (1&lt;&lt;7)    </span></div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="interrupt_8h.html#ac352c6a25f2e170d7b2bf2236bd31427">   43</a></span>&#160;<span class="preprocessor">#define INT_HVIRQ_H (1&lt;&lt;4)      </span></div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a54b588e60e5abfeaf59ba4c8fd826cfa">   44</a></span>&#160;<span class="preprocessor">#define INT_HVIRQ_V (1&lt;&lt;5)      </span></div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a062bd6ffa662638df005a03cd2c0a3fb">   45</a></span>&#160;<span class="preprocessor">#define INT_HVIRQ_HV (2 &lt;&lt;4)    </span></div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="interrupt_8h.html#ab4a66ed24f182a8d056f7db1cab6eb82">   46</a></span>&#160;<span class="preprocessor">#define INT_JOYPAD_ENABLE (1)   </span></div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a1982e080d74da9e146881ca580ffec0d">   47</a></span>&#160;<span class="preprocessor">#define VBL_READY (1&lt;&lt;7)        </span></div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a88d83a889f8e1d016cedfbd0476db989">   48</a></span>&#160;<span class="preprocessor">#define HBL_READY (1&lt;&lt;6)        </span></div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a2094086b43aa835d241e35153f8ed1bc">   49</a></span>&#160;<span class="preprocessor">#define PAD_BUSY (1)            </span></div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a8627bb48b8760c306190eb7ed050af73">   63</a></span>&#160;<span class="preprocessor">#define REG_NMITIMEN    (*(vuint8*)0x4200)</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a435380b6460ebd669f2b344ea79316d6">   42</a></span>&#160;<span class="preprocessor">#define INT_VBLENABLE (1 &lt;&lt; 7) </span></div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="interrupt_8h.html#ac352c6a25f2e170d7b2bf2236bd31427">   43</a></span>&#160;<span class="preprocessor">#define INT_HVIRQ_H (1 &lt;&lt; 4)   </span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a54b588e60e5abfeaf59ba4c8fd826cfa">   44</a></span>&#160;<span class="preprocessor">#define INT_HVIRQ_V (1 &lt;&lt; 5)   </span></div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a062bd6ffa662638df005a03cd2c0a3fb">   45</a></span>&#160;<span class="preprocessor">#define INT_HVIRQ_HV (2 &lt;&lt; 4)  </span></div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="interrupt_8h.html#ab4a66ed24f182a8d056f7db1cab6eb82">   46</a></span>&#160;<span class="preprocessor">#define INT_JOYPAD_ENABLE (1)  </span></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a1982e080d74da9e146881ca580ffec0d">   47</a></span>&#160;<span class="preprocessor">#define VBL_READY (1 &lt;&lt; 7)     </span></div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a88d83a889f8e1d016cedfbd0476db989">   48</a></span>&#160;<span class="preprocessor">#define HBL_READY (1 &lt;&lt; 6)     </span></div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a2094086b43aa835d241e35153f8ed1bc">   49</a></span>&#160;<span class="preprocessor">#define PAD_BUSY (1)           </span></div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a8627bb48b8760c306190eb7ed050af73">   63</a></span>&#160;<span class="preprocessor">#define REG_NMITIMEN (*(vuint8 *)0x4200)</span></div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"></span> </div>
@@ -154,7 +154,7 @@ $(document).ready(function(){initNavTree('interrupt_8h_source.html',''); initRes
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">The H/V-IRQ flag in Bit7 of TIMEUP, Port 4211h gets set when the V-Counter gets equal to the V-Count register value.</span></div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a3a29932a3a9cf7dbbf25a3a30c9e25fa">   97</a></span>&#160;<span class="preprocessor">#define REG_RDNMI   (*(vuint8*)0x4210)</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a3a29932a3a9cf7dbbf25a3a30c9e25fa">   97</a></span>&#160;<span class="preprocessor">#define REG_RDNMI (*(vuint8 *)0x4210)</span></div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment">4211h - TIMEUP - H/V-Timer IRQ Flag (R) (Read/Ack)</span></div>
@@ -166,19 +166,22 @@ $(document).ready(function(){initNavTree('interrupt_8h_source.html',''); initRes
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment">Unlike NMI handlers, IRQ handlers MUST acknowledge IRQs, otherwise the IRQ gets executed again (ie. immediately after the RTI opcode).</span></div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="interrupt_8h.html#af25c0fcc5e2519aa98aebe289d391ca2">  119</a></span>&#160;<span class="preprocessor">#define REG_HVBJOY  (*(vuint8*)0x4212)</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="interrupt_8h.html#af25c0fcc5e2519aa98aebe289d391ca2">  119</a></span>&#160;<span class="preprocessor">#define REG_HVBJOY (*(vuint8 *)0x4212)</span></div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="preprocessor">#define nmiSet(handler) nmi_handler = handler;</span></div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="keywordtype">void</span> <a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
-<div class="line"><a name="l00137"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a03304aaf535795c2857e357e028cdebe">  137</a></span>&#160;<span class="preprocessor">#define WaitVBLFlag     while ((REG_HVBJOY &amp; VBL_READY)); \</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="preprocessor">                        while (!(REG_HVBJOY &amp; VBL_READY))  {};</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="keywordtype">void</span> WaitNVBlank(u16 ntime);</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="preprocessor">#endif //SNES_INTERRUPTS_INCLUDE</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno"><a class="line" href="interrupt_8h.html#a03304aaf535795c2857e357e028cdebe">  137</a></span>&#160;<span class="preprocessor">#define WaitVBLFlag                   \</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="preprocessor">    while ((REG_HVBJOY &amp; VBL_READY))  \</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="preprocessor">        ;                             \</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="preprocessor">    while (!(REG_HVBJOY &amp; VBL_READY)) \</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="preprocessor">    {                                 \</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="preprocessor">    };</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="keywordtype">void</span> WaitNVBlank(u16 ntime);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="preprocessor">#endif // SNES_INTERRUPTS_INCLUDE</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="ainterrupt_8h_html_a815e2626bd26d0e936d507a363ecd723"><div class="ttname"><a href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt Waits for a vertical blank interrupt.</div></div>
@@ -187,7 +190,7 @@ $(document).ready(function(){initNavTree('interrupt_8h_source.html',''); initRes
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="interrupt_8h.html">interrupt.h</a></li>
-    <li class="footer">Generated on Sat Sep 24 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Mon Sep 26 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>

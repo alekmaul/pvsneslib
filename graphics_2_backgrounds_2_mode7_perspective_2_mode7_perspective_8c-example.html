@@ -95,19 +95,19 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode7_perspec
 <div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">    Mode 7 / Mode 3: perspective and sky demo using HDMA</span></div>
 <div class="line"><span class="comment">    -- mills32</span></div>
-<div class="line"><span class="comment">    </span></div>
+<div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">    -- code refactors by alekmaul</span></div>
 <div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">    NOTE:</span></div>
-<div class="line"><span class="comment">    </span></div>
+<div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">    Ground image is a 1024x1024 image used as a fake ground in mode 7.</span></div>
 <div class="line"><span class="comment">    Once loaded in this mode, the palette from ground image will fill 256 colours.</span></div>
-<div class="line"><span class="comment">    Sky image will use only 16 colours from the ground image palette, so be sure the </span></div>
-<div class="line"><span class="comment">    sky and ground images are using the same palette (Look at the sky and ground </span></div>
+<div class="line"><span class="comment">    Sky image will use only 16 colours from the ground image palette, so be sure the</span></div>
+<div class="line"><span class="comment">    sky and ground images are using the same palette (Look at the sky and ground</span></div>
 <div class="line"><span class="comment">    palettes using a software like gimp).</span></div>
-<div class="line"><span class="comment">    </span></div>
+<div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">    Some parts based on Kannagi works : https://github.com/Kannagi/SNES-Mode7</span></div>
-<div class="line"><span class="comment">    </span></div>
+<div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">    Code to generate the PerspectiveX &amp; PerspectiveY tables :</span></div>
 <div class="line"><span class="comment">    ---------------------------------------------------------</span></div>
 <div class="line"><span class="comment">    #include &lt;stdio.h&gt;</span></div>
@@ -119,10 +119,10 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode7_perspec
 <div class="line"><span class="comment">    int main(int argc, char **argv) {</span></div>
 <div class="line"><span class="comment">        int scale = 1;</span></div>
 <div class="line"><span class="comment">        float zoom = 1;</span></div>
-<div class="line"><span class="comment">        </span></div>
+<div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">        FILE *fout;</span></div>
 <div class="line"><span class="comment">        fout = fopen(&quot;Perspective.txt&quot;, &quot;w&quot;);</span></div>
-<div class="line"><span class="comment">        </span></div>
+<div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">        //X</span></div>
 <div class="line"><span class="comment">        zoom = 1;</span></div>
 <div class="line"><span class="comment">        fprintf(fout,&quot;////////\n////////\n  X\n&quot;);</span></div>
@@ -132,7 +132,7 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode7_perspec
 <div class="line"><span class="comment">            scale = (int) (512 / zoom);</span></div>
 <div class="line"><span class="comment">            zoom+=0.025;</span></div>
 <div class="line"><span class="comment">        }</span></div>
-<div class="line"><span class="comment">        </span></div>
+<div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">        //Y</span></div>
 <div class="line"><span class="comment">        zoom = 1;</span></div>
 <div class="line"><span class="comment">        fprintf(fout,&quot;////////\n////////\n  Y\n&quot;);</span></div>
@@ -142,370 +142,375 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode7_perspec
 <div class="line"><span class="comment">            scale = (int) (4096 / zoom);</span></div>
 <div class="line"><span class="comment">            zoom+=0.05;</span></div>
 <div class="line"><span class="comment">        }</span></div>
-<div class="line"><span class="comment">        </span></div>
+<div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">        fclose(fout);</span></div>
-<div class="line"><span class="comment">        </span></div>
+<div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">        return 0;</span></div>
 <div class="line"><span class="comment">    }</span></div>
 <div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">---------------------------------------------------------------------------------*/</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="snes_8h.html">snes.h</a>&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> patterns,patterns_end,patterns2,patterns2_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> palette,palette2,palette_end,palette2_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> map,map_end,map2,map2_end;</div>
+<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> patterns, patterns_end, patterns2, patterns2_end;</div>
+<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> palette, palette2, palette_end, palette2_end;</div>
+<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> map, map_end, map2, map2_end;</div>
 <div class="line"> </div>
-<div class="line"><span class="preprocessor">#define SKYLINEY         96          // Number of lines for the sky</span></div>
+<div class="line"><span class="preprocessor">#define SKYLINEY 96 // Number of lines for the sky</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
-<div class="line"><span class="comment">//Mode Array: This will change mode while rendering using HDMA. Format: Scanline,Mode</span></div>
-<div class="line"><span class="keyword">const</span> u8 ModeTable[5] = </div>
+<div class="line"><span class="comment">// Mode Array: This will change mode while rendering using HDMA. Format: Scanline,Mode</span></div>
+<div class="line"><span class="keyword">const</span> u8 ModeTable[5] =</div>
+<div class="line">    {</div>
+<div class="line">        SKYLINEY, <a name="a0"></a><a class="code" href="background_8h.html#ab74253172bcb87b7947118b746ab2849">BG_MODE3</a>, <span class="comment">// for 80 scanlines do: Mode = 3</span></div>
+<div class="line">        1, <a name="a1"></a><a class="code" href="background_8h.html#ac2995da5a6139bd6ca1091ae3358d4f3">BG_MODE7</a>,        <span class="comment">// for 1 scanline do: Mode = 7</span></div>
+<div class="line">        0x00                <span class="comment">// End transfer</span></div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// BG Array: This will ensure there is no garbage on screen. Format: Scanline,BG</span></div>
+<div class="line"><span class="keyword">const</span> u8 BGTable[5] =</div>
+<div class="line">    {</div>
+<div class="line">        SKYLINEY, 0x12, <span class="comment">// for 80 scanlines do: 00010010 (Objects + BG 1)</span></div>
+<div class="line">        1, 0x11,        <span class="comment">// for 1 scanline do: 00010001 (Objects + BG 0)</span></div>
+<div class="line">        0x00            <span class="comment">// End transfer</span></div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">const</span> u8 PerspectiveX[264] =</div>
+<div class="line">    {                                  <span class="comment">//</span></div>
+<div class="line">        SKYLINEY, 256 &amp; 255, 256 &gt;&gt; 8, <span class="comment">// for 80 scanlines do: Scale = 1</span></div>
+<div class="line">        0xFF,                          <span class="comment">// for 127 scanlines do: (continue bit activated)</span></div>
+<div class="line">        1, 0,</div>
+<div class="line">        0, 2,</div>
+<div class="line">        243, 1,</div>
+<div class="line">        231, 1,</div>
+<div class="line">        220, 1,</div>
+<div class="line">        209, 1,</div>
+<div class="line">        199, 1,</div>
+<div class="line">        189, 1,</div>
+<div class="line">        179, 1,</div>
+<div class="line">        170, 1,</div>
+<div class="line">        161, 1,</div>
+<div class="line">        153, 1,</div>
+<div class="line">        145, 1,</div>
+<div class="line">        137, 1,</div>
+<div class="line">        130, 1,</div>
+<div class="line">        123, 1,</div>
+<div class="line">        116, 1,</div>
+<div class="line">        109, 1,</div>
+<div class="line">        103, 1,</div>
+<div class="line">        97, 1,</div>
+<div class="line">        91, 1,</div>
+<div class="line">        85, 1,</div>
+<div class="line">        79, 1,</div>
+<div class="line">        74, 1,</div>
+<div class="line">        69, 1,</div>
+<div class="line">        64, 1,</div>
+<div class="line">        59, 1,</div>
+<div class="line">        54, 1,</div>
+<div class="line">        49, 1,</div>
+<div class="line">        45, 1,</div>
+<div class="line">        40, 1,</div>
+<div class="line">        36, 1,</div>
+<div class="line">        32, 1,</div>
+<div class="line">        28, 1,</div>
+<div class="line">        24, 1,</div>
+<div class="line">        20, 1,</div>
+<div class="line">        17, 1,</div>
+<div class="line">        13, 1,</div>
+<div class="line">        9, 1,</div>
+<div class="line">        6, 1,</div>
+<div class="line">        3, 1,</div>
+<div class="line">        0, 1,</div>
+<div class="line">        252, 0,</div>
+<div class="line">        249, 0,</div>
+<div class="line">        246, 0,</div>
+<div class="line">        243, 0,</div>
+<div class="line">        240, 0,</div>
+<div class="line">        238, 0,</div>
+<div class="line">        235, 0,</div>
+<div class="line">        232, 0,</div>
+<div class="line">        230, 0,</div>
+<div class="line">        227, 0,</div>
+<div class="line">        225, 0,</div>
+<div class="line">        222, 0,</div>
+<div class="line">        220, 0,</div>
+<div class="line">        217, 0,</div>
+<div class="line">        215, 0,</div>
+<div class="line">        213, 0,</div>
+<div class="line">        211, 0,</div>
+<div class="line">        208, 0,</div>
+<div class="line">        206, 0,</div>
+<div class="line">        204, 0,</div>
+<div class="line">        202, 0,</div>
+<div class="line">        200, 0,</div>
+<div class="line">        198, 0,</div>
+<div class="line">        196, 0,</div>
+<div class="line">        195, 0,</div>
+<div class="line">        193, 0,</div>
+<div class="line">        191, 0,</div>
+<div class="line">        189, 0,</div>
+<div class="line">        187, 0,</div>
+<div class="line">        186, 0,</div>
+<div class="line">        184, 0,</div>
+<div class="line">        182, 0,</div>
+<div class="line">        181, 0,</div>
+<div class="line">        179, 0,</div>
+<div class="line">        178, 0,</div>
+<div class="line">        176, 0,</div>
+<div class="line">        175, 0,</div>
+<div class="line">        173, 0,</div>
+<div class="line">        172, 0,</div>
+<div class="line">        170, 0,</div>
+<div class="line">        169, 0,</div>
+<div class="line">        167, 0,</div>
+<div class="line">        166, 0,</div>
+<div class="line">        165, 0,</div>
+<div class="line">        163, 0,</div>
+<div class="line">        162, 0,</div>
+<div class="line">        161, 0,</div>
+<div class="line">        159, 0,</div>
+<div class="line">        158, 0,</div>
+<div class="line">        157, 0,</div>
+<div class="line">        156, 0,</div>
+<div class="line">        155, 0,</div>
+<div class="line">        153, 0,</div>
+<div class="line">        152, 0,</div>
+<div class="line">        151, 0,</div>
+<div class="line">        150, 0,</div>
+<div class="line">        149, 0,</div>
+<div class="line">        148, 0,</div>
+<div class="line">        147, 0,</div>
+<div class="line">        146, 0,</div>
+<div class="line">        145, 0,</div>
+<div class="line">        144, 0,</div>
+<div class="line">        143, 0,</div>
+<div class="line">        142, 0,</div>
+<div class="line">        141, 0,</div>
+<div class="line">        140, 0,</div>
+<div class="line">        139, 0,</div>
+<div class="line">        138, 0,</div>
+<div class="line">        137, 0,</div>
+<div class="line">        136, 0,</div>
+<div class="line">        135, 0,</div>
+<div class="line">        134, 0,</div>
+<div class="line">        133, 0,</div>
+<div class="line">        132, 0,</div>
+<div class="line">        132, 0,</div>
+<div class="line">        131, 0,</div>
+<div class="line">        130, 0,</div>
+<div class="line">        129, 0,</div>
+<div class="line">        128, 0,</div>
+<div class="line">        127, 0,</div>
+<div class="line">        127, 0,</div>
+<div class="line">        126, 0,</div>
+<div class="line">        125, 0,</div>
+<div class="line">        124, 0,</div>
+<div class="line">        124, 0,</div>
+<div class="line">        123, 0};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Format: Scanline,ScaleY,ScaleY</span></div>
+<div class="line"><span class="keyword">const</span> u8 PerspectiveY[264] =</div>
+<div class="line">    {                                  <span class="comment">//</span></div>
+<div class="line">        SKYLINEY, 256 &amp; 255, 256 &gt;&gt; 8, <span class="comment">// for 80 scanlines do: Scale = 1</span></div>
+<div class="line">        0xFF,                          <span class="comment">// for 127 scanlines do: (continue bit activated)</span></div>
+<div class="line">        122, 0,</div>
+<div class="line">        0, 16,</div>
+<div class="line">        60, 15,</div>
+<div class="line">        139, 14,</div>
+<div class="line">        233, 13,</div>
+<div class="line">        85, 13,</div>
+<div class="line">        204, 12,</div>
+<div class="line">        78, 12,</div>
+<div class="line">        218, 11,</div>
+<div class="line">        109, 11,</div>
+<div class="line">        8, 11,</div>
+<div class="line">        170, 10,</div>
+<div class="line">        82, 10,</div>
+<div class="line">        0, 10,</div>
+<div class="line">        178, 9,</div>
+<div class="line">        105, 9,</div>
+<div class="line">        36, 9,</div>
+<div class="line">        227, 8,</div>
+<div class="line">        166, 8,</div>
+<div class="line">        107, 8,</div>
+<div class="line">        52, 8,</div>
+<div class="line">        0, 8,</div>
+<div class="line">        206, 7,</div>
+<div class="line">        158, 7,</div>
+<div class="line">        113, 7,</div>
+<div class="line">        69, 7,</div>
+<div class="line">        28, 7,</div>
+<div class="line">        244, 6,</div>
+<div class="line">        206, 6,</div>
+<div class="line">        170, 6,</div>
+<div class="line">        135, 6,</div>
+<div class="line">        102, 6,</div>
+<div class="line">        70, 6,</div>
+<div class="line">        39, 6,</div>
+<div class="line">        9, 6,</div>
+<div class="line">        237, 5,</div>
+<div class="line">        209, 5,</div>
+<div class="line">        182, 5,</div>
+<div class="line">        157, 5,</div>
+<div class="line">        132, 5,</div>
+<div class="line">        108, 5,</div>
+<div class="line">        85, 5,</div>
+<div class="line">        62, 5,</div>
+<div class="line">        41, 5,</div>
+<div class="line">        20, 5,</div>
+<div class="line">        0, 5,</div>
+<div class="line">        236, 4,</div>
+<div class="line">        217, 4,</div>
+<div class="line">        198, 4,</div>
+<div class="line">        180, 4,</div>
+<div class="line">        163, 4,</div>
+<div class="line">        146, 4,</div>
+<div class="line">        129, 4,</div>
+<div class="line">        113, 4,</div>
+<div class="line">        98, 4,</div>
+<div class="line">        83, 4,</div>
+<div class="line">        68, 4,</div>
+<div class="line">        53, 4,</div>
+<div class="line">        39, 4,</div>
+<div class="line">        26, 4,</div>
+<div class="line">        12, 4,</div>
+<div class="line">        0, 4,</div>
+<div class="line">        243, 3,</div>
+<div class="line">        231, 3,</div>
+<div class="line">        218, 3,</div>
+<div class="line">        207, 3,</div>
+<div class="line">        195, 3,</div>
+<div class="line">        184, 3,</div>
+<div class="line">        173, 3,</div>
+<div class="line">        162, 3,</div>
+<div class="line">        152, 3,</div>
+<div class="line">        142, 3,</div>
+<div class="line">        132, 3,</div>
+<div class="line">        122, 3,</div>
+<div class="line">        112, 3,</div>
+<div class="line">        103, 3,</div>
+<div class="line">        94, 3,</div>
+<div class="line">        85, 3,</div>
+<div class="line">        76, 3,</div>
+<div class="line">        67, 3,</div>
+<div class="line">        59, 3,</div>
+<div class="line">        51, 3,</div>
+<div class="line">        43, 3,</div>
+<div class="line">        35, 3,</div>
+<div class="line">        27, 3,</div>
+<div class="line">        19, 3,</div>
+<div class="line">        12, 3,</div>
+<div class="line">        4, 3,</div>
+<div class="line">        253, 2,</div>
+<div class="line">        246, 2,</div>
+<div class="line">        239, 2,</div>
+<div class="line">        232, 2,</div>
+<div class="line">        226, 2,</div>
+<div class="line">        219, 2,</div>
+<div class="line">        212, 2,</div>
+<div class="line">        206, 2,</div>
+<div class="line">        200, 2,</div>
+<div class="line">        194, 2,</div>
+<div class="line">        188, 2,</div>
+<div class="line">        182, 2,</div>
+<div class="line">        176, 2,</div>
+<div class="line">        170, 2,</div>
+<div class="line">        165, 2,</div>
+<div class="line">        159, 2,</div>
+<div class="line">        154, 2,</div>
+<div class="line">        148, 2,</div>
+<div class="line">        143, 2,</div>
+<div class="line">        138, 2,</div>
+<div class="line">        133, 2,</div>
+<div class="line">        127, 2,</div>
+<div class="line">        123, 2,</div>
+<div class="line">        118, 2,</div>
+<div class="line">        113, 2,</div>
+<div class="line">        108, 2,</div>
+<div class="line">        103, 2,</div>
+<div class="line">        99, 2,</div>
+<div class="line">        94, 2,</div>
+<div class="line">        90, 2,</div>
+<div class="line">        85, 2,</div>
+<div class="line">        81, 2,</div>
+<div class="line">        77, 2,</div>
+<div class="line">        73, 2,</div>
+<div class="line">        68, 2,</div>
+<div class="line">        64, 2,</div>
+<div class="line">        60, 2,</div>
+<div class="line">        56, 2,</div>
+<div class="line">        52, 2,</div>
+<div class="line">        49, 2};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
+<div class="line">u16 pad0;                        <span class="comment">// current pad</span></div>
+<div class="line">u16 sz;                          <span class="comment">// zoom</span></div>
+<div class="line">u16 sx, sy;                      <span class="comment">// current corrdinates</span></div>
+<div class="line">dmaMemory data_to_transfertMode; <span class="comment">// for table HDMA access</span></div>
+<div class="line">dmaMemory data_to_transfertBG;</div>
+<div class="line">dmaMemory data_to_transfertX;</div>
+<div class="line">dmaMemory data_to_transfertY;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
+<div class="line"><span class="comment">// A function to change registers every scanline using HDMA, and scroll the mode 7 layer.</span></div>
+<div class="line"><span class="keywordtype">void</span> setMode7_HdmaPerspective(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
-<div class="line">    SKYLINEY,<a name="a0"></a><a class="code" href="background_8h.html#ab74253172bcb87b7947118b746ab2849">BG_MODE3</a>,  <span class="comment">// for 80 scanlines do: Mode = 3</span></div>
-<div class="line">    1,<a name="a1"></a><a class="code" href="background_8h.html#ac2995da5a6139bd6ca1091ae3358d4f3">BG_MODE7</a>,     <span class="comment">// for 1 scanline do: Mode = 7</span></div>
-<div class="line">    0x00            <span class="comment">// End transfer</span></div>
-<div class="line">};</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">//BG Array: This will ensure there is no garbage on screen. Format: Scanline,BG</span></div>
-<div class="line"><span class="keyword">const</span> u8 BGTable[5] = </div>
-<div class="line">{</div>
-<div class="line">    SKYLINEY,0x12,      <span class="comment">// for 80 scanlines do: 00010010 (Objects + BG 1)</span></div>
-<div class="line">    1,0x11,         <span class="comment">// for 1 scanline do: 00010001 (Objects + BG 0)</span></div>
-<div class="line">    0x00            <span class="comment">// End transfer</span></div>
-<div class="line">};</div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">const</span> u8 PerspectiveX[264] = </div>
-<div class="line">{<span class="comment">//</span></div>
-<div class="line">    SKYLINEY,256&amp;255,256&gt;&gt;8,    <span class="comment">// for 80 scanlines do: Scale = 1</span></div>
-<div class="line">    0xFF,               <span class="comment">// for 127 scanlines do: (continue bit activated)</span></div>
-<div class="line">    1, 0,</div>
-<div class="line">    0, 2,</div>
-<div class="line">    243, 1,</div>
-<div class="line">    231, 1,</div>
-<div class="line">    220, 1,</div>
-<div class="line">    209, 1,</div>
-<div class="line">    199, 1,</div>
-<div class="line">    189, 1,</div>
-<div class="line">    179, 1,</div>
-<div class="line">    170, 1,</div>
-<div class="line">    161, 1,</div>
-<div class="line">    153, 1,</div>
-<div class="line">    145, 1,</div>
-<div class="line">    137, 1,</div>
-<div class="line">    130, 1,</div>
-<div class="line">    123, 1,</div>
-<div class="line">    116, 1,</div>
-<div class="line">    109, 1,</div>
-<div class="line">    103, 1,</div>
-<div class="line">    97, 1,</div>
-<div class="line">    91, 1,</div>
-<div class="line">    85, 1,</div>
-<div class="line">    79, 1,</div>
-<div class="line">    74, 1,</div>
-<div class="line">    69, 1,</div>
-<div class="line">    64, 1,</div>
-<div class="line">    59, 1,</div>
-<div class="line">    54, 1,</div>
-<div class="line">    49, 1,</div>
-<div class="line">    45, 1,</div>
-<div class="line">    40, 1,</div>
-<div class="line">    36, 1,</div>
-<div class="line">    32, 1,</div>
-<div class="line">    28, 1,</div>
-<div class="line">    24, 1,</div>
-<div class="line">    20, 1,</div>
-<div class="line">    17, 1,</div>
-<div class="line">    13, 1,</div>
-<div class="line">    9, 1,</div>
-<div class="line">    6, 1,</div>
-<div class="line">    3, 1,</div>
-<div class="line">    0, 1,</div>
-<div class="line">    252, 0,</div>
-<div class="line">    249, 0,</div>
-<div class="line">    246, 0,</div>
-<div class="line">    243, 0,</div>
-<div class="line">    240, 0,</div>
-<div class="line">    238, 0,</div>
-<div class="line">    235, 0,</div>
-<div class="line">    232, 0,</div>
-<div class="line">    230, 0,</div>
-<div class="line">    227, 0,</div>
-<div class="line">    225, 0,</div>
-<div class="line">    222, 0,</div>
-<div class="line">    220, 0,</div>
-<div class="line">    217, 0,</div>
-<div class="line">    215, 0,</div>
-<div class="line">    213, 0,</div>
-<div class="line">    211, 0,</div>
-<div class="line">    208, 0,</div>
-<div class="line">    206, 0,</div>
-<div class="line">    204, 0,</div>
-<div class="line">    202, 0,</div>
-<div class="line">    200, 0,</div>
-<div class="line">    198, 0,</div>
-<div class="line">    196, 0,</div>
-<div class="line">    195, 0,</div>
-<div class="line">    193, 0,</div>
-<div class="line">    191, 0,</div>
-<div class="line">    189, 0,</div>
-<div class="line">    187, 0,</div>
-<div class="line">    186, 0,</div>
-<div class="line">    184, 0,</div>
-<div class="line">    182, 0,</div>
-<div class="line">    181, 0,</div>
-<div class="line">    179, 0,</div>
-<div class="line">    178, 0,</div>
-<div class="line">    176, 0,</div>
-<div class="line">    175, 0,</div>
-<div class="line">    173, 0,</div>
-<div class="line">    172, 0,</div>
-<div class="line">    170, 0,</div>
-<div class="line">    169, 0,</div>
-<div class="line">    167, 0,</div>
-<div class="line">    166, 0,</div>
-<div class="line">    165, 0,</div>
-<div class="line">    163, 0,</div>
-<div class="line">    162, 0,</div>
-<div class="line">    161, 0,</div>
-<div class="line">    159, 0,</div>
-<div class="line">    158, 0,</div>
-<div class="line">    157, 0,</div>
-<div class="line">    156, 0,</div>
-<div class="line">    155, 0,</div>
-<div class="line">    153, 0,</div>
-<div class="line">    152, 0,</div>
-<div class="line">    151, 0,</div>
-<div class="line">    150, 0,</div>
-<div class="line">    149, 0,</div>
-<div class="line">    148, 0,</div>
-<div class="line">    147, 0,</div>
-<div class="line">    146, 0,</div>
-<div class="line">    145, 0,</div>
-<div class="line">    144, 0,</div>
-<div class="line">    143, 0,</div>
-<div class="line">    142, 0,</div>
-<div class="line">    141, 0,</div>
-<div class="line">    140, 0,</div>
-<div class="line">    139, 0,</div>
-<div class="line">    138, 0,</div>
-<div class="line">    137, 0,</div>
-<div class="line">    136, 0,</div>
-<div class="line">    135, 0,</div>
-<div class="line">    134, 0,</div>
-<div class="line">    133, 0,</div>
-<div class="line">    132, 0,</div>
-<div class="line">    132, 0,</div>
-<div class="line">    131, 0,</div>
-<div class="line">    130, 0,</div>
-<div class="line">    129, 0,</div>
-<div class="line">    128, 0,</div>
-<div class="line">    127, 0,</div>
-<div class="line">    127, 0,</div>
-<div class="line">    126, 0,</div>
-<div class="line">    125, 0,</div>
-<div class="line">    124, 0,</div>
-<div class="line">    124, 0,</div>
-<div class="line">    123, 0</div>
-<div class="line">};</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">//Format: Scanline,ScaleY,ScaleY</span></div>
-<div class="line"><span class="keyword">const</span> u8 PerspectiveY[264] = </div>
-<div class="line">{<span class="comment">//</span></div>
-<div class="line">    SKYLINEY,256&amp;255,256&gt;&gt;8,    <span class="comment">// for 80 scanlines do: Scale = 1</span></div>
-<div class="line">    0xFF,               <span class="comment">// for 127 scanlines do: (continue bit activated)</span></div>
-<div class="line">    122, 0,</div>
-<div class="line">    0, 16,</div>
-<div class="line">    60, 15,</div>
-<div class="line">    139, 14,</div>
-<div class="line">    233, 13,</div>
-<div class="line">    85, 13,</div>
-<div class="line">    204, 12,</div>
-<div class="line">    78, 12,</div>
-<div class="line">    218, 11,</div>
-<div class="line">    109, 11,</div>
-<div class="line">    8, 11,</div>
-<div class="line">    170, 10,</div>
-<div class="line">    82, 10,</div>
-<div class="line">    0, 10,</div>
-<div class="line">    178, 9,</div>
-<div class="line">    105, 9,</div>
-<div class="line">    36, 9,</div>
-<div class="line">    227, 8,</div>
-<div class="line">    166, 8,</div>
-<div class="line">    107, 8,</div>
-<div class="line">    52, 8,</div>
-<div class="line">    0, 8,</div>
-<div class="line">    206, 7,</div>
-<div class="line">    158, 7,</div>
-<div class="line">    113, 7,</div>
-<div class="line">    69, 7,</div>
-<div class="line">    28, 7,</div>
-<div class="line">    244, 6,</div>
-<div class="line">    206, 6,</div>
-<div class="line">    170, 6,</div>
-<div class="line">    135, 6,</div>
-<div class="line">    102, 6,</div>
-<div class="line">    70, 6,</div>
-<div class="line">    39, 6,</div>
-<div class="line">    9, 6,</div>
-<div class="line">    237, 5,</div>
-<div class="line">    209, 5,</div>
-<div class="line">    182, 5,</div>
-<div class="line">    157, 5,</div>
-<div class="line">    132, 5,</div>
-<div class="line">    108, 5,</div>
-<div class="line">    85, 5,</div>
-<div class="line">    62, 5,</div>
-<div class="line">    41, 5,</div>
-<div class="line">    20, 5,</div>
-<div class="line">    0, 5,</div>
-<div class="line">    236, 4,</div>
-<div class="line">    217, 4,</div>
-<div class="line">    198, 4,</div>
-<div class="line">    180, 4,</div>
-<div class="line">    163, 4,</div>
-<div class="line">    146, 4,</div>
-<div class="line">    129, 4,</div>
-<div class="line">    113, 4,</div>
-<div class="line">    98, 4,</div>
-<div class="line">    83, 4,</div>
-<div class="line">    68, 4,</div>
-<div class="line">    53, 4,</div>
-<div class="line">    39, 4,</div>
-<div class="line">    26, 4,</div>
-<div class="line">    12, 4,</div>
-<div class="line">    0, 4,</div>
-<div class="line">    243, 3,</div>
-<div class="line">    231, 3,</div>
-<div class="line">    218, 3,</div>
-<div class="line">    207, 3,</div>
-<div class="line">    195, 3,</div>
-<div class="line">    184, 3,</div>
-<div class="line">    173, 3,</div>
-<div class="line">    162, 3,</div>
-<div class="line">    152, 3,</div>
-<div class="line">    142, 3,</div>
-<div class="line">    132, 3,</div>
-<div class="line">    122, 3,</div>
-<div class="line">    112, 3,</div>
-<div class="line">    103, 3,</div>
-<div class="line">    94, 3,</div>
-<div class="line">    85, 3,</div>
-<div class="line">    76, 3,</div>
-<div class="line">    67, 3,</div>
-<div class="line">    59, 3,</div>
-<div class="line">    51, 3,</div>
-<div class="line">    43, 3,</div>
-<div class="line">    35, 3,</div>
-<div class="line">    27, 3,</div>
-<div class="line">    19, 3,</div>
-<div class="line">    12, 3,</div>
-<div class="line">    4, 3,</div>
-<div class="line">    253, 2,</div>
-<div class="line">    246, 2,</div>
-<div class="line">    239, 2,</div>
-<div class="line">    232, 2,</div>
-<div class="line">    226, 2,</div>
-<div class="line">    219, 2,</div>
-<div class="line">    212, 2,</div>
-<div class="line">    206, 2,</div>
-<div class="line">    200, 2,</div>
-<div class="line">    194, 2,</div>
-<div class="line">    188, 2,</div>
-<div class="line">    182, 2,</div>
-<div class="line">    176, 2,</div>
-<div class="line">    170, 2,</div>
-<div class="line">    165, 2,</div>
-<div class="line">    159, 2,</div>
-<div class="line">    154, 2,</div>
-<div class="line">    148, 2,</div>
-<div class="line">    143, 2,</div>
-<div class="line">    138, 2,</div>
-<div class="line">    133, 2,</div>
-<div class="line">    127, 2,</div>
-<div class="line">    123, 2,</div>
-<div class="line">    118, 2,</div>
-<div class="line">    113, 2,</div>
-<div class="line">    108, 2,</div>
-<div class="line">    103, 2,</div>
-<div class="line">    99, 2,</div>
-<div class="line">    94, 2,</div>
-<div class="line">    90, 2,</div>
-<div class="line">    85, 2,</div>
-<div class="line">    81, 2,</div>
-<div class="line">    77, 2,</div>
-<div class="line">    73, 2,</div>
-<div class="line">    68, 2,</div>
-<div class="line">    64, 2,</div>
-<div class="line">    60, 2,</div>
-<div class="line">    56, 2,</div>
-<div class="line">    52, 2,</div>
-<div class="line">    49, 2</div>
-<div class="line">};</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
-<div class="line">u16 pad0;                           <span class="comment">// current pad</span></div>
-<div class="line">u16 sz;                             <span class="comment">// zoom</span></div>
-<div class="line">u16 sx, sy;                         <span class="comment">// current corrdinates</span></div>
-<div class="line">dmaMemory data_to_transfertMode;    <span class="comment">// for table HDMA access</span></div>
-<div class="line">dmaMemory  data_to_transfertBG;</div>
-<div class="line">dmaMemory  data_to_transfertX;</div>
-<div class="line">dmaMemory  data_to_transfertY;</div>
-<div class="line">    </div>
-<div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
-<div class="line"><span class="comment">//A function to change registers every scanline using HDMA, and scroll the mode 7 layer.</span></div>
-<div class="line"><span class="keywordtype">void</span> setMode7_HdmaPerspective(<span class="keywordtype">void</span>) {</div>
 <div class="line">    <span class="comment">// Scroll BG1 (in mode7 mode)</span></div>
-<div class="line">    <a name="a2"></a><a class="code" href="video_8h.html#a149770d8a7300cb577f99ff1198978bc">REG_M7HOFS</a> = (sx &amp; 255); <a class="code" href="video_8h.html#a149770d8a7300cb577f99ff1198978bc">REG_M7HOFS</a> = sx&gt;&gt;8;</div>
-<div class="line">    <a name="a3"></a><a class="code" href="video_8h.html#a485cdf5dd265cf6d9a808550365da845">REG_M7VOFS</a> = (sy &amp; 255); <a class="code" href="video_8h.html#a485cdf5dd265cf6d9a808550365da845">REG_M7VOFS</a> = sy&gt;&gt;8;</div>
+<div class="line">    <a name="a2"></a><a class="code" href="video_8h.html#a149770d8a7300cb577f99ff1198978bc">REG_M7HOFS</a> = (sx &amp; 255);</div>
+<div class="line">    <a class="code" href="video_8h.html#a149770d8a7300cb577f99ff1198978bc">REG_M7HOFS</a> = sx &gt;&gt; 8;</div>
+<div class="line">    <a name="a3"></a><a class="code" href="video_8h.html#a485cdf5dd265cf6d9a808550365da845">REG_M7VOFS</a> = (sy &amp; 255);</div>
+<div class="line">    <a class="code" href="video_8h.html#a485cdf5dd265cf6d9a808550365da845">REG_M7VOFS</a> = sy &gt;&gt; 8;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Scroll BG2 (only the x )</span></div>
-<div class="line">    <a name="a4"></a><a class="code" href="background_8h.html#a79723f49e7557337b091835634430844">REG_BG2HOFS</a> = (sx &amp; 255); <a class="code" href="background_8h.html#a79723f49e7557337b091835634430844">REG_BG2HOFS</a> = sx&gt;&gt;8;</div>
+<div class="line">    <a name="a4"></a><a class="code" href="background_8h.html#a79723f49e7557337b091835634430844">REG_BG2HOFS</a> = (sx &amp; 255);</div>
+<div class="line">    <a class="code" href="background_8h.html#a79723f49e7557337b091835634430844">REG_BG2HOFS</a> = sx &gt;&gt; 8;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Trasformation origin</span></div>
-<div class="line">    <a name="a5"></a><a class="code" href="video_8h.html#a4545542b6058c4dfa9b60e85d398fbc0">REG_M7X</a>= (sx+128) &amp; 255; <a class="code" href="video_8h.html#a4545542b6058c4dfa9b60e85d398fbc0">REG_M7X</a> = (sx+128)&gt;&gt;8;</div>
-<div class="line">    <a name="a6"></a><a class="code" href="video_8h.html#a78d50292f8ff3b205a5cf8c81f72060d">REG_M7Y</a>= (sy+112) &amp; 255; <a class="code" href="video_8h.html#a78d50292f8ff3b205a5cf8c81f72060d">REG_M7Y</a> = (sy+112)&gt;&gt;8;</div>
-<div class="line">    </div>
+<div class="line">    <a name="a5"></a><a class="code" href="video_8h.html#a4545542b6058c4dfa9b60e85d398fbc0">REG_M7X</a> = (sx + 128) &amp; 255;</div>
+<div class="line">    <a class="code" href="video_8h.html#a4545542b6058c4dfa9b60e85d398fbc0">REG_M7X</a> = (sx + 128) &gt;&gt; 8;</div>
+<div class="line">    <a name="a6"></a><a class="code" href="video_8h.html#a78d50292f8ff3b205a5cf8c81f72060d">REG_M7Y</a> = (sy + 112) &amp; 255;</div>
+<div class="line">    <a class="code" href="video_8h.html#a78d50292f8ff3b205a5cf8c81f72060d">REG_M7Y</a> = (sy + 112) &gt;&gt; 8;</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Disable HDMA for all channels</span></div>
-<div class="line">    <a name="a7"></a><a class="code" href="dma_8h.html#a468ac9497087f0cbab21a3e0453f438b">REG_HDMAEN</a> = 0; </div>
+<div class="line">    <a name="a7"></a><a class="code" href="dma_8h.html#a468ac9497087f0cbab21a3e0453f438b">REG_HDMAEN</a> = 0;</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">//Change mode while drawing to simulate the sky</span></div>
-<div class="line">    REG_DMAP1 = 0x00; <span class="comment">//Write 1 bytes to 1 register (write once)</span></div>
-<div class="line">    REG_BBAD1 = 0x05; <span class="comment">//Register to write = 2105 (Mode)</span></div>
+<div class="line">    <span class="comment">// Change mode while drawing to simulate the sky</span></div>
+<div class="line">    REG_DMAP1 = 0x00;                              <span class="comment">// Write 1 bytes to 1 register (write once)</span></div>
+<div class="line">    REG_BBAD1 = 0x05;                              <span class="comment">// Register to write = 2105 (Mode)</span></div>
 <div class="line">    REG_A1T1LH = data_to_transfertMode.mem.c.addr; <span class="comment">// DMA channel 1 source address</span></div>
-<div class="line">    REG_A1B1 = data_to_transfertMode.mem.c.bank; <span class="comment">// DMA channel 1 source address bank   </span></div>
+<div class="line">    REG_A1B1 = data_to_transfertMode.mem.c.bank;   <span class="comment">// DMA channel 1 source address bank</span></div>
 <div class="line"> </div>
-<div class="line">    REG_DMAP2 = 0x00; <span class="comment">//Write 1 bytes to 1 register (write once)</span></div>
-<div class="line">    REG_BBAD2 = 0x2C; <span class="comment">//Register to write = 212C (BG)</span></div>
+<div class="line">    REG_DMAP2 = 0x00;                            <span class="comment">// Write 1 bytes to 1 register (write once)</span></div>
+<div class="line">    REG_BBAD2 = 0x2C;                            <span class="comment">// Register to write = 212C (BG)</span></div>
 <div class="line">    REG_A1T2LH = data_to_transfertBG.mem.c.addr; <span class="comment">// DMA channel 2 source address</span></div>
-<div class="line">    REG_A1B2 = data_to_transfertBG.mem.c.bank; <span class="comment">// DMA channel 2 source address bank </span></div>
+<div class="line">    REG_A1B2 = data_to_transfertBG.mem.c.bank;   <span class="comment">// DMA channel 2 source address bank</span></div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">//Fake perspective by scaling the mode7 background every scanline</span></div>
-<div class="line">    REG_DMAP3 = 0x02; <span class="comment">//Write 2 bytes to 1 register (write twice)</span></div>
-<div class="line">    REG_BBAD3 = 0x1B; <span class="comment">//Register to write = 211B (Scale X)</span></div>
+<div class="line">    <span class="comment">// Fake perspective by scaling the mode7 background every scanline</span></div>
+<div class="line">    REG_DMAP3 = 0x02;                           <span class="comment">// Write 2 bytes to 1 register (write twice)</span></div>
+<div class="line">    REG_BBAD3 = 0x1B;                           <span class="comment">// Register to write = 211B (Scale X)</span></div>
 <div class="line">    REG_A1T3LH = data_to_transfertX.mem.c.addr; <span class="comment">// DMA channel 3 source address</span></div>
-<div class="line">    REG_A1B3 = data_to_transfertX.mem.c.bank; <span class="comment">// DMA channel 3 source address bank</span></div>
-<div class="line">    </div>
-<div class="line">    REG_DMAP4 = 0x02; <span class="comment">//Write 2 bytes to 1 register (write twice)</span></div>
-<div class="line">    REG_BBAD4 = 0x1E; <span class="comment">//Register to write = 211E (Scale Y)</span></div>
+<div class="line">    REG_A1B3 = data_to_transfertX.mem.c.bank;   <span class="comment">// DMA channel 3 source address bank</span></div>
+<div class="line"> </div>
+<div class="line">    REG_DMAP4 = 0x02;                           <span class="comment">// Write 2 bytes to 1 register (write twice)</span></div>
+<div class="line">    REG_BBAD4 = 0x1E;                           <span class="comment">// Register to write = 211E (Scale Y)</span></div>
 <div class="line">    REG_A1T4LH = data_to_transfertY.mem.c.addr; <span class="comment">// DMA channel 4 source address</span></div>
-<div class="line">    REG_A1B4 = data_to_transfertY.mem.c.bank;  <span class="comment">// DMA channel 4 source address bank</span></div>
+<div class="line">    REG_A1B4 = data_to_transfertY.mem.c.bank;   <span class="comment">// DMA channel 4 source address bank</span></div>
 <div class="line"> </div>
 <div class="line">    <a class="code" href="dma_8h.html#a468ac9497087f0cbab21a3e0453f438b">REG_HDMAEN</a> = 0x1E; <span class="comment">// 00011110; Enable DMA channels 1, 2, 3 and 4</span></div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
-<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>) {</div>
-<div class="line">    <span class="comment">// Initialize SNES </span></div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
+<div class="line">{</div>
+<div class="line">    <span class="comment">// Initialize SNES</span></div>
 <div class="line">    <a name="a8"></a><a class="code" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a>();</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// copy a mode 7 map and tiles (1024x1024 - VRAM 0000), to fake a ground</span></div>
-<div class="line">    <a name="a9"></a><a class="code" href="background_8h.html#ae1fad909be4edf30a3cd08a0890361dc">bgInitMapTileSet7</a>(&amp;patterns,  &amp;map, &amp;palette, (&amp;patterns_end-&amp;patterns), 0x0000);</div>
-<div class="line">    </div>
+<div class="line">    <a name="a9"></a><a class="code" href="background_8h.html#ae1fad909be4edf30a3cd08a0890361dc">bgInitMapTileSet7</a>(&amp;patterns, &amp;map, &amp;palette, (&amp;patterns_end - &amp;patterns), 0x0000);</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// copy a mode 3 map and tiles (256x256), to fake a sky</span></div>
-<div class="line">    <a name="a10"></a><a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(1, &amp;map2, (&amp;map2_end - &amp;map2),<a name="a11"></a><a class="code" href="background_8h.html#a6129b86a7c2913a31f1bca293fa7c1e7">SC_64x32</a>, 0x4000);</div>
+<div class="line">    <a name="a10"></a><a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(1, &amp;map2, (&amp;map2_end - &amp;map2), <a name="a11"></a><a class="code" href="background_8h.html#a6129b86a7c2913a31f1bca293fa7c1e7">SC_64x32</a>, 0x4000);</div>
 <div class="line">    <a name="a12"></a><a class="code" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(1, &amp;patterns2, &amp;palette, 0, (&amp;patterns2_end - &amp;patterns2), (&amp;palette2_end - &amp;palette2), BG_16COLORS, 0x5000);</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put mode7 without anything else hdma will change BG mode &amp; display</span></div>
 <div class="line">    <a name="a13"></a><a class="code" href="video_8h.html#af7e722fd2eba5682bc0eafa9d5a9c51a">setMode7</a>(0);</div>
 <div class="line"> </div>
@@ -513,27 +518,36 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode7_perspec
 <div class="line">    <a name="a14"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init variables</span></div>
-<div class="line">    sz=0; sx=0; sy = 0;</div>
+<div class="line">    sz = 0;</div>
+<div class="line">    sx = 0;</div>
+<div class="line">    sy = 0;</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">//Get tables</span></div>
-<div class="line">    data_to_transfertMode.mem.p = (u8 *) &amp;ModeTable;</div>
-<div class="line">    data_to_transfertBG.mem.p = (u8 *) &amp;BGTable;</div>
-<div class="line">    data_to_transfertX.mem.p = (u8 *) &amp;PerspectiveX;</div>
-<div class="line">    data_to_transfertY.mem.p = (u8 *) PerspectiveY;</div>
-<div class="line">    </div>
+<div class="line">    <span class="comment">// Get tables</span></div>
+<div class="line">    data_to_transfertMode.mem.p = (u8 *)&amp;ModeTable;</div>
+<div class="line">    data_to_transfertBG.mem.p = (u8 *)&amp;BGTable;</div>
+<div class="line">    data_to_transfertX.mem.p = (u8 *)&amp;PerspectiveX;</div>
+<div class="line">    data_to_transfertY.mem.p = (u8 *)PerspectiveY;</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Wait for nothing :P</span></div>
-<div class="line">    <span class="keywordflow">while</span>(1) {</div>
+<div class="line">    <span class="keywordflow">while</span> (1)</div>
+<div class="line">    {</div>
 <div class="line">        <span class="comment">// Get current #0 pad</span></div>
 <div class="line">        pad0 = <a name="a15"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
-<div class="line">        </div>
-<div class="line">        <span class="comment">// Read pad </span></div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a16"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)  sx--;</div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a17"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>) sx++;</div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a18"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a>) sy--; </div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a19"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a>) sy++; </div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a20"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff">KEY_R</a>) sz++; </div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a21"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62">KEY_L</a>) sz--; </div>
-<div class="line">        </div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// Read pad</span></div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a16"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
+<div class="line">            sx--;</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a17"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
+<div class="line">            sx++;</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a18"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a>)</div>
+<div class="line">            sy--;</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a19"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a>)</div>
+<div class="line">            sy++;</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a20"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff">KEY_R</a>)</div>
+<div class="line">            sz++;</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a21"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62">KEY_L</a>)</div>
+<div class="line">            sz--;</div>
+<div class="line"> </div>
 <div class="line">        <span class="comment">// HDMA change mode and perspective</span></div>
 <div class="line">        setMode7_HdmaPerspective();</div>
 <div class="line"> </div>
@@ -545,32 +559,32 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode7_perspec
 </div><!-- doc-content -->
 <div class="ttc" id="avideo_8h_html_abc7d4ef8ebc22f5b710927909bb3f144"><div class="ttname"><a href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a></div><div class="ttdeci">void setScreenOn(void)</div><div class="ttdoc">Put screen On.</div></div>
 <div class="ttc" id="ainterrupt_8h_html_a815e2626bd26d0e936d507a363ecd723"><div class="ttname"><a href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt Waits for a vertical blank interrupt.</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a></div><div class="ttdeci">@ KEY_LEFT</div><div class="ttdoc">pad LEFT button.</div><div class="ttdef"><b>Definition:</b> pad.h:52</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62">KEY_L</a></div><div class="ttdeci">@ KEY_L</div><div class="ttdoc">Left shoulder button.</div><div class="ttdef"><b>Definition:</b> pad.h:56</div></div>
+<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a></div><div class="ttdeci">@ KEY_LEFT</div><div class="ttdoc">pad LEFT button.</div><div class="ttdef"><b>Definition:</b> pad.h:53</div></div>
+<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62">KEY_L</a></div><div class="ttdeci">@ KEY_L</div><div class="ttdoc">Left shoulder button.</div><div class="ttdef"><b>Definition:</b> pad.h:57</div></div>
 <div class="ttc" id="abackground_8h_html_a6129b86a7c2913a31f1bca293fa7c1e7"><div class="ttname"><a href="background_8h.html#a6129b86a7c2913a31f1bca293fa7c1e7">SC_64x32</a></div><div class="ttdeci">#define SC_64x32</div><div class="ttdoc">64 x 32 tile size</div><div class="ttdef"><b>Definition:</b> background.h:50</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a></div><div class="ttdeci">@ KEY_UP</div><div class="ttdoc">pad UP button.</div><div class="ttdef"><b>Definition:</b> pad.h:54</div></div>
+<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a></div><div class="ttdeci">@ KEY_UP</div><div class="ttdoc">pad UP button.</div><div class="ttdef"><b>Definition:</b> pad.h:55</div></div>
 <div class="ttc" id="abackground_8h_html_ae09a7ac09be78eef0f28a6c7aabc82ad"><div class="ttname"><a href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a></div><div class="ttdeci">void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)</div><div class="ttdoc">Initializes a Tile Set and Loads the Tile GFX into VRAM.</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a></div><div class="ttdeci">@ KEY_RIGHT</div><div class="ttdoc">pad RIGHT button.</div><div class="ttdef"><b>Definition:</b> pad.h:51</div></div>
-<div class="ttc" id="abackground_8h_html_acc385296e159449a81d18f5e219c8032"><div class="ttname"><a href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a></div><div class="ttdeci">void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address)</div><div class="ttdoc">Initializes a Map Set and loads it into SNES VRAM</div></div>
+<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a></div><div class="ttdeci">@ KEY_RIGHT</div><div class="ttdoc">pad RIGHT button.</div><div class="ttdef"><b>Definition:</b> pad.h:52</div></div>
+<div class="ttc" id="abackground_8h_html_acc385296e159449a81d18f5e219c8032"><div class="ttname"><a href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a></div><div class="ttdeci">void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address)</div><div class="ttdoc">Initializes a Map Set and loads it into SNES VRAM.</div></div>
 <div class="ttc" id="avideo_8h_html_a4545542b6058c4dfa9b60e85d398fbc0"><div class="ttname"><a href="video_8h.html#a4545542b6058c4dfa9b60e85d398fbc0">REG_M7X</a></div><div class="ttdeci">#define REG_M7X</div><div class="ttdoc">Rotation/Scaling Center Coordinate X (W)</div><div class="ttdef"><b>Definition:</b> video.h:267</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
-<div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:121</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a></div><div class="ttdeci">@ KEY_DOWN</div><div class="ttdoc">pad DOWN button.</div><div class="ttdef"><b>Definition:</b> pad.h:53</div></div>
+<div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:122</div></div>
+<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a></div><div class="ttdeci">@ KEY_DOWN</div><div class="ttdoc">pad DOWN button.</div><div class="ttdef"><b>Definition:</b> pad.h:54</div></div>
 <div class="ttc" id="abackground_8h_html_ac2995da5a6139bd6ca1091ae3358d4f3"><div class="ttname"><a href="background_8h.html#ac2995da5a6139bd6ca1091ae3358d4f3">BG_MODE7</a></div><div class="ttdeci">#define BG_MODE7</div><div class="ttdoc">256-color EXTBG - - ;Rotation/Scaling</div><div class="ttdef"><b>Definition:</b> background.h:61</div></div>
 <div class="ttc" id="abackground_8h_html_ab74253172bcb87b7947118b746ab2849"><div class="ttname"><a href="background_8h.html#ab74253172bcb87b7947118b746ab2849">BG_MODE3</a></div><div class="ttdeci">#define BG_MODE3</div><div class="ttdoc">256-color 16-color - - ;Normal</div><div class="ttdef"><b>Definition:</b> background.h:57</div></div>
 <div class="ttc" id="abackground_8h_html_ae1fad909be4edf30a3cd08a0890361dc"><div class="ttname"><a href="background_8h.html#ae1fad909be4edf30a3cd08a0890361dc">bgInitMapTileSet7</a></div><div class="ttdeci">void bgInitMapTileSet7(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 tileSize, u16 address)</div><div class="ttdoc">Initializes a Tile &amp; Map Set and Loads the Tile &amp; Map GFX into VRAM for Mode 7.</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
 <div class="ttc" id="avideo_8h_html_af7e722fd2eba5682bc0eafa9d5a9c51a"><div class="ttname"><a href="video_8h.html#af7e722fd2eba5682bc0eafa9d5a9c51a">setMode7</a></div><div class="ttdeci">void setMode7(u8 mode)</div><div class="ttdoc">Put screen in mode 7 with generic init.</div></div>
-<div class="ttc" id="adma_8h_html_a468ac9497087f0cbab21a3e0453f438b"><div class="ttname"><a href="dma_8h.html#a468ac9497087f0cbab21a3e0453f438b">REG_HDMAEN</a></div><div class="ttdeci">#define REG_HDMAEN</div><div class="ttdoc">Select H-Blank DMA (H-DMA) Channel(s) (W) 7-0 H-DMA Channel 7-0 Enable (0=Disable,...</div><div class="ttdef"><b>Definition:</b> dma.h:75</div></div>
+<div class="ttc" id="adma_8h_html_a468ac9497087f0cbab21a3e0453f438b"><div class="ttname"><a href="dma_8h.html#a468ac9497087f0cbab21a3e0453f438b">REG_HDMAEN</a></div><div class="ttdeci">#define REG_HDMAEN</div><div class="ttdoc">Select H-Blank DMA (H-DMA) Channel(s) (W) 7-0 H-DMA Channel 7-0 Enable (0=Disable,...</div><div class="ttdef"><b>Definition:</b> dma.h:78</div></div>
 <div class="ttc" id="abackground_8h_html_a79723f49e7557337b091835634430844"><div class="ttname"><a href="background_8h.html#a79723f49e7557337b091835634430844">REG_BG2HOFS</a></div><div class="ttdeci">#define REG_BG2HOFS</div><div class="ttdoc">BG2 Horizontal Scroll (X) (W)</div><div class="ttdef"><b>Definition:</b> background.h:178</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff">KEY_R</a></div><div class="ttdeci">@ KEY_R</div><div class="ttdoc">Right shoulder button.</div><div class="ttdef"><b>Definition:</b> pad.h:55</div></div>
+<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff">KEY_R</a></div><div class="ttdeci">@ KEY_R</div><div class="ttdoc">Right shoulder button.</div><div class="ttdef"><b>Definition:</b> pad.h:56</div></div>
 <div class="ttc" id="avideo_8h_html_a149770d8a7300cb577f99ff1198978bc"><div class="ttname"><a href="video_8h.html#a149770d8a7300cb577f99ff1198978bc">REG_M7HOFS</a></div><div class="ttdeci">#define REG_M7HOFS</div><div class="ttdoc">BG1 Horizontal Scroll (X) (W)</div><div class="ttdef"><b>Definition:</b> video.h:265</div></div>
 <div class="ttc" id="avideo_8h_html_a78d50292f8ff3b205a5cf8c81f72060d"><div class="ttname"><a href="video_8h.html#a78d50292f8ff3b205a5cf8c81f72060d">REG_M7Y</a></div><div class="ttdeci">#define REG_M7Y</div><div class="ttdoc">Rotation/Scaling Center Coordinate Y (W)</div><div class="ttdef"><b>Definition:</b> video.h:268</div></div>
 <div class="ttc" id="avideo_8h_html_a485cdf5dd265cf6d9a808550365da845"><div class="ttname"><a href="video_8h.html#a485cdf5dd265cf6d9a808550365da845">REG_M7VOFS</a></div><div class="ttdeci">#define REG_M7VOFS</div><div class="ttdoc">BG1 Vertical Scroll (Y) (W)</div><div class="ttdef"><b>Definition:</b> video.h:266</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sat Sep 24 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Mon Sep 26 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>

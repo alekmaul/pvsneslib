@@ -101,44 +101,50 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_parallax_scrollin
 <div class="line"><span class="comment">---------------------------------------------------------------------------------*/</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="snes_8h.html">snes.h</a>&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> back,back_end;</div>
+<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> back, back_end;</div>
 <div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> palette;</div>
 <div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> map;</div>
 <div class="line"> </div>
-<div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
-<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>) {</div>
-<div class="line">    <span class="comment">// Initialize SNES </span></div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
+<div class="line">{</div>
+<div class="line">    <span class="comment">// Initialize SNES</span></div>
 <div class="line">    <a name="a0"></a><a class="code" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a>();</div>
-<div class="line">    </div>
-<div class="line">    <span class="comment">// Read tiles to VRAM </span></div>
-<div class="line">    <a name="a1"></a><a class="code" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(0, &amp;back, &amp;palette, 0, (&amp;back_end-&amp;back), 16*2*2, BG_16COLORS, 0x1000);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Read tiles to VRAM</span></div>
+<div class="line">    <a name="a1"></a><a class="code" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(0, &amp;back, &amp;palette, 0, (&amp;back_end - &amp;back), 16 * 2 * 2, BG_16COLORS, 0x1000);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Copy Map to VRAM</span></div>
-<div class="line">    <a name="a2"></a><a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(0, &amp;map, 64*32*2,<a name="a3"></a><a class="code" href="background_8h.html#a6129b86a7c2913a31f1bca293fa7c1e7">SC_64x32</a>, 0x0000);</div>
+<div class="line">    <a name="a2"></a><a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(0, &amp;map, 64 * 32 * 2, <a name="a3"></a><a class="code" href="background_8h.html#a6129b86a7c2913a31f1bca293fa7c1e7">SC_64x32</a>, 0x0000);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode and disable other BGs except 1st one</span></div>
-<div class="line">    <a name="a4"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a5"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>,0); <a name="a6"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1); <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2); </div>
+<div class="line">    <a name="a4"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a5"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>, 0);</div>
+<div class="line">    <a name="a6"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
+<div class="line">    <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
 <div class="line">    <a name="a7"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init HDMA table</span></div>
 <div class="line">    <span class="comment">// 72 lines with 1 scrolling effect (top of screen)</span></div>
 <div class="line">    <span class="comment">// Next 88 lines with 2 scrolling effect (middle of screen)</span></div>
 <div class="line">    <span class="comment">// Next 64 lines with 4 scrolling effect (end of screen)</span></div>
-<div class="line">    <a name="a8"></a><a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>[0]= 72; *(u16*) &amp;(<a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>+1)=1;</div>
-<div class="line">    <a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>[3]= 88; *(u16*) &amp;(<a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>+4)=2;</div>
-<div class="line">    <a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>[6]= 64; *(u16*) &amp;(<a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>+7)=4;</div>
-<div class="line">    <a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>[9]=0x00; <span class="comment">// end of hdma table</span></div>
+<div class="line">    <a name="a8"></a><a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>[0] = 72;</div>
+<div class="line">    *(u16 *)&amp;(<a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a> + 1) = 1;</div>
+<div class="line">    <a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>[3] = 88;</div>
+<div class="line">    *(u16 *)&amp;(<a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a> + 4) = 2;</div>
+<div class="line">    <a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>[6] = 64;</div>
+<div class="line">    *(u16 *)&amp;(<a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a> + 7) = 4;</div>
+<div class="line">    <a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>[9] = 0x00; <span class="comment">// end of hdma table</span></div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Wait for key to change gradient</span></div>
-<div class="line">    <span class="keywordflow">while</span>(1) {</div>
+<div class="line">    <span class="keywordflow">while</span> (1)</div>
+<div class="line">    {</div>
 <div class="line">        <span class="comment">// Update scrolling</span></div>
 <div class="line">        <a name="a9"></a><a class="code" href="dma_8h.html#aa03948bd578cc7311908ca96fec14a93">setParallaxScrolling</a>(0);</div>
-<div class="line">        </div>
+<div class="line"> </div>
 <div class="line">        <span class="comment">// Change scrolling inside HDMA table</span></div>
-<div class="line">        *(u16*) &amp;(<a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>+1)+=1;</div>
-<div class="line">        *(u16*) &amp;(<a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>+4)+=2;</div>
-<div class="line">        *(u16*) &amp;(<a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a>+7)+=4;</div>
+<div class="line">        *(u16 *)&amp;(<a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a> + 1) += 1;</div>
+<div class="line">        *(u16 *)&amp;(<a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a> + 4) += 2;</div>
+<div class="line">        *(u16 *)&amp;(<a class="code" href="dma_8h.html#ad072502d98153debc89f839d45fc1c80">HDMATable16</a> + 7) += 4;</div>
 <div class="line">        <a name="a10"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
@@ -151,7 +157,7 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_parallax_scrollin
 <div class="ttc" id="abackground_8h_html_a6129b86a7c2913a31f1bca293fa7c1e7"><div class="ttname"><a href="background_8h.html#a6129b86a7c2913a31f1bca293fa7c1e7">SC_64x32</a></div><div class="ttdeci">#define SC_64x32</div><div class="ttdoc">64 x 32 tile size</div><div class="ttdef"><b>Definition:</b> background.h:50</div></div>
 <div class="ttc" id="abackground_8h_html_ae09a7ac09be78eef0f28a6c7aabc82ad"><div class="ttname"><a href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a></div><div class="ttdeci">void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)</div><div class="ttdoc">Initializes a Tile Set and Loads the Tile GFX into VRAM.</div></div>
 <div class="ttc" id="abackground_8h_html_a05c862edb7f8f75036f10c04dcc3c2a6"><div class="ttname"><a href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a></div><div class="ttdeci">#define BG_MODE1</div><div class="ttdoc">16-color 16-color 4-color - ;Normal</div><div class="ttdef"><b>Definition:</b> background.h:55</div></div>
-<div class="ttc" id="abackground_8h_html_acc385296e159449a81d18f5e219c8032"><div class="ttname"><a href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a></div><div class="ttdeci">void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address)</div><div class="ttdoc">Initializes a Map Set and loads it into SNES VRAM</div></div>
+<div class="ttc" id="abackground_8h_html_acc385296e159449a81d18f5e219c8032"><div class="ttname"><a href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a></div><div class="ttdeci">void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address)</div><div class="ttdoc">Initializes a Map Set and loads it into SNES VRAM.</div></div>
 <div class="ttc" id="adma_8h_html_aa03948bd578cc7311908ca96fec14a93"><div class="ttname"><a href="dma_8h.html#aa03948bd578cc7311908ca96fec14a93">setParallaxScrolling</a></div><div class="ttdeci">void setParallaxScrolling(u8 bgrnd)</div><div class="ttdoc">Do a parallax scrolling effect on screen.</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
@@ -160,7 +166,7 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_parallax_scrollin
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sat Sep 24 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Mon Sep 26 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>

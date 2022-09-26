@@ -106,127 +106,173 @@ $(document).ready(function(){initNavTree('objects_2moveobjects_2moveobjects_8c-e
 <div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> gfxpsrite, gfxpsrite_end;</div>
 <div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> palsprite, palsprite_end;</div>
 <div class="line"> </div>
-<div class="line">u16 numspr,i;</div>
-<div class="line">u16 pad0,xp,yp;</div>
+<div class="line">u16 numspr, i;</div>
+<div class="line">u16 pad0, xp, yp;</div>
 <div class="line"> </div>
 <div class="line">t_objs *snesobj;</div>
-<div class="line">u16 *snesox,*snesoy;                 <span class="comment">// basics x/y on screen with fixed point </span></div>
+<div class="line">u16 *snesox, *snesoy; <span class="comment">// basics x/y on screen with fixed point</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Definition of object table with values :</span></div>
 <div class="line"><span class="comment">// x &amp; y coordinates</span></div>
 <div class="line"><span class="comment">// type of objects</span></div>
 <div class="line"><span class="comment">// min x &amp; min y coordinate if we want to update objects on regarding these coordinates</span></div>
-<div class="line"><span class="keyword">const</span> u16 tabobjects[]=</div>
-<div class="line">{</div>
-<div class="line">    15,5, 0, 0,0,                    <span class="comment">// no min &amp; max x speified</span></div>
-<div class="line">    100,5, 0, 0,0,                   <span class="comment">// no min &amp; max x speified</span></div>
-<div class="line">    5,15, 0, 0,0,                    <span class="comment">// no min &amp; max x speified</span></div>
-<div class="line">    150,150, 0, 0,0,                 <span class="comment">// no min &amp; max x speified</span></div>
-<div class="line">    200,50, 0, 0,0,                  <span class="comment">// no min &amp; max x speified</span></div>
-<div class="line">    125,25, 0, 0,0,                  <span class="comment">// no min &amp; max x speified</span></div>
-<div class="line">    200,25, 0, 0,0,                  <span class="comment">// no min &amp; max x speified</span></div>
-<div class="line">    </div>
-<div class="line">    0xFFFF,</div>
+<div class="line"><span class="keyword">const</span> u16 tabobjects[] =</div>
+<div class="line">    {</div>
+<div class="line">        15,</div>
+<div class="line">        5,</div>
+<div class="line">        0,</div>
+<div class="line">        0,</div>
+<div class="line">        0, <span class="comment">// no min &amp; max x speified</span></div>
+<div class="line">        100,</div>
+<div class="line">        5,</div>
+<div class="line">        0,</div>
+<div class="line">        0,</div>
+<div class="line">        0, <span class="comment">// no min &amp; max x speified</span></div>
+<div class="line">        5,</div>
+<div class="line">        15,</div>
+<div class="line">        0,</div>
+<div class="line">        0,</div>
+<div class="line">        0, <span class="comment">// no min &amp; max x speified</span></div>
+<div class="line">        150,</div>
+<div class="line">        150,</div>
+<div class="line">        0,</div>
+<div class="line">        0,</div>
+<div class="line">        0, <span class="comment">// no min &amp; max x speified</span></div>
+<div class="line">        200,</div>
+<div class="line">        50,</div>
+<div class="line">        0,</div>
+<div class="line">        0,</div>
+<div class="line">        0, <span class="comment">// no min &amp; max x speified</span></div>
+<div class="line">        125,</div>
+<div class="line">        25,</div>
+<div class="line">        0,</div>
+<div class="line">        0,</div>
+<div class="line">        0, <span class="comment">// no min &amp; max x speified</span></div>
+<div class="line">        200,</div>
+<div class="line">        25,</div>
+<div class="line">        0,</div>
+<div class="line">        0,</div>
+<div class="line">        0, <span class="comment">// no min &amp; max x speified</span></div>
+<div class="line"> </div>
+<div class="line">        0xFFFF,</div>
 <div class="line">};</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
 <div class="line"><span class="comment">// Init function for each object from type #0</span></div>
-<div class="line"><span class="keywordtype">void</span> testInit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx) {</div>
+<div class="line"><span class="keywordtype">void</span> testInit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx)</div>
+<div class="line">{</div>
 <div class="line">    <span class="comment">// to have a little message regarding init (DO NOT USE FOR REAL SNES GAME, JUST DEBUGGING PURPOSE)</span></div>
-<div class="line">    <a name="a0"></a><a class="code" href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a>(<span class="stringliteral">&quot;testInit %d %d\n&quot;</span>, (u16) xp, (u16) yp);</div>
+<div class="line">    <a name="a0"></a><a class="code" href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a>(<span class="stringliteral">&quot;testInit %d %d\n&quot;</span>, (u16)xp, (u16)yp);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// prepare new object</span></div>
-<div class="line">    <span class="keywordflow">if</span> (<a name="a1"></a><a class="code" href="object_8h.html#a79ff81c8642b2398a03519c279c2f132">objNew</a>(type,xp,yp)==0) </div>
+<div class="line">    <span class="keywordflow">if</span> (<a name="a1"></a><a class="code" href="object_8h.html#a79ff81c8642b2398a03519c279c2f132">objNew</a>(type, xp, yp) == 0)</div>
 <div class="line">        <span class="comment">// no more space, get out</span></div>
-<div class="line">        <span class="keywordflow">return</span>; </div>
-<div class="line">    </div>
+<div class="line">        <span class="keywordflow">return</span>;</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Init some vars for snes sprite (objgetid is the current object id)</span></div>
 <div class="line">    <a name="a2"></a><a class="code" href="object_8h.html#aba30a57977f35e1632eb81b5ae39321f">objGetPointer</a>(<a name="a3"></a><a class="code" href="object_8h.html#ad4b2cf3a008d2011baf65b7ed74eaf65">objgetid</a>);</div>
-<div class="line">    snesobj = &amp;<a name="a4"></a><a class="code" href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a>[<a name="a5"></a><a class="code" href="object_8h.html#a9e81915d1e68d22798a93bb27eb74188">objptr</a>-1];</div>
+<div class="line">    snesobj = &amp;<a name="a4"></a><a class="code" href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a>[<a name="a5"></a><a class="code" href="object_8h.html#a9e81915d1e68d22798a93bb27eb74188">objptr</a> - 1];</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Put sprite at corrdinates, with maximum priority 3 from tile entry 0, palette 0</span></div>
-<div class="line">    snesobj-&gt;sprnum=numspr*4;</div>
-<div class="line">    <a name="a6"></a><a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(snesobj-&gt;sprnum,  xp,yp, 3, 0, 0, 0, 0); </div>
+<div class="line">    snesobj-&gt;sprnum = numspr * 4;</div>
+<div class="line">    <a name="a6"></a><a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(snesobj-&gt;sprnum, xp, yp, 3, 0, 0, 0, 0);</div>
 <div class="line">    <a name="a7"></a><a class="code" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a>(snesobj-&gt;sprnum, OBJ_SMALL, OBJ_SHOW);</div>
 <div class="line">    numspr++;</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Update function for each object from type #0</span></div>
-<div class="line"><span class="keywordtype">void</span> testUpdate(u8 idx) {</div>
+<div class="line"><span class="keywordtype">void</span> testUpdate(u8 idx)</div>
+<div class="line">{</div>
 <div class="line">    <span class="comment">// go to current object</span></div>
 <div class="line">    snesobj = &amp;<a class="code" href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a>[idx];</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// grab the coodinate pointers</span></div>
-<div class="line">    snesox = (u16 *) &amp;(snesobj-&gt;xpos+1);  snesoy = (u16 *) &amp;(snesobj-&gt;ypos+1);  </div>
-<div class="line">    xp = *snesox; yp=*snesoy;</div>
-<div class="line">    </div>
+<div class="line">    snesox = (u16 *)&amp;(snesobj-&gt;xpos + 1);</div>
+<div class="line">    snesoy = (u16 *)&amp;(snesobj-&gt;ypos + 1);</div>
+<div class="line">    xp = *snesox;</div>
+<div class="line">    yp = *snesoy;</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Get current #0 pad</span></div>
 <div class="line">    pad0 = <a name="a8"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Kill current object with pad if A pressed (just need to populate objtokill variable)</span></div>
-<div class="line">    <span class="keywordflow">switch</span> (pad0) { </div>
-<div class="line">        <span class="keywordflow">case</span> <a name="a9"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>  : </div>
-<div class="line">            <a name="a10"></a><a class="code" href="object_8h.html#adbc29a5fc1d8493c4a23d739727aaef3">objtokill</a>=1; </div>
-<div class="line">            <a class="code" href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a>(<span class="stringliteral">&quot;killing me %04x\n&quot;</span>, (u16) idx);</div>
-<div class="line">            <span class="keywordflow">break</span>; </div>
+<div class="line">    <span class="keywordflow">switch</span> (pad0)</div>
+<div class="line">    {</div>
+<div class="line">    <span class="keywordflow">case</span> <a name="a9"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>:</div>
+<div class="line">        <a name="a10"></a><a class="code" href="object_8h.html#adbc29a5fc1d8493c4a23d739727aaef3">objtokill</a> = 1;</div>
+<div class="line">        <a class="code" href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a>(<span class="stringliteral">&quot;killing me %04x\n&quot;</span>, (u16)idx);</div>
+<div class="line">        <span class="keywordflow">break</span>;</div>
 <div class="line">    }</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// change sprite coordinates randomly</span></div>
 <div class="line">    i = <a name="a11"></a><a class="code" href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a>() &amp; 0xF;</div>
-<div class="line">    <span class="keywordflow">if</span> (i&lt;7) {</div>
+<div class="line">    <span class="keywordflow">if</span> (i &lt; 7)</div>
+<div class="line">    {</div>
 <div class="line">        xp++;</div>
-<div class="line">        <span class="keywordflow">if</span> (xp &gt;255) xp--;</div>
+<div class="line">        <span class="keywordflow">if</span> (xp &gt; 255)</div>
+<div class="line">            xp--;</div>
 <div class="line">    }</div>
-<div class="line">    <span class="keywordflow">else</span> {</div>
+<div class="line">    <span class="keywordflow">else</span></div>
+<div class="line">    {</div>
 <div class="line">        xp--;</div>
-<div class="line">        <span class="keywordflow">if</span> ( xp&lt;1) xp++;</div>
+<div class="line">        <span class="keywordflow">if</span> (xp &lt; 1)</div>
+<div class="line">            xp++;</div>
 <div class="line">    }</div>
 <div class="line">    i = <a class="code" href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a>() &amp; 0xF;</div>
-<div class="line">    <span class="keywordflow">if</span> (i&lt;7) {</div>
+<div class="line">    <span class="keywordflow">if</span> (i &lt; 7)</div>
+<div class="line">    {</div>
 <div class="line">        yp++;</div>
-<div class="line">        <span class="keywordflow">if</span> ( yp &gt;223) yp--;</div>
+<div class="line">        <span class="keywordflow">if</span> (yp &gt; 223)</div>
+<div class="line">            yp--;</div>
 <div class="line">    }</div>
-<div class="line">    <span class="keywordflow">else</span> {</div>
+<div class="line">    <span class="keywordflow">else</span></div>
+<div class="line">    {</div>
 <div class="line">        yp--;</div>
-<div class="line">        <span class="keywordflow">if</span> ( yp&lt;1) yp++;</div>
+<div class="line">        <span class="keywordflow">if</span> (yp &lt; 1)</div>
+<div class="line">            yp++;</div>
 <div class="line">    }</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// change sprite display</span></div>
-<div class="line">    <a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(snesobj-&gt;sprframe, xp,yp, 3, 0, 0, 0, 0); </div>
-<div class="line">    </div>
+<div class="line">    <a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(snesobj-&gt;sprframe, xp, yp, 3, 0, 0, 0, 0);</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// update variables for the object</span></div>
-<div class="line">    *snesox=xp; *snesoy=yp;</div>
+<div class="line">    *snesox = xp;</div>
+<div class="line">    *snesoy = yp;</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
-<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>) {</div>
-<div class="line">    <span class="comment">// Initialize SNES </span></div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
+<div class="line">{</div>
+<div class="line">    <span class="comment">// Initialize SNES</span></div>
 <div class="line">    <a name="a12"></a><a class="code" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init Sprites gfx and palette with default size of 32x32</span></div>
-<div class="line">    <a name="a13"></a><a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;gfxpsrite, (&amp;gfxpsrite_end-&amp;gfxpsrite), &amp;palsprite, (&amp;palsprite_end-&amp;palsprite), 0, 0x0000, <a name="a14"></a><a class="code" href="sprite_8h.html#a449cd6f7c4fc8ca09a632e0c58cdb365">OBJ_SIZE32_L64</a>);</div>
+<div class="line">    <a name="a13"></a><a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;gfxpsrite, (&amp;gfxpsrite_end - &amp;gfxpsrite), &amp;palsprite, (&amp;palsprite_end - &amp;palsprite), 0, 0x0000, <a name="a14"></a><a class="code" href="sprite_8h.html#a449cd6f7c4fc8ca09a632e0c58cdb365">OBJ_SIZE32_L64</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode</span></div>
-<div class="line">    <a name="a15"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a16"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>,0); <a name="a17"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1); <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
+<div class="line">    <a name="a15"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a16"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>, 0);</div>
+<div class="line">    <a name="a17"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
+<div class="line">    <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Screen activated</span></div>
-<div class="line">    <a name="a18"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();  </div>
-<div class="line">    </div>
+<div class="line">    <a name="a18"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Object engine activate</span></div>
 <div class="line">    <a name="a19"></a><a class="code" href="object_8h.html#ad010f8c119dbd982acd9ddd859f2acec">objInitEngine</a>();</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Init function for state machine</span></div>
-<div class="line">    objInitFunctions(0, &amp;testInit,&amp;testUpdate,NULL);</div>
-<div class="line">    </div>
+<div class="line">    objInitFunctions(0, &amp;testInit, &amp;testUpdate, NULL);</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Load all objects into memory</span></div>
-<div class="line">    numspr=0;</div>
-<div class="line">    <a name="a20"></a><a class="code" href="object_8h.html#aeda7828a0cb93ff1985ac0237ac5871b">objLoadObjects</a>((<span class="keywordtype">char</span> *) &amp;tabobjects);</div>
-<div class="line">    </div>
-<div class="line">    <span class="keywordflow">while</span>(1) {</div>
+<div class="line">    numspr = 0;</div>
+<div class="line">    <a name="a20"></a><a class="code" href="object_8h.html#aeda7828a0cb93ff1985ac0237ac5871b">objLoadObjects</a>((<span class="keywordtype">char</span> *)&amp;tabobjects);</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">while</span> (1)</div>
+<div class="line">    {</div>
 <div class="line">        <a name="a21"></a><a class="code" href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a>();</div>
 <div class="line">        <a name="a22"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
-<div class="line">    } </div>
-<div class="line">    <span class="keywordflow">return</span> 0; </div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 </div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
@@ -239,12 +285,12 @@ $(document).ready(function(){initNavTree('objects_2moveobjects_2moveobjects_8c-e
 <div class="ttc" id="aobject_8h_html_a9e81915d1e68d22798a93bb27eb74188"><div class="ttname"><a href="object_8h.html#a9e81915d1e68d22798a93bb27eb74188">objptr</a></div><div class="ttdeci">u16 objptr</div><div class="ttdoc">pointer to current object</div></div>
 <div class="ttc" id="aobject_8h_html_a70a85e34d3b6008e897c1e8a7d6232c1"><div class="ttname"><a href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a></div><div class="ttdeci">t_objs objbuffers[OB_MAX]</div><div class="ttdoc">current object buffer with all objects</div></div>
 <div class="ttc" id="abackground_8h_html_a05c862edb7f8f75036f10c04dcc3c2a6"><div class="ttname"><a href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a></div><div class="ttdeci">#define BG_MODE1</div><div class="ttdoc">16-color 16-color 4-color - ;Normal</div><div class="ttdef"><b>Definition:</b> background.h:55</div></div>
-<div class="ttc" id="asprite_8h_html_a2f62a591672b786d90ebb03fdf25f159"><div class="ttname"><a href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a></div><div class="ttdeci">#define oamSet(id, xspr, yspr, priority, hflip, vflip, gfxoffset, paletteoffset)</div><div class="ttdoc">sets an oam entry to the supplied values</div><div class="ttdef"><b>Definition:</b> sprite.h:182</div></div>
+<div class="ttc" id="asprite_8h_html_a2f62a591672b786d90ebb03fdf25f159"><div class="ttname"><a href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a></div><div class="ttdeci">#define oamSet(id, xspr, yspr, priority, hflip, vflip, gfxoffset, paletteoffset)</div><div class="ttdoc">sets an oam entry to the supplied values</div><div class="ttdef"><b>Definition:</b> sprite.h:183</div></div>
 <div class="ttc" id="aconsole_8h_html_a3a226cebe7d59aac755e03e1061ff727"><div class="ttname"><a href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a></div><div class="ttdeci">void consoleNocashMessage(char *fmt,...)</div><div class="ttdoc">Send a message to the no$sns debug window.</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
-<div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:121</div></div>
+<div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:122</div></div>
 <div class="ttc" id="asprite_8h_html_a4120a8ff32c39973babeca3615a0a2fd"><div class="ttname"><a href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a></div><div class="ttdeci">void oamSetEx(u16 id, u8 size, u8 hide)</div><div class="ttdoc">Put the correct size and hide or not a oam.</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition:</b> pad.h:47</div></div>
+<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition:</b> pad.h:48</div></div>
 <div class="ttc" id="asprite_8h_html_a46e0be47f8fc865a7f43c1b0b126e59a"><div class="ttname"><a href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a></div><div class="ttdeci">void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize)</div><div class="ttdoc">Initializes a sprites Gfx and Loads the GFX into VRAM.</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
 <div class="ttc" id="aobject_8h_html_ad010f8c119dbd982acd9ddd859f2acec"><div class="ttname"><a href="object_8h.html#ad010f8c119dbd982acd9ddd859f2acec">objInitEngine</a></div><div class="ttdeci">void objInitEngine(void)</div><div class="ttdoc">Initialize object engine, need to be called once.</div></div>
@@ -257,7 +303,7 @@ $(document).ready(function(){initNavTree('objects_2moveobjects_2moveobjects_8c-e
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sat Sep 24 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Mon Sep 26 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>

@@ -131,10 +131,10 @@ $(document).ready(function(){initNavTree('console_8h_source.html',''); initResiz
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="sound_8h.html">snes/sound.h</a>&gt;</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="video_8h.html">snes/video.h</a>&gt;</span></div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="console_8h.html#afb9f478403f30556d576a6fa54bc9073">pvsneslibfont_map</a>[0x800];  </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="console_8h.html#a01a196c5c404d8e3d16ef799cc0b1653">pvsneslibdirty</a>; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">extern</span> u16  <a class="code" href="console_8h.html#a5e14b74b621c822db9af978d0ad31d1a">snes_vblank_count</a>; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">extern</span> u8   <a class="code" href="console_8h.html#aef3bf9522613bca02b4a00ea910d492f">snes_50hz</a>; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="console_8h.html#afb9f478403f30556d576a6fa54bc9073">pvsneslibfont_map</a>[0x800]; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="console_8h.html#a01a196c5c404d8e3d16ef799cc0b1653">pvsneslibdirty</a>;           </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">extern</span> u16 <a class="code" href="console_8h.html#a5e14b74b621c822db9af978d0ad31d1a">snes_vblank_count</a>; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="console_8h.html#aef3bf9522613bca02b4a00ea910d492f">snes_50hz</a>;          </div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;u16 <a class="code" href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a9bfb9c53fa37e76873d14be4446e71e5">consoleUpdate</a>(<span class="keywordtype">void</span>);</div>
@@ -159,11 +159,11 @@ $(document).ready(function(){initNavTree('console_8h_source.html',''); initResiz
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a>(<span class="keywordtype">char</span> *fmt, ...);</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#ac3c55f6e16ff70d19c046404b9aa8a9b">consoleCopySram</a>(u8 * source, u16 size);</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#ac3c55f6e16ff70d19c046404b9aa8a9b">consoleCopySram</a>(u8 *source, u16 size);</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#abe1fabedc24a3adef79f32e02c3bc2d5">consoleLoadSram</a>(u8 * dest, u16 size);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#abe1fabedc24a3adef79f32e02c3bc2d5">consoleLoadSram</a>(u8 *dest, u16 size);</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="keywordtype">int</span> sprintf(<span class="keywordtype">char</span> * buf, <span class="keyword">const</span> <span class="keywordtype">char</span> *fmt, ...);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="keywordtype">int</span> sprintf(<span class="keywordtype">char</span> *buf, <span class="keyword">const</span> <span class="keywordtype">char</span> *fmt, ...);</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;u16 <a class="code" href="console_8h.html#ad9f96595d599dca8d09df3da5200a8a8">consoleRegionIsOK</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
@@ -201,7 +201,7 @@ $(document).ready(function(){initNavTree('console_8h_source.html',''); initResiz
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="console_8h.html">console.h</a></li>
-    <li class="footer">Generated on Sat Sep 24 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Mon Sep 26 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>
