@@ -1,26 +1,26 @@
 /*---------------------------------------------------------------------------------
 
-	Copyright (C) 2012-2021
+    Copyright (C) 2012-2021
 
-	This software is provided 'as-is', without any express or implied
-	warranty.  In no event will the authors be held liable for any
-	damages arising from the use of this software.
+    This software is provided 'as-is', without any express or implied
+    warranty.  In no event will the authors be held liable for any
+    damages arising from the use of this software.
 
-	Permission is granted to anyone to use this software for any
-	purpose, including commercial applications, and to alter it and
-	redistribute it freely, subject to the following restrictions:
+    Permission is granted to anyone to use this software for any
+    purpose, including commercial applications, and to alter it and
+    redistribute it freely, subject to the following restrictions:
 
 
-	1.	The origin of this software must not be misrepresented; you
-		must not claim that you wrote the original software. If you use
-		this software in a product, an acknowledgment in the product
-		documentation would be appreciated but is not required.
+    1.	The origin of this software must not be misrepresented; you
+        must not claim that you wrote the original software. If you use
+        this software in a product, an acknowledgment in the product
+        documentation would be appreciated but is not required.
 
-	2.	Altered source versions must be plainly marked as such, and
-		must not be misrepresented as being the original software.
+    2.	Altered source versions must be plainly marked as such, and
+        must not be misrepresented as being the original software.
 
-	3.	This notice may not be removed or altered from any source
-		distribution.
+    3.	This notice may not be removed or altered from any source
+        distribution.
 
 ---------------------------------------------------------------------------------*/
 /*! \file snes.h
@@ -46,7 +46,7 @@
 
  \section memory_api Memory
  - \ref dma.h "Direct Memory Access"
- 
+
  \section system_api System
  - \ref snestypes.h "Custom SNES types"
  - \ref interrupt.h "Interrupts"
@@ -77,8 +77,7 @@
  - <a href="https://github.com/undisbeliever/castle_platformer">undisbeliever for his great platform code example on github. </a>
 */
 
-
-//adding the example page.
+// adding the example page.
 /*!
  <!-- EXAMPLES -->
     <!-- hello world -->
@@ -98,17 +97,21 @@
     \example graphics/Effects/HDMAGradient/HDMAGradient.c
     \example graphics/Effects/MosaicShading/MosaicShading.c
     \example graphics/Effects/Transparency/Transparency.c
+    \example graphics/Effects/ParallaxScrolling/ParallaxScrolling.c
 
     <!-- sprites -->
     \example graphics/Sprites/SimpleSprite/SimpleSprite.c
     \example graphics/Sprites/AnimatedSprite/AnimatedSprite.c
     \example graphics/Sprites/DynamicSprite/DynamicSprite.c
+    \example graphics/Sprites/ObjectSize/ObjectSize.c
+    \example graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c
 
     <!-- palettes -->
     \example graphics/Palette/GetColors/GetColors.c
 
     <!-- keypad -->
-    \example input/input.c
+    \example pads/input/input.c
+    \example pads/multiplay5/multiplay5.c
 
     <!-- timing -->
     \example timer/timer.c
@@ -120,9 +123,11 @@
     <!-- audio -->
     \example audio/music/Music.c
     \example audio/tada/Tada.c
+    \example audio/musicGreaterThan32k/musicGreaterThan32k.c
 
     <!-- maps -->
     \example maps/mapscroll/mapscroll.c
+    \example maps/tiled/tiled.c
 
     <!-- objects -->
     \example objects/moveobjects/moveobjects.c

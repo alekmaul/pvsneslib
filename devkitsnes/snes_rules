@@ -37,6 +37,7 @@ export SMCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/smconv
 export BRCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snesbrr
 export TXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/bin2txt
 export SNTOOLS	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snestools
+export TMXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/tmx2snes
 
 #---------------------------------------------------------------------------------
 # Add default flag for compiling
@@ -52,7 +53,7 @@ ifneq ($(strip $(AUDIOFILES)),)
 endif
 
 #---------------------------------------------------------------------------------
-# Search all .asm and .c files until 3rd level in the tree 
+# Search all .asm and .c files until 3rd level in the tree
 #---------------------------------------------------------------------------------
 CFILES = $(wildcard *.c)
 CFILES+= $(wildcard $(SRC)/*.c)
@@ -80,12 +81,12 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 	@echo "Building with -x flag: $(AS) -s -x -o $@ $<"
 # -d switch disable WLA's ability to calculate A-B where A and B are labels.
 # if you remove it, you will have some updates to do at least in crt0_snes.asm
-	$(AS) -d -s -x -o $@ $< 
+	$(AS) -d -s -x -o $@ $<
 
 #---------------------------------------------------------------------------------
 %.asm: %.ps
 	@echo Assembling ... $(notdir $<)
-	$(PY) $< >$*.asp 
+	$(PY) $< >$*.asp
 	@echo Moving constants ... $(notdir $<)
 	$(CTF) $*.c $*.asp $@	
 	@rm $*.asp
@@ -101,7 +102,7 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 	@for i in $(shell ls $(LIBDIRSOBJSW)); do \
 		echo $(LIBDIRSOBJSW)/$$i >> linkfile; \
 	done
-        
+
 	@echo Linking ... $(notdir $@)
 	$(LD) -d -s -v -A -L ${LIBDIRSOBJS} linkfile $@
 
@@ -138,7 +139,7 @@ cleanRom:
 	
 cleanGfx:
 	@echo clean graphics data
-	@rm -f *.pic *.map *.pal *.pc7 *.mp7 *.til
+	@rm -f *.pic *.map *.pal *.pc7 *.mp7 *.til *.m16 *.b16 *.o16 *.t16
 
 cleanAudio:
 	@echo clean audio data

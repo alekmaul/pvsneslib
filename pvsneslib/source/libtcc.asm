@@ -63,16 +63,16 @@ tcc__udiv:
 tcc__udiv1:
  	ror a
 - 	sta.b tcc__r5
-	cpx tcc__r5     
-	bcc +           
-	txa             
+	cpx tcc__r5
+	bcc +
+	txa
 	sbc.b tcc__r5
-	tax             
+	tax
 + 	rol.b tcc__r9
-	lda.b tcc__r5 
-	lsr a           
-	dey             
-	bne -           
+	lda.b tcc__r5
+	lsr a
+	dey
+	bne -
 	rtl
 
 ; looks like the damn 6502 was designed before negative numbers...
@@ -133,7 +133,7 @@ tcc__divl:
 
       ; negate divisor
       inx	; set bit 1
-      inx      
+      inx
       lda.b tcc__r10h
       eor.w #$ffff
       sta.b tcc__r10h
@@ -143,7 +143,7 @@ tcc__divl:
       sta.b tcc__r10
       bne +
       inc.b tcc__r10h
-      
+
 +     phx
       jsr tcc__udivl
       tay	; quot low word -> y (high word in x)
@@ -151,7 +151,7 @@ tcc__divl:
       beq +++	; no sign -> all done
       cmp.w #3
       beq ++	; two signs -> only correct remainder
-      
+
       ; negate quotient
       pha
       txa
@@ -164,10 +164,10 @@ tcc__divl:
       inx
 +     tay
       pla
-      
+
 ++    bit.w #1	; dividend negative?
       beq +++	; no -> done
-      
+
       ; negate remainder
       lda.b tcc__r9h
       eor.w #$ffff
@@ -178,9 +178,9 @@ tcc__divl:
       sta.b tcc__r9
       bne +++
       inc.b tcc__r9h
-      
+
 +++   rts
-      
+
 tcc__udivl:
       lda.w #0
       tax
@@ -216,7 +216,7 @@ _div2:sec
       ror.b tcc__r10
       dey
       bne _div2
-      
+
       pla
       rts
 
@@ -331,7 +331,7 @@ tcc__shrdi3:
       tax
       bra _shr
 +     rtl
-            
+
 ; long call to the subroutine pointed to in r10
 tcc__jsl_r10:
       sep #$20

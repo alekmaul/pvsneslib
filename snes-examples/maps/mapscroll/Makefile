@@ -3,9 +3,9 @@ $(error "Please create an environment variable PVSNESLIB_HOME with path to its f
 endif
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
- 
+
 .PHONY: bitmaps all
- 
+
 #---------------------------------------------------------------------------------
 # ROMNAME is used in snes_rules file
 export ROMNAME := mapscroll
@@ -26,5 +26,5 @@ mario.pic: mario.png
 tileset.pic: tileset.png
 	@echo convert font with no tile reduction ... $(notdir $@)
 	$(GFXCONV) -gs8 -pc16 -po16 -m! -fpng -n $<
-    
+
 bitmaps : bg_L1.map mario.pic tileset.pic

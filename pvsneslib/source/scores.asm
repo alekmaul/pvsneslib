@@ -1,7 +1,7 @@
 ;---------------------------------------------------------------------------------
 ;
 ;	Copyright (C) 2015-2020
-;		Alekmaul 
+;		Alekmaul
 ;
 ;	This software is provided 'as-is', without any express or implied
 ;	warranty.  In no event will the authors be held liable for any
@@ -63,7 +63,7 @@ scoreClear:
 scoreAdd:
 	php
 	phb
-    
+
 	phx
 		
 	sep	#$20
@@ -81,7 +81,7 @@ scoreAdd:
 	sta 0,x
 	sec
 	sbc #$2710						; is it greater than 10000 ?
-	bcc _scoAdd1					; not a overflow, exit 
+	bcc _scoAdd1					; not a overflow, exit
 	
 	sta 0,x								; store again when 10000 is substract
 	lda 2,x								; add one to high number
@@ -105,7 +105,7 @@ _scoAdd1:
 scoreCpy:
 	php
 	phb
-    
+
 	phx
 
 	sep	#$20
@@ -150,7 +150,7 @@ scoreCpy:
 scoreCmp:
 	php
 	phb
-    
+
 	phx
 	phy
 	

@@ -1,9 +1,10 @@
 # automatically generated with PVSNESLIB:
-pvsneslib/docs
+pvsneslib/docs/html
 pvsneslib/lib
 pvsneslib/source/libc_c.asm
 pvsneslib/source/libm_c.asm
 pvsneslib/pvsneslib_version.txt
+pvsneslib/include/snes/libversion.h
 
 # automatically generated from vscode
 .vscode
@@ -41,6 +42,14 @@ tools/snesbrr/snesbrr
 tools/snesbrr/snesbrr.exe
 tools/snestools/snestools
 tools/snestools/snestools.exe
+tools/tmx2snes/tmx2snes
+tools/tmx2snes/tmx2snes.exe
+
+# tmx2snes files: 
+*.b16
+*.o16
+*.t16
+*.m16
 
 # all other type of files generated automatically
 linkfile
@@ -62,3 +71,4 @@ linkfile
 *.ps
 soundbank.asm
 soundbank.h
+*.log

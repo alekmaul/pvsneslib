@@ -1,7 +1,7 @@
 ;---------------------------------------------------------------------------------
 ;
 ;	Copyright (C) 2021
-;		Alekmaul 
+;		Alekmaul
 ;
 ;	This software is provided 'as-is', without any express or implied
 ;	warranty.  In no event will the authors be held liable for any
@@ -27,8 +27,8 @@
 
 .DEFINE MAP_BG1_ADR     $6800
 
-.DEFINE MAP_MAXROWS     32*2                ; Maximum number of rows in a map.
-.DEFINE MAP_MAXMTILES   256                 ; Number of metatiles (ort not) per map
+.DEFINE MAP_MAXROWS     256*2               ; Maximum number of rows in a map.
+.DEFINE MAP_MAXMTILES   512                 ; Number of metatiles (ort not) per map
 
 .DEFINE MAP_SCRLR_SCRL  128                 ; Screen position to begin scroll left & right
 .DEFINE MAP_SCRUP_SCRL  80                  ; Screen position to begin scroll up & down
@@ -63,17 +63,17 @@ metatiles INSTANCEOF metatiles_t            ; entry for each metatile definition
 
 metatilesprop           DSW MAP_MAXMTILES*2 ; tiles properties (block, spike, fire)
 
-mapwidth                DW                  ; Width of the map in pixels 
-mapheight               DW                  ; Height of the map in pixels, must be less than (MT_MAX_ROWS * MAP_MTSIZE) 
+mapwidth                DW                  ; Width of the map in pixels
+mapheight               DW                  ; Height of the map in pixels, must be less than (MT_MAX_ROWS * MAP_MTSIZE)
 
-x_pos                   DW                  ; x Position of the screen 
-y_pos                   DW                  ; y Position of the screen 
+x_pos                   DW                  ; x Position of the screen
+y_pos                   DW                  ; y Position of the screen
 
-maxx_pos                DW                  ; Maximum value of x_pos before out of bounds 
-maxy_pos                DW                  ; Maximum value of y_pos before out of bounds 
+maxx_pos                DW                  ; Maximum value of x_pos before out of bounds
+maxy_pos                DW                  ; Maximum value of y_pos before out of bounds
 
-maptile_L1b             DB                  ; map layer 1 tiles bank address 
-maptile_L1d             DW                  ; map layer 1 tiles data address 
+maptile_L1b             DB                  ; map layer 1 tiles bank address
+maptile_L1d             DW                  ; map layer 1 tiles data address
 
 mapadrrowlut            DSW MAP_MAXROWS     ; address of each row for fast computation
 maprowsize              DW                  ; size of 1 row regarding map
@@ -83,10 +83,10 @@ bgvertleftbuf_L1        DSW 32              ; The left 8x8 tiles of the vertical
 
 mapvisibletopleftidx    DW                  ; Tile index within `map` that represents the top left of the visible display
 mapvisibletopleftxpos   DW                  ; Pixel location of `mapvisibletopleftidx`
-mapvisibletopleftypos   DW 
+mapvisibletopleftypos   DW
 
 mapdisplaydeltax        DW                  ; Pixel location on the map that represents tile 0,0 of the SNES tilemap
-mapdisplaydeltay        DW 
+mapdisplaydeltay        DW
 
 mapcolidx               DW                  ; The topmost tile that is updated within `_ProcessVerticalBuffer`, changes with y movement.
 maprowidx               DW                  ; The leftmost tile that is updated within `_ProcessHorizontalBuffer`, changes with x movement.
@@ -98,7 +98,7 @@ mapendloop              DW                  ; The ending position of the draw lo
 mapupdbuf               DB                  ; State of buffer update (vert / horiz / all)
 mapdirty                DB                  ; 1 if map is not correct and need update
 
-.ends 
+.ends
 
 .SECTION ".maps0_text" SUPERFREE
 
@@ -111,27 +111,27 @@ mapdirty                DB                  ; 1 if map is not correct and need u
 mapUpdateCamera:
     php
     phb
-    
+
     sep #$20                                ; point to bank map vars
     lda #$7e
     pha
     plb
-    
+
     rep #$20
     lda 6,s                                 ; get xpos (5+1)
     sec
-    sbc.l x_pos                             
+    sbc.l x_pos
     cmp #(256-MAP_SCRLR_SCRL)               ; are we near center of screen x ?
     bmi _muc2
 
     lda 6,s                                 ; get xpos (5+1)
     sec
-    sbc    #(256-MAP_SCRLR_SCRL)            
+    sbc    #(256-MAP_SCRLR_SCRL)
     cmp.l maxx_pos                          ; if we are near max of screen X, put max of screen x
     bcc _muc1
     lda.l maxx_pos
 _muc1:
-    sta.l x_pos                             
+    sta.l x_pos
     brl _muc4                               ; now we are going to test y coordinates
 
 _muc2:
@@ -142,7 +142,7 @@ _muc2:
     sbc #MAP_SCRLR_SCRL
     bpl _muc22
     lda #$0
-    
+
 _muc22:
     sta.l x_pos
 
@@ -152,7 +152,7 @@ _muc4:
     sbc.l   y_pos
     cmp #(224-MAP_SCRUP_SCRL)               ; are we near center of screen y ?
     bmi _muc6
-    
+
     lda 8,s                                 ; get ypos (7+1)
     sec
     sbc    #(224-MAP_SCRUP_SCRL)
@@ -162,7 +162,7 @@ _muc4:
 _muc5:
     sta.l y_pos
     brl _mucend
-    
+
 _muc6:
     cmp #MAP_SCRUP_SCRL
     bpl _mucend
@@ -174,90 +174,90 @@ _muc6:
 
 _muc62:
     sta.l y_pos
-    
+
 _mucend:
     plb
     plp
     rtl
-    
+
 ;---------------------------------------------------------------------------------
 ; void mapLoad(u8 *layer1map, u8 *layertiles, u8 *tilesprop)
-; 5-8 9-12 13-16 
+; 5-8 9-12 13-16
 mapLoad:
     php
     phb
 
     phx
     phy
-    
+
     sep #$20
     lda 12,s                                ; bank address of layer1 (7+1+2+2)
     pha
     plb
     sta.l maptile_L1b                       ; Store bank adress of layer1
 
-    rep #$20 
+    rep #$20
     lda 10,s                                ; data address of layer1 (5+1+2+2)
     tax
     lda 0,x                                 ; get mapwidth
     sta.l mapwidth
     lda 2,x                                 ; get mapheight
     sta.l mapheight
-    
+
     lda #0                                  ; init x & y position on map for loading purpose
     sta.l x_pos
     sta.l y_pos
-    
+
     lda 10,s                                ; data address of layer1 (5+1+2+2)
     clc
     adc.w #0006                             ; add width, height and size
     sta.l maptile_L1d                       ; store data address of layer1
 
     lda 14,s                                ; get metatiles definition data address (9+1+2+2)
-    sta.l $4302           
+    sta.l $4302
 
     lda #MAP_MAXMTILES*4*2                  ; because metatile max are 4 x 8x8
-    sta.l $4305           
+    sta.l $4305
 
     lda #metatiles.w                        ; data offset of metatiles definition
     sta.l $2181
 
     sep #$20
     lda #$7e                                ; safely use of 7E as it is explicit declared
-    sta.l $2183           
+    sta.l $2183
 
     lda 16,s                                ; get metatiles definition  bank address (11+1+2+2)
-    sta.l $4304           
+    sta.l $4304
 
     ldx #$8000                              ; type of DMA
     stx $4300
-    
+
     lda #$01
     sta $420B                               ; do dma for transfert
-    
+
     rep	#$20
     lda	18,s	                            ; get tiles property data address (13+1+2+2)
-	sta.l	$4302           
-  
+	sta.l	$4302
+
     lda.w #MAP_MAXMTILES*2*2
-    sta.l $4305                             ;  max properties 
-  
+    sta.l $4305                             ;  max properties
+
     ldy #metatilesprop.w                    ; data offset of destination
     sty $2181
-  
+
     sep	#$20
     lda #$7e                                ; safely use of 7E as it is explicit declared
-    sta.l $2183                             ; bank address of destination 
-  
+    sta.l $2183                             ; bank address of destination
+
 	lda	20,s	
     sta.l $4304                             ; bank address of source (15+1+2+2)
-  
+
     ldx	#$8000						        ; type of DMA
 	stx	$4300
-  
+
     lda #$01
     sta $420B 						        ; do dma for transfert
-  
+
     stz.w dispxofs_L1                       ; reset scroll vars x & y for layers 1
     stz.w dispyofs_L1
 
@@ -265,7 +265,7 @@ mapLoad:
     sta.l mapupdbuf                         ; reset var for map update
     sta.l mapdirty
 
-    rep #$31                     
+    rep #$31
     lda.l mapwidth
     adc #MAP_MTSIZE - 1                     ; carry clear from REP
     lsr
@@ -276,17 +276,17 @@ mapLoad:
     lda.l mapwidth                          ; get mapwidth to know how long is the map
     sec
     sbc #256
-    sta.l maxx_pos                          ; store x maximum position for scrolling            
+    sta.l maxx_pos                          ; store x maximum position for scrolling
 
     lda.l mapheight                         ; get mapheigth to know how height is the map
     cmp.w #224
-    bcs _mini1 
+    bcs _mini1
     lda #224                                ; mapheight can't be less than 224 pix
 
 _mini1:
     sec
     sbc #224
-    sta.l maxy_pos                          ; store y maximum position for scrolling            
+    sta.l maxy_pos                          ; store y maximum position for scrolling
 
     lda #MAP_MAXROWS                        ; to compute a maximum of 64 row of metatiles scrolling
     tay
@@ -301,16 +301,16 @@ _mini2:
     inx
     dey
     bne _mini2
-    
+
     ply
     plx
     plb
-    
+
 ;---------------------------------------------------------------------------------
 ; here can be call by another function
 mapRefreshAll:
     phb
-    
+
     sep #$20
     lda #$7e                                ; bank address of variables
     pha
@@ -340,7 +340,7 @@ _mapRefreshAll1:
     clc
     adc #(MAP_DISPW*2)-2
     tax                                     ; x is row value
-  
+
     lda #(MAP_DISPH+1)*1*32*2-2             ; Building from the bottom-right to top-left because it saves a comparison.
 _mapDAS:
     tay
@@ -356,17 +356,17 @@ _mapDAS1:
     tax
 
     phb
-    sep #$20                                
+    sep #$20
     lda maptile_L1b.b
     pha
     plb
     rep #$20
     lda 0,x
     plb
-    
+
     asl a
     tax
-    lda.w metatiles.topleft,x               ; get tile value from map              
+    lda.w metatiles.topleft,x               ; get tile value from map
     sta.w bg_L1, y                          ; put in buffer for display
     plx
 
@@ -388,7 +388,7 @@ _mapDAS1:
     tya
     bmi _mapDAS2
     brl _mapDAS
-    
+
 _mapDAS2:
     lda.l x_pos                               ; init all display variables for the map
     and.w #$FFFF - (MAP_MTSIZE - 1)
@@ -408,12 +408,12 @@ _mapDAS2:
 	and.w #(MAP_MTSIZE - 1)
 	dec a
 	sta.l dispyofs_L1
-    
+
     stz mapcolidx
     stz maprowidx
     stz mapcolmetatileofs
     stz maprowmetatileofs
-    
+
     lda.l mapvisibletopleftidx                  ; Process right column
     clc
     adc #(MAP_DISPW + 1) * 2
@@ -467,14 +467,14 @@ _phb1:
     lda 0,x
     plb
 
-    asl a                               
+    asl a
     tax
 
     lda.l metatiles.topleft, x
     sta bg_L1, y
 
     plx
-        
+
     dey
     dey
     bpl _phb2
@@ -483,9 +483,9 @@ _phb1:
 _phb2:
     cpx.w mapendloop
     bpl _phb1
-  
+
     rts
-  
+
 ;---------------------------------------------------------------------------------
 ; Builds bgBufVertLeft and bgBufVertRight depending on the tile selected (A = tile index of the topmost displayed tile)
 _ProcessVerticalBuffer:
@@ -503,7 +503,7 @@ _ProcessVerticalBuffer:
 
     lda.l mapcolidx
     clc
-    adc.w #29*2 - 2  
+    adc.w #29*2 - 2
     and.w #$3F
     tay
 
@@ -557,29 +557,29 @@ mapVblank:
     lda.b #$0
     pha
     plb
-  
+
     lda.l mapupdbuf                            ; do we need update
     bne _mapvb1
     brl _mapvbend                              ; no, go out
 
 _mapvb1:
-    bpl _mapvb2                                ; not the vertical buffer   
+    bpl _mapvb2                                ; not the vertical buffer
 
     lda #$81                                   ; VMAIN_INCREMENT_HIGH | VMAIN_INCREMENT_32
     sta.l $2115                                ; VMAIN
 
     ldx #$1801                                 ; DMAP_DIRECTION_TO_PPU | DMAP_TRANSFER_2REGS | (.lobyte(VMDATA) << 8)
     stx $4300                                  ; also sets BBAD0
-  
+
     ldx #bgvertleftbuf_L1.w                    ; data address of vertical buffer
     stx $4302                                  ; A1T0
     lda #:bgvertleftbuf_L1                     ; bank address of vertical buffer
     sta.l $4304                                ; A1B0
 
-    ldx bgvvramloc_L1                          ; begining of update 
+    ldx bgvvramloc_L1                          ; begining of update
     ldy #32*2
     lda #$1                                    ; MDMAEN_DMA0
-    
+
     stx $2116                                  ; VMADD
     sty $4305                                  ; DAS0
     sta.l $420B                                ; MDMAEN
@@ -604,7 +604,7 @@ _mapvb2:                                       ; Update Whole Buffer layer1 ( ==
 
     lda #$1                                    ; MDMAEN_DMA0
     sta.l $420B                                ; MDMAEN
-                
+
     brl _mapvbend
 
 _mapvb3:
@@ -620,7 +620,7 @@ _mapvb4;                                        ; Update Horizontal Buffer layer
     stx $4300                                   ; also sets BBAD0
     stx $4310                                   ; also sets BBAD1
 
-    ldx #bg_L1.w                                ; set data address 
+    ldx #bg_L1.w                                ; set data address
     stx $4302                                   ; A1T0
     ldx #(bg_L1+64*2).w                         ; loword
     stx $4312                                   ; A1T1
@@ -655,7 +655,7 @@ _mapvbend:
 
     lda #$0                                     ; no more need of update
     sta.l mapupdbuf
-        
+
     ply
     plx
 
@@ -684,9 +684,9 @@ _maupd1:
     lda.l x_pos
     sec
     sbc.w mapvisibletopleftxpos
-    bcc _mappud2                                
+    bcc _mappud2
     cmp.w #MAP_MTSIZE                           ; more than one metatile ?
-    bcc _maupd41                               
+    bcc _maupd41
     cmp.w #MAP_MTSIZE * 2
     bcc _maupd4                                 ; more than 2 metatiles ?
     jmp _mapRefreshAll1
@@ -700,7 +700,7 @@ _maupd4:
     inc a
     inc a
     sta.l mapvisibletopleftidx
-    
+
     clc
     adc.w #(MAP_DISPW + 1) * 2
     jsr _ProcessVerticalBuffer
@@ -717,7 +717,7 @@ _maupd4:
 
     eor #$0020 / 1
     bit #$0020 / 1
-    beq _maupd42                           
+    beq _maupd42
     eor #$0420 / 1                              ; same as a = a | $0400 & ~$0020)
 
 _maupd42:
@@ -763,7 +763,7 @@ _mapupd5:
     sta.l mapcolmetatileofs
 
     bit #$0020 / 1
-    beq _mapupd51                                           
+    beq _mapupd51
     EOR #$0420 / 1
 _mapupd51:
     clc
@@ -785,9 +785,9 @@ _mapupd3:
     sec
     sbc mapvisibletopleftypos
     bcc _mapupd6
-    
+
     cmp #MAP_MTSIZE
-    bcc _mapUpd81 
+    bcc _mapUpd81
     cmp #MAP_MTSIZE * 2
     bcc _mapupd8
     jmp _mapRefreshAll1
@@ -885,7 +885,7 @@ _mapupd9:
     plb
     plp
     rtl
-    
+
 .ENDS
 
 .SECTION ".maps1_text" SUPERFREE
@@ -894,7 +894,7 @@ _mapupd9:
 ; u16 mapGetMetaTile(u16 xpos, u16 ypos)
 mapGetMetaTile:
     php
-    
+
     phx
     phy
 
@@ -912,7 +912,7 @@ mapGetMetaTile:
     clc
     adc mapadrrowlut,x
     tax                                     ; x is row value
-    
+
     phx
     lda maptile_L1d                         ; get direct rom value
     clc
@@ -920,7 +920,7 @@ mapGetMetaTile:
     tax
 
     phb
-    sep #$20                                
+    sep #$20
     lda maptile_L1b.b
     pha
     plb
@@ -928,12 +928,12 @@ mapGetMetaTile:
     lda 0,x
     plb
     plx
-    
+
     sta.w tcc__r0
 
     ply
     plx
     plp
     rtl
-    
+
 .ENDS

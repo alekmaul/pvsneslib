@@ -15,8 +15,8 @@ all: bitmaps $(ROMNAME).sfc
 clean: cleanBuildRes cleanRom cleanGfx
 	
 #---------------------------------------------------------------------------------
-pvsneslibfont.pic: pvsneslibfont.bmp
+pvsneslibfont.pic: pvsneslibfont.png
 	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFXCONV) -n -gs8 -po2 -pc16 -pe1 -mR! -m! -p! $<
+	$(GFXCONV) -n -gs8 -po16 -pc16 -pe0 -mR! -m! -fpng $<
 
 bitmaps : pvsneslibfont.pic

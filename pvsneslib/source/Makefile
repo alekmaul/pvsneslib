@@ -17,7 +17,7 @@ CFLAGS	+=	-I${PVSNESLIB_HOME}/devkitsnes/include \
 		-I${PVSNESLIB_HOME}/pvsneslib/include \
 		-I${PVSNESLIB_HOME}/pvsneslib/source
 
-export SNESOBJS = crt0_snes.obj libm.obj libtcc.obj libc.obj 
+export SNESOBJS = crt0_snes.obj libm.obj libtcc.obj libc.obj
 
 
 #---------------------------------------------------------------------------------
@@ -35,7 +35,7 @@ all: $(SNESOBJS)
 libc.obj: libc.asm libc_c.asm
 libc_c.asm: libc_c.c $(C_SRC) sm_spc.asm
 libc_c.c: $(C_SRC)
-libm.obj: libm.asm 
+libm.obj: libm.asm
 
 #---------------------------------------------------------------------------------
 clean:

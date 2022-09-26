@@ -6,110 +6,98 @@
 
 #include "basetypes.h"
 
-
 namespace base
 {
 
-namespace math
-{
+    namespace math
+    {
 
-template <uint N, typename T>
-inline static bool bit (const T& x)
-{
-return x & (1 << N);
-}
+        template <uint N, typename T>
+        inline static bool bit(const T &x)
+        {
+            return x & (1 << N);
+        }
 
+        template <uint N, typename T>
+        inline static void bit(T &x, bool b)
+        {
+            x = (x & ~(1 << N)) | (b << N);
+        }
 
+        template <typename T>
+        inline static bool bit(uint N, const T &x)
+        {
+            return x & (1 << N);
+        }
 
-template <uint N, typename T>
-inline static void bit (T& x, bool b)
-{
-x = (x & ~(1 << N)) | (b << N);
-}
+        template <typename T>
+        inline static void bit(uint N, T &x, bool b)
+        {
+            x = (x & ~(1 << N)) | (b << N);
+        }
 
+        template <uint N, typename T>
+        inline static void bit_or(T &x, bool b)
+        {
+            x |= b << N;
+        }
 
+        template <typename T>
+        inline static void bit_or(uint N, T &x, bool b)
+        {
+            x |= b << N;
+        }
 
-template <typename T>
-inline static bool bit (uint N, const T& x)
-{
-return x & (1 << N);
-}
+        template <uint N, typename T>
+        inline static void bit_xor(T &x, bool b)
+        {
+            x ^= b << N;
+        }
 
+        template <typename T>
+        inline static void bit_xor(uint N, T &x, bool b)
+        {
+            x ^= b << N;
+        }
 
+        template <uint N, typename T>
+        inline static T clamp(T x)
+        {
+            enum
+            {
+                low = -1 << (N - 1)
+            };
+            enum
+            {
+                high = (1 << (N - 1)) - 1
+            };
 
-template <typename T>
-inline static void bit (uint N, T& x, bool b)
-{
-x = (x & ~(1 << N)) | (b << N);
-}
+            if (x > high)
+                x = high;
+            else if (x < low)
+                x = low;
 
+            return x;
+        }
 
+        template <uint N, typename T>
+        inline static T uclamp(T x)
+        {
+            enum
+            {
+                high = (((1 << (N - 1)) - 1) << 1) + 1
+            };
 
-template <uint N, typename T>
-inline static void bit_or (T& x, bool b)
-{
-x |= b << N;
-}
+            if (x > high)
+                x = high;
 
+            return x;
+        }
 
+    } // math
 
-template <typename T>
-inline static void bit_or (uint N, T& x, bool b)
-{
-x |= b << N;
-}
-
-
-
-template <uint N, typename T>
-inline static void bit_xor (T& x, bool b)
-{
-x ^= b << N;
-}
-
-
-
-template <typename T>
-inline static void bit_xor (uint N, T& x, bool b)
-{
-x ^= b << N;
-}
-
-
-
-template <uint N, typename T>
-inline static T clamp (T x)
-{
-enum { low = -1 << (N - 1) };
-enum { high = (1 << (N - 1)) - 1 };
-
-if (x > high)
- x = high;
-else if (x < low)
- x = low;
-
-return x;
-}
-
-
-
-template <uint N, typename T>
-inline static T uclamp (T x)
-{
-enum { high = (((1 << (N - 1)) - 1) << 1) + 1 };
-
-if (x > high)
- x = high;
-
-return x;
-}
-
-} // math
-
-
-using namespace math;
+    using namespace math;
 
 } // base
-
 
 #endif

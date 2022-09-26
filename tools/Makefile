@@ -1,4 +1,4 @@
-SUBDIRS := gfx2snes smconv bin2txt constify snestools snesbrr
+SUBDIRS := gfx2snes smconv bin2txt constify snestools snesbrr tmx2snes
 
 all: $(SUBDIRS)
 

@@ -8,7 +8,7 @@ VERSION = "1.0.0"
 LIBS = -lbase
 CPPFLAGS += -I"../"
 LDFLAGS += -L"../"
-CFLAGS += -O3 -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+CFLAGS += -O3 -static -static-libstdc++ -static-libgcc -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 BIN := snesbrr
 BINDIR := ../$(BIN)

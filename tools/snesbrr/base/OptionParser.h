@@ -7,51 +7,53 @@
 #include "basetypes.h"
 #include "noncopyable.h"
 
-
 namespace base
 {
 
-class OptionParser : noncopyable
-{
-public:
- struct Option
- {
- uint id;
- const char* sname;
- const char* lname;
- const char* desc;
- };
+    class OptionParser : noncopyable
+    {
+    public:
+        struct Option
+        {
+            uint id;
+            const char *sname;
+            const char *lname;
+            const char *desc;
+        };
 
-private:
- int argc;
- const char* const* argv;
- const Option* options;
- int index;
- const char* cmd;
+    private:
+        int argc;
+        const char *const *argv;
+        const Option *options;
+        int index;
+        const char *cmd;
 
-public:
- OptionParser (int ac, const char* const* av, const Option* o)
- {
- argc = ac;
- argv = av;
- options = o;
- index = 0;
- next();
- }
+    public:
+        OptionParser(int ac, const char *const *av, const Option *o)
+        {
+            argc = ac;
+            argv = av;
+            options = o;
+            index = 0;
+            next();
+        }
 
- void  print_help (const char* usage) const;
+        void print_help(const char *usage) const;
 
- bool  next ();
- uint  parse () const;
+        bool next();
+        uint parse() const;
 
- void stop ()
- { index = argc; }
+        void stop()
+        {
+            index = argc;
+        }
 
- const char* get () const
- { return cmd; }
-};
+        const char *get() const
+        {
+            return cmd;
+        }
+    };
 
 } // base
-
 
 #endif
