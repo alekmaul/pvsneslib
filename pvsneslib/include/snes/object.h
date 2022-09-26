@@ -119,9 +119,9 @@ void objInitGravity(u16 objgravity, u16 objfriction);
 /*! \fn objInitFunctions(u8 objtype, void *initfct,void *updfct)
     \brief Initialize the object type functions (initialize, update)
     \param objtype  The type of object depending of the game
-    \param initfct  The address of the function when we init the type of object
-    \param updfct   The address of the function when we update the type of object (will be called once per frame)
-    \param reffct   The address of the function when we refresh sprites of object (will be called once per frame)
+	\param initfct  The address of the function when we init the type of object
+	\param updfct   The address of the function when we update the type of object (need to be called once per frame)
+	\param reffct   The address of the function when we refresh sprites of object (need to be called once per frame)
 */
 void objInitFunctions(u8 objtype, void *initfct, void *updfct, void *reffct);
 

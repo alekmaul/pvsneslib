@@ -110,11 +110,9 @@ void PrintVersion(void)
 void WriteMap(void)
 {
     int tileattr, tilesnes, i;
-    char *lastpostslash;
+	char *lastpostslash;
 
-    printf("WriteMap\n");
-
-    // We use directory and replace file name with layer name
+// We use directory and replace file name with layer name
     strcpy(filemapname, filebase);
     lastpostslash = strrchr(filemapname, '/');
     if (lastpostslash != NULL)
@@ -279,67 +277,6 @@ void WriteEntities(void)
     }
 
     // write objects to file
-    objm = layer->objects;
-    if (layer->object_count > N_OBJECTS)
-    {
-        printf("tmx2snes: error 'too much entities in map (%d entities, %d max expected)'\n", layer->object_count, N_OBJECTS);
-        exit(1);
-    }
-
-    // browse and store in table
-    fflush(stdout);
-    memset(objsnes, 0x00, sizeof(objsnes));
-    objidx = layer->object_count - 1;
-
-    fflush(stdout);
-
-    // if we have some objects to store
-    if (layer->object_count)
-    {
-        while (objm)
-        {
-            // put object in reverse order
-            objsnes[objidx].class = atoi(objm->type.ptr); //(unsigned short) strtol(objm->class.ptr,&pend,10);
-            objsnes[objidx].x = (int)(objm->x);
-            objsnes[objidx].y = (int)(objm->y);
-            for (i = 0; i < objm->property_count; i++)
-            {
-                propm = objm->properties + i;
-                // write blocker property (which is a string)
-                if (strcmp(propm->name.ptr, "minx") == 0)
-                {
-                    blkprop = (unsigned short)strtol(propm->data.string.ptr, &pend, 10);
-                    objsnes[objidx].minx = blkprop;
-                }
-                // write prio property (which is a string)
-                if (strcmp(propm->name.ptr, "maxx") == 0)
-                {
-                    blkprop = (unsigned short)strtol(propm->data.string.ptr, &pend, 10);
-                    objsnes[objidx].maxx = blkprop;
-                }
-            }
-
-            // switch to next object
-            objm = objm->next;
-            objidx--;
-        }
-    }
-
-    // now write to file
-    if (quietmode == 0)
-        printf("tmx2snes:     Writing %d objects to file...\n", layer->object_count);
-    for (i = 0; i < layer->object_count; i++)
-    {
-        PutWord(objsnes[i].x, fpo);
-        PutWord(objsnes[i].y, fpo);
-        PutWord(objsnes[i].class, fpo);
-        PutWord(objsnes[i].minx, fpo);
-        PutWord(objsnes[i].maxx, fpo);
-    }
-    PutWord(0xFFFF, fpo);
-
-    // close current layer map file
-    fclose(fpo);
 }
 
 /// M A I N ////////////////////////////////////////////////////////////
