@@ -120,8 +120,8 @@ void objInitGravity(u16 objgravity, u16 objfriction);
 	\brief Initialize the object type functions (initialize, update)
     \param objtype  The type of object depending of the game
 	\param initfct  The address of the function when we init the type of object
-	\param updfct   The address of the function when we update the type of object (will be called once per frame)
-	\param reffct   The address of the function when we refresh sprites of object (will be called once per frame)
+	\param updfct   The address of the function when we update the type of object (need to be called once per frame)
+	\param reffct   The address of the function when we refresh sprites of object (need to be called once per frame)
 */
 void objInitFunctions(u8 objtype, void *initfct,void *updfct,void *reffct);
 
@@ -174,7 +174,7 @@ void objUpdateAll(void);
 /*! \fn objRefreshAll(void)
 	\brief call refresh fonction for all objects currently on screen.
 	\brief  useful to avoid flickering when using a platform scrolling game.
-	\brief  only if refresh attribute is set and screen coordinates are -32<x<256 and -32<y<y<224.
+	\brief  screen coordinates are -32<x<256 and -32<y<y<224.
 */
 void objRefreshAll(void);
 

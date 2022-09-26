@@ -809,9 +809,9 @@ _oiral3:
     sec
     sbc.l x_pos
 
-    cmp.w #OB_SCR_XLE_CHK
-    bcc _oiral3y                                        ; x is lower than max
     cmp.w #OB_SCR_XRI_CHK
+    bcc _oiral3y                                        ; x is lower than max
+    cmp.w #OB_SCR_XLE_CHK
     bcc _oiral3y1                                       ; but x is lower than min
 
 _oiral3y:                                               ; check now y coordinates
@@ -830,9 +830,6 @@ _oiral3y1:
             
 _oiral32:            
     sep #$20
-    lda objbuffers.1.refresh,x                          ; only do the call if refresh is set
-    beq _oiral3y1
-
     lda objbuffers.1.type,x
     rep #$20
     and #$00ff
