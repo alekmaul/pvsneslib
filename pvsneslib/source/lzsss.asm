@@ -1,7 +1,7 @@
 ;---------------------------------------------------------------------------------
 ;
 ;	Copyright (C) 2014-2020
-;		Alekmaul
+;		Alekmaul 
 ;
 ;	This software is provided 'as-is', without any express or implied
 ;	warranty.  In no event will the authors be held liable for any
@@ -33,28 +33,64 @@
 .EQU LZSS_FORMAT_PLANES 4
 
 ; The base address should be an even multiple of 4KB
-.EQU LZSS_RAM_BASE 	  $7f8000	
-.EQU LZSS_TEXTBUF 	  LZSS_RAM_BASE
+.RAMSECTION ".reg_lzss7f" bank $7F
 
-.EQU LZSS_ZP_BASE 	  $A0
-.EQU LZSS_DATA_PTR     LZSS_ZP_BASE
-.EQU LZSS_FLAGS 	  LZSS_DATA_PTR+3
-.EQU LZSS_STRLEN 	  LZSS_FLAGS+1
-.EQU LZSS_TEMP 	  LZSS_STRLEN+2
-.EQU LZSS_STRPTR 	  LZSS_TEMP+2
-.EQU LZSS_PTR 	  LZSS_STRPTR+2
-.EQU LZSS_TEXTBUF_OFFS LZSS_PTR+3
-.EQU LZSS_LOBYTE	  LZSS_TEXTBUF_OFFS+2
-.EQU LZSS_FLIPFLOP	  LZSS_LOBYTE+1
-.EQU LZSS_CNT2 	  LZSS_FLIPFLOP+1
-.EQU LZSS_DEST	  LZSS_CNT2+1
+LZSS_ZP_BASE            DSB 4096             ; for VRAM address (0..1), source bank (2)
+;LZSS_FLAGS              DB
+;LZSS_STRLEN             DW
+;LZSS_TEMP               DW
+;LZSS_STRPTR             DW
+;LZSS_PTR                DSB 3
+;LZSS_TEXTBUF_OFFS       DW
+;LZSS_LOBYTE             DB
+;LZSS_FLIPFLOP           DB
+;LZSS_CNT2               DB
+;LZSS_DEST
 
-.EQU LZSS_CNT 	  LZSS_RAM_BASE+LZSS_DICTIONARY_SIZE
-.EQU LZSS_BITPLANES    LZSS_CNT2+1
-.EQU LZSS_PLANECNT 	  LZSS_CNT2+2
-.EQU LZSS_TEXTBUF_P 	  (LZSS_DICTIONARY_SIZE-LZSS_MAX_LEN)
+
+.ENDS
+
+.EQU LZSS_DATA_PTR      LZSS_ZP_BASE
+.EQU LZSS_FLAGS 	    LZSS_DATA_PTR+3
+.EQU LZSS_STRLEN 	    LZSS_FLAGS+1
+.EQU LZSS_TEMP 	        LZSS_STRLEN+2
+.EQU LZSS_STRPTR 	    LZSS_TEMP+2
+.EQU LZSS_PTR 	        LZSS_STRPTR+2
+.EQU LZSS_TEXTBUF_OFFS  LZSS_PTR+3
+.EQU LZSS_LOBYTE	    LZSS_TEXTBUF_OFFS+2
+.EQU LZSS_FLIPFLOP	    LZSS_LOBYTE+1
+.EQU LZSS_CNT2 	        LZSS_FLIPFLOP+1
+.EQU LZSS_DEST	        LZSS_CNT2+1
+
+.EQU LZSS_TEXTBUF_P     (LZSS_DICTIONARY_SIZE-LZSS_MAX_LEN)
+.EQU LZSS_TEXTBUF            LZSS_ZP_BASE
+
+
+;.EQU LZSS_RAM_BASE 	  $7f8000	
+;.EQU LZSS_TEXTBUF 	  LZSS_RAM_BASE
+ 
+;.EQU LZSS_ZP_BASE 	  $A0
+;.EQU LZSS_DATA_PTR      LZSS_ZP_BASE
+;.EQU LZSS_FLAGS 	  LZSS_DATA_PTR+3
+;.EQU LZSS_STRLEN 	  LZSS_FLAGS+1
+;.EQU LZSS_TEMP 	  LZSS_STRLEN+2
+;.EQU LZSS_STRPTR 	  LZSS_TEMP+2
+;.EQU LZSS_PTR 	  LZSS_STRPTR+2
+;.EQU LZSS_TEXTBUF_OFFS LZSS_PTR+3
+;.EQU LZSS_LOBYTE	  LZSS_TEXTBUF_OFFS+2
+;.EQU LZSS_FLIPFLOP	  LZSS_LOBYTE+1
+;.EQU LZSS_CNT2 	  LZSS_FLIPFLOP+1
+;.EQU LZSS_DEST	  LZSS_CNT2+1
+
+;not used .EQU LZSS_CNT 	  LZSS_RAM_BASE+LZSS_DICTIONARY_SIZE
+;not used .EQU LZSS_BITPLANES    LZSS_CNT2+1
+;not used .EQU LZSS_PLANECNT 	  LZSS_CNT2+2
+;.EQU LZSS_TEXTBUF_P 	  (LZSS_DICTIONARY_SIZE-LZSS_MAX_LEN)
 
 .SECTION ".lzss_text" SUPERFREE
+.ACCU 16
+.INDEX 16
+.16bit
 
 ;---------------------------------------------------------------------------
 ; void LzssDecodeVram(u8 * source, u16 address, u16 size);
@@ -70,16 +106,16 @@ LzssDecodeVram:
 	lda	10,s			; source address (low 16 bits)
 	tax
 	lda	14,s			; VRAM offset
-	sta	LZSS_ZP_BASE
+	sta.l	LZSS_ZP_BASE
 	lda	16,s			; compressed size
 	tay
 	lda	12,s			; source bank
 	sep	#$20
-	sta	LZSS_DATA_PTR+2
+	sta.l LZSS_DATA_PTR+2
 	pha
 	plb
 	lda	#$7f
-	sta	LZSS_DEST+2
+	sta.l LZSS_DEST+2
 
 	rep	#$20
 	lda	LZSS_ZP_BASE
@@ -118,7 +154,7 @@ _ldv_loop:
 	bne	+
 	jmp	_ldv_done
 +:
-	lda	(LZSS_DATA_PTR),y	; Read the flags byte
+	lda	(LZSS_ZP_BASE).w,y	; Read the flags byte
 	iny
 	dex
 	sta	LZSS_FLAGS
@@ -135,7 +171,7 @@ _ldv_check_flags:
 	eor	#1
 	sta	LZSS_FLIPFLOP
 	beq	+
-	lda	(LZSS_DATA_PTR),y
+	lda	(LZSS_ZP_BASE).w,y
 	iny
 	dex
 	phx
@@ -147,7 +183,7 @@ _ldv_check_flags:
 	plx
 	jmp	_ldv_next_flag
 +:
-	lda	(LZSS_DATA_PTR),y
+	lda	(LZSS_ZP_BASE).w,y
 	iny
 	dex
 	phx
@@ -167,10 +203,10 @@ _ldv_flag_clear:
 	bne	+
 	jmp	_ldv_done
 +:
-	lda	(LZSS_DATA_PTR),y	; A = idx
+	lda	(LZSS_ZP_BASE).w,y	; A = idx
 	iny
 	sta	LZSS_STRPTR
-	lda	(LZSS_DATA_PTR),y	; A = j
+	lda	(LZSS_ZP_BASE).w,y	; A = j
 	iny
 	dex
 	dex
@@ -196,7 +232,7 @@ _ldv_flag_clear:
  	lda	LZSS_FLIPFLOP
  	and	#1
  	bne	_ldv_copy_string_odd
-
+  
 _ldv_copy_string_even:
 	lda.w	$8000,x
 	sta.w	$8000,y	
@@ -215,7 +251,7 @@ _ldv_copy_string_even:
 	bne	_ldv_copy_string_odd	; (2.n) (tot 47.n)
 	lda	#1
 	sta	LZSS_FLIPFLOP		; If the last write was an even one then the flip-flop should be odd
-	bra	_ldv_copy_string_done	
+	bra	_ldv_copy_string_done	 
 _ldv_copy_string_odd:
 	lda.w	$8000,x
 	sta.w	$8000,y
