@@ -37,6 +37,7 @@ VERSION 4.0 (dd, mmm, 2022)
 - Change tcc to last version (really a big THANKS to kobenairb !)
 - Remove map management from gfx2 snes (in tmx2snes now)
 - Update documentation layout
+- New code formatter with vscode (thanks kobenairb)
 
 VERSION 3.50 (29, May, 2022)
 - Add romsize update in snestools
