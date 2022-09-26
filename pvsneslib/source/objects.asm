@@ -1,7 +1,7 @@
 ;---------------------------------------------------------------------------------
 ;
 ;	Copyright (C) 2012-2021
-;		Alekmaul 
+;		Alekmaul
 ;
 ;	This software is provided 'as-is', without any express or implied
 ;	warranty.  In no event will the authors be held liable for any
@@ -51,7 +51,7 @@
 .DEFINE ACT_BURN			$8000
 
 .DEFINE GRAVITY       	    41              ; default values
-.DEFINE MAX_Y_VELOCITY      (10*256) 
+.DEFINE MAX_Y_VELOCITY      (10*256)
 .DEFINE FRICTION            $10
 
 .DEFINE FRICTION1D          $0100
@@ -83,7 +83,7 @@ xvel	        DW			    	        ; 34 x velocity
 yvel	        DW				            ; 36 y velocity
 
 tilestand       DW                          ; 38 tile number object is standing on
-tileabove       DW                          ; 40 tile number above object 
+tileabove       DW                          ; 40 tile number above object
 tilesprop       DW                          ; 42 tile property stand on
 tilebprop       DW                          ; 44 tile property on left/right side
 
@@ -93,7 +93,7 @@ tempo	        DB			                ; 49 if object needs tempo
 count           DB				            ; 50 if object needs a counter
 dir             DB				            ; 51 if object needs to manage direction
 
-parentID		DW                          ; 52 obj ID of parent (useful for projectiles) 
+parentID		DW                          ; 52 obj ID of parent (useful for projectiles)
 hitpoints		DB                          ; 54 number of hit points of object
 sprrefresh		DB               			; 55 if object needs sprite to be refresh
 
@@ -110,7 +110,7 @@ objfctinit      DSB 4*OB_TYPE_MAX			; pointer to init function of objects
 objfctupd	    DSB 4*OB_TYPE_MAX			; pointer to update function of object
 objfctref	    DSB 4*OB_TYPE_MAX			; pointer to refresh function of sprite object
 
-objtmpbuf	    DSW (OB_MAX*5)+1			; temporary buffer for object 
+objtmpbuf	    DSW (OB_MAX*5)+1			; temporary buffer for object
 
 objunused       DW							; buffer of unused objects
 objnewid	    DW							; new id created for the last object
@@ -169,7 +169,7 @@ _oieR0:
 	ldy #$0001
 
 _oieR1:
-    tax 
+    tax
 	stz	objbuffers.1.nID,x                                ;init and link up all the unused objects
 	tya
 	sta objbuffers.1.next,x
@@ -197,7 +197,7 @@ _oieR2:
 	ldx #(2*(OB_TYPE_MAX-1))
 _oieR3:
 	sta objactives,x                                    ; each active object to OB_NULL
-	dex 
+	dex
 	dex
 	bne _oieR3
 	sta objactives,x									; for last one
@@ -212,12 +212,12 @@ _oieR3:
     rep #$20
     lda #GRAVITY                                        ; set default values for gravity and other variables
     sta objgravity
-    lda #FRICTION                                        
+    lda #FRICTION
     sta objfriction
 
 	ply
 	plx
-	plb 
+	plb
 	plp
 	
 	rtl
@@ -237,9 +237,9 @@ objInitGravity:
     sta objgravity
     lda 8,s												; get friction (6+2)
     sta objfriction
-    rep #$20        
+    rep #$20
 
-	plb 
+	plb
 	plp
 	
 	rtl
@@ -265,17 +265,17 @@ objInitFunctions:
     asl a
     tax
 
-    lda 9,s												; get bank + data init fonction address (6+1+2 & 8+1+2) 
+    lda 9,s												; get bank + data init fonction address (6+1+2 & 8+1+2)
     sta objfctinit,x
     lda 11,s
     sta objfctinit+2,x
 
-    lda 13,s										    ; get bank + data update fonction address (10+1+2 & 12+1+2) 
+    lda 13,s										    ; get bank + data update fonction address (10+1+2 & 12+1+2)
     sta objfctupd,x
     lda 15,s
     sta objfctupd+2,x
 
-    lda 17,s										    ; get bank + data update fonction address (14+1+2 & 16+1+2) 
+    lda 17,s										    ; get bank + data update fonction address (14+1+2 & 16+1+2)
     sta objfctref,x
     lda 19,s
     sta objfctref+2,x
@@ -284,7 +284,7 @@ objInitFunctions:
     plb
     plp
     rtl
-    
+
 ;---------------------------------------------------------------------------------
 ; u16 objNew (u8 objtype, u16 x, u16 y)
 ; 5 6-7 8-9
@@ -295,14 +295,14 @@ objNew:
     phx
     phy
 
-    sep #$20                                            ; go to bank object                                               
+    sep #$20                                            ; go to bank object
     lda #$7e
     pha
     plb
 
     lda 10,s	                                        ; get object type (5+1+2+2)
 
-    rep #$20                                            
+    rep #$20
     and #$00ff
     asl a
     tay
@@ -311,7 +311,7 @@ objNew:
     cmp #OB_NULL
     beq _oiN0
     bra _oiN1
-    
+
 _oiN0:	
     lda #OB_ID_NULL                                     ; put OB_ID_NULL and leave function
     sta tcc__r0
@@ -385,9 +385,9 @@ _oiNEnd:
     plx
     plb
     plp
-    
+
     rtl
-    
+
 ;---------------------------------------------------------------------------------
 ; long call to the subroutine pointed to in objfctcall, needed for C functions
 jslcallfct:
@@ -449,13 +449,13 @@ _oigp1:
 	plb
 	plp
 	rtl
-    
+
 ;---------------------------------------------------------------------------------
 ; void objKill(u16 objhandle)
 objKill:
 	php
 	phb
-    
+
 	phx
 	phy
 	
@@ -470,7 +470,7 @@ objKill:
 	jsl objGetPointer
 	pla
 	
-	lda objptr  
+	lda objptr
 	bne _oik1                                           ; if NULL, object is already dead
 	brl _oikend
 
@@ -488,7 +488,7 @@ _oik1:
 	lda objbuffers.1.prev,x                             ; remove it from its active list
 	
 	cmp #OB_NULL
-	bne _oik2   
+	bne _oik2
 	
 	sep #$20                                            ; this object was at the top of its list... move next one up to top
 	lda objbuffers.1.type,x
@@ -525,11 +525,11 @@ _oik2:
 	asl a
 	tax 		
 	tya
-	sta objbuffers.1.next,x 
+	sta objbuffers.1.next,x
 	
 	cmp #OB_NULL
 	beq _oik3
-    
+
 	ldx objptr
 	lda objbuffers.1.prev,x
 	tay
@@ -542,18 +542,18 @@ _oik2:
 	asl a
 	tax 		
 	tya
-	sta objbuffers.1.prev,x 
+	sta objbuffers.1.prev,x
 	
 _oik3:
 	ldx objptr										    ; add the object to the unused list
 	lda objunused
 	sta objbuffers.1.next,x
 	lda 10,s
-	and #$00ff 
+	and #$00ff
 	sta objunused
 
 	ldy #4
-_oik4:                                                  ; init memory of object 
+_oik4:                                                  ; init memory of object
 	stz objbuffers.1.type,x
 	inx
 	inx
@@ -569,13 +569,13 @@ _oikend:
 	plp
 
 	rtl
-    
+
 ;---------------------------------------------------------------------------------
 ; void objKillAll(void)
 objKillAll:
     php
     phb
-    
+
     phx
     phy
 
@@ -587,13 +587,13 @@ objKillAll:
     rep #$20
     ldy #$0000
 
-_oikal1: 
+_oikal1:
     lda objactives,y									; walk through entire active buffer
 _oikal2:
     sta objcidx
     cmp #OB_NULL                                        ;  there are still object left in the list
     beq _oikal3
-    asl a 
+    asl a
     asl a
     asl a
     asl a
@@ -642,7 +642,7 @@ _oikal3:
 objUpdateAll:
 	php
 	phb
-    
+
 	phx
 	phy
 	
@@ -658,7 +658,7 @@ _oiual1:
     lda objactives,x									; walk through entire active buffer
 	phx
 _oiual10:
-    sta objcidx                                         ; to keep value of current index 
+    sta objcidx                                         ; to keep value of current index
     cmp #OB_NULL                                        ; there are still object left in the list
     bne _oiual3
     brl _oiual2
@@ -696,8 +696,8 @@ _oiual3y:                                               ; check now y coordinate
 _oiual3y1:
     rep #$20
     bra _oial31
-            
-_oiual32:            
+
+_oiual32:
     sep #$20
     lda objbuffers.1.type,x
     rep #$20
@@ -773,7 +773,7 @@ _oiuaend:
 objRefreshAll:
 	php
 	phb
-    
+
 	phx
 	phy
 	
@@ -789,7 +789,7 @@ _oiral1:
     lda objactives,x									; walk through entire active buffer
 	phx
 _oiral10:
-    sta objcidx                                         ; to keep value of current index 
+    sta objcidx                                         ; to keep value of current index
     cmp #OB_NULL                                        ; there are still object left in the list
     bne _oiral3
     brl _oiral2
@@ -827,8 +827,8 @@ _oiral3y:                                               ; check now y coordinate
 _oiral3y1:
     rep #$20
     bra _oiral31
-            
-_oiral32:            
+
+_oiral32:
     sep #$20
     lda objbuffers.1.type,x
     rep #$20
@@ -869,7 +869,7 @@ _oiraend:
 	plp
 	rtl
 
-.ENDS    
+.ENDS
 
 .SECTION ".objects1_text" superfree
 
@@ -895,14 +895,14 @@ objCollidMap:
 	asl a
 	asl a
 	asl a
-	tax 
+	tax
 	sta objtmp2                                         ; to keep global handle for object
 
 	lda objbuffers.1.yvel,x                               ; if yvel>=0 -> if object is falling
 	bpl	_oicm1
 	jmp _oicmtstyn
 _oicm1:
-    xba                                                ; compute ypos 
+    xba                                                ; compute ypos
     and	#$00FF
     clc
     adc	objbuffers.1.ypos+1,x
@@ -942,7 +942,7 @@ _oicm1:
     adc maptile_L1d                                     ; get direct rom value
     tax
     phb
-    sep #$20                                
+    sep #$20
     lda maptile_L1b.b
     pha
     plb
@@ -954,7 +954,7 @@ _oicm1:
     lda	metatilesprop, x
     sta objtmp3
     bra	_oicm21         		                        ; speedup, saves some cycles
-        
+
 _oicm2:
     tya
     clc
@@ -996,34 +996,34 @@ _oicm22:
 	brl  _oicmtstx
 
 _oicm23:
-    and #$ff00											; keep only the high values for collision 
+    and #$ff00											; keep only the high values for collision
     beq _oicm4
 
 _oicm3:
     lda objtmp3
     sta objbuffers.1.tilestand,x                           ; store the tile we are standing on
 
-    lda objbuffers.1.yvel+1,x 
+    lda objbuffers.1.yvel+1,x
     and #$00ff
     clc
     adc objbuffers.1.ypos+1,x
     clc
     adc objbuffers.1.yofs,x
-    clc 
+    clc
     adc objbuffers.1.height,x
     inc a
 
     and #$fff8
     sec
     sbc objbuffers.1.yofs,x
-    sec 
+    sec
     sbc objbuffers.1.height,x
     sta objbuffers.1.ypos+1,x
     stz objbuffers.1.yvel,x
     jmp	_oicmtstx
 
 _oicm4:
-    rep #$20                                            ; continue to test the tiles on x 
+    rep #$20                                            ; continue to test the tiles on x
     iny
     iny
     dec	objtmp1
@@ -1133,23 +1133,23 @@ _oicmtstyn2:
     and #$ff00											; keep only the high values for collision
     beq _oicmtstyn3
 
-    lda objbuffers.1.yvel+1,x  
+    lda objbuffers.1.yvel+1,x
     ora #$ff00
     clc
     adc objbuffers.1.ypos+1,x
     clc
     adc objbuffers.1.yofs,x
-    clc 
+    clc
     adc #8
     and #$fff8
     sec
     sbc objbuffers.1.yofs,x
     sta objbuffers.1.ypos+1,x
-    stz objbuffers.1.yvel,x 
+    stz objbuffers.1.yvel,x
     brl _oicmtstyn4
 
 _oicmtstyn3:
-    iny                                                 ; continue to test the tiles on x 
+    iny                                                 ; continue to test the tiles on x
     iny
     dec	objtmp1
     bne _oicmtstyn1
@@ -1166,7 +1166,7 @@ _oicmtstyn4:
 _oicmtstyn5:
     sta objbuffers.1.yvel,x
 		
-_oicmtstx:   
+_oicmtstx:
 	ldx objtmp2
 	lda objbuffers.1.xvel,x                               ; if xvel>=0 -> moving right
 	bne _oicmtstx1
@@ -1203,8 +1203,8 @@ _oicmtstx12:
     lsr a
     and	#$fffe
     tay
-    
-    lda objbuffers.1.xvel+1,x  
+
+    lda objbuffers.1.xvel+1,x
     and #$00ff
     clc
     adc objbuffers.1.xpos+1,x
@@ -1242,7 +1242,7 @@ _oicmtstx13:
     and #$ff00											; keep only the high values for collision
     beq _oicmtstx14
 
-    lda objbuffers.1.xvel+1,x 
+    lda objbuffers.1.xvel+1,x
     and #$00ff
     clc
     adc objbuffers.1.xpos+ 1,x
@@ -1298,13 +1298,13 @@ _oicmtstxna:
     and	#$fffe
     tay
 
-    lda objbuffers.1.xvel+1,x 
+    lda objbuffers.1.xvel+1,x
     ora #$ff00
     clc
     adc objbuffers.1.xpos+1,x
     clc
-    adc objbuffers.1.xofs,x 
-    
+    adc objbuffers.1.xofs,x
+
 bpl _oicmtstxnb                                         ; if negative, don't bother to test, will change screen
     jmp _oicmend
 
@@ -1340,12 +1340,12 @@ _oicmtstxnc:
     and #$ff00											; keep only the high values for collision
     beq _oicmtstxnd
 
-    lda objbuffers.1.xvel+1,x 
+    lda objbuffers.1.xvel+1,x
     ora #$ff00
     clc
     adc objbuffers.1.xpos+ 1,x
     clc
-    adc objbuffers.1.xofs,x 
+    adc objbuffers.1.xofs,x
     clc
     adc #8
     and #$fff8
@@ -1357,7 +1357,7 @@ _oicmtstxnc:
     brl _oicmend
 
 _oicmtstxnd:
-    tya 
+    tya
     clc
     adc.l maprowsize
     dec	objtmp1
@@ -1396,14 +1396,14 @@ objCollidMap1D:
 	asl a
 	asl a
 	asl a
-	tax 
+	tax
 	sta objtmp2                                               ; to keep global handle for object
 
 	lda objbuffers.1.yvel,x                                   ;-- TEST Y ---------
 	bpl	_oicm1d1                                              ; if yvel>=0 -> if object is moving down
 	jmp _oicm1dtstyn
 _oicm1d1:
-    xba                                                       ; compute ypos 
+    xba                                                       ; compute ypos
     and	#$00FF
     clc
     adc	objbuffers.1.ypos+1,x
@@ -1411,7 +1411,7 @@ _oicm1d1:
     adc objbuffers.1.yofs,x
     clc
     adc objbuffers.1.height,x
-	bpl + 												      ; if y<0, put it to 0 
+	bpl + 												      ; if y<0, put it to 0
 	lda #0000
 
 +   lsr a
@@ -1446,7 +1446,7 @@ _oicm1d1:
     adc maptile_L1d                                     ; get direct rom value
     tax
     phb
-    sep #$20                                
+    sep #$20
     lda maptile_L1b.b
     pha
     plb
@@ -1458,7 +1458,7 @@ _oicm1d1:
     lda	metatilesprop, x
     sta objtmp3
     bra	_oicm1d21         		                        ; speedup, saves some cycles
-        
+
 _oicm1d2:
     tya
     clc
@@ -1500,34 +1500,34 @@ _oicm1d22:
 	brl  _oicm1dtstx
 
 _oicm1d23:
-    and #$ff00											; keep only the high values for collision 
+    and #$ff00											; keep only the high values for collision
     beq _oicm1d4
 
 _oicm1d3:
     lda objtmp3
     sta objbuffers.1.tilestand,x                           ; store the tile we are standing on
 
-    lda objbuffers.1.yvel+1,x 
+    lda objbuffers.1.yvel+1,x
     and #$00ff
     clc
     adc objbuffers.1.ypos+1,x
     clc
     adc objbuffers.1.yofs,x
-    clc 
+    clc
     adc objbuffers.1.height,x
     inc a
 
     and #$fff8
     sec
     sbc objbuffers.1.yofs,x
-    sec 
+    sec
     sbc objbuffers.1.height,x
     sta objbuffers.1.ypos+1,x
     stz objbuffers.1.yvel,x
     jmp	_oicm1dtstx
 
 _oicm1d4:
-    rep #$20                                            ; continue to test the tiles on x 
+    rep #$20                                            ; continue to test the tiles on x
     iny
     iny
     dec	objtmp1
@@ -1556,7 +1556,7 @@ _oicm1dtstyn:
     adc	objbuffers.1.ypos+1,x
     clc
     adc objbuffers.1.yofs,x
-	bpl +     												  ; if y < 0, put it to 0 
+	bpl +     												  ; if y < 0, put it to 0
 	lda #0000
 
 +	lsr a
@@ -1630,23 +1630,23 @@ _oicm1dtstyn2:
     and #$ff00											; keep only the high values for collision
     beq _oicm1dtstyn3
 
-    lda objbuffers.1.yvel+1,x  
+    lda objbuffers.1.yvel+1,x
     ora #$ff00
     clc
     adc objbuffers.1.ypos+1,x
     clc
     adc objbuffers.1.yofs,x
-    clc 
+    clc
     adc #8
     and #$fff8
     sec
     sbc objbuffers.1.yofs,x
     sta objbuffers.1.ypos+1,x
-    stz objbuffers.1.yvel,x 
+    stz objbuffers.1.yvel,x
     brl _oicm1dtstx
 
 _oicm1dtstyn3:
-    iny                                                       ;  continue to test the tiles on x 
+    iny                                                       ;  continue to test the tiles on x
     iny
     dec	objtmp1
     bne _oicm1dtstyn1
@@ -1665,7 +1665,7 @@ _oicm1dtstx11:
 	lda objbuffers.1.ypos+1,x
 	clc
 	adc objbuffers.1.yofs,x
-	bpl +     											 ; if y < 0, put it to 0 
+	bpl +     											 ; if y < 0, put it to 0
 	lda #0000
 
 +	pha
@@ -1684,8 +1684,8 @@ _oicm1dtstx11:
     lsr a
     and	#$fffe
     tay
-    
-    lda objbuffers.1.xvel+1,x  
+
+    lda objbuffers.1.xvel+1,x
     and #$00ff
     clc
     adc objbuffers.1.xpos+1,x
@@ -1723,7 +1723,7 @@ _oicm1dtstx13:
     and #$ff00											; keep only the high values for collision
     beq _oicm1dtstx14
 
-    lda objbuffers.1.xvel+1,x 
+    lda objbuffers.1.xvel+1,x
     and #$00ff
     clc
     adc objbuffers.1.xpos+ 1,x
@@ -1753,7 +1753,7 @@ _oicm1dtstxn:
     lda objbuffers.1.ypos+1,x
     clc
     adc objbuffers.1.yofs,x
-	bpl +     											  ; if y < 0, put it to 0 
+	bpl +     											  ; if y < 0, put it to 0
 	lda #0000
 
 +   pha
@@ -1774,13 +1774,13 @@ _oicm1dtstxn:
     and	#$fffe
     tay
 
-    lda objbuffers.1.xvel+1,x 
+    lda objbuffers.1.xvel+1,x
     ora #$ff00
     clc
     adc objbuffers.1.xpos+1,x
     clc
-    adc objbuffers.1.xofs,x 
-    
+    adc objbuffers.1.xofs,x
+
     bpl _oicm1dtstxnb                                         ; if negative, don't bother to test, will change screen
     jmp _oicm1dend
 
@@ -1816,12 +1816,12 @@ _oicm1dtstxnc:
     and #$ff00											; keep only the high values for collision
     beq _oicm1dtstxnd
 
-    lda objbuffers.1.xvel+1,x 
+    lda objbuffers.1.xvel+1,x
     ora #$ff00
     clc
     adc objbuffers.1.xpos+ 1,x
     clc
-    adc objbuffers.1.xofs,x 
+    adc objbuffers.1.xofs,x
     clc
     adc #8
     and #$fff8
@@ -1833,7 +1833,7 @@ _oicm1dtstxnc:
     brl _oicm1dend
 
 _oicm1dtstxnd:
-    tya 
+    tya
     clc
     adc.l maprowsize
     dec	objtmp1
@@ -1855,7 +1855,7 @@ _oicm1dend:
 objLoadObjects:
 	php
     phb
-    
+
     phx
     phy
 	
@@ -1878,7 +1878,7 @@ objLoadObjects:
     sta.l $2183                                         ; bank address of destination
     lda	12,s	
     sta.l	$4304                                       ; bank address of source
-    ldx	#$8000						                     
+    ldx	#$8000						
 	stx	$4300
 
     lda #$01
@@ -1942,7 +1942,7 @@ _oiloend:
 	plb
 	plp
 	rtl
-    
+
 .ENDS
 
 .SECTION ".objects4_text" superfree
@@ -1956,7 +1956,7 @@ objCollidObj:
 
     phx
     phy
-  
+
     sep #$20                                            ; go to object bank
     lda #$7e
     pha
@@ -1995,7 +1995,7 @@ objCollidObj:
 _oicor1:
 	sta objtmp2
 	
-	cmp objtmp1											; objleft 
+	cmp objtmp1											; objleft
 	bcs _oicor2
 	adc objbuffers.1.width,x
 
@@ -2011,12 +2011,12 @@ _oicor2:
 	bmi _oicoend
 	
 _oicor3:
-	lda objbuffers.1.ypos+1,y				            
+	lda objbuffers.1.ypos+1,y				
 	clc
 	adc objbuffers.1.yofs,y
 	sta objtmp3
 
-	lda objbuffers.1.ypos+1,x			                ; same computation 
+	lda objbuffers.1.ypos+1,x			                ; same computation
 	clc
 	adc objbuffers.1.yofs,x
 	bpl _oicor4         						        ; if negative, will be 0
@@ -2032,7 +2032,7 @@ _oicor4:
 	
 _oicor5:
 	lda objtmp3
-	clc 
+	clc
 	adc objbuffers.1.height,y
 	cmp objtmp4
 	bmi _oicoend
@@ -2048,7 +2048,7 @@ _oicoend:
 	plp
 	rtl
 
-.ENDS    
+.ENDS
 
 .SECTION ".objects5_text" superfree
 
@@ -2066,31 +2066,31 @@ objUpdateXY:
     plb
 
 	rep #$20											
-	lda 8,s                                             ; grab the index of object (5+1+2)    
+	lda 8,s                                             ; grab the index of object (5+1+2)
 	asl a
 	asl a
 	asl a
 	asl a
 	asl a
 	asl a
-	tax 
-  
+	tax
+
     clc
     lda objbuffers.1.xvel,x                             ; xvel is negative
     bpl _oicuxy2
 
     adc objbuffers.1.xpos,x
-    sta objbuffers.1.xpos,x 
+    sta objbuffers.1.xpos,x
     bcs _oicuxy1
 
     sep #$20
     dec objbuffers.1.xpos+2,x
     rep #$20
-    brl _oicuxy1       
+    brl _oicuxy1
 
 _oicuxy2:
     adc objbuffers.1.xpos,x                             ; xvel is positive
-    sta objbuffers.1.xpos,x 
+    sta objbuffers.1.xpos,x
     bcc _oicuxy1
     sep #$20
     inc objbuffers.1.xpos+2,x
@@ -2100,19 +2100,19 @@ _oicuxy1:
     clc
     lda objbuffers.1.yvel,x                             ; same thing for yvel
     bpl _oicuxy3                                   ; yvel is negative
-  
+
     adc objbuffers.1.ypos,x
-    sta objbuffers.1.ypos,x 
+    sta objbuffers.1.ypos,x
     bcs _oicuxyend
 
     sep #$20
     dec objbuffers.1.ypos+2,x
     rep #$20
-    brl _oicuxyend       
+    brl _oicuxyend
 
 _oicuxy3:
     adc objbuffers.1.ypos,x
-    sta objbuffers.1.ypos,x 
+    sta objbuffers.1.ypos,x
     bcc _oicuxyend
     sep #$20
     inc objbuffers.1.ypos+2,x
@@ -2123,5 +2123,5 @@ _oicuxyend:
     plb
     plp
     rtl
-    
+
 .ENDS

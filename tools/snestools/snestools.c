@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 
 	Copyright (C) 2012-2021
-		Alekmaul 
+		Alekmaul
 
 	This software is provided 'as-is', without any express or implied
 	warranty.  In no event will the authors be held liable for any
@@ -94,7 +94,7 @@ enum
 };
 
 // ram/rom coding memory amount
-static const int memory_amount[] = 
+static const int memory_amount[] =
 {
 /*$00 => no RAM */ 0,
 /*$01 => $800 bytes == 2 kilobytes, amount of RAM in Super Mario World */ 2,
@@ -164,7 +164,7 @@ static const char *const companies[] =
 #define HIGH(n)     ((int)n<<8)             // turn the char into high part of int
 
  #pragma pack(1)                            // for bmp header to avoid data alignment
- 
+
 //STRUCTURES
 typedef struct {
 	char 			extended[16]; // extra information for header
@@ -188,20 +188,20 @@ typedef struct {
 	/*FFDE*/unsigned short  checksum; // SNES checksum, an unsigned 16-bit checksum of bytes.
 	unsigned int  unknow; // Unknown.
 	unsigned short cop_vecs; // Table of interrupt vectors for native mode
-	unsigned short brk_vecs; 
-	unsigned short abort_vecs; 
-	unsigned short nmi_vecs; 
-	unsigned short unused_vecs; 
-	unsigned short irq_vecs; 
+	unsigned short brk_vecs;
+	unsigned short abort_vecs;
+	unsigned short nmi_vecs;
+	unsigned short unused_vecs;
+	unsigned short irq_vecs;
 	unsigned int  unknow1; // Unknown.
 	unsigned short ecop_vecs; // Table of interrupt vectors for emulation mode.
-	unsigned short eunused_vecs; 
-	unsigned short eabort_vecs; 
-	unsigned short enmi_vecs; 
-	unsigned short ereset_vecs; 
-	unsigned short eirq_vecs; 
+	unsigned short eunused_vecs;
+	unsigned short eabort_vecs;
+	unsigned short enmi_vecs;
+	unsigned short ereset_vecs;
+	unsigned short eirq_vecs;
 } snes_header;
-	   
+
 //// M A I N   V A R I A B L E S ////////////////////////////////////////////////
 int quietmode=0;		// 0 = not quiet, 1 = i can't say anything :P
 int showheader=1;		// 0 = don't display current header , 1 = display it
@@ -209,7 +209,7 @@ int fixcrc=0;			// 1 = fix crc, 0 = don't fix it
 int changetitle=0;		// 1 = change game title, 0 = don't change it
 int changecountry=0;	// 1 = change game country, 0 = don't change it
 int changeromsize=0;	// 1 = change game rom size, 0 = don't change it
-int nosram=0;           // 1 = change default pvsneslib with no sram support 
+int nosram=0;           // 1 = change default pvsneslib with no sram support
 
 int rom_has_header=0;	// 1 = rom with extra 512 bytes header
 snes_header snesheader; // content of all header
@@ -241,11 +241,11 @@ int char_to_int_conv( char id )
 	return value;
 }
 
-int find_addon_chip(snes_header* head) 
+int find_addon_chip(snes_header* head)
 {
 	int supported_type = HAS_NONE;
 
-	// Info mostly taken from http://snesemu.black-ship.net/misc/-from%20nsrt.edgeemu.com-chipinfo.htm 
+	// Info mostly taken from http://snesemu.black-ship.net/misc/-from%20nsrt.edgeemu.com-chipinfo.htm
 	switch (head->cardtype)
 	{
 		case 0x00:
@@ -347,8 +347,8 @@ int find_addon_chip(snes_header* head)
 	}
 	return supported_type;
 }
- 
-int show_header(char * filename, FILE *fp) 
+
+int show_header(char * filename, FILE *fp)
 {
 	char title[22], rom_id[5], company_id[2];
 	int addr, i, company, has_ram = 0, has_sram = 0, valid_check=0, add_on_chip = 0;
@@ -363,8 +363,8 @@ int show_header(char * filename, FILE *fp)
 		printf("\nsnestools: error 'Header (loRom) of file [%s] is not correct'\n",filename);
 		exit(1);
 	}
-	
-	// a valid checksum is the biggest indicator of a valid header to check lo or Hi rom. 
+
+	// a valid checksum is the biggest indicator of a valid header to check lo or Hi rom.
 	if ((snesheader.checksum + snesheader.checksum_c) == 0xffff && (snesheader.checksum != 0) && (snesheader.checksum_c != 0))
 		valid_check = 1;
 	if (!valid_check) {
@@ -377,7 +377,7 @@ int show_header(char * filename, FILE *fp)
 		{
 			printf("\nsnestools: error 'Header (hiRom) of file [%s] is not correct'\n",filename);
 			exit(1);
-		}	
+		}
 		if ((snesheader.checksum + snesheader.checksum_c) == 0xffff && (snesheader.checksum != 0) && (snesheader.checksum_c != 0))
 			valid_check = 1;
 		if (!valid_check) {
@@ -385,8 +385,8 @@ int show_header(char * filename, FILE *fp)
 			exit(1);
 		}
 	}
-	
-	// Company 
+
+	// Company
 	for (i = 0; i < 2; i++)
 		company_id[i] = snesheader.extended[0 + i];
 	company = (char_to_int_conv(company_id[0]) << 4) + char_to_int_conv(company_id[1]);
@@ -408,18 +408,18 @@ int show_header(char * filename, FILE *fp)
 		((snesheader.cardtype & 0xf) == 4) || ((snesheader.cardtype & 0xf) == 5))
 		has_ram = 1;
 
-	// SRAM 
+	// SRAM
 	if (((snesheader.cardtype & 0xf) == 2) || ((snesheader.cardtype & 0xf) == 5) ||
 		((snesheader.cardtype & 0xf) == 6))
 		has_sram = 1;
-	
+
 	// chip
 	add_on_chip = find_addon_chip(&snesheader);
-	
+
 	// lo/hi rom
 	rom_is_lorom = snesheader.romlayout & 0x01 ? 0 : 1;
-	
-	// Display only if needed 
+
+	// Display only if needed
 	if (showheader)
 	{
 		printf("\nGeneric Information");printf("\n-------------------");
@@ -429,14 +429,14 @@ int show_header(char * filename, FILE *fp)
 		printf("\nLicense       : %s [%02X]", companies[snesheader.license], snesheader.license );
 		printf("\nCountry:      : %s [%02X]", countries[snesheader.countrycode], snesheader.countrycode );
 		printf("\nVersion       : 1.%d", snesheader.version );
-		if (snesheader.license == 0x33)  
+		if (snesheader.license == 0x33)
 			printf("\nPromo Version : %d", snesheader.extended[14] );
 		else
 			printf("\nPromo Version : None");
 		printf("\nHeader Type   : %s", snesheader.license == 0x33 ? "Newer Extended Header" : "Old Header (not extended)");
 		printf("\nChecksum      : %04X", snesheader.checksum );
 		printf("\nComp Checksum : %04X", snesheader.checksum_c );
-		
+
 		printf("\n\nHardware Information");	printf("\n--------------------");
 		printf("\nROM Size      : %dK [%dK file]", memory_amount[snesheader.ROMsize], rom_size/1024);
 		printf("\nROM Speed     : %s", snesheader.romlayout & 0x10 ? "Fast (3.58MHz)" : "Slow (2.68MHz)");
@@ -453,11 +453,11 @@ int show_header(char * filename, FILE *fp)
 		printf("\nStart Address : %04Xh (native)", snesheader.ereset_vecs);
 		printf("\n");
 	}
-	
+
 	return -1;
 }
 
-int skip_header(char * filename, FILE *fp) 
+int skip_header(char * filename, FILE *fp)
 {
 	unsigned char header[16];
 
@@ -465,57 +465,57 @@ int skip_header(char * filename, FILE *fp)
 	fseek(fp, 0, SEEK_END);
 	rom_size = ftell(fp);
 	fseek(fp, 0, SEEK_SET);
-	
-	// Check for a header (512 bytes) 
+
+	// Check for a header (512 bytes)
 	if (fread(&header, sizeof(header), 1, fp)  < 1)
 	{
 		printf("\nsnestools: error 'File [%s] has no correct header'\n",filename);
 		return 0;
 	}
-	
+
 	if ((header[8] == 0xaa) && (header[9] == 0xbb) && (header[10] == 0x04))
 	{
-		// Found an SWC identifier 
+		// Found an SWC identifier
 		if (quietmode == 0)
 			printf("\nsnestools: 'File [%s] has header (SWC)'\n",filename);
 		rom_has_header=1;
 	}
 	else if ((header[0] | (header[1] << 8)) == (((rom_size - 512) / 1024) / 8))
 	{ // 2621440
-		// Some headers have the rom size at the start, if this matches with the actual rom size, we probably have a header 
+		// Some headers have the rom size at the start, if this matches with the actual rom size, we probably have a header
 		if (quietmode == 0)
 			printf("\nsnestools: 'File [%s] has header (size)'\n",filename);
 		rom_has_header=1;
 	}
 	else if ((rom_size % 0x8000) == 512)
 	{
-		// As a last check we'll see if there's exactly 512 bytes extra to this image. 
+		// As a last check we'll see if there's exactly 512 bytes extra to this image.
 		if (quietmode == 0)
 			printf("\nsnestools: 'File [%s] has header (extra)'\n",filename);
 		rom_has_header=1;
 	}
 	else
 	{
-		// No header found so go back to the start of the file 
+		// No header found so go back to the start of the file
 		if (quietmode == 0)
 			printf("\nsnestools: 'File [%s] has no header'\n",filename);
 		rom_has_header=0;
 	}
-	
+
 	return -1;
 }
 
-int change_checksum(char * filename, FILE *fp) 
+int change_checksum(char * filename, FILE *fp)
 {
 	unsigned short sum_crc,sum_crc_comp;
 	int i,addr,c;
-	
-	// Seek the header 
+
+	// Seek the header
 	fseek(fp, 512*rom_has_header, SEEK_SET);
 
 	// Compute address of checksum entry.
 	addr = rom_is_lorom ? LOROM_HEADER + OFFSET_CHECKSUM : HIROM_HEADER + OFFSET_CHECKSUM;
-  
+
 	// Checksum everything up to the checksum entry.
 	sum_crc = 0;
 	for(i = 0; i < addr; ++i) {
@@ -525,33 +525,33 @@ int change_checksum(char * filename, FILE *fp)
 		}
 		sum_crc+= (unsigned char) c;
 	}
-  
-	// Seek past the checksum fields. 
+
+	// Seek past the checksum fields.
 	fseek(fp, 4, SEEK_CUR);
-	
-	// 2*255 is for the checksum and its complement bytes that we skipped earlier 
+
+	// 2*255 is for the checksum and its complement bytes that we skipped earlier
 	sum_crc += 0x1fe;
-  
-	// Finish computing the checksum. 
+
+	// Finish computing the checksum.
 	while((c = fgetc(fp)) != EOF) {
 		sum_crc += (unsigned char) c;
 	}
-	
+
 	if (quietmode == 0)
 		printf("\nsnestools: 'Change Checksum to %04Xh and Checksum complement %04Xh...'\n",sum_crc,sum_crc^0xffff);
-	
-	// Seek back to the checksum entry. 
+
+	// Seek back to the checksum entry.
 	fseek(fp, addr, SEEK_SET);
-  
-	// Rewrite the checksum complement entry. 
+
+	// Rewrite the checksum complement entry.
 	sum_crc_comp = sum_crc^0xffff;
 	fputc(sum_crc_comp & 0xff,        fp);
 	fputc((sum_crc_comp >> 8) & 0xff, fp);
-  
-	// Rewrite the checksum entry. 
+
+	// Rewrite the checksum entry.
 	fputc(sum_crc & 0xff,        fp);
 	fputc((sum_crc >> 8) & 0xff, fp);
-  
+
 	return -1;
 }
 
@@ -561,10 +561,10 @@ void strtoupper(char *str)
         *str = toupper(*str);
 }
 
-int change_title(char * filename, FILE *fp, char *title) 
+int change_title(char * filename, FILE *fp, char *title)
 {
 	int i,addr;
-	
+
 	if (quietmode == 0)
 		printf("\nsnestools: 'Change title to [%s]...'\n", title);
 
@@ -578,14 +578,14 @@ int change_title(char * filename, FILE *fp, char *title)
 
 	// compute crc again to avoid problems
 	change_checksum(filename, fp) ;
-	
+
 	return -1;
 }
 
-int change_country(char * filename, FILE *fp, char *country) 
+int change_country(char * filename, FILE *fp, char *country)
 {
 	int cntry=0,addr;
-	
+
 	if (quietmode == 0)
 		printf("\nsnestools: 'Change country to [%s]...'\n", country);
 
@@ -606,14 +606,14 @@ int change_country(char * filename, FILE *fp, char *country)
 
 	// compute crc again to avoid problems
 	change_checksum(filename, fp) ;
-	
+
 	return -1;
 }
 
-int change_romsize(char * filename, FILE *fp, char *romsize) 
+int change_romsize(char * filename, FILE *fp, char *romsize)
 {
 	int romsiz=0,addr;
-	
+
 	if (quietmode == 0)
 		printf("\nsnestools: 'Change rom size to [%s]...'\n", romsize);
 
@@ -636,11 +636,11 @@ int change_romsize(char * filename, FILE *fp, char *romsize)
 
 	// compute crc again to avoid problems
 	change_checksum(filename, fp) ;
-	
+
 	return -1;
 }
 
-int change_sram(char * filename, FILE *fp, char nosram) 
+int change_sram(char * filename, FILE *fp, char nosram)
 {
 	int addr;
 
@@ -661,7 +661,7 @@ int change_sram(char * filename, FILE *fp, char nosram)
 
 	// compute crc again to avoid problems
 	change_checksum(filename, fp) ;
-	
+
 	return -1;
 }
 
@@ -671,10 +671,10 @@ void PrintOptions(char *str)
 {
 	printf("\n\nUsage: snestools.exe [options] sfc/smc filename ...");
 	printf("\n  where filename is a SNES rom file");
-	
+
 	if(str[0]!=0)
 		printf("\nsnestools: error 'The [%s] parameter is not recognized'",str);
-	
+
 	printf("\n\nHeader options:");
 	printf("\n-hi!              Don't show current filename header information.");
 	printf("\n-hf               Fix hearder CRC.");
@@ -687,7 +687,7 @@ void PrintOptions(char *str)
 	printf("\n-q                Quiet mode");
     printf("\n-v                Display version information");
 	printf("\n");
-	
+
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -715,7 +715,7 @@ int main(int argc, char **argv)
 		programtitle[i] = ' ';
 	programtitle[21] = '\0';
 	filebase[0] = '\0';
-	
+
 	//parse the arguments
 	for(i=1;i<argc;i++)
 	{
@@ -734,7 +734,7 @@ int main(int argc, char **argv)
 			{
 				if( strcmp(&argv[i][1],"hi!") == 0)
 				{
-					showheader=0;					
+					showheader=0;
 				}
 				else if( strcmp(&argv[i][1],"hf") == 0)
 				{
@@ -747,7 +747,7 @@ int main(int argc, char **argv)
 					strcpy(country,&argv[i][3]);
 					if (strlen(country) != 2) {
 						PrintOptions(argv[i]);
-						return 1;	
+						return 1;
 					}
 				}
                 else if(argv[i][2]=='r') // romsize
@@ -757,7 +757,7 @@ int main(int argc, char **argv)
 					strcpy(romsz,&argv[i][3]);
 					if (strlen(romsz) != 2) {
 						PrintOptions(argv[i]);
-						return 1;	
+						return 1;
 					}
 				}
 				else if(argv[i][2]=='t') // program title
@@ -816,7 +816,7 @@ int main(int argc, char **argv)
 		PrintOptions("");
 		exit(1);
 	}
-	
+
 	// open the file
 	fp = fopen(filebase,"rb+");
 	if(fp==NULL)
@@ -824,16 +824,16 @@ int main(int argc, char **argv)
 		printf("\nsnestools: error 'Can't open file [%s]'",filebase);
 		exit(1);
 	}
-	
+
 	// check for an header and skip it
-	if (!skip_header(filebase, fp)) 
+	if (!skip_header(filebase, fp))
 	{
 		fclose(fp);
 		exit(1);
 	}
-	
+
 	// display header if needed in this function
-	if (!show_header(filebase, fp)) 
+	if (!show_header(filebase, fp))
 	{
 		fclose(fp);
 		exit(1);
@@ -841,46 +841,46 @@ int main(int argc, char **argv)
 
 	// if needed, change some game information
 	if (changetitle) {
-		if (!change_title(filebase, fp, programtitle)) 
+		if (!change_title(filebase, fp, programtitle))
 		{
 			fclose(fp);
 			exit(1);
 		}
 	}
 	if (changecountry) {
-		if (!change_country(filebase, fp, country)) 
+		if (!change_country(filebase, fp, country))
 		{
 			fclose(fp);
 			exit(1);
 		}
 	}
 	if (changeromsize) {
-		if (!change_romsize(filebase, fp, romsz)) 
+		if (!change_romsize(filebase, fp, romsz))
 		{
 			fclose(fp);
 			exit(1);
 		}
 	}
 	if (nosram) {
-		if (!change_sram(filebase, fp, 1)) 
+		if (!change_sram(filebase, fp, 1))
 		{
 			fclose(fp);
 			exit(1);
 		}
 	}
-	
+
 	// if needed, recalc checksum
 	if (fixcrc) {
-		if (!change_checksum(filebase, fp)) 
+		if (!change_checksum(filebase, fp))
 		{
 			fclose(fp);
 			exit(1);
 		}
 	}
-	
+
 	// close the file
 	fclose(fp);
-	
+
 	if (quietmode == 0)
 		printf("\nsnestools: 'Done!'\n");
 

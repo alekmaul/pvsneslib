@@ -53,7 +53,7 @@ ifneq ($(strip $(AUDIOFILES)),)
 endif
 
 #---------------------------------------------------------------------------------
-# Search all .asm and .c files until 3rd level in the tree 
+# Search all .asm and .c files until 3rd level in the tree
 #---------------------------------------------------------------------------------
 CFILES = $(wildcard *.c)
 CFILES+= $(wildcard $(SRC)/*.c)
@@ -81,12 +81,12 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 	@echo "Building with -x flag: $(AS) -s -x -o $@ $<"
 # -d switch disable WLA's ability to calculate A-B where A and B are labels.
 # if you remove it, you will have some updates to do at least in crt0_snes.asm
-	$(AS) -d -s -x -o $@ $< 
+	$(AS) -d -s -x -o $@ $<
 
 #---------------------------------------------------------------------------------
 %.asm: %.ps
 	@echo Assembling ... $(notdir $<)
-	$(PY) $< >$*.asp 
+	$(PY) $< >$*.asp
 	@echo Moving constants ... $(notdir $<)
 	$(CTF) $*.c $*.asp $@	
 	@rm $*.asp
@@ -102,7 +102,7 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 	@for i in $(shell ls $(LIBDIRSOBJSW)); do \
 		echo $(LIBDIRSOBJSW)/$$i >> linkfile; \
 	done
-        
+
 	@echo Linking ... $(notdir $@)
 	$(LD) -d -s -v -A -L ${LIBDIRSOBJS} linkfile $@
 

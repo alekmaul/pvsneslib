@@ -1,7 +1,7 @@
 ifeq ($(strip $(PVSNESLIB_HOME)),)
 $(error "Please create an environment variable PVSNESLIB_HOME with path to its folder and restart application. (you can do it on windows with <setx PVSNESLIB_HOME "/c/snesdev">)")
 endif
- 
+
 export TOPDIR	:=	$(CURDIR)
 
 # create version number which will be used everywhere
@@ -28,8 +28,8 @@ lib:
 examples:
 	cd ../snes-examples && \
 	make && \
-	make install 
-    
+	make install
+
 #-------------------------------------------------------------------------------
 clean:
 	make -C source clean
@@ -38,12 +38,12 @@ clean:
 
 #---------------------------------------------------------------------------------
 doxygenInstalled := $(shell command -v doxygen 2> /dev/null)
-docs: 
+docs:
 ifndef doxygenInstalled
 	@echo "doxygen is not installed, documentation will be not generated.";
 else
 	@rm -rf $(PVSDOCSDIR)/html; \
-	PVSDOCSDIR="$(PVSDOCSDIR)" PVSVERSION="$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)" doxygen "$(PVSDOCSDIR)/pvsneslib.dox" 
+	PVSDOCSDIR="$(PVSDOCSDIR)" PVSVERSION="$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)" doxygen "$(PVSDOCSDIR)/pvsneslib.dox"
 	@if [ "$(DOCS_PDF_ON)" = "YES" ]; then\
 		$(MAKE) -C $(PVSDOCSDIR)/latex;\
 		cp $(PVSDOCSDIR)/latex/refman.pdf $(PVSDOCSDIR)/pvsneslib_manual.pdf;\
@@ -57,7 +57,7 @@ endif
 # Turn on Latex -> PDF conversion to run run at end of regular docs build
 # (which includes latex output but deletes it at the end).
 #
-# The conversion process requires a Latex install. 
+# The conversion process requires a Latex install.
 # For Windows there are various Latex packages to choose from.
 # For Linux this appears to be the minimum:
 #   sudo apt install texlive-latex-base
@@ -65,7 +65,7 @@ endif
 #   sudo apt install texlive-latex-extra
 #
 docspdf: DOCS_PDF_ON=YES
-docspdf: docs 
+docspdf: docs
 
 #---------------------------------------------------------------------------------
 include/snes/libversion.h : Makefile

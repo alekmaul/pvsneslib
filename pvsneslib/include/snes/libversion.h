@@ -1,9 +1,9 @@
 #ifndef __PVSNESLIBVERSION_H__
 #define __PVSNESLIBVERSION_H__
 
-#define _PVSNESLIB_MAJOR_	3
-#define _PVSNESLIB_MINOR_	5
-#define _PVSNESLIB_PATCH_	0
+#define _PVSNESLIB_MAJOR_ 3
+#define _PVSNESLIB_MINOR_ 5
+#define _PVSNESLIB_PATCH_ 0
 
 #define _PVSNESLIB_STRING "PVSnesLib Release 3.5.0"
 

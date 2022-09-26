@@ -109,7 +109,7 @@ V2.2.0 (xx, yyyy, 2014)
 - Add dmaCopySpr16Vram to copy 16pix size sprite gaphics to vram (fasssst :D)
 - Add pixel mode management for SNES mode 0
 
-V2.1.0 (xx, January, 2014) 
+V2.1.0 (xx, January, 2014)
 - Removed: Neoflash intro screen
 - Added: SRAM managment (16kbits)  (WARNING ! header not compatible with previous version !!!)
 
@@ -157,12 +157,12 @@ V1.0.0 (06, June, 2012)
 - remove verbose mode for wlalink and wla-65816, not really usefull
 - remove all signed variables for optmization purpose
 - split pvsneslib.asm into multiple files to be more easy to understand
-- add music and sfx via snesmod adaptation from mukunda (thanks also kung fu furby for help) 
+- add music and sfx via snesmod adaptation from mukunda (thanks also kung fu furby for help)
 
 V0.3.0 (01, May, 2012)
-- add paletteSize to bgInitTileSet to avoid pb with palette bigger than 16 colors for 16 colormode 
+- add paletteSize to bgInitTileSet to avoid pb with palette bigger than 16 colors for 16 colormode
 - fix bug for REG_BG34NBA address
-- add setMode7 to initialize graphic mode 7 
+- add setMode7 to initialize graphic mode 7
 - add bgInitMapTileSet7 to initialize graphics & map for graphic mode 7
 - add dmaCopyVram7 to copy to VRAM with specfici value for VMAIN register
 - add mode7 example

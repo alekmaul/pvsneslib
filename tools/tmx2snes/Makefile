@@ -6,8 +6,8 @@ VERSION = "1.0.0"
 CC=gcc
 CFLAGS=-g -O2 -Wall -Wno-implicit-function-declaration -Wno-unused-result -static -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-SOURCES=tmx2snes.c 
-OBJS=tmx2snes.o 
+SOURCES=tmx2snes.c
+OBJS=tmx2snes.o
 EXE=tmx2snes
 DEFINES=
 LIBS=

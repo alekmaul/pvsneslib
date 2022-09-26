@@ -82,7 +82,7 @@ void PutWord(int data, FILE *fp)
 //////////////////////////////////////////////////////////////////////////////
 int LoadPicture(void)
 {
-	if (filebase[strlen(filebase)-4] == '.') 
+	if (filebase[strlen(filebase)-4] == '.')
     {
 		filebase[strlen(filebase)-4] = '\0';
 	}
@@ -122,7 +122,7 @@ int LoadPicture(void)
 //////////////////////////////////////////////////////////////////////////////
 int LoadTileSet(void)
 {
-	if (filetileset[strlen(filetileset)-4] == '.') 
+	if (filetileset[strlen(filetileset)-4] == '.')
     {
 		filetileset[strlen(filetileset)-4] = '\0';
 	}
@@ -239,7 +239,7 @@ int main(int argc, char **arg)
     strcpy(filebase,"");
     strcpy(filename,"");
     strcpy(filetileset,"");
-    
+
 	// init all buffers
 	buffer=NULL;
 	buffertileset=NULL;
@@ -424,8 +424,8 @@ int main(int argc, char **arg)
 					file_type = 4; // PNG, evething else is bmp
 				}
 			}
-			else if (arg[i][1]=='v') //version information 
-            { 
+			else if (arg[i][1]=='v') //version information
+            {
                 PrintVersion();
 				return 0;
             }
@@ -501,7 +501,7 @@ int main(int argc, char **arg)
 	if(output_palette==-1)
 		output_palette=256;
 
-	//Load picture 
+	//Load picture
     if (LoadPicture())
     {
         return 1;
@@ -516,19 +516,19 @@ int main(int argc, char **arg)
     }
 
     // if tileset filename is available, try to load tiles
-    if (strlen(filetileset)) 
+    if (strlen(filetileset))
     {
         if (LoadTileSet())
         {
             return 1;
         }
-        else 
+        else
         {
             //convert the palette
             ConvertPalette(tilesetimg.palette, palette);
         }
     }
-    
+
 	//autodetect size if necessary
 	if((size == 0) && (screen == 0))
 	{
@@ -571,7 +571,7 @@ int main(int argc, char **arg)
 		//or image block mode with no borders
 		if (screen) {
 			size=8;
-			
+
 			// Get out if hires and not 512 width
 			if( (hi512) &&  (width != 512) )
 			{
@@ -682,8 +682,8 @@ int main(int argc, char **arg)
 		j1=tilesetimg.header.width/8;
 		num_tiles1=tilesetimg.header.height/8;
 
-		//first arrange into a list of 8x8 blocks 
-        if (inputtileset) 
+		//first arrange into a list of 8x8 blocks
+        if (inputtileset)
         {
             buffertileset=ArrangeBlocks(tilesetimg.buffer, tilesetimg.header.width, tilesetimg.header.height, size, &j1, &num_tiles1, 8, 0);
             free(tilesetimg.buffer);
@@ -715,7 +715,7 @@ int main(int argc, char **arg)
 		}
 
 		//make the tile map now
-        if (inputtileset) 
+        if (inputtileset)
         {
             tilemap=MakeMapWithTileSet(buffer, buffertileset, &num_tiles, (int *) &tileobj, xsize, ysize, tile_x, tile_y, colors, rearrange, palette_entry);
         }
@@ -725,7 +725,7 @@ int main(int argc, char **arg)
         }
 		if(tilemap==NULL)
 		{
-			if (inputtileset && buffertileset!=NULL) 
+			if (inputtileset && buffertileset!=NULL)
                 free(buffertileset);
 			free(buffer);
 			printf("\ngfx2snes: error 'Not enough memory to do tile map optimizations...'\n");
@@ -742,7 +742,7 @@ int main(int argc, char **arg)
 		{
 			printf("\ngfx2snes: error 'Need %d tiles to represent the screen in mode7. SNES only has room for 256 tiles'" ,num_tiles+blank_absent);
 			free(buffertileset);
-			if (inputtileset && buffertileset!=NULL) 
+			if (inputtileset && buffertileset!=NULL)
                 free(buffer);
 			free(tilemap);
 			return 1;
@@ -787,7 +787,7 @@ int main(int argc, char **arg)
 	//convert pictures and save to file
 	if (collision == 0)
 	{
-        if (inputtileset==0) 
+        if (inputtileset==0)
         {
             if(!Convert2Pic(filebase, buffer, num_tiles, blank_absent, colors, packed, lzpacked))
             {
@@ -802,7 +802,7 @@ int main(int argc, char **arg)
 	}
 
 	//free up image memory
-    if ((inputtileset) && (buffertileset!=NULL)) 
+    if ((inputtileset) && (buffertileset!=NULL))
 	{
         free(buffertileset);
 	}
@@ -829,17 +829,17 @@ int main(int argc, char **arg)
 			free(tilemap);
 			return 1;
 		}
-        
+
         // if map engine , save also properties of the map
-        if (mapengine) 
+        if (mapengine)
         {
             PutWord(tile_x*8,fp);
             PutWord(tile_y*8,fp);
             PutWord(tile_x*tile_y*2,fp);
         }
-        
+
         // Little warning for more than one bank
-        if ( (tile_x*tile_y*2) >=32768) 
+        if ( (tile_x*tile_y*2) >=32768)
         {
             printf("\ngfx2snes: WARNING 'Map is too big for 1 32KB bank (%d)'\n",tile_x*tile_y);
         }
@@ -859,7 +859,7 @@ int main(int argc, char **arg)
 		fclose(fp);
 
         // if map engine, save also the tile properties in a specific tile
-        if (mapengine) 
+        if (mapengine)
         {
             sprintf(filename,"%s.til",filebase);
             if (quietmode == 0)

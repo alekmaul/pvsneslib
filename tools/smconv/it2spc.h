@@ -12,11 +12,11 @@ namespace IT2SPC {
 		u16		Length;
 		u16		Loop;
 		u8		*Data;
-		
+
 		double	TuningFactor;
 
 	public:
-		Source( 
+		Source(
 			const ITLoader::SampleData & );
 		~Source();
 
@@ -24,7 +24,7 @@ namespace IT2SPC {
 
 		bool	Compare( const Source& ) const;
 		void	Export( IO::File &, bool ) const;
-		
+
 		int		GetDataLength() const {
 			return Length;
 		}
@@ -32,12 +32,12 @@ namespace IT2SPC {
 		int GetLoopPoint() const {
 			return Loop;
 		}
-		
+
 		double GetTuningFactor() const {
 			return TuningFactor;
 		}
 	};
-	
+
 	//---------------------------------------------
 	class Sample {
 	//---------------------------------------------
@@ -47,10 +47,10 @@ namespace IT2SPC {
 		u16		PitchBase;
 		u8		DirectoryIndex;
 		u8		SetPan;
-		
+
 	public:
 		Sample( const ITLoader::Sample &, int, double );
-		
+
 		void Export( IO::File & ) const;
 	};
 
@@ -59,7 +59,7 @@ namespace IT2SPC {
 		u8	duration;
 		s16 delta;
 	} EnvelopeNode;
-	
+
 	//---------------------------------------------
 	class Instrument {
 	//---------------------------------------------
@@ -73,7 +73,7 @@ namespace IT2SPC {
 		u8		EnvelopeLoopStart;
 		u8		EnvelopeLoopEnd;
 		EnvelopeNode *EnvelopeData;
-		
+
 	public:
 		Instrument( const ITLoader::Instrument & );
 		~Instrument();
@@ -81,10 +81,10 @@ namespace IT2SPC {
 		int GetExportSize() const {
 			return 5 + (!EnvelopeLength) ? 0 : (3 + (EnvelopeLength/4) * 4);
 		}
-		
+
 		void Export( IO::File & ) const;
 	};
-	
+
 	//---------------------------------------------
 	class Pattern {
 	//---------------------------------------------
@@ -99,10 +99,10 @@ namespace IT2SPC {
 		int GetExportSize() {
 			return 1 + Data.size();
 		}
-		
+
 		void Export( IO::File &file ) const;
 	};
-	
+
 	//---------------------------------------------
 	class Module {
 	//---------------------------------------------
@@ -111,29 +111,29 @@ namespace IT2SPC {
 		u8	InitialSpeed;
 		u8	InitialChannelVolume[8];
 		u8	InitialChannelPanning[8];
-		
+
 		u8	EchoVolumeL;
 		u8	EchoVolumeR;
 		u8	EchoDelay;
 		u8	EchoFeedback;
 		u8	EchoFIR[8];
 		u8	EchoEnable;
-		
+
 		u8	Sequence[200];
-		
+
 		// <pointers>
 		std::vector<Pattern*> Patterns;
 		std::vector<Instrument*> Instruments;
 		std::vector<Sample*> Samples;
-		
+
 
 		void ParseSMOption( const char * );
 		void ParseSMOptions( const ITLoader::Module & );
-		
+
 	public:
-		Module( 
-			const ITLoader::Module &, 
-			const std::vector<u16> &, 
+		Module(
+			const ITLoader::Module &,
+			const std::vector<u16> &,
 			const std::vector<u8> &,
 			const std::vector<Source*> & );
 
@@ -145,16 +145,16 @@ namespace IT2SPC {
 		int GetExportSize_Header() const {
 			return 616;
 		}
-		
+
 		void Export( IO::File &file, bool ) const;
 	};
-	
+
 	//---------------------------------------------
 	class Bank {
 	//---------------------------------------------
 		std::vector<Module*> Modules;
 		std::vector<Source*> Sources;
-		
+
 	public:
 		Bank( const ITLoader::Bank &, bool, bool );
 		~Bank();
@@ -164,7 +164,7 @@ namespace IT2SPC {
 		void AddSource( const ITLoader::SampleData & );
 
 		bool HiROM;
-		
+
 		void Export( const char * ) const;
 		void ExportASM( const char *, const char * ) const;
 		void ExportINC( const char * ) const;

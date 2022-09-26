@@ -58,7 +58,7 @@ namespace ITLoader {
 		bool HasSample;
 		bool Stereo;
 		bool Compressed;
-		
+
 
 		u8 DefaultVolume;
 		u8 DefaultPanning;
@@ -81,7 +81,7 @@ namespace ITLoader {
 		u8	y;
 		u16	x;
 	} EnvelopeEntry;
-	
+
 	class Envelope {
 
 	public:
@@ -90,17 +90,17 @@ namespace ITLoader {
 		bool Loop;
 		bool Sustain;
 		bool IsFilter;
-		
+
 		int Length;
-		
+
 		int LoopStart;
 		int LoopEnd;
 		int SustainStart;
 		int SustainEnd;
-		
+
 		EnvelopeEntry Nodes[25];
 	};
-	
+
 	class Instrument {
 
 	public:
@@ -138,15 +138,15 @@ namespace ITLoader {
 	};
 
 	class Module {
-		
+
 	public:
 		Module( const char *filename );
 		~Module();
 
 		std::string Filename;
-		
+
 		char Title[26];
-		
+
 		u16 PatternHighlight;
 		u16 Length;
 		u16 InstrumentCount;
@@ -175,10 +175,10 @@ namespace ITLoader {
 		Sample **Samples;
 		Pattern **Patterns;
 	};
-	
+
 	// conversion data handler
 	class Bank {
-		
+
 	public:
 		Bank( const std::vector<const char *> &files );
 		~Bank();

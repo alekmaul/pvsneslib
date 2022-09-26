@@ -27,4 +27,4 @@ BG3.pic: BG3.bmp
 	@echo convert bitmap ... $(notdir $@)	
 	$(GFXCONV) -pr -pc4 -n -gs8 -pe0 -fbmp -mp  $<
 
-bitmaps : BG1.pic BG2.pic BG3.pic 
+bitmaps : BG1.pic BG2.pic BG3.pic
