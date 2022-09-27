@@ -1,29 +1,29 @@
 /*---------------------------------------------------------------------------------
 
-	Copyright (C) 2022
-		Alekmaul 
+    Copyright (C) 2022
+        Alekmaul
 
-	This software is provided 'as-is', without any express or implied
-	warranty.  In no event will the authors be held liable for any
-	damages arising from the use of this software.
+    This software is provided 'as-is', without any express or implied
+    warranty.  In no event will the authors be held liable for any
+    damages arising from the use of this software.
 
-	Permission is granted to anyone to use this software for any
-	purpose, including commercial applications, and to alter it and
-	redistribute it freely, subject to the following restrictions:
+    Permission is granted to anyone to use this software for any
+    purpose, including commercial applications, and to alter it and
+    redistribute it freely, subject to the following restrictions:
 
-	1.	The origin of this software must not be misrepresented; you
-		must not claim that you wrote the original software. If you use
-		this software in a product, an acknowledgment in the product
-		documentation would be appreciated but is not required.
-	2.	Altered source versions must be plainly marked as such, and
-		must not be misrepresented as being the original software.
-	3.	This notice may not be removed or altered from any source
-		distribution.
+    1.	The origin of this software must not be misrepresented; you
+        must not claim that you wrote the original software. If you use
+        this software in a product, an acknowledgment in the product
+        documentation would be appreciated but is not required.
+    2.	Altered source versions must be plainly marked as such, and
+        must not be misrepresented as being the original software.
+    3.	This notice may not be removed or altered from any source
+        distribution.
 
     Convert Tiled tmx file to binary files compatible with pvsneslib
-	
-	Tiled is a tool to make graphic maps based on tiles
-		https://www.mapeditor.org/
+
+    Tiled is a tool to make graphic maps based on tiles
+        https://www.mapeditor.org/
 
 ---------------------------------------------------------------------------------*/
 
@@ -69,6 +69,7 @@ cute_tiled_tile_descriptor_t *tile;      // tiles from Tiled tiles attributes
 cute_tiled_property_t *propm;            // properties from Tiled tiles properties
 unsigned short tileprop[N_METATILES][3]; // to store tiles properties in correct order with index 0:attribute, 1:priority and 2:palette
 pvsneslib_object_t objsnes[N_OBJECTS];   // to store objects in correct order
+unsigned short tilesetmap[N_METATILES];  // to have map for each tile (optimization purpose)
 
 //// F U N C T I O N S //////////////////////////////////////////////////////////
 
@@ -77,13 +78,13 @@ void PutWord(int data, FILE *fp)
 {
     putc(LOW_BYTE(data), fp);
     putc(HI_BYTE(data), fp);
-} //end of PutWord
+} // end of PutWord
 
 //////////////////////////////////////////////////////////////////////////////
 void PrintOptions(char *str)
 {
-    printf("\n\nUsage : tmx2snes [options] -i filename -m mapfilename");
-    printf("\n  where filename is a Tiled tmx file");
+    printf("\n\nUsage : tmx2snes [options] tmxfilename mapfilename");
+    printf("\n  where tmxfilename is a Tiled tmx file (in json format)");
     printf("\n        mapfilename is the map file of tileset for tileset optimization");
     printf("\n\n  tmx2snes will do:");
     printf("\n  	.m16 file for map");
@@ -100,7 +101,7 @@ void PrintOptions(char *str)
     printf("\n-v                Display version information");
     printf("\n");
 
-} //end of PrintOptions()
+} // end of PrintOptions()
 
 //////////////////////////////////////////////////////////////////////////////
 void PrintVersion(void)
@@ -125,7 +126,7 @@ void WriteMap(void)
 
     if (quietmode == 0)
         printf("tmx2snes:     Writing tiles map file...\n");
-    //sprintf(filemapname,"%s.m16",layer->name.ptr);
+    // sprintf(filemapname,"%s.m16",layer->name.ptr);
     fpo = fopen(filemapname, "wb");
     if (fpo == NULL)
     {
@@ -175,8 +176,6 @@ void WriteTileset(void)
     int i, blkprop;
     char *pend;
 
-    printf("WriteTileset\n");
-
     if (quietmode == 0)
         printf("tmx2snes: Writing tiles attribute file...\n");
     sprintf(filemapname, "%s.b16", filebase);
@@ -196,11 +195,11 @@ void WriteTileset(void)
     if (tset->tilecount > N_METATILES)
     {
         printf("tmx2snes: error 'too much tiles in tileset (%d tiles, %d max expected)'\n", tset->tilecount, N_METATILES);
+        fclose(fpo);
         exit(1);
     }
 
     // browse and store in table
-    fflush(stdout);
     memset(tileprop, 0x00, sizeof(tileprop));
     while (tile)
     {
@@ -232,8 +231,10 @@ void WriteTileset(void)
     }
 
     // now write to file
+    fflush(stdout);
     if (quietmode == 0)
         printf("tmx2snes:     Writing %d tiles attributes to file...\n", tset->tilecount);
+
     for (i = 0; i < tset->tilecount; i++)
     {
         PutWord(tileprop[i][0], fpo);
@@ -241,6 +242,11 @@ void WriteTileset(void)
 
     // close current layer atribute file
     fclose(fpo);
+}
+
+void WriteMapTileset(void)
+{
+    int i, blkprop;
 
     // now write tileset file with properties (only priority & palette for the moment)
     sprintf(filemapname, "%s.t16", filebase);
@@ -250,14 +256,19 @@ void WriteTileset(void)
         printf("tmx2snes: error 'Can't open tiles properties file [%s] for writing'\n", filemapname);
         exit(1);
     }
+
+    // now write to file
+    fflush(stdout);
     if (quietmode == 0)
         printf("tmx2snes:     Writing %d tiles properties to file...\n", tset->tilecount);
+
     for (i = 0; i < tset->tilecount; i++)
     {
         // compute attribute to match with vhopppcc cccccccc
-        blkprop = tileprop[i][1] ? 0x2000 : 0x0000; // check priority
-        blkprop |= (tileprop[i][2] << 10);          // check palette
-        PutWord(blkprop + i, fpo);
+        blkprop = tilesetmap[i];                     // get tile number
+        blkprop |= tileprop[i][1] ? 0x2000 : 0x0000; // check priority
+        blkprop |= (tileprop[i][2] << 10);           // check palette
+        PutWord(blkprop, fpo);
     }
 
     // close current layer atribute file
@@ -354,7 +365,7 @@ int main(int argc, char **argv)
     strcpy(filebasetil, "");
     strcpy(filemapname, "");
 
-    //parse the arguments
+    // parse the arguments
     for (i = 1; i < argc; i++)
     {
         if (argv[i][0] == '-')
@@ -369,11 +380,11 @@ int main(int argc, char **argv)
                 PrintOptions((char *)"");
                 exit(0);
             }
-            else if (argv[i][1] == 'q') //quiet mode
+            else if (argv[i][1] == 'q') // quiet mode
             {
                 quietmode = 1;
             }
-            else //invalid option
+            else // invalid option
             {
                 PrintOptions(argv[i]);
                 exit(1);
@@ -381,28 +392,41 @@ int main(int argc, char **argv)
         }
         else
         {
-            //its not an option flag, so it must be the filebase
+            // its not an option flag, so it must be the filebase
             if (filebase[0] != 0) // if already defined... there's a problem
             {
-                PrintOptions(argv[i]);
-                exit(1);
+                if (filebasetil[0] != 0) // if already defined... there's a problem
+                {
+                    PrintOptions(argv[i]);
+                    exit(1);
+                }
+                else // not defined, ok it is the map file
+                {
+                    strcpy(filebasetil, argv[i]);
+                }
             }
-            else
+            else // not defined, ok it is the tmx file
             {
                 strcpy(filebase, argv[i]);
             }
         }
     }
 
-    //make sure options are valid
+    // make sure options are valid
     if (filebase[0] == 0)
     {
-        printf("\ntmx2snes: error 'You must specify a base filename'");
+        printf("\ntmx2snes: error 'You must specify a tmx filename'");
+        PrintOptions("");
+        exit(1);
+    }
+    if (filebasetil[0] == 0)
+    {
+        printf("\ntmx2snes: error 'You must specify a tileset map filename'");
         PrintOptions("");
         exit(1);
     }
 
-    // open the file
+    // open the tmx file
     fpi = fopen(filebase, "rb");
     if (fpi == NULL)
     {
@@ -425,6 +449,32 @@ int main(int argc, char **argv)
         fclose(fpi);
         return 1;
     }
+
+    // close the input file
+    fclose(fpi);
+
+    // open the tileset map file
+    fpi = fopen(filebasetil, "rb");
+    if (fpi == NULL)
+    {
+        printf("\ntmx2snes: error 'Can't open file [%s]'", filebasetil);
+        exit(1);
+    }
+
+    // get filesize
+    fseek(fpi, 0, SEEK_END);
+    filesize = ftell(fpi);
+    fseek(fpi, 0, SEEK_SET);
+
+    if (filesize > N_METATILES * 2) // no more than nb metatiles in words
+    {
+        printf("\ntmx2snes: error 'tileset map file is too big [%d bytes]'", filesize);
+        fclose(fpi);
+        exit(1);
+    }
+
+    // read the map
+    fread(tilesetmap, filesize, 1, fpi);
 
     // close the input file
     fclose(fpi);
@@ -490,9 +540,10 @@ int main(int argc, char **argv)
         // No it is a map layer
         else
         {
-            // write .m16 file ...
+            // write .m16 and .t16 files ...
             WriteMap();
-        }
+			WriteMapTileset();
+		}
 
         layer = layer->next;
     }
