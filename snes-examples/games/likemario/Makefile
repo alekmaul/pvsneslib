@@ -30,13 +30,13 @@ mario_sprite.pic: mario_sprite.bmp
 	@echo convert sprites ... $(notdir $@)
 	$(GFXCONV) -gs16 -pc16 -po16 -n $<
 
-map_1_1.m16: map_1_1.tmj
-	@echo convert map tiled ... $(notdir $@)
-	$(TMXCONV) $<
-
 tiles.pic: tiles.png
 	@echo convert map tileset... $(notdir $@)
-	$(GFXCONV) -gs8 -pc16 -po16 -m! -mR! -fpng -n $<
+	$(GFXCONV) -gs8 -pc16 -po16 -m -fpng -n $<
+
+map_1_1.m16: map_1_1.tmj tiles.pic
+	@echo convert map tiled ... $(notdir $@)
+	$(TMXCONV) $< tiles.map
 
 mariofont.pic: mariofont.bmp
 	@echo convert font with no tile reduction ... $(notdir $@)

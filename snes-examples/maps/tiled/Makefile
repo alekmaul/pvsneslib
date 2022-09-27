@@ -15,12 +15,12 @@ all: bitmaps $(ROMNAME).sfc
 clean: cleanBuildRes cleanRom cleanGfx
 
 #---------------------------------------------------------------------------------
-BG1.m16: maplevel01.json
-	@echo convert map tiled ... $(notdir $@)
-	$(TMXCONV) $<
-
 tileslevel1.pic: tileslevel1.png
 	@echo convert map tileset ... $(notdir $@)
-	$(GFXCONV) -gs8 -pc16 -po48 -m! -mR! -fpng -n $<
+	$(GFXCONV) -gs8 -pc16 -po48 -m -fpng -n $<
+
+BG1.m16: maplevel01.json tileslevel1.pic
+	@echo convert map tiled ... $(notdir $@)
+	$(TMXCONV) $< tileslevel1.map
 
 bitmaps : BG1.m16 tileslevel1.pic
