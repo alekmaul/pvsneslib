@@ -69,7 +69,7 @@ pcx_picture image;                  // file with image to convert
 pcx_picture tilesetimg;             // file with tileset for image / tiles matching
 
 char filebase[256];                 // name of output file
-char filename[256];                 // use to manage filenames
+char filename[256+4];                 // use to manage filenames
 char filetileset[256];              // name of tileset file
 
 //////////////////////////////////////////////////////////////////////////////

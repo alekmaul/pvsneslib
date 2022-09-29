@@ -910,6 +910,7 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 
 //////////////////////////////////////////////////////////////////////////////
 extern int Convert2PicLZSS(int quietmode, unsigned char *bufin, int buflen, unsigned char *bufout);
+extern int Convert2PicLZ77(int quietmode, unsigned char *bufin, int buflen, unsigned char *bufout);
 int Convert2Pic(char *filebase, unsigned char *buffer,
                 int num_tiles, int blank_absent, int colors, int packed, int lzsspacked)
 {
@@ -1022,7 +1023,8 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
             }
         }
         // Compress data and save to disc
-        bufsize = Convert2PicLZSS(quietmode, buftolzin, j, buftolzout);
+        //bufsize = Convert2PicLZSS(quietmode, buftolzin, j, buftolzout);
+		bufsize = Convert2PicLZ77(quietmode, buftolzin, j, buftolzout);
         for (i = 0; i < bufsize; i++)
             fputc(*(buftolzout + i), fp);
         free(buftolzout);

@@ -14,6 +14,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#if 0
+
 #define N 4096      /* size of ring buffer */
 #define F 18        /* upper limit for match_length */
 #define THRESHOLD 2 /* encode string into position and length \
@@ -260,3 +262,5 @@ may be spuriously long near the end of text. */
 
     return codesize;
 } // end of Convert2PicLZSS
+
+#endif
