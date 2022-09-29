@@ -454,6 +454,7 @@ _bITS1:
 
 ;---------------------------------------------------------------------------
 ;void bgInitTileSetLz(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)
+;5 6-9 10-13 14 15-16 17-18 19-20 21-22
 bgInitTileSetLz:
 	php
 	
