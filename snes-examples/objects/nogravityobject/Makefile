@@ -16,16 +16,16 @@ clean: cleanBuildRes cleanRom cleanGfx
 	rm -f *.m16 *.b16 *.o16
 
 #---------------------------------------------------------------------------------
-mapzelda.m16: mapzelda.tmj
+tiles.pic: tiles.png
+	@echo convert map tileset... $(notdir $@)
+	$(GFXCONV) -gs8 -pc16 -po16 -m -fpng -n $<
+
+mapzelda.m16: mapzelda.tmj tiles.pic
 	@echo convert map tiled ... $(notdir $@)
-	$(TMXCONV) $<
+	$(TMXCONV) $< tiles.map
 
 link.pic: link.png
 	@echo convert sprite bitmap ... $(notdir $@)
 	$(GFXCONV) -gs16 -pc16 -po16 -fpng -n $<
-
-tiles.pic: tiles.png
-	@echo convert map tileset... $(notdir $@)
-	$(GFXCONV) -gs8 -pc16 -po16 -m! -fpng -n $<
 
 bitmaps : mapzelda.m16 link.pic tiles.pic
