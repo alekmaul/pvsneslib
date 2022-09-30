@@ -33,6 +33,8 @@
 #include "imgtools.h"
 #include "gfx2snes.h"
 
+#define ALIGN4(nn) ( ((nn)+3)&~3 )
+
 unsigned char *ArrangeBlocks(unsigned char *img, int width, int height,
                              int size, int *xsize, int *ysize, int new_width, int border)
 {
@@ -909,7 +911,6 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 } // end of RearrangePalette()
 
 //////////////////////////////////////////////////////////////////////////////
-extern int Convert2PicLZSS(int quietmode, unsigned char *bufin, int buflen, unsigned char *bufout);
 extern int Convert2PicLZ77(int quietmode, unsigned char *bufin, int buflen, unsigned char *bufout);
 int Convert2Pic(char *filebase, unsigned char *buffer,
                 int num_tiles, int blank_absent, int colors, int packed, int lzsspacked)
@@ -968,14 +969,15 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
         buftolzin = malloc(bufsize);
         if (buftolzin == NULL)
         {
-            printf("\ngfx2snes: error 'Can't allocate enough memory for the buffer comrpession 1'");
+            printf("\ngfx2snes: error 'Can't allocate enough memory for the buffer compression 1'");
             fclose(fp);
             return 0;
         }
+        bufsize= ALIGN4(bufsize);
         buftolzout = malloc(bufsize);
         if (buftolzout == NULL)
         {
-            printf("\ngfx2snes: error 'Can't allocate enough memory for the buffer comrpession 2'");
+            printf("\ngfx2snes: error 'Can't allocate enough memory for the buffer compression 2'");
             free(buftolzin);
             fclose(fp);
             return 0;
