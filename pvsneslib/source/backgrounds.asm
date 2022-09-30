@@ -453,14 +453,14 @@ _bITS1:
 .SECTION ".backgrounds6_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
-;void bgInitTileSetLz(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)
-;5 6-9 10-13 14 15-16 17-18 19-20 21-22
+;void bgInitTileSetLz(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 paletteSize, u16 colorMode, u16 address)
+;5 6-9 10-13 14 15-16 19-20 21-22
 bgInitTileSetLz:
 	php
 	
 	; If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
     rep #$20
-    lda 19,s                    ; get colorMode
+    lda 17,s                    ; get colorMode
     cmp #BG_4COLORS0
     bne +
     sep #$20                    ; palEntry = bgNumber*32 + paletteEntry*BG_4COLORS;
@@ -485,7 +485,7 @@ bgInitTileSetLz:
     and #$F                     ; from 0..16
     tax
     beq _bITS1
-    lda 19,s                    ; get colorMode
+    lda 17,s                    ; get colorMode
     cmp #BG_256COLORS
     beq +
     lda.w #$0                   ; to begin at 16
@@ -507,9 +507,7 @@ _bITS1:
     tas
     wai
 
-    lda 15,s                    ; get tilesize 
-    pha
-    lda 23,s                    ; get address (21+2)
+    lda 21,s                    ; get address (19+2)
     pha
     lda 12,s                     ; get tileSource bank address (8+4)
     pha
@@ -518,7 +516,7 @@ _bITS1:
     jsl LzssDecodeVram
 	tsa
     clc
-    adc #8
+    adc #6
     tas
 	
     lda 17,s                    ; get paletteSize 
@@ -535,7 +533,7 @@ _bITS1:
     adc #8
     tas
 
-    lda 21,s                    ; get address 
+    lda 19,s                    ; get address 
     pha
     sep #$20
     lda 7,s                     ; get bgNumber (5+2)

@@ -55,8 +55,8 @@ m6					DW
 ;bit_counter = m6
 
 ;---------------------------------------------------------------------------
-; void LzssDecodeVram(u8 * source, u16 address, u16 size);
-; 10-13 14-15 16-17
+; void LzssDecodeVram(u8 * source, u16 address);
+; 10-13 14-15 
 LzssDecodeVram:
 	php
 	phb
