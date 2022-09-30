@@ -44,7 +44,7 @@ var background_8h =
     [ "bgInitMapTileSet7", "background_8h.html#ae1fad909be4edf30a3cd08a0890361dc", null ],
     [ "bgInitTileSet", "background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad", null ],
     [ "bgInitTileSetData", "background_8h.html#a4ea396375d85e9f3d9af5072552819aa", null ],
-    [ "bgInitTileSetLz", "background_8h.html#a55b1cca1a44f23be161430d756d2a650", null ],
+    [ "bgInitTileSetLz", "background_8h.html#a4b0af2955fba6d18445f6cd95bf6bef6", null ],
     [ "bgSetDisable", "background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb", null ],
     [ "bgSetDisableSub", "background_8h.html#af28e4200f4e49073dcb8f950099bb9c3", null ],
     [ "bgSetEnable", "background_8h.html#a75891c2ac9e1087a9494e924b137eec4", null ],

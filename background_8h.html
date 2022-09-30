@@ -275,9 +275,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a4ea396375d85e9f3d9af5072552819aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="background_8h.html#a4ea396375d85e9f3d9af5072552819aa">bgInitTileSetData</a> (u8 bgNumber, u8 *tileSource, u16 tileSize, u16 address)</td></tr>
 <tr class="memdesc:a4ea396375d85e9f3d9af5072552819aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add some Tile Set and Loads the Tile GFX into VRAM.  <a href="background_8h.html#a4ea396375d85e9f3d9af5072552819aa">More...</a><br /></td></tr>
 <tr class="separator:a4ea396375d85e9f3d9af5072552819aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55b1cca1a44f23be161430d756d2a650"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="background_8h.html#a55b1cca1a44f23be161430d756d2a650">bgInitTileSetLz</a> (u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)</td></tr>
-<tr class="memdesc:a55b1cca1a44f23be161430d756d2a650"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a Tile Set and Loads the Tile GFX compressed with LZ algo into VRAM.  <a href="background_8h.html#a55b1cca1a44f23be161430d756d2a650">More...</a><br /></td></tr>
-<tr class="separator:a55b1cca1a44f23be161430d756d2a650"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b0af2955fba6d18445f6cd95bf6bef6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="background_8h.html#a4b0af2955fba6d18445f6cd95bf6bef6">bgInitTileSetLz</a> (u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 paletteSize, u16 colorMode, u16 address)</td></tr>
+<tr class="memdesc:a4b0af2955fba6d18445f6cd95bf6bef6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a Tile Set and Loads the Tile GFX compressed with LZ algo into VRAM.  <a href="background_8h.html#a4b0af2955fba6d18445f6cd95bf6bef6">More...</a><br /></td></tr>
+<tr class="separator:a4b0af2955fba6d18445f6cd95bf6bef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4dbfb1b8854ff9ca4a7d11a899281bbb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a> (u8 bgNumber)</td></tr>
 <tr class="memdesc:a4dbfb1b8854ff9ca4a7d11a899281bbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable a BG in the actual SNES mode.  <a href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">More...</a><br /></td></tr>
 <tr class="separator:a4dbfb1b8854ff9ca4a7d11a899281bbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -704,8 +704,8 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="backg
 
 </div>
 </div>
-<a id="a55b1cca1a44f23be161430d756d2a650"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55b1cca1a44f23be161430d756d2a650">&#9670;&nbsp;</a></span>bgInitTileSetLz()</h2>
+<a id="a4b0af2955fba6d18445f6cd95bf6bef6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b0af2955fba6d18445f6cd95bf6bef6">&#9670;&nbsp;</a></span>bgInitTileSetLz()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -733,12 +733,6 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="backg
           <td></td>
           <td class="paramtype">u8&#160;</td>
           <td class="paramname"><em>paletteEntry</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>tileSize</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -773,7 +767,6 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="backg
     <tr><td class="paramname">tileSource</td><td>address of tile graphics entry compressed with LZ algo </td></tr>
     <tr><td class="paramname">tilePalette</td><td>address of palette entry </td></tr>
     <tr><td class="paramname">paletteEntry</td><td>palette number (0..16 for 16 colors mode) of the begining of each colors </td></tr>
-    <tr><td class="paramname">tileSize</td><td>size of tile graphics </td></tr>
     <tr><td class="paramname">paletteSize</td><td>size of palette </td></tr>
     <tr><td class="paramname">colorMode</td><td>used for correct palette entry (BG_4COLORS0, BG_16COLORS, BG_256COLORS) </td></tr>
     <tr><td class="paramname">address</td><td>address of tile graphics (4K aligned) </td></tr>
@@ -1079,7 +1072,7 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="backg
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="background_8h.html">background.h</a></li>
-    <li class="footer">Generated on Thu Sep 29 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Fri Sep 30 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>
