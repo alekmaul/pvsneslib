@@ -101,8 +101,9 @@ $(document).ready(function(){initNavTree('maps_2mapscroll_2mapscroll_8c-example.
 <div class="line"><span class="comment">---------------------------------------------------------------------------------*/</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="snes_8h.html">snes.h</a>&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> tileset, tilesetend, mapmario, palmario, tilesetdef;</div>
+<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> tileset, tilesetend, tilesetpal; <span class="comment">// for map &amp; tileset of map</span></div>
 <div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> gfxsprite, gfxsprite_end, palsprite;</div>
+<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> mapmario, tilesetdef, tilesetatt;</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// to update sprite with correct index value</span></div>
 <div class="line"><span class="keyword">const</span> <span class="keywordtype">char</span> sprTiles[4] =</div>
@@ -113,99 +114,28 @@ $(document).ready(function(){initNavTree('maps_2mapscroll_2mapscroll_8c-example.
 <div class="line">        6,</div>
 <div class="line">};</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// tileset property for map engine to detect collision (2*32 tiles)</span></div>
-<div class="line"><span class="comment">// not used if this example, just for teaching purpose</span></div>
-<div class="line"><span class="keyword">const</span> u16 tilsetprop[64] =</div>
-<div class="line">    {</div>
-<div class="line">        <a name="a0"></a><a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">        <a class="code" href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>,</div>
-<div class="line">};</div>
-<div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
 <div class="line"><span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> pad0;</div>
 <div class="line"><span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> xloc, yloc, flipx, frame, frameidx, flip;</div>
-<div class="line"> </div>
-<div class="line">u16 tileNo;</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// Initialize SNES</span></div>
-<div class="line">    <a name="a1"></a><a class="code" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a>();</div>
+<div class="line">    <a name="a0"></a><a class="code" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init layer with tiles and init also map length 0x6800 is mandatory for map engine</span></div>
-<div class="line">    <a name="a2"></a><a class="code" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(0, &amp;tileset, &amp;palmario, 0, (&amp;tilesetend - &amp;tileset), 16 * 2, BG_16COLORS, 0x2000);</div>
-<div class="line">    <a name="a3"></a><a class="code" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(0, 0x6800, <a name="a4"></a><a class="code" href="background_8h.html#a6129b86a7c2913a31f1bca293fa7c1e7">SC_64x32</a>);</div>
+<div class="line">    <a name="a1"></a><a class="code" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(0, &amp;tileset, &amp;tilesetpal, 0, (&amp;tilesetend - &amp;tileset), 16 * 2, BG_16COLORS, 0x2000);</div>
+<div class="line">    <a name="a2"></a><a class="code" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(0, 0x6800, <a name="a3"></a><a class="code" href="background_8h.html#a6129b86a7c2913a31f1bca293fa7c1e7">SC_64x32</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode and disable Bgs except current</span></div>
-<div class="line">    <a name="a5"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a6"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>, 0);</div>
-<div class="line">    <a name="a7"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
+<div class="line">    <a name="a4"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a5"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>, 0);</div>
+<div class="line">    <a name="a6"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
 <div class="line">    <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init Sprites gfx and palette with default size of 16x16</span></div>
-<div class="line">    <a name="a8"></a><a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;gfxsprite, (&amp;gfxsprite_end - &amp;gfxsprite), &amp;palsprite, 16, 0, 0x0000, <a name="a9"></a><a class="code" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>);</div>
+<div class="line">    <a name="a7"></a><a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;gfxsprite, (&amp;gfxsprite_end - &amp;gfxsprite), &amp;palsprite, 16, 0, 0x0000, <a name="a8"></a><a class="code" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>);</div>
+<div class="line"> </div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Define sprites parameters</span></div>
 <div class="line">    xloc = 0;</div>
@@ -214,24 +144,24 @@ $(document).ready(function(){initNavTree('maps_2mapscroll_2mapscroll_8c-example.
 <div class="line">    frame = 0;</div>
 <div class="line">    frameidx = 0;</div>
 <div class="line">    flip = 0;</div>
-<div class="line">    <a name="a10"></a><a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(0, xloc, yloc, 0, 0, 0, 0, 0);</div>
-<div class="line">    <a name="a11"></a><a class="code" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a>(0, OBJ_SMALL, OBJ_SHOW);</div>
-<div class="line">    <a name="a12"></a><a class="code" href="sprite_8h.html#a35a0da9852240ef41b5030ed21b6eeb2">oamSetVisible</a>(0, OBJ_SHOW);</div>
+<div class="line">    <a name="a9"></a><a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(0, xloc, yloc, 0, 0, 0, 0, 0);</div>
+<div class="line">    <a name="a10"></a><a class="code" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a>(0, OBJ_SMALL, OBJ_SHOW);</div>
+<div class="line">    <a name="a11"></a><a class="code" href="sprite_8h.html#a35a0da9852240ef41b5030ed21b6eeb2">oamSetVisible</a>(0, OBJ_SHOW);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Display screen</span></div>
-<div class="line">    <a name="a13"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
+<div class="line">    <a name="a12"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Load map in memory and update it regarding current location of the sprite</span></div>
-<div class="line">    <a name="a14"></a><a class="code" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">mapLoad</a>((u8 *)&amp;mapmario, (u8 *)&amp;tilesetdef, (u8 *)&amp;tilsetprop);</div>
-<div class="line">    <a name="a15"></a><a class="code" href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">mapUpdateCamera</a>(xloc, yloc);</div>
+<div class="line">    <a name="a13"></a><a class="code" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">mapLoad</a>((u8 *)&amp;mapmario, (u8 *)&amp;tilesetdef, (u8 *)&amp;tilesetatt);</div>
+<div class="line">    <a name="a14"></a><a class="code" href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">mapUpdateCamera</a>(xloc, yloc);</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// Get pad value and change sprite location and camera if need</span></div>
-<div class="line">        pad0 = <a name="a16"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
+<div class="line">        pad0 = <a name="a15"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
 <div class="line">        <span class="keywordflow">if</span> (pad0)</div>
 <div class="line">        {</div>
-<div class="line">            <span class="keywordflow">if</span> (pad0 &amp; <a name="a17"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
+<div class="line">            <span class="keywordflow">if</span> (pad0 &amp; <a name="a16"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
 <div class="line">            {</div>
 <div class="line">                <span class="keywordflow">if</span> (xloc)</div>
 <div class="line">                    xloc--;</div>
@@ -244,9 +174,8 @@ $(document).ready(function(){initNavTree('maps_2mapscroll_2mapscroll_8c-example.
 <div class="line">                    frameidx = frameidx &amp; 3;</div>
 <div class="line">                    frame = sprTiles[frameidx];</div>
 <div class="line">                }</div>
-<div class="line">                tileNo = <a name="a18"></a><a class="code" href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">mapGetMetaTile</a>(xloc, yloc);</div>
 <div class="line">            }</div>
-<div class="line">            <span class="keywordflow">if</span> (pad0 &amp; <a name="a19"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
+<div class="line">            <span class="keywordflow">if</span> (pad0 &amp; <a name="a17"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
 <div class="line">            {</div>
 <div class="line">                xloc++;</div>
 <div class="line">                flipx = 0;</div>
@@ -258,16 +187,15 @@ $(document).ready(function(){initNavTree('maps_2mapscroll_2mapscroll_8c-example.
 <div class="line">                    frameidx = frameidx &amp; 3;</div>
 <div class="line">                    frame = sprTiles[frameidx];</div>
 <div class="line">                }</div>
-<div class="line">                tileNo = <a class="code" href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">mapGetMetaTile</a>(xloc, yloc + 16);</div>
 <div class="line">            }</div>
 <div class="line">        }</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// x_pos and y_pos are from map engine and reflect the current map position</span></div>
-<div class="line">        <a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(0, xloc - x_pos, yloc - <a name="a20"></a><a class="code" href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a>, 3, flipx, 0, frame, 0);</div>
+<div class="line">        <a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(0, xloc - x_pos, yloc - <a name="a18"></a><a class="code" href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a>, 3, flipx, 0, frame, 0);</div>
 <div class="line"> </div>
-<div class="line">        <a name="a21"></a><a class="code" href="map_8h.html#a332bfe570835ef05934b712fd9701c88">mapUpdate</a>();</div>
-<div class="line">        <a name="a22"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
-<div class="line">        <a name="a23"></a><a class="code" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a>();</div>
+<div class="line">        <a name="a19"></a><a class="code" href="map_8h.html#a332bfe570835ef05934b712fd9701c88">mapUpdate</a>();</div>
+<div class="line">        <a name="a20"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
+<div class="line">        <a name="a21"></a><a class="code" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
@@ -292,11 +220,9 @@ $(document).ready(function(){initNavTree('maps_2mapscroll_2mapscroll_8c-example.
 <div class="ttc" id="asprite_8h_html_a46e0be47f8fc865a7f43c1b0b126e59a"><div class="ttname"><a href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a></div><div class="ttdeci">void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize)</div><div class="ttdoc">Initializes a sprites Gfx and Loads the GFX into VRAM.</div></div>
 <div class="ttc" id="amap_8h_html_ab8720c97e886ceabda97c6beff2e5864"><div class="ttname"><a href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">mapUpdateCamera</a></div><div class="ttdeci">void mapUpdateCamera(u16 xpos, u16 ypos)</div><div class="ttdoc">Update map camera (must be done once per frame)</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
-<div class="ttc" id="amap_8h_html_a0d7b8c3ece013b244c417f761ad150ac"><div class="ttname"><a href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">mapGetMetaTile</a></div><div class="ttdeci">u16 mapGetMetaTile(u16 xpos, u16 ypos)</div><div class="ttdoc">Get metatile property from current map.</div></div>
 <div class="ttc" id="amap_8h_html_a79f8bb14ed9f0ee9d7031db7f02733be"><div class="ttname"><a href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a></div><div class="ttdeci">u16 y_pos</div><div class="ttdoc">Current value of camera in x &amp; y coordinates.</div><div class="ttdef"><b>Definition:</b> map.h:57</div></div>
 <div class="ttc" id="abackground_8h_html_a4dbfb1b8854ff9ca4a7d11a899281bbb"><div class="ttname"><a href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a></div><div class="ttdeci">void bgSetDisable(u8 bgNumber)</div><div class="ttdoc">Disable a BG in the actual SNES mode.</div></div>
 <div class="ttc" id="avideo_8h_html_afd9e46ae627d055dd8c98a4b0ebb73b1"><div class="ttname"><a href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a></div><div class="ttdeci">void setMode(u8 mode, u8 size)</div><div class="ttdoc">Set the SNES hardware to operate in new display mode.</div></div>
-<div class="ttc" id="amap_8h_html_af873aaa17834669d0f263af08c2912c3"><div class="ttname"><a href="map_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a></div><div class="ttdeci">#define T_SOLID</div><div class="ttdoc">Type Solid (action is walk only) for tile</div><div class="ttdef"><b>Definition:</b> map.h:39</div></div>
 <div class="ttc" id="asprite_8h_html_a35a0da9852240ef41b5030ed21b6eeb2"><div class="ttname"><a href="sprite_8h.html#a35a0da9852240ef41b5030ed21b6eeb2">oamSetVisible</a></div><div class="ttdeci">void oamSetVisible(u16 id, u8 hide)</div><div class="ttdoc">Hide or not a oam.</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
