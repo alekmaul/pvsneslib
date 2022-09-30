@@ -454,7 +454,7 @@ _bITS1:
 
 ;---------------------------------------------------------------------------
 ;void bgInitTileSetLz(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 paletteSize, u16 colorMode, u16 address)
-;5 6-9 10-13 14 15-16 19-20 21-22
+;5 6-9 10-13 14 15-16 17-18 19-20
 bgInitTileSetLz:
 	php
 	
@@ -507,11 +507,11 @@ _bITS1:
     tas
     wai
 
-    lda 21,s                    ; get address (19+2)
+    lda 19,s                    ; get address 
     pha
-    lda 12,s                     ; get tileSource bank address (8+4)
+    lda 10,s                     ; get tileSource bank address (8+2)
     pha
-    lda 12,s                     ; get tileSource data address (6+6)
+    lda 10,s                     ; get tileSource data address (6+4)
     pha
     jsl LzssDecodeVram
 	tsa
