@@ -148,17 +148,17 @@ function onLoad() {
 
 			const xmlTileProps = document.createElement("properties");
 			const xmlTileProp = document.createElement("property");
-            xmlTileProp.setAttribute("name", "bloc");
+            xmlTileProp.setAttribute("name", "attribute");
             xmlTileProp.setAttribute("value", "0");
 			xmlTileProps.appendChild(xmlTileProp);
 
 			const xmlTileProp1 = document.createElement("property");
-            xmlTileProp1.setAttribute("name", "pale");
+            xmlTileProp1.setAttribute("name", "palette");
             xmlTileProp1.setAttribute("value", "0");
 			xmlTileProps.appendChild(xmlTileProp1);
 
 			const xmlTileProp2 = document.createElement("property");
-            xmlTileProp2.setAttribute("name", "prio");
+            xmlTileProp2.setAttribute("name", "priority");
             xmlTileProp2.setAttribute("value", "0");
 			xmlTileProps.appendChild(xmlTileProp2);
 			xmlTilep.appendChild(xmlTileProps);
