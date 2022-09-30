@@ -3,17 +3,23 @@
 .section ".rodata1" superfree
 
 tileset:
-.incbin "tileset.pic"
+.incbin "tilesMario.pic"
 tilesetend:
 
-mapmario:
-.incbin "bg_L1.map"
+tilesetpal:
+.incbin "tilesMario.pal"
 
-palmario:
-.incbin "tileset.pal"
+mapmario:
+.incbin "BG1.m16"
+
+objmario:
+.incbin "tiledMario.o16"
+
+tilesetatt:
+.incbin "tiledMario.b16"
 
 tilesetdef:
-.incbin "bg_L1.til"
+.incbin "tiledMario.t16"
 
 .ends
 
@@ -21,15 +27,12 @@ tilesetdef:
 
 sprmario:
 .incbin "mario.pic"
-sprmario_end:
 
 sprgoomba:
 .incbin "goomba.pic"
-sprgoomba_end:
 
 sprkoopatroopa:
 .incbin "koopatroopa.pic"
-sprkoopatroopa_end:
 
 palsprite:
 .incbin "mario.pal"

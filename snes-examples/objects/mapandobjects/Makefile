@@ -15,9 +15,14 @@ all: bitmaps $(ROMNAME).sfc
 clean: cleanBuildRes cleanRom cleanGfx
 
 #---------------------------------------------------------------------------------
-bg_L1.map: bg_L1.png
-	@echo convert map bitmap ... $(notdir $@)
-	$(GFXCONV) -pc16 -n -gs8 -pe0 -fpng -m -me -mttileset.png $<
+tilesMario.pic: tilesMario.png
+	@echo convert font with no tile reduction ... $(notdir $@)
+	$(GFXCONV) -gs8 -pc16 -po48 -m -fpng -n $<
+
+BG1.m16: tiledMario.tmj tilesMario.pic
+	@echo convert map tiled ... $(notdir $@)
+	$(TMXCONV) $< tilesMario.map
+
 
 mario.pic: mario.png
 	@echo convert sprite bitmap ... $(notdir $@)
@@ -31,8 +36,5 @@ koopatroopa.pic: koopatroopa.png
 	@echo convert sprite bitmap ... $(notdir $@)
 	$(GFXCONV) -gs16 -pc16 -po16 -fpng -n $<
 
-tileset.pic: tileset.png
-	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFXCONV) -gs8 -pc16 -po16 -m! -fpng -n $<
+bitmaps : BG1.m16  mario.pic goomba.pic koopatroopa.pic tilesMario.pic
 
-bitmaps : bg_L1.map mario.pic goomba.pic koopatroopa.pic tileset.pic

@@ -13,12 +13,14 @@
 #define GOOMBA_RIGHT 2
 #define GOOMBA_XVELOC 0x028A
 
-extern u16 sprnum; // from main file to have sprite index
-
 t_objs *goombaobj;        // pointer to goomba object
 u16 *goombaox, *goombaoy; // basicslimeit x/y on screen with fixed point
 signed short goombax, goombay;
 
+extern u16 nbobjects; 			// from main file to have sprite index
+extern unsigned char sprgoomba;	// sprite graphics
+
+u16 goombanum;					// to have correct sprite number
 //---------------------------------------------------------------------------------
 // Init function for goomba object
 void goombainit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx)
@@ -42,6 +44,17 @@ void goombainit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx)
     goombaobj->xvel = -GOOMBA_XVELOC;
     goombaobj->xmin = minx;
     goombaobj->xmax = maxx;
+	goombaobj->sprnum = nbobjects;
+	
+    // prepare dynamic sprite object
+    oambuffer[nbobjects].oamx = xp;
+    oambuffer[nbobjects].oamy = yp;
+    oambuffer[nbobjects].oamframeid = 0;
+    oambuffer[nbobjects].oamrefresh = 1;
+    oambuffer[nbobjects].oamattribute = 0x20 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2
+    oambuffer[nbobjects].oamgraphics = &sprgoomba;
+	nbobjects++;
+
 }
 
 //---------------------------------------------------------------------------------
@@ -53,12 +66,15 @@ void goombaupdate(u8 idx)
     goombaox = (u16 *)&(goombaobj->xpos + 1);
     goombaoy = (u16 *)&(goombaobj->ypos + 1);
     goombax = *goombaox;
-
+	goombanum=goombaobj->sprnum;
+	
     goombaobj->count++;
     if (goombaobj->count >= 10)
     { // Update anim 6 time per sec
         goombaobj->count = 0;
-        goombaobj->sprframe = (2 - goombaobj->sprframe); // faster because only 2 frames
+        goombaobj->sprframe = (1 - goombaobj->sprframe); // faster because only 2 frames
+		oambuffer[goombanum].oamframeid=goombaobj->sprframe; 
+		oambuffer[goombanum].oamrefresh = 1;
 
         // if move to the left
         if (goombaobj->dir == GOOMBA_LEFT)
@@ -95,12 +111,7 @@ void goombaupdate(u8 idx)
     // change sprite display if on screen
     goombay = (*goombaoy) - y_pos;
     goombax = goombax - x_pos;
-    if ((goombax > -15) && (goombax < 256))
-    {
-        oamSet(sprnum, goombax, goombay, 3, 0, 0, 32 + goombaobj->sprframe, 0);
-        oamSetEx(sprnum, OBJ_SMALL, OBJ_SHOW);
-    }
-
-    // update sprite entry for the next one
-    sprnum += 4;
+    oambuffer[goombanum].oamx = goombax;
+    oambuffer[goombanum].oamy = goombay;
+    oamDynamic16Draw(goombanum);
 }

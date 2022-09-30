@@ -20,9 +20,9 @@ extern u16 sprnum; // from main file to have sprite index
 const char sprTiles[4] =
     {
         0,
+        1,
         2,
-        4,
-        6,
+        3,
 };
 
 u16 pad0; // because mario will be managed with the snes pad
@@ -33,6 +33,9 @@ u16 *marioox, *mariooy;       // basics x/y coordinates pointers with fixed poin
 u16 *marioxv, *marioyv;       // basics x/y velocity pointers with fixed point
 u16 mariox, marioy;           // x & y coordinates of mario with map depth (not only screen)
 u8 mariofidx, marioflp, flip; // to manage sprite display
+
+extern u16 nbobjects; 			// from main file to have sprite index
+extern unsigned char sprmario;	// sprite graphics
 
 //---------------------------------------------------------------------------------
 // Init function for mario object
@@ -63,6 +66,14 @@ void marioinit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx)
     mariofidx = 0;
     marioflp = 0;
     marioobj->action = ACT_WALK;
+
+    // prepare dynamic sprite object
+    oambuffer[0].oamx = xp;
+    oambuffer[0].oamy = yp;
+    oambuffer[0].oamframeid = 0;
+    oambuffer[0].oamrefresh = 1;
+    oambuffer[0].oamattribute = 0x20 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2
+    oambuffer[0].oamgraphics = &sprmario;
 }
 
 //---------------------------------------------------------------------------------
@@ -76,6 +87,8 @@ void mariowalk(u8 idx)
         mariofidx++;
         mariofidx = mariofidx & 3;
         marioobj->sprframe = sprTiles[mariofidx];
+		oambuffer[0].oamframeid=marioobj->sprframe; 
+		oambuffer[0].oamrefresh = 1;
     }
 
     // check if we are still walking or not with the velocity properties of object
@@ -93,7 +106,8 @@ void mariofall(u8 idx)
     if (*marioyv == 0)
     {
         marioobj->action = ACT_STAND;
-        marioobj->sprframe = 0;
+		oambuffer[0].oamframeid=0; 
+		oambuffer[0].oamrefresh = 1;
     }
 }
 
@@ -102,7 +116,8 @@ void mariofall(u8 idx)
 void mariojump(u8 idx)
 {
     // change sprite
-    marioobj->sprframe = 8;
+	oambuffer[0].oamframeid=4; 
+	oambuffer[0].oamrefresh = 1;
 
     // if no more jumping, then fall
     if (*marioyv >= 0)
@@ -177,11 +192,9 @@ void marioupdate(u8 idx)
     // change sprite display
     mariox = *marioox;
     marioy = *mariooy;
-    oamSet(sprnum, mariox - x_pos, marioy - y_pos, 3, marioflp, 0, marioobj->sprframe, 0);
-    oamSetEx(sprnum, OBJ_SMALL, OBJ_SHOW);
-
-    // update sprite entry for the next one
-    sprnum += 4;
+    oambuffer[0].oamx = mariox - x_pos;
+    oambuffer[0].oamy = marioy - y_pos;
+    oamDynamic16Draw(0);
 
     // update camera regarding mario obejct
     mapUpdateCamera(mariox, marioy);
