@@ -38,6 +38,8 @@ VERSION 4.0 (dd, mmm, 2022)
 - Remove map management from gfx2 snes (in tmx2snes now)
 - Update documentation layout
 - New code formatter with vscode (thanks kobenairb)
+- Add lz77 compression for tiles in gfx2snes
+- Remove map engine management from gfx2snes (no more -me, -mt or -pt options)
 
 VERSION 3.50 (29, May, 2022)
 - Add romsize update in snestools
