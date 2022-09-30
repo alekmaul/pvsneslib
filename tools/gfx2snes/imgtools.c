@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-    Copyright (C) 2012-2021
+    Copyright (C) 2012-2022
         Alekmaul
 
     This software is provided 'as-is', without any express or implied
@@ -32,8 +32,6 @@
 
 #include "imgtools.h"
 #include "gfx2snes.h"
-
-#define ALIGN4(nn) ( ((nn)+3)&~3 )
 
 unsigned char *ArrangeBlocks(unsigned char *img, int width, int height,
                              int size, int *xsize, int *ysize, int new_width, int border)
@@ -424,249 +422,6 @@ int *MakeMap(unsigned char *img, int *num_tiles, int *tiletab,
 } // end of MakeMap
 
 //////////////////////////////////////////////////////////////////////////////
-int *MakeMapWithTileSet(unsigned char *img, unsigned char *imgtileset, int *num_tiles, int *tiletab,
-                        int xsize, int ysize, int tile_x, int tile_y, int colors, int rearrange, int pal_entry)
-{
-    int *map;
-    unsigned char blank[128];
-    int blank_absent;
-    int current; // the current tile we're looking at
-    int i, t, palette, tilenum, tileno;
-    int x, y;
-    int sizetile;
-
-    // allocate map
-    map = malloc((size_t)tile_x * tile_y * sizeof(int));
-    if (map == NULL)
-    {
-        printf("\ngfx2snes: error 'Can't allocate enough memory for the map in MakeMap'");
-        return 0;
-    }
-
-    if (quietmode == 0)
-        printf("\ngfx2snes: 'MakeMapWithTileSet *num_tiles=%d, xsize=%d, ysize=%d, tile_x=%d, tile_y=%d, colors=%d, rearrange=%d'",
-               *num_tiles, xsize, ysize, tile_x, tile_y, colors, rearrange);
-
-    // clear map
-    memset(map, 0, tile_x * tile_y * sizeof(int));
-
-    sizetile = 64;
-    if (hi512)
-    {
-        xsize >>= 1;
-    }
-
-    // if the palette has been rearranged... save the palette number
-    current = 0;
-    for (y = 0; y < ysize; y++)
-    {
-        for (x = 0; x < xsize; x++)
-        {
-            // get the palette number (0-7 for both 4 & 16 color mode)
-            if (colortabinc == 16)
-                palette = (img[current * sizetile] >> 4) & 0x07;
-            else
-                palette = (img[current * sizetile] >> 2) & 0x07;
-            t = ((palette + pal_entry) << 10);
-
-            // put tile number in map
-            if (tile_x == 64 && tile_y == 32) // 64x32 screen
-            {
-                if (x < 32)
-                    map[y * 32 + x] = t;
-                else
-                    map[(y + 32) * 32 + x - 32] = t;
-            }
-            else if (tile_x == 32 && tile_y == 64) // 32x64 screen
-                map[y * 32 + x] = t;
-            else if (tile_x == 64 && tile_y == 64) // 64x64 screen
-            {
-                if (y < 32)
-                    if (x < 32)
-                        map[y * 32 + x] = t;
-                    else
-                        map[(y + 32) * 32 + x - 32] = t;
-                else if (x < 32)
-                    map[(y + 64 - 32) * 32 + x] = t;
-                else
-                    map[(y + 96 - 32) * 32 + x - 32] = t;
-            }
-            else if (pagemap32 == 1)
-            {
-                // create pages of 32x32
-                int x_mult = (x) / 32;
-                int new_x = x - x_mult * 32;
-                int idx = x_mult * 1024 + y * 32 + new_x;
-                map[idx] = t;
-            }
-            else
-            {
-                // 32x32 or 128x128 screen
-                map[y * tile_x + x] = t;
-            }
-
-            // goto the next tile
-            current++;
-        }
-    }
-
-    // truncate the colors if necessary
-    if (colors != 256)
-    {
-        t = colors - 1; // color truncation mask
-
-        for (i = 0; i < xsize * ysize * sizetile; i++)
-        {
-            img[i] = img[i] & t;
-        }
-    }
-
-    // make a blank tile
-    memset(blank, 0, sizeof(blank));
-
-    // I want tile #0 to be blank..
-    // is it?
-    if (blanktile == 1)
-    {
-        if (memcmp(blank, img, sizetile) == 0)
-        {
-            blank_absent = 0;
-            current = 1;
-            t = 0;
-        }
-        else
-        {
-            blank_absent = 1;
-            current = 1;
-            t = 1;
-        }
-    }
-    else
-    {
-        blank_absent = 0;
-        current = 1;
-        t = 0;
-    }
-
-    for (y = 0; y < ysize; y++)
-    {
-        for (x = 0; x < xsize; x++)
-        {
-            tilenum = 0; // currerntly we add not the tile to tile table
-
-            // is the current tile blank?
-            if ((memcmp(blank, &img[current * sizetile], sizetile) == 0) && (blanktile == 1))
-            {
-                t = 0;
-            }
-            else
-            {
-                // check for matches with previous tiles if tile_reduction on
-                for (i = 0; i < xsize * ysize; i++)
-                {
-                    if (memcmp(&imgtileset[i * sizetile], &img[current * sizetile], sizetile) == 0)
-                    {
-                        tilenum = i;
-                        break;
-                    }
-                }
-
-                // is it a new tile?
-                if (i == xsize * ysize)
-                {
-                    // yes -> error, can't be in this state
-                    printf("\ngfx2snes: warning 'Can't find tile %d in tileset'", i);
-                    t = 0;
-                }
-                else
-                { // no -> find what tile number it is
-                    t = i + blank_absent;
-                }
-            }
-
-            // put tile number in map
-            if (tile_x == 64 && tile_y == 32) // 64x32 screen
-            {
-                if (x < 32)
-                {
-                    map[y * 32 + x] += t;
-                    tileno = map[y * 32 + x];
-                }
-                else
-                {
-                    map[(y + 32) * 32 + x - 32] += t;
-                    tileno = map[(y + 32) * 32 + x - 32];
-                }
-            }
-            else if (tile_x == 32 && tile_y == 64) // 32x64 screen
-            {
-                map[y * 32 + x] += t;
-                tileno = map[y * 32 + x];
-            }
-            else if (tile_x == 64 && tile_y == 64) // 64x64 screen
-            {
-                if (y < 32)
-                {
-                    if (x < 32)
-                    {
-                        map[y * 32 + x] += t;
-                        tileno = map[y * 32 + x];
-                    }
-                    else
-                    {
-                        map[(y + 32) * 32 + x - 32] += t;
-                        tileno = map[(y + 32) * 32 + x - 32];
-                    }
-                }
-                else
-                {
-                    if (x < 32)
-                    {
-                        map[(y + 64 - 32) * 32 + x] += t;
-                        tileno = map[(y + 64 - 32) * 32 + x];
-                    }
-                    else
-                    {
-                        map[(y + 96 - 32) * 32 + x - 32] += t;
-                        tileno = map[(y + 96 - 32) * 32 + x - 32];
-                    }
-                }
-            }
-            else if (pagemap32 == 1)
-            {
-                // create pages of 32x32
-                int x_mult = (x) / 32;
-                int new_x = x - x_mult * 32;
-                int idx = x_mult * 1024 + y * 32 + new_x;
-                map[idx] += t;
-                tileno = map[idx];
-            }
-            else // 32x32 or 128x128 screen
-            {
-                map[y * tile_x + x] += t;
-                tileno = map[y * tile_x + x];
-            }
-
-            // add also to tile table
-            tiletab[tilenum] = tileno;
-
-            // goto the next tile
-            current++;
-        }
-    }
-
-    // also return the number of new tiles
-    // make it negative if we need to add the blank tile
-    if (blank_absent)
-        *num_tiles = -xsize * ysize;
-    else
-        *num_tiles = xsize * ysize;
-
-    return map;
-
-} // end of MakeMapWithTileSet
-
-//////////////////////////////////////////////////////////////////////////////
 int RearrangePalette(unsigned char *buffer, int *palette,
                      int num_tiles, int colors)
 {
@@ -920,7 +675,7 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
     int i, j;
     int bitplanes;
     int mask;
-    int bufsize;
+    int bufsize,bufsizeout;
     unsigned char data;
     unsigned char *buftolzin, *buftolzout;
     FILE *fp;
@@ -973,15 +728,6 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
             fclose(fp);
             return 0;
         }
-        bufsize= ALIGN4(bufsize);
-        buftolzout = malloc(bufsize);
-        if (buftolzout == NULL)
-        {
-            printf("\ngfx2snes: error 'Can't allocate enough memory for the buffer compression 2'");
-            free(buftolzin);
-            fclose(fp);
-            return 0;
-        }
         // remember to add the blank if its needed....
         j = 0;
         if (blank_absent)
@@ -1024,9 +770,26 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
                 }
             }
         }
+        // Prepare outside buffer
+        bufsizeout = j + (j>>3) + 16;
+        buftolzout = malloc(bufsizeout);
+        if (buftolzout == NULL)
+        {
+            printf("\ngfx2snes: error 'Can't allocate enough memory for the buffer compression 2'");
+            free(buftolzin);
+            fclose(fp);
+            return 0;
+        }
+
         // Compress data and save to disc
-        //bufsize = Convert2PicLZSS(quietmode, buftolzin, j, buftolzout);
 		bufsize = Convert2PicLZ77(quietmode, buftolzin, j, buftolzout);
+        if (bufsize ==0)
+        {
+            free(buftolzin);
+            fclose(fp);
+            return 0;
+        }
+
         for (i = 0; i < bufsize; i++)
             fputc(*(buftolzout + i), fp);
         free(buftolzout);

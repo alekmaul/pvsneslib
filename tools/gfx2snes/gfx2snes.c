@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-	Copyright (C) 2012-2021
+	Copyright (C) 2012-2022
 		Alekmaul
 
 	This software is provided 'as-is', without any express or implied
@@ -46,7 +46,6 @@ int colors=0;						//
 int output_palette=-1;	            //
 int rearrange=0;				    //
 int palette_entry=0;		        //
-int palettets_entry=0;		        //
 int file_type=1;			    	// 1 = bmp, 2 = pcx, 3 = tga, 4 = png
 int quietmode=0;			    	// 0 = not quiet, 1 = i can't say anything :P
 int collision=0;			    	// 1 = generated only collision map
@@ -62,15 +61,11 @@ int palette_rnd=0;                  // 1 = round palette up & down
 int offset_tile=0;		            // n = offset in tile number
 int pagemap32 = 0;                  // 1 = create tile maps organized in 32x32 pages
 int hi512 = 0;      		        // 1 = create a 512 width map for mode 5 & 6
-int mapengine=0;      		        // 1 = generate .map for map engine (with width, height, size)
-int inputtileset=0;   		        // 1 = a tileset picture bitmap file is here to match with bitmap map file (usefull for map engine)
 
 pcx_picture image;                  // file with image to convert
-pcx_picture tilesetimg;             // file with tileset for image / tiles matching
 
 char filebase[256];                 // name of output file
-char filename[256+4];                 // use to manage filenames
-char filetileset[256];              // name of tileset file
+char filename[256+4];               // use to manage filenames
 
 //////////////////////////////////////////////////////////////////////////////
 void PutWord(int data, FILE *fp)
@@ -120,46 +115,6 @@ int LoadPicture(void)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-int LoadTileSet(void)
-{
-	if (filetileset[strlen(filetileset)-4] == '.')
-    {
-		filetileset[strlen(filetileset)-4] = '\0';
-	}
-	switch (file_type) {
-		case 2 : // PCX
-			sprintf(filename,"%s.pcx",filetileset);
-			if (quietmode == 0)
-				printf("\ngfx2snes: 'Opening tileset file: [%s]'",filename);
-			if(!PCX_Load(filename,(pcx_picture_ptr) &tilesetimg))
-				return 1;
-			break;
-		case 3 : // TGA
-			sprintf(filename,"%s.tga",filetileset);
-			if (quietmode == 0)
-				printf("\ngfx2snes: 'Opening tileset file: [%s]'",filename);
-			if(!TGA_Load(filename,(pcx_picture_ptr) &tilesetimg))
-				return 1;
-			break;
-		case 4 : // PNG
-			sprintf(filename,"%s.png",filetileset);
-			if (quietmode == 0)
-				printf("\ngfx2snes: 'Opening tileset file: [%s]'",filename);
-			if(!PNG_Load(filename,(pcx_picture_ptr) &tilesetimg))
-				return 1;
-			break;
-		default : // BMP for everithing else
-			sprintf(filename,"%s.bmp",filetileset);
-			if (quietmode == 0)
-				printf("\ngfx2snes: 'Opening tileset file: [%s]'",filename);
-			if(!BMP_Load(filename,(pcx_picture_ptr) &tilesetimg))
-				return 1;
-			break;
-	}
-    return 0;
-}
-
-//////////////////////////////////////////////////////////////////////////////
 void PrintOptions(char *str)
 {
 	printf("\n\nUsage : gfx2snes [options] bmp/pcx/tga filename ...");
@@ -172,7 +127,7 @@ void PrintOptions(char *str)
 	printf("\n\n--- Graphics options ---");
 	printf("\n-gb               add blank tile management (for multiple bgs)");
 	printf("\n-gp               Output in packed pixel format");
-	printf("\n-glz              Output in lzss compressed pixel format");
+	printf("\n-glz              Output in lz77 compressed pixel format");
 	printf("\n-gs(8|16|32|64)   Size of image blocks in pixels [8]");
 	printf("\n\n--- Map options ---");
 	printf("\n-m!               Exclude map from output");
@@ -188,13 +143,11 @@ void PrintOptions(char *str)
 	printf("\n-mR!              No tile reduction (not advised)");
 	printf("\n-m32p             Generate tile map organized in pages of 32x32 (good for scrolling)");
 	printf("\n-me               Convert the map for PVSneslib map engine");
-	printf("\n-mt(filename)     Tileset picture filename (PNG,BMP,PCX) for PVSneslib map engine matching");
 	printf("\n\n--- Palette options ---");
 	printf("\n-p!               Exclude palette from output.");
 	printf("\n-pc(4|16|128|256) The number of colors to use [256]");
 	printf("\n-po#              The number of colors to output (0 to 256) to the filename.pal");
 	printf("\n-pe#              The palette entry to add to map tiles (0 to 16)");
-	printf("\n-pt#              The palette entry to add to tileset (0 to 16) for PVSneslib map engine");
 	printf("\n-pr               Rearrange palette, and preserve palette numbers in the tilemap");
 	printf("\n-pR               Palette rounding");
 	printf("\n\n--- File options ---");
@@ -224,25 +177,23 @@ int main(int argc, char **arg)
 	unsigned char clr;
 	int height, width;
 	int xsize, ysize;
-	int num_tiles, num_tiles1;
+	int num_tiles;
 	int blank_absent=0;
 
-	unsigned char *buffer,*buffertileset;
+	unsigned char *buffer;
 	unsigned char *temp;
 	int *tilemap;
     int tileobj[MAXTILES];
 	FILE *fp;
 
-	int i, j, j1;
+	int i, j;
 
     // init all filenames
     strcpy(filebase,"");
     strcpy(filename,"");
-    strcpy(filetileset,"");
 
 	// init all buffers
 	buffer=NULL;
-	buffertileset=NULL;
 
 	//parse the arguments
 	for(i=1;i<argc;i++)
@@ -318,17 +269,6 @@ int main(int argc, char **arg)
 					border=0;
 					collision=1;
 				}
-				else if( strcmp(&arg[i][1],"me") == 0) // map engine
-				{
-					screen=1;
-					border=0;
-					mapengine=1;
-				}
-				else if(arg[i][2]=='t') // tile file for map engine matching
-				{
-					strcpy(filetileset,&arg[i][3]);
-                    inputtileset=1;
-				}
 				else if(arg[i][2]=='s') //sprite entry location
 				{
 					screen=1;
@@ -389,15 +329,6 @@ int main(int argc, char **arg)
 				else if( strcmp(&arg[i][1],"pR") == 0)
 				{
 					palette_rnd=1;
-				}
-				else if(arg[i][2]=='t') //palette tileset entry specification
-				{
-					palettets_entry=atoi(&arg[i][3]);
-					if( (palettets_entry < 0) || (palettets_entry > 16 ) )
-					{
-						PrintOptions(arg[i]);
-						return 1;
-					}
 				}
 				else if(arg[i][2]=='e') //palette entry specification
 				{
@@ -513,20 +444,6 @@ int main(int argc, char **arg)
 
         height = image.header.height;
         width = image.header.width;
-    }
-
-    // if tileset filename is available, try to load tiles
-    if (strlen(filetileset))
-    {
-        if (LoadTileSet())
-        {
-            return 1;
-        }
-        else
-        {
-            //convert the palette
-            ConvertPalette(tilesetimg.palette, palette);
-        }
     }
 
 	//autodetect size if necessary
@@ -655,9 +572,6 @@ int main(int argc, char **arg)
 		if(palette_entry)
 			printf("\ngfx2snes: Palette entry to be for map tiles: Entry#%d", palette_entry);
 
-		if(palettets_entry)
-			printf("\ngfx2snes: Palette entry for tileset of map engine: Entry#%d", palettets_entry);
-
 		printf("\ngfx2snes: ************************************");
 	}
 
@@ -679,28 +593,13 @@ int main(int argc, char **arg)
 		j=xsize;
 		num_tiles=ysize;
 
-		j1=tilesetimg.header.width/8;
-		num_tiles1=tilesetimg.header.height/8;
-
 		//first arrange into a list of 8x8 blocks
-        if (inputtileset)
-        {
-            buffertileset=ArrangeBlocks(tilesetimg.buffer, tilesetimg.header.width, tilesetimg.header.height, size, &j1, &num_tiles1, 8, 0);
-            free(tilesetimg.buffer);
-        }
-
         buffer=ArrangeBlocks(image.buffer, width, height, size, &j, &num_tiles, (hi512 ? 16 : 8), 0);
         free(image.buffer);
 
 		if(buffer==NULL)
 		{
 			printf("\ngfx2snes: error 'Not enough memory to do image operations...'\n");
-			return 1;
-		}
-
-		if(inputtileset && buffertileset==NULL)
-		{
-			printf("\ngfx2snes: error 'Not enough memory to do image operations on tileset file...'\n");
 			return 1;
 		}
 
@@ -715,18 +614,9 @@ int main(int argc, char **arg)
 		}
 
 		//make the tile map now
-        if (inputtileset)
-        {
-            tilemap=MakeMapWithTileSet(buffer, buffertileset, &num_tiles, (int *) &tileobj, xsize, ysize, tile_x, tile_y, colors, rearrange, palette_entry);
-        }
-        else
-        {
-            tilemap=MakeMap(buffer, &num_tiles, (int *) &tileobj, xsize, ysize, tile_x, tile_y, colors, rearrange, palette_entry);
-        }
+		tilemap=MakeMap(buffer, &num_tiles, (int *) &tileobj, xsize, ysize, tile_x, tile_y, colors, rearrange, palette_entry);
 		if(tilemap==NULL)
 		{
-			if (inputtileset && buffertileset!=NULL)
-                free(buffertileset);
 			free(buffer);
 			printf("\ngfx2snes: error 'Not enough memory to do tile map optimizations...'\n");
 			return 1;
@@ -741,9 +631,6 @@ int main(int argc, char **arg)
 		if((screen == 7) && (num_tiles+blank_absent)>256)
 		{
 			printf("\ngfx2snes: error 'Need %d tiles to represent the screen in mode7. SNES only has room for 256 tiles'" ,num_tiles+blank_absent);
-			free(buffertileset);
-			if (inputtileset && buffertileset!=NULL)
-                free(buffer);
 			free(tilemap);
 			return 1;
 		}
@@ -787,25 +674,18 @@ int main(int argc, char **arg)
 	//convert pictures and save to file
 	if (collision == 0)
 	{
-        if (inputtileset==0)
-        {
-            if(!Convert2Pic(filebase, buffer, num_tiles, blank_absent, colors, packed, lzpacked))
-            {
-                if(screen)
-				{
-                    free(tilemap);
-				}
-                free(buffer);
-                return 1;
-            }
-        }
+		if(!Convert2Pic(filebase, buffer, num_tiles, blank_absent, colors, packed, lzpacked))
+		{
+			if(screen)
+			{
+				free(tilemap);
+			}
+			free(buffer);
+			return 1;
+		}
 	}
 
 	//free up image memory
-    if ((inputtileset) && (buffertileset!=NULL))
-	{
-        free(buffertileset);
-	}
 	free(buffer);
 
 	//save the map
@@ -830,14 +710,6 @@ int main(int argc, char **arg)
 			return 1;
 		}
 
-        // if map engine , save also properties of the map
-        if (mapengine)
-        {
-            PutWord(tile_x*8,fp);
-            PutWord(tile_y*8,fp);
-            PutWord(tile_x*tile_y*2,fp);
-        }
-
         // Little warning for more than one bank
         if ( (tile_x*tile_y*2) >=32768)
         {
@@ -857,28 +729,6 @@ int main(int argc, char **arg)
 			}
 		}
 		fclose(fp);
-
-        // if map engine, save also the tile properties in a specific tile
-        if (mapengine)
-        {
-            sprintf(filename,"%s.til",filebase);
-            if (quietmode == 0)
-                printf("\ngfx2snes: 'Saving tile property file: [%s]'",filename);
-            fp = fopen(filename,"wb");
-            if(fp==NULL)
-            {
-                printf("\ngfx2snes: error 'Can't open file [%s] for writing'\n",filename);
-                free(tilemap);
-                return 1;
-            }
-
-            // add all the tiles
-            for(i=0;i<MAXTILES;i++)
-            {
-                PutWord(tileobj[i]+(palettets_entry<<10),fp);
-            }
-            fclose(fp);
-        }
 
 		// save the sprite table if needed
 		if (collision == 2) {

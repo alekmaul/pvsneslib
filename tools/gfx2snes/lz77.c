@@ -353,7 +353,10 @@ int Convert2PicLZ77(int quietmode, unsigned char *bufin, int buflen, unsigned ch
 		text_buf[r + len] = c;  
 	
 	if((textsize=len) == 0)
+	{
+		printf("\ngfx2snes: error 'Size to compress is null'\n");
 		return 0;
+	}
 
 	/* Insert the F strings, each of which begins with one or more 
 	// 'space' characters.  Note the order in which these strings are 
@@ -427,6 +430,7 @@ int Convert2PicLZ77(int quietmode, unsigned char *bufin, int buflen, unsigned ch
 			// Register the string in text_buf[r..r+F-1]
 			InsertNode(r);
 		}
+		textsize += i;
 
 		while(i++ < last_match_length) 
 		{    
@@ -454,10 +458,19 @@ int Convert2PicLZ77(int quietmode, unsigned char *bufin, int buflen, unsigned ch
 	FileSize[2]= ((InSize>>8)&0xFF);
 	FileSize[3]= ((InSize>>16)&0xFF);
 	
+	// return an error if ratio<100
+	if ( ((textsize*100)/ OutSize)<100)
+	{
+		printf("\ngfx2snes: error 'Ratio for compression is not good (%d%%))'\n",((textsize*100)/ OutSize));
+		return 0;
+	}
+	
+	// remove trails bytes
+	OutSize=ALIGN4(OutSize);
     if (quietmode == 0)
     {
-        printf("\ngfx2snes: 'Compression Lz77 from %d bytes to %d bytes (ratio %d%%)'", textsize, codesize, ((100 * codesize) / textsize)); /* Encoding is done. */
+        printf("\ngfx2snes: 'Compression Lz77 from %d bytes to %d bytes (ratio %d%%)'", textsize, OutSize, ((textsize*100)/ OutSize)-100 ); /* Encoding is done. */
     }
 
-    return codesize;
+    return OutSize;
 } // end of Convert2PicLZSS

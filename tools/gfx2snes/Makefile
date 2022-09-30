@@ -1,4 +1,4 @@
-VERSION = "2.4.1"
+VERSION = "2.5.0"
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -16,8 +16,8 @@ CFLAGS+=-m32
 endif
 CFLAGS+=-Wall -Wno-unused-result -Wno-incompatible-pointer-types -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-SOURCES=gfx2snes.c lzss.c lz77.c lodepng.c loadimg.c imgtools.c
-OBJS=gfx2snes.o  lzss.o lz77.o lodepng.o loadimg.o imgtools.o
+SOURCES=gfx2snes.c lz77.c lodepng.c loadimg.c imgtools.c
+OBJS=gfx2snes.o lz77.o lodepng.o loadimg.o imgtools.o
 EXE=gfx2snes
 DEFINES =
 LIBS =
@@ -38,10 +38,6 @@ $(EXE)$(EXT) : $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $@
 
 gfx2snes.o : gfx2snes.c
-	@echo make obj $(notdir $<)
-	$(CC) $(CFLAGS) -c $<
-
-lzss.o : lzss.c
 	@echo make obj $(notdir $<)
 	$(CC) $(CFLAGS) -c $<
 

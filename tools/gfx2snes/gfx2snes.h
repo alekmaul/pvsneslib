@@ -17,6 +17,5 @@ extern int colortabinc;    // 16 for 16 color mode, 4 for 4 color mode
 extern int pagemap32;      // 1 = create tile maps organized in 32x32 pages
 extern int blanktile;      // 1 = blank tile generated
 extern int palette_rnd;    // 1 = round palette up & down
-extern int inputtileset;   // 1 = a tileset picture bitmap file is here to match with bitmap map file (usefull for map engine)
 
 #endif
