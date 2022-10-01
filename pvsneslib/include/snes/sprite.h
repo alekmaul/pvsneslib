@@ -36,17 +36,22 @@
 
 #define ATTR2_DISABLED (0xe8)
 
-#define OBJ_SIZE8_L16 (0 << 5)  /*!< \brief default OAM size 8x8 (SM) and 16x16 (LG) pix for OBJSEL register */
-#define OBJ_SIZE8_L32 (1 << 5)  /*!< \brief default OAM size 8x8 (SM) and 32x32 (LG) pix for OBJSEL register */
-#define OBJ_SIZE8_L64 (2 << 5)  /*!< \brief default OAM size 8x8 (SM) and 64x64 (LG) pix for OBJSEL register */
-#define OBJ_SIZE16_L32 (3 << 5) /*!< \brief default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register */
-#define OBJ_SIZE16_L64 (4 << 5) /*!< \brief default OAM size 16x16 (SM) and 64x64 (LG) pix for OBJSEL register */
-#define OBJ_SIZE32_L64 (5 << 5) /*!< \brief default OAM size 32x32 (SM) and 64x64 (LG) pix for OBJSEL register */
+#define OBJ_SIZE8_L16       (0 << 5)    /*!< \brief default OAM size 8x8 (SM) and 16x16 (LG) pix for OBJSEL register */
+#define OBJ_SIZE8_L32       (1 << 5)    /*!< \brief default OAM size 8x8 (SM) and 32x32 (LG) pix for OBJSEL register */
+#define OBJ_SIZE8_L64       (2 << 5)    /*!< \brief default OAM size 8x8 (SM) and 64x64 (LG) pix for OBJSEL register */
+#define OBJ_SIZE16_L32      (3 << 5)    /*!< \brief default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register */
+#define OBJ_SIZE16_L64      (4 << 5)    /*!< \brief default OAM size 16x16 (SM) and 64x64 (LG) pix for OBJSEL register */
+#define OBJ_SIZE32_L64      (5 << 5)    /*!< \brief default OAM size 32x32 (SM) and 64x64 (LG) pix for OBJSEL register */
 
-#define OBJ_SMALL (0)
-#define OBJ_LARGE (1)
-#define OBJ_SHOW (0)
-#define OBJ_HIDE (1)
+#define OBJ_SMALL           (0)
+#define OBJ_LARGE           (1)
+#define OBJ_SHOW            (0)
+#define OBJ_HIDE            (1)
+
+#define OBJ_SPRITE32		1           /*!< \brief sprite with 32x32 identifier */
+#define OBJ_SPRITE16		2           /*!< \brief sprite with 16x16 identifier */
+#define OBJ_SPRITE8			4           /*!< \brief sprite with 8x8 identifier */
+
 
 /*!	\brief Dynamic sprite definition */
 typedef struct
@@ -60,6 +65,20 @@ typedef struct
     u16 dummy1;      /*! 12..15 to be 16 aligned */
     u16 dummy2;
 } t_sprites __attribute__((__packed__)); /*!< seems to do nothing */
+
+/*!	\brief Dynamic metasprite definition */
+typedef struct
+{
+    s16 metsprofsx;         /*!< 0 x offset of the current sprite in meta sprite  */
+    s16 metsprofsy;         /*!< 2 y offset of the current sprite in meta sprite  */
+    u16 metsprframeid;      /*!< 4 frame index in graphic file of the sprite  */
+    u8 metsprattribute;     /*!< 6 sprite attribute value (vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num)  */
+    u8 metsprtype;          /*!< 7 1,2 or 4 for 32x32, 16x16, 8x8 sprite type */
+    u8 *metsprgraphics;     /*!< 8..11 pointer to graphic file  */
+    u16 metsprend;          /*!< 12..13 0xFFFF if it is the end of meta sprite definition */
+    u16 dummy1;             /*!< 14..15 to be 16 aligned */
+} t_metasprites __attribute__((__packed__)); /*!< seems to do nothing */
+
 
 /*!  \brief Sprite Table (from no$sns help file)<br>
 Contains data for 128 OBJs. OAM Size is 512+32 Bytes. The first part (512<br>
@@ -271,24 +290,29 @@ void oamInitDynamicSpriteEndFrame(void);
 void oamVramQueueUpdate(void);
 
 /*!\brief Add a 32x32 sprite on screen.<br>oambuffer[id] needs to be populate before.
-    \param id the oam number to be set [0 - 127]
+    \param id the oam number to be used [0 - 127]
 */
 void oamDynamic32Draw(u16 id);
 
 /*!\brief Add a 16x16 sprite on screen.<br>oambuffer[id] needs to be populate before.
-    \param id the oam number to be set [0 - 127]
+    \param id the oam number to be used  [0 - 127]
 */
 void oamDynamic16Draw(u16 id);
 
 /*!\brief Add a 8x8 sprite on screen.<br>oambuffer[id] needs to be populate before.
-    \param id the oam number to be set [0 - 127]
+    \param id the oam number to be used [0 - 127]
 */
 void oamDynamic8Draw(u16 id);
 
-/*!\brief Add a 8x8 sprite on screen.<br>oambuffer[id] needs to be populate before.
-    \param id the oam number to be set [0 - 127]
-    \param sprmeta	pointer to metasprite structure (must finish with 0xFFFF)
+/*!\brief Add a Meta sprite on screen (can be composed of 8x8,16x16 or 32x32 sprites).<br>oambuffer[id] needs to be populate before.
+    \param id the oam number to be used [0 - 127]. 
+    \param x x coordinate of the metasprite 
+    \param y y coordinate of the metasprite 
+    \param sprmeta	pointer to metasprite structure (must finish with 0xFFFF, see t_metasprites)
+    \brief the meta structure is composed of:<br>
+        x offset,y offset,gfx offset, attribute,  size (8,16,32),gfxfile<br>
+        the function will reserve the number of sprites in oambuffer, beginning with id.
 */
-void oamDynamicMetaDraw(u16 id, u16 *sprmeta);
+void oamDynamicMetaDraw(u16 id, s16 x,s16 y, u8 *sprmeta);
 
 #endif // SNES_SPRITES_INCLUDE

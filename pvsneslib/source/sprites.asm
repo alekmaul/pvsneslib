@@ -48,8 +48,10 @@ dummy							DSB 4						  ; 12..15 to by align to 16 bytes
 
 .RAMSECTION ".reg_oams7e" BANK $7E 
 
+sprit_val0			            DB                            ; save value #0
 sprit_val1			            DB                            ; save value #1
 sprit_val2			            DW                            ; save value #2
+sprit_val3			            DW                            ; save value #3
 
 oamMemory				        DSB 128*4+8*4
 
@@ -1488,7 +1490,7 @@ oamDynamic8Draw:
 	
 	rep #$20
 	lda	10,s                     							  ; get id
-	asl a													  ; to be on correct index (8 bytes per oam)
+	asl a													  ; to be on correct index (16 bytes per oam)
 	asl a
 	asl a
 	asl a
@@ -1619,7 +1621,8 @@ _o8DRep3:
 .SECTION ".spritesb_text" SUPERFREE
 
 ;---------------------------------------------------------------------------------
-; void oamDynamicMetaDraw(u16 id, u16 *sprmeta)
+; void oamDynamicMetaDraw(u16 id, s16 x,s16 y, u8 *sprmeta)
+; 10-11 12-13 14-15 16-19
 oamDynamicMetaDraw:
 	php
 	phb
@@ -1632,131 +1635,119 @@ oamDynamicMetaDraw:
 	plb
 	
 	rep #$20
-	lda	10,s                     							  ; get id
-	asl a													  ; to be on correct index (8 bytes per oam)
+	lda	10,s                     							  ; get id of sprite
+	asl a													  ; to be on correct index (16 bytes per oam)
 	asl a
 	asl a
 	asl a
-	
-	tay
-	sep #$20
-	lda oambuffer.1.oamrefresh,y						      ; check if we need to update graphics
-	beq _o8DRep1
-    lda #$00
-	sta oambuffer.1.oamrefresh,y                              ; reinit it
+	tax														  ; x is now the id of oam buffer
+	lda #0
+	tay														  ; y is now the id of meta sprite buffer
+
+	sep #$20												  ; get 1st sprite refresh value, which will be the default
+	lda oambuffer.1.oamrefresh,x
+	sta sprit_val0
 
 	rep #$20
-	lda oambuffer.1.oamframeid,y 							  ; get sprite entry number for graphics
-	asl a
-	tax
-	lda.l lkup8oamS,x
-	clc
-	adc.w oambuffer.1.oamgraphics,y
-	sta.w sprit_val2
+	lda 12,s												  ; save x coordinate
+	sta sprit_val2
+	lda 14,s												  ; save y coordinate
+	sta sprit_val3
 
-    lda.l oamqueuenumber									  ; oamAddGfxQueue8(pgfx,GFXSPR0.1ADR+idBlock8);
-	tax														  ; go to next graphic entry
-	clc
-	adc #$0006
-	sta.l oamqueuenumber
-
-    phx
-    lda oamnumberspr1                             			  ;  get address
-    asl a
-    tax
-    lda.l lkup8idB,x
-    plx
-	clc
-	adc spr1addrgfx											  ; not variable, always the second gfx entry
-	sta.l oamQueueEntry+3,x
-	lda sprit_val2											  ; get tileSource (lower 8 bits)
-	sta.l oamQueueEntry,x
-	sep #$20                      							  ; A 8 bits
-	lda oambuffer.1.oamgraphics+2,y                		      ; get tileSource (bank)
-	sta.l oamQueueEntry+2,x
-	
-	lda #OBJ_SPRITE8                      					  ; store that it is a 8pix sprite 
-	sta.l oamQueueEntry+5,x
-
-_o8DRep1:
+	lda 16,s
+	sta tcc__r0                          				  	  ; tcc_r0 = meta sprite source address
+	sep #$20
+	lda 18,s
+	sta tcc__r0h
 	rep #$20
-	ldx oamnumberperframe                                     ; get curent sprite number (x4 entry)
 
-    phx
-    lda oamnumberspr1                  						  ; get graphics offset of 8x8 sprites
-    asl a
-    tax
-    lda.l lkup8idT,x
-    plx
-	sta.w oamMemory+2,x										  ; store in oam memory
+_oMTDRep0p:
+	lda	[tcc__r0], y 										  ; get x offset and calculate x coordinate of sprite
+	iny 
+	iny 
+	clc 
+	adc sprit_val2
+	sta oambuffer.1.oamx,x
 
-	lda oambuffer.1.oamx,y				                      ; get x coordinate
-	xba														  ; save it
-	sep #$20                  								  ; A 8 bits
-	ror a                         						      ; x msb into carry (saved if x>255)
+	lda	[tcc__r0], y 										  ; get y offset and calculate y coordinate of sprite
+	iny 
+	iny 
+	clc 
+	adc sprit_val3
+	sta oambuffer.1.oamy,x
 
-	lda oambuffer.1.oamy,y                     				  ; get y coordinate
-	xba
-	rep #$20                      							  ; A 8 bits 
-	sta.w oamMemory,x										  ; store x & y in oam memory
-
-	lda.w #$0200                  							  ; put $02 into MSB
-	sep #$20                      							  ;	 A 8 bits
-	lda.l oammask+2,x            							  ; get offset in the extra OAM data
-	phy
-	tay
-
-	bcs _o8DRep3											  ; if no x<255, no need to update
-
-	lda.l oammask+1,x
-	and.w oamMemory,y
-	sta.w oamMemory,y										  ; store x in oam memory
-    brl +
-
-_o8DRep3:
-	lda.l oammask,x
-	ora.w oamMemory,y
-	sta.w oamMemory,y										  ; store x in oam memory
- 
-+:	
-	ply
-	lda oambuffer.1.oamattribute,y     						  ; get attr
-	sta oamMemory+3,x										  ; store attrbutes in oam memory
-
-	rep #$20												  ; oamSetEx(nb_sprites_oam, OBJ_SMALL, OBJ_SHOW);
-	lda oamnumberperframe									  ; always small for 8px sprites
-	lsr a
-	lsr a
-	lsr a
-	lsr a
-	clc
-	adc.w #512                                                ; id>>4 + 512
-	tay                          							  ; oam pointer is now on oam table #2
-	
-	lda oamnumberperframe                   				  ; id
-	lsr a
-	lsr a
-	and.w #$0003                 							  ; id >> 2 & 3
-	tax
+	lda	[tcc__r0], y 										  ; get frameid
+	iny 
+	iny 
+	sta oambuffer.1.oamframeid,x
 
 	sep #$20
-	lda oamMemory,y              							  ; get value of oam table #2
-	and.l oamSetExand,x
-	sta oamMemory,y              							  ; store new value in oam table #2
+	lda	[tcc__r0], y 										  ; get attribute
+	iny 
+	sta oambuffer.1.oamattribute,x
 
-    rep #$20
-    inc.w oamnumberspr1										  ; one more sprite 8x8
+	lda	[tcc__r0], y 										  ; get type (8,16,32)
+	iny 
+	sta sprit_val1
 
-	lda oamnumberperframe										  ; go to next sprite entry (x4 multiplier)
+	rep #$20
+	lda	[tcc__r0], y 										  ; get graphic address
+	iny 
+	iny 
+	sta oambuffer.1.oamgraphics,x
+	lda	[tcc__r0], y 										  ; get graphic address (bank)
+	iny 
+	iny 
+	sta oambuffer.1.oamgraphics+2,x
+
+	txa														  ; push sprite id (must be in 0..127 range)
+	lsr a
+	lsr a
+	lsr a
+	lsr a
+	pha
+	sep #$20
+	lda sprit_val0
+	sta oambuffer.1.oamrefresh,x							  ; save initial sprite refresh value
+
+	lda sprit_val1											  ; call sprite display function regarding sprite size
+	cmp #OBJ_SPRITE16
+	beq +
+	cmp #OBJ_SPRITE8
+	beq ++
+	jsl oamDynamic32Draw
+	brl _oMTDRep1p
++:
+	jsl oamDynamic16Draw
+	brl _oMTDRep1p
+++:
+	jsl oamDynamic8Draw
+
+_oMTDRep1p:
+	rep #$20
+	tsa
+    clc
+    adc #2
+    tas
+
+.accu 16
+	txa														  ; go to next oambuffer
 	clc
-	adc #$0004
-	sta.w oamnumberperframe
+	adc #16
+	tax
+	lda	[tcc__r0], y 										  ; get end or no
+	iny 													  ; 2 inc to go to next id
+	iny 
+	iny
+	iny
+	cmp #$FFFF
+	bne _oMTDRep0p
 
 	ply
 	plx
-	
 	plb
 	plp
+	
 	rtl
 
 .ENDS
