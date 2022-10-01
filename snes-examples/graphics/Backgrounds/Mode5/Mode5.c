@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 
 
-    Simple tile mode 5 demo
+    Simple tile mode 5 demo * NOT YET WORKING *
     -- alekmaul
 
 
@@ -25,9 +25,10 @@ int main(void)
     bgInitMapSet(0, &map, (&map_end - &map), SC_32x32, 0x6000);
 
     // Now Put in 16 color mode and disable other BGs except 1st one (Normal & Sub for this mode)
-    setMode(BG_MODE5, 0);
+    setMode(BG_MODE5,  0);
     bgSetDisable(1);
-    bgSetDisableSub(1);
+
+	
     setScreenOn();
 
     // Wait for nothing :P
