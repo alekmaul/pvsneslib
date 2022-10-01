@@ -14,12 +14,6 @@ spr16g_end:
 spr16p:
 .incbin "sprite16.pal"
 
-spr8g:
-.incbin "sprite8.pic"
-spr8g_end:
-spr8p:
-.incbin "sprite8.pal"
-
 .ends
 
 .section ".rodata2" superfree

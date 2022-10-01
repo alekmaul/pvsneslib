@@ -14,7 +14,6 @@ extern char map, map_end;
 
 extern char spr32g, spr32g_end, spr32p;
 extern char spr16g, spr16g_end, spr16p;
-extern char spr8g, spr8g_end, spr8p;
 
 u8 i;
 
