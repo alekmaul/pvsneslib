@@ -105,6 +105,9 @@ $(document).ready(function(){initNavTree('sprite_8h.html',''); initResizable(); 
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structt__metasprites.html">t_metasprites</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dynamic metasprite definition.  <a href="structt__metasprites.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structt__sprites.html">t_sprites</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dynamic sprite definition.  <a href="structt__sprites.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,6 +153,18 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a35468d3300e6ad4bdb2c027c93c7dbe5">OBJ_SIZE8_L64</a>&#160;&#160;&#160;(2 &lt;&lt; 5)</td></tr>
 <tr class="memdesc:a35468d3300e6ad4bdb2c027c93c7dbe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">default OAM size 8x8 (SM) and 64x64 (LG) pix for OBJSEL register <br /></td></tr>
 <tr class="separator:a35468d3300e6ad4bdb2c027c93c7dbe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4741ad3cd0b065681e2a8f481525d16b"><td class="memItemLeft" align="right" valign="top"><a id="a4741ad3cd0b065681e2a8f481525d16b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a4741ad3cd0b065681e2a8f481525d16b">OBJ_SPRITE16</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memdesc:a4741ad3cd0b065681e2a8f481525d16b"><td class="mdescLeft">&#160;</td><td class="mdescRight">sprite with 16x16 identifier <br /></td></tr>
+<tr class="separator:a4741ad3cd0b065681e2a8f481525d16b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ce5bbeefa16a91cd8e7db8fb7aa0e6c"><td class="memItemLeft" align="right" valign="top"><a id="a4ce5bbeefa16a91cd8e7db8fb7aa0e6c"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a4ce5bbeefa16a91cd8e7db8fb7aa0e6c">OBJ_SPRITE32</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:a4ce5bbeefa16a91cd8e7db8fb7aa0e6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">sprite with 32x32 identifier <br /></td></tr>
+<tr class="separator:a4ce5bbeefa16a91cd8e7db8fb7aa0e6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabc9778e950220ff7adbac8a01faa148"><td class="memItemLeft" align="right" valign="top"><a id="aabc9778e950220ff7adbac8a01faa148"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#aabc9778e950220ff7adbac8a01faa148">OBJ_SPRITE8</a>&#160;&#160;&#160;4</td></tr>
+<tr class="memdesc:aabc9778e950220ff7adbac8a01faa148"><td class="mdescLeft">&#160;</td><td class="mdescRight">sprite with 8x8 identifier <br /></td></tr>
+<tr class="separator:aabc9778e950220ff7adbac8a01faa148"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8e30bb8ad62f2a58545ff770db95174"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#ad8e30bb8ad62f2a58545ff770db95174">REG_OAMADDH</a>&#160;&#160;&#160;(*(vuint8 *)0x2103)</td></tr>
 <tr class="memdesc:ad8e30bb8ad62f2a58545ff770db95174"><td class="mdescLeft">&#160;</td><td class="mdescRight">OAM Address and Priority Rotation (W) 15 OAM Priority Rotation (0=OBJ num 0, 1=OBJ num N) (OBJ with highest priority) 9-14 Not used 7-1 OBJ Number num N (for OBJ Priority) ;bit7-1 are used for two purposes 8-0 OAM Address (for OAM read/write) ;.  <a href="sprite_8h.html#ad8e30bb8ad62f2a58545ff770db95174">More...</a><br /></td></tr>
 <tr class="separator:ad8e30bb8ad62f2a58545ff770db95174"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,10 +198,10 @@ oambuffer[id] needs to be populate before.  <a href="sprite_8h.html#afcccf626c00
 <tr class="memdesc:a6c55adeb05799a6f58555806db5a1755"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a 8x8 sprite on screen.<br  />
 oambuffer[id] needs to be populate before.  <a href="sprite_8h.html#a6c55adeb05799a6f58555806db5a1755">More...</a><br /></td></tr>
 <tr class="separator:a6c55adeb05799a6f58555806db5a1755"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af269b675edc6e2edea3b116f485a4807"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#af269b675edc6e2edea3b116f485a4807">oamDynamicMetaDraw</a> (u16 id, u16 *sprmeta)</td></tr>
-<tr class="memdesc:af269b675edc6e2edea3b116f485a4807"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a 8x8 sprite on screen.<br  />
-oambuffer[id] needs to be populate before.  <a href="sprite_8h.html#af269b675edc6e2edea3b116f485a4807">More...</a><br /></td></tr>
-<tr class="separator:af269b675edc6e2edea3b116f485a4807"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8022631fa4757d5d9ea5ad5ae042d07e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a8022631fa4757d5d9ea5ad5ae042d07e">oamDynamicMetaDraw</a> (u16 id, s16 x, s16 y, u8 *sprmeta)</td></tr>
+<tr class="memdesc:a8022631fa4757d5d9ea5ad5ae042d07e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a Meta sprite on screen (can be composed of 8x8,16x16 or 32x32 sprites).<br  />
+oambuffer[id] needs to be populate before.  <a href="sprite_8h.html#a8022631fa4757d5d9ea5ad5ae042d07e">More...</a><br /></td></tr>
+<tr class="separator:a8022631fa4757d5d9ea5ad5ae042d07e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af206f6568efabd13b1d65db1c2d4e24a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#af206f6568efabd13b1d65db1c2d4e24a">oamFlip</a> (u16 id, u8 xf, u8 yf)</td></tr>
 <tr class="memdesc:af206f6568efabd13b1d65db1c2d4e24a"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets an oam entry to the supplied values  <a href="sprite_8h.html#af206f6568efabd13b1d65db1c2d4e24a">More...</a><br /></td></tr>
 <tr class="separator:af206f6568efabd13b1d65db1c2d4e24a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -580,7 +595,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite
 oambuffer[id] needs to be populate before. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] </td></tr>
+    <tr><td class="paramname">id</td><td>the oam number to be used [0 - 127] </td></tr>
   </table>
   </dd>
 </dl>
@@ -609,7 +624,7 @@ oambuffer[id] needs to be populate before. </p>
 oambuffer[id] needs to be populate before. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] </td></tr>
+    <tr><td class="paramname">id</td><td>the oam number to be used [0 - 127] </td></tr>
   </table>
   </dd>
 </dl>
@@ -638,15 +653,15 @@ oambuffer[id] needs to be populate before. </p>
 oambuffer[id] needs to be populate before. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] </td></tr>
+    <tr><td class="paramname">id</td><td>the oam number to be used [0 - 127] </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="af269b675edc6e2edea3b116f485a4807"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af269b675edc6e2edea3b116f485a4807">&#9670;&nbsp;</a></span>oamDynamicMetaDraw()</h2>
+<a id="a8022631fa4757d5d9ea5ad5ae042d07e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8022631fa4757d5d9ea5ad5ae042d07e">&#9670;&nbsp;</a></span>oamDynamicMetaDraw()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -660,7 +675,19 @@ oambuffer[id] needs to be populate before. </p>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">u16 *&#160;</td>
+          <td class="paramtype">s16&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">s16&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8 *&#160;</td>
           <td class="paramname"><em>sprmeta</em>&#160;</td>
         </tr>
         <tr>
@@ -671,15 +698,20 @@ oambuffer[id] needs to be populate before. </p>
       </table>
 </div><div class="memdoc">
 
-<p>Add a 8x8 sprite on screen.<br  />
+<p>Add a Meta sprite on screen (can be composed of 8x8,16x16 or 32x32 sprites).<br  />
 oambuffer[id] needs to be populate before. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] </td></tr>
-    <tr><td class="paramname">sprmeta</td><td>pointer to metasprite structure (must finish with 0xFFFF) </td></tr>
+    <tr><td class="paramname">id</td><td>the oam number to be used [0 - 127]. </td></tr>
+    <tr><td class="paramname">x</td><td>x coordinate of the metasprite </td></tr>
+    <tr><td class="paramname">y</td><td>y coordinate of the metasprite </td></tr>
+    <tr><td class="paramname">sprmeta</td><td>pointer to metasprite structure (must finish with 0xFFFF, see <a class="el" href="structt__metasprites.html" title="Dynamic metasprite definition.">t_metasprites</a>)</td></tr>
   </table>
   </dd>
 </dl>
+<p>the meta structure is composed of:<br  />
+ x offset,y offset,gfx offset, attribute, size (8,16,32),gfxfile<br  />
+ the function will reserve the number of sprites in oambuffer, beginning with id. </p>
 
 </div>
 </div>
@@ -1136,7 +1168,7 @@ oambuffer[id] needs to be populate before. </p>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="sprite_8h.html">sprite.h</a></li>
-    <li class="footer">Generated on Fri Sep 30 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Sat Oct 1 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>

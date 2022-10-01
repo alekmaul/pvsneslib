@@ -12,5 +12,6 @@ var searchData=
   ['dmacopyvram7_73',['dmaCopyVram7',['../dma_8h.html#ac0ba95e6b8e91380c0a67ee3b0707582',1,'dma.h']]],
   ['dmafillvram_74',['dmaFillVram',['../dma_8h.html#a235e242d89d3c81b9e697e99a96198f7',1,'dma.h']]],
   ['dsp_5fforcevbl_75',['DSP_FORCEVBL',['../video_8h.html#a5623bfd6fefb79d4f21d260b7e333523acef8d68eaf1d65e1bcf2ac9ee730c7d2',1,'video.h']]],
-  ['dummy2_76',['dummy2',['../structt__sprites.html#a4b18c6d2b062f4663ba6cb0fbcf61cf3',1,'t_sprites']]]
+  ['dummy1_76',['dummy1',['../structt__metasprites.html#a2f132d6d85b658cc0742bcd576b56597',1,'t_metasprites']]],
+  ['dummy2_77',['dummy2',['../structt__sprites.html#a4b18c6d2b062f4663ba6cb0fbcf61cf3',1,'t_sprites']]]
 ];

@@ -1,5 +1,6 @@
 var sprite_8h =
 [
+    [ "t_metasprites", "structt__metasprites.html", "structt__metasprites" ],
     [ "t_sprites", "structt__sprites.html", "structt__sprites" ],
     [ "OAM_ATTR", "sprite_8h.html#a3e2d51ca1a0ddadfbb339450c70f4f2f", null ],
     [ "oamGetX", "sprite_8h.html#aefa2b9ce227904e69830a6ad981b1f19", null ],
@@ -12,6 +13,9 @@ var sprite_8h =
     [ "OBJ_SIZE8_L16", "sprite_8h.html#aa91348e1375ed07236694a7d81fa9ecf", null ],
     [ "OBJ_SIZE8_L32", "sprite_8h.html#a4e8556727bbae22ac2e0fa8392a13fc4", null ],
     [ "OBJ_SIZE8_L64", "sprite_8h.html#a35468d3300e6ad4bdb2c027c93c7dbe5", null ],
+    [ "OBJ_SPRITE16", "sprite_8h.html#a4741ad3cd0b065681e2a8f481525d16b", null ],
+    [ "OBJ_SPRITE32", "sprite_8h.html#a4ce5bbeefa16a91cd8e7db8fb7aa0e6c", null ],
+    [ "OBJ_SPRITE8", "sprite_8h.html#aabc9778e950220ff7adbac8a01faa148", null ],
     [ "REG_OAMADDH", "sprite_8h.html#ad8e30bb8ad62f2a58545ff770db95174", null ],
     [ "REG_OAMDATA", "sprite_8h.html#ac7a5db74119e971459fad469a4caa92c", null ],
     [ "REG_OBSEL", "sprite_8h.html#aa54aeab41da41947862d2317074d500a", null ],
@@ -20,7 +24,7 @@ var sprite_8h =
     [ "oamDynamic16Draw", "sprite_8h.html#aebd07ed4460088c9f3b1aca4ddbbcda8", null ],
     [ "oamDynamic32Draw", "sprite_8h.html#afcccf626c001d0f1fb4c1c3844091a08", null ],
     [ "oamDynamic8Draw", "sprite_8h.html#a6c55adeb05799a6f58555806db5a1755", null ],
-    [ "oamDynamicMetaDraw", "sprite_8h.html#af269b675edc6e2edea3b116f485a4807", null ],
+    [ "oamDynamicMetaDraw", "sprite_8h.html#a8022631fa4757d5d9ea5ad5ae042d07e", null ],
     [ "oamFlip", "sprite_8h.html#af206f6568efabd13b1d65db1c2d4e24a", null ],
     [ "oamInit", "sprite_8h.html#a274b5d953c60f5455937be288f6652ee", null ],
     [ "oamInitDynamicSprite", "sprite_8h.html#adc3b431ee9b6bc613e5e4e6734dbfc08", null ],
