@@ -71,7 +71,7 @@ LzssDecodeVram:
 
 	rep #$20
 	lda 10,s
-	sta tcc__r0                          				  ; lzssmemptr = source address
+	sta tcc__r0                          				  	  ; tcc_r0 = source address
 	sep #$20
 	lda 12,s
 	sta tcc__r0h
