@@ -29,6 +29,9 @@ V4.0.0 (dd, mmm, 2022)
 - Change default console text display (*BREAKING CHANGE*)
 - Add consoleSetTextVramBGAdr, consoleSetTextVramAdr, consoleSetTextOffset for text management
 - Add oamDynamicMetaDraw for meta sprite drawing
+- Add setModeHdmaReset to remove HDMA effect
+- Add setModeHdmaColor for HDMA color effect (color gradient)
+- Add setModeHdmaWaves, setModeHdmaWavesMove for HDMA waves effect 
 
 V3.5.0 (29, May, 2022)
 - Add 32 bit supports for variables
