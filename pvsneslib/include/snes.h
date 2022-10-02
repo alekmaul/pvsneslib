@@ -86,9 +86,12 @@
     <!-- backgrounds -->
     \example graphics/Backgrounds/Mode0/Mode0.c
     \example graphics/Backgrounds/Mode1/Mode1.c
+    \example graphics/Backgrounds/Mode1BG3HighPriority/Mode1BG3HighPriority.c
+    \example graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c
+    \example graphics/Backgrounds/Mode1LZ77/Mode1LZ77.c
+    \example graphics/Backgrounds/Mode1MixedScroll/Mode1MixedScroll.c
     \example graphics/Backgrounds/Mode1Png/Mode1.c
     \example graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c
-    \example graphics/Backgrounds/Mode1MixedScroll/Mode1MixedScroll.c
     \example graphics/Backgrounds/Mode3/Mode3.c
     \example graphics/Backgrounds/Mode7/Mode7.c
     \example graphics/Backgrounds/Mode7Perspective/Mode7Perspective.c
@@ -98,13 +101,15 @@
     \example graphics/Effects/MosaicShading/MosaicShading.c
     \example graphics/Effects/Transparency/Transparency.c
     \example graphics/Effects/ParallaxScrolling/ParallaxScrolling.c
+    \example graphics/Effects/Waves/Waves.c
 
     <!-- sprites -->
-    \example graphics/Sprites/SimpleSprite/SimpleSprite.c
     \example graphics/Sprites/AnimatedSprite/AnimatedSprite.c
+    \example graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c
+    \example graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c
     \example graphics/Sprites/DynamicSprite/DynamicSprite.c
     \example graphics/Sprites/ObjectSize/ObjectSize.c
-    \example graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c
+    \example graphics/Sprites/SimpleSprite/SimpleSprite.c
 
     <!-- palettes -->
     \example graphics/Palette/GetColors/GetColors.c
@@ -143,6 +148,10 @@
 
     <!-- scoring -->
     \example scoring/scoring.c
+
+    <!-- region test & console type -->
+    \example testregion/testregion.c
+    \example typeconsole/src/pal_ntsc.c
 
 */
 
