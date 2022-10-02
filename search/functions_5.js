@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['mapgetmetatile_394',['mapGetMetaTile',['../map_8h.html#a0d7b8c3ece013b244c417f761ad150ac',1,'map.h']]],
-  ['mapload_395',['mapLoad',['../map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96',1,'map.h']]],
-  ['mapupdate_396',['mapUpdate',['../map_8h.html#a332bfe570835ef05934b712fd9701c88',1,'map.h']]],
-  ['mapupdatecamera_397',['mapUpdateCamera',['../map_8h.html#ab8720c97e886ceabda97c6beff2e5864',1,'map.h']]],
-  ['mapvblank_398',['mapVblank',['../map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34',1,'map.h']]]
+  ['mapgetmetatile_398',['mapGetMetaTile',['../map_8h.html#a0d7b8c3ece013b244c417f761ad150ac',1,'map.h']]],
+  ['mapload_399',['mapLoad',['../map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96',1,'map.h']]],
+  ['mapupdate_400',['mapUpdate',['../map_8h.html#a332bfe570835ef05934b712fd9701c88',1,'map.h']]],
+  ['mapupdatecamera_401',['mapUpdateCamera',['../map_8h.html#ab8720c97e886ceabda97c6beff2e5864',1,'map.h']]],
+  ['mapvblank_402',['mapVblank',['../map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34',1,'map.h']]]
 ];

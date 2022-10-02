@@ -8,6 +8,9 @@ var examples =
     [ "games/likemario/LikeMario.c", "games_2likemario_2_like_mario_8c-example.html", null ],
     [ "graphics/Backgrounds/Mode0/Mode0.c", "graphics_2_backgrounds_2_mode0_2_mode0_8c-example.html", null ],
     [ "graphics/Backgrounds/Mode1/Mode1.c", "graphics_2_backgrounds_2_mode1_2_mode1_8c-example.html", null ],
+    [ "graphics/Backgrounds/Mode1BG3HighPriority/Mode1BG3HighPriority.c", "graphics_2_backgrounds_2_mode1_b_g3_high_priority_2_mode1_b_g3_high_priority_8c-example.html", null ],
+    [ "graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c", "graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html", null ],
+    [ "graphics/Backgrounds/Mode1LZ77/Mode1LZ77.c", "graphics_2_backgrounds_2_mode1_l_z77_2_mode1_l_z77_8c-example.html", null ],
     [ "graphics/Backgrounds/Mode1MixedScroll/Mode1MixedScroll.c", "graphics_2_backgrounds_2_mode1_mixed_scroll_2_mode1_mixed_scroll_8c-example.html", null ],
     [ "graphics/Backgrounds/Mode1Png/Mode1.c", "graphics_2_backgrounds_2_mode1_png_2_mode1_8c-example.html", null ],
     [ "graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c", "graphics_2_backgrounds_2_mode1_scroll_2_mode1_scroll_8c-example.html", null ],
@@ -18,8 +21,10 @@ var examples =
     [ "graphics/Effects/MosaicShading/MosaicShading.c", "graphics_2_effects_2_mosaic_shading_2_mosaic_shading_8c-example.html", null ],
     [ "graphics/Effects/ParallaxScrolling/ParallaxScrolling.c", "graphics_2_effects_2_parallax_scrolling_2_parallax_scrolling_8c-example.html", null ],
     [ "graphics/Effects/Transparency/Transparency.c", "graphics_2_effects_2_transparency_2_transparency_8c-example.html", null ],
+    [ "graphics/Effects/Waves/Waves.c", "graphics_2_effects_2_waves_2_waves_8c-example.html", null ],
     [ "graphics/Palette/GetColors/GetColors.c", "graphics_2_palette_2_get_colors_2_get_colors_8c-example.html", null ],
     [ "graphics/Sprites/AnimatedSprite/AnimatedSprite.c", "graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html", null ],
+    [ "graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c", "graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html", null ],
     [ "graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c", "graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html", null ],
     [ "graphics/Sprites/DynamicSprite/DynamicSprite.c", "graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html", null ],
     [ "graphics/Sprites/ObjectSize/ObjectSize.c", "graphics_2_sprites_2_object_size_2_object_size_8c-example.html", null ],
@@ -33,5 +38,7 @@ var examples =
     [ "random/random.c", "random_2random_8c-example.html", null ],
     [ "scoring/scoring.c", "scoring_2scoring_8c-example.html", null ],
     [ "sram/sram.c", "sram_2sram_8c-example.html", null ],
-    [ "timer/timer.c", "timer_2timer_8c-example.html", null ]
+    [ "testregion/testregion.c", "testregion_2testregion_8c-example.html", null ],
+    [ "timer/timer.c", "timer_2timer_8c-example.html", null ],
+    [ "typeconsole/src/pal_ntsc.c", "typeconsole_2src_2pal_ntsc_8c-example.html", null ]
 ];

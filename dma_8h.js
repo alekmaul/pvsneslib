@@ -14,9 +14,13 @@ var dma_8h =
     [ "dmaCopyVram", "dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2", null ],
     [ "dmaCopyVram7", "dma_8h.html#ac0ba95e6b8e91380c0a67ee3b0707582", null ],
     [ "dmaFillVram", "dma_8h.html#a235e242d89d3c81b9e697e99a96198f7", null ],
+    [ "setModeHdmaColor", "dma_8h.html#a88ab32a0e407cfa3d7f6fc4e9276d8b0", null ],
     [ "setModeHdmaGradient", "dma_8h.html#acf06b5c6b9733a2fdb5cb466dd6b16bf", null ],
+    [ "setModeHdmaReset", "dma_8h.html#ac9ccd9f1e9e22e8ae4b3fa1bcfefb0a1", null ],
     [ "setModeHdmaShadeUpDown", "dma_8h.html#a68c89ad2f21c471cf6bf07583576f0a2", null ],
     [ "setModeHdmaShading", "dma_8h.html#a17730c5eb2e9c19d4ce49c6c5930af73", null ],
+    [ "setModeHdmaWaves", "dma_8h.html#ab45352a81959147a9d678a3f327e33e0", null ],
+    [ "setModeHdmaWavesMove", "dma_8h.html#ad3bd40985508523aefb457ac0538551d", null ],
     [ "setParallaxScrolling", "dma_8h.html#aa03948bd578cc7311908ca96fec14a93", null ],
     [ "HDMATable16", "dma_8h.html#ad072502d98153debc89f839d45fc1c80", null ]
 ];
