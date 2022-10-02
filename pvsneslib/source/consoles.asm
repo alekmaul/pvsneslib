@@ -45,7 +45,6 @@ snes_vblank_count		DB                                  ; to count number of vbla
 snes_50hz               DB                                  ; 1 if PAL console (50 Hz) instead of NTSC (60Hz)
 
 scr_txt_dirty			DB                                  ; 1 if we need to refresh screen
-scr_txt_font_map		DSW $800                            ; text to display on screen
 txt_pal_adr             DB                                  ; text attribute (palette, high priority ...)
 txt_vram_bg             DW                                  ; vram address of BG for text
 txt_vram_adr            DW                                  ; vram address of graphics for text
@@ -54,6 +53,8 @@ txt_vram_offset         DW                                  ; offset for text di
 text_buffer             DSB 128                             ; text formated with argument
 
 cons_val1			    DSB 2                               ; save value #1
+
+scr_txt_font_map		DSW $800                            ; text to display on screen
 
 .ENDS
 

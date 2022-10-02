@@ -28,6 +28,7 @@ V4.0.0 (dd, mmm, 2022)
 - Add objCollidMap1D function to manage collisison with no gravity (useful for zelda like games)
 - Change default console text display (*BREAKING CHANGE*)
 - Add consoleSetTextVramBGAdr, consoleSetTextVramAdr, consoleSetTextOffset for text management
+- Add oamDynamicMetaDraw for meta sprite drawing
 
 V3.5.0 (29, May, 2022)
 - Add 32 bit supports for variables
