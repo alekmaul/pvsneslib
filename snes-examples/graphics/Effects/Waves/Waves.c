@@ -12,6 +12,9 @@ extern char patterns, patterns_end;
 extern char palette, palette_end;
 extern char map, map_end;
 
+u8 pada,padb;
+u16 pad0;
+
 //---------------------------------------------------------------------------------
 int main(void)
 {
@@ -32,13 +35,33 @@ int main(void)
 
 	// Initialize the wave effect
 	setModeHdmaWaves(0);
-	
+	pada=0; padb=0;
+
     // Wait for nothing :P
     while (1)
     {
-		// even if wa call it eachf rame, it will do the effect every 4th frame
-		setModeHdmaWavesMove();
+		// Get current #0 pad
+        pad0 = padsCurrent(0);
+
+		// remove it with key a
+		if (pad0 & KEY_A) {
+			if (!pada) {
+				pada=1;
+				setModeHdmaReset();
+			}
+		}
+		else pada=0;
 		
+		// put it again with key b
+		if (pad0 & KEY_B) {
+			padb=1;
+			setModeHdmaWaves(0);
+		}
+		else padb=0;
+
+		// even if wa call it each frame, it will do the effect every 4th frame
+		setModeHdmaWavesMove();
+
 		// Wait vblank sync
         WaitForVBlank();
     }
