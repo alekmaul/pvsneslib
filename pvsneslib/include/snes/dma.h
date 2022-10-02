@@ -298,4 +298,26 @@ void setModeHdmaShading(unsigned char mode);
 */
 void setParallaxScrolling(u8 bgrnd);
 
+/*! \fn  setModeHdmaReset(void)
+    \brief Reset (and remove) HDMA effect
+*/
+void setModeHdmaReset(void);
+
+/*! \fn  setModeHdmaColor(u8* hdmatable)
+    \brief Do a color gradient effect on screen (with color 0)
+    \param hdmatable table with gradient colors
+*/    
+void setModeHdmaColor(u8* hdmatable);
+
+/*! \fn  setModeHdmaWaves(u8 bgrnd)
+    \brief Do a waves effect on screen (init function)
+    \param bgrnd background for the parallax scrolling  (value 0..1)
+*/    
+void setModeHdmaWaves(u8 bgrnd);
+
+/*! \fn  setModeHdmaWavesMove(void)
+    \brief Animate the waves effect. Must be called during each frame.<br> setModeHdmaWaves must have been done to init it.
+*/
+void setModeHdmaWavesMove(void);
+
 #endif // SNES_DMA_INCLUDE

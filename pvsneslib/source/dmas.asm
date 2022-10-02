@@ -430,7 +430,7 @@ _sMHG1:
     plx
     lda.b tcc__r9
     phx
-    jsl tcc__div            ; 2) i / 32/(mL+1) -> x=i, a=(32/(mL+1))é&
+    jsl tcc__div            ; 2) i / 32/(mL+1) -> x=i, a=(32/(mL+1))ï¿½&
     plx
     sep #$20
     lda hdma_val1
@@ -627,4 +627,244 @@ setParallaxScrolling:
 	plp
 	rtl
 
+.ENDS
+
+.SECTION ".dmas12_text" SUPERFREE
+; void setModeHdmaReset(void)
+setModeHdmaReset:
+	php
+
+    sep #$20
+    lda #$00
+	sta.l $420c
+
+	plp                                        
+
+    rtl
+
+.ENDS
+
+.SECTION ".dmas13_text" SUPERFREE
+
+; void setModeHdmaColor(u8* hdmatable)
+; 5-8
+setModeHdmaColor:
+	php
+
+    sep #$20                                                  ; reinit hdma
+    wai
+    lda #$00
+	sta.l $420c
+    wai
+
+   	lda	#3
+	sta.l	$4360           								  ; 0x00 Meaning write once
+    lda #$21
+	sta.l	$4361           								  ; 0x00 Screen display register  -> so we control brightness
+
+	lda 7,s       											  ; src bank
+	sta.l	$4364
+
+	rep	#$20
+	lda	5,s      											  ; src (lower 16 bits)
+	sta.l	$4362
+
+    lda	#$40                  								  ; Enable HDMA channel 6
+	sta.l	$420C
+
+	plp
+	rtl
+	
+;.ENDS
+
+;.SECTION ".dmas14_text" SUPERFREE
+
+; void setModeHdmaWaves(u8 bgNumber)
+; 8
+setModeHdmaWaves:
+	php
+	phb
+	phx
+
+	sep #$20
+	lda #$7e
+	pha
+	plb
+
+	rep #$20 							
+	ldx	#0
+
+_smhw01:
+	lda.l _waveTable,x
+	sta	HDMATable16, x
+	inx
+	inx
+	txa
+	cmp #34
+	bne _smhw01
+	
+	sep #$20
+	lda #$0
+	pha
+	plb
+
+	lda #$42                                                  ; indirect mode = the 0100 0000 bit ($40)
+	sta.l $4360 											  ; 1 register, write twice
+	lda 8,s													  ; 0=bg1, 1=bg2
+	cmp #1
+	beq +
+	lda #$0d 												  ; BG1HOFS horizontal scroll bg1
+	bra ++
++	lda #$0f 												  ; BG2HOFS horizontal scroll bg2
+++	sta.l $4361 											  ; destination
+
+	ldx #(waveHTable).w
+	stx $4362 												  ; address
+	lda #:waveHTable
+	sta $4364 												  ; address
+	lda #$7e
+	sta.l $4367 											  ; indirect address bank
+	
+	lda #$40 												  ; channel 6
+	sta.l	$420C
+
+	plx
+	plb
+	plp
+	rtl
+
+; void setModeHdmaWavesMove(void)
+setModeHdmaWavesMove:
+	php
+	phb 
+
+	sep #$20
+	lda #$7e
+	pha
+	plb
+
+	rep #$20
+	lda snes_vblank_count									  ; only does this every 4th frame	
+	and #$0003
+	bne _smhwm0
+
+	lda HDMATable16
+	sta hdma_val1
+	
+	lda HDMATable16+2
+	sta HDMATable16
+	lda HDMATable16+4
+	sta HDMATable16+2
+	lda HDMATable16+6
+	sta HDMATable16+4
+	lda HDMATable16+8
+	sta HDMATable16+6
+	lda HDMATable16+10
+	sta HDMATable16+8
+	lda HDMATable16+12
+	sta HDMATable16+10
+	lda HDMATable16+14
+	sta HDMATable16+12
+	lda HDMATable16+16
+	sta HDMATable16+14
+	lda HDMATable16+18
+	sta HDMATable16+16
+	lda HDMATable16+20
+	sta HDMATable16+18
+	lda HDMATable16+22
+	sta HDMATable16+20
+	lda HDMATable16+24
+	sta HDMATable16+22
+	lda HDMATable16+26
+	sta HDMATable16+24
+	lda HDMATable16+28
+	sta HDMATable16+26
+	lda HDMATable16+30
+	sta HDMATable16+28
+	
+	lda hdma_val1
+	sta HDMATable16+30
+_smhwm0:
+	plb	
+	plp
+	rtl 
+
+waveHTable:													   ; indirect table for wave effect
+	.byte 8
+	.word HDMATable16
+	.byte 8
+	.word HDMATable16+2
+	.byte 8
+	.word HDMATable16+4
+	.byte 8
+	.word HDMATable16+6
+	.byte 8
+	.word HDMATable16+8
+	.byte 8
+	.word HDMATable16+10
+	.byte 8
+	.word HDMATable16+12
+	.byte 8
+	.word HDMATable16+14
+	.byte 8
+	.word HDMATable16+16
+	.byte 8
+	.word HDMATable16+18
+	.byte 8
+	.word HDMATable16+20
+	.byte 8
+	.word HDMATable16+22
+	.byte 8
+	.word HDMATable16+24
+	.byte 8
+	.word HDMATable16+26
+	.byte 8
+	.word HDMATable16+28
+	.byte 8
+	.word HDMATable16+30
+	.byte 8
+	.word HDMATable16
+	.byte 8
+	.word HDMATable16+2
+	.byte 8
+	.word HDMATable16+4
+	.byte 8
+	.word HDMATable16+6
+	.byte 8
+	.word HDMATable16+8
+	.byte 8
+	.word HDMATable16+10
+	.byte 8
+	.word HDMATable16+12
+	.byte 8
+	.word HDMATable16+14
+	.byte 8
+	.word HDMATable16+16
+	.byte 8
+	.word HDMATable16+18
+	.byte 8
+	.word HDMATable16+20
+	.byte 8
+	.word HDMATable16+22
+	.byte 0
+
+_waveTable:
+	.word $00               ; | 
+	.word $03               ; | 
+	.word $06               ; | 
+	.word $07               ; | 
+	.word $08               ; | 
+	.word $07               ; | 
+	.word $06               ; | 
+	.word $03               ; | 
+	.word $00               ; | 
+	.word -$03              ; | 
+	.word -$06              ; | 
+	.word -$07              ; | 
+	.word -$08              ; | 
+	.word -$07              ; | 
+	.word -$06              ; | 
+	.word -$03              ; | 
+	.word $00               ;/  
+    
 .ENDS
