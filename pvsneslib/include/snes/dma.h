@@ -320,7 +320,7 @@ void setModeHdmaWaves(u8 bgrnd);
 */
 void setModeHdmaWavesMove(void);
 
-/*! \fn  setModeHdmaWindow(u8 bgrnd)
+/*! \fn  setModeHdmaWindow(u8 bgrnd, u8* hdmatableL,u8* hdmatableR)
     \brief Do a window  effect on screen 
     \param bgrnd background for the windows effect  (value 0..1)
     \param hdmatableL table with windows effect on the left
