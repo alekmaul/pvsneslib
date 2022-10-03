@@ -311,7 +311,7 @@ void setModeHdmaColor(u8* hdmatable);
 
 /*! \fn  setModeHdmaWaves(u8 bgrnd)
     \brief Do a waves effect on screen (init function)
-    \param bgrnd background for the parallax scrolling  (value 0..1)
+    \param bgrnd background for the wave effect (value 0..1)
 */    
 void setModeHdmaWaves(u8 bgrnd);
 
@@ -319,5 +319,13 @@ void setModeHdmaWaves(u8 bgrnd);
     \brief Animate the waves effect. Must be called during each frame.<br> setModeHdmaWaves must have been done to init it.
 */
 void setModeHdmaWavesMove(void);
+
+/*! \fn  setModeHdmaWindow(u8 bgrnd)
+    \brief Do a window  effect on screen 
+    \param bgrnd background for the windows effect  (value 0..1)
+    \param hdmatableL table with windows effect on the left
+    \param hdmatableR table with windows effect on the right
+*/    
+; void setModeHdmaWindow(u8 bgrnd, u8* hdmatableL,u8* hdmatableR)
 
 #endif // SNES_DMA_INCLUDE

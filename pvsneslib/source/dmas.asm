@@ -868,3 +868,15 @@ _waveTable:
 	.word $00               ;/  
     
 .ENDS
+
+.SECTION ".dmas14_text" SUPERFREE
+
+; void setModeHdmaWindow(u8 bgrnd, u8* hdmatableL,u8* hdmatableR)
+; 5 6-9 10-13
+setModeHdmaWindow:
+	php
+
+	plp
+	rtl 
+
+.ENDS
