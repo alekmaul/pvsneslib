@@ -21,6 +21,7 @@ var dma_8h =
     [ "setModeHdmaShading", "dma_8h.html#a17730c5eb2e9c19d4ce49c6c5930af73", null ],
     [ "setModeHdmaWaves", "dma_8h.html#ab45352a81959147a9d678a3f327e33e0", null ],
     [ "setModeHdmaWavesMove", "dma_8h.html#ad3bd40985508523aefb457ac0538551d", null ],
+    [ "setModeHdmaWindow", "dma_8h.html#a65d6314743e24d6f6715f2c98d5263c4", null ],
     [ "setParallaxScrolling", "dma_8h.html#aa03948bd578cc7311908ca96fec14a93", null ],
     [ "HDMATable16", "dma_8h.html#ad072502d98153debc89f839d45fc1c80", null ]
 ];
