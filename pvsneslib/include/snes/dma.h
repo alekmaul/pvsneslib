@@ -326,6 +326,6 @@ void setModeHdmaWavesMove(void);
     \param hdmatableL table with windows effect on the left
     \param hdmatableR table with windows effect on the right
 */    
-; void setModeHdmaWindow(u8 bgrnd, u8* hdmatableL,u8* hdmatableR)
+void setModeHdmaWindow(u8 bgrnd, u8* hdmatableL,u8* hdmatableR);
 
 #endif // SNES_DMA_INCLUDE
