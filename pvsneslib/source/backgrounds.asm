@@ -32,6 +32,7 @@
 .EQU REG_TS	               $212D
 .EQU REG_W12SEL		       $2123
 .EQU REG_W34SEL		       $2124
+.EQU REG_WOBJSEL           $2125
 .EQU REG_WH0		       $2126
 .EQU REG_WH1		       $2127
 .EQU REG_WBGLOG		       $212A
