@@ -21,8 +21,9 @@
 ;		distribution.
 ;
 ;---------------------------------------------------------------------------------
-.EQU REG_RDNMI		$4210
 
+.EQU REG_RDNMI				$4210
+.EQU REG_HDMAEN  			$420C
 
 .RAMSECTION ".reg_dma7e" BANK $7E 
 
@@ -46,14 +47,14 @@ dmaCopyCGram:
 ;	jsr.w	_wait_nmid
 	rep	#$20
 	
-	lda	11,s	; numBytes
+	lda	11,s												  ; numBytes
 	sta.l	$4305
-	lda	5,s	; src (lower 16 bits)
+	lda	5,s												      ; src (lower 16 bits)
 	sta.l	$4302
 	sep	#$20
-	lda	7,s	; src bank
+	lda	7,s												      ; src bank
 	sta.l	$4304
-	lda	9,s	; cgramOffs
+	lda	9,s													  ; cgramOffs
 	sta.l	$2121
 	lda	#0
 	sta.l	$4300
@@ -458,7 +459,7 @@ _sMHG1:
 	sta.l	$4334
     
     lda	#8                  ; Enable HDMA channel 3
-	sta.l	$420C
+	sta.l	REG_HDMAEN
 	
     plx
 	plp
@@ -521,7 +522,7 @@ setModeHdmaShadeUpDown:
 	sta.l	$4334
     
     lda	#8                  ; Enable HDMA channel 3
-	sta.l	$420C
+	sta.l	REG_HDMAEN
     
 	plp
 	rtl
@@ -581,7 +582,7 @@ setModeHdmaShading:
 	sta.l	$4324
 
     lda	#7                          ; Enable HDMA channel 0..2
-	sta.l	$420C
+	sta.l	REG_HDMAEN
 
 +
 	plp
@@ -621,7 +622,7 @@ setParallaxScrolling:
     
     sep #$20                            
     lda	#8                              ; Enable HDMA channel 3
-	sta.l $420C
+	sta.l REG_HDMAEN
 
     plx
 	plp
@@ -636,10 +637,21 @@ setModeHdmaReset:
 
     sep #$20
     lda #$00
-	sta.l $420c
+	sta.l REG_HDMAEN
 
 	plp                                        
+    rtl
 
+; void setModeHdmaWindowReset(void)
+setModeHdmaWindowReset:
+	php
+
+    sep #$20
+    lda #$00
+	sta.l REG_HDMAEN
+	sta.l REG_TMW
+
+	plp                                        
     rtl
 
 .ENDS
@@ -654,7 +666,7 @@ setModeHdmaColor:
     sep #$20                                                  ; reinit hdma
     wai
     lda #$00
-	sta.l $420c
+	sta.l REG_HDMAEN
     wai
 
    	lda	#3
@@ -670,7 +682,7 @@ setModeHdmaColor:
 	sta.l	$4362
 
     lda	#$40                  								  ; Enable HDMA channel 6
-	sta.l	$420C
+	sta.l	REG_HDMAEN
 
 	plp
 	rtl
@@ -726,7 +738,7 @@ _smhw01:
 	sta.l $4367 											  ; indirect address bank
 	
 	lda #$40 												  ; channel 6
-	sta.l	$420C
+	sta.l	REG_HDMAEN
 
 	plx
 	plb
@@ -789,7 +801,7 @@ _smhwm0:
 	plp
 	rtl 
 
-waveHTable:													   ; indirect table for wave effect
+waveHTable:													  ; indirect table for wave effect
 	.byte 8
 	.word HDMATable16
 	.byte 8
@@ -871,11 +883,59 @@ _waveTable:
 
 .SECTION ".dmas14_text" SUPERFREE
 
-; void setModeHdmaWindow(u8 bgrnd, u8* hdmatableL,u8* hdmatableR)
-; 5 6-9 10-13
+; void setModeHdmaWindow(u8 bgrnd, u8 bgrndmask,u8* hdmatableL,u8* hdmatableR)
+; 8 9 10-13 14-17
 setModeHdmaWindow:
 	php
+	phb
+	phx
 
+	sep #$20
+	lda #0
+	pha
+	plb
+
+	lda 8,s													  ; got all the flags to active windows on BG1..4
+	ora #$10												  ; also add obj in window effect
+	sta REG_TMW												  ; active or not window
+
+	lda 8,s
+	and #$0C												  ; if effect on BG3 or BG4, not same register
+	bne +
+	lda 9,s													  ; got all the flags to mask effect (inside, outside on BG1..2)
+	sta REG_W12SEL
+	bra ++
++:	
+	lda 9,s													  ; got all the flags to mask effect (inside, outside on BG3..4)
+	sta REG_W34SEL
+
+++:	lda 9,s													  ; todo : find a way to manage easily objects -> currently, it works only for BG1 
+	sta REG_WOBJSEL
+	
+	stz $4360 												  ; 1 register, write once
+	lda #$26 												  ; 2126  Window 1 Left Position (X1)
+	sta $4361 												  ; destination
+	lda 12,s												  ; bank address of left  table
+	sta $4364 
+	
+	stz $4370                                                 ; 1 register, write once
+	lda #$27 												  ; 2127 Window 1 Right Position (X2)
+	sta $4371 
+	lda 16,s												  ; bank address of right table
+	sta $4374 
+
+	rep #$20
+	lda 10,s												  ; low address of left table
+	sta $4362 				                                  ; low address of right table
+	lda 14,s												
+	sta $4372 
+
+	sep #$20
+	lda #$C0 												  ; channel 6 & 7
+	sta.l	REG_HDMAEN
+
+	plx
+	plb
 	plp
 	rtl 
 

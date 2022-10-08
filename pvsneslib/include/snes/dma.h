@@ -37,6 +37,29 @@
 #include <snes/sprite.h>
 #include <snes/video.h>
 
+/*!	\brief Bit defines for the window area main screen effect */
+#define MSWIN_BG1               (1 << 0) /*!< \brief Main Screen BG1 disable background */
+#define MSWIN_BG2               (1 << 1) /*!< \brief Main Screen BG2 disable background */
+#define MSWIN_BG3               (1 << 2) /*!< \brief Main Screen BG3 disable background */
+#define MSWIN_BG4               (1 << 3) /*!< \brief Main Screen BG4 disable background */
+
+#define MSWIN1_BG1MSKOUT        (1 << 0) /*!< \brief Window 1 area BG1 inside (0) outside(1) */
+#define MSWIN1_BG1MSKENABLE     (2 << 0) /*!< \brief Window 1 area BG1 enable */
+#define MSWIN1_BG1MSKOUT        (1 << 2) /*!< \brief Window 2 area BG1 inside (0) outside(1) */
+#define MSWIN1_BG1MSKENABLE     (2 << 2) /*!< \brief Window 2 area BG1 enable */
+#define MSWIN1_BG2MSKOUT        (1 << 4) /*!< \brief Window 1 area BG2 inside (0) outside(1) */
+#define MSWIN1_BG2MSKENABLE     (2 << 4) /*!< \brief Window 1 area BG2 enable */
+#define MSWIN1_BG2MSKOUT        (1 << 4) /*!< \brief Window 2 area BG2 inside (0) outside(1) */
+#define MSWIN1_BG2MSKENABLE     (2 << 4) /*!< \brief Window 2 area BG2 enable */
+#define MSWIN1_BG3MSKOUT        (1 << 0) /*!< \brief Window 1 area BG3 inside (0) outside(1) */
+#define MSWIN1_BG3MSKENABLE     (2 << 0) /*!< \brief Window 1 area BG3 enable */
+#define MSWIN1_BG3MSKOUT        (1 << 2) /*!< \brief Window 2 area BG3 inside (0) outside(1) */
+#define MSWIN1_BG3MSKENABLE     (2 << 2) /*!< \brief Window 2 area BG3 enable */
+#define MSWIN1_BG4MSKOUT        (1 << 4) /*!< \brief Window 1 area BG4 inside (0) outside(1) */
+#define MSWIN1_BG4MSKENABLE     (2 << 4) /*!< \brief Window 1 area BG4 enable */
+#define MSWIN1_BG4MSKOUT        (1 << 4) /*!< \brief Window 2 area BG4 inside (0) outside(1) */
+#define MSWIN1_BG4MSKENABLE     (2 << 4) /*!< \brief Window 2 area BG4 enable */
+
 /*!	\brief Bit defines for the DMA control registers */
 #define DMA_ENABLE 1
 
@@ -303,6 +326,11 @@ void setParallaxScrolling(u8 bgrnd);
 */
 void setModeHdmaReset(void);
 
+/*! \fn  setModeHdmaWindowReset(void)
+    \brief Reset (and remove) HDMA and WINDOW effect
+*/
+void setModeHdmaWindowReset(void);
+
 /*! \fn  setModeHdmaColor(u8* hdmatable)
     \brief Do a color gradient effect on screen (with color 0)
     \param hdmatable table with gradient colors
@@ -322,10 +350,11 @@ void setModeHdmaWavesMove(void);
 
 /*! \fn  setModeHdmaWindow(u8 bgrnd, u8* hdmatableL,u8* hdmatableR)
     \brief Do a window  effect on screen 
-    \param bgrnd background for the windows effect  (value 0..1)
+    \param bgrnd background for the windows effect  (value MSWIN_BG1..MSWIN_BG4)
+    \param bgrndmask background mask (inside, outside) for the windows effect  (value MSWIN1_BG13MSKIN..MSWIN1_BG13MSKIN)
     \param hdmatableL table with windows effect on the left
     \param hdmatableR table with windows effect on the right
 */    
-void setModeHdmaWindow(u8 bgrnd, u8* hdmatableL,u8* hdmatableR);
+void setModeHdmaWindow(u8 bgrnd, u8 bgrndmask,u8* hdmatableL,u8* hdmatableR);
 
 #endif // SNES_DMA_INCLUDE
