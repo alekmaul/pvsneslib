@@ -1,16 +1,16 @@
 var searchData=
 [
-  ['bginitmapset_360',['bgInitMapSet',['../background_8h.html#acc385296e159449a81d18f5e219c8032',1,'background.h']]],
-  ['bginitmaptileset7_361',['bgInitMapTileSet7',['../background_8h.html#ae1fad909be4edf30a3cd08a0890361dc',1,'background.h']]],
-  ['bginittileset_362',['bgInitTileSet',['../background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad',1,'background.h']]],
-  ['bginittilesetdata_363',['bgInitTileSetData',['../background_8h.html#a4ea396375d85e9f3d9af5072552819aa',1,'background.h']]],
-  ['bginittilesetlz_364',['bgInitTileSetLz',['../background_8h.html#a4b0af2955fba6d18445f6cd95bf6bef6',1,'background.h']]],
-  ['bgsetdisable_365',['bgSetDisable',['../background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb',1,'background.h']]],
-  ['bgsetdisablesub_366',['bgSetDisableSub',['../background_8h.html#af28e4200f4e49073dcb8f950099bb9c3',1,'background.h']]],
-  ['bgsetenable_367',['bgSetEnable',['../background_8h.html#a75891c2ac9e1087a9494e924b137eec4',1,'background.h']]],
-  ['bgsetenablesub_368',['bgSetEnableSub',['../background_8h.html#a439e34ab400075fa7f12e6e559407e9b',1,'background.h']]],
-  ['bgsetgfxptr_369',['bgSetGfxPtr',['../background_8h.html#a0206b5b9911749322bcf9da130527924',1,'background.h']]],
-  ['bgsetmapptr_370',['bgSetMapPtr',['../background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e',1,'background.h']]],
-  ['bgsetscroll_371',['bgSetScroll',['../background_8h.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7',1,'background.h']]],
-  ['bgsetwindowsregions_372',['bgSetWindowsRegions',['../background_8h.html#a00671918b35ab20db7b3f6b71015ccfb',1,'background.h']]]
+  ['bginitmapset_372',['bgInitMapSet',['../background_8h.html#acc385296e159449a81d18f5e219c8032',1,'background.h']]],
+  ['bginitmaptileset7_373',['bgInitMapTileSet7',['../background_8h.html#ae1fad909be4edf30a3cd08a0890361dc',1,'background.h']]],
+  ['bginittileset_374',['bgInitTileSet',['../background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad',1,'background.h']]],
+  ['bginittilesetdata_375',['bgInitTileSetData',['../background_8h.html#a4ea396375d85e9f3d9af5072552819aa',1,'background.h']]],
+  ['bginittilesetlz_376',['bgInitTileSetLz',['../background_8h.html#a4b0af2955fba6d18445f6cd95bf6bef6',1,'background.h']]],
+  ['bgsetdisable_377',['bgSetDisable',['../background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb',1,'background.h']]],
+  ['bgsetdisablesub_378',['bgSetDisableSub',['../background_8h.html#af28e4200f4e49073dcb8f950099bb9c3',1,'background.h']]],
+  ['bgsetenable_379',['bgSetEnable',['../background_8h.html#a75891c2ac9e1087a9494e924b137eec4',1,'background.h']]],
+  ['bgsetenablesub_380',['bgSetEnableSub',['../background_8h.html#a439e34ab400075fa7f12e6e559407e9b',1,'background.h']]],
+  ['bgsetgfxptr_381',['bgSetGfxPtr',['../background_8h.html#a0206b5b9911749322bcf9da130527924',1,'background.h']]],
+  ['bgsetmapptr_382',['bgSetMapPtr',['../background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e',1,'background.h']]],
+  ['bgsetscroll_383',['bgSetScroll',['../background_8h.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7',1,'background.h']]],
+  ['bgsetwindowsregions_384',['bgSetWindowsRegions',['../background_8h.html#a00671918b35ab20db7b3f6b71015ccfb',1,'background.h']]]
 ];
