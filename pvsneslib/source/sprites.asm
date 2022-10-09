@@ -51,7 +51,8 @@ dummy							DSB 4						  ; 12..15 to by align to 16 bytes
 sprit_val0			            DB                            ; save value #0
 sprit_val1			            DB                            ; save value #1
 sprit_val2			            DW                            ; save value #2
-sprit_val3			            DW                            ; save value #3
+sprit_mxsvg			            DW                            ; save value meta #1
+sprit_mysvg			            DW                            ; save value meta #2
 
 oamMemory				        DSB 128*4+8*4
 
@@ -1650,9 +1651,9 @@ oamDynamicMetaDraw:
 
 	rep #$20
 	lda 12,s												  ; save x coordinate
-	sta sprit_val2
+	sta sprit_mxsvg
 	lda 14,s												  ; save y coordinate
-	sta sprit_val3
+	sta sprit_mysvg
 
 	lda 16,s
 	sta tcc__r0                          				  	  ; tcc_r0 = meta sprite source address
@@ -1666,14 +1667,14 @@ _oMTDRep0p:
 	iny 
 	iny 
 	clc 
-	adc sprit_val2
+	adc sprit_mxsvg
 	sta oambuffer.1.oamx,x
 
 	lda	[tcc__r0], y 										  ; get y offset and calculate y coordinate of sprite
 	iny 
 	iny 
 	clc 
-	adc sprit_val3
+	adc sprit_mysvg
 	sta oambuffer.1.oamy,x
 
 	lda	[tcc__r0], y 										  ; get frameid
