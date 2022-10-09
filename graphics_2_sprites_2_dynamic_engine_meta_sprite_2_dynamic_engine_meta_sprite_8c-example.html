@@ -108,8 +108,6 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_dynamic_engine_me
 <div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> spr32g, spr32g_end, spr32p;</div>
 <div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> spr16g, spr16g_end, spr16p;</div>
 <div class="line"> </div>
-<div class="line">u8 i;</div>
-<div class="line"> </div>
 <div class="line"><span class="keyword">const</span> <a name="_a0"></a><a class="code" href="structt__metasprites.html">t_metasprites</a> metasprite[] =</div>
 <div class="line">{</div>
 <div class="line">    0,0,0,0x20, <a name="a1"></a><a class="code" href="sprite_8h.html#a4ce5bbeefa16a91cd8e7db8fb7aa0e6c">OBJ_SPRITE32</a>, &amp;spr32g,0x0000,0x0000,</div>
@@ -117,7 +115,6 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_dynamic_engine_me
 <div class="line">    16,24,1,0x21, <a class="code" href="sprite_8h.html#a4741ad3cd0b065681e2a8f481525d16b">OBJ_SPRITE16</a>, &amp;spr16g,0xFFFF,0x0000,</div>
 <div class="line">};</div>
 <div class="line"> </div>
-<div class="line"><span class="preprocessor">#define SPRNUMBER 64 // 64 sprites on screen</span></div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
@@ -149,6 +146,7 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_dynamic_engine_me
 <div class="line">    <span class="comment">// Wait for nothing :P</span></div>
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
+<div class="line">        <span class="comment">// draw the sprite</span></div>
 <div class="line">        <a name="a16"></a><a class="code" href="sprite_8h.html#a8022631fa4757d5d9ea5ad5ae042d07e">oamDynamicMetaDraw</a>(1,16,160,(u8 *) &amp;metasprite);</div>
 <div class="line">        </div>
 <div class="line">        <span class="comment">// prepare next frame and wait vblank</span></div>
