@@ -15,8 +15,6 @@ extern char map, map_end;
 extern char spr32g, spr32g_end, spr32p;
 extern char spr16g, spr16g_end, spr16p;
 
-u8 i;
-
 const t_metasprites metasprite[] =
 {
 	0,0,0,0x20, OBJ_SPRITE32, &spr32g,0x0000,0x0000,
@@ -24,7 +22,6 @@ const t_metasprites metasprite[] =
 	16,24,1,0x21, OBJ_SPRITE16, &spr16g,0xFFFF,0x0000,
 };
 
-#define SPRNUMBER 64 // 64 sprites on screen
 //---------------------------------------------------------------------------------
 int main(void)
 {
@@ -56,6 +53,7 @@ int main(void)
     // Wait for nothing :P
     while (1)
     {
+		// draw the sprite
 		oamDynamicMetaDraw(1,16,160,(u8 *) &metasprite);
 		
         // prepare next frame and wait vblank
