@@ -34,7 +34,7 @@
 .EQU OBJ_SIZE16_L32				$60							  ; (3<<5) default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register (used for 16x16 sprite gfx entry)
 
 .EQU OBJ_QUEUELIST_SIZE			128							  ; 128 sprites of 8x8, 16x16 & 32x32 max in queue to update sprite graphics
-.EQU MAXSPRTRF					12*6					  	  ; 12 sprites max tranfered each time to VRAM
+.EQU MAXSPRTRF					7*6					  	  	  ; 7 sprites max tranfered each time to VRAM
 
 .STRUCT t_oam
 oamx							DW							  ;	0 x position on the screen 
