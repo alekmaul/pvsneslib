@@ -265,7 +265,7 @@ void WriteMapTileset(void)
     for (i = 0; i < tset->tilecount; i++)
     {
         // compute attribute to match with vhopppcc cccccccc
-        blkprop = tilesetmap[i];                     // get tile number
+        blkprop = tilesetmap[i] & 0x03FF;            // get tile number
         blkprop |= tileprop[i][1] ? 0x2000 : 0x0000; // check priority
         blkprop |= (tileprop[i][2] << 10);           // check palette
         PutWord(blkprop, fpo);
