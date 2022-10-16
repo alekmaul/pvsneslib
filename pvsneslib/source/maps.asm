@@ -618,16 +618,16 @@ _mapvb4;                                        ; Update Horizontal Buffer layer
 
     ldx #$1801                                  ;  DMAP_DIRECTION_TO_PPU | DMAP_TRANSFER_2REGS | (.lobyte(VMDATA) << 8)
     stx $4300                                   ; also sets BBAD0
-    stx $4310                                   ; also sets BBAD1
+    ;1016 stx $4310                                   ; also sets BBAD1
 
     ldx #bg_L1.w                                ; set data address
     stx $4302                                   ; A1T0
-    ldx #(bg_L1+64*2).w                         ; loword
-    stx $4312                                   ; A1T1
+    ;1016 ldx #(bg_L1+64*2).w                         ; loword
+    ;1016 stx $4312                                   ; A1T1
 
     lda #:bg_L1                                 ; set bank address
     sta.l $4304                                 ; A1B0
-    sta.l $4314                                 ; A1B1
+    ;1016 sta.l $4314                                 ; A1B1
 
     ldy #2 * 32
     lda #$1                                     ; MDMAEN_DMA0 | MDMAEN_DMA1
