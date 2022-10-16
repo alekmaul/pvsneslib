@@ -91,6 +91,7 @@ jobs:
           mkdir -p package/pvsneslib/pvsneslib/include
           mkdir -p package/pvsneslib/pvsneslib/lib
           mkdir -p package/pvsneslib/snes-examples
+          ll
           cp -r devkitsnes package/pvsneslib/devkitsnes
           cp -r pvsneslib/include package/pvsneslib/pvsneslib/include
           cp -r pvsneslib/lib package/pvsneslib/pvsneslib/lib
