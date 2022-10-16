@@ -111,7 +111,6 @@ jobs:
         run: |
           cd pvsneslib
           mkdir package
-          mkdir package
           mkdir -p package/pvsneslib 
           mkdir -p package/pvsneslib/devkitsnes
           mkdir -p package/pvsneslib/pvsneslib/include
