@@ -44,7 +44,7 @@ jobs:
       # Needs to be in a separate step than build so that setting the environment var takes effect
       #
       - name: Pre-Build Linux/MacOS
-        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        if: (matrix.name == 'Linux-x32') || (matrix.name == 'MacOS-x64')
         shell: bash
         run: |
           echo "BUILD_PACKAGE_FILENAME=pvsneslib-${{ matrix.name }}.tar.gz" >> $GITHUB_ENV
@@ -57,7 +57,7 @@ jobs:
 
       # ==== Builds ====
       - name: Build PVSNESLIB Linux/MacOS
-        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        if: (matrix.name == 'Linux-x32') || (matrix.name == 'MacOS-x64')
         shell: bash
         run: |
           cd pvsneslib
@@ -76,7 +76,7 @@ jobs:
 
       # ==== Packaging ====
       - name: Package build Linux/MacOS
-        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        if: (matrix.name == 'Linux-x32') || (matrix.name == 'MacOS-x64')
         shell: bash
         run: |
           cd pvsneslib
@@ -94,7 +94,7 @@ jobs:
           cd ..
 
       - name: Store build
-        if: (matrix.name == 'Linux-64') || (matrix.name == 'MacOS-64') || ('Windows-x64') || ('Windows-x32')
+        if: (matrix.name == 'Linux-x32') || (matrix.name == 'MacOS-64') || ('Windows-x64') || ('Windows-x32')
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.name }} build
