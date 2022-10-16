@@ -37,6 +37,17 @@
 #include <snes/sprite.h>
 #include <snes/video.h>
 
+/*!	\brief Bit defines for the HDMA channels */
+#define HDMA_CHANNEL0			(1 << 0)
+#define HDMA_CHANNEL1			(1 << 1)
+#define HDMA_CHANNEL2			(1 << 2)
+#define HDMA_CHANNEL3			(1 << 3)
+#define HDMA_CHANNEL4			(1 << 4)
+#define HDMA_CHANNEL5			(1 << 5)
+#define HDMA_CHANNEL6			(1 << 6)
+#define HDMA_CHANNEL7			(1 << 7)
+#define HDMA_CHANNELALL			(HDMA_CHANNEL0 | HDMA_CHANNEL1 | HDMA_CHANNEL2 | HDMA_CHANNEL3 | HDMA_CHANNEL4 | HDMA_CHANNEL5 | HDMA_CHANNEL6 | HDMA_CHANNEL7)
+
 /*!	\brief Bit defines for the window area main screen effect */
 #define MSWIN_BG1               (1 << 0) /*!< \brief Main Screen BG1 disable background */
 #define MSWIN_BG2               (1 << 1) /*!< \brief Main Screen BG2 disable background */
@@ -45,20 +56,20 @@
 
 #define MSWIN1_BG1MSKOUT        (1 << 0) /*!< \brief Window 1 area BG1 inside (0) outside(1) */
 #define MSWIN1_BG1MSKENABLE     (2 << 0) /*!< \brief Window 1 area BG1 enable */
-#define MSWIN1_BG1MSKOUT        (1 << 2) /*!< \brief Window 2 area BG1 inside (0) outside(1) */
-#define MSWIN1_BG1MSKENABLE     (2 << 2) /*!< \brief Window 2 area BG1 enable */
+#define MSWIN2_BG1MSKOUT        (1 << 2) /*!< \brief Window 2 area BG1 inside (0) outside(1) */
+#define MSWIN2_BG1MSKENABLE     (2 << 2) /*!< \brief Window 2 area BG1 enable */
 #define MSWIN1_BG2MSKOUT        (1 << 4) /*!< \brief Window 1 area BG2 inside (0) outside(1) */
 #define MSWIN1_BG2MSKENABLE     (2 << 4) /*!< \brief Window 1 area BG2 enable */
-#define MSWIN1_BG2MSKOUT        (1 << 4) /*!< \brief Window 2 area BG2 inside (0) outside(1) */
-#define MSWIN1_BG2MSKENABLE     (2 << 4) /*!< \brief Window 2 area BG2 enable */
+#define MSWIN2_BG2MSKOUT        (1 << 4) /*!< \brief Window 2 area BG2 inside (0) outside(1) */
+#define MSWIN2_BG2MSKENABLE     (2 << 4) /*!< \brief Window 2 area BG2 enable */
 #define MSWIN1_BG3MSKOUT        (1 << 0) /*!< \brief Window 1 area BG3 inside (0) outside(1) */
 #define MSWIN1_BG3MSKENABLE     (2 << 0) /*!< \brief Window 1 area BG3 enable */
-#define MSWIN1_BG3MSKOUT        (1 << 2) /*!< \brief Window 2 area BG3 inside (0) outside(1) */
-#define MSWIN1_BG3MSKENABLE     (2 << 2) /*!< \brief Window 2 area BG3 enable */
+#define MSWIN2_BG3MSKOUT        (1 << 2) /*!< \brief Window 2 area BG3 inside (0) outside(1) */
+#define MSWIN2_BG3MSKENABLE     (2 << 2) /*!< \brief Window 2 area BG3 enable */
 #define MSWIN1_BG4MSKOUT        (1 << 4) /*!< \brief Window 1 area BG4 inside (0) outside(1) */
 #define MSWIN1_BG4MSKENABLE     (2 << 4) /*!< \brief Window 1 area BG4 enable */
-#define MSWIN1_BG4MSKOUT        (1 << 4) /*!< \brief Window 2 area BG4 inside (0) outside(1) */
-#define MSWIN1_BG4MSKENABLE     (2 << 4) /*!< \brief Window 2 area BG4 enable */
+#define MSWIN2_BG4MSKOUT        (1 << 4) /*!< \brief Window 2 area BG4 inside (0) outside(1) */
+#define MSWIN2_BG4MSKENABLE     (2 << 4) /*!< \brief Window 2 area BG4 enable */
 
 /*!	\brief Bit defines for the DMA control registers */
 #define DMA_ENABLE 1
@@ -296,24 +307,24 @@ void dmaCopyOAram(u8 *source, u16 address, u16 size);
 void dmaCopyVram7(u8 *source, u16 address, u16 size, u8 vrammodeinc, u16 dmacontrol);
 
 /*! \fn  setModeHdmaGradient(u8 maxLevels)
-    \brief Do a brightness gradient on screen
+    \brief Do a brightness gradient on screen. Use HDAM Channels 3. 
     \param maxLevels value between 1..15 for the maximum level of brightness (15=light, 1=near dark)
 */
 void setModeHdmaGradient(u8 maxLevels);
 
 /*! \fn  setModeHdmaShadeUpDown(void)
-    \brief Do a brightness gradient from up/down to center of the screen
+    \brief Do a brightness gradient from up/down to center of the screen. Use HDAM Channels 3.
 */
 void setModeHdmaShadeUpDown(void);
 
 /*! \fn  setModeHdmaShading(unsigned char mode)
-    \brief Do a shading effect on screen
+    \brief Do a shading effect on screen. Use HDAM Channels 0 to 2.
     \param mode value 0 disactivate 1, other value activate it
 */
 void setModeHdmaShading(unsigned char mode);
 
 /*! \fn  setParallaxScrolling(u8 bgrnd)
-    \brief Do a parallax scrolling effect on screen
+    \brief Do a parallax scrolling effect on screen. Use HDAM Channels 3.
     \brief use HDMATable16 variable to store scrolling value
     \brief each entry is number of lines (8bits) and scrolling value 16 bits (low & high)
     \brief WARNING : no more than 112 values and last value MUST be $0000
@@ -321,24 +332,26 @@ void setModeHdmaShading(unsigned char mode);
 */
 void setParallaxScrolling(u8 bgrnd);
 
-/*! \fn  setModeHdmaReset(void)
-    \brief Reset (and remove) HDMA effect
+/*! \fn  setModeHdmaReset(u8 channels)
+    \brief Reset or Set HDMA channels
+	\param channels channels from HDMA_CHANNEL0 to HDMA_CHANNEL7. HDMA_CHANNELALL for all channels
 */
-void setModeHdmaReset(void);
+void setModeHdmaReset(u8 channels);
 
-/*! \fn  setModeHdmaWindowReset(void)
-    \brief Reset (and remove) HDMA and WINDOW effect
+/*! \fn  void setModeHdmaWindowReset(u8 channels)
+    \brief Reset or Set HDMA channels and remove WINDOW effect
+	\param channels channels from HDMA_CHANNEL0 to HDMA_CHANNEL7. HDMA_CHANNELALL for all channels
 */
-void setModeHdmaWindowReset(void);
+void setModeHdmaWindowReset(u8 channels);
 
 /*! \fn  setModeHdmaColor(u8* hdmatable)
-    \brief Do a color gradient effect on screen (with color 0)
+    \brief Do a color gradient effect on screen (with color 0). Use HDAM Channels 6.
     \param hdmatable table with gradient colors
 */    
 void setModeHdmaColor(u8* hdmatable);
 
 /*! \fn  setModeHdmaWaves(u8 bgrnd)
-    \brief Do a waves effect on screen (init function)
+    \brief Do a waves effect on screen (init function). Use HDAM Channels 6.
     \param bgrnd background for the wave effect (value 0..1)
 */    
 void setModeHdmaWaves(u8 bgrnd);
@@ -349,7 +362,7 @@ void setModeHdmaWaves(u8 bgrnd);
 void setModeHdmaWavesMove(void);
 
 /*! \fn  setModeHdmaWindow(u8 bgrnd, u8* hdmatableL,u8* hdmatableR)
-    \brief Do a window  effect on screen 
+    \brief Do a window  effect on screen. Use HDAM Channels 4 & 5.
     \param bgrnd background for the windows effect  (value MSWIN_BG1..MSWIN_BG4)
     \param bgrndmask background mask (inside, outside) for the windows effect  (value MSWIN1_BG13MSKIN..MSWIN1_BG13MSKIN)
     \param hdmatableL table with windows effect on the left
