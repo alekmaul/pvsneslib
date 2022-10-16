@@ -19,6 +19,10 @@ You can also see the [documentation](http://www.portabledev.com/pvsneslib/doc) g
 
 You can find a Visual Studio Code template in the [vscode-template](https://github.com/alekmaul/pvsneslib/tree/master/vscode-template) folder to help PVSnesLib integration with it.
 
+# Build status #
+
+[![PVSNESLIB Build and Package](https://github.com/alekmaul/pvsneslib/blob/master/.github/workflows/pvsneslib_build_package.yml/badge.svg?branch=develop)](https://github.com/alekmaul/pvsneslib/blob/master/.github/workflows/pvsneslib_build_package.yml)
+
 # Dependencies #
 
 PVSnesLib works on Windows and Linux systems.
