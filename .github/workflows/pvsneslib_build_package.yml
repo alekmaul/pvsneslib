@@ -92,9 +92,8 @@ jobs:
           mkdir package
           mkdir -p package/pvsneslib 
           mkdir -p package/pvsneslib/pvsneslib
-          mkdir -p package/pvsneslib/pvsneslib/include
           cp -r devkitsnes package/pvsneslib
-          cp -r pvsneslib/include package/pvsneslib/pvsneslib/include
+          cp -r pvsneslib/include package/pvsneslib/pvsneslib
           cp -r pvsneslib/lib package/pvsneslib/pvsneslib
           cp -r pvsneslib/pvsneslib_license.txt package/pvsneslib/pvsneslib_license.txt
           cp -r pvsneslib/pvsneslib_snesmod.txt package/pvsneslib/pvsneslib_snesmod.txt
@@ -113,9 +112,8 @@ jobs:
           mkdir package
           mkdir package\pvsneslib 
           mkdir package\pvsneslib\pvsneslib
-          mkdir package\pvsneslib\pvsneslib\include
           cp -r devkitsnes package\pvsneslib
-          cp -r pvsneslib\include package\pvsneslib\pvsneslib\include
+          cp -r pvsneslib\include package\pvsneslib\pvsneslib
           cp -r pvsneslib\lib package\pvsneslib\pvsneslib
           cp -r pvsneslib\pvsneslib_license.txt package\pvsneslib\pvsneslib_license.txt
           cp -r pvsneslib\pvsneslib_snesmod.txt package\pvsneslib\pvsneslib_snesmod.txt
