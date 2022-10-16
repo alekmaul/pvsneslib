@@ -32,11 +32,14 @@ jobs:
 
       # ==== Build Steps ====
       - name: Check out PVSNESLIB
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
+          ref: develop
           path: pvsneslib
+          fetch-depth: 0
           submodules: true
-
+          persist-credentials: false
+          
       # ==== Pre-Build: Set environment vars ====
       # Needs to be in a separate step than build so that setting the environment var takes effect
       #
