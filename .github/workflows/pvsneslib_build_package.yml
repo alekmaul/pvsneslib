@@ -52,7 +52,7 @@ jobs:
         shell: cmd
         run: |
           cd pvsneslib
-          set PVSNESLIB_HOME=%CD%
+          set PVSNESLIB_HOME=`pwd`
           echo %PVSNESLIB_HOME%
           msys2 -c 'make'
           cd ..
