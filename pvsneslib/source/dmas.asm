@@ -27,10 +27,17 @@
 
 .RAMSECTION ".reg_dma7e" BANK $7E 
 
-HDMATable16     DSB 224*3+1                   ; enough lines for big hdma features
+HDMATable16     			DSB 224*3+1                   ; enough lines for big hdma features
 
-hdma_val1		DSB 2                         ; save value #1
+hdma_val1					DSB 2                         ; save value #1
  
+hdmacirc_x 					DW
+hdmacirc_y					DW
+hdmacirc_ysav				DW
+hdmacirc_nbiter				DW
+hdmacirc_tmp				DW
+hdmacirc_err	 			DW
+
 .ENDS
 
 .accu 16
@@ -631,24 +638,25 @@ setParallaxScrolling:
 .ENDS
 
 .SECTION ".dmas12_text" SUPERFREE
-; void setModeHdmaReset(void)
+; void setModeHdmaReset(u8 channels)
 setModeHdmaReset:
 	php
 
     sep #$20
-    lda #$00
+   	lda 5,s
 	sta.l REG_HDMAEN
 
 	plp                                        
     rtl
 
-; void setModeHdmaWindowReset(void)
+; void setModeHdmaWindowReset(u8 channels)
 setModeHdmaWindowReset:
 	php
-
+	
     sep #$20
-    lda #$00
+	lda 5,s
 	sta.l REG_HDMAEN
+    lda #$00
 	sta.l REG_TMW
 
 	plp                                        
@@ -912,31 +920,296 @@ setModeHdmaWindow:
 ++:	lda 9,s													  ; todo : find a way to manage easily objects -> currently, it works only for BG1 
 	sta REG_WOBJSEL
 	
-	stz $4360 												  ; 1 register, write once
+	stz $4340 												  ; 1 register, write once
 	lda #$26 												  ; 2126  Window 1 Left Position (X1)
-	sta $4361 												  ; destination
+	sta $4341 												  ; destination
 	lda 12,s												  ; bank address of left  table
-	sta $4364 
+	sta $4344 
 	
-	stz $4370                                                 ; 1 register, write once
+	stz $4350                                                 ; 1 register, write once
 	lda #$27 												  ; 2127 Window 1 Right Position (X2)
-	sta $4371 
+	sta $4351 
 	lda 16,s												  ; bank address of right table
-	sta $4374 
+	sta $4354 
 
 	rep #$20
 	lda 10,s												  ; low address of left table
-	sta $4362 				                                  ; low address of right table
+	sta $4342 				                                  ; low address of right table
 	lda 14,s												
-	sta $4372 
+	sta $4352 
 
 	sep #$20
-	lda #$C0 												  ; channel 6 & 7
+	lda #$30 												  ; channel 4 & 5       00110000
 	sta.l	REG_HDMAEN
 
 	plx
 	plb
 	plp
 	rtl 
+
+.ENDS
+
+.SECTION ".dmas15_text" SUPERFREE
+
+;void calc_circle_hdma(u16 x, u16 y, u16 radius, u8 *tablevalL, u8 *tablevalR)
+; 8-9 10-11 12-13 14-17 18-21
+calc_circle_hdma:
+	php
+	phb
+	phy
+
+	sep #$20
+	lda #$7E
+	pha
+	plb
+	
+	rep #$20
+	lda 12,s												  ; get radius
+	bne + 
+	brl _cchend												  ; radius =0, go out
++:	sta hdmacirc_x											  ; x = rc
+	
+	stz hdmacirc_y											  ; y = 0
+	stz hdmacirc_err										  ; error=0 (16 bits)
+
+	ldy #0
+	lda 14,s
+	sta tcc__r0                          				  	  ; tcc_r0 = table to store the data on the left
+	lda 18,s
+	sta tcc__r1                          				  	  ; tcc_r1 = table to store the data on the right
+
+	sep #$20
+	lda 16,s
+	sta tcc__r0h
+	lda 20,s
+	sta tcc__r1h
+	
+	rep #$20
+	lda 10,s													  ; 1st, store nb skipped lines -> get y0
+	sec
+	sbc hdmacirc_x											  	  ; y0-x
+	sta hdmacirc_ysav
+	bpl +
+	lda #$0000
++:  sep #$20
+	sta [tcc__r0], y
+	sta [tcc__r1], y
+	iny
+	lda #$ff
+	sta [tcc__r0], y
+	lda #0
+	sta [tcc__r1], y
+	iny
+	lda hdmacirc_x										  	  ; for 8 bits,1st is ok. number of values = radius (will be changed)
+	sta [tcc__r0], y
+	sta [tcc__r1], y
+	iny
+
+	rep #$20
+	stz hdmacirc_nbiter
+_cchnbiter:													  ; calculate number of iteration
+	lda 10,s												  ; get y0
+	sec
+	sbc hdmacirc_x											  ; y0-x
+	cmp hdmacirc_ysav										  ; if same index, don't move line
+	beq +
+	inc hdmacirc_nbiter
+
++:	sta hdmacirc_ysav
+	lda hdmacirc_err		; error += 1 + 2*y
+	clc
+	adc hdmacirc_y
+	clc
+	adc hdmacirc_y
+	ina
+	sta hdmacirc_err
+	inc hdmacirc_y			; y++
+	sec
+	sbc hdmacirc_x  		; error - x
+	dea
+	bpl  +					; if error - x <= 0, skip
+	brl _cchiterskip1
+
++:	lda  hdmacirc_err
+	sec														  ; error += 1 - 2*x
+	sbc hdmacirc_x
+	sec
+	sbc hdmacirc_x
+	ina
+	sta hdmacirc_err
+	dec hdmacirc_x											  ; x--
+
+_cchiterskip1:
+	lda hdmacirc_x
+	cmp hdmacirc_y
+	bcs _cchnbiter											  ; if y >= x, then stop
+	inc hdmacirc_nbiter										  ; last one
+
+	stz hdmacirc_y											  ; *DO THE SECOND PART* y = 0
+	stz hdmacirc_err										  ; error=0 (16 bits)
+	lda 12,s												  ; get radius
+	sta hdmacirc_x											  ; x = rc
+	lda 10,s												  ; 1st, store nb skipped lines -> get y0
+	sec
+	sbc hdmacirc_x											  ; y0-x
+	sta hdmacirc_ysav
+
+_cchloop:
+	rep #$20												  ; pixel (x0-y,y0-x) x->rc..0 y=0..n 
+	lda 10,s												  ;  get y0
+	sec
+	sbc hdmacirc_x											  ; y0-x
+
+	cmp hdmacirc_ysav										  ; if same index, don't move line
+	beq +
+	iny
+
++:	sta hdmacirc_ysav										  ; save current index
+	lda 8,s													  ; get x0
+	sec
+	sbc hdmacirc_y											  ; x0-y
+	bpl +													  ; if <=0 keep at 0
+	lda #0
++:	sep #$20
+	sta [tcc__r0], y
+	rep #$20
+	sta hdmacirc_tmp
+	lda #256
+	sec
+	sbc hdmacirc_tmp
+	sep #$20
+	sta [tcc__r1], y
+	phy
+	tya
+	
+
+
+	rep #$20
+	lda hdmacirc_err		; error += 1 + 2*y
+	clc
+	adc hdmacirc_y
+	clc
+	adc hdmacirc_y
+	ina
+	sta hdmacirc_err
+	inc hdmacirc_y			; y++
+	
+	sec
+	sbc hdmacirc_x  		; error - x
+	dea
+	;sta hdmacirc_err
+	;lda  hdmacirc_err
+	bpl  +					; if error - x <= 0, skip
+	brl _cchskip1
+
++:	lda  hdmacirc_err
+	sec						; error += 1 - 2*x
+	sbc hdmacirc_x
+	sec
+	sbc hdmacirc_x
+	ina
+	sta hdmacirc_err
+	dec hdmacirc_x			; x--
+
+_cchskip1:
+	lda hdmacirc_x
+	cmp hdmacirc_y
+	bcs _cchloop		; if y >= x, then exit
+
+
+;	stz hdmacirc_y											  ; *DO THE SECOND PART* y = 0
+;	stz hdmacirc_err										  ; error=0 (16 bits)
+;	lda 12,s												  ; get radius
+;	sta hdmacirc_x											  ; x = rc
+;_cchloop1:
+;	rep #$20
+;	lda 10,s												  ; get y0
+;	clc
+;	adc hdmacirc_x											  ; y0+x
+;
+;	cmp hdmacirc_ysav										  ; if same index, don't move line
+;	beq +
+;	iny
+
+;+:	sta hdmacirc_ysav										  ; save current index
+;	lda 8,s													  ; get x0
+;	sec
+;	sbc hdmacirc_y											  ; x0-y
+;	bpl +													  ; if <=0 keep at 0
+;	lda #0
+;+:	sep #$20
+;	sta [tcc__r0], y
+;	rep #$20
+;	sta hdmacirc_tmp
+;	lda #256
+;	sec
+;	sbc hdmacirc_tmp
+;	sep #$20
+;	sta [tcc__r1], y
+	
+;	rep #$20
+;	lda hdmacirc_err		; error += 1 + 2*y
+;	clc
+;	adc hdmacirc_y
+;	clc
+;	adc hdmacirc_y
+;	ina
+;	sta hdmacirc_err
+;	inc hdmacirc_y			; y++
+	
+;	sec
+;	sbc hdmacirc_x  		; error - x
+;	dea
+;	bpl  +					; if error - x <= 0, skip
+;	brl _cchskip11
+;
+;+:	lda  hdmacirc_err
+;	sec						; error += 1 - 2*x
+;	sbc hdmacirc_x
+;	sec
+;	sbc hdmacirc_x
+;	ina
+;	sta hdmacirc_err
+;	dec hdmacirc_x			; x--
+;
+;_cchskip11:
+;	lda hdmacirc_x
+;	cmp hdmacirc_y
+;	bcs _cchloop1		; if y >= x, then exit
+;
+_cchend:
+	iny 													  ; store 1,$FF (or 1,0 or right) then 0 at the end of table
+	tya
+	dec a
+	dec a
+	dec a
+	sta hdmacirc_ysav										  ; save number of values
+	sep #$20
+	lda #1
+	sta [tcc__r0], y
+	sta [tcc__r1], y
+	iny
+	lda #$FF
+	sta [tcc__r0], y
+	lda #$0
+	sta [tcc__r1], y
+	iny 
+	lda #0
+	sta [tcc__r0], y
+	sta [tcc__r1], y
+	rep #$20
+	lda hdmacirc_ysav										  ; 
+	ora #$80												  ; need to put bit 7
+	sta hdmacirc_ysav
+	lda #$2
+	tay
+	sep #$20
+	lda hdmacirc_ysav										  ; 8 bits, so 1st byte
+	sta [tcc__r0], y
+	sta [tcc__r1], y
+	ply
+	plb
+	plp
+	rtl
 
 .ENDS
