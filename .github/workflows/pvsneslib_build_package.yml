@@ -111,19 +111,19 @@ jobs:
         run: |
           cd pvsneslib
           mkdir package
-          mkdir package/pvsneslib 
-          mkdir package/pvsneslib/devkitsnes
-          mkdir package/pvsneslib/pvsneslib/include
-          mkdir package/pvsneslib/pvsneslib/lib
-          mkdir package/pvsneslib/snes-examples
-          cp -r devkitsnes package/pvsneslib/devkitsnes
-          cp -r pvsneslib/include package/pvsneslib/pvsneslib/include
-          cp -r pvsneslib/lib package/pvsneslib/pvsneslib/lib
-          cp -r pvsneslib/pvsneslib_license.txt package/pvsneslib/pvsneslib/pvsneslib_license.txt
-          cp -r pvsneslib/pvsneslib_snesmod.txt package/pvsneslib/pvsneslib/pvsneslib_snesmod.txt
-          cp -r pvsneslib/pvsneslib_version.txt package/pvsneslib/pvsneslib/pvsneslib_version.txt
-          cp -r snes-examples package/pvsneslib/snes-examples
-          7z a package/${{ env.BUILD_PACKAGE_FILENAME }} package/pvsneslib
+          mkdir package\pvsneslib 
+          mkdir package\pvsneslib\devkitsnes
+          mkdir package\pvsneslib\pvsneslib\include
+          mkdir package\pvsneslib\pvsneslib\lib
+          mkdir package\pvsneslib\snes-examples
+          cp -r devkitsnes package\pvsneslib\devkitsnes
+          cp -r pvsneslib\include package/pvsneslib\pvsneslib\include
+          cp -r pvsneslib\lib package/pvsneslib\pvsneslib\lib
+          cp -r pvsneslib\pvsneslib_license.txt package\pvsneslib\pvsneslib\pvsneslib_license.txt
+          cp -r pvsneslib\pvsneslib_snesmod.txt package\pvsneslib\pvsneslib\pvsneslib_snesmod.txt
+          cp -r pvsneslib\pvsneslib_version.txt package\pvsneslib\pvsneslib\pvsneslib_version.txt
+          cp -r snes-examples package\pvsneslib\snes-examples
+          7z a package/${{ env.BUILD_PACKAGE_FILENAME }} package\pvsneslib
           cd ..
 
       - name: Store build
