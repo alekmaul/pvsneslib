@@ -13,8 +13,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-20.04
-            name: Linux-x64
           - os: windows-2019
             name: Windows-x32
     steps:
@@ -32,14 +30,16 @@ jobs:
             base-devel
             mingw-w64-i686-toolchain
 
+      # ==== Build Steps ====
+      - name: Check out PVSNESLIV
+        uses: actions/checkout@v2
+        with:
+          path: pvsneslib
+          submodules: true
+
       # ==== Pre-Build: Set environment vars ====
       # Needs to be in a separate step than build so that setting the environment var takes effect
       #
-      - name: Pre-Build Linux/MacOS
-        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
-        shell: bash
-        run: |
-          echo "BUILD_PACKAGE_FILENAME=pvsneslib-${{ matrix.name }}.tar.gz" >> $GITHUB_ENV
       - name: Pre-Build Windows
         if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
         shell: bash
@@ -47,39 +47,29 @@ jobs:
           echo "BUILD_PACKAGE_FILENAME=pvsneslib-${{ matrix.name }}.zip" >> $GITHUB_ENV
 
       # ==== Builds ====
-      - name: Build PVSNESLIB Linux/MacOS
-        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
-        shell: bash
-        run: |
-          export PVSNESLIB_HOME=`pwd`
-          make
-
       - name: Build PVSNESLIB Windows
         if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
         shell: cmd
         run: |
+          cd pvsneslib
           set PVSNESLIB_HOME=%CD%
           msys2 -c 'make'
+          cd ..
 
       # ==== Packaging ====
-      - name: Package build Linux/MacOS
-        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
-        shell: bash
-        run: |
-          mkdir package
-          tar czf package/${{ env.BUILD_PACKAGE_FILENAME }} pvsneslib
-
       - name: Package build Windows
         if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
         shell: cmd
         run: |
+          cd pvsneslib
           mkdir package
           7z a package/${{ env.BUILD_PACKAGE_FILENAME }} pvsneslib
+          cd ..
 
       - name: Store build
         if: (matrix.name == 'Linux-64') || (matrix.name == 'MacOS-64') || ('Windows-x64') || ('Windows-x32')
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.name }} build
-          path: package/${{ env.BUILD_PACKAGE_FILENAME }}
+          path: pvsneslib/package/${{ env.BUILD_PACKAGE_FILENAME }}
           # retention-days: 14
