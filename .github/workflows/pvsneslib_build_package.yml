@@ -91,6 +91,8 @@ jobs:
           cd pvsneslib
           mkdir package
           mkdir -p package/pvsneslib 
+          mkdir -p package/pvsneslib/pvsneslib
+          mkdir -p package/pvsneslib/pvsneslib/include
           cp -r devkitsnes package/pvsneslib
           cp -r pvsneslib/include package/pvsneslib/pvsneslib/include
           cp -r pvsneslib/lib package/pvsneslib/pvsneslib
@@ -110,6 +112,8 @@ jobs:
           cd pvsneslib
           mkdir package
           mkdir package\pvsneslib 
+          mkdir package\pvsneslib\pvsneslib
+          mkdir package\pvsneslib\pvsneslib\include
           cp -r devkitsnes package\pvsneslib
           cp -r pvsneslib\include package\pvsneslib\pvsneslib\include
           cp -r pvsneslib\lib package\pvsneslib\pvsneslib
