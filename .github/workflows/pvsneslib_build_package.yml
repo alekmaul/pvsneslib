@@ -15,6 +15,8 @@ jobs:
         include:
           - os: ubuntu-20.04
             name: Linux-x64
+          - os: macos-10.15
+            name: MacOS-x64
     steps:
     
       # ==== OS Specific Dependencies ====
