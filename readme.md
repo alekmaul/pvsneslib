@@ -21,7 +21,7 @@ You can find a Visual Studio Code template in the [vscode-template](https://gith
 
 # Build status #
 
-[![PVSNESLIB Build and Package](https://github.com/alekmaul/pvsneslib/blob/master/.github/workflows/pvsneslib_build_package.yml/badge.svg?branch=develop)](https://github.com/alekmaul/pvsneslib/blob/master/.github/workflows/pvsneslib_build_package.yml)
+[![PVSNESLIB Build and Package](https://github.com/alekmaul/pvsneslib/actions/workflows/pvsneslib_build_package.yml/badge.svg?branch=develop)](https://github.com/alekmaul/pvsneslib/actions/workflows/pvsneslib_build_package.yml)
 
 # Dependencies #
 
