@@ -15,8 +15,8 @@ jobs:
         include:
           - os: ubuntu-20.04
             name: Linux-x64
-          - os: macOS-11
-            name: MacOS-x64
+          - os: windows-2019
+            name: Windows-x32
     steps:
     
       # ==== OS Specific Dependencies ====
@@ -69,6 +69,7 @@ jobs:
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=`pwd`
+          echo %PVSNESLIB_HOME%
           make
           cd ..
 
