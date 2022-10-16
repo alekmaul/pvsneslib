@@ -111,11 +111,11 @@ jobs:
         run: |
           cd pvsneslib
           mkdir package
-          mkdir -p package/pvsneslib 
-          mkdir -p package/pvsneslib/devkitsnes
-          mkdir -p package/pvsneslib/pvsneslib/include
-          mkdir -p package/pvsneslib/pvsneslib/lib
-          mkdir -p package/pvsneslib/snes-examples
+          mkdir package/pvsneslib 
+          mkdir package/pvsneslib/devkitsnes
+          mkdir package/pvsneslib/pvsneslib/include
+          mkdir package/pvsneslib/pvsneslib/lib
+          mkdir package/pvsneslib/snes-examples
           cp -r devkitsnes package/pvsneslib/devkitsnes
           cp -r pvsneslib/include package/pvsneslib/pvsneslib/include
           cp -r pvsneslib/lib package/pvsneslib/pvsneslib/lib
