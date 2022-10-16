@@ -69,7 +69,6 @@ jobs:
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=`pwd`
-          echo %PVSNESLIB_HOME%
           make
           cd ..
 
@@ -79,6 +78,7 @@ jobs:
         run: |
           cd pvsneslib
           set PVSNESLIB_HOME=%CD%
+          echo %PVSNESLIB_HOME%
           msys2 -c 'make'
           cd ..
 
