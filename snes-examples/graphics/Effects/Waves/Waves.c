@@ -47,7 +47,7 @@ int main(void)
 		if (pad0 & KEY_A) {
 			if (!pada) {
 				pada=1;
-				setModeHdmaReset();
+				setModeHdmaReset(0x00);
 			}
 		}
 		else pada=0;
