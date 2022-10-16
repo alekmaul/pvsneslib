@@ -1,5 +1,5 @@
 # Nom de notre workflow
-name: PVSNESLIB Build Deploy Documentation"
+name: PVSNESLIB Build Deploy Documentation
 
 # Événements sur lesquels il doit être déclenché
 on:
