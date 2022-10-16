@@ -1,0 +1,58 @@
+name: PVSNESLIB Build and Package
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # Triggers the workflow on push or pull request events but only for the develop branch
+  # push:
+  #   branches: [ develop ]
+  
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}  
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-20.04
+            name: Linux-x64
+          - os: windows-2019
+            name: Windows-x32
+    steps:
+    
+      # ==== OS Specific Dependencies ====
+      - name: Windows Depends MSYS2/MinGW32
+        if: matrix.name == 'Windows-x32'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW32
+          path-type: minimal #strict
+          release: false
+          update: false
+          install: >-
+            base-devel
+            mingw-w64-i686-toolchain
+
+      # ==== Pre-Build: Set environment vars ====
+      # ==== Builds ====
+      - name: Build PVSNESLIB Windows
+        if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
+        shell: cmd
+        run: |
+          set PVSNESLIB_HOME=%CD%
+          msys2 -c 'make'
+
+      # ==== Packaging ====
+      - name: Package build Windows
+        if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
+        shell: cmd
+        run: |
+          mkdir package
+          7z a package/${{ env.BUILD_PACKAGE_FILENAME }} pvsneslib
+
+      - name: Store build
+        if: (matrix.name == 'Linux-64') || (matrix.name == 'MacOS-64') || ('Windows-x64') || ('Windows-x32')
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.name }} build
+          path: package/${{ env.BUILD_PACKAGE_FILENAME }}
+          # retention-days: 14
