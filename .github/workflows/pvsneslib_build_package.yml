@@ -1,0 +1,119 @@
+name: PVSNESLIB Build and Package
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # Triggers the workflow on push or pull request events but only for the develop branch
+  # push:
+  #   branches: [ develop ]
+  
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}  
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-20.04
+            name: Linux-x64
+    steps:
+    
+      # ==== OS Specific Dependencies ====
+      - name: Install dependencies
+        if: matrix.name == 'Linux-x64'
+        run: |
+          sudo apt-get install gcc-multilib
+
+      - name: Windows Depends MSYS2/MinGW32
+        if: matrix.name == 'Windows-x32'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW32
+          path-type: minimal #strict
+          release: false
+          update: false
+          install: >-
+            base-devel
+            mingw-w64-i686-toolchain
+
+      # ==== Build Steps ====
+      - name: Check out PVSNESLIB
+        uses: actions/checkout@v3
+        with:
+          ref: develop
+          path: pvsneslib
+          fetch-depth: 0
+          submodules: true
+          persist-credentials: false
+          
+      # ==== Pre-Build: Set environment vars ====
+      # Needs to be in a separate step than build so that setting the environment var takes effect
+      #
+      - name: Pre-Build Linux/MacOS
+        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        shell: bash
+        run: |
+          echo "BUILD_PACKAGE_FILENAME=pvsneslib-${{ matrix.name }}.tar.gz" >> $GITHUB_ENV
+
+      - name: Pre-Build Windows
+        if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
+        shell: bash
+        run: |
+          echo "BUILD_PACKAGE_FILENAME=pvsneslib-${{ matrix.name }}.zip" >> $GITHUB_ENV
+
+      # ==== Builds ====
+      - name: Build PVSNESLIB Linux/MacOS
+        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        shell: bash
+        run: |
+          cd pvsneslib
+          export PVSNESLIB_HOME=`pwd`
+          make
+          cd ..
+
+      - name: Build PVSNESLIB Windows
+        if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
+        shell: cmd
+        run: |
+          cd pvsneslib
+          set PVSNESLIB_HOME=%CD%
+          msys2 -c 'make'
+          cd ..
+
+      # ==== Packaging ====
+      - name: Package build Linux/MacOS
+        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        shell: bash
+        run: |
+          cd pvsneslib
+          mkdir package
+          mkdir -p package/pvsneslib 
+          mkdir -p package/pvsneslib/devkitsnes
+          mkdir -p package/pvsneslib/pvsneslib/include
+          mkdir -p package/pvsneslib/pvsneslib/lib
+          mkdir -p package/pvsneslib/snes-examples
+          cp -r devkitsnes package/pvsneslib/devkitsnes
+          cp -r pvsneslib/include package/pvsneslib/pvsneslib/include
+          cp -r pvsneslib/lib package/pvsneslib/pvsneslib/lib
+          cp -r pvsneslib/pvsneslib_license.txt package/pvsneslib/pvsneslib/pvsneslib_license.txt
+          cp -r pvsneslib/pvsneslib_snesmod.txt package/pvsneslib/pvsneslib/pvsneslib_snesmod.txt
+          cp -r pvsneslib/pvsneslib_version.txt package/pvsneslib/pvsneslib/pvsneslib_version.txt
+          cp -r snes-examples package/pvsneslib/snes-examples
+          tar -czf package/${{ env.BUILD_PACKAGE_FILENAME }} package/pvsneslib
+          cd ..
+
+      - name: Package build Windows
+        if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
+        shell: cmd
+        run: |
+          cd pvsneslib
+          mkdir package
+          7z a package/${{ env.BUILD_PACKAGE_FILENAME }} pvsneslib
+          cd ..
+
+      - name: Store build
+        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-64') || ('Windows-x64') || ('Windows-x32')
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.name }}-build
+          path: pvsneslib/package/${{ env.BUILD_PACKAGE_FILENAME }}
+          # retention-days: 14
