@@ -77,7 +77,8 @@ jobs:
         shell: cmd
         run: |
           cd pvsneslib
-          set PVSNESLIB_HOME=%CD%
+          #set PVSNESLIB_HOME=%CD% it is D:\a\pvsneslib\pvsneslib\pvsneslib (not working after)
+          set PVSNESLIB_HOME=/d/a/pvsneslib/pvsneslib/pvsneslib
           echo %PVSNESLIB_HOME%
           msys2 -c 'make'
           cd ..
