@@ -2,19 +2,28 @@
 
 .section ".rodata1" superfree
 
-patterns:
-.incbin "pvsneslib.pic"
-patterns_end:
+patternsbg1:
+.incbin "pvsneslibbg1.pic"
+patternsbg1_end:
 
-.ends
+mapbg1:
+.incbin "pvsneslibbg1.map"
+mapbg1_end:
 
-.section ".rodata2" superfree
-map:
-.incbin "pvsneslib.map"
-map_end:
+palettebg1:
+.incbin "pvsneslibbg1.pal"
+palettebg1_end:
 
-palette:
-.incbin "pvsneslib.pal"
-palette_end:
+patternsbg2:
+.incbin "pvsneslibbg2.pic"
+patternsbg2_end:
+
+mapbg2:
+.incbin "pvsneslibbg2.map"
+mapbg2_end:
+
+palettebg2:
+.incbin "pvsneslibbg2.pal"
+palettebg2_end:
 
 .ends

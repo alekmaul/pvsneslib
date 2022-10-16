@@ -14,9 +14,13 @@ all: bitmaps $(ROMNAME).sfc
 
 clean: cleanBuildRes cleanRom cleanGfx
 
-pvsneslib.pic: pvsneslib.png
+pvsneslibbg1.pic: pvsneslibbg1.png
 	@echo convert bitmap ... $(notdir $@)
 	$(GFXCONV) -pc16 -n -gs8 -pe0 -m -fpng  $<
 
-bitmaps : pvsneslib.pic
+pvsneslibbg2.pic: pvsneslibbg2.png
+	@echo convert bitmap ... $(notdir $@)
+	$(GFXCONV) -pc16 -n -gs8 -pe1 -m -fpng  $<
+
+bitmaps : pvsneslibbg1.pic pvsneslibbg2.pic
 
