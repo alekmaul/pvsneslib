@@ -31,7 +31,7 @@ jobs:
             mingw-w64-i686-toolchain
 
       # ==== Build Steps ====
-      - name: Check out PVSNESLIV
+      - name: Check out PVSNESLIB
         uses: actions/checkout@v2
         with:
           path: pvsneslib
