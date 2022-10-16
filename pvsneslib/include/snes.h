@@ -97,11 +97,13 @@
     \example graphics/Backgrounds/Mode7Perspective/Mode7Perspective.c
 
     <!-- effects -->
+    \example graphics/Effects/GradientColors/GradientColors.c
     \example graphics/Effects/HDMAGradient/HDMAGradient.c
     \example graphics/Effects/MosaicShading/MosaicShading.c
     \example graphics/Effects/Transparency/Transparency.c
     \example graphics/Effects/ParallaxScrolling/ParallaxScrolling.c
     \example graphics/Effects/Waves/Waves.c
+    \example graphics/Effects/Window/Window.c
 
     <!-- sprites -->
     \example graphics/Sprites/AnimatedSprite/AnimatedSprite.c
@@ -135,7 +137,9 @@
     \example maps/tiled/tiled.c
 
     <!-- objects -->
+    \example objects/mapandobjects/mapandobjects.c
     \example objects/moveobjects/moveobjects.c
+    \example objects/nogravityobject/nogravityobjects.c
 
     <!-- debugging -->
     \example debug/debug.c
