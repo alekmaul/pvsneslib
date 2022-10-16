@@ -14,7 +14,7 @@ jobs:
       matrix:
         include:
           - os: ubuntu-20.04
-            name: Linux-x64
+            name: Linux-x32
     steps:
     
       # ==== OS Specific Dependencies ====
@@ -56,7 +56,7 @@ jobs:
           echo "BUILD_PACKAGE_FILENAME=pvsneslib-${{ matrix.name }}.zip" >> $GITHUB_ENV
 
       # ==== Builds ====
-      - name: Build GBDK-2020 Linux/MacOS
+      - name: Build PVSNESLIB Linux/MacOS
         if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
         shell: bash
         run: |
