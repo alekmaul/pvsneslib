@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pvsneslib_20documentation_708',['PVSnesLib Documentation',['../index.html',1,'']]]
+  ['pvsneslib_20documentation_726',['PVSnesLib Documentation',['../index.html',1,'']]]
 ];

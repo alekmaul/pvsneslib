@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['length1_507',['length1',['../structbrrsamples.html#a88adcde351bda684d978194a6a2993d5',1,'brrsamples']]],
-  ['length2_508',['length2',['../structbrrsamples.html#a31a76cfd2811dac5df70684e6ab0beb3',1,'brrsamples']]]
+  ['length1_516',['length1',['../structbrrsamples.html#a88adcde351bda684d978194a6a2993d5',1,'brrsamples']]],
+  ['length2_517',['length2',['../structbrrsamples.html#a31a76cfd2811dac5df70684e6ab0beb3',1,'brrsamples']]]
 ];
