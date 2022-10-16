@@ -13,8 +13,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: windows-2019
-            name: Windows-x32
+          - os: ubuntu-20.04
+            name: Linux-x64
     steps:
     
       # ==== OS Specific Dependencies ====
@@ -40,6 +40,12 @@ jobs:
       # ==== Pre-Build: Set environment vars ====
       # Needs to be in a separate step than build so that setting the environment var takes effect
       #
+      - name: Pre-Build Linux/MacOS
+        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        shell: bash
+        run: |
+          echo "BUILD_PACKAGE_FILENAME=pvsneslib-${{ matrix.name }}.tar.gz" >> $GITHUB_ENV
+
       - name: Pre-Build Windows
         if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
         shell: bash
@@ -47,17 +53,34 @@ jobs:
           echo "BUILD_PACKAGE_FILENAME=pvsneslib-${{ matrix.name }}.zip" >> $GITHUB_ENV
 
       # ==== Builds ====
+      - name: Build GBDK-2020 Linux/MacOS
+        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        shell: bash
+        run: |
+          cd pvsneslib
+          export PVSNESLIB_HOME=`pwd`
+          make
+          cd ..
+
       - name: Build PVSNESLIB Windows
         if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
         shell: cmd
         run: |
           cd pvsneslib
-          set PVSNESLIB_HOME=`pwd`
-          echo %PVSNESLIB_HOME%
+          set PVSNESLIB_HOME=%CD%
           msys2 -c 'make'
           cd ..
 
       # ==== Packaging ====
+      - name: Package build Linux/MacOS
+        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
+        shell: bash
+        run: |
+          cd pvsneslib
+          mkdir package
+          tar czf package/${{ env.BUILD_PACKAGE_FILENAME }} gbdk
+          cd ..
+
       - name: Package build Windows
         if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
         shell: cmd
