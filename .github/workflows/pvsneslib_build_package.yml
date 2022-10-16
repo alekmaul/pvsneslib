@@ -91,16 +91,12 @@ jobs:
           cd pvsneslib
           mkdir package
           mkdir -p package/pvsneslib 
-          mkdir -p package/pvsneslib/devkitsnes
-          mkdir -p package/pvsneslib/pvsneslib/include
-          mkdir -p package/pvsneslib/pvsneslib/lib
-          mkdir -p package/pvsneslib/snes-examples
-          cp -r devkitsnes package/pvsneslib/devkitsnes
-          cp -r pvsneslib/include package/pvsneslib/pvsneslib/include
-          cp -r pvsneslib/lib package/pvsneslib/pvsneslib/lib
-          cp -r pvsneslib/pvsneslib_license.txt package/pvsneslib/pvsneslib/pvsneslib_license.txt
-          cp -r pvsneslib/pvsneslib_snesmod.txt package/pvsneslib/pvsneslib/pvsneslib_snesmod.txt
-          cp -r pvsneslib/pvsneslib_version.txt package/pvsneslib/pvsneslib/pvsneslib_version.txt
+          cp -r devkitsnes package/pvsneslib
+          cp -r pvsneslib/include package/pvsneslib
+          cp -r pvsneslib/lib package/pvsneslib
+          cp -r pvsneslib/pvsneslib_license.txt package/pvsneslib/pvsneslib_license.txt
+          cp -r pvsneslib/pvsneslib_snesmod.txt package/pvsneslib/pvsneslib_snesmod.txt
+          cp -r pvsneslib/pvsneslib_version.txt package/pvsneslib/pvsneslib_version.txt
           cp -r snes-examples package/pvsneslib/snes-examples
           tar -czf package/${{ env.BUILD_PACKAGE_FILENAME }} package/pvsneslib
           cd ..
