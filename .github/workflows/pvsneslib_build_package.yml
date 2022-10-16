@@ -114,6 +114,6 @@ jobs:
         if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-64') || ('Windows-x64') || ('Windows-x32')
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.name }}
+          name: ${{ matrix.name }}-build
           path: pvsneslib/package/${{ env.BUILD_PACKAGE_FILENAME }}
           # retention-days: 14
