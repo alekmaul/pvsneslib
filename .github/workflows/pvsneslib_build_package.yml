@@ -86,7 +86,7 @@ jobs:
         run: |
           cd pvsneslib
           mkdir package
-          tar czf package/${{ env.BUILD_PACKAGE_FILENAME }} gbdk
+          tar czf package/${{ env.BUILD_PACKAGE_FILENAME }} pvsneslib
           cd ..
 
       - name: Package build Windows
