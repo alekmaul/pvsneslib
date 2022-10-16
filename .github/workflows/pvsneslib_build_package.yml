@@ -99,7 +99,7 @@ jobs:
           cp -r pvsneslib/pvsneslib_snesmod.txt package/pvsneslib/pvsneslib/pvsneslib_snesmod.txt
           cp -r pvsneslib/pvsneslib_version.txt package/pvsneslib/pvsneslib/pvsneslib_version.txt
           cp -r snes-examples package/pvsneslib/snes-examples
-          tar czf package/${{ env.BUILD_PACKAGE_FILENAME }} pvsneslib
+          tar -cvzf package/${{ env.BUILD_PACKAGE_FILENAME }} package/pvsneslib
           cd ..
 
       - name: Package build Windows
