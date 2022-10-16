@@ -87,7 +87,6 @@ jobs:
           cd pvsneslib
           mkdir package
           cp -r devkitsnes package/devkitsnes
-          mkdir package/pvsneslib/pvsneslib
           cp -r pvsneslib/include package/pvsneslib/pvsneslib/include 
           cp -r pvsneslib/lib package/pvsneslib/pvsneslib/lib
           cp pvsneslib/pvsneslib_license.txt package/pvsneslib/pvsneslib/pvsneslib_license.txt
