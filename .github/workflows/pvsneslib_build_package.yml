@@ -17,8 +17,8 @@ jobs:
             name: Linux-x64
           - os: windows-2019
             name: Windows-x32
-          - os: macos-11
-            name: MacOS-x64
+    #      - os: macos-11
+    #        name: MacOS-x64
     steps:
     
       # ==== OS Specific Dependencies ====
