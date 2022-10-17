@@ -11,7 +11,7 @@ It also contains examples which demonstrate how to use the functions in the libr
 
 # Installation #
 <a href="https://github.com/alekmaul/pvsneslib/releases/download/3.5.0/pvsneslib_32b_windows.zip"><img src="https://img.shields.io/badge/release-windows32-green?style=flat&logo=github" alt="PVSNESLIB Windows32 Release"></a> 
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/3.5.0/pvsneslib_32b_ubuntu.zip">https://img.shields.io/badge/release-linux-orange?style=flat&logo=github alt="PVSNESLIB Linux64 Release"></a>
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/3.5.0/pvsneslib_32b_ubuntu.zip"><img src="https://img.shields.io/badge/release-linux-orange?style=flat&logo=github alt="PVSNESLIB Linux64 Release"></a>
 
 To install the library, please download the latest [release](https://github.com/alekmaul/pvsneslib/releases/latest) or with the link below and follow instructions on the [Wiki pages](https://github.com/alekmaul/pvsneslib/wiki).
 
