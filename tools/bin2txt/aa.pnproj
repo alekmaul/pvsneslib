@@ -1,1 +1,0 @@
-<Project name="aa"><MagicFolder excludeFiles="*.pnproj;*.pnps;*.bak;*.tmp" excludeFolders="CVS;.svn;.hg;.git" filter="*" name="pvsneslib" path=""><File path="bin2txt.c"></File><File path="bin2txt.exe"></File><File path="bin2txt.o"></File><File path="Makefile"></File></MagicFolder></Project>
