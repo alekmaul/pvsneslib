@@ -14,15 +14,16 @@ extern char gfxpsrite, gfxpsrite_end;
 extern char palsprite, palsprite_end;
 
 u16 numspr, i;
-u16 pad0, xp, yp;
+u16 pad0;
+s16 xp, yp;
 
 t_objs *snesobj;
-u16 *snesox, *snesoy; // basics x/y on screen with fixed point
+s16 *snesox, *snesoy; // basics x/y on screen with fixed point
 
 // Definition of object table with values :
 // x & y coordinates
 // type of objects
-// min x & min y coordinate if we want to update objects on regarding these coordinates
+// min x & max x coordinate if we want to update objects on regarding these coordinates
 const u16 tabobjects[] =
     {
         15,
@@ -90,12 +91,12 @@ void testInit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx)
 // Update function for each object from type #0
 void testUpdate(u8 idx)
 {
-    // go to current object
+	// go to current object
     snesobj = &objbuffers[idx];
 
     // grab the coodinate pointers
-    snesox = (u16 *)&(snesobj->xpos + 1);
-    snesoy = (u16 *)&(snesobj->ypos + 1);
+    snesox = (s16 *)&(snesobj->xpos + 1);
+    snesoy = (s16 *)&(snesobj->ypos + 1);
     xp = *snesox;
     yp = *snesoy;
 
@@ -140,7 +141,7 @@ void testUpdate(u8 idx)
     }
 
     // change sprite display
-    oamSet(snesobj->sprframe, xp, yp, 3, 0, 0, 0, 0);
+    oamSet(snesobj->sprnum, xp, yp, 3, 0, 0, 0, 0);
 
     // update variables for the object
     *snesox = xp;
@@ -174,6 +175,9 @@ int main(void)
     numspr = 0;
     objLoadObjects((char *)&tabobjects);
 
+	// Need to init map , even if not present to allow update functions to work
+	x_pos=0; y_pos=0;
+	
     while (1)
     {
         objUpdateAll();
