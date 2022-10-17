@@ -10,10 +10,12 @@ It contains a snes-sdk compiler / linker and a library (sources included) which 
 It also contains examples which demonstrate how to use the functions in the library.  
 
 # Installation #
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/3.5.0/pvsneslib_32b_windows.zip"><img src="https://img.shields.io/badge/release-windows32-green?style=flat&logo=github" alt="PVSNESLIB Windows32 Release"></a> 
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/3.5.0/pvsneslib_32b_ubuntu.zip">https://img.shields.io/badge/release-linux-orange?style=flat&logo=github alt="PVSNESLIB Linux64 Release"></a>
 
-To install the library, please download the latest [release](https://github.com/alekmaul/pvsneslib/releases/latest) and follow instructions on the [Wiki pages](https://github.com/alekmaul/pvsneslib/wiki).
+To install the library, please download the latest [release](https://github.com/alekmaul/pvsneslib/releases/latest) or with the link below and follow instructions on the [Wiki pages](https://github.com/alekmaul/pvsneslib/wiki).
 
-You can also see the [documentation](http://www.portabledev.com/pvsneslib/doc) generated from sources.
+You can also see the [documentation](https://alekmaul.github.io/pvsneslib/) generated from sources.
 
 # Visual Studio Code #
 
@@ -22,6 +24,8 @@ You can find a Visual Studio Code template in the [vscode-template](https://gith
 # Build status #
 
 [![PVSNESLIB Build and Package](https://github.com/alekmaul/pvsneslib/actions/workflows/pvsneslib_build_package.yml/badge.svg?branch=develop)](https://github.com/alekmaul/pvsneslib/actions/workflows/pvsneslib_build_package.yml)
+
+You can find with the link below the last stable builds of PVSnesLib. They are development builds, you can have bugs not yet resolved with them.
 
 # Dependencies #
 
