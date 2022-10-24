@@ -846,6 +846,11 @@ oamInitDynamicSpriteScreen:
 	sta oamnumberperframeold				 
 	stz.w oamnumberperframe
 
+    lda oamnumberspr0Init
+    sta oamnumberspr0
+    lda oamnumberspr1Init
+    sta oamnumberspr1
+
 	plb
 	plp
 	rtl
