@@ -35,10 +35,10 @@
 .DEFINE OB_SCR_YLR_CHK      -64             ; -64 is the minimum on "virtual" screen y position to update object
 .DEFINE OB_SCR_YRR_CHK      288             ; 224+64 is the maximum on "virtual" screen y position to update object
 
-.DEFINE OB_SCR_XLE_CHK      -32             ; -32 is the minimum on screen x position to display sprite object
-.DEFINE OB_SCR_XRI_CHK      256             ; 255 is the maximum on screen x position to display sprite object
-.DEFINE OB_SCR_YLE_CHK      -32             ; -32 is the minimum on screen y position to display sprite object
-.DEFINE OB_SCR_YRI_CHK      224             ; 224 is the maximum on screen y position to display sprite object
+.DEFINE OB_SCR_XLE_CHK      -64 ; -32             ; -32 is the minimum on screen x position to display sprite object
+.DEFINE OB_SCR_XRI_CHK      320 ; 256             ; 255 is the maximum on screen x position to display sprite object
+.DEFINE OB_SCR_YLE_CHK      -64 ; -32             ; -32 is the minimum on screen y position to display sprite object
+.DEFINE OB_SCR_YRI_CHK      288; 224             ; 224 is the maximum on screen y position to display sprite object
 
 .DEFINE T_SOLID				$FF00
 .DEFINE T_LADDE				$0001
@@ -97,7 +97,9 @@ parentID		DW                          ; 52 obj ID of parent (useful for projecti
 hitpoints		DB                          ; 54 number of hit points of object
 sprrefresh		DB               			; 55 if object needs sprite to be refresh
 
-objnotused      DSB 8                       ; OB_SIZE-55-1 for future use
+onscreen        DB                          ; 56 to know if object is on screen or not
+
+objnotused      DSB 7                       ; OB_SIZE-56-1 for future use
 
 .ENDST
 
@@ -127,6 +129,8 @@ objgravity	    DW							; default gravity for objects
 objfriction     DW                          ; default friction for objects
 
 objtokill       DB							; =1 if need to kill object
+
+objneedrefresh  DB                          ; =1 if we need to refresh all spritesbecause object is out of screen
 
 objtmp1	DW									; temporary vars for stuffs
 objtmp2	DW
@@ -637,6 +641,27 @@ _oikal3:
 	plp
 	rtl
 
+objOamRefreshAll:
+    php
+    phx
+
+    ldx #$0000
+_oora:
+    sep #$20
+    lda #$1
+    sta oambuffer.1.oamrefresh,x                            ; get refresh attribute
+    rep #$20
+    txa
+    clc
+    adc #16                                                                                                                                                                                               ; to be on correct index (16 bytes per oam)
+    tax
+    cmp #128*16
+    bne _oora
+    
+    plx
+    plp
+    rts                        
+
 ;---------------------------------------------------------------------------------
 ; void objUpdateAll(void)
 objUpdateAll:
@@ -651,6 +676,8 @@ objUpdateAll:
 	pha
 	plb
 	
+    stz objneedrefresh                                  ; no global refresh needed
+
 	rep #$20
 	ldx #$0000
 	
@@ -694,11 +721,24 @@ _oiual3y:                                               ; check now y coordinate
     bcs _oiual32                                        ; but y is greater than min
 
 _oiual3y1:
+    sep #$20                                            ; check if it was previously on screen to refresh all the objects
+    lda objbuffers.1.onscreen,x
+    beq _oiual3y11                                      ; no ? no need to refresh
+    stz objbuffers.1.onscreen,x
+    lda objneedrefresh                                  ; if we have noticed a global refresh previously, don't do it again
+    bne _oiual3y11
+    lda #1
+    sta objneedrefresh
+    jsr objOamRefreshAll                                ; do a global refresh of sprites
+
+_oiual3y11:
     rep #$20
     bra _oial31
 
 _oiual32:
     sep #$20
+    lda #$1
+    sta objbuffers.1.onscreen,x                        ; store that object is on screen
     lda objbuffers.1.type,x
     rep #$20
     and #$00ff
