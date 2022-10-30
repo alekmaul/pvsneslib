@@ -1,5 +1,5 @@
 # Nom de notre workflow
-name: "Build and deploy Github pages"
+name: PVSNESLIB Build Deploy Documentation
 
 # Événements sur lesquels il doit être déclenché
 on:
