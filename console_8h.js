@@ -15,8 +15,8 @@ var console_8h =
     [ "consoleSetTextVramBGAdr", "console_8h.html#ab2c949172b9690e58ffb9b3294a36b38", null ],
     [ "consoleUpdate", "console_8h.html#a9bfb9c53fa37e76873d14be4446e71e5", null ],
     [ "rand", "console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2", null ],
-    [ "pvsneslibdirty", "console_8h.html#a01a196c5c404d8e3d16ef799cc0b1653", null ],
-    [ "pvsneslibfont_map", "console_8h.html#afb9f478403f30556d576a6fa54bc9073", null ],
+    [ "scr_txt_dirty", "console_8h.html#a73c5f483e71c951f267ad0375084242f", null ],
+    [ "scr_txt_font_map", "console_8h.html#ad3897ef4ed73fa003953d4a979ed50b0", null ],
     [ "snes_50hz", "console_8h.html#aef3bf9522613bca02b4a00ea910d492f", null ],
     [ "snes_vblank_count", "console_8h.html#a5e14b74b621c822db9af978d0ad31d1a", null ]
 ];

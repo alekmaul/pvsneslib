@@ -12,7 +12,5 @@ var searchData=
   ['pixel_2eh_211',['pixel.h',['../pixel_8h.html',1,'']]],
   ['pixsetmode_212',['pixSetMode',['../pixel_8h.html#a3343c49cdbe30c204e8bda550a492b88',1,'pixel.h']]],
   ['pixsetpixel_213',['pixSetPixel',['../pixel_8h.html#a0b844a87da0e6da9abe86ce79b97b6cf',1,'pixel.h']]],
-  ['ppu_5f50hz_214',['PPU_50HZ',['../video_8h.html#a142364f4707bee3366835d7d22494911',1,'video.h']]],
-  ['pvsneslibdirty_215',['pvsneslibdirty',['../console_8h.html#a01a196c5c404d8e3d16ef799cc0b1653',1,'console.h']]],
-  ['pvsneslibfont_5fmap_216',['pvsneslibfont_map',['../console_8h.html#afb9f478403f30556d576a6fa54bc9073',1,'console.h']]]
+  ['ppu_5f50hz_214',['PPU_50HZ',['../video_8h.html#a142364f4707bee3366835d7d22494911',1,'video.h']]]
 ];
