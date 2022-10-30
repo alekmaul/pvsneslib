@@ -1,4 +1,4 @@
- DevkitSnes 3.40
+ DevkitSnes 4.0
  
  Programming Compiler and Tools for Snes
 
@@ -30,7 +30,7 @@ SPECIAL THANKS
                
 CHANGE LOG
 ----------------------
-VERSION 4.0 (dd, mmm, 2022)
+VERSION 4.0 (October,30,2022)
 - Add tmx2snes (tool to convet Tiled map (json export) to a SNES format)
 - Improve 816-opt.py (thanks kobenairb)
 - Improve docker integration (thanks kobenairb)
