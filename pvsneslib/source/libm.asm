@@ -226,7 +226,7 @@ tcc__llfloat:    ldy.w  #$8E + 16    ;INIT EXP1 TO 14 + 16,
         sta.b tcc__M1
         bra ++
 
-	; discard highest byte          
+	; discard highest byte
 	.accu 8
 +	tya		; fix exponent
 	sec
@@ -466,7 +466,7 @@ fix:    lda.b  tcc__X1
 	bne  _fixrts
 	inc  tcc__M1
 _fixrts:  rts
-_UNDFL:   
+_UNDFL:
 
 	stz tcc__M1
 	stz tcc__M1 + 1

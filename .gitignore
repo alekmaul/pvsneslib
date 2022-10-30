@@ -1,9 +1,10 @@
 # automatically generated with PVSNESLIB:
-pvsneslib/docs
+pvsneslib/docs/html
 pvsneslib/lib
 pvsneslib/source/libc_c.asm
 pvsneslib/source/libm_c.asm
 pvsneslib/pvsneslib_version.txt
+pvsneslib/include/snes/libversion.h
 
 # automatically generated from vscode
 .vscode
@@ -17,16 +18,9 @@ devkitsnes/bin
 # except the python script !
 !devkitsnes/bin/816-opt.py
 
-# tcc files generated with ./configure command or binary
-compiler/tcc-65816/config.h
-compiler/tcc-65816/config.mak
-compiler/tcc-65816/config.texi
-compiler/tcc-65816/tcc-doc.html
-compiler/tcc-65816/816-tcc
-compiler/tcc-65816/816-tcc.exe
-
-# everything related to wla-dx
+# everything related to submodules
 compiler/wla-dx
+compiler/tcc-65816
 
 # all binaries in tools folder
 tools/bin2txt/bin2txt
@@ -41,6 +35,14 @@ tools/snesbrr/snesbrr
 tools/snesbrr/snesbrr.exe
 tools/snestools/snestools
 tools/snestools/snestools.exe
+tools/tmx2snes/tmx2snes
+tools/tmx2snes/tmx2snes.exe
+
+# tmx2snes files: 
+*.b16
+*.o16
+*.t16
+*.m16
 
 # all other type of files generated automatically
 linkfile
@@ -62,3 +64,4 @@ linkfile
 *.ps
 soundbank.asm
 soundbank.h
+*.log

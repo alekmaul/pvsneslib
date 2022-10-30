@@ -1,0 +1,106 @@
+<!-- written by andre.michelle@gmail.com -->
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Online Tileset Extractor</title>
+  <link media="screen" href="tileset-extractor.less" type="text/less" rel="stylesheet"/>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.3.1/less.min.js"></script>
+  <link type="text/css" rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700"/>
+  <script src="tileset-extractor.js"></script>
+</head>
+<body onLoad="onLoad();">
+<div stage>
+  <h2>Online Tileset Extractor</h2>
+  <p>Quick way to extract tiles from a tilemap</p>
+  <div browse>
+    <input type="file">
+    <div demo>
+      <button demo>Demo (Super Mario)</button>
+      <button demo-big>Demo (Zelda)</button>
+    </div>
+  </div>
+  <div io>
+    <table>
+      <tr>
+        <td>Tile width:</td>
+        <td>
+          <input type="number" name="tile-width" min="4" max="128" step="1" value="8">
+        </td>
+        <td>px</td>
+      </tr>
+      <tr>
+        <td>Tile height:</td>
+        <td>
+          <input type="number" name="tile-height" min="4" max="128" step="1" value="8">
+        </td>
+        <td>px</td>
+      </tr>
+      <tr>
+        <td>Tolerance:</td>
+        <td>
+          <input type="number" name="tolerance" min="0" max="128" step="1" value="0">
+        </td>
+        <td>px</td>
+      </tr>
+    </table>
+    <div console></div>
+  </div>
+  <progress value="0" max="1" hidden></progress>
+  <div result hidden>
+    <div tiles-wrapper>
+      <h2>Tiles</h2>
+      <div tiles></div>
+      <a href="#" download download-tiles>download tiles.png</a>
+    </div>
+    <div tileset-wrapper>
+      <h2>Recreation</h2>
+
+      <div tileset></div>
+      <div style="margin-top: 24px;">
+        <a href="#" download download-tilemap>download tilemap.png</a>
+        <a href="#" download download-map>download map.json</a>
+        <a href="#" download download-tmx>download tiled.tmx (tiles.png must be in the same folder)</a>
+      </div>
+    </div>
+  </div>
+  <div info>
+    <h4>What are tilemaps?</h4>
+
+    <p>
+      Tilemaps have been heavily used in the earlier computer games and
+      are still a great memory preserving way to deal with very large worlds.
+      They are made up of small tiles like 8x8 or 16x16 pixels. <a
+            href="https://en.wikipedia.org/wiki/Tile-based_video_game" target="wiki">Check wikipedia.</a>
+    </p>
+
+    <h4>What does this app do?</h4>
+
+    <p>
+      This app takes a level design and tries to extract the tiles that were used to built it.
+    </p>
+
+    <p>
+      You can define a tolerance that allows the app to merge tiles that are just a few pixels off.<br>
+      If successful, you can download the tiles as a png and a map.json containing the map data.
+      Check out the demo button that explains a lot.
+    </p>
+
+    <h4>Notes</h4>
+
+    <ul>
+      <li>Input image must be a png or gif</li>
+      <li>Input size must be dividable by the tile size</li>
+    </ul>
+    <p>
+      Written by <a href="https://www.twitter.com/andremichelle" target="twitter">Andr&eacute; Michelle</a> in 2015.
+    </p>
+
+    <p>
+      <a href="https://github.com/andremichelle/platforms" target="github">[Source on github]</a>
+    </p>
+  </div>
+</div>
+</body>
+</html>

@@ -38,12 +38,17 @@ operatingSystem=
 ifeq ($(OS),Windows_NT)
 operatingSystem=windows
 else
+# only for linux platforms, we use the os-release file
 ifneq (,$(wildcard /etc/os-release))
 include /etc/os-release
 # convert to lower case the result
 operatingSystem=linux_$(shell echo $(NAME) | tr A-Z a-z)
 else
-$(error "/etc/os-release file does not exist to detect your operating system, please update the code to continue")
+ifeq ($(shell uname -s),Darwin)
+operatingSystem=darwin
+else
+$(error "Unable to detect your operating system, please update the code in global pvsneslib Makefile to continue")
+endif
 endif
 endif
 

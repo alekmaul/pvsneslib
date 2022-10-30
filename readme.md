@@ -1,6 +1,6 @@
 # A library to code in C or ASM for the Nintendo SNES #
 
-[PVSneslib V3.5.0 (29, May, 2022) ](http://www.portabledev.com/jeux/supernes/pvsneslib/)
+[PVSneslib V4.0.0 (dd, mmm, 2022) ](http://www.portabledev.com/jeux/supernes/pvsneslib/)
 
 **PVSnesLib** (**P**rogrammer **V**aluable **Snes** **Lib**rary) is an open and free library to develop programs for the Nintendo SNES using the C programming language.
 
@@ -10,14 +10,22 @@ It contains a snes-sdk compiler / linker and a library (sources included) which 
 It also contains examples which demonstrate how to use the functions in the library.  
 
 # Installation #
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/3.5.0/pvsneslib_32b_windows.zip"><img src="https://img.shields.io/badge/release-windows32-green?style=flat&logo=github" alt="PVSNESLIB Windows32 Release"></a> 
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/3.5.0/pvsneslib_32b_ubuntu.zip"><img src="https://img.shields.io/badge/release-linux-orange?style=flat&logo=github" alt="PVSNESLIB Linux64 Release"></a>
 
-To install the library, please download the latest [release](https://github.com/alekmaul/pvsneslib/releases/latest) and follow instructions on the [Wiki pages](https://github.com/alekmaul/pvsneslib/wiki).
+To install the library, please download the latest [release](https://github.com/alekmaul/pvsneslib/releases/latest) or with the link below and follow instructions on the [Wiki pages](https://github.com/alekmaul/pvsneslib/wiki).
 
-You can also see the [documentation](http://www.portabledev.com/pvsneslib/doc) generated from sources.
+You can also see the [documentation](https://alekmaul.github.io/pvsneslib/) generated from sources.
 
 # Visual Studio Code #
 
 You can find a Visual Studio Code template in the [vscode-template](https://github.com/alekmaul/pvsneslib/tree/master/vscode-template) folder to help PVSnesLib integration with it.
+
+# Build status #
+
+[![PVSNESLIB Build and Package](https://github.com/alekmaul/pvsneslib/actions/workflows/pvsneslib_build_package.yml/badge.svg?branch=develop)](https://github.com/alekmaul/pvsneslib/actions/workflows/pvsneslib_build_package.yml)
+
+You can find with the link below the last stable builds of PVSnesLib. They are development builds, you can have bugs not yet resolved with them.
 
 # Dependencies #
 
@@ -44,6 +52,23 @@ PVSneslib and affiliated tools are distributed under the MIT license (see pvsnes
 PVSneslib is free but you can donate to support its development:<br>
 [![Paypal](https://www.paypalobjects.com/fr_FR/FR/i/btn/x-click-but04.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5USKF23DQVLC)
 
+# Powered by PVSneslib #
+
+These projects are based on PVSnesLib _(non-exhaustive list)_:
+
+![alt text](pvsneslib/docs/images/yoyoshuriken.gif)
+ 
+Yo-Yo Shuriken by [Dr. Ludos](https://drludos.itch.io/yo-yo-shuriken)
+
+![alt text](pvsneslib/docs/images/eyra.gif)
+ 
+Eyra by [Second Dimension](https://www.second-dimension.com/store/eyra-the-crow-maiden-snes)
+
+![alt text](pvsneslib/docs/images/sydneycod.gif)
+ 
+Sydney Hunter by [CollectorVision](https://collectorvision.com/store/shop/snes/snes-sydney-hunter-the-caverns-of-death-pal/)
+
+
 # Special thanks #
 
 -RetroAntho (https://github.com/RetroAntho) for his great help to move wla-dx to last version and also for all compilation optimizations in Makefile, snes_rules and, at least, for keeping me motivated to update PVSnesLib ;)  
@@ -56,5 +81,6 @@ PVSneslib is free but you can donate to support its development:<br>
 -RedBug for constify tcc bug fix and tips for Linux and Docker  
 -mills32 (https://github.com/mills32) for his mode7 3D example  
 -n_Arno for his help on Linux version (https://github.com/nArnoSNES/)  
+-kobenairb for python & docker optimizations
   
 Thanks !

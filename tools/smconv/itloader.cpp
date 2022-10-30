@@ -4,15 +4,15 @@
 namespace ITLoader {
 
 	template<typename T> static void deletePtrVector( std::vector<T*> &vecs ) {
-		
+
 		for(typename std::vector<T*>::iterator iter = vecs.begin(), ending = vecs.end();
-			iter != ending; 
+			iter != ending;
 			iter++ ) {
-		
+
 			if( *iter )
 				delete (*iter);
 		}
-		
+
 		vecs.clear();
 	}
 
@@ -20,7 +20,7 @@ namespace ITLoader {
 		for( u32 i = 0; i < files.size(); i++ ) {
 			AddModule( files[i] );
 		}
-		
+
 //		for( u32 i = 0; i < source->effects.size(); i++ ) {
 //			AddSound( source->effects[i]->filename.c_str() );
 //		}
@@ -30,7 +30,7 @@ namespace ITLoader {
 		deletePtrVector<Module>( modules );
 		deletePtrVector<SampleData>( sounds );
 	}
-	
+
 	void Bank::AddSound( const char *filename ) {
 		sounds.push_back( new SampleData( filename ) );
 	}
@@ -44,7 +44,7 @@ namespace ITLoader {
 		IO::File file( filename, IO::MODE_READ );
 
 		Filename = filename;
-		
+
 		if( file.Read8() != 'I' ) return;
 		if( file.Read8() != 'M' ) return;
 		if( file.Read8() != 'P' ) return;
@@ -71,17 +71,17 @@ namespace ITLoader {
 		Sep = file.Read8();
 		PWD = file.Read8();
 		MessageLength = file.Read16();
-		
+
 		u32 MessageOffset = file.Read32();
-		
+
 		file.Skip( 4 ); // reserved
-		
+
 		for( int i = 0; i < 64; i++ )
 			ChannelPan[i] = file.Read8();
 
 		for( int i = 0; i < 64; i++ )
 			ChannelVolume[i] = file.Read8();
-		
+
 		bool foundend=false;
 		int ActualLength=Length;
 		for( int i = 0; i < 256; i++ ) {
@@ -91,7 +91,7 @@ namespace ITLoader {
 				ActualLength = i+1;
 			}
 		}
-		
+
 		Length = ActualLength;
 
 		Instruments = new Instrument*[InstrumentCount];
@@ -101,7 +101,7 @@ namespace ITLoader {
 		u32 *InstrTable = new u32[InstrumentCount];
 		u32 *SampleTable = new u32[SampleCount];
 		u32 *PatternTable = new u32[PatternCount];
-		
+
 		for( int i = 0; i < InstrumentCount; i++ )
 			InstrTable[i] = file.Read32();
 		for( int i = 0; i < SampleCount; i++ )
@@ -157,7 +157,7 @@ namespace ITLoader {
 			delete[] Message;
 		}
 	}
-	
+
 	Instrument::Instrument( IO::File &file ) {
 		file.Skip(4); // IMPI
 		DOSFilename[12] = 0;
@@ -189,12 +189,12 @@ namespace ITLoader {
 		MidiBank = file.Read16();
 
 		file.Read8(); // reserved
-		
+
 		for( int i = 0; i < 120; i++ ) {
 			Notemap[i].Note = file.Read8();
 			Notemap[i].Sample = file.Read8();
 		}
-		
+
 		VolumeEnvelope = new Envelope( file );
 		PanningEnvelope = new Envelope( file );
 		PitchEnvelope = new Envelope( file );
@@ -214,10 +214,10 @@ namespace ITLoader {
 		IsFilter = !!(FLG & 128);
 
 		Length = file.Read8();
-		
+
 		LoopStart = file.Read8();
 		LoopEnd = file.Read8();
-		
+
 		SustainStart = file.Read8();
 		SustainEnd = file.Read8();
 
@@ -235,7 +235,7 @@ namespace ITLoader {
 		file.Skip(1);	// 00h
 		GlobalVolume = file.Read8();
 		u8 Flags = file.Read8();
-		
+
 		HasSample = !!(Flags & 1);
 		Data.Bits16 = !!(Flags & 2);
 		Stereo = !!(Flags & 4);
@@ -244,16 +244,16 @@ namespace ITLoader {
 		Data.Sustain = !!(Flags & 32);
 		Data.BidiLoop = !!(Flags & 64);
 		Data.BidiSustain = !!(Flags & 128);
-		
+
 		DefaultVolume = file.Read8();
 
 		Name[26] = 0;
 		for( int i = 0; i < 26; i++ )
 			Name[i] = file.Read8();
-		
+
 		Convert = file.Read8();
 		DefaultPanning = file.Read8();
-		
+
 		Data.Length = file.Read32();
 		Data.LoopStart = file.Read32();
 		Data.LoopEnd = file.Read32();
@@ -279,7 +279,7 @@ namespace ITLoader {
 			delete[] Data.Data8;
 		}
 	}
-	
+
 	void Sample::LoadData( IO::File &file ) {
 		if( !Compressed ) {
 
@@ -328,14 +328,14 @@ namespace ITLoader {
 	}
 
 	static inline const unsigned int str4( const char *str ) {
-		return (unsigned int)str[0] | 
-			((unsigned int)str[1] << 8) | 
-			((unsigned int)str[2] << 16) | 
+		return (unsigned int)str[0] |
+			((unsigned int)str[1] << 8) |
+			((unsigned int)str[2] << 16) |
 			((unsigned int)str[3] << 24);
 	}
 
 	SampleData::SampleData() {
-		
+
 	}
 
 	SampleData::SampleData( const char *filename ) {
@@ -349,7 +349,7 @@ namespace ITLoader {
 		unsigned int chunk_code;
 		unsigned int chunk_size;
 		unsigned int num_channels = 0;
-		
+
 		// initialize data
 		Bits16 = false;
 		Length = 0;
@@ -362,30 +362,30 @@ namespace ITLoader {
 		Sustain = false;
 		BidiLoop = false;
 		BidiSustain = false;
-		
+
 		file_size = IO::FileSize( filename );
 		IO::File file( filename, IO::MODE_READ );
-		
+
 		file.Read32();						// "RIFF"
 		file.Read32();						// filesize-8
 		file.Read32();						// "WAVE"
-		
+
 		while( 1 )
 		{
 			// break on end of file
 			if( file.Tell() >= file_size ) break;
-			
+
 			// read chunk code and length
 			chunk_code = file.Read32();
 			chunk_size = file.Read32();
-			
+
 			// parse chunk code
 			switch( chunk_code )
 			{
 			//---------------------------------------------------------------------
 			case 0x20746D66:	// format chunk
 			//---------------------------------------------------------------------
-				
+
 				// check compression code (1 = PCM)
 				if( file.Read16() != 1 )
 				{
@@ -395,17 +395,17 @@ namespace ITLoader {
 					printf("\nsmconv: error 'Unsupported WAV format'\n" );
 					return;
 				}
-				
+
 				// read # of channels
 				num_channels = file.Read16();
-				
+
 				// read sampling frequency
-				
+
 				C5Speed = file.Read32();
 				// skip average something, wBlockAlign
 				file.Read32();
 				file.Read16();
-				
+
 				// get bit depth, catch unsupported values
 				bit_depth = file.Read16();
 				if( bit_depth != 8 && bit_depth != 16 )
@@ -415,65 +415,65 @@ namespace ITLoader {
 					printf("\nsmconv: error 'Unsupported WAV bit depth'\n");
 					return;// LOADWAV_UNSUPPORTED_BD;
 				}
-				
+
 				if( bit_depth == 16 )
 					Bits16 = true;
-				
+
 				// print verbose data
 			// /if( verbose )
 			///	{
 			//\		printf( "Sample Rate...%i\n", samp->frequency );
 			// \	printf( "Bit Depth.....%i-bit\n", bit_depth );
 			//	}
-				
+
 				// skip the rest of the chunk (if any)
 				if( (chunk_size - 0x10) > 0 )
 					file.Skip( (chunk_size - 0x10) );
-				
+
 				hasformat = 1;
 				break;
-				
+
 			//---------------------------------------------------------------------
 			case 0x61746164:	// data chunk
 			//---------------------------------------------------------------------
 			{
 				int t, dat;
 				u32 c;
-				
+
 				if( !hasformat )
 				{
 					printf("\nsmconv: error 'CORRUPT WAV FILE...'\n");
 					return;// LOADWAV_CORRUPT;
 				}
-				
+
 			//	if( verbose )
 			//		printf( "Loading Sample Data...\n" );
-				
+
 				// clip chunk size against end of file (for some borked wavs...)
 				{
 					u32 br = file_size - file.Tell();//file_tell_read();
 					chunk_size = chunk_size > br ? br : chunk_size;
 				}
-				
+
 				Length = chunk_size / (bit_depth/8) / num_channels;
 
-				if( bit_depth == 16 ) 
+				if( bit_depth == 16 )
 					Data16 = new s16[chunk_size/2];
 				else
 					Data8 = new s8[chunk_size];
-				
+
 				// read sample data
 				for( t = 0; t < Length; t++ )
 				{
 					dat = 0;
-					
+
 					// for multi-channel samples, get average value
 					for( c = 0; c < num_channels; c++ )
 					{
 						dat += bit_depth == 8 ? ((int)file.Read8()) - 128 : ((short)file.Read16());
 					}
 					dat /= num_channels;
-					
+
 					if( bit_depth == 8 )
 					{
 						Data8[t] = dat;
@@ -483,9 +483,9 @@ namespace ITLoader {
 						Data16[t] = dat;
 					}
 				}
-				
+
 				//hasdata = 1;
-				
+
 				break;
 			}
 			/*
@@ -503,18 +503,18 @@ namespace ITLoader {
 						+4		// smpte offset
 						);
 				int num_sample_loops = read32();
-				
+
 				read32();		// sample data
-				
+
 				pos = 36;
-				
+
 				// check for sample looping data
 				if( num_sample_loops )
 				{
 					read32();	// cue point ID
 					int loop_type = read32();
 					pos += 8;
-					
+
 					if( loop_type < 2 )
 					{
 						// sample    | internal
@@ -523,28 +523,28 @@ namespace ITLoader {
 						samp->loop_type = loop_type + 1;
 						samp->loop_start = read32();
 						samp->loop_end = read32();
-						
+
 						// clip loop start against sample length
 						if( samp->loop_end > samp->sample_length ) {
 							samp->loop_end = samp->sample_length;
 						}
-						
+
 						// disable tiny loop
 						// catch invalid loop
 						if( (samp->loop_start > samp->sample_length) ||
 							(samp->loop_end - samp->loop_start < 16) ) {
-							
+
 							samp->loop_type = 0;
 							samp->loop_start = 0;
 							samp->loop_end = 0;
 						}
-						
+
 						// ignore fractional
 						// ignore play count
 						pos += 8;
 					}
 				}
-				
+
 				file.Skip( chunk_size - pos );
 				break;
 			}	*/

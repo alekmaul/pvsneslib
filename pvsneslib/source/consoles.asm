@@ -34,21 +34,27 @@
 .EQU INT_VBLENABLE     (1<<7)
 .EQU INT_JOYPAD_ENABLE (1)	
 
+.DEFINE TXT_VRAMADR     $0800
+.DEFINE TXT_VRAMBGADR   $0800
+.DEFINE TXT_VRAMOFFSET   $0000
+
 .RAMSECTION ".reg_cons7e" BANK $7E
 
-pvsneslibdirty:			DSB 1                   ; 1 if we need to refresh screen
-pvsneslibfont_map:		DSW $800                ; text to display on screen
+snes_vblank_count		DB                                  ; to count number of vblank
 
-snes_vblank_count:		DSW 1                   ; to count number of vblank
+snes_50hz               DB                                  ; 1 if PAL console (50 Hz) instead of NTSC (60Hz)
 
-snes_50hz               DSB 1                   ; 1 if PAL console (50 Hz) instead of NTSC (60Hz)
+scr_txt_dirty			DB                                  ; 1 if we need to refresh screen
+txt_pal_adr             DB                                  ; text attribute (palette, high priority ...)
+txt_vram_bg             DW                                  ; vram address of BG for text
+txt_vram_adr            DW                                  ; vram address of graphics for text
+txt_vram_offset         DW                                  ; offset for text display (useful if graphics not store at BG entry)
 
-palette_adress          DSB 1                   ; palette address of text 
-palette_number          DSB 1                   ; palette number of text (0..8)
+text_buffer             DSB 128                             ; text formated with argument
 
-text_buffer             DSB 128                 ; text formated with argument
+cons_val1			    DSB 2                               ; save value #1
 
-cons_val1			    DSB 2                   ; save value #1
+scr_txt_font_map		DSW $800                            ; text to display on screen
 
 .ENDS
 
@@ -254,32 +260,31 @@ cvbloam:
 	jsl oamUpdate
 	
 	; if buffer need to be update, do it !
-	lda pvsneslibdirty
+	lda scr_txt_dirty
 	beq +
 	
 	rep #$20
-	lda	#$800
-	sta.l	$2116           ; address for VRAM write(or read)
+	lda	txt_vram_bg
+	sta.l	$2116                                             ; address for VRAM write(or read)
 
 	lda	#$800
-	sta.l	$4305           ; number of bytes to be copied
-	lda	#pvsneslibfont_map.w
-	sta.l	$4302           ; data offset in memory
-
-	sep	#$20                ; 8bit A
+	sta.l	$4305                                             ; number of bytes to be copied
+	lda	#scr_txt_font_map.w
+	sta.l	$4302                                             ; data offset in memory
+	sep	#$20                                                  ; 8bit A
 	lda	#$80
-	sta.l	$2115           ; VRAM address increment value designation
-	lda	#:pvsneslibfont_map ; bank address of data in memory
+	sta.l	$2115                                             ; VRAM address increment value designation
+	lda	#:scr_txt_font_map                                    ; bank address of data in memory
 	sta.l	$4304
 	lda	#1
-	sta.l	$4300           ; 1= word increment
+	sta.l	$4300                                             ; 1= word increment
 	lda	#$18
-	sta.l	$4301           ; 2118 is the VRAM gate
+	sta.l	$4301                                             ; 2118 is the VRAM gate
 
-	lda	#1                  ; turn on bit 1 (channel 0) of DMA
+	lda	#1                                                    ; turn on bit 1 (channel 0) of DMA
 	sta.l	$420b
 	
-	stz pvsneslibdirty
+	stz scr_txt_dirty                                         ; no more transfert of text
 	
 	; Count frame number
 +	rep #$20
@@ -299,38 +304,38 @@ consoleInit:
     php
     
     rep #$20
-    lda.w #:consoleVblank               ; Put current handler to our function
+    lda.w #:consoleVblank                                     ; Put current handler to our function
     sta.l nmi_handler + 2
     lda.w #consoleVblank
     sta.l nmi_handler
     
-    lda.w #0                            ; Begin counting vblank
+    lda.w #0                                                  ; Begin counting vblank
     sta.w snes_vblank_count
     
     sep #$20
-    sta pvsneslibdirty                 ; Nothing to print on screen
-    sta snes_mplay5                    ; For Pad function	
+    sta scr_txt_dirty                                         ; Nothing to print on screen
+    sta snes_mplay5                                           ; For Pad function	
 	
     phb
     pha
     plb
     rep #$20
     lda.w #1
-    sta snes_rand_seed1                 ; For rand funciton
+    sta snes_rand_seed1                                       ; For rand function
     lda.w #5
-	sta snes_rand_seed2                 ; For rand funciton
+	sta snes_rand_seed2                                       ; For rand function
     plb
     
-    lda.w #$0000                        ; Init background address
+    lda.w #$0000                                              ; Init background address
     sta bg0gfxaddr
     sta bg1gfxaddr
     sta bg2gfxaddr
     sta bg3gfxaddr
     
-	jsl dmaClearVram                    ; Clear all VRAM to avoid problem
+	jsl dmaClearVram                                          ; Clear all VRAM to avoid problem
 	
     lda #$0000
-    pha                                 ; Initialise joypads
+    pha                                                       ; Initialise joypads
 	jsl padsClear
     tsa
     clc
@@ -344,7 +349,7 @@ consoleInit:
     adc #2
     tas
 
-	sep #$20                            ; init PAL / NTSC console
+	sep #$20                                                  ; init PAL / NTSC console
     lda #$0
     sta snes_50hz
     lda.l REG_STAT78
@@ -353,9 +358,24 @@ consoleInit:
     lda #$1
     sta snes_50hz
 
-+	jsl oamInit                         ; Init sprites
-	
-    lda #INT_VBLENABLE | INT_JOYPAD_ENABLE      ; enable NMI, enable autojoy 
++	jsl oamInit                                               ; Init sprites
+    
+    phb
+   	lda #$7e
+	pha
+	plb
+
+    rep #$20
+    lda #TXT_VRAMBGADR                                        ; put default values for text display
+    sta txt_vram_bg             
+    lda #TXT_VRAMADR
+    sta txt_vram_adr            
+    lda #TXT_VRAMOFFSET
+    sta txt_vram_offset
+
+    plb
+
+    lda #INT_VBLENABLE | INT_JOYPAD_ENABLE                    ; enable NMI, enable autojoy 
 	sta.l REG_NMITIMEN
 
 	plp
@@ -366,16 +386,22 @@ consoleInit:
 .SECTION ".consoles5_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
-;void consoleInitText(u8 bgNumber,u8 paletteNumber, u8 *gfxText)
-; 5 6 7-10
+;void consoleInitText(u8 palnum, u8 palsize, u8 *tilfont, u8 *palfont)
+; 6 7 8-11 12-15
 consoleInitText:
     php
+    phb
     
+   	sep	#$20                                                  ; 8bit A
+	lda #$7e
+	pha
+	plb
+
     rep #$20
     phx
-    ldx #$0000                                  ; Init map for text with no character
-    lda #$0000                                  ; So copy data to VRAM (also clear screen)
--   sta pvsneslibfont_map,x
+    ldx #$0000                                                ; Init map for text with no character
+    lda #$0000                                                ; So copy data to VRAM (also clear screen)
+-   sta scr_txt_font_map,x
     inx
     inx
     cpx #$0800
@@ -385,7 +411,7 @@ consoleInitText:
     sep #$20
 	lda #0
     pha
-    jsl setBrightness                           ; Force VBlank Interrupt (value 0)
+    jsl setBrightness                                         ; Force VBlank Interrupt (value 0)
 	rep #$20
     tsa
     clc
@@ -393,13 +419,13 @@ consoleInitText:
     tas
 
     rep #$20
-    lda #3072                                   ; size of text (48*8*8)
+    lda #3072                                                 ; size of text (48*8*8)
     pha
-    lda #$0000                                  ; put text at VRAM address 0000
+    lda txt_vram_adr                                          ; put text at VRAM address
     pha
-    lda 13,s                                    ; get bank address of tiles (9+2+2)
+    lda 14,s                                                  ; get bank address of tiles (10+2+2)
     pha
-    lda 13,s                                    ; get data address of tiles (7+2+2+2)
+    lda 14,s                                                  ; get data address of tiles (8+2+2+2)
     pha
     jsl dmaCopyVram
     tsa
@@ -407,126 +433,125 @@ consoleInitText:
     adc #8
     tas
 
-    lda #$0800                                  ; size of map text (32*32*2)
-    pha
-    lda #$0800                                  ; put text at VRAM address 0800
-    pha
-    pea.w :pvsneslibfont_map                   ; get bank address of map
-    pea.w pvsneslibfont_map                    ; get data address of map
-    jsl dmaCopyVram
-    tsa
-    clc
-    adc #8
-    tas
 
-    sep #$20                                    ; Initialize background tile & map
-    lda 6,s
-    sta palette_number
-    asl a
-    asl a
-    ora #(1<<5)                                 ; (10-7) because only high byte are addressed
-    sta palette_adress                          
-    rep #$20
-    lda #$0000                                  ; get address 
-    pha
+    lda #$0000
     sep #$20
-    lda 7,s                                     ; get bgNumber (5+2)
-    pha
+	lda	7,s                                                  ; get palette size
     rep #$20
-    jsl bgSetGfxPtr
-   	tsa
-    clc
-    adc #3
-    tas
-    
-    sep #$20
-    lda #SC_32x32                               ; get sizeMode
-    pha
-    rep #$20
-    lda #$0800                                  ; get address 
-    pha
-    sep #$20
-    lda 8,s                                     ; get bgNumber (5+3)
-    pha
-    rep #$20
-    jsl bgSetMapPtr
-   	tsa
-    clc
-    adc #4
-    tas
-    
-    sep #$20                                    ; Font Border Color
-    lda palette_number
+	sta.l	$4305
+	lda	12,s	                                              ; src (lower 16 bits)
+	sta.l	$4302
+	sep	#$20
+	lda	14,s	                                              ; src bank
+	sta.l	$4304
+	lda	6,s	                                                  ; adresse of palette
     asl a
     asl a
     asl a
     asl a
-    sta.l REG_CGADD                             ; 0x00+(paletteNumber<<4)
-	lda #$0
-    sta.l  CGRAM_PALETTE                        ; RGB5(0,0,0) & 0xFF
-    sta.l  CGRAM_PALETTE                        ; RGB5(0,0,0)>>8
+	sta.l	$2121
+	lda	#0
+	sta.l	$4300
+	lda	#$22
+	sta.l	$4301
+	lda	#1
+	sta.l	$420b
 
-    lda palette_number                          ; Font Color
+	lda	6,s	                                                  ; adresse of palette
     asl a
     asl a
-    asl a
-    asl a
-    ina
-    sta.l REG_CGADD                             ; 0x00+(paletteNumber<<4)
-	lda #255
-    sta.l  CGRAM_PALETTE                        ; RGB5(31,31,31)  & 0xFF -> 31 + 992 + 31744 = 32767
-	lda #127
-    sta.l  CGRAM_PALETTE                        ; RGB5(31,31,31)>>8
+    ora #(1<<5)                                              ; (10-7) because only high byte are addressed
+    sta txt_pal_adr
 
+    plb
 	plp
 	rtl 
 	
+;---------------------------------------------------------------------------
+;void consoleSetTextVramAdr(u16 vramfont)
+; 6-7
+consoleSetTextVramAdr:
+    php
+    phb
+    
+   	sep	#$20                                                  ; 8bit A
+	lda #$7e
+	pha
+	plb
+
+    rep #$20
+    lda 6,s                                                  ; store graphic address of text
+    sta txt_vram_adr
+
+    plb
+	plp
+	rtl 
+
+;---------------------------------------------------------------------------
+;void consoleSetTextVramBGAdr(u16 vrambgfont)
+; 6-7
+consoleSetTextVramBGAdr:
+    php
+    phb
+    
+   	sep	#$20                                                  ; 8bit A
+	lda #$7e
+	pha
+	plb
+
+    rep #$20
+    lda 6,s                                                  ; store BG graphic address of text
+    sta txt_vram_bg
+
+    plb
+	plp
+	rtl 
+
+;---------------------------------------------------------------------------
+;void consoleSetTextOffset(u16 offsetfont)
+; 6-7
+consoleSetTextOffset:
+    php
+    phb
+    
+   	sep	#$20                                                  ; 8bit A
+	lda #$7e
+	pha
+	plb
+
+    rep #$20
+    lda 6,s                                                  ; store BG graphic address of text
+    sta txt_vram_offset
+
+    plb
+	plp
+	rtl 
+
 .ENDS
 
 .SECTION ".consoles6_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
-; void consoleSetTextCol(u16  colorChar, u16 colorBG)
-consoleSetTextCol:
+; void consoleSetTextPal(u8 paloffset, u8 *palfont, u8 palsize)
+; 5 6-9 10
+consoleSetTextPal:
     php
     
-    sep #$20                                    ; Font Border Color
-    lda palette_number
-    asl a
-    asl a
-    asl a
-    asl a
-    sta.l REG_CGADD                             ; 0x00+(paletteNumber<<4)
-    rep #$20
-    lda 7,s                                     ; get colorBG
-    and #$00ff
-    sep #20
-    sta.l  CGRAM_PALETTE                        ; colorBG & 0xFF
-    rep #$20
-    lda 7,s                                     ; get colorBG
-    xba
-    and #$00ff
-    sep #20
-    sta.l  CGRAM_PALETTE                        ; colorBG>>8
-
-    lda palette_number                          ; Font Color
-    asl a
-    asl a
-    asl a
-    asl a
-    ina
-    sta.l REG_CGADD                             ; 0x00+(paletteNumber<<4)
-    rep #$20
-    lda 5,s                                     ; get colorChar
-    and #$00ff
-    sep #20
-    sta.l  CGRAM_PALETTE                        ; colorChar & 0xFF 
-    rep #$20
-    lda 5,s                                     ; get colorChar
-    xba
-    and #$00ff
-    sep #20
-    sta.l  CGRAM_PALETTE                        ; colorChar>>8
+	lda	10,s                                                  ; get palette size
+	sta.l	$4305
+	lda	6,s	                                                  ; src (lower 16 bits)
+	sta.l	$4302
+	sep	#$20
+	lda	8,s	                                                  ; src bank
+	sta.l	$4304
+	lda	5,s	                                                  ; adresse of cgram
+	sta.l	$2121
+	lda	#0
+	sta.l	$4300
+	lda	#$22
+	sta.l	$4301
+	lda	#1
+	sta.l	$420b
 
 	plp
 	rtl 
@@ -538,12 +563,18 @@ consoleSetTextCol:
 
 ;---------------------------------------------------------------------------
 ; void print_screen_map(u16 x, u16 y, unsigned char  *map, u8 attributes, unsigned char *buffer)
-; 5-6 7-8 9-12 13 14-17
+; 6-7 8-9 10-13 14 15-18
 print_screen_map:
     php
+    phb
+    
+   	sep	#$20                                                  ; 8bit A
+	lda #$7e
+	pha
+	plb
 
     rep #$20
-    lda 7,s                                                 ; get y
+    lda 8,s                                                 ; get y
     phy
     ldy.w #5
 -   asl a
@@ -551,18 +582,18 @@ print_screen_map:
     bne -                                                   ; y*0x20
     ply 
 	clc 
-    adc 5,s                                                 ; get x and x+y*0x20      
+    adc 6,s                                                 ; get x and x+y*0x20      
     sta cons_val1
 
     clc
-    adc 9,s                                                 ; add to map data address
+    adc 10,s                                                 ; add to map data address
     sta tcc__r0
-    lda 11,s                                                ; store map
+    lda 12,s                                                ; store map
     sta tcc__r0h
     
-    lda 16,s                                                ; get buffer bank address
+    lda 17,s                                                ; get buffer bank address
     sta tcc__r1h
-    lda 14,s                                                ; get buffer data address
+    lda 15,s                                                ; get buffer data address
     sta tcc__r1
 
     sep #$20
@@ -577,10 +608,13 @@ _psmp0:
     bra _psmp1
 
 +   sec                                                     ; Write char to screen with attributes
-    sbc #32
+    sbc #32                                                 ; High     Low      Legend->  c: Starting character (tile) number
+    clc                                                     ; vhopppcc cccccccc           h: horizontal flip  v: vertical flip p: palette number   o: priority bit
+    adc txt_vram_offset                                     ; add vram offset in 8 bits format
     sta [tcc__r0]
     inc tcc__r0
-    lda 13,s
+    lda 14,s
+    adc txt_vram_offset+1
     sta [tcc__r0]
     inc tcc__r0
 _psmp1:
@@ -588,6 +622,7 @@ _psmp1:
     bra _psmp0
     
 _psmp2:    
+    plb 
 	plp
 	rtl 
 
@@ -599,7 +634,7 @@ consoleDrawText:
     
     sep #$20                                    
     lda #2
-    sta pvsneslibdirty
+    sta scr_txt_dirty
 	
     rep #$20
     tsa
@@ -626,18 +661,18 @@ consoleDrawText:
     pea.w :text_buffer
     pea.w text_buffer
     sep #$20
-    lda palette_adress 
+    lda txt_pal_adr 
     pha
     rep #$20
-    pea.w :pvsneslibfont_map
-    pea.w pvsneslibfont_map
+    pea.w :scr_txt_font_map
+    pea.w scr_txt_font_map
     lda 16,s                                    ; get y (7+2+2+1+2+2)
     asl a
     pha
     lda 16,s                                    ; get x (5+2+2+2+1+2+2)
     asl a
     pha
-    jsl print_screen_map                        ; print_screen_map(x*2,y*2, pvsneslibfont_map, palette_adress, text_buffer);
+    jsl print_screen_map                        ; print_screen_map(x*2,y*2, scr_txt_font_map, txt_pal_adr, text_buffer);
    	tsa
     clc
     adc #13
@@ -645,7 +680,7 @@ consoleDrawText:
     
     sep #$20                                    
     lda #1
-    sta pvsneslibdirty
+    sta scr_txt_dirty
 
 	plp
 	rtl 
@@ -688,15 +723,15 @@ consoleDrawTextMap:
     lda 17,s                                    ; get attributes (13+2+2)
     pha
     rep #$20
-    pea.w :pvsneslibfont_map
-    pea.w pvsneslibfont_map
+    pea.w :scr_txt_font_map
+    pea.w scr_txt_font_map
     lda 16,s                                    ; get y (7+2+2+1+2+2)
     asl a
     pha
     lda 16,s                                    ; get x (5+2+2+2+1+2+2)
     asl a
     pha
-    jsl print_screen_map                        ; print_screen_map(x*2,y*2, pvsneslibfont_map, attributes, text_buffer);
+    jsl print_screen_map                        ; print_screen_map(x*2,y*2, scr_txt_font_map, attributes, text_buffer);
    	tsa
     clc
     adc #13
@@ -752,15 +787,15 @@ consoleDrawTextMapCenter:
     lda 15,s                                    ; get attributes (11+2+2)
     pha
     rep #$20
-    pea.w :pvsneslibfont_map
-    pea.w pvsneslibfont_map
+    pea.w :scr_txt_font_map
+    pea.w scr_txt_font_map
     lda 14,s                                    ; get y (5+2+2+1+2+2)
     asl a
     pha
     lda tcc__r0                                 ; get x (5+2+2+2+1+2+2)
     asl a
     pha
-    jsl print_screen_map                        ; print_screen_map(x*2,y*2, pvsneslibfont_map, attributes, text_buffer);
+    jsl print_screen_map                        ; print_screen_map(x*2,y*2, scr_txt_font_map, attributes, text_buffer);
    	tsa
     clc
     adc #13
@@ -779,7 +814,7 @@ consoleUpdate:
     php
     
     sep #$20
-    lda pvsneslibdirty                      	; if buffer need to be update, do it !
+    lda scr_txt_dirty                      	; if buffer need to be update, do it !
     cmp #1
     bne +
 
@@ -797,8 +832,8 @@ consoleUpdate:
     pha
     lda #$0800                                  ; put text at VRAM address 0800
     pha
-    pea.w :pvsneslibfont_map
-    pea.w pvsneslibfont_map
+    pea.w :scr_txt_font_map
+    pea.w scr_txt_font_map
     jsl dmaCopyVram
     tsa
     clc
@@ -806,7 +841,7 @@ consoleUpdate:
     tas
     sep #$20
     lda #$0
-    sta pvsneslibdirty                      	; if buffer need to be update, do it !
+    sta scr_txt_dirty                      	; if buffer need to be update, do it !
     
 +	plp
 	rtl 

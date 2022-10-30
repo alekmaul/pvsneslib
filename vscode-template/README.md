@@ -1,5 +1,9 @@
 # Setting up PVSneslib with Visual Studio Code
 
+- [Setting up PVSneslib with Visual Studio Code](#setting-up-pvsneslib-with-visual-studio-code)
+  - [Setup](#setup)
+  - [Usage](#usage)
+
 This page is a short guide to configure Visual Studio Code with PVsneslib.
 For more detailed instructions, please follow [this wiki page](https://github.com/alekmaul/pvsneslib/wiki/PVSneslib-and-Visual-Studio-Code)
 
@@ -16,8 +20,13 @@ Once it is done, you have to :
     - In `c_cpp_properties.json` you **must update** `PVSnesLib home directory` with your real installation path.
     For instance, if you are on Windows OS, you should have something like : `"pvsneslibPath": ["c:/snesdev/pvsneslib/include/**","c:/snesdev/pvsneslib/devkitsnes/include"],`
     - If you are on Linux environment, your path should be formated like that `"pvsneslibPath": ["/path/to/pvsneslib/include/**","/path/to/pvsneslib/devkitsnes/include"],`
-    - Please do not forget the double "**" as displayed before, it is mandatory to works correctly
-    
+    - Please do not forget the double "**" as displayed before, it is mandatory to works correctly.
+    - In `settings.json`, you have the basic settings to respect the code convention. Namely:
+      - Remove trailing white spaces.
+      - Force tabs in 4 spaces, except for makefiles which must be indented with a tab
+      - Auto format code in C and C++ as it is now.
+        > The formatting is provided by the C/C++ MS plugin as specified above.
+
 ## Usage
 
 * Open `VSCode` then `File->Open Folder...` and choose the folder of your poject.

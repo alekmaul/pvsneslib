@@ -1,8 +1,8 @@
 /*---------------------------------------------------------------------------------
 
 
-	Simple tile mode 1 with scrolling demo
-	-- alekmaul
+    Simple game with map and sprite engine demo
+    -- alekmaul
 
 
 ---------------------------------------------------------------------------------*/
@@ -12,288 +12,305 @@
 
 //---------------------------------------------------------------------------------
 extern char SOUNDBANK__;
-extern char jumpsnd,jumpsndend;
+extern char jumpsnd, jumpsndend;
 
 //---------------------------------------------------------------------------------
-extern char mapgfx, mapgfx_end;
-extern char mappal;
-extern char map;
+#define GRAVITY 48
+#define JUMPVALUE (GRAVITY * 20)
+
+#define MARIO_MAXACCEL 0x0140
+#define MARIO_ACCEL 0x0038
+#define MARIO_JUMPING 0x0394
+#define MARIO_HIJUMPING 0x0594
+
+enum
+{
+    MARIODOWN = 0,
+    MARIOJUMPING = 1,
+    MARIOWALK = 2,
+    MARIOSTAND = 6
+}; // Mario state
+
+//---------------------------------------------------------------------------------
+extern char tileset, tilesetend, tilepal;
+extern char tilesetdef, tilesetatt; // for map & tileset of map
+
+extern char mapmario, objmario;
+
 extern char mariogfx, mariogfx_end;
 extern char mariopal;
-extern char mapcol;
 
-extern char snesfont;
-
-#define GRAVITY 48
-#define JUMPVALUE (GRAVITY*20)
+extern char snesfont, snespal;
 
 //---------------------------------------------------------------------------------
-// Mario sprite
-typedef struct
+brrsamples Jump; // The sound for jumping
+
+u16 pad0; // pad variable
+
+t_objs *marioobj;             // pointer to mario object
+s16 *marioox, *mariooy;       // basics x/y coordinates pointers with fixed point
+s16 *marioxv, *marioyv;       // basics x/y velocity pointers with fixed point
+u16 mariox, marioy;           // x & y coordinates of mario with map depth (not only screen)
+u8 mariofidx, marioflp, flip; // to manage sprite display
+
+//---------------------------------------------------------------------------------
+// Init function for mario object
+void marioinit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx)
 {
-	unsigned int x, y;
-	int jmpval;
-	int anim_frame;
-	int flipx;
-} Mario;
+    // to have a little message regarding init (DO NOT USE FOR REAL SNES GAME, JUST DEBUGGING PURPOSE)
+    consoleNocashMessage("marioinit %d %d\n", (u16)xp, (u16)yp);
 
-enum {MARIODOWN = 0, MARIOJUMPING = 1, MARIOWALK = 2, MARIOSTAND = 6};  // Mario states
-enum MarioState {W_JUMP = 1, W_RIGHT = 2,  W_LEFT = 3};
+    // prepare new object
+    if (objNew(type, xp, yp) == 0)
+        // no more space, get out
+        return;
 
-u16 scrX;                           // for screen scrolling
-Mario mario;                        // Our hero :D !
+    // Init some vars for snes sprite (objgetid is the current object id)
+    objGetPointer(objgetid);
+    marioobj = &objbuffers[objptr - 1];
+    marioobj->width = 16;
+    marioobj->height = 16;
 
-brrsamples Jump;                    // The sound for jumping
+    // grab the coordinates & velocity pointers
+    marioox = (u16 *)&(marioobj->xpos + 1);
+    mariooy = (u16 *)&(marioobj->ypos + 1);
+    marioxv = (short *)&(marioobj->xvel);
+    marioyv = (short *)&(marioobj->yvel);
 
-u16 pad0, move, i;                  // loop & pad variable
+    // update some variables for mario
+    mariofidx = 0;
+    marioflp = 0;
+    marioobj->action = ACT_STAND;
 
-//---------------------------------------------------------------------------------
-u16 getCollisionTile(u16 x, u16 y) {
-	u16 *ptrMap = (u16 *) &mapcol + (y>>3)*300 + (x>>3);
-	
-	return (*ptrMap);
+    // prepare dynamic sprite object
+    oambuffer[0].oamframeid = 6;
+    oambuffer[0].oamrefresh = 1;
+    oambuffer[0].oamattribute = 0x60 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2 and flip sprite
+    oambuffer[0].oamgraphics = &mariogfx;
+
+    // Init Sprites palette
+    setPalette(&mariopal, 128 + 0 * 16, 16 * 2);
 }
 
 //---------------------------------------------------------------------------------
-void moveLevel(unsigned char direction) {
-	u16 *ptrMap;
-	u16 ptrVRAM; 
-	unsigned short sx;
-	
-	REG_VMAIN = VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1; // set address in VRam for read or write ($2116) + block size transfer ($2115)
-	REG_VMADDLH = 0x1000;
-	
-	if (direction == W_RIGHT) {
-		scrX++; 
-		if ( (scrX &7) == 0) { // to avoid to bee too slow
-		    //*(unsigned char *) 0x2115 = 0x80;
-			sx = (scrX>>3) & 63;
-			sx = (sx + 32);
-			if (sx>63) 
-				sx = sx - 64;
-			else
-				sx = (sx-32) + 32*32;
-			ptrVRAM = 0x1000 + sx; // screen begin to 0x1000
-			ptrMap  = (u16 *)  &map + (scrX >> 3) + 32; 
-			// Copy the line in the background but need to wait VBL period
-			WaitVBLFlag;
-			for (i=0;i<16;i++) {
-				u16 value = *ptrMap;
-				REG_VMADDLH = ptrVRAM;
-				REG_VMDATALH = value ;
-				ptrVRAM += 32;
-				ptrMap += 300;
-			}
-		}
-	}
-	// scroll to the left
-	else {
-		scrX--; 
-		if ( (scrX &7) == 0) { // to avoid to bee too slow
-			if (scrX) { // to avoid doing some for 1st tile 
-				//*(unsigned char *) 0x2115 = 0x80;
-				sx = (scrX>>3) & 63;
-				sx = (sx - 1);
-				if (sx<0) sx = sx + 64;
-				if (sx>31) sx = (sx-32) + 32*32;
-				ptrVRAM = 0x1000 + sx; // screen begin to 0x1000
-				ptrMap  = (u16 *)  &map + (scrX >> 3) - 1; 
-				// Copy the line in the background but need to wait VBL period
-				WaitVBLFlag;
-				for (i=0;i<16;i++) {
-					u16 value = *ptrMap;
-					REG_VMADDLH = ptrVRAM;
-					REG_VMDATALH = value ;
-					ptrVRAM += 32;
-					ptrMap += 300;
-				}
-			}
-		}
-	}
+// mario walk management
+void mariowalk(u8 idx)
+{
+    // update animation
+    flip++;
+    if ((flip & 3) == 3)
+    {
+        mariofidx++;
+        mariofidx = mariofidx & 1;
+        oambuffer[0].oamframeid = marioflp + mariofidx;
+        oambuffer[0].oamrefresh = 1;
+    }
 
-	// now scroll with current value
-	bgSetScroll(1,scrX,0);
+    // check if we are still walking or not with the velocity properties of object
+    if (*marioyv != 0)
+        marioobj->action = ACT_FALL;
+    else if ((*marioxv == 0) && (*marioyv == 0))
+        marioobj->action = ACT_STAND;
 }
 
 //---------------------------------------------------------------------------------
-void moveMario() {
-	// Update scrolling with current pad (left / right / jump can combine)
-	if (pad0 & (KEY_RIGHT | KEY_LEFT | KEY_A) ) {
-		if (pad0 & KEY_RIGHT) { 
-      	consoleNocashMessage("RIGHT");
-			// if we can go right
-			if (getCollisionTile(scrX+(mario.x>>8)+16, (mario.y>>8)) == 0) {
-				// if when are less than screen center, let's go
-				if (mario.x<(128<<8)) { // If mario coord is not center
-					mario.x+=256;
-				}
-				// else if screen can scroll (width minus one screen)
-				else if (scrX<(300*8-32*8)) {
-					moveLevel(W_RIGHT);
-				}
-				// else, can go if not on right of screen
-				else  {
-					if (mario.x<(255<<8)) mario.x+=256;
-				}
-				mario.flipx=1;
-			}
-		}
-		// Else it's perhaps left :)
-		else if (pad0 & KEY_LEFT)  {
-      	consoleNocashMessage("LEFT");
-			// can we go left ?
-			if ((scrX+(mario.x>>8)-1>0) && (getCollisionTile(scrX+(mario.x>>8)-1, (mario.y>>8)) == 0)) { 
-				// if we are on the right of the screen, go to center
-				if (mario.x>(128<<8)) {
-					mario.x-=256;
-				}
-				// else if screen can scroll
-				else if (scrX>0) {
-					moveLevel(W_LEFT);
-				}
-				// else, can go if not on mleft of screen
-				else if (mario.x>(0<<8)) {
-					mario.x-=256;
-				}
-				mario.flipx=0;
-			}
-		}
-		// Hum, no perhaps jumping \o/
-		if (pad0 & KEY_A) {
-			// can jump ??
-			if (getCollisionTile(scrX+(mario.x>>8), (mario.y>>8)+16) != 0) {
-				mario.jmpval = -JUMPVALUE;
-				mario.anim_frame = MARIOJUMPING;
-				spcPlaySound(0);
-			}
-		}
-
-		// Update frame if not jumping
-		if (mario.anim_frame != MARIOJUMPING) {
-			if ((mario.anim_frame<MARIOWALK) || (mario.anim_frame == MARIOSTAND)) {
-				mario.anim_frame = MARIOWALK;
-			}
-			else {
-				mario.anim_frame++;
-				if(mario.anim_frame >= MARIOSTAND) mario.anim_frame = MARIOWALK;
-			}
-		}
-	}
-	// down to have small mario
-	else if (pad0 & KEY_DOWN) {
-      	consoleNocashMessage("DOWN");
-		mario.anim_frame = MARIODOWN;
-	}
-	// well, no pad value, so just standing !
-	else {
-		if (mario.anim_frame != MARIOJUMPING) mario.anim_frame = MARIOSTAND;
-	}
-
-	// if can jump, just do it !
-	if (getCollisionTile((scrX+(mario.x>>8)+8), ((mario.y>>8)+16)) == 0) {
-		mario.jmpval += GRAVITY;
-	}
-
-	// Add jumping value if needed
-	mario.y += mario.jmpval;
-	
-	// Again test collsion with ground
-	if (getCollisionTile((scrX+(mario.x>>8)+8), ((mario.y>>8)+16)) != 0) {
-		if (mario.jmpval) {
-			mario.jmpval = 0;
-			mario.anim_frame = MARIOSTAND;
-		}
-	}
-	
-	// To avoid being in floor
-	while (getCollisionTile((scrX+(mario.x>>8)+8), ((mario.y>>8)+15))) {
-		mario.y -= 128; 
-		mario.jmpval = 0;
-	}
+// mario fall management
+void mariofall(u8 idx)
+{
+    // if no more falling, just stand
+    if (*marioyv == 0)
+    {
+        marioobj->action = ACT_STAND;
+        oambuffer[0].oamframeid = 6;
+        oambuffer[0].oamrefresh = 1;
+    }
 }
 
 //---------------------------------------------------------------------------------
-int main(void) {
-	// Initialize sound engine (take some time)
-	spcBoot();
-	
-    // Initialize SNES 
-	consoleInit();
-    
-	// Set give soundbank
-	spcSetBank(&SOUNDBANK__);
-	
-	// allocate around 10K of sound ram (39 256-byte blocks)
-	spcAllocateSoundRegion(39);
+// mario jump management
+void mariojump(u8 idx)
+{
+    // change sprite
+    if (oambuffer[0].oamframeid != 1)
+    {
+        oambuffer[0].oamframeid = 1;
+        oambuffer[0].oamrefresh = 1;
+    }
 
-	// Load music
-	spcLoad(MOD_OVERWORLD);
-	
-	// Load sample
-	spcSetSoundEntry(15, 8, 6, &jumpsndend-&jumpsnd, &jumpsnd, &Jump);
-	
-	// Initialize text console with our font and invert color (black with BG white)
-	consoleInitText(0, 1, &snesfont);
-	consoleSetTextCol(RGB5(0,0,0), RGB5(31,31,31));
-	
-	// Copy tiles to VRAM
-	bgInitTileSet(1, &mapgfx, &mappal, 0, (&mapgfx_end - &mapgfx), 16*2, BG_16COLORS, 0x6000);
+    // if no more jumping, then fall
+    if (*marioyv >= 0)
+        marioobj->action = ACT_FALL;
+}
 
-	// Init Sprites gfx and palette with default size of 16x16
-	oamInitGfxSet(&mariogfx, (&mariogfx_end-&mariogfx), &mariopal, 16*2, 0, 0x4000, OBJ_SIZE16_L32);
+//---------------------------------------------------------------------------------
+// Update function for mario object
+void marioupdate(u8 idx)
+{
+    // Get pad value, no move for the moment
+    pad0 = padsCurrent(0);
 
-	// Init Map to address 0x1000 and Copy Map to VRAM
-	bgSetMapPtr(1, 0x1000, SC_64x32);
-	for (i=0;i<31;i++) { // 128 pixel height -> 128/8 = 16 2400 / 8 = 300
-		u8 *ptrMap  = &map + 300*i*2; // 300 = map size x *2 because each entry is 16bits length
-		if (i>=16) ptrMap  = &map + 300*5*2; // Init anything else with white line
-		u16 ptrVRAM = 0x1000+i*32; // screen begin to 0x1000
-		dmaCopyVram(ptrMap, ptrVRAM, 32*2); // copy row to VRAM 
-		dmaCopyVram((ptrMap+32*2), (ptrVRAM+32*32), 32*2); // copy row to VRAM 
-	}
+    // check only the keys for the game
+    if (pad0 & (KEY_RIGHT | KEY_LEFT | KEY_A))
+    {
+        // go to the left
+        if (pad0 & KEY_LEFT)
+        {
+            // update anim (sprites 2-3)
+            if ((marioflp > 3) || (marioflp < 2))
+            {
+                marioflp = 2;
+            }
+            oambuffer[0].oamattribute &= ~0x40; // do not flip sprite
 
-	// Show Mario
-	mario.x = 32<<8; mario.y = 96<<8; // 128-16-16 = 96, 16 because map ground is 16 pix height, in fixed point
-	mario.anim_frame = MARIOSTAND; mario.flipx = 1; mario.jmpval = 0;
-	oamSet(0,  (mario.x>>8), (mario.y>>8), 3, mario.flipx, 0, mario.anim_frame*2, 0);  // flip x and take 5th sprite
-	oamSetEx(0, OBJ_SMALL, OBJ_SHOW);
-	
-	// Now Put in 16 color mode and disable BG3
-	setMode(BG_MODE1,0);  bgSetDisable(2);
-	
-	// Put some text
-	consoleDrawText(6,16,"MARIOx00  WORLD TIME");
-	consoleDrawText(6,17," 00000 ox00 1-1  000");
-	
-	// Put screen on
-	setScreenOn();
-	
-	// Play file from the beginning
-	spcPlay(0);spcSetModuleVolume(100);
-	
-	// Wait VBL 'and update sprites too ;-) )
-	WaitForVBlank();
-	
-    // default scroll value
-    scrX=0;
-    
-	// Wait for nothing :P
-	while(1) {
-        // no move currently
-        move = 0;
-        
-		// Get current #0 pad
-		pad0 = padsCurrent(0);
-		
-		// update mario regarding pad value
-		moveMario();
-		
-		// Now, display mario with current animation
-		oamSet(0,  (mario.x>>8), (mario.y>>8), 3, mario.flipx, 0, mario.anim_frame*2, 0);
-		
-		// Update sound and wait VBL
-		spcProcess(); 
-		WaitForVBlank();
-	}
-	return 0;
+            // update velocity
+            marioobj->action = ACT_WALK;
+            *marioxv -= (MARIO_ACCEL);
+            if (*marioxv <= (-MARIO_MAXACCEL))
+                *marioxv = (-MARIO_MAXACCEL);
+        }
+        // go to the right
+        if (pad0 & KEY_RIGHT)
+        {
+            // update anim (sprites 2-3)
+            if ((marioflp > 3) || (marioflp < 2))
+            {
+                marioflp = 2;
+            }
+            oambuffer[0].oamattribute |= 0x40; // flip sprite
+
+            // update velocity
+            marioobj->action = ACT_WALK;
+            *marioxv += (MARIO_ACCEL);
+            if (*marioxv >= (MARIO_MAXACCEL))
+                *marioxv = (MARIO_MAXACCEL);
+        }
+        // jump
+        if (pad0 & KEY_A)
+        {
+            // we can jump only if we are on ground
+            if ((marioobj->tilestand != 0))
+            {
+                marioobj->action = ACT_JUMP;
+                // if key up, jump 2x more
+                if (pad0 & KEY_UP)
+                    *marioyv = -(MARIO_HIJUMPING);
+                else
+                    *marioyv = -(MARIO_JUMPING);
+            }
+        }
+    }
+
+    // 1st, check collision with map
+    objCollidMap(idx);
+
+    //  update animation regarding current mario state
+    if (marioobj->action == ACT_WALK)
+        mariowalk(idx);
+    else if (marioobj->action == ACT_FALL)
+        mariofall(idx);
+    else if (marioobj->action == ACT_JUMP)
+        mariojump(idx);
+
+    // Update position
+    objUpdateXY(idx);
+
+    // check boundaries
+    if (*marioox <= 0)
+        *marioox = 0;
+    if (*mariooy <= 0)
+        *mariooy = 0;
+
+    // change sprite coordinates regarding map location
+    mariox = (*marioox);
+    marioy = (*mariooy);
+    oambuffer[0].oamx = mariox - x_pos;
+    oambuffer[0].oamy = marioy - y_pos;
+    oamDynamic16Draw(0);
+
+    // update camera regarding mario obejct
+    mapUpdateCamera(mariox, marioy);
+}
+
+//---------------------------------------------------------------------------------
+int main(void)
+{
+    // Initialize sound engine (take some time)
+    spcBoot();
+
+    // Initialize SNES
+    consoleInit();
+
+    // Initialize text console with our font
+    consoleSetTextVramBGAdr(0x6000);
+    consoleSetTextVramAdr(0x3000);
+    consoleInitText(1, 16 * 2, &snesfont, &snespal);
+
+    // Set give soundbank
+    spcSetBank(&SOUNDBANK__);
+
+    // allocate around 10K of sound ram (39 256-byte blocks)
+    spcAllocateSoundRegion(39);
+
+    // Load music
+    spcLoad(MOD_OVERWORLD);
+
+    // Load sample
+    spcSetSoundEntry(15, 8, 6, &jumpsndend - &jumpsnd, &jumpsnd, &Jump);
+
+    // Init layer with tiles and init also map length 0x6800 is mandatory for map engine
+    bgSetGfxPtr(1, 0x3000);
+    bgSetMapPtr(1, 0x6000, SC_32x32);
+    bgInitTileSet(0, &tileset, &tilepal, 0, (&tilesetend - &tileset), 16 * 2, BG_16COLORS, 0x2000);
+    bgSetMapPtr(0, 0x6800, SC_64x32);
+
+    // Init sprite engine (0x0000 for large, 0x1000 for small)
+    oamInitDynamicSprite(0x0000, 0x1000, 0, 0, OBJ_SIZE8_L16);
+
+    // Object engine activate
+    objInitEngine();
+
+    // Init function for state machine
+    objInitFunctions(0, &marioinit, &marioupdate, NULL);
+
+    // Load all objects into memory
+    objLoadObjects((char *)&objmario);
+
+    // Load map in memory and update it regarding current location of the sprite
+    mapLoad((u8 *)&mapmario, (u8 *)&tilesetdef, (u8 *)&tilesetatt);
+
+    // Now Put in 16 color mode and disable BG3
+    setMode(BG_MODE1, 0);
+    bgSetDisable(2);
+
+    // Put some text
+    consoleDrawText(6, 16, "MARIOx00  WORLD TIME");
+    consoleDrawText(6, 17, " 00000 ox00 1-1  000");
+
+    // Put screen on
+    setScreenOn();
+
+    // Play file from the beginning
+    spcPlay(0);
+    spcSetModuleVolume(100);
+
+    // Wait VBL 'and update sprites too ;-) )
+    WaitForVBlank();
+
+    // Wait for nothing :P
+    while (1)
+    {
+        // Update the map regarding the camera
+        mapUpdate();
+
+        // Update all the available objects
+        objUpdateAll();
+
+        // prepare next frame and wait vblank
+        oamInitDynamicSpriteEndFrame();
+        spcProcess();
+        WaitForVBlank();
+        mapVblank();
+        oamVramQueueUpdate();
+    }
+    return 0;
 }

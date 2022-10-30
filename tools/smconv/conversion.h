@@ -3,30 +3,33 @@
 
 #include "inputdata.h"
 
-namespace Conversion {
+namespace Conversion
+{
 
-	class Pattern {
-	};
+    class Pattern
+    {
+    };
 
-	class Sample {
-	};
-	
-	class Instrument {
-	};
+    class Sample
+    {
+    };
 
-	class Module {
-		
-	};
-	
-	// converted data handler
-	class Bank {
-		
-	public:
-		Bank( ConversionInput::SoundbankData * );
-		void AddModule( const char *filename );
+    class Instrument
+    {
+    };
 
+    class Module
+    {
+    };
 
-	};
+    // converted data handler
+    class Bank
+    {
+
+    public:
+        Bank(ConversionInput::SoundbankData *);
+        void AddModule(const char *filename);
+    };
 };
 
 #endif

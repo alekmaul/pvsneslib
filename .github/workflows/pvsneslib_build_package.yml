@@ -15,6 +15,10 @@ jobs:
         include:
           - os: ubuntu-20.04
             name: Linux-x64
+          - os: windows-2019
+            name: Windows-x32
+    #      - os: macos-11
+    #        name: MacOS-x64
     steps:
     
       # ==== OS Specific Dependencies ====
@@ -75,7 +79,9 @@ jobs:
         shell: cmd
         run: |
           cd pvsneslib
-          set PVSNESLIB_HOME=%CD%
+          #set PVSNESLIB_HOME=%CD% it is D:\a\pvsneslib\pvsneslib\pvsneslib (not working after)
+          set PVSNESLIB_HOME=/d/a/pvsneslib/pvsneslib/pvsneslib
+          echo %PVSNESLIB_HOME%
           msys2 -c 'make'
           cd ..
 
@@ -87,18 +93,17 @@ jobs:
           cd pvsneslib
           mkdir package
           mkdir -p package/pvsneslib 
-          mkdir -p package/pvsneslib/devkitsnes
-          mkdir -p package/pvsneslib/pvsneslib/include
-          mkdir -p package/pvsneslib/pvsneslib/lib
-          mkdir -p package/pvsneslib/snes-examples
-          cp -r devkitsnes package/pvsneslib/devkitsnes
-          cp -r pvsneslib/include package/pvsneslib/pvsneslib/include
-          cp -r pvsneslib/lib package/pvsneslib/pvsneslib/lib
-          cp -r pvsneslib/pvsneslib_license.txt package/pvsneslib/pvsneslib/pvsneslib_license.txt
-          cp -r pvsneslib/pvsneslib_snesmod.txt package/pvsneslib/pvsneslib/pvsneslib_snesmod.txt
-          cp -r pvsneslib/pvsneslib_version.txt package/pvsneslib/pvsneslib/pvsneslib_version.txt
+          mkdir -p package/pvsneslib/pvsneslib
+          cp -r devkitsnes package/pvsneslib
+          cp -r pvsneslib/include package/pvsneslib/pvsneslib
+          cp -r pvsneslib/lib package/pvsneslib/pvsneslib
+          cp -r pvsneslib/pvsneslib_license.txt package/pvsneslib/pvsneslib_license.txt
+          cp -r pvsneslib/pvsneslib_snesmod.txt package/pvsneslib/pvsneslib_snesmod.txt
+          cp -r pvsneslib/pvsneslib_version.txt package/pvsneslib/pvsneslib_version.txt
           cp -r snes-examples package/pvsneslib/snes-examples
-          tar -czf package/${{ env.BUILD_PACKAGE_FILENAME }} package/pvsneslib
+          cd package
+          tar -czf ${{ env.BUILD_PACKAGE_FILENAME }} pvsneslib
+          cd ..
           cd ..
 
       - name: Package build Windows
@@ -107,7 +112,18 @@ jobs:
         run: |
           cd pvsneslib
           mkdir package
-          7z a package/${{ env.BUILD_PACKAGE_FILENAME }} pvsneslib
+          mkdir package\pvsneslib 
+          mkdir package\pvsneslib\pvsneslib
+          cp -r devkitsnes package\pvsneslib
+          cp -r pvsneslib\include package\pvsneslib\pvsneslib
+          cp -r pvsneslib\lib package\pvsneslib\pvsneslib
+          cp -r pvsneslib\pvsneslib_license.txt package\pvsneslib\pvsneslib_license.txt
+          cp -r pvsneslib\pvsneslib_snesmod.txt package\pvsneslib\pvsneslib_snesmod.txt
+          cp -r pvsneslib\pvsneslib_version.txt package\pvsneslib\pvsneslib_version.txt
+          cp -r snes-examples package\pvsneslib\snes-examples
+          cd package
+          7z a ${{ env.BUILD_PACKAGE_FILENAME }} pvsneslib
+          cd ..
           cd ..
 
       - name: Store build

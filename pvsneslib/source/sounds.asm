@@ -1,7 +1,7 @@
 ;---------------------------------------------------------------------------------
 ;
 ;	Copyright (C) 2013-2020
-;		Alekmaul 
+;		Alekmaul
 ;
 ;	This software is provided 'as-is', without any express or implied
 ;	warranty.  In no event will the authors be held liable for any
@@ -39,7 +39,7 @@ snds_val1	    DSB 2                         ; save value #1
 ; void spcSetSoundTableEntry(brrsamples *ptr)
 spcSetSoundTableEntry:
     php
-    
+
     rep #$20
     lda 7,s                 ; bank address
     pha
@@ -63,7 +63,7 @@ spcSetSoundTableEntry:
 ; 5 6 7 8-9 10-13 14-17
 spcSetSoundDataEntry:
     php
-    
+
     rep #$20
     lda 14,s                ; get data adr brr sample
     sta tcc__r0
@@ -151,7 +151,7 @@ spcSetSoundDataEntry:
     and #$00ff
     sep #$20
     sta.b [tcc__r0]         ; ptr->bank
-    
+
 	plp
 	rtl
 
@@ -162,11 +162,11 @@ spcSetSoundDataEntry:
 .define __spcSetSoundEntry_locals 5
 
 ;-----------------------------------------------------------------------
-;void spcSetSoundEntry(u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, brrsamples *ptr) 
+;void spcSetSoundEntry(u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, brrsamples *ptr)
 ; 5 6 7 8-9 10-13 14-17
 spcSetSoundEntry:
     php
-    
+
     rep #$20
     lda 14,s                ; get data adr brr sample
     sta tcc__r0

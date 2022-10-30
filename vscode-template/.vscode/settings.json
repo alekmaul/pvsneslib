@@ -1,0 +1,49 @@
+{
+    "files.trimTrailingWhitespace": true,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false,
+    "editor.formatOnSave": false,
+    "[makefile]": {
+        "editor.insertSpaces": false,
+        "editor.detectIndentation": false,
+    },
+    "[c]": {
+        "editor.formatOnSave": true,
+        "editor.insertSpaces": true,
+        "editor.semanticHighlighting.enabled": true,
+    },
+    "[cpp]": {
+        "editor.formatOnSave": true,
+        "editor.insertSpaces": true,
+        "editor.semanticHighlighting.enabled": true
+    },
+    "[javascript]": {
+        "editor.formatOnSave": true,
+        "editor.insertSpaces": true,
+        "editor.semanticHighlighting.enabled": true
+    },
+    "[markdown]": {
+        "editor.formatOnSave": true,
+        "editor.insertSpaces": true,
+        "editor.minimap.enabled": false
+    },
+    "[cmake]": {
+        "editor.formatOnSave": true,
+        "editor.semanticHighlighting.enabled": true,
+        "editor.insertSpaces": true
+    },
+    "[dockerfile]": {
+        "editor.formatOnSave": true,
+        "editor.insertSpaces": true
+    },
+    "[asm-collection]": {
+        "editor.insertSpaces": true
+    },
+    "files.associations": {
+        "*.h": "c"
+    },
+    "C_Cpp.dimInactiveRegions": true,
+    "C_Cpp.vcFormat.indent.caseContents": false,
+    "C_Cpp.vcFormat.indent.preserveWithinParentheses": true,
+    "C_Cpp.vcFormat.newLine.closeBraceSameLine.emptyFunction": true,
+}
