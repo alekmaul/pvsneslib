@@ -118,15 +118,19 @@ $(document).ready(function(){initNavTree('scoring_2scoring_8c-example.html','');
 <div class="line">    <a name="a3"></a><a class="code" href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a>(0x0100);</div>
 <div class="line">    <a name="a4"></a><a class="code" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(0, 16 * 2, &amp;snesfont, &amp;snespal);</div>
 <div class="line"> </div>
+<div class="line">    <span class="comment">// Init background</span></div>
+<div class="line">    <a name="a5"></a><a class="code" href="background_8h.html#a0206b5b9911749322bcf9da130527924">bgSetGfxPtr</a>(0, 0x2000);</div>
+<div class="line">    <a name="a6"></a><a class="code" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(0, 0x6800, <a name="a7"></a><a class="code" href="background_8h.html#a11724b6748ce0954e9b43819263537fc">SC_32x32</a>);</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Clear the score</span></div>
 <div class="line">    scoretst.scohi = 18;</div>
 <div class="line">    scoretst.scolo = 900;</div>
-<div class="line">    <a name="a5"></a><a class="code" href="scores_8h.html#a610bffa01efc5915459764c57f0a7d32">scoreClear</a>(&amp;scoretst);</div>
+<div class="line">    <a name="a8"></a><a class="code" href="scores_8h.html#a610bffa01efc5915459764c57f0a7d32">scoreClear</a>(&amp;scoretst);</div>
 <div class="line">    sprintf(sz, <span class="stringliteral">&quot;score hi %04x score lo %04x&quot;</span>, (u16)scoretst.scohi, (u16)scoretst.scolo);</div>
-<div class="line">    <a name="a6"></a><a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 8, sz);</div>
+<div class="line">    <a name="a9"></a><a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 8, sz);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Add a value</span></div>
-<div class="line">    <a name="a7"></a><a class="code" href="scores_8h.html#a95d4103529817bc4d7efbaa7098ae2e5">scoreAdd</a>(&amp;scoretst, 0x4DB);</div>
+<div class="line">    <a name="a10"></a><a class="code" href="scores_8h.html#a95d4103529817bc4d7efbaa7098ae2e5">scoreAdd</a>(&amp;scoretst, 0x4DB);</div>
 <div class="line">    sprintf(sz, <span class="stringliteral">&quot;score hi %04x score lo %04x&quot;</span>, (u16)scoretst.scohi, (u16)scoretst.scolo);</div>
 <div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 9, sz);</div>
 <div class="line"> </div>
@@ -140,7 +144,7 @@ $(document).ready(function(){initNavTree('scoring_2scoring_8c-example.html','');
 <div class="line">    scoretst.scolo = 900;</div>
 <div class="line">    scoretst1.scohi = 17;</div>
 <div class="line">    scoretst1.scolo = 900;</div>
-<div class="line">    <span class="keywordflow">if</span> (<a name="a8"></a><a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst, &amp;scoretst1) == 0)</div>
+<div class="line">    <span class="keywordflow">if</span> (<a name="a11"></a><a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst, &amp;scoretst1) == 0)</div>
 <div class="line">        <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 12, <span class="stringliteral">&quot;1 scores equals&quot;</span>);</div>
 <div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(&amp;scoretst, &amp;scoretst1) == 0xFF)</div>
 <div class="line">        <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 12, <span class="stringliteral">&quot;1 scoretst higher&quot;</span>);</div>
@@ -166,28 +170,30 @@ $(document).ready(function(){initNavTree('scoring_2scoring_8c-example.html','');
 <div class="line">        <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 14, <span class="stringliteral">&quot;3 scoretst lower&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode and disable Bgs except current</span></div>
-<div class="line">    <a name="a9"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a10"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>, 0);</div>
-<div class="line">    <a name="a11"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
+<div class="line">    <a name="a12"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a13"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>, 0);</div>
+<div class="line">    <a name="a14"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
 <div class="line">    <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Wait for nothing :P</span></div>
-<div class="line">    <a name="a12"></a><a class="code" href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">setBrightness</a>(0xF);</div>
+<div class="line">    <a name="a15"></a><a class="code" href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">setBrightness</a>(0xF);</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
-<div class="line">        <a name="a13"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
+<div class="line">        <a name="a16"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 </div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="ainterrupt_8h_html_a815e2626bd26d0e936d507a363ecd723"><div class="ttname"><a href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt Waits for a vertical blank interrupt.</div></div>
+<div class="ttc" id="abackground_8h_html_a0206b5b9911749322bcf9da130527924"><div class="ttname"><a href="background_8h.html#a0206b5b9911749322bcf9da130527924">bgSetGfxPtr</a></div><div class="ttdeci">void bgSetGfxPtr(u8 bgNumber, u16 address)</div><div class="ttdoc">Definition of each background address.</div></div>
 <div class="ttc" id="aconsole_8h_html_a344184ac8dda28ea0170c153c854aa16"><div class="ttname"><a href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">consoleSetTextVramAdr</a></div><div class="ttdeci">void consoleSetTextVramAdr(u16 vramfont)</div><div class="ttdoc">Change text graphics address (4K aligned)</div></div>
 <div class="ttc" id="ascores_8h_html_ab961bc25a6ecc6ee901a90827460df62"><div class="ttname"><a href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a></div><div class="ttdeci">u8 scoreCmp(scoMemory *source, scoMemory *dest)</div><div class="ttdoc">comapre a score memory to another score memory</div></div>
 <div class="ttc" id="aconsole_8h_html_aaddd205f7bb20885a420f26e28214cfb"><div class="ttname"><a href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a></div><div class="ttdeci">void consoleSetTextOffset(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
 <div class="ttc" id="abackground_8h_html_a05c862edb7f8f75036f10c04dcc3c2a6"><div class="ttname"><a href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a></div><div class="ttdeci">#define BG_MODE1</div><div class="ttdoc">16-color 16-color 4-color - ;Normal</div><div class="ttdef"><b>Definition:</b> background.h:55</div></div>
 <div class="ttc" id="ascores_8h_html_a610bffa01efc5915459764c57f0a7d32"><div class="ttname"><a href="scores_8h.html#a610bffa01efc5915459764c57f0a7d32">scoreClear</a></div><div class="ttdeci">void scoreClear(scoMemory *source)</div><div class="ttdoc">clear a score memory</div></div>
 <div class="ttc" id="avideo_8h_html_a4c257abebd75e4653441e8afe672bb5e"><div class="ttname"><a href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">setBrightness</a></div><div class="ttdeci">void setBrightness(u8 level)</div><div class="ttdoc">sets the screens brightness.</div></div>
+<div class="ttc" id="abackground_8h_html_a4fcbdb4b2378a64e8db62a184ee1851e"><div class="ttname"><a href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a></div><div class="ttdeci">void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize)</div><div class="ttdoc">Change Background Map address.</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
 <div class="ttc" id="ascores_8h_html_a95d4103529817bc4d7efbaa7098ae2e5"><div class="ttname"><a href="scores_8h.html#a95d4103529817bc4d7efbaa7098ae2e5">scoreAdd</a></div><div class="ttdeci">void scoreAdd(scoMemory *source, u16 value)</div><div class="ttdoc">add a value to a score memory</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
@@ -195,11 +201,12 @@ $(document).ready(function(){initNavTree('scoring_2scoring_8c-example.html','');
 <div class="ttc" id="abackground_8h_html_a4dbfb1b8854ff9ca4a7d11a899281bbb"><div class="ttname"><a href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a></div><div class="ttdeci">void bgSetDisable(u8 bgNumber)</div><div class="ttdoc">Disable a BG in the actual SNES mode.</div></div>
 <div class="ttc" id="aconsole_8h_html_a7e52d15b5a1befa42f5758de19dfb70c"><div class="ttname"><a href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a></div><div class="ttdeci">void consoleDrawText(u16 x, u16 y, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen (tiles mode)</div></div>
 <div class="ttc" id="aconsole_8h_html_ab2c949172b9690e58ffb9b3294a36b38"><div class="ttname"><a href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">consoleSetTextVramBGAdr</a></div><div class="ttdeci">void consoleSetTextVramBGAdr(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
+<div class="ttc" id="abackground_8h_html_a11724b6748ce0954e9b43819263537fc"><div class="ttname"><a href="background_8h.html#a11724b6748ce0954e9b43819263537fc">SC_32x32</a></div><div class="ttdeci">#define SC_32x32</div><div class="ttdoc">Bit defines for the background control registers.</div><div class="ttdef"><b>Definition:</b> background.h:49</div></div>
 <div class="ttc" id="avideo_8h_html_afd9e46ae627d055dd8c98a4b0ebb73b1"><div class="ttname"><a href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a></div><div class="ttdeci">void setMode(u8 mode, u8 size)</div><div class="ttdoc">Set the SNES hardware to operate in new display mode.</div></div>
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Oct 30 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Thu Nov 3 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>
