@@ -32,6 +32,10 @@ int main(void)
     consoleDrawText(3, 5, "USE A TO WRITE");
     consoleDrawText(3, 7, "USE B TO READ");
 
+    // Init background
+    bgSetGfxPtr(0, 0x2000);
+    bgSetMapPtr(0, 0x6800, SC_32x32);
+
     // Now Put in 16 color mode
     setMode(BG_MODE1, 0);
     bgSetDisable(1);

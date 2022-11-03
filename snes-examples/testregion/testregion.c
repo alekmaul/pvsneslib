@@ -29,6 +29,10 @@ int main(void)
     consoleDrawText(10, 6, "CHECK REGIONS");
     consoleDrawText(3, 10, "BETWEEN SNES AND CARTRIDGE");
 
+    // Init background
+    bgSetGfxPtr(0, 0x2000);
+    bgSetMapPtr(0, 0x6800, SC_32x32);
+
     // Now Put in 16 color mode and disable Bgs except current
     setMode(BG_MODE1, 0);
     bgSetDisable(1);

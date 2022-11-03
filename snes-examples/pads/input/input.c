@@ -28,6 +28,10 @@ int main(void)
     consoleDrawText(12, 1, "PAD TEST");
     consoleDrawText(6, 5, "USE PAD TO SEE VALUE");
 
+    // Init background
+    bgSetGfxPtr(0, 0x2000);
+    bgSetMapPtr(0, 0x6800, SC_32x32);
+
     // Now Put in 16 color mode
     setMode(BG_MODE1, 0);
     bgSetDisable(1);

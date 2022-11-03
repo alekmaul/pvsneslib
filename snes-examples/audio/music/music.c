@@ -37,6 +37,10 @@ int main(void)
     // Load music
     spcLoad(MOD_POLLEN8);
 
+    // Init background
+    bgSetGfxPtr(0, 0x2000);
+    bgSetMapPtr(0, 0x6800, SC_32x32);
+
     // Now Put in 16 color mode and disable Bgs except current
     setMode(BG_MODE1, 0);
     bgSetDisable(1);

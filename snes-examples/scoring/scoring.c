@@ -25,6 +25,10 @@ int main(void)
     consoleSetTextOffset(0x0100);
     consoleInitText(0, 16 * 2, &snesfont, &snespal);
 
+    // Init background
+    bgSetGfxPtr(0, 0x2000);
+    bgSetMapPtr(0, 0x6800, SC_32x32);
+
     // Clear the score
     scoretst.scohi = 18;
     scoretst.scolo = 900;

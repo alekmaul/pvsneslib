@@ -35,6 +35,10 @@ int main(void)
     // allocate around 10K of sound ram (39 256-byte blocks)
     spcAllocateSoundRegion(39);
 
+    // Init background
+    bgSetGfxPtr(0, 0x2000);
+    bgSetMapPtr(0, 0x6800, SC_32x32);
+
     // Now Put in 16 color mode and disable Bgs except current
     setMode(BG_MODE1, 0);
     bgSetDisable(1);
