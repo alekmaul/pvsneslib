@@ -237,6 +237,20 @@ setScreenOn:
 	plp
 	rtl
 	
+;---------------------------------------------------------------------------
+; void setScreenOff(void)
+setScreenOff:
+	php
+	
+	sep	#$20
+	lda #$f
+	wai
+	
+	sta.l REG_INIDISP
+	
+	plp
+	rtl
+	
 .ENDS
 
 .SECTION ".videos2_text" SUPERFREE

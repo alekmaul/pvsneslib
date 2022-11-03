@@ -339,6 +339,11 @@ void setMode(u8 mode, u8 size);
 */
 void setScreenOn(void);
 
+/*! \fn  setScreenOff(void)
+    \brief Put screen Off
+*/
+void setScreenOff(void);
+
 /*! \fn  setFadeEffect(u8 mode)
     \brief Do a fadein or fadeout effect.
     \param mode	(FADE_IN  = black to complete light, FADE_OUT = light to black)
@@ -406,25 +411,25 @@ void getPaletteColor(u8 paletteEntry, u16 *paletteColor);
 void setMode7(u8 mode);
 
 /*! \fn  setMode7Rot(u8 angle)
-    \brief Changle angle view in mode 7 with matrix transformation.
+    \brief Change angle view in mode 7 with matrix transformation.
     \param angle : 0..255 value
 */
 void setMode7Rot(u8 angle);
 
 /*! \fn  setMode7MoveForwardBack(u8 z8)
-    \brief Changle perspective view forward/backward in mode 7 without changing matrix.
+    \brief Change perspective view forward/backward in mode 7 without changing matrix.
     \param z8 : 0..255 value
 */
 void setMode7MoveForwardBack(u8 z8);
 
 /*! \fn  setMode7MoveLeftRight(u8 z8)
-    \brief Changle perspective view left/right in mode 7 without changing matrix.
+    \brief Change perspective view left/right in mode 7 without changing matrix.
     \param z8 : 0..255 value
 */
 void setMode7MoveLeftRight(u8 z8);
 
 /*! \fn  setMode7Angle(u8 angle)
-    \brief Changle angle view in mode 7 without changing matrix.
+    \brief Change angle view in mode 7 without changing matrix.
     \param angle : 0..255 value
 */
 void setMode7Angle(u8 angle);
