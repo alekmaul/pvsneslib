@@ -241,13 +241,10 @@ setScreenOn:
 ; void setScreenOff(void)
 setScreenOff:
 	php
-	
-	sep	#$20
-	lda #$f
-	wai
-	
-	sta.l REG_INIDISP
-	
+
+    lda #DSP_FORCEVBL                                         ; force vblank before putting screen off
+   	sta.l REG_INIDISP                                         ; Screen brightness
+
 	plp
 	rtl
 	

@@ -335,12 +335,12 @@ void setBrightness(u8 level);
 void setMode(u8 mode, u8 size);
 
 /*! \fn  setScreenOn(void)
-    \brief Put screen On
+    \brief Put screen On.
 */
 void setScreenOn(void);
 
 /*! \fn  setScreenOff(void)
-    \brief Put screen Off
+    \brief Put screen Off.
 */
 void setScreenOff(void);
 
