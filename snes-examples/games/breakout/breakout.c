@@ -219,7 +219,7 @@ void writenum(u16 num, u8 len, u16 *map, u16 p, u16 offset)
 //---------------------------------------------------------------------------------
 void draw_screen(void)
 {
-    // main sprites (ball & paddle) (sprites are automaticaly update in VBlank function of PVSneslib)
+    // main sprites (ball & paddle) (sprites are automatically update in VBlank function of PVSneslib)
     // id (multiple of 4),  xspr, yspr, priority, hflip, vflip, gfxoffset, paletteoffset
     oamSet(0, pos.x, pos.y, 3, 0, 0, 20 | (1 << 8), 0);
     oamSet(1 * 4, px + 0, 200, 3, 0, 0, 15 | (1 << 8), 0);
@@ -573,7 +573,7 @@ int main(void)
     // Same thing for palette
     dmaCopyCGram((u8 *)pal, 0, 256 * 2);
 
-    // Init graphics pointeur for each BG
+    // Init graphics pointer for each BG
     bgSetGfxPtr(0, 0x1000);
     bgSetGfxPtr(2, 0x2000);
 

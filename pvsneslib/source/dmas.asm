@@ -336,7 +336,7 @@ dmaCopyOAram:
 
 ;	jsr.w	_wait_nmid
 	rep	#$20
-	lda	9,s	; adress to OAM address
+	lda	9,s	; address to OAM address
 	sta.l	$2102
 	lda	11,s	; numBytes
 	sta.l	$4305

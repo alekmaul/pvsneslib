@@ -5,7 +5,7 @@
 function f_usage {
 
     echo "usage: ${0} options:<d|h|c>"
-    echo "-d: name of the linux distrubtion (fedora, ubuntu or debian)"
+    echo "-d: name of the linux distribution (fedora, ubuntu or debian)"
     echo "-h: help, print this message"
     echo "-r: Create release (zip) to /var/tmp/build"
     echo "-b: Run this script in batch mode, useful when using without terminal"

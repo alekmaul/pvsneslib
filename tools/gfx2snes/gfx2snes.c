@@ -49,12 +49,12 @@ int palette_entry=0;		        //
 int file_type=1;			    	// 1 = bmp, 2 = pcx, 3 = tga, 4 = png
 int quietmode=0;			    	// 0 = not quiet, 1 = i can't say anything :P
 int collision=0;			    	// 1 = generated only collision map
-int collisionsp=0;			        // n = 1st sprite entry regarding the map (so remove it from colision map)
+int collisionsp=0;			        // n = 1st sprite entry regarding the map (so remove it from collision map)
 int tile_reduction=1;	        	// 0 = no tile reduction (warning !)
 int savepalette=1;		           	// 1 = save the palette
 int savemap=1;				    	// 1 = save the map
 int colortabinc=16;                 // 16 for 16 color mode, 4 for 4 color mode
-int lzpacked=0;                     // 1 = comrpess file with LZSS algorithm
+int lzpacked=0;                     // 1 = compress file with LZSS algorithm
 int highpriority=0;                 // 1 = high priority for map
 int blanktile=0;                    // 1 = blank tile generated
 int palette_rnd=0;                  // 1 = round palette up & down
@@ -103,7 +103,7 @@ int LoadPicture(void)
 			if(!PNG_Load(filename,(pcx_picture_ptr) &image))
 				return 1;
 			break;
-		default : // BMP for everithing else
+		default : // BMP for everything else
 			sprintf(filename,"%s.bmp",filebase);
 			if (quietmode == 0)
 				printf("\ngfx2snes: 'Opening graphics file: [%s]'",filename);

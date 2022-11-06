@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 
 
-    Simple check region code between console and cartrige
+    Simple check region code between console and cartridge
     Cartridge is currently in region 03 , which is a PAL region
     -- alekmaul
 
@@ -25,7 +25,7 @@ int main(void)
     consoleSetTextOffset(0x0100);
     consoleInitText(0, 16 * 2, &snesfont, &snespal);
 
-    // Draw a wonderfull text :P
+    // Draw a wonderful text :P
     consoleDrawText(10, 6, "CHECK REGIONS");
     consoleDrawText(3, 10, "BETWEEN SNES AND CARTRIDGE");
 

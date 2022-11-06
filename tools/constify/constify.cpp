@@ -188,7 +188,7 @@ int main(int argc, char **argv)
         }
         else
         {
-            // check we have the corrent number of arguments
+            // check we have the correct number of arguments
             if (argc < 4)
             {
                 printf("\nconstify: error 'Not enough parameters'");

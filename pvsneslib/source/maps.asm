@@ -194,7 +194,7 @@ mapLoad:
     lda 12,s                                ; bank address of layer1 (7+1+2+2)
     pha
     plb
-    sta.l maptile_L1b                       ; Store bank adress of layer1
+    sta.l maptile_L1b                       ; Store bank address of layer1
 
     rep #$20
     lda 10,s                                ; data address of layer1 (5+1+2+2)
@@ -233,7 +233,7 @@ mapLoad:
     stx $4300
 
     lda #$01
-    sta $420B                               ; do dma for transfert
+    sta $420B                               ; do dma for transfer
 
     rep	#$20
     lda	18,s	                            ; get tiles property data address (13+1+2+2)
@@ -256,7 +256,7 @@ mapLoad:
 	stx	$4300
 
     lda #$01
-    sta $420B 						        ; do dma for transfert
+    sta $420B 						        ; do dma for transfer
 
     stz.w dispxofs_L1                       ; reset scroll vars x & y for layers 1
     stz.w dispyofs_L1
@@ -576,7 +576,7 @@ _mapvb1:
     lda #:bgvertleftbuf_L1                     ; bank address of vertical buffer
     sta.l $4304                                ; A1B0
 
-    ldx bgvvramloc_L1                          ; begining of update
+    ldx bgvvramloc_L1                          ; beginning of update
     ldy #32*2
     lda #$1                                    ; MDMAEN_DMA0
 
@@ -669,7 +669,7 @@ mapUpdate:
     php
 
     sep #$20
-    lda.l mapdirty                              ; if map is completly to redraw , just do it !
+    lda.l mapdirty                              ; if map is completely to redraw , just do it !
     beq _maupd1
     jmp mapRefreshAll
 

@@ -506,7 +506,7 @@ GetInput:
 
 	rep	#$20
 	lda	REG_JOY2L                              ; Get joypad 2 input
-	sta	scope_port2down                        ; using a typical method to seperate frame input / total input
+	sta	scope_port2down                        ; using a typical method to separate frame input / total input
 	eor	scope_port2last
 	and	scope_port2down
 	sta	scope_port2now

@@ -171,6 +171,6 @@ void linkupdate(u8 idx)
     oambuffer[0].oamy = linky - y_pos;
     oamDynamic16Draw(0);
 
-    // update camera regarding link obejct
+    // update camera regarding link object
     mapUpdateCamera(linkx, linky);
 }

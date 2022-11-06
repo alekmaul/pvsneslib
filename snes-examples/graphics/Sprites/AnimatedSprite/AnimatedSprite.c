@@ -38,7 +38,7 @@ enum SpriteState
 };
 
 //---------------------------------------------------------------------
-// Screen dimentions
+// Screen dimensions
 //---------------------------------------------------------------------
 enum
 {
@@ -50,7 +50,7 @@ enum
 
 const char sprTiles[9] =
     {
-        0, 2, 4, 6, 8, 10, 12, 14, 32}; // Remeber that sprites are interleave with 128 pix width,
+        0, 2, 4, 6, 8, 10, 12, 14, 32}; // Remember that sprites are interleave with 128 pix width,
 
 //---------------------------------------------------------------------------------
 int main(void)

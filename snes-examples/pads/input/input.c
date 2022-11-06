@@ -24,7 +24,7 @@ int main(void)
     consoleSetTextOffset(0x0100);
     consoleInitText(0, 16 * 2, &snesfont, &snespal);
 
-    // Draw a wonderfull text :P
+    // Draw a wonderful text :P
     consoleDrawText(12, 1, "PAD TEST");
     consoleDrawText(6, 5, "USE PAD TO SEE VALUE");
 

@@ -26,7 +26,7 @@ int main(void)
     consoleSetTextOffset(0x0100);
     consoleInitText(0, 16 * 2, &snesfont, &snespal);
 
-    // Draw a wonderfull text :P
+    // Draw a wonderful text :P
     consoleDrawText(7, 1, "MULTIPLAYER 5 TEST");
 
     // Check Multiplayer 5

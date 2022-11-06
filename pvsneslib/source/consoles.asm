@@ -50,7 +50,7 @@ txt_vram_bg             DW                                  ; vram address of BG
 txt_vram_adr            DW                                  ; vram address of graphics for text
 txt_vram_offset         DW                                  ; offset for text display (useful if graphics not store at BG entry)
 
-text_buffer             DSB 128                             ; text formated with argument
+text_buffer             DSB 128                             ; text formatted with argument
 
 cons_val1			    DSB 2                               ; save value #1
 
@@ -284,7 +284,7 @@ cvbloam:
 	lda	#1                                                    ; turn on bit 1 (channel 0) of DMA
 	sta.l	$420b
 	
-	stz scr_txt_dirty                                         ; no more transfert of text
+	stz scr_txt_dirty                                         ; no more transfer of text
 	
 	; Count frame number
 +	rep #$20
@@ -444,7 +444,7 @@ consoleInitText:
 	sep	#$20
 	lda	14,s	                                              ; src bank
 	sta.l	$4304
-	lda	6,s	                                                  ; adresse of palette
+	lda	6,s	                                                  ; address of palette
     asl a
     asl a
     asl a
@@ -457,7 +457,7 @@ consoleInitText:
 	lda	#1
 	sta.l	$420b
 
-	lda	6,s	                                                  ; adresse of palette
+	lda	6,s	                                                  ; address of palette
     asl a
     asl a
     ora #(1<<5)                                              ; (10-7) because only high byte are addressed
@@ -544,7 +544,7 @@ consoleSetTextPal:
 	sep	#$20
 	lda	8,s	                                                  ; src bank
 	sta.l	$4304
-	lda	5,s	                                                  ; adresse of cgram
+	lda	5,s	                                                  ; address of cgram
 	sta.l	$2121
 	lda	#0
 	sta.l	$4300

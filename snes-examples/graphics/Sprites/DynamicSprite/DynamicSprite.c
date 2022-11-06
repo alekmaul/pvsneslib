@@ -81,7 +81,7 @@ int main(void)
     // Init Sprites gfx and palette with default size of 16x16 (and don't load sprite tiles)
     oamInitGfxSet(&gfxpsrite, 2, &palsprite, 16 * 2, 0, ADRGFXSPR, OBJ_SIZE16_L32);
 
-    // Define sprites parmaters
+    // Define sprites parameters
     oamSet(0, 100, 100, 3, 0, 0, 0, 0); // Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0
     oamSetEx(0, OBJ_SMALL, OBJ_SHOW);
 

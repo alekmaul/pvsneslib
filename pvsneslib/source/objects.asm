@@ -269,17 +269,17 @@ objInitFunctions:
     asl a
     tax
 
-    lda 9,s												; get bank + data init fonction address (6+1+2 & 8+1+2)
+    lda 9,s												; get bank + data init function address (6+1+2 & 8+1+2)
     sta objfctinit,x
     lda 11,s
     sta objfctinit+2,x
 
-    lda 13,s										    ; get bank + data update fonction address (10+1+2 & 12+1+2)
+    lda 13,s										    ; get bank + data update function address (10+1+2 & 12+1+2)
     sta objfctupd,x
     lda 15,s
     sta objfctupd+2,x
 
-    lda 17,s										    ; get bank + data update fonction address (14+1+2 & 16+1+2)
+    lda 17,s										    ; get bank + data update function address (14+1+2 & 16+1+2)
     sta objfctref,x
     lda 19,s
     sta objfctref+2,x
@@ -2077,7 +2077,7 @@ _oicor5:
 	cmp objtmp4
 	bmi _oicoend
 	
-	lda #$0001                                         ; here, we have collsion
+	lda #$0001                                         ; here, we have collision
 	sta.w tcc__r0
 	
 _oicoend:

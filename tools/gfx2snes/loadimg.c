@@ -84,7 +84,7 @@ int PCX_Load(char *filename, pcx_picture_ptr image)
         return 0;
     }
 
-    // initally clear the memory (to make those extra lines be blank)
+    // initially clear the memory (to make those extra lines be blank)
     memset(image->buffer, 0, (size_t)(header->height + 64) * header->width);
 
     // load the data and decompress into buffer
@@ -137,7 +137,7 @@ int PCX_Load(char *filename, pcx_picture_ptr image)
         return 0;
     }
 
-    // get the pallete data
+    // get the palette data
     for (index = 0; index < 256; index++)
     {
         image->palette[index].red = (getc(fp) >> 2);
@@ -303,7 +303,7 @@ int BMP_Load(char *filename, pcx_picture_ptr image)
     // seek to palette
     fseek(fp, sizeof(bmp_header) + bmpinfohead.biSize, 0);
 
-    // initally clear the palette if there are less then 256 colors in the file
+    // initially clear the palette if there are less then 256 colors in the file
     memset(image->palette, 0, (size_t)(256 * sizeof(RGB_color)));
 
     // read the palette information
@@ -329,7 +329,7 @@ int BMP_Load(char *filename, pcx_picture_ptr image)
         return 0;
     }
 
-    // initally clear the memory (to make those extra lines be blank)
+    // initially clear the memory (to make those extra lines be blank)
     memset(image->buffer, 0, (size_t)(header->height + 64) * header->width);
 
     // seek to image data
@@ -418,7 +418,7 @@ int TGA_Load(char *filename, pcx_picture_ptr image)
         return 0;
     }
 
-    // initally clear the memory (to make those extra lines be blank)
+    // initially clear the memory (to make those extra lines be blank)
     memset(image->buffer, 0, (size_t)(header->height + 64) * header->width);
 
     // read the palette information
@@ -511,7 +511,7 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
         return 0;
     }
 
-    // initally clear the memory (to make those extra lines be blank)
+    // initially clear the memory (to make those extra lines be blank)
     memset(image->buffer, 0, (size_t)(header->height + 64) * header->width);
 
     // 4 bpps conversion

@@ -24,7 +24,7 @@ int main(void)
     consoleSetTextOffset(0x0100);
     consoleInitText(0, 16 * 2, &snesfont, &snespal);
 
-    // Draw a wonderfull text :P
+    // Draw a wonderful text :P
     consoleDrawText(5, 8, "JUST DO RANDOM NUMBERS");
     consoleDrawText(3, 10, "PRESS KEY FOR ANOTHER ONE");
 

@@ -20,7 +20,7 @@ int main(void)
     // Init Sprites gfx and palette with default size of 32x32
     oamInitGfxSet(&gfxpsrite, (&gfxpsrite_end - &gfxpsrite), &palsprite, (&palsprite_end - &palsprite), 0, 0x0000, OBJ_SIZE32_L64);
 
-    // Define sprites parmaters
+    // Define sprites parameters
     oamSet(0, 100, 100, 3, 0, 0, 0, 0); // Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0
     oamSetEx(0, OBJ_SMALL, OBJ_SHOW);
 

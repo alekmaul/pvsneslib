@@ -1144,7 +1144,7 @@ _rp_nextchannel:
 	inc	x			; increment index
 	lsr	m1			; shift out next bit
 	bcs	_read_pattern_data	; process if set
-	bne	_no_channel_data	; loop if bits remain (upto 8 iterations)
+	bne	_no_channel_data	; loop if bits remain (up to 8 iterations)
 	;-------------------------------
 
 	mov	m0, y			; add offset to pattern address

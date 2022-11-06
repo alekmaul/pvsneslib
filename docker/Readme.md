@@ -72,9 +72,9 @@ No need to set this environment variable, the script takes care of it for you.
   ./dockerrun -h
 
 usage: ./dockerrun.sh options:<d|h|c>
--d: name of the linux distrubtion (fedora, ubuntu or debian)
+-d: name of the linux distribution (fedora, ubuntu or debian)
 -h: help, print this message
--r: Create release (zip) to /var/tmp/build by default or by providing a custon path in parameter
+-r: Create release (zip) to /var/tmp/build by default or by providing a custom path in parameter
 -b: Run this script in batch mode, useful when using without terminal
 
 ```
@@ -83,7 +83,7 @@ usage: ./dockerrun.sh options:<d|h|c>
 
 I just want to compile my code for my ubuntu distribution.
 
-> Notes: dockerrun.sh *must* be lauched at the root of the repository as it used the current working directory to set `PVSNESLIB_HOME`.
+> Notes: dockerrun.sh *must* be launched at the root of the repository as it used the current working directory to set `PVSNESLIB_HOME`.
 
 ```
   docker/scripts/dockerrun.sh -d ubuntu
