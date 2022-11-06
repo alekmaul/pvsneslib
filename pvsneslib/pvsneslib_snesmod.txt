@@ -75,7 +75,7 @@
 |=====================================================================|
 | Quality                                                             |
 |---------------------------------------------------------------------|
-| 16-bit quality is recommended for the SPC samples, since they        |
+| 16-bit quality is recommended for the SPC samples, since they       |
 | have more data for compressing.                                     |
 |                                                                     |
 | If the loop width of an SPC sample is not a multiple of 16 then the |
