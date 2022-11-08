@@ -520,7 +520,7 @@ _bITS1:
     adc #6
     tas
 	
-    lda 17,s                    ; get paletteSize 
+    lda 15,s                    ; get paletteSize 
     pha
     lda bkgrd_val1
     pha
