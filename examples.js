@@ -1,5 +1,6 @@
 var examples =
 [
+    [ "audio/effects/effects.c", "audio_2effects_2effects_8c-example.html", null ],
     [ "audio/music/Music.c", "audio_2music_2_music_8c-example.html", null ],
     [ "audio/musicGreaterThan32k/musicGreaterThan32k.c", "audio_2music_greater_than32k_2music_greater_than32k_8c-example.html", null ],
     [ "audio/tada/Tada.c", "audio_2tada_2_tada_8c-example.html", null ],
