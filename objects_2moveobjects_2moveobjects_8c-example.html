@@ -174,7 +174,7 @@ $(document).ready(function(){initNavTree('objects_2moveobjects_2moveobjects_8c-e
 <div class="line">    <a name="a2"></a><a class="code" href="object_8h.html#aba30a57977f35e1632eb81b5ae39321f">objGetPointer</a>(<a name="a3"></a><a class="code" href="object_8h.html#ad4b2cf3a008d2011baf65b7ed74eaf65">objgetid</a>);</div>
 <div class="line">    snesobj = &amp;<a name="a4"></a><a class="code" href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a>[<a name="a5"></a><a class="code" href="object_8h.html#a9e81915d1e68d22798a93bb27eb74188">objptr</a> - 1];</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// Put sprite at corrdinates, with maximum priority 3 from tile entry 0, palette 0</span></div>
+<div class="line">    <span class="comment">// Put sprite at coordinates, with maximum priority 3 from tile entry 0, palette 0</span></div>
 <div class="line">    snesobj-&gt;sprnum = numspr * 4;</div>
 <div class="line">    <a name="a6"></a><a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(snesobj-&gt;sprnum, xp, yp, 3, 0, 0, 0, 0);</div>
 <div class="line">    <a name="a7"></a><a class="code" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a>(snesobj-&gt;sprnum, OBJ_SMALL, OBJ_SHOW);</div>
@@ -187,7 +187,7 @@ $(document).ready(function(){initNavTree('objects_2moveobjects_2moveobjects_8c-e
 <div class="line">    <span class="comment">// go to current object</span></div>
 <div class="line">    snesobj = &amp;<a class="code" href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a>[idx];</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// grab the coodinate pointers</span></div>
+<div class="line">    <span class="comment">// grab the coordinate pointers</span></div>
 <div class="line">    snesox = (s16 *)&amp;(snesobj-&gt;xpos + 1);</div>
 <div class="line">    snesoy = (s16 *)&amp;(snesobj-&gt;ypos + 1);</div>
 <div class="line">    xp = *snesox;</div>
@@ -300,7 +300,7 @@ $(document).ready(function(){initNavTree('objects_2moveobjects_2moveobjects_8c-e
 <div class="ttc" id="aobject_8h_html_ad010f8c119dbd982acd9ddd859f2acec"><div class="ttname"><a href="object_8h.html#ad010f8c119dbd982acd9ddd859f2acec">objInitEngine</a></div><div class="ttdeci">void objInitEngine(void)</div><div class="ttdoc">Initialize object engine, need to be called once.</div></div>
 <div class="ttc" id="amap_8h_html_a79f8bb14ed9f0ee9d7031db7f02733be"><div class="ttname"><a href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a></div><div class="ttdeci">u16 y_pos</div><div class="ttdoc">Current value of camera in x &amp; y coordinates.</div><div class="ttdef"><b>Definition:</b> map.h:57</div></div>
 <div class="ttc" id="abackground_8h_html_a4dbfb1b8854ff9ca4a7d11a899281bbb"><div class="ttname"><a href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a></div><div class="ttdeci">void bgSetDisable(u8 bgNumber)</div><div class="ttdoc">Disable a BG in the actual SNES mode.</div></div>
-<div class="ttc" id="aobject_8h_html_aa3240dfaeaa1b670114283de49dc6526"><div class="ttname"><a href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a></div><div class="ttdeci">void objUpdateAll(void)</div><div class="ttdoc">call update fonction for all objects currently active (if they are in &quot;virtual screen&quot; coordinates).</div></div>
+<div class="ttc" id="aobject_8h_html_aa3240dfaeaa1b670114283de49dc6526"><div class="ttname"><a href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a></div><div class="ttdeci">void objUpdateAll(void)</div><div class="ttdoc">call update function for all objects currently active (if they are in &quot;virtual screen&quot; coordinates).</div></div>
 <div class="ttc" id="asprite_8h_html_a449cd6f7c4fc8ca09a632e0c58cdb365"><div class="ttname"><a href="sprite_8h.html#a449cd6f7c4fc8ca09a632e0c58cdb365">OBJ_SIZE32_L64</a></div><div class="ttdeci">#define OBJ_SIZE32_L64</div><div class="ttdoc">default OAM size 32x32 (SM) and 64x64 (LG) pix for OBJSEL register</div><div class="ttdef"><b>Definition:</b> sprite.h:44</div></div>
 <div class="ttc" id="aconsole_8h_html_a0615d3903c2ad6faaed1443bd44c8ae2"><div class="ttname"><a href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a></div><div class="ttdeci">u16 rand(void)</div><div class="ttdoc">return a randomized number</div></div>
 <div class="ttc" id="avideo_8h_html_afd9e46ae627d055dd8c98a4b0ebb73b1"><div class="ttname"><a href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a></div><div class="ttdeci">void setMode(u8 mode, u8 size)</div><div class="ttdoc">Set the SNES hardware to operate in new display mode.</div></div>
@@ -308,7 +308,7 @@ $(document).ready(function(){initNavTree('objects_2moveobjects_2moveobjects_8c-e
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Fri Nov 11 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Sat Nov 12 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>

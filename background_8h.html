@@ -258,7 +258,7 @@ Macros</h2></td></tr>
 <tr class="separator:ac18d207be95eb5d103907d106575e9ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6cde02aaf57795f0dff8cd45db5ce1d"><td class="memItemLeft" align="right" valign="top"><a id="af6cde02aaf57795f0dff8cd45db5ce1d"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="background_8h.html#af6cde02aaf57795f0dff8cd45db5ce1d">SC_TILE_BASE</a>(base)&#160;&#160;&#160;((base) &lt;&lt; <a class="el" href="background_8h.html#ac18d207be95eb5d103907d106575e9ad">SC_BASE_SHIFT</a>)</td></tr>
-<tr class="memdesc:af6cde02aaf57795f0dff8cd45db5ce1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to set the tile map adress in tile map location. <br /></td></tr>
+<tr class="memdesc:af6cde02aaf57795f0dff8cd45db5ce1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to set the tile map address in tile map location. <br /></td></tr>
 <tr class="separator:af6cde02aaf57795f0dff8cd45db5ce1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -371,7 +371,7 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="backg
 
 <p>Mosaic Size and Mosaic Enable (W) Allows to divide the BG layer into NxN pixel blocks, in each block, the hardware picks the upper-left pixel of each block, and fills the whole block by the color - thus effectively reducing the screen resolution. </p>
 <p>7-4 Mosaic Size (0=Smallest/1x1, 0Fh=Largest/16x16) 3 BG4 Mosaic Enable (0=Off, 1=On) 2 BG3 Mosaic Enable (0=Off, 1=On) 1 BG2 Mosaic Enable (0=Off, 1=On) 0 BG1 Mosaic Enable (0=Off, 1=On)</p>
-<p>Horizontally, the first block is always located on the left edge of the TV screen. Vertically, the first block is located on the top of the TV screen. When changing the mosaic size mid-frame, the hardware does first finish current block (using the old vertical size) before applying the new vertical size. Technically, vertical mosaic is implemented as so: subtract the veritical index (within the current block) from the vertical scroll register (BGnVOFS). </p>
+<p>Horizontally, the first block is always located on the left edge of the TV screen. Vertically, the first block is located on the top of the TV screen. When changing the mosaic size mid-frame, the hardware does first finish current block (using the old vertical size) before applying the new vertical size. Technically, vertical mosaic is implemented as so: subtract the vertical index (within the current block) from the vertical scroll register (BGnVOFS). </p>
 
 </div>
 </div>
@@ -640,7 +640,7 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="backg
     <tr><td class="paramname">bgNumber</td><td>background number (0 to 3) </td></tr>
     <tr><td class="paramname">tileSource</td><td>address of tile graphics entry </td></tr>
     <tr><td class="paramname">tilePalette</td><td>address of palette entry </td></tr>
-    <tr><td class="paramname">paletteEntry</td><td>palette number (0..16 for 16 colors mode) of the begining of each colors </td></tr>
+    <tr><td class="paramname">paletteEntry</td><td>palette number (0..16 for 16 colors mode) of the beginning of each colors </td></tr>
     <tr><td class="paramname">tileSize</td><td>size of tile graphics </td></tr>
     <tr><td class="paramname">paletteSize</td><td>size of palette </td></tr>
     <tr><td class="paramname">colorMode</td><td>used for correct palette entry (BG_4COLORS0, BG_16COLORS, BG_256COLORS) </td></tr>
@@ -766,7 +766,7 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="backg
     <tr><td class="paramname">bgNumber</td><td>background number (0 to 3) </td></tr>
     <tr><td class="paramname">tileSource</td><td>address of tile graphics entry compressed with LZ algo </td></tr>
     <tr><td class="paramname">tilePalette</td><td>address of palette entry </td></tr>
-    <tr><td class="paramname">paletteEntry</td><td>palette number (0..16 for 16 colors mode) of the begining of each colors </td></tr>
+    <tr><td class="paramname">paletteEntry</td><td>palette number (0..16 for 16 colors mode) of the beginning of each colors </td></tr>
     <tr><td class="paramname">paletteSize</td><td>size of palette </td></tr>
     <tr><td class="paramname">colorMode</td><td>used for correct palette entry (BG_4COLORS0, BG_16COLORS, BG_256COLORS) </td></tr>
     <tr><td class="paramname">address</td><td>address of tile graphics (4K aligned) </td></tr>
@@ -1076,7 +1076,7 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="backg
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="background_8h.html">background.h</a></li>
-    <li class="footer">Generated on Fri Nov 11 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
+    <li class="footer">Generated on Sat Nov 12 2022       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.8.17 </li>
 </div>
 </body>
 </html>
