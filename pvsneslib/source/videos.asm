@@ -237,6 +237,17 @@ setScreenOn:
 	plp
 	rtl
 	
+;---------------------------------------------------------------------------
+; void setScreenOff(void)
+setScreenOff:
+	php
+
+    lda #DSP_FORCEVBL                                         ; force vblank before putting screen off
+   	sta.l REG_INIDISP                                         ; Screen brightness
+
+	plp
+	rtl
+	
 .ENDS
 
 .SECTION ".videos2_text" SUPERFREE

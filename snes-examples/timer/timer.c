@@ -25,6 +25,10 @@ int main(void)
     // Draw a wonderful text :P
     consoleDrawText(9, 8, "JUST COUNT VBL");
 
+    // Init background
+    bgSetGfxPtr(0, 0x2000);
+    bgSetMapPtr(0, 0x6800, SC_32x32);
+
     // Now Put in 16 color mode and disable Bgs except current
     setMode(BG_MODE1, 0);
     bgSetDisable(1);
