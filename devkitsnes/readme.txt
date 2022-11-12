@@ -31,13 +31,13 @@ SPECIAL THANKS
 CHANGE LOG
 ----------------------
 VERSION 4.0 (October,30,2022)
-- Add tmx2snes (tool to convet Tiled map (json export) to a SNES format)
+- Add tmx2snes (tool to convert Tiled map (json export) to a SNES format)
 - Improve 816-opt.py (thanks kobenairb)
 - Improve docker integration (thanks kobenairb)
 - Change tcc to last version (really a big THANKS to kobenairb !)
 - Remove map management from gfx2 snes (in tmx2snes now)
 - Update documentation layout
-- New code formater with vscode (thanks kobenairb)
+- New code formatter with vscode (thanks kobenairb)
 - Add lz77 compression for tiles in gfx2snes
 - Remove map engine management from gfx2snes (no more -me, -mt or -pt options)
 - Add automatic doc update on https://https://alekmaul.github.io/pvsneslib/

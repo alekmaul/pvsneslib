@@ -42,7 +42,7 @@
 /*! \brief The shift to apply to map base when storing it in a tile map location register */
 #define SC_BASE_SHIFT 2
 
-/*! \brief Macro to set the tile map adress in tile map location */
+/*! \brief Macro to set the tile map address in tile map location */
 #define SC_TILE_BASE(base) ((base) << SC_BASE_SHIFT)
 
 /*!	\brief Bit defines for the background control registers */
@@ -125,7 +125,7 @@
     TV screen. Vertically, the first block is located on the top of the TV screen.
     When changing the mosaic size mid-frame, the hardware does first finish current
     block (using the old vertical size) before applying the new vertical size.
-    Technically, vertical mosaic is implemented as so: subtract the veritical
+    Technically, vertical mosaic is implemented as so: subtract the vertical
     index (within the current block) from the vertical scroll register (BGnVOFS).
 */
 #define REG_MOSAIC (*(vuint8 *)0x2106)
@@ -307,7 +307,7 @@ void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize);
     \param bgNumber	background number (0 to 3)
     \param tileSource	address of tile graphics entry
     \param tilePalette	address of palette entry
-    \param paletteEntry palette number (0..16 for 16 colors mode) of the begining of each colors
+    \param paletteEntry palette number (0..16 for 16 colors mode) of the beginning of each colors
     \param tileSize	size of tile graphics
     \param paletteSize	size of palette
     \param colorMode	used for correct palette entry (BG_4COLORS0, BG_16COLORS, BG_256COLORS)
@@ -319,7 +319,7 @@ void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry
     \param bgNumber	background number (0 to 3)
     \param tileSource	address of tile graphics entry compressed with LZ algo
     \param tilePalette	address of palette entry
-    \param paletteEntry palette number (0..16 for 16 colors mode) of the begining of each colors
+    \param paletteEntry palette number (0..16 for 16 colors mode) of the beginning of each colors
     \param paletteSize	size of palette
     \param colorMode	used for correct palette entry (BG_4COLORS0, BG_16COLORS, BG_256COLORS)
     \param address	address of tile graphics (4K aligned)

@@ -69,15 +69,15 @@ V3.2.0 (24, May, 2021)
 - Update examples regarding new sprite size constants
 - Fix bit shifting for sprite size
 - Remove all includes in libc_c.c to have a more efficient way to manage variables
-- Remove some C function of video.c to convert them in assembly langage
+- Remove some C function of video.c to convert them in assembly language
 - Remove oamSet1 from sprite.c, I think it is a useless function
-- Remove all c functions from sprite.c to convert them in assembly langage
-- Remove all c functions from dma.c to convert them in assembly langage
-- Remove all c functions from background.c to convert them in assembly langage
-- Remove all c functions from sound.c to convert them in assembly langage
-- Remove all c functions from video.c to convert them in assembly langage
+- Remove all c functions from sprite.c to convert them in assembly language
+- Remove all c functions from dma.c to convert them in assembly language
+- Remove all c functions from background.c to convert them in assembly language
+- Remove all c functions from sound.c to convert them in assembly language
+- Remove all c functions from video.c to convert them in assembly language
 - Add new example breakout from original snes-sdk to help people using PVSneslib
-- Remove all c functions from console.c to convert them in assembly langage
+- Remove all c functions from console.c to convert them in assembly language
 
 V3.1.0 (13, December, 2020)
 - Remove PVSNESLIB variables in each makefile and add a system variable (PVSNESLIB_HOME)
@@ -121,7 +121,7 @@ V2.2.0 (xx, yyyy, 2014)
 
 V2.1.0 (xx, January, 2014)
 - Removed: Neoflash intro screen
-- Added: SRAM managment (16kbits)  (WARNING ! header not compatible with previous version !!!)
+- Added: SRAM management (16kbits)  (WARNING ! header not compatible with previous version !!!)
 
 V2.0.0 (19, August, 2013) * NEOFLASH EDITION *
 - Changed padsCurrent to define definition to speedup code
@@ -139,11 +139,11 @@ V2.0.0 (19, August, 2013) * NEOFLASH EDITION *
 - Add dmaClearVram function to init vram to #0
 - Fix some rare problem in spc700 snesmod source when loading samples (thanks fixing it kungfufurby !)
 - Fix internal print buffer from char to unsigned char
-- Fix bug for sprite adress, used 14 shifted instead of 13 shifted
+- Fix bug for sprite address, used 14 shifted instead of 13 shifted
 - Add no$sns debug message function consoleNocashMessage
 - Add oamSetVisible to only hide / see a sprite
 - Update scanPads is now in ASM and automatically done in VBL function
-- Fix bug in fading and mosaic functions (regiters x and y not saved)
+- Fix bug in fading and mosaic functions (registers x and y not saved)
 - Fix all asm files, add specific size for instruction to avoid wla adding brk instructions
 
 
@@ -156,7 +156,7 @@ V1.0.0 (06, June, 2012)
 - add NULL definition
 - add setPalette function
 - add bgInitTileSetData function
-- add test for bgInitMapSet & bgInitTileSetData to change or not bg tile/map adress
+- add test for bgInitMapSet & bgInitTileSetData to change or not bg tile/map address
 - add oamInitGfxAttr to init only sprites size & address
 - add a flag (snes_50hz) to know if we are on a PAL snes (1=yes)
 - add sound management through shiru "christmass craze" example (thanks to him for tools)
@@ -164,8 +164,8 @@ V1.0.0 (06, June, 2012)
 - change some functions to asm version (dma, vbl ...)
 - change spc700 data to asm section, avoid burning too much ram
 - fix bug in bgSetMapPtr, word access instead of byte, and register mapping not good (use if statement now)
-- remove verbose mode for wlalink and wla-65816, not really usefull
-- remove all signed variables for optmization purpose
+- remove verbose mode for wlalink and wla-65816, not really useful
+- remove all signed variables for optimization purpose
 - split pvsneslib.asm into multiple files to be more easy to understand
 - add music and sfx via snesmod adaptation from mukunda (thanks also kung fu furby for help)
 

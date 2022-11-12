@@ -811,7 +811,7 @@ namespace IT2SPC
         // SPC memory
         //-------------------------------------------------------
 
-        // zero fill upto program block
+        // zero fill up to program block
         file.ZeroFill(driver_base);
 
         int SampleTableOffset = file.Tell() - sample_table_offset;
@@ -825,7 +825,7 @@ namespace IT2SPC
                 file.Write8(spc_program[i]);
         }
 
-        // zero fill upto module base
+        // zero fill up to module base
         file.ZeroFill((module_base - driver_base - spc_program_size));
 
         int StartOfModule = file.Tell();

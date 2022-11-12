@@ -167,13 +167,13 @@ void objKill(u16 objhandle);
 void objKillAll(void);
 
 /*! \fn objUpdateAll(void)
-    \brief call update fonction for all objects currently active (if they are in "virtual screen" coordinates).
+    \brief call update function for all objects currently active (if they are in "virtual screen" coordinates).
     \brief  "virtual screen" coordinates are -64<x<320 and -64<y<288.
 */
 void objUpdateAll(void);
 
 /*! \fn objRefreshAll(void)
-    \brief call refresh fonction for all objects currently on screen.
+    \brief call refresh function for all objects currently on screen.
     \brief  useful to avoid flickering when using a platform scrolling game.
     \brief  screen coordinates are -32<x<256 and -32<y<y<224.
 */

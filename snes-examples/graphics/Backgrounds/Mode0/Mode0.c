@@ -29,8 +29,8 @@ int main(void)
     // BG1 w/bits ppp=3 is entries 12-15
     // BG1 w/bits ppp=4 is entries 16-19
     // BG1 w/bits ppp=5 is entries 20-23
-    // BG1 w/bits ppp=6 is entires 24-27
-    // BG1 w/bits ppp=7 is entires 28-31
+    // BG1 w/bits ppp=6 is entries 24-27
+    // BG1 w/bits ppp=7 is entries 28-31
     // and then for BG2 ppp resets to 0 and resumes at 32...
     // BG2 w/bits ppp=0 is entries 32-35
     // BG2 w/bits ppp=1 is entries 36-39

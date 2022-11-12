@@ -32,7 +32,7 @@
 #define BIN2TXTDATE __BUILD_DATE
 
 //// M A I N   V A R I A B L E S ////////////////////////////////////////////////
-int convformat = 1;      // convertion formation (1=c , 2 = asm)
+int convformat = 1;      // conversion formation (1=c , 2 = asm)
 int quietmode = 0;       // 0 = not quiet, 1 = i can't say anything :P
 FILE *fpi, *fpo;         // input and output file handler
 unsigned int filesize;   // input file size

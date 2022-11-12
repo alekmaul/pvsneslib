@@ -27,7 +27,7 @@ int main(void)
     consoleSetTextOffset(0x0100);
     consoleInitText(0, 16 * 2, &snesfont, &snespal);
 
-    // Draw a wonderfull text :P
+    // Draw a wonderful text :P
     consoleDrawText(12, 1, "SRAM TEST");
     consoleDrawText(3, 5, "USE A TO WRITE");
     consoleDrawText(3, 7, "USE B TO READ");

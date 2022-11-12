@@ -44,7 +44,7 @@ int main(void)
     bgSetDisable(1);
     bgSetDisable(2);
 
-    // Draw a wonderfull text :P
+    // Draw a wonderful text :P
     consoleDrawText(5, 10, "Press A to play effect !");
 
     // Wait for nothing :P

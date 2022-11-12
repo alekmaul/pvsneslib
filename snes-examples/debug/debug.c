@@ -16,7 +16,7 @@ int main(void)
     // Initialize SNES
     consoleInit();
 
-    // Draw a wonderfull text :P
+    // Draw a wonderful text :P
     consoleNocashMessage("JUST COUNT VBL\r");
 
     // Now Put in 16 color mode and disable Bgs except current

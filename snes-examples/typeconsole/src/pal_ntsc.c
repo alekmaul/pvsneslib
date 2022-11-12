@@ -31,7 +31,7 @@ int main(void)
     bgSetDisable(1);
     bgSetDisable(2);
 
-    // Draw a wonderfull text :P
+    // Draw a wonderful text :P
     consoleDrawText(10, 10, "Hello World !");
     if (snes_50hz == 1)
     {
