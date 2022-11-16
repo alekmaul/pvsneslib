@@ -35,10 +35,10 @@
 .DEFINE OB_SCR_YLR_CHK      -64             ; -64 is the minimum on "virtual" screen y position to update object
 .DEFINE OB_SCR_YRR_CHK      288             ; 224+64 is the maximum on "virtual" screen y position to update object
 
-.DEFINE OB_SCR_XLE_CHK      -64 ; -32             ; -32 is the minimum on screen x position to display sprite object
-.DEFINE OB_SCR_XRI_CHK      320 ; 256             ; 255 is the maximum on screen x position to display sprite object
-.DEFINE OB_SCR_YLE_CHK      -64 ; -32             ; -32 is the minimum on screen y position to display sprite object
-.DEFINE OB_SCR_YRI_CHK      288; 224             ; 224 is the maximum on screen y position to display sprite object
+.DEFINE OB_SCR_XLE_CHK      -32             ; -32 is the minimum on screen x position to display sprite object
+.DEFINE OB_SCR_XRI_CHK      256             ; 256 is the maximum on screen x position to display sprite object
+.DEFINE OB_SCR_YLE_CHK      -32             ; -32 is the minimum on screen y position to display sprite object
+.DEFINE OB_SCR_YRI_CHK      224             ; 224 is the maximum on screen y position to display sprite object
 
 .DEFINE T_SOLID				$FF00
 .DEFINE T_LADDE				$0001
