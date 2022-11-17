@@ -64,16 +64,10 @@
          "name":"Entities",
          "objects":[
                 {
-                 "class":"",
+                 "class":"0",
                  "height":16,
                  "id":1,
                  "name":"Link",
-                 "properties":[
-                        {
-                         "name":"Type",
-                         "type":"string",
-                         "value":"0"
-                        }],
                  "rotation":0,
                  "visible":true,
                  "width":16,
