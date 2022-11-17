@@ -163,6 +163,8 @@
 #ifndef SNES_INCLUDE
 #define SNES_INCLUDE
 
+#include "snes/libversion.h"
+
 #include "snes/background.h"
 #include "snes/console.h"
 #include "snes/dma.h"
