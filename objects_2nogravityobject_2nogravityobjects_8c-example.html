@@ -151,16 +151,17 @@ $(document).ready(function(){initNavTree('objects_2nogravityobject_2nogravityobj
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// Update the map regarding the camera</span></div>
-<div class="line">        <a name="a14"></a><a class="code" href="map_8h.html#a332bfe570835ef05934b712fd9701c88">mapUpdate</a>();</div>
+<div class="line">        <a name="a14"></a><a class="code" href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">mapUpdateCamera</a>(*linkox, *linkoy);</div>
+<div class="line">        <a name="a15"></a><a class="code" href="map_8h.html#a332bfe570835ef05934b712fd9701c88">mapUpdate</a>();</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Update all the available objects</span></div>
-<div class="line">        <a name="a15"></a><a class="code" href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a>();</div>
+<div class="line">        <a name="a16"></a><a class="code" href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a>();</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// prepare next frame and wait vblank</span></div>
-<div class="line">        <a name="a16"></a><a class="code" href="sprite_8h.html#ac9eb3b2751e5b744470cd16453ff3261">oamInitDynamicSpriteEndFrame</a>();</div>
-<div class="line">        <a name="a17"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
-<div class="line">        <a name="a18"></a><a class="code" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a>();</div>
-<div class="line">        <a name="a19"></a><a class="code" href="sprite_8h.html#a4f830004646995018000dae0f898d221">oamVramQueueUpdate</a>();</div>
+<div class="line">        <a name="a17"></a><a class="code" href="sprite_8h.html#ac9eb3b2751e5b744470cd16453ff3261">oamInitDynamicSpriteEndFrame</a>();</div>
+<div class="line">        <a name="a18"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
+<div class="line">        <a name="a19"></a><a class="code" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a>();</div>
+<div class="line">        <a name="a20"></a><a class="code" href="sprite_8h.html#a4f830004646995018000dae0f898d221">oamVramQueueUpdate</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
@@ -182,6 +183,7 @@ $(document).ready(function(){initNavTree('objects_2nogravityobject_2nogravityobj
 <div class="ttc" id="amap_8h_html_a15e3d01a91c5650e4de9a6e6be131d34"><div class="ttname"><a href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a></div><div class="ttdeci">void mapVblank(void)</div><div class="ttdoc">Display map regarding current buffer (must be done once per frame, near Vblank)</div></div>
 <div class="ttc" id="avideo_8h_html_ae29ed0390bca0390d3fdf55362a3663b"><div class="ttname"><a href="video_8h.html#ae29ed0390bca0390d3fdf55362a3663b">setPalette</a></div><div class="ttdeci">#define setPalette(palette, paletteEntry, paletteSize)</div><div class="ttdoc">Change a palette in CGRAM.</div><div class="ttdef"><b>Definition:</b> video.h:380</div></div>
 <div class="ttc" id="asprite_8h_html_adc3b431ee9b6bc613e5e4e6734dbfc08"><div class="ttname"><a href="sprite_8h.html#adc3b431ee9b6bc613e5e4e6734dbfc08">oamInitDynamicSprite</a></div><div class="ttdeci">void oamInitDynamicSprite(u16 gfxsp0adr, u16 gfxsp1adr, u16 oamsp0init, u16 oamsp1init, u8 oamsize)</div><div class="ttdoc">initialize the dynamic sprite engine with each sprite size entries</div></div>
+<div class="ttc" id="amap_8h_html_ab8720c97e886ceabda97c6beff2e5864"><div class="ttname"><a href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">mapUpdateCamera</a></div><div class="ttdeci">void mapUpdateCamera(u16 xpos, u16 ypos)</div><div class="ttdoc">Update map camera (must be done once per frame)</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
 <div class="ttc" id="aobject_8h_html_ad010f8c119dbd982acd9ddd859f2acec"><div class="ttname"><a href="object_8h.html#ad010f8c119dbd982acd9ddd859f2acec">objInitEngine</a></div><div class="ttdeci">void objInitEngine(void)</div><div class="ttdoc">Initialize object engine, need to be called once.</div></div>
 <div class="ttc" id="abackground_8h_html_a4dbfb1b8854ff9ca4a7d11a899281bbb"><div class="ttname"><a href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a></div><div class="ttdeci">void bgSetDisable(u8 bgNumber)</div><div class="ttdoc">Disable a BG in the actual SNES mode.</div></div>
