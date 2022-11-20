@@ -35,7 +35,7 @@ VERSION 4.0 (October,30,2022)
 - Improve 816-opt.py (thanks kobenairb)
 - Improve docker integration (thanks kobenairb)
 - Change tcc to last version (really a big THANKS to kobenairb !)
-- Remove map management from gfx2 snes (in tmx2snes now)
+- Remove map management from gfx2snes (in tmx2snes now)
 - Update documentation layout
 - New code formatter with vscode (thanks kobenairb)
 - Add lz77 compression for tiles in gfx2snes

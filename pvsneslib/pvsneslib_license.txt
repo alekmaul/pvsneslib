@@ -21,11 +21,12 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
-V4.0.1 (November,dd,2022)
+V4.0.1 (November,20,2022)
 - Fix example with text (background initialization was incorrect)
 - Add setScreenOff function
 - Fix lz palette entry in decompression routine
 - Add effect sound example
+- Fox PVSneslib version file
 
 V4.0.0 (October,30,2022)
 - Fix getPalette which has a bad entry for palette values

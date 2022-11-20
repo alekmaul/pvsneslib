@@ -52,7 +52,7 @@ endif
 endif
 endif
 
-#---------------------------------------------------------------------------------	
+#---------------------------------------------------------------------------------
 # to create the release version for github containing binaries and all snes-examples :
 release: all
 ifndef doxygenInstalled
@@ -62,7 +62,7 @@ ifeq ($(operatingSystem),)
 	$(error "Unable to detect your operating system to create the release version.")
 endif
 	rm -rf release && mkdir -p release/pvsneslib && \
-	cp -r devkitsnes release/pvsneslib/devkitsnes && \
+	cp -r devkitsnes release/pvsneslib/devkitsnes && \ 
 	mkdir release/pvsneslib/pvsneslib && cp -r pvsneslib/include release/pvsneslib/pvsneslib/include && \
 	cp -r pvsneslib/lib release/pvsneslib/pvsneslib/lib && \
 	mkdir release/pvsneslib/pvsneslib/docs && cp -r pvsneslib/docs/html release/pvsneslib/pvsneslib/docs/html && \
