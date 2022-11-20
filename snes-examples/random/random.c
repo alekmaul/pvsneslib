@@ -24,9 +24,13 @@ int main(void)
     consoleSetTextOffset(0x0100);
     consoleInitText(0, 16 * 2, &snesfont, &snespal);
 
-    // Draw a wonderfull text :P
+    // Draw a wonderful text :P
     consoleDrawText(5, 8, "JUST DO RANDOM NUMBERS");
     consoleDrawText(3, 10, "PRESS KEY FOR ANOTHER ONE");
+
+    // Init background
+    bgSetGfxPtr(0, 0x2000);
+    bgSetMapPtr(0, 0x6800, SC_32x32);
 
     // Now Put in 16 color mode and disable Bgs except current
     setMode(BG_MODE1, 0);

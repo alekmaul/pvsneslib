@@ -58,6 +58,7 @@ int main(void)
     while (1)
     {
         // Update the map regarding the camera
+		mapUpdateCamera(*linkox, *linkoy);
         mapUpdate();
 
         // Update all the available objects

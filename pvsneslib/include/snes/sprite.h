@@ -271,8 +271,8 @@ void oamInitGfxAttr(u16 address, u8 oamsize);
 /*!\brief initialize the dynamic sprite engine with each sprite size entries
     \param gfxsp0adr	address of large sprite graphics entry
     \param gfxsp1adr	address of small sprite graphics entry
-    \param oamsp0init	address of large sprite number (usefull when we have some hud sprites which are not update each frame)
-    \param oamsp1init	address of small sprite number (usefull when we have some hud sprites which are not update each frame)
+    \param oamsp0init	address of large sprite number (useful when we have some hud sprites which are not update each frame)
+    \param oamsp1init	address of small sprite number (useful when we have some hud sprites which are not update each frame)
     \param oamsize	default OAM size : OBJ_SIZE8_L16, OBJ_SIZE8_L32, OBJ_SIZE16_L32 (64pix size is not supported)
 */
 void oamInitDynamicSprite(u16 gfxsp0adr, u16 gfxsp1adr, u16 oamsp0init, u16 oamsp1init, u8 oamsize);

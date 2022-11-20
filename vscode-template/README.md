@@ -19,7 +19,7 @@ Once it is done, you have to :
 * Copy the `.vscode` folder to your project directory.
     - In `c_cpp_properties.json` you **must update** `PVSnesLib home directory` with your real installation path.
     For instance, if you are on Windows OS, you should have something like : `"pvsneslibPath": ["c:/snesdev/pvsneslib/include/**","c:/snesdev/pvsneslib/devkitsnes/include"],`
-    - If you are on Linux environment, your path should be formated like that `"pvsneslibPath": ["/path/to/pvsneslib/include/**","/path/to/pvsneslib/devkitsnes/include"],`
+    - If you are on Linux environment, your path should be formatted like that `"pvsneslibPath": ["/path/to/pvsneslib/include/**","/path/to/pvsneslib/devkitsnes/include"],`
     - Please do not forget the double "**" as displayed before, it is mandatory to works correctly.
     - In `settings.json`, you have the basic settings to respect the code convention. Namely:
       - Remove trailing white spaces.
@@ -29,7 +29,7 @@ Once it is done, you have to :
 
 ## Usage
 
-* Open `VSCode` then `File->Open Folder...` and choose the folder of your poject.
+* Open `VSCode` then `File->Open Folder...` and choose the folder of your project.
 * Hit `Ctrl + Shift + B` and on the popup list you will see 2 tasks:
     * `PVSneslib - Clean`: removes all objects and temporary files
     * `PVSneslib - Build`: just compiles the project

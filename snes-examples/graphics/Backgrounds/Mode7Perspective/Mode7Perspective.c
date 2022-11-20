@@ -351,7 +351,7 @@ const u8 PerspectiveY[264] =
 //---------------------------------------------------------------------------------
 u16 pad0;                        // current pad
 u16 sz;                          // zoom
-u16 sx, sy;                      // current corrdinates
+u16 sx, sy;                      // current coordinates
 dmaMemory data_to_transfertMode; // for table HDMA access
 dmaMemory data_to_transfertBG;
 dmaMemory data_to_transfertX;
@@ -371,7 +371,7 @@ void setMode7_HdmaPerspective(void)
     REG_BG2HOFS = (sx & 255);
     REG_BG2HOFS = sx >> 8;
 
-    // Trasformation origin
+    // Transformation origin
     REG_M7X = (sx + 128) & 255;
     REG_M7X = (sx + 128) >> 8;
     REG_M7Y = (sy + 112) & 255;

@@ -51,7 +51,7 @@
  - \ref snestypes.h "Custom SNES types"
  - \ref interrupt.h "Interrupts"
 
- \section user_io_api User Input/ouput
+ \section user_io_api User Input/output
  - \ref pad.h "Keypad"
  - \ref console.h "Console and Debug Printing"
 
@@ -62,7 +62,7 @@
  \section misc_api Miscellaneous functions
  - \ref scores.h "Scoring management"
 
- \section external_links Usefull links
+ \section external_links Useful links
  - <a href="https://github.com/alekmaul/pvsneslib/wiki">PVSnesLib wiki</a>
  - <a href="https://problemkaputt.de/fullsnes.htm">SNES hardware specifications documentation.</a>
  - <a href="http://code.google.com/p/snes-sdk/">SNES Sdk from Ulrich Hecht.</a>
@@ -71,7 +71,7 @@
  - <a href="http://shiru.untergrund.net/">shiru for some source code and sound tools, which are parts of PVSnesLib.</a>
  - <a href="http://jiggawatt.org/badc0de/index.html">mic_ for some source code examples, parts of PVSnesLib are from them.</a>
  - <a href="http://snes.mukunda.com/">mukunda for snesmod source code. </a>
- - Kung Fu Furby for help on Snesmod convertion to PVSnesLib.
+ - Kung Fu Furby for help on Snesmod conversion to PVSnesLib.
  - <a href="http://code.google.com/p/neo-myth-menu/">Neoflash Menu google code. </a>
  - <a href="http://www.devkitpro.org/">Devkitpro team for pvsneslib structure (lib, makefile, examples, and so on ...). </a>
  - <a href="https://github.com/undisbeliever/castle_platformer">undisbeliever for his great platform code example on github. </a>
@@ -128,6 +128,7 @@
     \example games/breakout/breakout.c
 
     <!-- audio -->
+    \example audio/effects/effects.c
     \example audio/music/Music.c
     \example audio/tada/Tada.c
     \example audio/musicGreaterThan32k/musicGreaterThan32k.c
@@ -161,6 +162,8 @@
 
 #ifndef SNES_INCLUDE
 #define SNES_INCLUDE
+
+#include "snes/libversion.h"
 
 #include "snes/background.h"
 #include "snes/console.h"

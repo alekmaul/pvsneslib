@@ -81,7 +81,7 @@ void testInit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx)
     objGetPointer(objgetid);
     snesobj = &objbuffers[objptr - 1];
 
-    // Put sprite at corrdinates, with maximum priority 3 from tile entry 0, palette 0
+    // Put sprite at coordinates, with maximum priority 3 from tile entry 0, palette 0
     snesobj->sprnum = numspr * 4;
     oamSet(snesobj->sprnum, xp, yp, 3, 0, 0, 0, 0);
     oamSetEx(snesobj->sprnum, OBJ_SMALL, OBJ_SHOW);
@@ -94,7 +94,7 @@ void testUpdate(u8 idx)
 	// go to current object
     snesobj = &objbuffers[idx];
 
-    // grab the coodinate pointers
+    // grab the coordinate pointers
     snesox = (s16 *)&(snesobj->xpos + 1);
     snesoy = (s16 *)&(snesobj->ypos + 1);
     xp = *snesox;

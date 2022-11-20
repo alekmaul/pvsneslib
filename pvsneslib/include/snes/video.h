@@ -25,7 +25,7 @@
 ---------------------------------------------------------------------------------*/
 
 /*!	\file video.h
-    \brief contains the basic defnitions for controlling the video hardware.
+    \brief contains the basic definitions for controlling the video hardware.
 
 */
 #ifndef SNES_VIDEO_INCLUDE
@@ -134,7 +134,7 @@ typedef enum
   8bit-rotate/step32   aaaaaaaaXXXxxYYY --> aaaaaaaaxxYYYXXX
   10bit-rotate/step128 aaaaaaXXXxxxxYYY --> aaaaaaxxxxYYYXXX
 
-    Though the SNES can't access enought VRAM for fullscreen Mode 7 bitmaps.
+    Though the SNES can't access enough VRAM for fullscreen Mode 7 bitmaps.
     Step 32 (without translation) is useful for updating BG Map columns (eg. after horizontal scrolling).
 */
 #define REG_VMAIN (*(vuint8 *)0x2115)
@@ -335,9 +335,14 @@ void setBrightness(u8 level);
 void setMode(u8 mode, u8 size);
 
 /*! \fn  setScreenOn(void)
-    \brief Put screen On
+    \brief Put screen On.
 */
 void setScreenOn(void);
+
+/*! \fn  setScreenOff(void)
+    \brief Put screen Off.
+*/
+void setScreenOff(void);
 
 /*! \fn  setFadeEffect(u8 mode)
     \brief Do a fadein or fadeout effect.
@@ -369,14 +374,14 @@ void setColorIntensity(u8 colorApply, u8 intensity);
 /*! \fn  setPalette(palette, paletteEntry, paletteSize)
     \brief Change a palette in CGRAM.
     \param palette	address of palette entry
-    \param paletteEntry palette number (0..16 for 16 colors mode) of the begining of each colors
+    \param paletteEntry palette number (0..16 for 16 colors mode) of the beginning of each colors
     \param paletteSize	size of palette
 */
 #define setPalette(palette, paletteEntry, paletteSize) dmaCopyCGram(palette, paletteEntry, paletteSize)
 
 /*! \fn  setPaletteColor(paletteEntry, paletteColor)
     \brief Change a color palette in CGRAM.
-    \param paletteEntry palette color numer (0..255)
+    \param paletteEntry palette color number (0..255)
     \param paletteColor	RGB5 color
 */
 #define setPaletteColor(paletteEntry, paletteColor) \
@@ -394,7 +399,7 @@ void getPalette(u8 paletteEntry, u8 paletteSize, u16 *paletteColors);
 
 /*! \fn  getPaletteColor(u8 paletteEntry, u16 *paletteColor)
     \brief Get a color palette from CGRAM.
-    \param paletteEntry palette color numer (0..255)
+    \param paletteEntry palette color number (0..255)
     \param paletteColor	RGB5 color to save value
 */
 void getPaletteColor(u8 paletteEntry, u16 *paletteColor);
@@ -406,25 +411,25 @@ void getPaletteColor(u8 paletteEntry, u16 *paletteColor);
 void setMode7(u8 mode);
 
 /*! \fn  setMode7Rot(u8 angle)
-    \brief Changle angle view in mode 7 with matrix transformation.
+    \brief Change angle view in mode 7 with matrix transformation.
     \param angle : 0..255 value
 */
 void setMode7Rot(u8 angle);
 
 /*! \fn  setMode7MoveForwardBack(u8 z8)
-    \brief Changle perspective view forward/backward in mode 7 without changing matrix.
+    \brief Change perspective view forward/backward in mode 7 without changing matrix.
     \param z8 : 0..255 value
 */
 void setMode7MoveForwardBack(u8 z8);
 
 /*! \fn  setMode7MoveLeftRight(u8 z8)
-    \brief Changle perspective view left/right in mode 7 without changing matrix.
+    \brief Change perspective view left/right in mode 7 without changing matrix.
     \param z8 : 0..255 value
 */
 void setMode7MoveLeftRight(u8 z8);
 
 /*! \fn  setMode7Angle(u8 angle)
-    \brief Changle angle view in mode 7 without changing matrix.
+    \brief Change angle view in mode 7 without changing matrix.
     \param angle : 0..255 value
 */
 void setMode7Angle(u8 angle);

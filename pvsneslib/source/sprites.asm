@@ -34,7 +34,7 @@
 .EQU OBJ_SIZE16_L32				$60							  ; (3<<5) default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register (used for 16x16 sprite gfx entry)
 
 .EQU OBJ_QUEUELIST_SIZE			128							  ; 128 sprites of 8x8, 16x16 & 32x32 max in queue to update sprite graphics
-.EQU MAXSPRTRF					7*6					  	  	  ; 7 sprites max tranfered each time to VRAM
+.EQU MAXSPRTRF					7*6					  	  	  ; 7 sprites max transferred each time to VRAM
 
 .STRUCT t_oam
 oamx							DW							  ;	0 x position on the screen 
@@ -503,7 +503,7 @@ oamInitGfxAttr:
 	lsr	a
 	lsr	a
 	lsr	a
-	lsr	a                           ; adress >> 13
+	lsr	a                           ; address >> 13
 	
 	sep #$20
 	sta sprit_val1
@@ -621,7 +621,7 @@ oamInitGfxSet:
     lda	#$01                    ; turn on bit 7 (channel 7) of DMA
     sta.l	$420b
 
-    rep	#$20                    ; update base adress if needed (16k byte aligned)
+    rep	#$20                    ; update base address if needed (16k byte aligned)
     lda	19,s            	    ; 
 
     phy                         ; oamsize | (address >> 13);
@@ -796,7 +796,7 @@ oamInitDynamicSprite:
 	lda spr1addrgfx						 					  ; change  default graphic address for sprite 16x16 (it is the only one who need that)
 	sta spr16addrgfx
 	sep #$20
-	lda 18,s 							 					  ; get oamsize to compute sprite 16 large or small size graphic adress
+	lda 18,s 							 					  ; get oamsize to compute sprite 16 large or small size graphic address
 	cmp #OBJ_SIZE16_L32
 	beq +
 	rep #$20
@@ -807,7 +807,7 @@ oamInitDynamicSprite:
     lda 18,s 							 					  ; get oamsize which is #OBJ_SIZE8_L16 or stufs like that
     pha
     rep #$20
-    lda spr0addrgfx						 					  ; initial adress is from big sprites (always 0)
+    lda spr0addrgfx						 					  ; initial address is from big sprites (always 0)
 	pha
     jsl oamInitGfxAttr
 	pla
@@ -949,7 +949,7 @@ oamVramQueueUpdate:
 	pha
 	plb
 	
-	ldx oamqueuenumber                 					     ; something to transfert to vram ?
+	ldx oamqueuenumber                 					     ; something to transfer to vram ?
 	bne	_ovqug1                    
     jmp _ovqug1z                   	 					     ; no, bye
     
@@ -958,7 +958,7 @@ _ovqug1:
 	sta.l	$2115                     	 					 ; VRAM address increment value designation
 
 	rep #$20          
-    stz.w oamqueuenumber           						     ; currently, we consider we have enought time for all sprites during frame
+    stz.w oamqueuenumber           						     ; currently, we consider we have enough time for all sprites during frame
     txa                           							 ; A got now number of data queued
     cmp #MAXSPRTRF
     bcc _ovqug1m                    						 ; not the max per frame
@@ -987,13 +987,13 @@ _gfxld8:
 	lda.l oamQueueEntry+5,x    							 	 ; get sprite size
 	cmp #OBJ_SPRITE8
 	bne +
-	brl _ovqu8b												 ; sprite 8x8 transfert to VRAM
+	brl _ovqu8b												 ; sprite 8x8 transfer to VRAM
 +:	cmp #OBJ_SPRITE16
 	bne _ovqu32b
-	brl _ovqu16b											 ; sprite 16x16 transfert to VRAM
+	brl _ovqu16b											 ; sprite 16x16 transfer to VRAM
 
 _ovqu32b:												     ;-------------------------------------------------
-	rep	#$20												 ; 32x32 sprite transfert to VRAM
+	rep	#$20												 ; 32x32 sprite transfer to VRAM
     lda.l oamQueueEntry+3,x   				    			 ; get address	
     sta.l	$2116           								 ; address for VRAM write(or read)
 
@@ -1062,7 +1062,7 @@ _ovqu32b:												     ;-------------------------------------------------
 +:	brl _ovqug1z0
 
 _ovqu16b:												     ;-------------------------------------------------
-	rep	#$20												 ; 16x16 sprite transfert to VRAM
+	rep	#$20												 ; 16x16 sprite transfer to VRAM
     lda.l oamQueueEntry+3,x    							 	 ; get address	
     sta.l	$2116                							 ; address for VRAM write(or read)
 
@@ -1103,7 +1103,7 @@ _ovqu16b:												     ;-------------------------------------------------
 +:	brl _ovqug1z0
 
 _ovqu8b:													 ;-------------------------------------------------
-    rep	#$20												 ; 8x8 sprite transfert to VRAM
+    rep	#$20												 ; 8x8 sprite transfer to VRAM
     lda.l oamQueueEntry+3,x    								 ; get address	
     sta.l	$2116                							 ; address for VRAM write(or read)
 
@@ -1130,7 +1130,7 @@ _ovqu8b:													 ;-------------------------------------------------
 _ovqug1z0:
     rep #$20
     lda oamqueuenumber
-    beq _ovqug1z          									 ; if more than max sprite to transfert, put them on top of queue
+    beq _ovqug1z          									 ; if more than max sprite to transfer, put them on top of queue
     ldy #$0000
     ldx #MAXSPRTRF
 _ovqug1z1:
@@ -1220,7 +1220,7 @@ oamDynamic32Draw:
 
 _o32DRep1:	
 	rep #$20
-	ldx oamnumberperframe                                     ; get curent sprite number (x4 entry)
+	ldx oamnumberperframe                                     ; get current sprite number (x4 entry)
 
     phx
     lda oamnumberspr0                  						  ; get graphics offset of 32x32 sprites
@@ -1261,7 +1261,7 @@ _o32DRep3:
 +:	
 	ply
 	lda oambuffer.1.oamattribute,y     						  ; get attr
-	sta oamMemory+3,x										  ; store attrbutes in oam memory
+	sta oamMemory+3,x										  ; store attributes in oam memory
 
 	rep #$20												  ; oamSetEx(nb_sprites_oam, OBJ_SMALL, OBJ_SHOW);
 	lda oamnumberperframe									  ; always small for 8px sprites
@@ -1350,7 +1350,7 @@ oamDynamic16Draw:
 	sta.l oamqueuenumber
 
     phx
-	lda spr16addrgfx										  ; if large sprite, adjust adress
+	lda spr16addrgfx										  ; if large sprite, adjust address
 	cmp spr0addrgfx
 	beq + 
     lda oamnumberspr1                             			  ;  get address
@@ -1376,10 +1376,10 @@ _o16DRep0p:
 
 _o16DRep1:
 	rep #$20
-	ldx oamnumberperframe                                        ; get curent sprite number (x4 entry)
+	ldx oamnumberperframe                                        ; get current sprite number (x4 entry)
 
     phx
-	lda spr16addrgfx										  ; if large sprite, adjust adress
+	lda spr16addrgfx										  ; if large sprite, adjust address
 	cmp spr0addrgfx						 
 	beq + 
     lda oamnumberspr1                             			  ;  get address
@@ -1424,7 +1424,7 @@ _o16DRep3:
 +:	
 	ply
 	lda oambuffer.1.oamattribute,y     						  ; get attr
-	sta oamMemory+3,x										  ; store attrbutes in oam memory
+	sta oamMemory+3,x										  ; store attributes in oam memory
 
 	rep #$20												  ; oamSetEx(nb_sprites_oam, OBJ_SMALL, OBJ_SHOW);
 	lda oamnumberperframe
@@ -1457,7 +1457,7 @@ _o16DRep3:
 	sta oamMemory,y               							  ; store new value in oam table #2
 
 +:  rep #$20
-	lda spr16addrgfx										  ; if large sprite, adjust adress
+	lda spr16addrgfx										  ; if large sprite, adjust address
 	cmp spr0addrgfx						 
 	beq + 
     inc.w oamnumberspr1										  ; one more sprite 16x16 small
@@ -1543,7 +1543,7 @@ oamDynamic8Draw:
 
 _o8DRep1:
 	rep #$20
-	ldx oamnumberperframe                                     ; get curent sprite number (x4 entry)
+	ldx oamnumberperframe                                     ; get current sprite number (x4 entry)
 
     phx
     lda oamnumberspr1                  						  ; get graphics offset of 8x8 sprites
@@ -1584,7 +1584,7 @@ _o8DRep3:
 +:	
 	ply
 	lda oambuffer.1.oamattribute,y     						  ; get attr
-	sta oamMemory+3,x										  ; store attrbutes in oam memory
+	sta oamMemory+3,x										  ; store attributes in oam memory
 
 	rep #$20												  ; oamSetEx(nb_sprites_oam, OBJ_SMALL, OBJ_SHOW);
 	lda oamnumberperframe									  ; always small for 8px sprites

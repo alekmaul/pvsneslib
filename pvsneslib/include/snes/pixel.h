@@ -25,7 +25,7 @@
 ---------------------------------------------------------------------------------*/
 
 /*!	\file pixel.h
-    \brief contains the basic defnitions for doing a pixel per pixel mode for SNES.
+    \brief contains the basic definitions for doing a pixel per pixel mode for SNES.
     \brief map entrgy is 0x5800 and tiles entry is 0x6000 for 14K bytes !
     \brief so don't use graphics after 0x5800
     \brief this pixel mode uses SNES mode 0 so only 3 colors can be used

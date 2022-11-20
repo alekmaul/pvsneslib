@@ -35,12 +35,16 @@ int main(void)
     // Load music. Constant is automatically defined in soundbank.h
     spcLoad(MOD_WHATISLOVE);
 
+    // Init background
+    bgSetGfxPtr(0, 0x2000);
+    bgSetMapPtr(0, 0x6800, SC_32x32);
+
     // Now Put in 16 color mode and disable Bgs except current
     setMode(BG_MODE1, 0);
     bgSetDisable(1);
     bgSetDisable(2);
 
-    // Draw a wonderfull text :P
+    // Draw a wonderful text :P
     consoleDrawText(5, 10, "Let's the music play !");
 
     // Wait for nothing :P

@@ -227,7 +227,7 @@ void marioupdate(u8 idx)
     oambuffer[0].oamy = marioy - y_pos;
     oamDynamic16Draw(0);
 
-    // update camera regarding mario obejct
+    // update camera regarding mario object
     mapUpdateCamera(mariox, marioy);
 }
 

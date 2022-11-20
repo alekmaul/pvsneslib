@@ -237,6 +237,17 @@ setScreenOn:
 	plp
 	rtl
 	
+;---------------------------------------------------------------------------
+; void setScreenOff(void)
+setScreenOff:
+	php
+
+    lda #DSP_FORCEVBL                                         ; force vblank before putting screen off
+   	sta.l REG_INIDISP                                         ; Screen brightness
+
+	plp
+	rtl
+	
 .ENDS
 
 .SECTION ".videos2_text" SUPERFREE
@@ -310,7 +321,7 @@ setMode:
 
     stz videoModeSub            ; Default sub mode
 	
-	lda iloc                    ; Regarding mode, ajust BGs
+	lda iloc                    ; Regarding mode, adjust BGs
     cmp #BG_MODE0
     bne _smdm124
 	; Mode 0 : 4-color     4-color     4-color     4-color   ;Normal
@@ -482,7 +493,7 @@ setMode7:
 	lda #BG_MODE7
     sta.l REG_BGMODE                    ; Put video mode to 7
 	
-	lda 5,s                             ; Put mode 7 additionnal conf
+	lda 5,s                             ; Put mode 7 additional conf
 	sta.l REG_M7SEL
 	
 	lda #BG1_ENABLE | OBJ_ENABLE        ; Enable BG1 and OBJ

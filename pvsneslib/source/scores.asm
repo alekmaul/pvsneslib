@@ -23,7 +23,7 @@
 ;---------------------------------------------------------------------------------
 
 .RAMSECTION ".reg_scores" BANK 0 SLOT 1
-scorestring		DSB 10                         ; for score to string convertion
+scorestring		DSB 10                         ; for score to string conversion
 .ENDS
 
 .SECTION ".scores0_text" SUPERFREE
@@ -83,7 +83,7 @@ scoreAdd:
 	sbc #$2710						; is it greater than 10000 ?
 	bcc _scoAdd1					; not a overflow, exit
 	
-	sta 0,x								; store again when 10000 is substract
+	sta 0,x								; store again when 10000 is subtract
 	lda 2,x								; add one to high number
 	inc a
 	sta 2,x
@@ -188,7 +188,7 @@ _scocmpequ:
 	pla
 	sec
 	sbc 0,y								; is low equals ?
-	beq _scocmpequ1				; ok, retrun 0
+	beq _scocmpequ1				; ok, return 0
 	bcs _scocmphig1				; nope, it is lower
 	bra _scocmplow1
 	

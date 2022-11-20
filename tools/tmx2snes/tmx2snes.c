@@ -133,7 +133,7 @@ void WriteMap(void)
         printf("tmx2snes: error 'Can't open layer map file [%s] for writing'\n", filemapname);
         exit(1);
     }
-    // Put width & heigh
+    // Put width & height
     PutWord(map->width * map->tilewidth, fpo);
     PutWord(map->height * map->tileheight, fpo);
 
@@ -187,7 +187,7 @@ void WriteTileset(void)
     }
 
     // Write tile properties to file
-    // 2 datas are currently managed : priority & block attribute
+    // 2 data are currently managed : priority & block attribute
     // tiles with library is in reverse order (why ?)
     tset = map->tilesets;
     tile = tset->tiles;
@@ -203,7 +203,7 @@ void WriteTileset(void)
     memset(tileprop, 0x00, sizeof(tileprop));
     while (tile)
     {
-        // browse through all propperties of current tile
+        // browse through all properties of current tile
         for (i = 0; i < tile->property_count; i++)
         {
             propm = tile->properties + i;
@@ -240,7 +240,7 @@ void WriteTileset(void)
         PutWord(tileprop[i][0], fpo);
     }
 
-    // close current layer atribute file
+    // close current layer attribute file
     fclose(fpo);
 }
 
@@ -271,7 +271,7 @@ void WriteMapTileset(void)
         PutWord(blkprop, fpo);
     }
 
-    // close current layer atribute file
+    // close current layer attribute file
     fclose(fpo);
 }
 
