@@ -950,7 +950,10 @@ _oicm1:
     adc objbuffers.1.yofs,x
     clc
     adc objbuffers.1.height,x
-    lsr a
+	bpl + 												      ; if y<0, put it to 0 *FIX 221130 *
+	lda #0000
+
++   lsr a
     lsr a
     and	#$FFFE
     tay
@@ -1085,7 +1088,7 @@ _oicm61:
     lda objbuffers.1.yvel,x
     clc
     adc #GRAVITY
-    cmp #MAX_Y_VELOCITY+1                               ; add velocity regarding if we do not reach the maximum
+    cmp #MAX_Y_VELOCITY+1                                  ; add velocity regarding if we do not reach the maximum
     bmi _oicm6
     lda #MAX_Y_VELOCITY
 
@@ -1093,7 +1096,7 @@ _oicm6:
     sta objbuffers.1.yvel,x
 	brl  _oicmtstx
 
-_oicmtstyn:
+_oicmtstyn:												   ; ------------------------------------------------------
     stz objbuffers.1.tilestand,x                           ; yvel<0, object is moving upwards
 
     xba
@@ -1102,7 +1105,10 @@ _oicmtstyn:
     adc	objbuffers.1.ypos+1,x
     clc
     adc objbuffers.1.yofs,x
-    lsr a
+	bpl +     											   ; if y < 0, put it to 0  *FIX 221126*
+	
+	lda #0000
++   lsr a
     lsr a
 	and	#$FFFE
 	tay
@@ -1226,8 +1232,10 @@ _oicmtstx12:
 	lda objbuffers.1.ypos+1,x
 	clc
 	adc objbuffers.1.yofs,x
-	pha
-	
+	bpl + 												      ; if y<0, put it to 0 *FIX 20221201 */
+	lda #0000
+
++	pha
     and	#$0007
     clc
     adc objbuffers.1.height,x
@@ -1320,8 +1328,10 @@ _oicmtstxna:
     lda objbuffers.1.ypos+1,x
     clc
     adc objbuffers.1.yofs,x
-    pha
+	bpl + 												      ; if y<0, put it to 0 *FIX 20221201 */
+	lda #0000
 
++   pha
     and	#$0007
     clc
     adc objbuffers.1.height,x
