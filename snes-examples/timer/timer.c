@@ -39,7 +39,7 @@ int main(void)
 
     while (1)
     {
-        consoleDrawText(10, 10, "FPS=%d", snes_vblank_count);
+        consoleDrawText(10, 10, "COUNTER=%u", snes_vblank_count);
         WaitForVBlank();
     }
     return 0;
