@@ -597,15 +597,15 @@ print_screen_map:
     sta tcc__r1
 
     sep #$20
-_psmp0:    
+_psm_nextchar:
     lda [tcc__r1]                                           ; while (*buffer)
-    beq _psmp2
+    beq _psm_return
     cmp #13                                                 ; Do a Carriage Return & Linefeed simulation
 	bne +
     lda tcc__r0
     clc
     adc #32*2
-    bra _psmp1
+    bra _psm_continue
 
 +   sec                                                     ; Write char to screen with attributes
     sbc #32                                                 ; High     Low      Legend->  c: Starting character (tile) number
@@ -617,12 +617,12 @@ _psmp0:
     adc txt_vram_offset+1
     sta [tcc__r0]
     inc tcc__r0
-_psmp1:
+_psm_continue:
     inc tcc__r1
-    bra _psmp0
+    bra _psm_nextchar
     
-_psmp2:    
-    plb 
+_psm_return:
+	plb 
 	plp
 	rtl 
 
