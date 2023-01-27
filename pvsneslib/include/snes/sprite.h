@@ -232,14 +232,14 @@ void oamSetXY(u16 id, u16 xspr, u16 yspr);
     oamMemory[id + 2] = (gfxoffset);   \
     oamMemory[id + 3] = (oamMemory[id + 3] & 0xFE) | ((gfxoffset >> 8) & 1);
 
-/*! \brief Put the correct size and hide or not a oam
+/*! \brief Put the correct size and hide or show a sprite
     \param id the oam number to be set [0 - 127] * 4 because of oam structure
     \param size	normal or large (OBJ_SMALL or OBJ_LARGE)
     \param hide	0 or 1 to hide / see oam
 */
 void oamSetEx(u16 id, u8 size, u8 hide);
 
-/*! \brief Hide or not a oam
+/*! \brief Hide or show a sprite
     \param id the oam number to be set [0 - 127] * 4 because of oam structure
     \param hide	0 or 1 to hide / see oam
 */

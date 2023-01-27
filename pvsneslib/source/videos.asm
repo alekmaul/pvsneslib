@@ -451,7 +451,7 @@ _im7m1:
 .EQU OFSH           (0x0000)
 .EQU OFSV           (0x0200-0x0080)
 
-_m7sincos:
+m7sincos:
     .db   0,  3,  6,  9,  12,  16,  19,  22
     .db   25,  28,  31,  34,  37,  40,  43,  46
     .db   48,  51,  54,  57,  60,  62,  65,  68
@@ -545,19 +545,19 @@ setMode7:
     sta m7sy
 
 	rep	#$20                            ; m7sin = m7sincos[0]; m7cos = m7sincos[0+64];
-    lda #_m7sincos
+    lda #m7sincos
     sta tcc__r0
-	lda #:_m7sincos
+	lda #:m7sincos
     sta tcc__r0h                        
     sep #$20
     lda.b [tcc__r0]
     sta m7sin
     rep #$20
-    lda #_m7sincos
+    lda #m7sincos
     clc
     adc #64
     sta tcc__r0
-	lda #:_m7sincos
+	lda #:m7sincos
     sta tcc__r0h                        
     sep #$20
     lda.b [tcc__r0]
@@ -582,11 +582,11 @@ setMode7Rot:
     lda 5,s
     rep	#$20                            ; m7sin = m7sincos[angle]; m7cos = m7sincos[angle+64];
     sta.b tcc__r1
-    lda #_m7sincos
+    lda #m7sincos
     clc
     adc.b tcc__r1
     sta tcc__r0
-	lda #:_m7sincos
+	lda #:m7sincos
     sta tcc__r0h                        
     sep #$20
     lda.b [tcc__r0]
@@ -598,12 +598,12 @@ setMode7Rot:
 +   sep #$20
     sta.w m7sin
     rep #$20
-    lda #_m7sincos
+    lda #m7sincos
     clc
     adc.b tcc__r1
     adc #64
     sta tcc__r0
-	lda #:_m7sincos
+	lda #:m7sincos
     sta tcc__r0h                        
     sep #$20
     lda.b [tcc__r0]
@@ -795,11 +795,11 @@ setMode7Angle:
     lda 5,s
     rep	#$20                            ; m7sin = m7sincos[angle]; m7cos = m7sincos[angle+64];
     sta.b tcc__r1
-    lda #_m7sincos
+    lda #m7sincos
     clc
     adc.b tcc__r1
     sta tcc__r0
-	lda #:_m7sincos
+	lda #:m7sincos
     sta tcc__r0h                        
     sep #$20
     lda.b [tcc__r0]
@@ -811,12 +811,12 @@ setMode7Angle:
 +   sep #$20
     sta.w m7sin
     rep #$20
-    lda #_m7sincos
+    lda #m7sincos
     clc
     adc.b tcc__r1
     adc #64
     sta tcc__r0
-	lda #:_m7sincos
+	lda #:m7sincos
     sta tcc__r0h                        
     sep #$20
     lda.b [tcc__r0]
