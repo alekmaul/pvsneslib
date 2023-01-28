@@ -41,7 +41,7 @@
 .DEFINE OB_SCR_YRI_CHK      224             ; 224 is the maximum on screen y position to display sprite object
 
 .DEFINE T_SOLID				$FF00
-.DEFINE T_LADDE				$0001
+.DEFINE T_LADDER			$0001
 .DEFINE T_FIRES				$0002
 .DEFINE T_SPIKE				$0004
 .DEFINE T_PLATE				$0008
@@ -152,12 +152,12 @@ objInitEngine:
 	phb
 	phx
 	phy
-	
+
 	sep #$20                                            ; change bank for object bank
 	lda #$7e
 	pha
 	plb
-	
+
 	rep #$20
 	ldx #0
 
@@ -168,7 +168,7 @@ _oieR0:
 	txa
 	cmp #(OB_SIZE*(OB_MAX))
 	bne _oieR0
-	
+
 	lda #$0000
 	ldy #$0001
 
@@ -205,14 +205,14 @@ _oieR3:
 	dex
 	bne _oieR3
 	sta objactives,x									; for last one
-	
-	stz.w objnewid	
+
+	stz.w objnewid
 	stz.w objgetid
-  	
+
 	sep #$20
 	lda #$1
 	sta objnextid
-	
+
     rep #$20
     lda #GRAVITY                                        ; set default values for gravity and other variables
     sta objgravity
@@ -223,7 +223,7 @@ _oieR3:
 	plx
 	plb
 	plp
-	
+
 	rtl
 
 ;---------------------------------------------------------------------------------
@@ -231,12 +231,12 @@ _oieR3:
 objInitGravity:
 	php
 	phb
-	
+
 	sep #$20                                            ; change bank for object bank
 	lda #$7e
 	pha
 	plb
-	
+
     lda 7,s												; get gravity (5+2)
     sta objgravity
     lda 8,s												; get friction (6+2)
@@ -245,7 +245,7 @@ objInitGravity:
 
 	plb
 	plp
-	
+
 	rtl
 
 ;---------------------------------------------------------------------------------
@@ -316,7 +316,7 @@ objNew:
     beq _oiN0
     bra _oiN1
 
-_oiN0:	
+_oiN0:
     lda #OB_ID_NULL                                     ; put OB_ID_NULL and leave function
     sta tcc__r0
     bra _oiNEnd
@@ -417,7 +417,7 @@ objGetPointer:
     lda #$7e
     pha
     plb
-	
+
     rep #$20											; grab the nID value from the id (top word of the id)
     lda 10,s                                            ; 5+1+2+2
     xba
@@ -426,7 +426,7 @@ objGetPointer:
     sta objptr
     lda 10,s
     and #$00ff	  									    ; grab the ptr to the object (from index, lower word of id 5+1+2+2)
-	tax										
+	tax
 	inx													; grab value for return value
 	asl a 												; adapt to object size 64
 	asl a
@@ -462,18 +462,18 @@ objKill:
 
 	phx
 	phy
-	
+
 	sep #$20                                            ; got o object bank
 	lda #$7e
 	pha
 	plb
-	
+
 	rep #$20											; grab the nID value from the id (top word of the id)
 	lda 10,s                                            ; handle of object (5+1+2+2)
 	pha
 	jsl objGetPointer
 	pla
-	
+
 	lda objptr
 	bne _oik1                                           ; if NULL, object is already dead
 	brl _oikend
@@ -486,14 +486,14 @@ _oik1:
 	asl a
 	asl a
 	asl a
-	tax 														
+	tax
 	sta objptr
-	
+
 	lda objbuffers.1.prev,x                             ; remove it from its active list
-	
+
 	cmp #OB_NULL
 	bne _oik2
-	
+
 	sep #$20                                            ; this object was at the top of its list... move next one up to top
 	lda objbuffers.1.type,x
 	rep #$20
@@ -502,17 +502,17 @@ _oik1:
 	tay
 	lda objbuffers.1.next,x
 	sta objactives,y
-	
+
 	cmp #OB_NULL
 	beq _oik3
-	
+
 	asl a
 	asl a
 	asl a
 	asl a
 	asl a
 	asl a
-	tax 														
+	tax
 	lda #OB_NULL
 	sta objbuffers.1.prev,x
 	bra _oik3
@@ -527,10 +527,10 @@ _oik2:
 	asl a
 	asl a
 	asl a
-	tax 		
+	tax
 	tya
 	sta objbuffers.1.next,x
-	
+
 	cmp #OB_NULL
 	beq _oik3
 
@@ -544,10 +544,10 @@ _oik2:
 	asl a
 	asl a
 	asl a
-	tax 		
+	tax
 	tya
 	sta objbuffers.1.prev,x
-	
+
 _oik3:
 	ldx objptr										    ; add the object to the unused list
 	lda objunused
@@ -565,7 +565,7 @@ _oik4:                                                  ; init memory of object
 	iny
 	cpy #OB_SIZE
 	bne _oik4
-	
+
 _oikend:
 	ply
 	plx
@@ -603,7 +603,7 @@ _oikal2:
     asl a
     asl a
     asl a
-    tax 												
+    tax
     lda objbuffers.1.next,x
     pha
 
@@ -617,7 +617,7 @@ _oikal2:
     pha
     jsl objKill
     pla
-			
+
     pla
     bra _oikal2
 
@@ -626,15 +626,15 @@ _oikal3:
     iny
     cpy #OB_TYPE_MAX*2                                  ; loop for all objects
 	bne _oikal1
-	
-	stz.w objnewid	
+
+	stz.w objnewid
 	stz.w objgetid
 	stz.w objunused
-	
+
 	sep #$20
 	lda #$1
 	sta objnextid
-	
+
 	ply
 	plx
 	plb
@@ -657,10 +657,10 @@ _oora:
     tax
     cmp #128*16
     bne _oora
-    
+
     plx
     plp
-    rts                        
+    rts
 
 ;---------------------------------------------------------------------------------
 ; void objUpdateAll(void)
@@ -670,17 +670,17 @@ objUpdateAll:
 
 	phx
 	phy
-	
+
 	sep #$20                                            ; goto object bank
 	lda #$7e
 	pha
 	plb
-	
+
     stz objneedrefresh                                  ; no global refresh needed
 
 	rep #$20
 	ldx #$0000
-	
+
 _oiual1:
     lda objactives,x									; walk through entire active buffer
 	phx
@@ -696,7 +696,7 @@ _oiual3:
     asl a
     asl a
     asl a
-    tax 				                                ; x is now the current object															
+    tax 				                                ; x is now the current object
 
     lda objbuffers.1.next,x                             ; grab the next object to update
     pha                                                 ; will be restore at the end
@@ -745,12 +745,12 @@ _oiual32:
     asl a
     asl a
     tay
-		
+
     lda objfctupd,y		                                ; get address of update function and call it
     sta objfctcall
     lda objfctupd+2,y
     sta objfctcallh
-		
+
     lda objcidx
     pha
 
@@ -772,7 +772,7 @@ _oiual32:
     asl a
     asl a
     asl a
-    tax 		
+    tax
     sep #$20
     lda objbuffers.1.nID,x
     rep #$20
@@ -783,7 +783,7 @@ _oiual32:
     pha
     jsl objKill
     pla
-			
+
 _oial31:
     pla
     brl _oiual10
@@ -816,15 +816,15 @@ objRefreshAll:
 
 	phx
 	phy
-	
+
 	sep #$20                                            ; goto object bank
 	lda #$7e
 	pha
 	plb
-	
+
 	rep #$20
 	ldx #$0000
-	
+
 _oiral1:
     lda objactives,x									; walk through entire active buffer
 	phx
@@ -840,7 +840,7 @@ _oiral3:
     asl a
     asl a
     asl a
-    tax 				                                ; x is now the current object															
+    tax 				                                ; x is now the current object
 
     lda objbuffers.1.next,x                             ; grab the next object to update
     pha                                                 ; will be restore at the end
@@ -876,12 +876,12 @@ _oiral32:
     asl a
     asl a
     tay
-		
+
     lda objfctref,y		                                ; get address of update function and call it
     sta objfctcall
     lda objfctref+2,y
     sta objfctcallh
-		
+
     lda objcidx
     pha
 
@@ -926,7 +926,7 @@ objCollidMap:
     lda #$7e
     pha
     plb
-	
+
 	rep #$20
 	lda 10,s											; grad the index of object (5+1+2+2)
 	asl a
@@ -957,7 +957,7 @@ _oicm1:
     lsr a
     and	#$FFFE
     tay
-		
+
     lda objbuffers.1.xpos+1,x
     clc
     adc	objbuffers.1.xofs,x
@@ -1020,7 +1020,7 @@ _oicm21:
     ldx objtmp2
     sta objbuffers.1.tilesprop,x
     lda objbuffers.1.tilesprop,x
-    cmp #T_LADDE										; if ladder, well avoid doing stuffs
+    cmp #T_LADDER										; if ladder, well avoid doing stuffs
 	beq _oicm3
 	cmp #T_PLATE										; if on a plate, do same thing
 	beq _oicm3
@@ -1034,7 +1034,7 @@ _oicm21:
 _oicm22:
     cmp #T_SPIKE                                        ; if spike, player is dying too
 	bne _oicm23
-	lda #ACT_DIE																
+	lda #ACT_DIE
 	sta objbuffers.1.action
 	brl  _oicmtstx
 
@@ -1106,13 +1106,13 @@ _oicmtstyn:												   ; ----------------------------------------------------
     clc
     adc objbuffers.1.yofs,x
 	bpl +     											   ; if y < 0, put it to 0  *FIX 221126*
-	
+
 	lda #0000
 +   lsr a
     lsr a
 	and	#$FFFE
 	tay
-		
+
     lda objbuffers.1.xpos+1,x
     clc
     adc	objbuffers.1.xofs,x
@@ -1135,7 +1135,7 @@ _oicmtstyn:												   ; ----------------------------------------------------
     clc
     adc.w mapadrrowlut, y
     tay
-		
+
     clc
     adc maptile_L1d 					                ; get direct rom value
     tax
@@ -1168,12 +1168,12 @@ _oicmtstyn1:
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
-		
+
 _oicmtstyn2:
     ldx objtmp2
     sta objbuffers.1.tilesprop,x
     lda objbuffers.1.tilesprop,x
-    cmp #T_LADDE										; if ladder, well avoid doing stuffs
+    cmp #T_LADDER										; if ladder, well avoid doing stuffs
     beq _oicmtstyn4
 
     and #$ff00											; keep only the high values for collision
@@ -1211,7 +1211,7 @@ _oicmtstyn4:
 
 _oicmtstyn5:
     sta objbuffers.1.yvel,x
-		
+
 _oicmtstx:
 	ldx objtmp2
 	lda objbuffers.1.xvel,x                               ; if xvel>=0 -> moving right
@@ -1322,7 +1322,7 @@ _oicmtstxn:
     bmi _oicmtstxna
     stz objbuffers.1.xvel,x                             ; currently it is not ok to go left
     brl _oicmend
-	
+
 _oicmtstxna:
     sta objbuffers.1.xvel,x
     lda objbuffers.1.ypos+1,x
@@ -1412,7 +1412,7 @@ _oicmtstxnd:
     adc.l maprowsize
     dec	objtmp1
     bne _oicmtstxnc				                        ; go through all y available
-			
+
 _oicmend:
 	ply
 	plx
@@ -1437,7 +1437,7 @@ objCollidMap1D:
     lda #$7e
     pha
     plb
-	
+
 	rep #$20
 	lda 10,s											      ; grad the index of object (5+1+2+2)
 	asl a
@@ -1468,7 +1468,7 @@ _oicm1d1:
     lsr a
     and	#$FFFE
     tay
-		
+
     lda objbuffers.1.xpos+1,x
     clc
     adc	objbuffers.1.xofs,x
@@ -1531,7 +1531,7 @@ _oicm1d21:
     ldx objtmp2
     sta objbuffers.1.tilesprop,x
     lda objbuffers.1.tilesprop,x
-    cmp #T_LADDE										; if ladder, well avoid doing stuffs
+    cmp #T_LADDER										; if ladder, well avoid doing stuffs
 	beq _oicm1d3
 	cmp #T_PLATE										; if on a plate, do same thing
 	beq _oicm1d3
@@ -1545,7 +1545,7 @@ _oicm1d21:
 _oicm1d22:
     cmp #T_SPIKE                                        ; if spike, player is dying too
 	bne _oicm1d23
-	lda #ACT_DIE																
+	lda #ACT_DIE
 	sta objbuffers.1.action
 	brl  _oicm1dtstx
 
@@ -1613,7 +1613,7 @@ _oicm1dtstyn:
     lsr a
 	and	#$FFFE
 	tay
-		
+
     lda objbuffers.1.xpos+1,x
     clc
     adc	objbuffers.1.xofs,x
@@ -1636,7 +1636,7 @@ _oicm1dtstyn:
     clc
     adc.w mapadrrowlut, y
     tay
-		
+
     clc
     adc maptile_L1d 					                ; get direct rom value
     tax
@@ -1669,12 +1669,12 @@ _oicm1dtstyn1:
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
-		
+
 _oicm1dtstyn2:
     ldx objtmp2
     sta objbuffers.1.tilesprop,x
     lda objbuffers.1.tilesprop,x
-    cmp #T_LADDE										; if ladder, well avoid doing stuffs
+    cmp #T_LADDER										; if ladder, well avoid doing stuffs
     beq _oicm1dtstx
 
     and #$ff00											; keep only the high values for collision
@@ -1888,7 +1888,7 @@ _oicm1dtstxnd:
     adc.l maprowsize
     dec	objtmp1
     bne _oicm1dtstxnc				                        ; go through all y available
-			
+
 _oicm1dend:
 	ply
 	plx
@@ -1908,14 +1908,14 @@ objLoadObjects:
 
     phx
     phy
-	
+
 	sep	#$20
 	lda	#$0
 	pha
 	plb
 
 	rep	#$20							                ; load objects in temporary buffer
-    lda	10,s	
+    lda	10,s
 	sta.l	$4302                                       ; data offset of source
     lda #(OB_MAX*5)+1
     asl a
@@ -1926,13 +1926,13 @@ objLoadObjects:
     sep	#$20
     lda #$7e
     sta.l $2183                                         ; bank address of destination
-    lda	12,s	
+    lda	12,s
     sta.l	$4304                                       ; bank address of source
-    ldx	#$8000						
+    ldx	#$8000
 	stx	$4300
 
     lda #$01
-    sta $420B 						
+    sta $420B
 
 	sep	#$20
 	lda	#$7e
@@ -2012,7 +2012,7 @@ objCollidObj:
     pha
     plb
 
-	rep #$20												
+	rep #$20
 	stz.w tcc__r0                                       ; no collision yet
 
 	lda 12,s											; grad the index of object 2 (7+1+2+2)
@@ -2028,7 +2028,7 @@ objCollidObj:
 	adc objbuffers.1.xofs,y
 	bmi _oicoend							            ; no collision checking if second is not on screen
 	sta objtmp1
-	
+
 	lda 10,s											; grad the index of object 1 (5+1+2+2)
 	asl a
 	asl a
@@ -2044,7 +2044,7 @@ objCollidObj:
 	lda #$0000
 _oicor1:
 	sta objtmp2
-	
+
 	cmp objtmp1											; objleft
 	bcs _oicor2
 	adc objbuffers.1.width,x
@@ -2052,16 +2052,16 @@ _oicor1:
 	cmp objtmp1
 	bmi _oicoend
 	bra _oicor3
-	
+
 _oicor2:
 	lda objtmp1
 	clc
 	adc objbuffers.1.width,y
 	cmp objtmp2
 	bmi _oicoend
-	
+
 _oicor3:
-	lda objbuffers.1.ypos+1,y				
+	lda objbuffers.1.ypos+1,y
 	clc
 	adc objbuffers.1.yofs,y
 	sta objtmp3
@@ -2079,17 +2079,17 @@ _oicor4:
 	adc objbuffers.1.height,x
 	cmp objtmp3
 	bmi _oicoend
-	
+
 _oicor5:
 	lda objtmp3
 	clc
 	adc objbuffers.1.height,y
 	cmp objtmp4
 	bmi _oicoend
-	
+
 	lda #$0001                                         ; here, we have collision
 	sta.w tcc__r0
-	
+
 _oicoend:
 
 	ply
@@ -2115,7 +2115,7 @@ objUpdateXY:
     pha
     plb
 
-	rep #$20											
+	rep #$20
 	lda 8,s                                             ; grab the index of object (5+1+2)
 	asl a
 	asl a
