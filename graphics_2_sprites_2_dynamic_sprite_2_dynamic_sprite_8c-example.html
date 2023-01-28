@@ -169,17 +169,17 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_dynamic_sprite_2_
 <div class="line">    <span class="comment">// Put current handler to our function</span></div>
 <div class="line">    spr_queue = 0xff;</div>
 <div class="line">    spr_mutex = 0;</div>
-<div class="line">    nmiSet(myconsoleVblank);</div>
+<div class="line">    <a name="a6"></a><a class="code" href="interrupt_8h.html#ae003bf371437a7a0cc8dbef4f7854271">nmiSet</a>(myconsoleVblank);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init Sprites gfx and palette with default size of 16x16 (and don&#39;t load sprite tiles)</span></div>
-<div class="line">    <a name="a6"></a><a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;gfxpsrite, 2, &amp;palsprite, 16 * 2, 0, ADRGFXSPR, <a name="a7"></a><a class="code" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>);</div>
+<div class="line">    <a name="a7"></a><a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;gfxpsrite, 2, &amp;palsprite, 16 * 2, 0, ADRGFXSPR, <a name="a8"></a><a class="code" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Define sprites parameters</span></div>
-<div class="line">    <a name="a8"></a><a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(0, 100, 100, 3, 0, 0, 0, 0); <span class="comment">// Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0</span></div>
-<div class="line">    <a name="a9"></a><a class="code" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a>(0, OBJ_SMALL, OBJ_SHOW);</div>
+<div class="line">    <a name="a9"></a><a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(0, 100, 100, 3, 0, 0, 0, 0); <span class="comment">// Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0</span></div>
+<div class="line">    <a name="a10"></a><a class="code" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a>(0, OBJ_SMALL, OBJ_SHOW);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode and disable all backgrounds</span></div>
-<div class="line">    <a name="a10"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a11"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>, 0);</div>
+<div class="line">    <a name="a11"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE1, 0);</div>
 <div class="line">    <a name="a12"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(0);</div>
 <div class="line">    <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
 <div class="line">    <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
@@ -214,17 +214,17 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_dynamic_sprite_2_
 <div class="line">        }</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Wait VBL &#39;and update sprites too ;-) )</span></div>
-<div class="line">        <a name="a16"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
+<div class="line">        <a name="a16"></a><a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
-<div class="ttc" id="abackground_8h_html_a05c862edb7f8f75036f10c04dcc3c2a6"><div class="ttname"><a href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a></div><div class="ttdeci">#define BG_MODE1</div><div class="ttdoc">16-color 16-color 4-color - ;Normal</div><div class="ttdef"><b>Definition:</b> background.h:55</div></div>
 <div class="ttc" id="abackground_8h_html_a4dbfb1b8854ff9ca4a7d11a899281bbb"><div class="ttname"><a href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a></div><div class="ttdeci">void bgSetDisable(u8 bgNumber)</div><div class="ttdoc">Disable a BG in the actual SNES mode.</div></div>
 <div class="ttc" id="aconsole_8h_html_a5e14b74b621c822db9af978d0ad31d1a"><div class="ttname"><a href="console_8h.html#a5e14b74b621c822db9af978d0ad31d1a">snes_vblank_count</a></div><div class="ttdeci">u16 snes_vblank_count</div><div class="ttdoc">Number of VBL since consoleInit called.</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
 <div class="ttc" id="adma_8h_html_a72ec813d4b395cafa59852cbd1ffa8b2"><div class="ttname"><a href="dma_8h.html#a72ec813d4b395cafa59852cbd1ffa8b2">dmaCopyOAram</a></div><div class="ttdeci">void dmaCopyOAram(u8 *source, u16 address, u16 size)</div><div class="ttdoc">copies Sprites from source to destination using channel 0 of DMA available channels in half words</div></div>
 <div class="ttc" id="adma_8h_html_adddf1dea4bd52a083b3ee4b39f1e20f2"><div class="ttname"><a href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a></div><div class="ttdeci">void dmaCopyVram(u8 *source, u16 address, u16 size)</div><div class="ttdoc">copy data from source to destination using channel 0 of DMA available channels in half words</div></div>
-<div class="ttc" id="ainterrupt_8h_html_a815e2626bd26d0e936d507a363ecd723"><div class="ttname"><a href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt Waits for a vertical blank interrupt.</div></div>
+<div class="ttc" id="ainterrupt_8h_html_abd33830487e4764e5ec22ec98b749f4b"><div class="ttname"><a href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt</div></div>
+<div class="ttc" id="ainterrupt_8h_html_ae003bf371437a7a0cc8dbef4f7854271"><div class="ttname"><a href="interrupt_8h.html#ae003bf371437a7a0cc8dbef4f7854271">nmiSet</a></div><div class="ttdeci">#define nmiSet(handler)</div><div class="ttdoc">Add a handler for the given interrupt mask.</div><div class="ttdef"><b>Definition:</b> interrupt.h:150</div></div>
 <div class="ttc" id="apad_8h_html_a42632e79292dc47a567aab4dc3e4407d"><div class="ttname"><a href="pad_8h.html#a42632e79292dc47a567aab4dc3e4407d">scanPads</a></div><div class="ttdeci">void scanPads(void)</div><div class="ttdoc">Wait for pad ready and read pad values in .</div></div>
 <div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:122</div></div>
 <div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition:</b> pad.h:48</div></div>
@@ -241,7 +241,7 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_dynamic_sprite_2_
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Fri Jan 27 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sat Jan 28 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

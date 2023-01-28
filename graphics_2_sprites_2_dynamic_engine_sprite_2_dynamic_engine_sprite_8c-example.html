@@ -122,29 +122,29 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_dynamic_engine_sp
 <div class="line">    <a name="a1"></a><a class="code" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(0, &amp;patterns, &amp;palette, 0, (&amp;patterns_end - &amp;patterns), (&amp;palette_end - &amp;palette), BG_16COLORS, 0x4000);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Copy Map to VRAM</span></div>
-<div class="line">    <a name="a2"></a><a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(0, &amp;map, (&amp;map_end - &amp;map), <a name="a3"></a><a class="code" href="background_8h.html#a11724b6748ce0954e9b43819263537fc">SC_32x32</a>, 0x6800);</div>
+<div class="line">    <a name="a2"></a><a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(0, &amp;map, (&amp;map_end - &amp;map), SC_32x32, 0x6800);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init Sprites palette</span></div>
-<div class="line">    <a name="a4"></a><a class="code" href="video_8h.html#ae29ed0390bca0390d3fdf55362a3663b">setPalette</a>(&amp;spr16p, 128 + 0 * 16, 16 * 2);</div>
+<div class="line">    <a name="a3"></a><a class="code" href="video_8h.html#ae29ed0390bca0390d3fdf55362a3663b">setPalette</a>(&amp;spr16p, 128 + 0 * 16, 16 * 2);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode and disable other BGs except 1st one</span></div>
-<div class="line">    <a name="a5"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a6"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>, 0);</div>
-<div class="line">    <a name="a7"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
+<div class="line">    <a name="a4"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE1, 0);</div>
+<div class="line">    <a name="a5"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
 <div class="line">    <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
-<div class="line">    <a name="a8"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
+<div class="line">    <a name="a6"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init sprite engine (0x0000 for large, 0x1000 for small)</span></div>
-<div class="line">    <a name="a9"></a><a class="code" href="sprite_8h.html#adc3b431ee9b6bc613e5e4e6734dbfc08">oamInitDynamicSprite</a>(0x0000, 0x1000, 0, 0, <a name="a10"></a><a class="code" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>);</div>
+<div class="line">    <a name="a7"></a><a class="code" href="sprite_8h.html#adc3b431ee9b6bc613e5e4e6734dbfc08">oamInitDynamicSprite</a>(0x0000, 0x1000, 0, 0, <a name="a8"></a><a class="code" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>);</div>
 <div class="line">    <span class="keywordflow">for</span> (i = 0; i &lt; SPRNUMBER; i++)</div>
 <div class="line">    {</div>
-<div class="line">        <a name="a11"></a><a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[i].<a name="a12"></a><a class="code" href="structt__sprites.html#a562c9dae7fe86f4faa5a9b2651567004">oamx</a> = <a name="a13"></a><a class="code" href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a>() % 240;</div>
-<div class="line">        <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[i].<a name="a14"></a><a class="code" href="structt__sprites.html#a6c499b96e640bbad488eb8874bf36281">oamy</a> = <a class="code" href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a>() % 208;</div>
-<div class="line">        <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[i].<a name="a15"></a><a class="code" href="structt__sprites.html#a0928afd4ac9d8c3c5cceefa44c3a520a">oamframeid</a> = (i % 24);</div>
-<div class="line">        <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[i].<a name="a16"></a><a class="code" href="structt__sprites.html#ac4e74ac3a1b9ad5b2f756c512f608cb8">oamrefresh</a> = 1;</div>
+<div class="line">        <a name="a9"></a><a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[i].<a name="a10"></a><a class="code" href="structt__sprites.html#a562c9dae7fe86f4faa5a9b2651567004">oamx</a> = <a name="a11"></a><a class="code" href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a>() % 240;</div>
+<div class="line">        <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[i].<a name="a12"></a><a class="code" href="structt__sprites.html#a6c499b96e640bbad488eb8874bf36281">oamy</a> = <a class="code" href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a>() % 208;</div>
+<div class="line">        <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[i].<a name="a13"></a><a class="code" href="structt__sprites.html#a0928afd4ac9d8c3c5cceefa44c3a520a">oamframeid</a> = (i % 24);</div>
+<div class="line">        <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[i].<a name="a14"></a><a class="code" href="structt__sprites.html#ac4e74ac3a1b9ad5b2f756c512f608cb8">oamrefresh</a> = 1;</div>
 <div class="line">        <span class="keywordflow">if</span> (i &lt; 8)</div>
 <div class="line">        {</div>
-<div class="line">            <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[i].<a name="a17"></a><a class="code" href="structt__sprites.html#ac0fb1ea59809017c11430630430e864d">oamattribute</a> = 0x20 | (0 &lt;&lt; 1); <span class="comment">// palette 0 of sprite and sprite 16x16 and priority 2</span></div>
-<div class="line">            <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[i].<a name="a18"></a><a class="code" href="structt__sprites.html#a5e3bc84cd8412db107dd282ccb5a5738">oamgraphics</a> = &amp;spr32g;</div>
+<div class="line">            <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[i].<a name="a15"></a><a class="code" href="structt__sprites.html#ac0fb1ea59809017c11430630430e864d">oamattribute</a> = 0x20 | (0 &lt;&lt; 1); <span class="comment">// palette 0 of sprite and sprite 16x16 and priority 2</span></div>
+<div class="line">            <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[i].<a name="a16"></a><a class="code" href="structt__sprites.html#a5e3bc84cd8412db107dd282ccb5a5738">oamgraphics</a> = &amp;spr32g;</div>
 <div class="line">        }</div>
 <div class="line">        <span class="keywordflow">else</span></div>
 <div class="line">        {</div>
@@ -189,29 +189,27 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_dynamic_engine_sp
 <div class="line">            }</div>
 <div class="line">            <span class="keywordflow">if</span> (i &lt; 8)</div>
 <div class="line">            {</div>
-<div class="line">                <a name="a19"></a><a class="code" href="sprite_8h.html#afcccf626c001d0f1fb4c1c3844091a08">oamDynamic32Draw</a>(i);</div>
+<div class="line">                <a name="a17"></a><a class="code" href="sprite_8h.html#afcccf626c001d0f1fb4c1c3844091a08">oamDynamic32Draw</a>(i);</div>
 <div class="line">            }</div>
 <div class="line">            <span class="keywordflow">else</span></div>
 <div class="line">            {</div>
-<div class="line">                <a name="a20"></a><a class="code" href="sprite_8h.html#aebd07ed4460088c9f3b1aca4ddbbcda8">oamDynamic16Draw</a>(i);</div>
+<div class="line">                <a name="a18"></a><a class="code" href="sprite_8h.html#aebd07ed4460088c9f3b1aca4ddbbcda8">oamDynamic16Draw</a>(i);</div>
 <div class="line">            }</div>
 <div class="line">        }</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// prepare next frame and wait vblank</span></div>
-<div class="line">        <a name="a21"></a><a class="code" href="sprite_8h.html#ac9eb3b2751e5b744470cd16453ff3261">oamInitDynamicSpriteEndFrame</a>();</div>
-<div class="line">        <a name="a22"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
-<div class="line">        <a name="a23"></a><a class="code" href="sprite_8h.html#a4f830004646995018000dae0f898d221">oamVramQueueUpdate</a>();</div>
+<div class="line">        <a name="a19"></a><a class="code" href="sprite_8h.html#ac9eb3b2751e5b744470cd16453ff3261">oamInitDynamicSpriteEndFrame</a>();</div>
+<div class="line">        <a name="a20"></a><a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
+<div class="line">        <a name="a21"></a><a class="code" href="sprite_8h.html#a4f830004646995018000dae0f898d221">oamVramQueueUpdate</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
-<div class="ttc" id="abackground_8h_html_a05c862edb7f8f75036f10c04dcc3c2a6"><div class="ttname"><a href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a></div><div class="ttdeci">#define BG_MODE1</div><div class="ttdoc">16-color 16-color 4-color - ;Normal</div><div class="ttdef"><b>Definition:</b> background.h:55</div></div>
-<div class="ttc" id="abackground_8h_html_a11724b6748ce0954e9b43819263537fc"><div class="ttname"><a href="background_8h.html#a11724b6748ce0954e9b43819263537fc">SC_32x32</a></div><div class="ttdeci">#define SC_32x32</div><div class="ttdoc">Bit defines for the background control registers.</div><div class="ttdef"><b>Definition:</b> background.h:49</div></div>
 <div class="ttc" id="abackground_8h_html_a4dbfb1b8854ff9ca4a7d11a899281bbb"><div class="ttname"><a href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a></div><div class="ttdeci">void bgSetDisable(u8 bgNumber)</div><div class="ttdoc">Disable a BG in the actual SNES mode.</div></div>
 <div class="ttc" id="abackground_8h_html_acc385296e159449a81d18f5e219c8032"><div class="ttname"><a href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a></div><div class="ttdeci">void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address)</div><div class="ttdoc">Initializes a Map Set and loads it into SNES VRAM.</div></div>
 <div class="ttc" id="abackground_8h_html_ae09a7ac09be78eef0f28a6c7aabc82ad"><div class="ttname"><a href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a></div><div class="ttdeci">void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)</div><div class="ttdoc">Initializes a Tile Set and Loads the Tile GFX into VRAM.</div></div>
 <div class="ttc" id="aconsole_8h_html_a0615d3903c2ad6faaed1443bd44c8ae2"><div class="ttname"><a href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a></div><div class="ttdeci">u16 rand(void)</div><div class="ttdoc">return a randomized number</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
-<div class="ttc" id="ainterrupt_8h_html_a815e2626bd26d0e936d507a363ecd723"><div class="ttname"><a href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt Waits for a vertical blank interrupt.</div></div>
+<div class="ttc" id="ainterrupt_8h_html_abd33830487e4764e5ec22ec98b749f4b"><div class="ttname"><a href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
 <div class="ttc" id="asprite_8h_html_a1893eab6ffef9928ff2de22d49bd18c0"><div class="ttname"><a href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a></div><div class="ttdeci">#define OBJ_SIZE16_L32</div><div class="ttdoc">default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register</div><div class="ttdef"><b>Definition:</b> sprite.h:42</div></div>
 <div class="ttc" id="asprite_8h_html_a26ae9bbf7a98025a5d9b529bbe403a7f"><div class="ttname"><a href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a></div><div class="ttdeci">t_sprites oambuffer[128]</div><div class="ttdoc">Sprite Table (from no$sns help file)  Contains data for 128 OBJs. OAM Size is 512+32 Bytes....</div></div>
@@ -234,7 +232,7 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_dynamic_engine_sp
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Fri Jan 27 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sat Jan 28 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

@@ -308,16 +308,16 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode1_continu
 <div class="line">    <span class="comment">// initializing background map tiles</span></div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// BG0 point to vram address 0x0000 and with two pages of 32 tiles (64x32)</span></div>
-<div class="line">    <a name="a10"></a><a class="code" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(0, 0x0000, <a name="a11"></a><a class="code" href="background_8h.html#a6129b86a7c2913a31f1bca293fa7c1e7">SC_64x32</a>);</div>
+<div class="line">    <a name="a10"></a><a class="code" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(0, 0x0000, SC_64x32);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// BG1 point to vram address 0x0000 + 2048 and with two pages of 32 tiles (64x32)</span></div>
-<div class="line">    <a class="code" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(1, 0x0000 + 2048, <a class="code" href="background_8h.html#a6129b86a7c2913a31f1bca293fa7c1e7">SC_64x32</a>);</div>
+<div class="line">    <a class="code" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(1, 0x0000 + 2048, SC_64x32);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// BG2 point to vram address 0x0000 and with one pages of 32 tiles (32x32)</span></div>
-<div class="line">    <a class="code" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(2, 0x1000, <a name="a12"></a><a class="code" href="background_8h.html#a11724b6748ce0954e9b43819263537fc">SC_32x32</a>);</div>
+<div class="line">    <a class="code" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(2, 0x1000, SC_32x32);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// copy BG0 tiles to vram 0x2000 and palette</span></div>
-<div class="line">    <a name="a13"></a><a class="code" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(0, &amp;BG1_tiles, &amp;BG1_pal, 2, (&amp;BG1_tiles_end - &amp;BG1_tiles), 16 * 4, BG_16COLORS, 0x2000);</div>
+<div class="line">    <a name="a11"></a><a class="code" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(0, &amp;BG1_tiles, &amp;BG1_pal, 2, (&amp;BG1_tiles_end - &amp;BG1_tiles), 16 * 4, BG_16COLORS, 0x2000);</div>
 <div class="line">    <a class="code" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(1, &amp;BG2_tiles, &amp;BG2_pal, 4, (&amp;BG2_tiles_end - &amp;BG2_tiles), 16 * 4, BG_16COLORS, 0x3000);</div>
 <div class="line">    <a class="code" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(2, &amp;BG3_tiles, &amp;BG3_pal, 0, (&amp;BG3_tiles_end - &amp;BG3_tiles), 16 * 4, BG_4COLORS, 0x4000);</div>
 <div class="line"> </div>
@@ -327,25 +327,25 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode1_continu
 <div class="line">    updateBG2(&amp;BG2_map, 0x0000 + 2048, 2048);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// copy background 3 (not scrollable)</span></div>
-<div class="line">    <a name="a14"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
+<div class="line">    <a name="a12"></a><a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line">    <a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;BG3_map, 0x1000, 2048);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// IMPORTANT - use mode1 with BG3_MODE1_PRORITY_HIGH otherwise your HUD will not have the highest priority</span></div>
-<div class="line">    <a name="a15"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a16"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>, BG3_MODE1_PRORITY_HIGH);</div>
-<div class="line">    <a name="a17"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(3);</div>
+<div class="line">    <a name="a13"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE1, BG3_MODE1_PRORITY_HIGH);</div>
+<div class="line">    <a name="a14"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(3);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// initialize sprite</span></div>
 <div class="line"> </div>
 <div class="line">    player1._x = 20;</div>
 <div class="line">    player1._y = 100;</div>
 <div class="line">    player1.oamAddress = 0;</div>
-<div class="line">    <a name="a18"></a><a class="code" href="sprite_8h.html#a35a0da9852240ef41b5030ed21b6eeb2">oamSetVisible</a>(player1.oamAddress, OBJ_SHOW);</div>
+<div class="line">    <a name="a15"></a><a class="code" href="sprite_8h.html#a35a0da9852240ef41b5030ed21b6eeb2">oamSetVisible</a>(player1.oamAddress, OBJ_SHOW);</div>
 <div class="line">    <span class="comment">// Init Sprites gfx and palette with default size of 32x32</span></div>
-<div class="line">    <a name="a19"></a><a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;character_tiles, (&amp;character_tiles_end - &amp;character_tiles), &amp;character_pal, (&amp;character_pal_end - &amp;character_pal), 0, 0x6000, <a name="a20"></a><a class="code" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>);</div>
-<div class="line">    <a name="a21"></a><a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(player1.oamAddress, player1._x, player1._y, 2, 0, 0, 0, 0); <span class="comment">// Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0</span></div>
-<div class="line">    <a name="a22"></a><a class="code" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a>(player1.oamAddress, OBJ_SMALL, OBJ_SHOW);</div>
+<div class="line">    <a name="a16"></a><a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;character_tiles, (&amp;character_tiles_end - &amp;character_tiles), &amp;character_pal, (&amp;character_pal_end - &amp;character_pal), 0, 0x6000, <a name="a17"></a><a class="code" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>);</div>
+<div class="line">    <a name="a18"></a><a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(player1.oamAddress, player1._x, player1._y, 2, 0, 0, 0, 0); <span class="comment">// Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0</span></div>
+<div class="line">    <a name="a19"></a><a class="code" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a>(player1.oamAddress, OBJ_SMALL, OBJ_SHOW);</div>
 <div class="line"> </div>
-<div class="line">    <a name="a23"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
+<div class="line">    <a name="a20"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
 <div class="line"> </div>
 <div class="line">    bgMain.id = 0;</div>
 <div class="line">    bgMain.scrX = 255;</div>
@@ -369,13 +369,13 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode1_continu
 <div class="line">    <a class="code" href="background_8h.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7">bgSetScroll</a>(1, 0, 32);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// configure function to be called in the vblank interruption</span></div>
-<div class="line">    nmiSet(myconsoleVblank);</div>
+<div class="line">    <a name="a21"></a><a class="code" href="interrupt_8h.html#ae003bf371437a7a0cc8dbef4f7854271">nmiSet</a>(myconsoleVblank);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Wait for nothing :P</span></div>
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
-<div class="line">        <a name="a24"></a><a class="code" href="pad_8h.html#a42632e79292dc47a567aab4dc3e4407d">scanPads</a>();</div>
-<div class="line">        pad0 = <a name="a25"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
+<div class="line">        <a name="a22"></a><a class="code" href="pad_8h.html#a42632e79292dc47a567aab4dc3e4407d">scanPads</a>();</div>
+<div class="line">        pad0 = <a name="a23"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
 <div class="line">        <span class="comment">// update character pos</span></div>
 <div class="line">        updatePos(&amp;player1, pad0);</div>
 <div class="line"> </div>
@@ -386,21 +386,19 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode1_continu
 <div class="line">        handleScrollSub(&amp;player1, &amp;bgSub);</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Wait VBL &#39;and update sprites too ;-) )</span></div>
-<div class="line">        <a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
+<div class="line">        <a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
-<div class="ttc" id="abackground_8h_html_a05c862edb7f8f75036f10c04dcc3c2a6"><div class="ttname"><a href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a></div><div class="ttdeci">#define BG_MODE1</div><div class="ttdoc">16-color 16-color 4-color - ;Normal</div><div class="ttdef"><b>Definition:</b> background.h:55</div></div>
-<div class="ttc" id="abackground_8h_html_a11724b6748ce0954e9b43819263537fc"><div class="ttname"><a href="background_8h.html#a11724b6748ce0954e9b43819263537fc">SC_32x32</a></div><div class="ttdeci">#define SC_32x32</div><div class="ttdoc">Bit defines for the background control registers.</div><div class="ttdef"><b>Definition:</b> background.h:49</div></div>
 <div class="ttc" id="abackground_8h_html_a4dbfb1b8854ff9ca4a7d11a899281bbb"><div class="ttname"><a href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a></div><div class="ttdeci">void bgSetDisable(u8 bgNumber)</div><div class="ttdoc">Disable a BG in the actual SNES mode.</div></div>
 <div class="ttc" id="abackground_8h_html_a4fcbdb4b2378a64e8db62a184ee1851e"><div class="ttname"><a href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a></div><div class="ttdeci">void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize)</div><div class="ttdoc">Change Background Map address.</div></div>
-<div class="ttc" id="abackground_8h_html_a6129b86a7c2913a31f1bca293fa7c1e7"><div class="ttname"><a href="background_8h.html#a6129b86a7c2913a31f1bca293fa7c1e7">SC_64x32</a></div><div class="ttdeci">#define SC_64x32</div><div class="ttdoc">64 x 32 tile size</div><div class="ttdef"><b>Definition:</b> background.h:50</div></div>
 <div class="ttc" id="abackground_8h_html_aa5e0112ea2d4b514c2dddc6ed2c7c3c7"><div class="ttname"><a href="background_8h.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7">bgSetScroll</a></div><div class="ttdeci">void bgSetScroll(u8 bgNumber, u16 x, u16 y)</div><div class="ttdoc">Sets the scroll hardware to the specified location.</div></div>
 <div class="ttc" id="abackground_8h_html_ae09a7ac09be78eef0f28a6c7aabc82ad"><div class="ttname"><a href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a></div><div class="ttdeci">void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)</div><div class="ttdoc">Initializes a Tile Set and Loads the Tile GFX into VRAM.</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
 <div class="ttc" id="adma_8h_html_a72ec813d4b395cafa59852cbd1ffa8b2"><div class="ttname"><a href="dma_8h.html#a72ec813d4b395cafa59852cbd1ffa8b2">dmaCopyOAram</a></div><div class="ttdeci">void dmaCopyOAram(u8 *source, u16 address, u16 size)</div><div class="ttdoc">copies Sprites from source to destination using channel 0 of DMA available channels in half words</div></div>
 <div class="ttc" id="adma_8h_html_adddf1dea4bd52a083b3ee4b39f1e20f2"><div class="ttname"><a href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a></div><div class="ttdeci">void dmaCopyVram(u8 *source, u16 address, u16 size)</div><div class="ttdoc">copy data from source to destination using channel 0 of DMA available channels in half words</div></div>
-<div class="ttc" id="ainterrupt_8h_html_a815e2626bd26d0e936d507a363ecd723"><div class="ttname"><a href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt Waits for a vertical blank interrupt.</div></div>
+<div class="ttc" id="ainterrupt_8h_html_abd33830487e4764e5ec22ec98b749f4b"><div class="ttname"><a href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt</div></div>
+<div class="ttc" id="ainterrupt_8h_html_ae003bf371437a7a0cc8dbef4f7854271"><div class="ttname"><a href="interrupt_8h.html#ae003bf371437a7a0cc8dbef4f7854271">nmiSet</a></div><div class="ttdeci">#define nmiSet(handler)</div><div class="ttdoc">Add a handler for the given interrupt mask.</div><div class="ttdef"><b>Definition:</b> interrupt.h:150</div></div>
 <div class="ttc" id="apad_8h_html_a42632e79292dc47a567aab4dc3e4407d"><div class="ttname"><a href="pad_8h.html#a42632e79292dc47a567aab4dc3e4407d">scanPads</a></div><div class="ttdeci">void scanPads(void)</div><div class="ttdoc">Wait for pad ready and read pad values in .</div></div>
 <div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:122</div></div>
 <div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a></div><div class="ttdeci">@ KEY_UP</div><div class="ttdoc">pad UP button.</div><div class="ttdef"><b>Definition:</b> pad.h:55</div></div>
@@ -422,7 +420,7 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode1_continu
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Fri Jan 27 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sat Jan 28 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

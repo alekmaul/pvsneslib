@@ -161,8 +161,8 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode7_perspec
 <div class="line"><span class="comment">// Mode Array: This will change mode while rendering using HDMA. Format: Scanline,Mode</span></div>
 <div class="line"><span class="keyword">const</span> u8 ModeTable[5] =</div>
 <div class="line">    {</div>
-<div class="line">        SKYLINEY, <a name="a0"></a><a class="code" href="background_8h.html#ab74253172bcb87b7947118b746ab2849">BG_MODE3</a>, <span class="comment">// for 80 scanlines do: Mode = 3</span></div>
-<div class="line">        1, <a name="a1"></a><a class="code" href="background_8h.html#ac2995da5a6139bd6ca1091ae3358d4f3">BG_MODE7</a>,        <span class="comment">// for 1 scanline do: Mode = 7</span></div>
+<div class="line">        SKYLINEY, BG_MODE3, <span class="comment">// for 80 scanlines do: Mode = 3</span></div>
+<div class="line">        1, BG_MODE7,        <span class="comment">// for 1 scanline do: Mode = 7</span></div>
 <div class="line">        0x00                <span class="comment">// End transfer</span></div>
 <div class="line">};</div>
 <div class="line"> </div>
@@ -455,23 +455,23 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode7_perspec
 <div class="line"><span class="keywordtype">void</span> setMode7_HdmaPerspective(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// Scroll BG1 (in mode7 mode)</span></div>
-<div class="line">    <a name="a2"></a><a class="code" href="video_8h.html#a149770d8a7300cb577f99ff1198978bc">REG_M7HOFS</a> = (sx &amp; 255);</div>
+<div class="line">    <a name="a0"></a><a class="code" href="video_8h.html#a149770d8a7300cb577f99ff1198978bc">REG_M7HOFS</a> = (sx &amp; 255);</div>
 <div class="line">    <a class="code" href="video_8h.html#a149770d8a7300cb577f99ff1198978bc">REG_M7HOFS</a> = sx &gt;&gt; 8;</div>
-<div class="line">    <a name="a3"></a><a class="code" href="video_8h.html#a485cdf5dd265cf6d9a808550365da845">REG_M7VOFS</a> = (sy &amp; 255);</div>
+<div class="line">    <a name="a1"></a><a class="code" href="video_8h.html#a485cdf5dd265cf6d9a808550365da845">REG_M7VOFS</a> = (sy &amp; 255);</div>
 <div class="line">    <a class="code" href="video_8h.html#a485cdf5dd265cf6d9a808550365da845">REG_M7VOFS</a> = sy &gt;&gt; 8;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Scroll BG2 (only the x )</span></div>
-<div class="line">    <a name="a4"></a><a class="code" href="background_8h.html#a79723f49e7557337b091835634430844">REG_BG2HOFS</a> = (sx &amp; 255);</div>
+<div class="line">    <a name="a2"></a><a class="code" href="background_8h.html#a79723f49e7557337b091835634430844">REG_BG2HOFS</a> = (sx &amp; 255);</div>
 <div class="line">    <a class="code" href="background_8h.html#a79723f49e7557337b091835634430844">REG_BG2HOFS</a> = sx &gt;&gt; 8;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Transformation origin</span></div>
-<div class="line">    <a name="a5"></a><a class="code" href="video_8h.html#a4545542b6058c4dfa9b60e85d398fbc0">REG_M7X</a> = (sx + 128) &amp; 255;</div>
+<div class="line">    <a name="a3"></a><a class="code" href="video_8h.html#a4545542b6058c4dfa9b60e85d398fbc0">REG_M7X</a> = (sx + 128) &amp; 255;</div>
 <div class="line">    <a class="code" href="video_8h.html#a4545542b6058c4dfa9b60e85d398fbc0">REG_M7X</a> = (sx + 128) &gt;&gt; 8;</div>
-<div class="line">    <a name="a6"></a><a class="code" href="video_8h.html#a78d50292f8ff3b205a5cf8c81f72060d">REG_M7Y</a> = (sy + 112) &amp; 255;</div>
+<div class="line">    <a name="a4"></a><a class="code" href="video_8h.html#a78d50292f8ff3b205a5cf8c81f72060d">REG_M7Y</a> = (sy + 112) &amp; 255;</div>
 <div class="line">    <a class="code" href="video_8h.html#a78d50292f8ff3b205a5cf8c81f72060d">REG_M7Y</a> = (sy + 112) &gt;&gt; 8;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Disable HDMA for all channels</span></div>
-<div class="line">    <a name="a7"></a><a class="code" href="dma_8h.html#a468ac9497087f0cbab21a3e0453f438b">REG_HDMAEN</a> = 0;</div>
+<div class="line">    <a name="a5"></a><a class="code" href="dma_8h.html#a468ac9497087f0cbab21a3e0453f438b">REG_HDMAEN</a> = 0;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Change mode while drawing to simulate the sky</span></div>
 <div class="line">    REG_DMAP1 = 0x00;                              <span class="comment">// Write 1 bytes to 1 register (write once)</span></div>
@@ -502,20 +502,20 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode7_perspec
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// Initialize SNES</span></div>
-<div class="line">    <a name="a8"></a><a class="code" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a>();</div>
+<div class="line">    <a name="a6"></a><a class="code" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// copy a mode 7 map and tiles (1024x1024 - VRAM 0000), to fake a ground</span></div>
-<div class="line">    <a name="a9"></a><a class="code" href="background_8h.html#ae1fad909be4edf30a3cd08a0890361dc">bgInitMapTileSet7</a>(&amp;patterns, &amp;map, &amp;palette, (&amp;patterns_end - &amp;patterns), 0x0000);</div>
+<div class="line">    <a name="a7"></a><a class="code" href="background_8h.html#ae1fad909be4edf30a3cd08a0890361dc">bgInitMapTileSet7</a>(&amp;patterns, &amp;map, &amp;palette, (&amp;patterns_end - &amp;patterns), 0x0000);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// copy a mode 3 map and tiles (256x256), to fake a sky</span></div>
-<div class="line">    <a name="a10"></a><a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(1, &amp;map2, (&amp;map2_end - &amp;map2), <a name="a11"></a><a class="code" href="background_8h.html#a6129b86a7c2913a31f1bca293fa7c1e7">SC_64x32</a>, 0x4000);</div>
-<div class="line">    <a name="a12"></a><a class="code" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(1, &amp;patterns2, &amp;palette, 0, (&amp;patterns2_end - &amp;patterns2), (&amp;palette2_end - &amp;palette2), BG_16COLORS, 0x5000);</div>
+<div class="line">    <a name="a8"></a><a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(1, &amp;map2, (&amp;map2_end - &amp;map2), SC_64x32, 0x4000);</div>
+<div class="line">    <a name="a9"></a><a class="code" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(1, &amp;patterns2, &amp;palette, 0, (&amp;patterns2_end - &amp;patterns2), (&amp;palette2_end - &amp;palette2), BG_16COLORS, 0x5000);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put mode7 without anything else hdma will change BG mode &amp; display</span></div>
-<div class="line">    <a name="a13"></a><a class="code" href="video_8h.html#af7e722fd2eba5682bc0eafa9d5a9c51a">setMode7</a>(0);</div>
+<div class="line">    <a name="a10"></a><a class="code" href="video_8h.html#af7e722fd2eba5682bc0eafa9d5a9c51a">setMode7</a>(0);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Display screen</span></div>
-<div class="line">    <a name="a14"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
+<div class="line">    <a name="a11"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init variables</span></div>
 <div class="line">    sz = 0;</div>
@@ -532,39 +532,36 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode7_perspec
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// Get current #0 pad</span></div>
-<div class="line">        pad0 = <a name="a15"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
+<div class="line">        pad0 = <a name="a12"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Read pad</span></div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a16"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a13"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
 <div class="line">            sx--;</div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a17"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a14"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
 <div class="line">            sx++;</div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a18"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a15"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a>)</div>
 <div class="line">            sy--;</div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a19"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a16"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a>)</div>
 <div class="line">            sy++;</div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a20"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff">KEY_R</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a17"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff">KEY_R</a>)</div>
 <div class="line">            sz++;</div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a21"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62">KEY_L</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a18"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62">KEY_L</a>)</div>
 <div class="line">            sz--;</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// HDMA change mode and perspective</span></div>
 <div class="line">        setMode7_HdmaPerspective();</div>
 <div class="line"> </div>
-<div class="line">        <a name="a22"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
+<div class="line">        <a name="a19"></a><a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
-<div class="ttc" id="abackground_8h_html_a6129b86a7c2913a31f1bca293fa7c1e7"><div class="ttname"><a href="background_8h.html#a6129b86a7c2913a31f1bca293fa7c1e7">SC_64x32</a></div><div class="ttdeci">#define SC_64x32</div><div class="ttdoc">64 x 32 tile size</div><div class="ttdef"><b>Definition:</b> background.h:50</div></div>
 <div class="ttc" id="abackground_8h_html_a79723f49e7557337b091835634430844"><div class="ttname"><a href="background_8h.html#a79723f49e7557337b091835634430844">REG_BG2HOFS</a></div><div class="ttdeci">#define REG_BG2HOFS</div><div class="ttdoc">BG2 Horizontal Scroll (X) (W)</div><div class="ttdef"><b>Definition:</b> background.h:178</div></div>
-<div class="ttc" id="abackground_8h_html_ab74253172bcb87b7947118b746ab2849"><div class="ttname"><a href="background_8h.html#ab74253172bcb87b7947118b746ab2849">BG_MODE3</a></div><div class="ttdeci">#define BG_MODE3</div><div class="ttdoc">256-color 16-color - - ;Normal</div><div class="ttdef"><b>Definition:</b> background.h:57</div></div>
-<div class="ttc" id="abackground_8h_html_ac2995da5a6139bd6ca1091ae3358d4f3"><div class="ttname"><a href="background_8h.html#ac2995da5a6139bd6ca1091ae3358d4f3">BG_MODE7</a></div><div class="ttdeci">#define BG_MODE7</div><div class="ttdoc">256-color EXTBG - - ;Rotation/Scaling</div><div class="ttdef"><b>Definition:</b> background.h:61</div></div>
 <div class="ttc" id="abackground_8h_html_acc385296e159449a81d18f5e219c8032"><div class="ttname"><a href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a></div><div class="ttdeci">void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address)</div><div class="ttdoc">Initializes a Map Set and loads it into SNES VRAM.</div></div>
 <div class="ttc" id="abackground_8h_html_ae09a7ac09be78eef0f28a6c7aabc82ad"><div class="ttname"><a href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a></div><div class="ttdeci">void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)</div><div class="ttdoc">Initializes a Tile Set and Loads the Tile GFX into VRAM.</div></div>
 <div class="ttc" id="abackground_8h_html_ae1fad909be4edf30a3cd08a0890361dc"><div class="ttname"><a href="background_8h.html#ae1fad909be4edf30a3cd08a0890361dc">bgInitMapTileSet7</a></div><div class="ttdeci">void bgInitMapTileSet7(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 tileSize, u16 address)</div><div class="ttdoc">Initializes a Tile &amp; Map Set and Loads the Tile &amp; Map GFX into VRAM for Mode 7.</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
 <div class="ttc" id="adma_8h_html_a468ac9497087f0cbab21a3e0453f438b"><div class="ttname"><a href="dma_8h.html#a468ac9497087f0cbab21a3e0453f438b">REG_HDMAEN</a></div><div class="ttdeci">#define REG_HDMAEN</div><div class="ttdoc">Select H-Blank DMA (H-DMA) Channel(s) (W) 7-0 H-DMA Channel 7-0 Enable (0=Disable,...</div><div class="ttdef"><b>Definition:</b> dma.h:112</div></div>
-<div class="ttc" id="ainterrupt_8h_html_a815e2626bd26d0e936d507a363ecd723"><div class="ttname"><a href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt Waits for a vertical blank interrupt.</div></div>
+<div class="ttc" id="ainterrupt_8h_html_abd33830487e4764e5ec22ec98b749f4b"><div class="ttname"><a href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt</div></div>
 <div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:122</div></div>
 <div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a></div><div class="ttdeci">@ KEY_UP</div><div class="ttdoc">pad UP button.</div><div class="ttdef"><b>Definition:</b> pad.h:55</div></div>
 <div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a></div><div class="ttdeci">@ KEY_LEFT</div><div class="ttdoc">pad LEFT button.</div><div class="ttdef"><b>Definition:</b> pad.h:53</div></div>
@@ -584,7 +581,7 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode7_perspec
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Fri Jan 27 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sat Jan 28 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

@@ -131,18 +131,19 @@ $(document).ready(function(){initNavTree('background_8h_source.html',''); initRe
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
 <div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="background_8h.html#af6cde02aaf57795f0dff8cd45db5ce1d">   46</a></span>&#160;<span class="preprocessor">#define SC_TILE_BASE(base) ((base) &lt;&lt; SC_BASE_SHIFT)</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="background_8h.html#a11724b6748ce0954e9b43819263537fc">   49</a></span>&#160;<span class="preprocessor">#define SC_32x32 (0 &lt;&lt; 0) </span></div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="background_8h.html#a6129b86a7c2913a31f1bca293fa7c1e7">   50</a></span>&#160;<span class="preprocessor">#define SC_64x32 (1 &lt;&lt; 0) </span></div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="background_8h.html#aeaa1585b5a34aea00df0224fdcc4a5ab">   51</a></span>&#160;<span class="preprocessor">#define SC_32x64 (2 &lt;&lt; 0) </span></div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="background_8h.html#ace76b0c992e2cba05f6da76f9825720a">   52</a></span>&#160;<span class="preprocessor">#define SC_64x64 (3 &lt;&lt; 0) </span></div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="background_8h.html#a82bccfa80c8aa4ff5aa4e1416e0ade25">   54</a></span>&#160;<span class="preprocessor">#define BG_MODE0 (0 &lt;&lt; 0) </span></div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">   55</a></span>&#160;<span class="preprocessor">#define BG_MODE1 (1 &lt;&lt; 0) </span></div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="background_8h.html#a71df4d7e9e3bf54909cce56a5b0cf1d1">   56</a></span>&#160;<span class="preprocessor">#define BG_MODE2 (2 &lt;&lt; 0) </span></div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="background_8h.html#ab74253172bcb87b7947118b746ab2849">   57</a></span>&#160;<span class="preprocessor">#define BG_MODE3 (3 &lt;&lt; 0) </span></div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="background_8h.html#a57023a6897e1ec8660b190a9488c08c6">   58</a></span>&#160;<span class="preprocessor">#define BG_MODE4 (4 &lt;&lt; 0) </span></div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="background_8h.html#aa1d65e002c63b60a2b8df95970572908">   59</a></span>&#160;<span class="preprocessor">#define BG_MODE5 (5 &lt;&lt; 0) </span></div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="background_8h.html#a260fbcabdf73b2e049ae9fcd633b3ee2">   60</a></span>&#160;<span class="preprocessor">#define BG_MODE6 (6 &lt;&lt; 0) </span></div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="background_8h.html#ac2995da5a6139bd6ca1091ae3358d4f3">   61</a></span>&#160;<span class="preprocessor">#define BG_MODE7 (7 &lt;&lt; 0) </span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">/* Bit defines for the background control registers */</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#define SC_32x32 (0 &lt;&lt; 0) </span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#define SC_64x32 (1 &lt;&lt; 0) </span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#define SC_32x64 (2 &lt;&lt; 0) </span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#define SC_64x64 (3 &lt;&lt; 0) </span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#define BG_MODE0 (0 &lt;&lt; 0) </span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#define BG_MODE1 (1 &lt;&lt; 0) </span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#define BG_MODE2 (2 &lt;&lt; 0) </span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#define BG_MODE3 (3 &lt;&lt; 0) </span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#define BG_MODE4 (4 &lt;&lt; 0) </span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#define BG_MODE5 (5 &lt;&lt; 0) </span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#define BG_MODE6 (6 &lt;&lt; 0) </span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#define BG_MODE7 (7 &lt;&lt; 0) </span></div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#define BG1_TSIZE8x8 (0 &lt;&lt; 4)</span></div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#define BG2_TSIZE8x8 (0 &lt;&lt; 5)</span></div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#define BG3_TSIZE8x8 (0 &lt;&lt; 6)</span></div>
@@ -190,14 +191,14 @@ $(document).ready(function(){initNavTree('background_8h_source.html',''); initRe
 <div class="line"><a name="l00186"></a><span class="lineno"><a class="line" href="background_8h.html#a0876479f76d0a58b10b4893dc6d2bbb3">  186</a></span>&#160;<span class="preprocessor">#define REG_BG4HOFS (*(vuint8 *)0x2113)</span></div>
 <div class="line"><a name="l00188"></a><span class="lineno"><a class="line" href="background_8h.html#a264e13fdbfcfeafc7c7cbc859f241220">  188</a></span>&#160;<span class="preprocessor">#define REG_BG4VOFS (*(vuint8 *)0x2114)</span></div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
-<div class="line"><a name="l00190"></a><span class="lineno"><a class="line" href="background_8h.html#a86db2ab0941ca4f332512d07474b4a49">  190</a></span>&#160;<span class="preprocessor">#define COLWIN_OB13W1ENABLEIN (1 &lt;&lt; 0)  </span></div>
-<div class="line"><a name="l00191"></a><span class="lineno"><a class="line" href="background_8h.html#a9e2d699d3d545034704c49ba61aeef22">  191</a></span>&#160;<span class="preprocessor">#define COLWIN_OB13W1ENABLEOUT (2 &lt;&lt; 0) </span></div>
-<div class="line"><a name="l00192"></a><span class="lineno"><a class="line" href="background_8h.html#a8788aace2f7d5508738fdd0aaf54c346">  192</a></span>&#160;<span class="preprocessor">#define COLWIN_OB13W2ENABLEIN (1 &lt;&lt; 2)  </span></div>
-<div class="line"><a name="l00193"></a><span class="lineno"><a class="line" href="background_8h.html#a9b244a78c2d213c4f73c72734039aea1">  193</a></span>&#160;<span class="preprocessor">#define COLWIN_OB13W2ENABLEOUT (2 &lt;&lt; 2) </span></div>
-<div class="line"><a name="l00194"></a><span class="lineno"><a class="line" href="background_8h.html#a7f85311a4643785618d9ebc9dd047a44">  194</a></span>&#160;<span class="preprocessor">#define COLWIN_MB24W1ENABLEIN (1 &lt;&lt; 4)  </span></div>
-<div class="line"><a name="l00195"></a><span class="lineno"><a class="line" href="background_8h.html#a6c5d3817485ae11899798a7e0a010ca7">  195</a></span>&#160;<span class="preprocessor">#define COLWIN_MB24W1ENABLEOUT (2 &lt;&lt; 4) </span></div>
-<div class="line"><a name="l00196"></a><span class="lineno"><a class="line" href="background_8h.html#a8f8c84ebe0a9545ea9c96b8abf19c7a4">  196</a></span>&#160;<span class="preprocessor">#define COLWIN_MB24W2ENABLEIN (1 &lt;&lt; 6)  </span></div>
-<div class="line"><a name="l00197"></a><span class="lineno"><a class="line" href="background_8h.html#a6968bfe23f006bdf39824555c09584af">  197</a></span>&#160;<span class="preprocessor">#define COLWIN_MB24W2ENABLEOUT (2 &lt;&lt; 6) </span></div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="preprocessor">#define COLWIN_OB13W1ENABLEIN (1 &lt;&lt; 0)  </span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="preprocessor">#define COLWIN_OB13W1ENABLEOUT (2 &lt;&lt; 0) </span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="preprocessor">#define COLWIN_OB13W2ENABLEIN (1 &lt;&lt; 2)  </span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="preprocessor">#define COLWIN_OB13W2ENABLEOUT (2 &lt;&lt; 2) </span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="preprocessor">#define COLWIN_MB24W1ENABLEIN (1 &lt;&lt; 4)  </span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="preprocessor">#define COLWIN_MB24W1ENABLEOUT (2 &lt;&lt; 4) </span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="preprocessor">#define COLWIN_MB24W2ENABLEIN (1 &lt;&lt; 6)  </span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="preprocessor">#define COLWIN_MB24W2ENABLEOUT (2 &lt;&lt; 6) </span></div>
 <div class="line"><a name="l00210"></a><span class="lineno"><a class="line" href="background_8h.html#ab076a1d15554587d229fe3be8ae0332b">  210</a></span>&#160;<span class="preprocessor">#define REG_W12SEL (*(vuint8 *)0x2123)</span></div>
 <div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="preprocessor">#define REG_W34SEL (*(vuint8 *)0x2124)</span></div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="preprocessor">#define REG_WOBJSEL (*(vuint8 *)0x2125)</span></div>
@@ -274,7 +275,7 @@ $(document).ready(function(){initNavTree('background_8h_source.html',''); initRe
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="background_8h.html">background.h</a></li>
-    <li class="footer">Generated on Fri Jan 27 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sat Jan 28 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

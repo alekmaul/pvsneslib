@@ -251,39 +251,38 @@ $(document).ready(function(){initNavTree('objects_2moveobjects_2moveobjects_8c-e
 <div class="line">    <a name="a13"></a><a class="code" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;gfxpsrite, (&amp;gfxpsrite_end - &amp;gfxpsrite), &amp;palsprite, (&amp;palsprite_end - &amp;palsprite), 0, 0x0000, <a name="a14"></a><a class="code" href="sprite_8h.html#a449cd6f7c4fc8ca09a632e0c58cdb365">OBJ_SIZE32_L64</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode</span></div>
-<div class="line">    <a name="a15"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(<a name="a16"></a><a class="code" href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a>, 0);</div>
-<div class="line">    <a name="a17"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
+<div class="line">    <a name="a15"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE1, 0);</div>
+<div class="line">    <a name="a16"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
 <div class="line">    <a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Screen activated</span></div>
-<div class="line">    <a name="a18"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
+<div class="line">    <a name="a17"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Object engine activate</span></div>
-<div class="line">    <a name="a19"></a><a class="code" href="object_8h.html#ad010f8c119dbd982acd9ddd859f2acec">objInitEngine</a>();</div>
+<div class="line">    <a name="a18"></a><a class="code" href="object_8h.html#ad010f8c119dbd982acd9ddd859f2acec">objInitEngine</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init function for state machine</span></div>
 <div class="line">    objInitFunctions(0, &amp;testInit, &amp;testUpdate, NULL);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Load all objects into memory</span></div>
 <div class="line">    numspr = 0;</div>
-<div class="line">    <a name="a20"></a><a class="code" href="object_8h.html#aeda7828a0cb93ff1985ac0237ac5871b">objLoadObjects</a>((<span class="keywordtype">char</span> *)&amp;tabobjects);</div>
+<div class="line">    <a name="a19"></a><a class="code" href="object_8h.html#aeda7828a0cb93ff1985ac0237ac5871b">objLoadObjects</a>((<span class="keywordtype">char</span> *)&amp;tabobjects);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Need to init map , even if not present to allow update functions to work</span></div>
-<div class="line">    x_pos=0; <a name="a21"></a><a class="code" href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a>=0;</div>
+<div class="line">    x_pos=0; <a name="a20"></a><a class="code" href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a>=0;</div>
 <div class="line">    </div>
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
-<div class="line">        <a name="a22"></a><a class="code" href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a>();</div>
-<div class="line">        <a name="a23"></a><a class="code" href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a>();</div>
+<div class="line">        <a name="a21"></a><a class="code" href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a>();</div>
+<div class="line">        <a name="a22"></a><a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
-<div class="ttc" id="abackground_8h_html_a05c862edb7f8f75036f10c04dcc3c2a6"><div class="ttname"><a href="background_8h.html#a05c862edb7f8f75036f10c04dcc3c2a6">BG_MODE1</a></div><div class="ttdeci">#define BG_MODE1</div><div class="ttdoc">16-color 16-color 4-color - ;Normal</div><div class="ttdef"><b>Definition:</b> background.h:55</div></div>
 <div class="ttc" id="abackground_8h_html_a4dbfb1b8854ff9ca4a7d11a899281bbb"><div class="ttname"><a href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a></div><div class="ttdeci">void bgSetDisable(u8 bgNumber)</div><div class="ttdoc">Disable a BG in the actual SNES mode.</div></div>
 <div class="ttc" id="aconsole_8h_html_a0615d3903c2ad6faaed1443bd44c8ae2"><div class="ttname"><a href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a></div><div class="ttdeci">u16 rand(void)</div><div class="ttdoc">return a randomized number</div></div>
 <div class="ttc" id="aconsole_8h_html_a3a226cebe7d59aac755e03e1061ff727"><div class="ttname"><a href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a></div><div class="ttdeci">void consoleNocashMessage(char *fmt,...)</div><div class="ttdoc">Send a message to the no$sns debug window.</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
-<div class="ttc" id="ainterrupt_8h_html_a815e2626bd26d0e936d507a363ecd723"><div class="ttname"><a href="interrupt_8h.html#a815e2626bd26d0e936d507a363ecd723">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt Waits for a vertical blank interrupt.</div></div>
+<div class="ttc" id="ainterrupt_8h_html_abd33830487e4764e5ec22ec98b749f4b"><div class="ttname"><a href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt</div></div>
 <div class="ttc" id="amap_8h_html_a79f8bb14ed9f0ee9d7031db7f02733be"><div class="ttname"><a href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a></div><div class="ttdeci">u16 y_pos</div><div class="ttdoc">Current value of camera in x &amp; y coordinates.</div><div class="ttdef"><b>Definition:</b> map.h:57</div></div>
 <div class="ttc" id="aobject_8h_html_a70a85e34d3b6008e897c1e8a7d6232c1"><div class="ttname"><a href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a></div><div class="ttdeci">t_objs objbuffers[OB_MAX]</div><div class="ttdoc">current object buffer with all objects</div></div>
 <div class="ttc" id="aobject_8h_html_a79ff81c8642b2398a03519c279c2f132"><div class="ttname"><a href="object_8h.html#a79ff81c8642b2398a03519c279c2f132">objNew</a></div><div class="ttdeci">u16 objNew(u8 objtype, u16 x, u16 y)</div><div class="ttdoc">Initialize a new object in game, objgetid will has the id of the object.</div></div>
@@ -308,7 +307,7 @@ $(document).ready(function(){initNavTree('objects_2moveobjects_2moveobjects_8c-e
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Fri Jan 27 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sat Jan 28 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>
