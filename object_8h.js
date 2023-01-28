@@ -9,7 +9,7 @@ var object_8h =
     [ "ACT_WALK", "object_8h.html#a912cfae6ccf6375f3c2831d65646c76b", null ],
     [ "T_EMPTY", "object_8h.html#a64b628522c7aaec4fd687d8cd3c15797", null ],
     [ "T_FIRES", "object_8h.html#a6cc6b73b3328f0e2a7553a4e1db3a5e9", null ],
-    [ "T_LADDE", "object_8h.html#a56af090251f58d0f37002c5a1184252e", null ],
+    [ "T_LADDER", "object_8h.html#a7b834046275ade27bcb100e684cdbf2a", null ],
     [ "T_PLATE", "object_8h.html#ad36b80734e14117314d2ec683f552969", null ],
     [ "T_SOLID", "object_8h.html#af873aaa17834669d0f263af08c2912c3", null ],
     [ "T_SPIKE", "object_8h.html#a87a89f657f33f4eab646bb7f6ad21fa3", null ],

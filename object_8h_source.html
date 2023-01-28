@@ -166,7 +166,7 @@ $(document).ready(function(){initNavTree('object_8h_source.html',''); initResiza
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    u16 parentID;  <span class="comment">// 52 obj ID of parent (useful for projectiles)</span></div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    u8 hitpoints;  <span class="comment">// 54 number of hit points of object</span></div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    u8 sprrefresh; <span class="comment">// 55 if object needs sprite to be refresh</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    u8 onscreen;         <span class="comment">// 56 to know if object is on screen or not</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    u8 onscreen;   <span class="comment">// 56 to know if object is on screen or not</span></div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    u8 objnotused[7];                 <span class="comment">// OB_SIZE-55-1 for future use</span></div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;} t_objs __attribute__((__packed__)); <span class="comment">// seems to do nothing :/</span></div>
@@ -175,12 +175,12 @@ $(document).ready(function(){initNavTree('object_8h_source.html',''); initResiza
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="object_8h.html#adbc29a5fc1d8493c4a23d739727aaef3">objtokill</a>; </div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">extern</span> u16 <a class="code" href="object_8h.html#ad4b2cf3a008d2011baf65b7ed74eaf65">objgetid</a>; </div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keyword">extern</span> t_objs <a class="code" href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a>[OB_MAX]; </div>
-<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="object_8h.html#a64b628522c7aaec4fd687d8cd3c15797">   93</a></span>&#160;<span class="preprocessor">#define T_EMPTY 0x0000 </span></div>
-<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="object_8h.html#af873aaa17834669d0f263af08c2912c3">   94</a></span>&#160;<span class="preprocessor">#define T_SOLID 0xFF00 </span></div>
-<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="object_8h.html#a56af090251f58d0f37002c5a1184252e">   95</a></span>&#160;<span class="preprocessor">#define T_LADDE 0x0001 </span></div>
-<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="object_8h.html#a6cc6b73b3328f0e2a7553a4e1db3a5e9">   96</a></span>&#160;<span class="preprocessor">#define T_FIRES 0x0002 </span></div>
-<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="object_8h.html#a87a89f657f33f4eab646bb7f6ad21fa3">   97</a></span>&#160;<span class="preprocessor">#define T_SPIKE 0x0004 </span></div>
-<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="object_8h.html#ad36b80734e14117314d2ec683f552969">   98</a></span>&#160;<span class="preprocessor">#define T_PLATE 0x0008 </span></div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="object_8h.html#a64b628522c7aaec4fd687d8cd3c15797">   93</a></span>&#160;<span class="preprocessor">#define T_EMPTY 0x0000  </span></div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="object_8h.html#af873aaa17834669d0f263af08c2912c3">   94</a></span>&#160;<span class="preprocessor">#define T_SOLID 0xFF00  </span></div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="object_8h.html#a7b834046275ade27bcb100e684cdbf2a">   95</a></span>&#160;<span class="preprocessor">#define T_LADDER 0x0001 </span></div>
+<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="object_8h.html#a6cc6b73b3328f0e2a7553a4e1db3a5e9">   96</a></span>&#160;<span class="preprocessor">#define T_FIRES 0x0002  </span></div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="object_8h.html#a87a89f657f33f4eab646bb7f6ad21fa3">   97</a></span>&#160;<span class="preprocessor">#define T_SPIKE 0x0004  </span></div>
+<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="object_8h.html#ad36b80734e14117314d2ec683f552969">   98</a></span>&#160;<span class="preprocessor">#define T_PLATE 0x0008  </span></div>
 <div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="object_8h.html#a227eedee0994ff2eac6ed2b691d9bcb3">  100</a></span>&#160;<span class="preprocessor">#define ACT_STAND 0x0000 </span></div>
 <div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="object_8h.html#a912cfae6ccf6375f3c2831d65646c76b">  101</a></span>&#160;<span class="preprocessor">#define ACT_WALK 0x0001  </span></div>
 <div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="object_8h.html#a4617d14626ea66580d7996705d0a5bce">  102</a></span>&#160;<span class="preprocessor">#define ACT_JUMP 0x0002  </span></div>
