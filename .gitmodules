@@ -1,6 +1,8 @@
 [submodule "compiler/wla-dx"]
 	path = compiler/wla-dx
 	url = https://github.com/vhelin/wla-dx
+    ignore = dirty
 [submodule "compiler/tcc-65816"]
 	path = compiler/tcc-65816
 	url = https://github.com/alekmaul/tcc.git
+    ignore = dirty
