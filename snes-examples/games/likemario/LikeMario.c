@@ -196,6 +196,7 @@ void marioupdate(u8 idx)
                     *marioyv = -(MARIO_HIJUMPING);
                 else
                     *marioyv = -(MARIO_JUMPING);
+                spcPlaySound(0);
             }
         }
     }
