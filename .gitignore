@@ -48,6 +48,7 @@ tools/tmx2snes/tmx2snes.exe
 linkfile
 *.o
 *.a
+*.d
 *.obj
 *.sfc
 *.sym
