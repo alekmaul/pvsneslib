@@ -23,7 +23,7 @@
    <properties>
     <property name="attribute" value="0"/>
     <property name="palette" value="0"/>
-    <property name="priority" value="0"/>
+    <property name="priority" value="1"/>
    </properties>
   </tile>
   <tile id="3">
@@ -520,7 +520,7 @@
    <properties>
     <property name="attribute" value="0"/>
     <property name="palette" value="0"/>
-    <property name="priority" value="0"/>
+    <property name="priority" value="1"/>
    </properties>
   </tile>
   <tile id="74">
