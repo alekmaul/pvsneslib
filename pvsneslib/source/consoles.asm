@@ -1,7 +1,7 @@
 ;---------------------------------------------------------------------------------
 ;
 ;	Copyright (C) 2013-2021
-;		Alekmaul
+;		Alekmaul 
 ;
 ;	This software is provided 'as-is', without any express or implied
 ;	warranty.  In no event will the authors be held liable for any
@@ -31,12 +31,12 @@
 .EQU BANK_SRAM	        $70
 .EQU PPU_50HZ	        (1<<4)
 
-.EQU INT_VBLENABLE     (1<<7)
-.EQU INT_JOYPAD_ENABLE (1)
+.EQU INT_VBLENABLE      (1<<7)
+.EQU INT_JOYPAD_ENABLE  (1)	
 
 .DEFINE TXT_VRAMADR     $0800
 .DEFINE TXT_VRAMBGADR   $0800
-.DEFINE TXT_VRAMOFFSET   $0000
+.DEFINE TXT_VRAMOFFSET  $0000
 
 .RAMSECTION ".reg_cons7e" BANK $7E
 
@@ -71,7 +71,7 @@ rand:
 	php
 
 	rep #$30
-
+	
 	lda.w snes_rand_seed2
 	lsr a
 	adc.w snes_rand_seed1
@@ -92,7 +92,7 @@ rand:
 ; void consoleNocashMessage(char *fmt, ...)
 consoleNocashMessage:
 	php
-
+	
     rep #$20
     tsa
     clc
@@ -117,19 +117,19 @@ consoleNocashMessage:
 
 	phy
 	ldy #$0
-
+	
 	lda #:text_buffer                            ; Let tcc__r0 point to the message
 	sta		tcc__r0h
     lda #text_buffer
 	sta		tcc__r0
-
+	
 	sep	#$20
 -:	lda		[tcc__r0],y
 	beq +
 	iny
 	sta.l	REG_DEBUG
 	bra -
-
+	
 +:	ply
 
 	plp
@@ -144,7 +144,7 @@ consoleNocashMessage:
 consoleCopySram:
 	php
 	phb
-
+	
 	sep #$20
 	lda #$0
 	pha
@@ -159,14 +159,14 @@ consoleCopySram:
 	sta		tcc__r2
 	lda		12,s
 	sta		tcc__r2h
-
+	
 	ldy #$0
-
+	
 	sep	#$20
 	lda #BANK_SRAM
 	pha
 	plb ; change bank address to sram bank
-
+	
 	rep	#$20
 	lda	14,s   ; size
 	tax
@@ -179,7 +179,7 @@ consoleCopySram:
 	dex
 	beq +
 	bra -
-
+	
 +:	plx
 	ply
 	plb
@@ -191,7 +191,7 @@ consoleCopySram:
 consoleLoadSram:
 	php
 	phb
-
+	
 	sep #$20
 	lda #$0
 	pha
@@ -206,14 +206,14 @@ consoleLoadSram:
 	sta		tcc__r2
 	lda		12,s
 	sta		tcc__r2h
-
+	
 	ldy #$0
-
+	
 	sep	#$20
 	lda #BANK_SRAM
 	pha
 	plb ; change bank address to sram bank
-
+	
 	rep	#$20
 	lda	14,s   ; size
 	tax
@@ -226,7 +226,7 @@ consoleLoadSram:
 	dex
 	beq +
 	bra -
-
+	
 +:	plx
 	ply
 	plb
@@ -247,7 +247,7 @@ consoleVblank:
 	lda #$7e
 	pha
 	plb
-
+	
 	; Refresh pad values
 	lda snes_mplay5
 	beq +
@@ -258,11 +258,11 @@ consoleVblank:
 cvbloam:
 	; Put oam to screen if needed
 	jsl oamUpdate
-
+	
 	; if buffer need to be update, do it !
 	lda scr_txt_dirty
 	beq +
-
+	
 	rep #$20
 	lda	txt_vram_bg
 	sta.l	$2116                                             ; address for VRAM write(or read)
@@ -283,17 +283,17 @@ cvbloam:
 
 	lda	#1                                                    ; turn on bit 1 (channel 0) of DMA
 	sta.l	$420b
-
+	
 	stz scr_txt_dirty                                         ; no more transfer of text
-
+	
 	; Count frame number
 +	rep #$20
 	inc.w snes_vblank_count
-
+ 
 	plb
 	plp
-	rtl
-
+	rtl 
+	
 .ENDS
 
 .SECTION ".consoles4_text" SUPERFREE
@@ -302,20 +302,20 @@ cvbloam:
 ;void consoleInit(void)
 consoleInit:
     php
-
+    
     rep #$20
     lda.w #:consoleVblank                                     ; Put current handler to our function
     sta.l nmi_handler + 2
     lda.w #consoleVblank
     sta.l nmi_handler
-
+    
     lda.w #0                                                  ; Begin counting vblank
     sta.w snes_vblank_count
-
+    
     sep #$20
     sta scr_txt_dirty                                         ; Nothing to print on screen
-    sta snes_mplay5                                           ; For Pad function
-
+    sta snes_mplay5                                           ; For Pad function	
+	
     phb
     pha
     plb
@@ -325,15 +325,15 @@ consoleInit:
     lda.w #5
 	sta snes_rand_seed2                                       ; For rand function
     plb
-
+    
     lda.w #$0000                                              ; Init background address
     sta bg0gfxaddr
     sta bg1gfxaddr
     sta bg2gfxaddr
     sta bg3gfxaddr
-
+    
 	jsl dmaClearVram                                          ; Clear all VRAM to avoid problem
-
+	
     lda #$0000
     pha                                                       ; Initialise joypads
 	jsl padsClear
@@ -359,7 +359,7 @@ consoleInit:
     sta snes_50hz
 
 +	jsl oamInit                                               ; Init sprites
-
+    
     phb
    	lda #$7e
 	pha
@@ -367,20 +367,20 @@ consoleInit:
 
     rep #$20
     lda #TXT_VRAMBGADR                                        ; put default values for text display
-    sta txt_vram_bg
+    sta txt_vram_bg             
     lda #TXT_VRAMADR
-    sta txt_vram_adr
+    sta txt_vram_adr            
     lda #TXT_VRAMOFFSET
     sta txt_vram_offset
 
     plb
 
-    lda #INT_VBLENABLE | INT_JOYPAD_ENABLE                    ; enable NMI, enable autojoy
+    lda #INT_VBLENABLE | INT_JOYPAD_ENABLE                    ; enable NMI, enable autojoy 
 	sta.l REG_NMITIMEN
 
 	plp
-	rtl
-
+	rtl 
+	
 .ENDS
 
 .SECTION ".consoles5_text" SUPERFREE
@@ -391,7 +391,7 @@ consoleInit:
 consoleInitText:
     php
     phb
-
+    
    	sep	#$20                                                  ; 8bit A
 	lda #$7e
 	pha
@@ -407,7 +407,7 @@ consoleInitText:
     cpx #$0800
     bne -
     plx
-
+    
     sep #$20
 	lda #0
     pha
@@ -465,15 +465,15 @@ consoleInitText:
 
     plb
 	plp
-	rtl
-
+	rtl 
+	
 ;---------------------------------------------------------------------------
 ;void consoleSetTextVramAdr(u16 vramfont)
 ; 6-7
 consoleSetTextVramAdr:
     php
     phb
-
+    
    	sep	#$20                                                  ; 8bit A
 	lda #$7e
 	pha
@@ -485,7 +485,7 @@ consoleSetTextVramAdr:
 
     plb
 	plp
-	rtl
+	rtl 
 
 ;---------------------------------------------------------------------------
 ;void consoleSetTextVramBGAdr(u16 vrambgfont)
@@ -493,7 +493,7 @@ consoleSetTextVramAdr:
 consoleSetTextVramBGAdr:
     php
     phb
-
+    
    	sep	#$20                                                  ; 8bit A
 	lda #$7e
 	pha
@@ -505,7 +505,7 @@ consoleSetTextVramBGAdr:
 
     plb
 	plp
-	rtl
+	rtl 
 
 ;---------------------------------------------------------------------------
 ;void consoleSetTextOffset(u16 offsetfont)
@@ -513,7 +513,7 @@ consoleSetTextVramBGAdr:
 consoleSetTextOffset:
     php
     phb
-
+    
    	sep	#$20                                                  ; 8bit A
 	lda #$7e
 	pha
@@ -525,7 +525,7 @@ consoleSetTextOffset:
 
     plb
 	plp
-	rtl
+	rtl 
 
 .ENDS
 
@@ -536,7 +536,7 @@ consoleSetTextOffset:
 ; 5 6-9 10
 consoleSetTextPal:
     php
-
+    
 	lda	10,s                                                  ; get palette size
 	sta.l	$4305
 	lda	6,s	                                                  ; src (lower 16 bits)
@@ -554,8 +554,8 @@ consoleSetTextPal:
 	sta.l	$420b
 
 	plp
-	rtl
-
+	rtl 
+	
 .ENDS
 
 
@@ -567,7 +567,7 @@ consoleSetTextPal:
 print_screen_map:
     php
     phb
-
+    
    	sep	#$20                                                  ; 8bit A
 	lda #$7e
 	pha
@@ -578,68 +578,64 @@ print_screen_map:
     phy
     ldy.w #5
 -   asl a
-    dey
+    dey    
     bne -                                                   ; y*0x20
-    ply
-	clc
-    adc 6,s                                                 ; get x and x+y*0x20
+    ply 
+	clc 
+    adc 6,s                                                 ; get x and x+y*0x20      
     sta cons_val1
 
     clc
     adc 10,s                                                 ; add to map data address
-    sta tcc__r2
+    sta tcc__r0
     lda 12,s                                                ; store map
-    sta tcc__r2h
-
+    sta tcc__r0h
+    
     lda 17,s                                                ; get buffer bank address
-    sta tcc__r3h
+    sta tcc__r1h
     lda 15,s                                                ; get buffer data address
-    sta tcc__r3
+    sta tcc__r1
 
     sep #$20
-_psm_nextchar:
-    lda [tcc__r3]                                           ; while (*buffer)
-    beq _psm_return
+_psmp0:    
+    lda [tcc__r1]                                           ; while (*buffer)
+    beq _psmp2
     cmp #13                                                 ; Do a Carriage Return & Linefeed simulation
 	bne +
-    lda tcc__r2
+    lda tcc__r0
     clc
     adc #32*2
-    bra _psm_continue
+    bra _psmp1
 
 +   sec                                                     ; Write char to screen with attributes
     sbc #32                                                 ; High     Low      Legend->  c: Starting character (tile) number
     clc                                                     ; vhopppcc cccccccc           h: horizontal flip  v: vertical flip p: palette number   o: priority bit
     adc txt_vram_offset                                     ; add vram offset in 8 bits format
-    sta [tcc__r2]
-    inc.w tcc__r2
+    sta [tcc__r0]
+    inc tcc__r0
     lda 14,s
     adc txt_vram_offset+1
-    sta [tcc__r2]
-    rep #$20                                                ; bad hack to add a 16bit value
-    lda tcc__r2
-    ina
-    sta tcc__r2
-    sep #$20
-_psm_continue:
-    inc tcc__r3
-    bra _psm_nextchar
-
-_psm_return:
-	plb
+    sta [tcc__r0]
+    inc tcc__r0
+_psmp1:
+    inc tcc__r1
+    bra _psmp0
+    
+_psmp2:    
+    plb 
 	plp
-	rtl
+	rtl 
 
 ;---------------------------------------------------------------------------
 ; void consoleDrawText(u16 x, u16 y, char *fmt, ...)
 ; 5-6 7-8 9-12 13-...
 consoleDrawText:
     php
-
-    sep #$20
+    
+    sep #$20                                    
     lda #2
     sta scr_txt_dirty
-
+	
     rep #$20
     tsa
     clc
@@ -665,7 +661,7 @@ consoleDrawText:
     pea.w :text_buffer
     pea.w text_buffer
     sep #$20
-    lda txt_pal_adr
+    lda txt_pal_adr 
     pha
     rep #$20
     pea.w :scr_txt_font_map
@@ -681,24 +677,24 @@ consoleDrawText:
     clc
     adc #13
     tas
-
-    sep #$20
+    
+    sep #$20                                    
     lda #1
     sta scr_txt_dirty
 
 	plp
-	rtl
-
+	rtl 
+	
 .ENDS
 
 .SECTION ".consoles8_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ;void consoleDrawTextMap(u16 x, u16 y, u8 *map, u8 attributes, char *fmt, ...)
-; 5-6 7-8 9-12 13 14-17 18-...
+; 5-6 7-8 9-12 13 14-17 18-... 
 consoleDrawTextMap:
-    php
-
+    php 
+    
     rep #$20
     tsa
     clc
@@ -742,14 +738,14 @@ consoleDrawTextMap:
     tas
 
 	plp
-	rtl
-
+	rtl 
+    
 ;---------------------------------------------------------------------------
 ;void consoleDrawTextMapCenter(u16 y, u16 *map, u8 attributes, char *fmt, ...)
-; 5-6 7-10 11 12-15 16-...
+; 5-6 7-10 11 12-15 16-... 
 consoleDrawTextMapCenter:
-    php
-
+    php 
+    
     rep #$20
     tsa
     clc
@@ -784,7 +780,7 @@ consoleDrawTextMapCenter:
     sec
     sbc.b tcc__r0
     sta.b tcc__r0
-
+    
     pea.w :text_buffer
     pea.w text_buffer
     sep #$20
@@ -806,8 +802,8 @@ consoleDrawTextMapCenter:
     tas
 
 	plp
-	rtl
-
+	rtl 
+	
 .ENDS
 
 .SECTION ".consoles9_text" SUPERFREE
@@ -816,7 +812,7 @@ consoleDrawTextMapCenter:
 ;void consoleUpdate(void) {
 consoleUpdate:
     php
-
+    
     sep #$20
     lda scr_txt_dirty                      	; if buffer need to be update, do it !
     cmp #1
@@ -846,10 +842,10 @@ consoleUpdate:
     sep #$20
     lda #$0
     sta scr_txt_dirty                      	; if buffer need to be update, do it !
-
+    
 +	plp
-	rtl
-
+	rtl 
+	
 .ENDS
 
 
@@ -864,11 +860,11 @@ consoleUpdate:
 ;  0Fh N  Canada                   (NTSC)
 ;  10h B  Brazil                   (PAL-M, NTSC-like 60Hz)
 consoleRegionIsOK:
-    php
-
+    php 
+    
     sep #$20
     stz tcc__r0                                 ; currently, check is not OK
-
+    
     lda.l $ffd9                                 ; get cartridge region code
     beq +
     cmp #$01
@@ -885,7 +881,7 @@ consoleRegionIsOK:
     rep #$20
 +   lda #$0000
 ++  sta cons_val1                               ; 0 = NTSC, 1 = PAL
-
+    
     sep #$20
     lda snes_50hz                               ; here we have 1 if PAL
     rep #$20
@@ -894,14 +890,14 @@ consoleRegionIsOK:
     beq _cRIOK
     lda #2
     bra _cRIOK1
-
+    
 _cRIOK:
     lda #1
 
 _cRIOK1:
     sta tcc__r0
 
-	plp
-	rtl
-
+    plp
+    rtl 
+	
 .ENDS
