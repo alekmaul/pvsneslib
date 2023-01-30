@@ -38,6 +38,8 @@
 #include "lodepng.h"
 #include "loadimg.h"
 
+#define RED_ERROR "\e[0;31merror\e[0m '"	// ANSI color codes for more noticeable errors
+
 int	border=1;						// options and their defaults
 int	packed=0;						//
 int size=0;							//
@@ -121,7 +123,7 @@ void PrintOptions(char *str)
 	printf("\n  where filename is a 256 color PNG, BMP, PCX or TGA file");
 
 	if(str[0]!=0)
-		printf("\ngfx2snes: error 'The [%s] parameter is not recognized'",str);
+		printf("\ngfx2snes: %s 'The [%s] parameter is not recognized'", RED_ERROR, str);
 
 	printf("\n\nOptions are:");
 	printf("\n\n--- Graphics options ---");
@@ -385,21 +387,21 @@ int main(int argc, char **arg)
 
 	if( filebase[0] == 0 )
 	{
-		printf("\ngfx2snes: error 'You must specify a base filename'");
+		printf("\ngfx2snes: %s 'You must specify a base filename'", RED_ERROR);
 		PrintOptions("");
 		return 1;
 	}
 
 	if( colors == 0 )
 	{
-		printf("\ngfx2snes: error 'The Number of Colors parameter must be specified'");
+		printf("\ngfx2snes: %s 'The Number of Colors parameter must be specified'", RED_ERROR);
 		PrintOptions("");
 		return 1;
 	}
 
 	if((size == 0) && (border == 0) && (screen == 0))
 	{
-		printf("\ngfx2snes: error 'The Size parameter must be specified when the border is turned off'");
+		printf("\ngfx2snes: %s 'The Size parameter must be specified when the border is turned off'", RED_ERROR);
 		PrintOptions("");
 		return 1;
 	}
@@ -457,7 +459,7 @@ int main(int argc, char **arg)
 	if((size == 0) && (screen == 0))
 	{
 		if (quietmode == 0)
-			printf("\ngfx2snes: error 'Auto-detecting size of image blocks...'");
+			printf("\ngfx2snes: %s 'Auto-detecting size of image blocks...'", RED_ERROR);
 
 		clr = image.buffer[0]; //get the border color
 		for(i=1; i<width; i++)
@@ -482,7 +484,7 @@ int main(int argc, char **arg)
 
 		if( (xsize%(size+1) != 0 ) || (ysize%(size+1) != 0 ) )
 		{
-			printf("\ngfx2snes: error 'Border format is incorrect... autodetect size failed.'\n");
+			printf("\ngfx2snes: %s 'Border format is incorrect... autodetect size failed.'\n", RED_ERROR);
 			return 1;
 		}
 
@@ -499,7 +501,7 @@ int main(int argc, char **arg)
 			// Get out if hires and not 512 width
 			if( (hi512) &&  (width != 512) )
 			{
-				printf("\ngfx2snes: error 'EHiRes mode 5 format is not 512 pixels width.'\n");
+				printf("\ngfx2snes: %s 'EHiRes mode 5 format is not 512 pixels width.'\n", RED_ERROR);
 				return 1;
 			}
 		}
@@ -606,7 +608,7 @@ int main(int argc, char **arg)
 
 		if(buffer==NULL)
 		{
-			printf("\ngfx2snes: error 'Not enough memory to do image operations...'\n");
+			printf("\ngfx2snes: %s 'Not enough memory to do image operations...'\n", RED_ERROR);
 			return 1;
 		}
 
@@ -625,7 +627,7 @@ int main(int argc, char **arg)
 		if(tilemap==NULL)
 		{
 			free(buffer);
-			printf("\ngfx2snes: error 'Not enough memory to do tile map optimizations...'\n");
+			printf("\ngfx2snes: %s 'Not enough memory to do tile map optimizations...'\n", RED_ERROR);
 			return 1;
 		}
 
@@ -637,7 +639,7 @@ int main(int argc, char **arg)
 
 		if((screen == 7) && (num_tiles+blank_absent)>256)
 		{
-			printf("\ngfx2snes: error 'Need %d tiles to represent the screen in mode7. SNES only has room for 256 tiles'" ,num_tiles+blank_absent);
+			printf("\ngfx2snes: %s 'Need %d tiles to represent the screen in mode7. SNES only has room for 256 tiles'", RED_ERROR, num_tiles+blank_absent);
 			free(tilemap);
 			return 1;
 		}
@@ -657,7 +659,7 @@ int main(int argc, char **arg)
 
 		if(buffer==NULL)
 		{
-			printf("\ngfx2snes: error 'Not enough memory to do image operations...'\n");
+			printf("\ngfx2snes: %s' Not enough memory to do image operations...'\n", RED_ERROR);
 			return 1;
 		}
 
@@ -670,7 +672,7 @@ int main(int argc, char **arg)
 
 		if(temp==NULL)
 		{
-			printf("\ngfx2snes: error 'Not enough memory to do image operations...'\n");
+			printf("\ngfx2snes: %s 'Not enough memory to do image operations...'\n", RED_ERROR);
 			return 1;
 		}
 
@@ -712,7 +714,7 @@ int main(int argc, char **arg)
 		fp = fopen(filename,"wb");
 		if(fp==NULL)
 		{
-			printf("\ngfx2snes: error 'Can't open file [%s] for writing'\n",filename);
+			printf("\ngfx2snes: %s 'Can't open file [%s] for writing'\n", RED_ERROR, filename);
 			free(tilemap);
 			return 1;
 		}
@@ -746,7 +748,7 @@ int main(int argc, char **arg)
 			fp = fopen(filename,"wb");
 			if(fp==NULL)
 			{
-				printf("\ngfx2snes: error 'Can't open file [%s] for writing'\n",filename);
+				printf("\ngfx2snes: %s Can't open file [%s] for writing'\n", RED_ERROR, filename);
 				free(tilemap);
 				return 1;
 			}
@@ -776,7 +778,7 @@ int main(int argc, char **arg)
 
 		if(fp==NULL)
 		{
-			printf("\ngfx2snes: error 'Can't open file [%s] for writing'\n",filename);
+			printf("\ngfx2snes: %s 'Can't open file [%s] for writing'\n", RED_ERROR, filename);
 			return 0;
 		}
 
