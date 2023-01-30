@@ -1,35 +1,35 @@
 ;---------------------------------------------------------------------------------
 ;
-;	Copyright (C) 2013-2021
-;		Alekmaul
+;   Copyright (C) 2013-2021
+;       Alekmaul
 ;
-;	This software is provided 'as-is', without any express or implied
-;	warranty.  In no event will the authors be held liable for any
-;	damages arising from the use of this software.
+;   This software is provided 'as-is', without any express or implied
+;   warranty.  In no event will the authors be held liable for any
+;   damages arising from the use of this software.
 ;
-;	Permission is granted to anyone to use this software for any
-;	purpose, including commercial applications, and to alter it and
-;	redistribute it freely, subject to the following restrictions:
+;   Permission is granted to anyone to use this software for any
+;   purpose, including commercial applications, and to alter it and
+;   redistribute it freely, subject to the following restrictions:
 ;
-;	1.	The origin of this software must not be misrepresented; you
-;		must not claim that you wrote the original software. If you use
-;		this software in a product, an acknowledgment in the product
-;		documentation would be appreciated but is not required.
-;	2.	Altered source versions must be plainly marked as such, and
-;		must not be misrepresented as being the original software.
-;	3.	This notice may not be removed or altered from any source
-;		distribution.
+;   1.  The origin of this software must not be misrepresented; you
+;       must not claim that you wrote the original software. If you use
+;       this software in a product, an acknowledgment in the product
+;       documentation would be appreciated but is not required.
+;   2.  Altered source versions must be plainly marked as such, and
+;       must not be misrepresented as being the original software.
+;   3.  This notice may not be removed or altered from any source
+;       distribution.
 ;
 ;---------------------------------------------------------------------------------
 
-.EQU REG_CGADD	        $2121
-.EQU CGRAM_PALETTE	    $2122
+.EQU REG_CGADD          $2121
+.EQU CGRAM_PALETTE      $2122
 
 .EQU REG_STAT78         $213F
-.EQU REG_DEBUG	        $21FC
+.EQU REG_DEBUG          $21FC
 
-.EQU BANK_SRAM	        $70
-.EQU PPU_50HZ	        (1<<4)
+.EQU BANK_SRAM          $70
+.EQU PPU_50HZ           (1<<4)
 
 .EQU INT_VBLENABLE     (1<<7)
 .EQU INT_JOYPAD_ENABLE (1)
@@ -40,11 +40,11 @@
 
 .RAMSECTION ".reg_cons7e" BANK $7E
 
-snes_vblank_count		DB                                  ; to count number of vblank
+snes_vblank_count       DB                                  ; to count number of vblank
 
 snes_50hz               DB                                  ; 1 if PAL console (50 Hz) instead of NTSC (60Hz)
 
-scr_txt_dirty			DB                                  ; 1 if we need to refresh screen
+scr_txt_dirty           DB                                  ; 1 if we need to refresh screen
 txt_pal_adr             DB                                  ; text attribute (palette, high priority ...)
 txt_vram_bg             DW                                  ; vram address of BG for text
 txt_vram_adr            DW                                  ; vram address of graphics for text
@@ -52,15 +52,15 @@ txt_vram_offset         DW                                  ; offset for text di
 
 text_buffer             DSB 128                             ; text formatted with argument
 
-cons_val1			    DSB 2                               ; save value #1
+cons_val1               DSB 2                               ; save value #1
 
-scr_txt_font_map		DSW $800                            ; text to display on screen
+scr_txt_font_map        DSW $800                            ; text to display on screen
 
 .ENDS
 
 .RAMSECTION ".consfp" bank 0 slot 1
-snes_rand_seed1:		DSB 2
-snes_rand_seed2:		DSB 2
+snes_rand_seed1:        DSB 2
+snes_rand_seed2:        DSB 2
 .ENDS
 
 .SECTION ".consoles0_text" SUPERFREE
@@ -68,22 +68,22 @@ snes_rand_seed2:		DSB 2
 ;---------------------------------------------------------------------------
 ;u16 rand(void);
 rand:
-	php
+    php
 
-	rep #$30
+    rep #$30
 
-	lda.w snes_rand_seed2
-	lsr a
-	adc.w snes_rand_seed1
-	sta.w snes_rand_seed1
-	eor.w #$00ff
-	sta.w tcc__r0
-	lda.w snes_rand_seed2
-	sbc.w tcc__r0
-	sta.w snes_rand_seed2
+    lda.w snes_rand_seed2
+    lsr a
+    adc.w snes_rand_seed1
+    sta.w snes_rand_seed1
+    eor.w #$00ff
+    sta.w tcc__r0
+    lda.w snes_rand_seed2
+    sbc.w tcc__r0
+    sta.w snes_rand_seed2
 
-	plp
-	rtl
+    plp
+    rtl
 .ENDS
 
 .SECTION ".consoles1_text" SUPERFREE
@@ -91,7 +91,7 @@ rand:
 ;---------------------------------------------------------------------------
 ; void consoleNocashMessage(char *fmt, ...)
 consoleNocashMessage:
-	php
+    php
 
     rep #$20
     tsa
@@ -115,25 +115,25 @@ consoleNocashMessage:
     adc #12
     tas
 
-	phy
-	ldy #$0
+    phy
+    ldy #$0
 
-	lda #:text_buffer                            ; Let tcc__r0 point to the message
-	sta		tcc__r0h
+    lda #:text_buffer                            ; Let tcc__r0 point to the message
+    sta     tcc__r0h
     lda #text_buffer
-	sta		tcc__r0
+    sta     tcc__r0
 
-	sep	#$20
--:	lda		[tcc__r0],y
-	beq +
-	iny
-	sta.l	REG_DEBUG
-	bra -
+    sep #$20
+-:  lda     [tcc__r0],y
+    beq +
+    iny
+    sta.l   REG_DEBUG
+    bra -
 
-+:	ply
++:  ply
 
-	plp
-	rtl
+    plp
+    rtl
 
 .ENDS
 
@@ -142,96 +142,96 @@ consoleNocashMessage:
 ;---------------------------------------------------------------------------
 ; void consoleCopySram(u8 * source, u16 size);
 consoleCopySram:
-	php
-	phb
+    php
+    phb
 
-	sep #$20
-	lda #$0
-	pha
-	plb ; change bank address to 0
+    sep #$20
+    lda #$0
+    pha
+    plb ; change bank address to 0
 
-	rep	#$20
-	phy
-	phx
+    rep #$20
+    phy
+    phx
 
-	; Let tcc__r2 point to the source
-	lda		10,s
-	sta		tcc__r2
-	lda		12,s
-	sta		tcc__r2h
+    ; Let tcc__r2 point to the source
+    lda     10,s
+    sta     tcc__r2
+    lda     12,s
+    sta     tcc__r2h
 
-	ldy #$0
+    ldy #$0
 
-	sep	#$20
-	lda #BANK_SRAM
-	pha
-	plb ; change bank address to sram bank
+    sep #$20
+    lda #BANK_SRAM
+    pha
+    plb ; change bank address to sram bank
 
-	rep	#$20
-	lda	14,s   ; size
-	tax
-	ldy #$0
+    rep #$20
+    lda 14,s   ; size
+    tax
+    ldy #$0
 
-	sep	#$20
--:	lda		[tcc__r2],y
-	sta		0,y
-	iny
-	dex
-	beq +
-	bra -
+    sep #$20
+-:  lda     [tcc__r2],y
+    sta     0,y
+    iny
+    dex
+    beq +
+    bra -
 
-+:	plx
-	ply
-	plb
-	plp
-	rtl
++:  plx
+    ply
+    plb
+    plp
+    rtl
 
 ;---------------------------------------------------------------------------
 ; void consoleLoadSram(u8 * dest, u16 size);
 consoleLoadSram:
-	php
-	phb
+    php
+    phb
 
-	sep #$20
-	lda #$0
-	pha
-	plb ; change bank address to 0
+    sep #$20
+    lda #$0
+    pha
+    plb ; change bank address to 0
 
-	rep	#$20
-	phy
-	phx
+    rep #$20
+    phy
+    phx
 
-	; Let tcc__r2 point to the source
-	lda		10,s
-	sta		tcc__r2
-	lda		12,s
-	sta		tcc__r2h
+    ; Let tcc__r2 point to the source
+    lda     10,s
+    sta     tcc__r2
+    lda     12,s
+    sta     tcc__r2h
 
-	ldy #$0
+    ldy #$0
 
-	sep	#$20
-	lda #BANK_SRAM
-	pha
-	plb ; change bank address to sram bank
+    sep #$20
+    lda #BANK_SRAM
+    pha
+    plb ; change bank address to sram bank
 
-	rep	#$20
-	lda	14,s   ; size
-	tax
-	ldy #$0
+    rep #$20
+    lda 14,s   ; size
+    tax
+    ldy #$0
 
-	sep	#$20
--:	lda		0,y
-	sta		[tcc__r2],y
-	iny
-	dex
-	beq +
-	bra -
+    sep #$20
+-:  lda     0,y
+    sta     [tcc__r2],y
+    iny
+    dex
+    beq +
+    bra -
 
-+:	plx
-	ply
-	plb
-	plp
-	rtl
++:  plx
+    ply
+    plb
+    plp
+    rtl
 
 .ENDS
 
@@ -240,59 +240,59 @@ consoleLoadSram:
 ;---------------------------------------------------------------------------
 ; void consoleVblank(void)
 consoleVblank:
-	php
-	phb
+    php
+    phb
 
-	sep	#$20                ; 8bit A
-	lda #$7e
-	pha
-	plb
+    sep #$20                ; 8bit A
+    lda #$7e
+    pha
+    plb
 
-	; Refresh pad values
-	lda snes_mplay5
-	beq +
-	jsl scanMPlay5
-	bra cvbloam
-+	jsl scanPads
+    ; Refresh pad values
+    lda snes_mplay5
+    beq +
+    jsl scanMPlay5
+    bra cvbloam
++   jsl scanPads
 
 cvbloam:
-	; Put oam to screen if needed
-	jsl oamUpdate
+    ; Put oam to screen if needed
+    jsl oamUpdate
 
-	; if buffer need to be update, do it !
-	lda scr_txt_dirty
-	beq +
+    ; if buffer need to be update, do it !
+    lda scr_txt_dirty
+    beq +
 
-	rep #$20
-	lda	txt_vram_bg
-	sta.l	$2116                                             ; address for VRAM write(or read)
+    rep #$20
+    lda txt_vram_bg
+    sta.l   $2116                                             ; address for VRAM write(or read)
 
-	lda	#$800
-	sta.l	$4305                                             ; number of bytes to be copied
-	lda	#scr_txt_font_map.w
-	sta.l	$4302                                             ; data offset in memory
-	sep	#$20                                                  ; 8bit A
-	lda	#$80
-	sta.l	$2115                                             ; VRAM address increment value designation
-	lda	#:scr_txt_font_map                                    ; bank address of data in memory
-	sta.l	$4304
-	lda	#1
-	sta.l	$4300                                             ; 1= word increment
-	lda	#$18
-	sta.l	$4301                                             ; 2118 is the VRAM gate
+    lda #$800
+    sta.l   $4305                                             ; number of bytes to be copied
+    lda #scr_txt_font_map.w
+    sta.l   $4302                                             ; data offset in memory
+    sep #$20                                                  ; 8bit A
+    lda #$80
+    sta.l   $2115                                             ; VRAM address increment value designation
+    lda #:scr_txt_font_map                                    ; bank address of data in memory
+    sta.l   $4304
+    lda #1
+    sta.l   $4300                                             ; 1= word increment
+    lda #$18
+    sta.l   $4301                                             ; 2118 is the VRAM gate
 
-	lda	#1                                                    ; turn on bit 1 (channel 0) of DMA
-	sta.l	$420b
+    lda #1                                                    ; turn on bit 1 (channel 0) of DMA
+    sta.l   $420b
 
-	stz scr_txt_dirty                                         ; no more transfer of text
+    stz scr_txt_dirty                                         ; no more transfer of text
 
-	; Count frame number
-+	rep #$20
-	inc.w snes_vblank_count
+    ; Count frame number
++   rep #$20
+    inc.w snes_vblank_count
 
-	plb
-	plp
-	rtl
+    plb
+    plp
+    rtl
 
 .ENDS
 
@@ -323,7 +323,7 @@ consoleInit:
     lda.w #1
     sta snes_rand_seed1                                       ; For rand function
     lda.w #5
-	sta snes_rand_seed2                                       ; For rand function
+    sta snes_rand_seed2                                       ; For rand function
     plb
 
     lda.w #$0000                                              ; Init background address
@@ -332,38 +332,38 @@ consoleInit:
     sta bg2gfxaddr
     sta bg3gfxaddr
 
-	jsl dmaClearVram                                          ; Clear all VRAM to avoid problem
+    jsl dmaClearVram                                          ; Clear all VRAM to avoid problem
 
     lda #$0000
     pha                                                       ; Initialise joypads
-	jsl padsClear
+    jsl padsClear
     tsa
     clc
     adc #2
     tas
     lda #$0001
     pha
-	jsl padsClear
+    jsl padsClear
     tsa
     clc
     adc #2
     tas
 
-	sep #$20                                                  ; init PAL / NTSC console
+    sep #$20                                                  ; init PAL / NTSC console
     lda #$0
     sta snes_50hz
     lda.l REG_STAT78
-	and #PPU_50HZ
+    and #PPU_50HZ
     beq +
     lda #$1
     sta snes_50hz
 
-+	jsl oamInit                                               ; Init sprites
++   jsl oamInit                                               ; Init sprites
 
     phb
-   	lda #$7e
-	pha
-	plb
+    lda #$7e
+    pha
+    plb
 
     rep #$20
     lda #TXT_VRAMBGADR                                        ; put default values for text display
@@ -376,10 +376,10 @@ consoleInit:
     plb
 
     lda #INT_VBLENABLE | INT_JOYPAD_ENABLE                    ; enable NMI, enable autojoy
-	sta.l REG_NMITIMEN
+    sta.l REG_NMITIMEN
 
-	plp
-	rtl
+    plp
+    rtl
 
 .ENDS
 
@@ -392,10 +392,10 @@ consoleInitText:
     php
     phb
 
-   	sep	#$20                                                  ; 8bit A
-	lda #$7e
-	pha
-	plb
+    sep #$20                                                  ; 8bit A
+    lda #$7e
+    pha
+    plb
 
     rep #$20
     phx
@@ -409,10 +409,10 @@ consoleInitText:
     plx
 
     sep #$20
-	lda #0
+    lda #0
     pha
     jsl setBrightness                                         ; Force VBlank Interrupt (value 0)
-	rep #$20
+    rep #$20
     tsa
     clc
     adc #1
@@ -436,36 +436,36 @@ consoleInitText:
 
     lda #$0000
     sep #$20
-	lda	7,s                                                  ; get palette size
+    lda 7,s                                                  ; get palette size
     rep #$20
-	sta.l	$4305
-	lda	12,s	                                              ; src (lower 16 bits)
-	sta.l	$4302
-	sep	#$20
-	lda	14,s	                                              ; src bank
-	sta.l	$4304
-	lda	6,s	                                                  ; address of palette
+    sta.l   $4305
+    lda 12,s                                                  ; src (lower 16 bits)
+    sta.l   $4302
+    sep #$20
+    lda 14,s                                                  ; src bank
+    sta.l   $4304
+    lda 6,s                                                   ; address of palette
     asl a
     asl a
     asl a
     asl a
-	sta.l	$2121
-	lda	#0
-	sta.l	$4300
-	lda	#$22
-	sta.l	$4301
-	lda	#1
-	sta.l	$420b
+    sta.l   $2121
+    lda #0
+    sta.l   $4300
+    lda #$22
+    sta.l   $4301
+    lda #1
+    sta.l   $420b
 
-	lda	6,s	                                                  ; address of palette
+    lda 6,s                                                   ; address of palette
     asl a
     asl a
     ora #(1<<5)                                              ; (10-7) because only high byte are addressed
     sta txt_pal_adr
 
     plb
-	plp
-	rtl
+    plp
+    rtl
 
 ;---------------------------------------------------------------------------
 ;void consoleSetTextVramAdr(u16 vramfont)
@@ -474,18 +474,18 @@ consoleSetTextVramAdr:
     php
     phb
 
-   	sep	#$20                                                  ; 8bit A
-	lda #$7e
-	pha
-	plb
+    sep #$20                                                  ; 8bit A
+    lda #$7e
+    pha
+    plb
 
     rep #$20
     lda 6,s                                                  ; store graphic address of text
     sta txt_vram_adr
 
     plb
-	plp
-	rtl
+    plp
+    rtl
 
 ;---------------------------------------------------------------------------
 ;void consoleSetTextVramBGAdr(u16 vrambgfont)
@@ -494,18 +494,18 @@ consoleSetTextVramBGAdr:
     php
     phb
 
-   	sep	#$20                                                  ; 8bit A
-	lda #$7e
-	pha
-	plb
+    sep #$20                                                  ; 8bit A
+    lda #$7e
+    pha
+    plb
 
     rep #$20
     lda 6,s                                                  ; store BG graphic address of text
     sta txt_vram_bg
 
     plb
-	plp
-	rtl
+    plp
+    rtl
 
 ;---------------------------------------------------------------------------
 ;void consoleSetTextOffset(u16 offsetfont)
@@ -514,18 +514,18 @@ consoleSetTextOffset:
     php
     phb
 
-   	sep	#$20                                                  ; 8bit A
-	lda #$7e
-	pha
-	plb
+    sep #$20                                                  ; 8bit A
+    lda #$7e
+    pha
+    plb
 
     rep #$20
     lda 6,s                                                  ; store BG graphic address of text
     sta txt_vram_offset
 
     plb
-	plp
-	rtl
+    plp
+    rtl
 
 .ENDS
 
@@ -537,24 +537,24 @@ consoleSetTextOffset:
 consoleSetTextPal:
     php
 
-	lda	10,s                                                  ; get palette size
-	sta.l	$4305
-	lda	6,s	                                                  ; src (lower 16 bits)
-	sta.l	$4302
-	sep	#$20
-	lda	8,s	                                                  ; src bank
-	sta.l	$4304
-	lda	5,s	                                                  ; address of cgram
-	sta.l	$2121
-	lda	#0
-	sta.l	$4300
-	lda	#$22
-	sta.l	$4301
-	lda	#1
-	sta.l	$420b
+    lda 10,s                                                  ; get palette size
+    sta.l   $4305
+    lda 6,s                                                   ; src (lower 16 bits)
+    sta.l   $4302
+    sep #$20
+    lda 8,s                                                   ; src bank
+    sta.l   $4304
+    lda 5,s                                                   ; address of cgram
+    sta.l   $2121
+    lda #0
+    sta.l   $4300
+    lda #$22
+    sta.l   $4301
+    lda #1
+    sta.l   $420b
 
-	plp
-	rtl
+    plp
+    rtl
 
 .ENDS
 
@@ -568,10 +568,10 @@ print_screen_map:
     php
     phb
 
-   	sep	#$20                                                  ; 8bit A
-	lda #$7e
-	pha
-	plb
+    sep #$20                                                  ; 8bit A
+    lda #$7e
+    pha
+    plb
 
     rep #$20
     lda 8,s                                                 ; get y
@@ -581,7 +581,7 @@ print_screen_map:
     dey
     bne -                                                   ; y*0x20
     ply
-	clc
+    clc
     adc 6,s                                                 ; get x and x+y*0x20
     sta cons_val1
 
@@ -601,7 +601,7 @@ _psm_nextchar:
     lda [tcc__r3]                                           ; while (*buffer)
     beq _psm_return
     cmp #13                                                 ; Do a Carriage Return & Linefeed simulation
-	bne +
+    bne +
     lda tcc__r2
     clc
     adc #32*2
@@ -626,9 +626,9 @@ _psm_continue:
     bra _psm_nextchar
 
 _psm_return:
-	plb
-	plp
-	rtl
+    plb
+    plp
+    rtl
 
 ;---------------------------------------------------------------------------
 ; void consoleDrawText(u16 x, u16 y, char *fmt, ...)
@@ -677,7 +677,7 @@ consoleDrawText:
     asl a
     pha
     jsl print_screen_map                        ; print_screen_map(x*2,y*2, scr_txt_font_map, txt_pal_adr, text_buffer);
-   	tsa
+    tsa
     clc
     adc #13
     tas
@@ -686,8 +686,8 @@ consoleDrawText:
     lda #1
     sta scr_txt_dirty
 
-	plp
-	rtl
+    plp
+    rtl
 
 .ENDS
 
@@ -736,13 +736,13 @@ consoleDrawTextMap:
     asl a
     pha
     jsl print_screen_map                        ; print_screen_map(x*2,y*2, scr_txt_font_map, attributes, text_buffer);
-   	tsa
+    tsa
     clc
     adc #13
     tas
 
-	plp
-	rtl
+    plp
+    rtl
 
 ;---------------------------------------------------------------------------
 ;void consoleDrawTextMapCenter(u16 y, u16 *map, u8 attributes, char *fmt, ...)
@@ -800,13 +800,13 @@ consoleDrawTextMapCenter:
     asl a
     pha
     jsl print_screen_map                        ; print_screen_map(x*2,y*2, scr_txt_font_map, attributes, text_buffer);
-   	tsa
+    tsa
     clc
     adc #13
     tas
 
-	plp
-	rtl
+    plp
+    rtl
 
 .ENDS
 
@@ -818,14 +818,14 @@ consoleUpdate:
     php
 
     sep #$20
-    lda scr_txt_dirty                      	; if buffer need to be update, do it !
+    lda scr_txt_dirty                       ; if buffer need to be update, do it !
     cmp #1
     bne +
 
-	lda #0
+    lda #0
     pha
     jsl setBrightness                           ; Force VBlank Interrupt (value 0)
-	rep #$20
+    rep #$20
     tsa
     clc
     adc #1
@@ -845,10 +845,10 @@ consoleUpdate:
     tas
     sep #$20
     lda #$0
-    sta scr_txt_dirty                      	; if buffer need to be update, do it !
+    sta scr_txt_dirty                       ; if buffer need to be update, do it !
 
-+	plp
-	rtl
++   plp
+    rtl
 
 .ENDS
 
@@ -901,7 +901,7 @@ _cRIOK:
 _cRIOK1:
     sta tcc__r0
 
-	plp
-	rtl
+    plp
+    rtl
 
 .ENDS
