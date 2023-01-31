@@ -448,6 +448,13 @@ int main(int argc, char **arg)
         width = image.header.width;
     }
 
+	// go out if size if not multiple of 8
+	if ( ((width%8) != 0) || ((height%8) !=0) )
+	{
+		printf("\ngfx2snes: error 'size %d x %d is not a multiple of 8 pixels for width or height.'\n",width,height);
+		return 1;
+	}
+	
 	//autodetect size if necessary
 	if((size == 0) && (screen == 0))
 	{

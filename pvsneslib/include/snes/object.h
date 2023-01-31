@@ -79,7 +79,7 @@ typedef struct
     u16 parentID;  // 52 obj ID of parent (useful for projectiles)
     u8 hitpoints;  // 54 number of hit points of object
     u8 sprrefresh; // 55 if object needs sprite to be refresh
-    u8 onscreen;         // 56 to know if object is on screen or not
+    u8 onscreen;   // 56 to know if object is on screen or not
 
     u8 objnotused[7];                 // OB_SIZE-55-1 for future use
 } t_objs __attribute__((__packed__)); // seems to do nothing :/
@@ -90,12 +90,12 @@ extern u16 objgetid; /*!< \brief id of current object (useful when creating it) 
 
 extern t_objs objbuffers[OB_MAX]; /*!< \brief current object buffer with all objects */
 
-#define T_EMPTY 0x0000 /*!< \brief Type Empty (action will be fall) for tile  */
-#define T_SOLID 0xFF00 /*!< \brief Type Solid (action is walk only) for tile  */
-#define T_LADDE 0x0001 /*!< \brief Type Ladder (action will be climb) for tile  */
-#define T_FIRES 0x0002 /*!< \brief Type Fire (action will be burn) for tile  */
-#define T_SPIKE 0x0004 /*!< \brief Type Spike (action will be die) for tile  */
-#define T_PLATE 0x0008 /*!< \brief Type Ground (action will be jump through and land) for tile  */
+#define T_EMPTY 0x0000  /*!< \brief Type Empty (action will be fall) for tile  */
+#define T_SOLID 0xFF00  /*!< \brief Type Solid (action is walk only) for tile  */
+#define T_LADDER 0x0001 /*!< \brief Type Ladder (action will be climb) for tile  */
+#define T_FIRES 0x0002  /*!< \brief Type Fire (action will be burn) for tile  */
+#define T_SPIKE 0x0004  /*!< \brief Type Spike (action will be die) for tile  */
+#define T_PLATE 0x0008  /*!< \brief Type Plate (action will be jump through and land) for tile  */
 
 #define ACT_STAND 0x0000 /*!< \brief Action type STAND for object */
 #define ACT_WALK 0x0001  /*!< \brief Action type WALK for object */
@@ -120,9 +120,9 @@ void objInitGravity(u16 objgravity, u16 objfriction);
 /*! \fn objInitFunctions(u8 objtype, void *initfct,void *updfct)
     \brief Initialize the object type functions (initialize, update)
     \param objtype  The type of object depending of the game
-	\param initfct  The address of the function when we init the type of object
-	\param updfct   The address of the function when we update the type of object (need to be called once per frame)
-	\param reffct   The address of the function when we refresh sprites of object (need to be called once per frame)
+    \param initfct  The address of the function when we init the type of object
+    \param updfct   The address of the function when we update the type of object (need to be called once per frame)
+    \param reffct   The address of the function when we refresh sprites of object (need to be called once per frame)
 */
 void objInitFunctions(u8 objtype, void *initfct, void *updfct, void *reffct);
 

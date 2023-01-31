@@ -176,5 +176,5 @@
 #include "snes/sound.h"
 #include "snes/sprite.h"
 #include "snes/video.h"
-
+   
 #endif // SNES_INCLUDE

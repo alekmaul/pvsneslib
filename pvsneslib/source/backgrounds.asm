@@ -1,43 +1,43 @@
 ;---------------------------------------------------------------------------------
 ;
-;	Copyright (C) 2013-2021
-;		Alekmaul 
+;   Copyright (C) 2013-2021
+;       Alekmaul 
 ;
-;	This software is provided 'as-is', without any express or implied
-;	warranty.  In no event will the authors be held liable for any
-;	damages arising from the use of this software.
+;   This software is provided 'as-is', without any express or implied
+;   warranty.  In no event will the authors be held liable for any
+;   damages arising from the use of this software.
 ;
-;	Permission is granted to anyone to use this software for any
-;	purpose, including commercial applications, and to alter it and
-;	redistribute it freely, subject to the following restrictions:
+;   Permission is granted to anyone to use this software for any
+;   purpose, including commercial applications, and to alter it and
+;   redistribute it freely, subject to the following restrictions:
 ;
-;	1.	The origin of this software must not be misrepresented; you
-;		must not claim that you wrote the original software. If you use
-;		this software in a product, an acknowledgment in the product
-;		documentation would be appreciated but is not required.
-;	2.	Altered source versions must be plainly marked as such, and
-;		must not be misrepresented as being the original software.
-;	3.	This notice may not be removed or altered from any source
-;		distribution.
+;   1.  The origin of this software must not be misrepresented; you
+;       must not claim that you wrote the original software. If you use
+;       this software in a product, an acknowledgment in the product
+;       documentation would be appreciated but is not required.
+;   2.  Altered source versions must be plainly marked as such, and
+;       must not be misrepresented as being the original software.
+;   3.  This notice may not be removed or altered from any source
+;       distribution.
 ;
 ;---------------------------------------------------------------------------------
 
 .EQU BG1SC_ADDR            $2107
-.EQU REG_BG12NBA	       $210B
-.EQU REG_BG34NBA	       $210C
+.EQU REG_BG12NBA           $210B
+.EQU REG_BG34NBA           $210C
 .EQU REG_BGxHOFS           $210D
 .EQU REG_BGyHOFS           $210E
 
-.EQU REG_TM	               $212C
-.EQU REG_TS	               $212D
-.EQU REG_W12SEL		       $2123
-.EQU REG_W34SEL		       $2124
+.EQU REG_TM                $212C
+.EQU REG_TS                $212D
+.EQU REG_W12SEL            $2123
+.EQU REG_W34SEL            $2124
 .EQU REG_WOBJSEL           $2125
-.EQU REG_WH0		       $2126
-.EQU REG_WH1		       $2127
-.EQU REG_WBGLOG		       $212A
-.EQU REG_WOBJLOG		   $212B
-.EQU REG_TMW		       $212E
+.EQU REG_WH0               $2126
+.EQU REG_WH1               $2127
+.EQU REG_WBGLOG            $212A
+.EQU REG_WOBJLOG           $212B
+.EQU REG_TMW               $212E
 
 .EQU BG_4COLORS0           32
 .EQU BG_256COLORS          256
@@ -56,7 +56,7 @@ bg1gfxaddr      DSB 2
 bg2gfxaddr      DSB 2
 bg3gfxaddr      DSB 2
 
-bkgrd_val1		DSB 2                         ; save value #1
+bkgrd_val1      DSB 2                         ; save value #1
 
 .ENDS
 
@@ -65,45 +65,45 @@ bkgrd_val1		DSB 2                         ; save value #1
 ;---------------------------------------------------------------------------
 ; bgSetScroll(u8 bgNumber, u16 x, u16 y);
 bgSetScroll:
-	php
-	phb
-	
-	sep	#$20
-	lda #$0
-	pha
-	plb ; change bank address to 0
-	
-	lda	6,s                      ; bgNumber
-	rep	#$20
-	and #$0003                   ; do not exceed bg
-	asl a                        ; to be on correct entry (h/v)
-	phy
-	tay
+    php
+    phb
+    
+    sep #$20
+    lda #$0
+    pha
+    plb ; change bank address to 0
+    
+    lda 6,s                      ; bgNumber
+    rep #$20
+    and #$0003                   ; do not exceed bg
+    asl a                        ; to be on correct entry (h/v)
+    phy
+    tay
 
-	lda	9,s                     ; x scrolling offset
-	sep #$20
-	sta REG_BGxHOFS,y
-	rep #$20
-	xba 
-	sep #$20
-	sta REG_BGxHOFS,y
-	rep #$20 
+    lda 9,s                     ; x scrolling offset
+    sep #$20
+    sta REG_BGxHOFS,y
+    rep #$20
+    xba 
+    sep #$20
+    sta REG_BGxHOFS,y
+    rep #$20 
 
-	lda	11,s                     ; x scrolling offset
-	sep #$20
-	sta REG_BGyHOFS,y
-	rep #$20
-	xba 
-	sep #$20
-	sta REG_BGyHOFS, y
-	rep #$20
+    lda 11,s                     ; x scrolling offset
+    sep #$20
+    sta REG_BGyHOFS,y
+    rep #$20
+    xba 
+    sep #$20
+    sta REG_BGyHOFS, y
+    rep #$20
 
-	ply
-	
+    ply
+    
     plb
-	plp
-	rtl
-	
+    plp
+    rtl
+    
 .ENDS
 
 .SECTION ".backgrounds1_text" SUPERFREE
@@ -111,7 +111,7 @@ bgSetScroll:
 ;---------------------------------------------------------------------------
 ;void bgSetEnable(u8 bgNumber) {
 bgSetEnable:
-	php
+    php
 
     sep #$20
     lda 5,s
@@ -126,21 +126,21 @@ bgSetEnable:
 -   asl a
     dey
     bne -               
-	
+    
 +   sta bkgrd_val1      ; videoMode |= (1 << bgNumber);
     lda videoMode
     ora bkgrd_val1
-	sta videoMode
+    sta videoMode
     
-	sta.l REG_TM        ; REG_TM = videoMode;
+    sta.l REG_TM        ; REG_TM = videoMode;
     
     plp
-	rtl
+    rtl
 
 ;---------------------------------------------------------------------------
 ;void bgSetDisable(u8 bgNumber) {
 bgSetDisable:
-	php
+    php
 
     sep #$20
     lda 5,s
@@ -155,17 +155,17 @@ bgSetDisable:
 -   asl a
     dey
     bne -               
-	
+    
 +   eor #$FF
     sta bkgrd_val1      ; videoMode &= ~(1 << bgNumber);
     lda videoMode
     and bkgrd_val1
-	sta videoMode
+    sta videoMode
     
-	sta.l REG_TM        ; REG_TM = videoMode;
+    sta.l REG_TM        ; REG_TM = videoMode;
     
     plp
-	rtl
+    rtl
 
 .ENDS
 
@@ -174,7 +174,7 @@ bgSetDisable:
 ;---------------------------------------------------------------------------
 ;void bgSetEnableSub(u8 bgNumber) {
 bgSetEnableSub:
-	php
+    php
 
     sep #$20
     lda 5,s
@@ -189,21 +189,21 @@ bgSetEnableSub:
 -   asl a
     dey
     bne -               
-	
+    
 +   sta bkgrd_val1      ; videoModeSub |= (1 << bgNumber);
     lda videoModeSub
     ora bkgrd_val1
-	sta videoModeSub
+    sta videoModeSub
     
-	sta.l REG_TS        ; REG_TS = videoModeSub;
+    sta.l REG_TS        ; REG_TS = videoModeSub;
     
     plp
-	rtl
+    rtl
 
 ;---------------------------------------------------------------------------
 ;void bgSetDisableSub(u8 bgNumber) {
 bgSetDisableSub:
-	php
+    php
 
     sep #$20
     lda 5,s
@@ -218,18 +218,18 @@ bgSetDisableSub:
 -   asl a
     dey
     bne -               
-	
+    
 +   eor #$FF
     sta bkgrd_val1      ; videoModeSub &= ~(1 << bgNumber);
     lda videoModeSub
     and bkgrd_val1
-	sta videoModeSub
+    sta videoModeSub
     
-	sta.l REG_TS        ; REG_TS = videoModeSub;
+    sta.l REG_TS        ; REG_TS = videoModeSub;
     
     plp
-	rtl
-	
+    rtl
+    
 
 .ENDS
 
@@ -238,26 +238,26 @@ bgSetDisableSub:
 ;---------------------------------------------------------------------------
 ; void bgSetWindowsRegions(u8 bgNumber, u8 winNumber, u8 xLeft, u8 xRight)
 bgSetWindowsRegions:
-	php
+    php
 
     sep #$20
     sta.l REG_W12SEL
-	sta.l REG_WOBJSEL
+    sta.l REG_WOBJSEL
 
     lda 7,s
-	sta.l REG_WH0
+    sta.l REG_WH0
     lda 8,s
-	sta.l REG_WH1
+    sta.l REG_WH1
 
     lda #$01
-	sta.l REG_WBGLOG
-	sta.l REG_WOBJLOG
+    sta.l REG_WBGLOG
+    sta.l REG_WOBJLOG
 
     lda #$11
-	sta.l REG_TMW
+    sta.l REG_TMW
     
     plp
-	rtl
+    rtl
 
 .ENDS
 
@@ -307,17 +307,17 @@ bgSetGfxPtr:
     dex
     bne -
     ora bkgrd_val1
-	sta.l REG_BG34NBA
+    sta.l REG_BG34NBA
 
 _bSGP1:
     plx
     plp
-	rtl
+    rtl
 
 ;---------------------------------------------------------------------------
 ; void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize)
 bgSetMapPtr:
-	php
+    php
     phx
     
     sep #$20                    ; mapadr = ((address >> 8) & 0xfc) | (mapSize & 0x03);
@@ -335,7 +335,7 @@ bgSetMapPtr:
     sep #$20
     ora bkgrd_val1
     sta bkgrd_val1
-	
+    
     lda 7,s
     rep #$20
     and #$0003
@@ -346,7 +346,7 @@ bgSetMapPtr:
     
     plx
     plp
-	rtl
+    rtl
     
 .ENDS
 
@@ -355,9 +355,9 @@ bgSetMapPtr:
 ;---------------------------------------------------------------------------
 ;void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)
 bgInitTileSet:
-	php
-	
-	; If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
+    php
+    
+    ; If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
     rep #$20
     lda 19,s                    ; get colorMode
     cmp #BG_4COLORS0
@@ -396,10 +396,10 @@ bgInitTileSet:
     
 _bITS1:
     sep #$20
-	lda #0
+    lda #0
     pha
     jsl setBrightness           ; Force VBlank Interrupt (value 0)
-	rep #$20
+    rep #$20
     tsa
     clc
     adc #1
@@ -415,11 +415,11 @@ _bITS1:
     lda 12,s                     ; get tileSource data address (6+6)
     pha
     jsl dmaCopyVram
-	tsa
+    tsa
     clc
     adc #8
     tas
-	
+    
     lda 17,s                    ; get paletteSize 
     pha
     lda bkgrd_val1
@@ -429,7 +429,7 @@ _bITS1:
     lda 16,s                    ; get tilePalette data address (10+6)
     pha
     jsl dmaCopyCGram
-   	tsa
+    tsa
     clc
     adc #8
     tas
@@ -441,13 +441,13 @@ _bITS1:
     pha
     rep #$20
     jsl bgSetGfxPtr
-   	tsa
+    tsa
     clc
     adc #3
     tas
 
     plp
-	rtl
+    rtl
 
 .ENDS
 
@@ -457,9 +457,9 @@ _bITS1:
 ;void bgInitTileSetLz(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 paletteSize, u16 colorMode, u16 address)
 ;5 6-9 10-13 14 15-16 17-18 19-20
 bgInitTileSetLz:
-	php
-	
-	; If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
+    php
+    
+    ; If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
     rep #$20
     lda 17,s                    ; get colorMode
     cmp #BG_4COLORS0
@@ -498,10 +498,10 @@ bgInitTileSetLz:
     
 _bITS1:
     sep #$20
-	lda #0
+    lda #0
     pha
     jsl setBrightness           ; Force VBlank Interrupt (value 0)
-	rep #$20
+    rep #$20
     tsa
     clc
     adc #1
@@ -515,11 +515,11 @@ _bITS1:
     lda 10,s                     ; get tileSource data address (6+4)
     pha
     jsl LzssDecodeVram
-	tsa
+    tsa
     clc
     adc #6
     tas
-	
+    
     lda 15,s                    ; get paletteSize 
     pha
     lda bkgrd_val1
@@ -529,7 +529,7 @@ _bITS1:
     lda 16,s                    ; get tilePalette data address (10+6)
     pha
     jsl dmaCopyCGram
-   	tsa
+    tsa
     clc
     adc #8
     tas
@@ -541,13 +541,13 @@ _bITS1:
     pha
     rep #$20
     jsl bgSetGfxPtr
-   	tsa
+    tsa
     clc
     adc #3
     tas
 
     plp
-	rtl
+    rtl
 
 .ENDS
 
@@ -571,7 +571,7 @@ bgInitMapSet:
     lda 12,s                    ; get mapSource data address (6+6)
     pha
     jsl dmaCopyVram
-	tsa
+    tsa
     clc
     adc #8
     tas
@@ -591,13 +591,13 @@ bgInitMapSet:
     pha
     rep #$20
     jsl bgSetMapPtr
-   	tsa
+    tsa
     clc
     adc #4
     tas
 
 +   plp
-	rtl
+    rtl
 
 .ENDS
 
@@ -621,11 +621,11 @@ bgInitTileSetData:
     lda 18,s                    ; get tileSource data address (12+6)
     pha
     jsl dmaCopyVram
-	tsa
+    tsa
     clc
     adc #8
     tas
-	
+    
     sep #$20
     lda 5,s
     cmp #$ff
@@ -639,13 +639,13 @@ bgInitTileSetData:
     pha
     rep #$20
     jsl bgSetMapPtr
-   	tsa
+    tsa
     clc
     adc #3
     tas
 
 +   plp
-	rtl
+    rtl
 
 .ENDS
 
@@ -658,9 +658,9 @@ bgInitMapTileSet7:
     php
     
     sep #$20
-	lda #0
+    lda #0
     pha
-	rep #$20
+    rep #$20
     jsl setBrightness           ; Force VBlank Interrupt (value 0)
     tsa
     clc
@@ -668,7 +668,7 @@ bgInitMapTileSet7:
     tas
     wai
 
-    lda  #$1800                 ; 	dmaCopyVram7(mapSource, address,0x4000, VRAM_INCLOW | VRAM_ADRTR_0B | VRAM_ADRSTINC_1,0x1800);
+    lda  #$1800                 ;   dmaCopyVram7(mapSource, address,0x4000, VRAM_INCLOW | VRAM_ADRTR_0B | VRAM_ADRSTINC_1,0x1800);
     pha
     sep #$20
     lda #(VRAM_INCLOW | VRAM_ADRTR_0B | VRAM_ADRSTINC_1)
@@ -683,28 +683,28 @@ bgInitMapTileSet7:
     lda 18,s                    ; get mapSource data address (9+9)
     pha
     jsl dmaCopyVram7
-	tsa
+    tsa
     clc
     adc #11
     tas
     
-	sep #$20
+    sep #$20
     lda #SC_32x32
     pha
     rep #$20
     lda 20,s                    ; get address (19+1)
     pha
-	sep #$20
+    sep #$20
     lda #$0
     pha
     rep #$20
     jsl bgSetMapPtr
-	tsa
+    tsa
     clc
     adc #4
     tas
     
-    lda  #$1900                 ; 	dmaCopyVram7(tileSource, address, tileSize, VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1,0x1900);
+    lda  #$1900                 ;   dmaCopyVram7(tileSource, address, tileSize, VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1,0x1900);
     pha
     sep #$20
     lda #(VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1)
@@ -719,7 +719,7 @@ bgInitMapTileSet7:
     lda 14,s                    ; get tileSource data address (5+9)
     pha
     jsl dmaCopyVram7
-	tsa
+    tsa
     clc
     adc #11
     tas
@@ -733,11 +733,11 @@ bgInitMapTileSet7:
     lda 19,s                    ; get tilePalette data address (13+6)
     pha
     jsl dmaCopyCGram
-   	tsa
+    tsa
     clc
     adc #8
     tas
-  	
+    
     lda 19,s                    ; get address
     pha
     sep #$20
@@ -745,12 +745,12 @@ bgInitMapTileSet7:
     pha
     rep #$20
     jsl bgSetGfxPtr
-   	tsa
+    tsa
     clc
     adc #3
     tas
 
 +   plp
-	rtl
+    rtl
 
 .ENDS
