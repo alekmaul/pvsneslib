@@ -1,32 +1,32 @@
 ;---------------------------------------------------------------------------------
 ;
-;	Copyright (C) 2013-2021
-;		Alekmaul 
+;   Copyright (C) 2013-2021
+;       Alekmaul 
 ;
-;	This software is provided 'as-is', without any express or implied
-;	warranty.  In no event will the authors be held liable for any
-;	damages arising from the use of this software.
+;   This software is provided 'as-is', without any express or implied
+;   warranty.  In no event will the authors be held liable for any
+;   damages arising from the use of this software.
 ;
-;	Permission is granted to anyone to use this software for any
-;	purpose, including commercial applications, and to alter it and
-;	redistribute it freely, subject to the following restrictions:
+;   Permission is granted to anyone to use this software for any
+;   purpose, including commercial applications, and to alter it and
+;   redistribute it freely, subject to the following restrictions:
 ;
-;	1.	The origin of this software must not be misrepresented; you
-;		must not claim that you wrote the original software. If you use
-;		this software in a product, an acknowledgment in the product
-;		documentation would be appreciated but is not required.
-;	2.	Altered source versions must be plainly marked as such, and
-;		must not be misrepresented as being the original software.
-;	3.	This notice may not be removed or altered from any source
-;		distribution.
+;   1.  The origin of this software must not be misrepresented; you
+;       must not claim that you wrote the original software. If you use
+;       this software in a product, an acknowledgment in the product
+;       documentation would be appreciated but is not required.
+;   2.  Altered source versions must be plainly marked as such, and
+;       must not be misrepresented as being the original software.
+;   3.  This notice may not be removed or altered from any source
+;       distribution.
 ;
 ;---------------------------------------------------------------------------------
 
-.EQU REG_INIDISP	$2100
-.EQU REG_BGMODE	    $2105
-.EQU REG_MOSAIC		$2106
+.EQU REG_INIDISP    $2100
+.EQU REG_BGMODE     $2105
+.EQU REG_MOSAIC     $2106
 
-.EQU REG_CGWSEL	    $2130
+.EQU REG_CGWSEL     $2130
 .EQU REG_CGADSUB    $2131
 .EQU REG_COLDATA    $2132
 
@@ -46,9 +46,9 @@
 
 .EQU REG_MPYMH      $2135
 
-.EQU RDCGRAM_PAL	$213B
+.EQU RDCGRAM_PAL    $213B
 
-.EQU REG_NMITIMEN	$4200
+.EQU REG_NMITIMEN   $4200
 
 .EQU DSP_FORCEVBL   0x80
 
@@ -110,114 +110,114 @@ m7_md               DSB (225-64)*3              ; 483 bytes
 ;---------------------------------------------------------------------------
 ; void setFadeEffect(u8 mode)
 setFadeEffect:
-	php
-	
-	phx
-	phy
+    php
+    
+    phx
+    phy
 
-	sep	#$30
-	
-	lda.b	9,s
-	tax
-	cpx #$1	; FADE_OUT ?
-	beq _fadeouteffect
+    sep #$30
+    
+    lda.b   9,s
+    tax
+    cpx #$1 ; FADE_OUT ?
+    beq _fadeouteffect
 
-	ldx.b	#$0
+    ldx.b   #$0
 -:
-	jsr.w	_wait_nmi
-	txa
-	sta.l	REG_INIDISP
-	inx
-	cpx	#$10
-	bne	-
-	
-	rep #$30
-	
-	ply
-	plx
-	plp
-	rtl
+    jsr.w   _wait_nmi
+    txa
+    sta.l   REG_INIDISP
+    inx
+    cpx #$10
+    bne -
+    
+    rep #$30
+    
+    ply
+    plx
+    plp
+    rtl
 
 _fadeouteffect:
-	ldx.b	#$F
+    ldx.b   #$F
 -:
-	jsr.w	_wait_nmi
-	txa
-	sta.l	REG_INIDISP
-	dex
-	bpl	-
-	
-	rep #$30
-	
-	ply
-	plx
-	plp
-	rtl
+    jsr.w   _wait_nmi
+    txa
+    sta.l   REG_INIDISP
+    dex
+    bpl -
+    
+    rep #$30
+    
+    ply
+    plx
+    plp
+    rtl
 
 ;---------------------------------------------------------------------------
 ; void setMosaicEffect(u8 mode, u8 bgNumbers)
 setMosaicEffect:
-	php
+    php
 
-	sep	#$20
+    sep #$20
 
-	lda.b	5,s                     ; mode
-	cmp #MOSAIC_OUT                 ; is it MOSAIC_OUT (biggest to smallest)
-	bne _mosaicouteffect
+    lda.b   5,s                     ; mode
+    cmp #MOSAIC_OUT                 ; is it MOSAIC_OUT (biggest to smallest)
+    bne _mosaicouteffect
 
     phx
     lda #$00
-	ldx.w	#$0
+    ldx.w   #$0
 -:
-	wai
-	wai
-	wai
-	ora	8,s		                    ; Enable effect for BG in parameters
-	sta.l	REG_MOSAIC
+    wai
+    wai
+    wai
+    ora 8,s                         ; Enable effect for BG in parameters
+    sta.l   REG_MOSAIC
     clc
     adc #$10                        ; Mosaic size in d4-d7 incr (0>-15)
     
-	inx
-	cpx	#$10
-	bne	-
-	
+    inx
+    cpx #$10
+    bne -
+    
     plx
-	
-	plp
-	rtl
+    
+    plp
+    rtl
 
 ;---------------------------------------------------------------------------
 _mosaicouteffect:
-	phx
+    phx
     lda #$F0
-    ldx.w	#$0
+    ldx.w   #$0
 
--:	wai
-	wai
-	wai
+-:  wai
+    wai
+    wai
 
-	ora	8,s		                    ; Enable effect for BG in parameters
-	sta.l	REG_MOSAIC
+    ora 8,s                         ; Enable effect for BG in parameters
+    sta.l   REG_MOSAIC
     sec
     sbc #$10                        ; Mosaic size in d4-d7 decr (15->0)
     
-	inx
-	cpx	#$10
-	bne	-
-	
+    inx
+    cpx #$10
+    bne -
+    
     plx
-	
+    
     plp
-	rtl
+    rtl
 
 _wait_nmi:
 -:
-	lda.l	REG_RDNMI
-	bmi	-
+    lda.l   REG_RDNMI
+    bmi -
 -:
-	lda.l	REG_RDNMI
-	bpl	-
-	rts
+    lda.l   REG_RDNMI
+    bpl -
+    rts
 
 .ENDS
 
@@ -226,29 +226,29 @@ _wait_nmi:
 ;---------------------------------------------------------------------------
 ; void setScreenOn(void)
 setScreenOn:
-	php
-	
-	sep	#$20
-	lda #$f
-	wai
-	
-	sta.l REG_INIDISP
-	
-	plp
-	rtl
-	
+    php
+    
+    sep #$20
+    lda #$f
+    wai
+    
+    sta.l REG_INIDISP
+    
+    plp
+    rtl
+    
 ;---------------------------------------------------------------------------
 ; void setScreenOff(void)
 setScreenOff:
-	php
+    php
 
-	sep #$20
-	lda #DSP_FORCEVBL                                         ; force vblank before putting screen off
-   	sta.l REG_INIDISP                                         ; Screen brightness
+    sep #$20
+    lda #DSP_FORCEVBL                                         ; force vblank before putting screen off
+    sta.l REG_INIDISP                                         ; Screen brightness
 
-	plp
-	rtl
-	
+    plp
+    rtl
+    
 .ENDS
 
 .SECTION ".videos2_text" SUPERFREE
@@ -256,39 +256,39 @@ setScreenOff:
 //---------------------------------------------------------------------------------
 ; setColorEffect(u8 colorMathA, u8 colorMathB) 
 setColorEffect:
-	php
-	
-	sep	#$20
+    php
+    
+    sep #$20
     lda 5,s             ; colorMathA
-   	sta.l	REG_CGWSEL  
+    sta.l   REG_CGWSEL  
 
     lda 6,s             ; colorMathB
-   	sta.l	REG_CGADSUB  
+    sta.l   REG_CGADSUB  
 
-	plp
-	rtl
+    plp
+    rtl
 
 //---------------------------------------------------------------------------------
 ; setColorIntensity(u8 colorApply, u8 intensity) {
 setColorIntensity:
-	php
-	
-	sep	#$20
-    lda 6,s                 ; intensity
+    php
+    
+    sep #$20
+    lda 6,s               ; intensity
     and #0Fh              ; maximum 15 levels
-    ora 5,s                 ; colorApply
+    ora 5,s               ; colorApply
 
-    sta.l	REG_COLDATA  
+    sta.l   REG_COLDATA  
 
-	plp
-	rtl
+    plp
+    rtl
 
 ;---------------------------------------------------------------------------
 ; setBrightness(u8 level)
 setBrightness:
-	php
-	
-	sep	#$20
+    php
+    
+    sep #$20
     lda 5,s                      ; get level
     bne +
     lda #DSP_FORCEVBL            ; if 0, force vblank
@@ -297,11 +297,11 @@ setBrightness:
     and #0Fh                    ; maximum 15 levels
 
 _sbv1:
-   	sta.l	REG_INIDISP         ; Screen brightness
+    sta.l   REG_INIDISP         ; Screen brightness
 
-	plp
-	rtl
-	
+    plp
+    rtl
+    
 .ENDS
 
 .SECTION ".videos3_text" SUPERFREE
@@ -321,16 +321,16 @@ setMode:
     sta.l REG_BGMODE            ; Change default mode 
 
     stz videoModeSub            ; Default sub mode
-	
-	lda iloc                    ; Regarding mode, adjust BGs
+    
+    lda iloc                    ; Regarding mode, adjust BGs
     cmp #BG_MODE0
     bne _smdm124
-	; Mode 0 : 4-color     4-color     4-color     4-color   ;Normal
+    ; Mode 0 : 4-color     4-color     4-color     4-color   ;Normal
     lda #BG1_ENABLE | BG2_ENABLE | BG3_ENABLE | BG4_ENABLE | OBJ_ENABLE
     sta videoMode
     lda #4
     sta bgCnt
-	bra _smd1
+    bra _smd1
 
 _smdm124:
     cmp #BG_MODE1
@@ -340,25 +340,25 @@ _smdm124:
     cmp #BG_MODE4
     beq +
     bra _smdm563
-	; Mode 1 : 16-color    16-color    4-color     -         ;Normal
-	; Mode 2 : 16-color    16-color    (o.p.t)     -         ;Offset-per-tile
-	; Mode 4 : 256-color   4-color     (o.p.t)     -         ;Offset-per-tile
+    ; Mode 1 : 16-color    16-color    4-color     -         ;Normal
+    ; Mode 2 : 16-color    16-color    (o.p.t)     -         ;Offset-per-tile
+    ; Mode 4 : 256-color   4-color     (o.p.t)     -         ;Offset-per-tile
 +   lda #BG1_ENABLE | BG2_ENABLE | BG3_ENABLE | OBJ_ENABLE
     sta videoMode
     lda #3
     sta bgCnt
-	bra _smd1
+    bra _smd1
 
 _smdm563:
-	; Mode 3 : 256-color   16-color    -           -         ;Normal
-	; Mode 5 : 16-color    4-color     -           -         ;512-pix-hires
-	; Mode 6 : 16-color    -           (o.p.t)     -         ;512-pix plus Offs-p-t
+    ; Mode 3 : 256-color   16-color    -           -         ;Normal
+    ; Mode 5 : 16-color    4-color     -           -         ;512-pix-hires
+    ; Mode 6 : 16-color    -           (o.p.t)     -         ;512-pix plus Offs-p-t
     lda #BG1_ENABLE | BG2_ENABLE | OBJ_ENABLE
     sta videoMode
     sta videoModeSub
     lda #2
     sta bgCnt
-	bra _smd1
+    bra _smd1
 
 _smd1:
     lda videoMode
@@ -389,9 +389,9 @@ _smd11:
     lda #INT_VBLENABLE | INT_JOYPAD_ENABLE          ; enable NMI, enable autojoy 
     sta.l REG_NMITIMEN
 
-	plp
-	rtl
-	
+    plp
+    rtl
+    
 .ENDS
 
 .SECTION ".videos4_text" SUPERFREE
@@ -408,7 +408,7 @@ initm7_matric:
     sta m7_mb
     sta m7_mc
     sta m7_md
-	
+    
     ldx #$0003
 
 _im7m1:
@@ -441,10 +441,10 @@ _im7m1:
     sta m7_mb+160*3
     sta m7_mc+160*3
     sta m7_md+160*3
-	
+    
     plx
     plp
-	rts
+    rts
 
 .EQU OFSX           (0x0080)
 .EQU OFSY           (0x0080)
@@ -452,38 +452,38 @@ _im7m1:
 .EQU OFSV           (0x0200-0x0080)
 
 m7sincos:
-    .db   0,  3,  6,  9,  12,  16,  19,  22
-    .db   25,  28,  31,  34,  37,  40,  43,  46
-    .db   48,  51,  54,  57,  60,  62,  65,  68
-    .db   70,  73,  75,  78,  80,  83,  85,  87
-    .db   90,  92,  94,  96,  98,  100,  102,  104
+    .db   0,      3,  6,      9,  12,    16,  19,    22
+    .db   25,    28,  31,    34,  37,    40,  43,    46
+    .db   48,    51,  54,    57,  60,    62,  65,    68
+    .db   70,    73,  75,    78,  80,    83,  85,    87
+    .db   90,    92,  94,    96,  98,   100,  102,  104
     .db   105,  107,  109,  110,  112,  113,  115,  116
     .db   117,  118,  119,  120,  121,  122,  123,  124
     .db   124,  125,  126,  126,  126,  127,  127,  127
     .db   127,  127,  127,  127,  126,  126,  126,  125
     .db   125,  124,  123,  123,  122,  121,  120,  119
     .db   118,  116,  115,  114,  112,  111,  109,  108
-    .db   106,  104,  102,  101,  99,  97,  95,  93
-    .db   90,  88,  86,  84,  81,  79,  76,  74
-    .db   71,  69,  66,  63,  61,  58,  55,  52
-    .db   49,  47,  44,  41,  38,  35,  32,  29
-    .db   26,  23,  20,  17,  14,  10,  7,  4
-    .db   1, -2, -5, -8, -11, -14, -17, -21
-    .db  -24, -27, -30, -33, -36, -39, -42, -45
-    .db  -47, -50, -53, -56, -59, -61, -64, -67
-    .db  -69, -72, -75, -77, -80, -82, -84, -87
-    .db  -89, -91, -93, -95, -97, -99, -101, -103
+    .db   106,  104,  102,  101,  99,    97,  95,    93
+    .db   90,    88,  86,    84,  81,    79,  76,    74
+    .db   71,    69,  66,    63,  61,    58,  55,    52
+    .db   49,    47,  44,    41,  38,    35,  32,    29
+    .db   26,    23,  20,    17,  14,    10,   7,     4
+    .db   1,     -2, -5,     -8, -11,   -14, -17,   -21
+    .db  -24,   -27, -30,   -33, -36,   -39, -42,   -45
+    .db  -47,   -50, -53,   -56, -59,   -61, -64,   -67
+    .db  -69,   -72, -75,   -77, -80,   -82, -84,   -87
+    .db  -89,   -91, -93,   -95, -97,   -99, -101, -103
     .db  -105, -107, -108, -110, -111, -113, -114, -115
     .db  -117, -118, -119, -120, -121, -122, -123, -124
     .db  -124, -125, -125, -126, -126, -127, -127, -127
     .db  -127, -127, -127, -127, -127, -126, -126, -125
     .db  -125, -124, -124, -123, -122, -121, -120, -119
     .db  -118, -117, -116, -114, -113, -111, -110, -108
-    .db  -107, -105, -103, -101, -99, -97, -95, -93
-    .db  -91, -89, -87, -84, -82, -80, -77, -75
-    .db  -72, -70, -67, -64, -62, -59, -56, -53
-    .db  -51, -48, -45, -42, -39, -36, -33, -30
-    .db -27, -24, -21, -18, -15, -12, -8, -5
+    .db  -107, -105, -103, -101,  -99,  -97,  -95,  -93
+    .db  -91,   -89, -87,   -84,  -82,  -80,  -77,  -75
+    .db  -72,   -70, -67,   -64,  -62,  -59,  -56,  -53
+    .db  -51,   -48, -45,   -42,  -39,  -36,  -33,  -30
+    .db  -27,   -24, -21,   -18,  -15,  -12,   -8, -5
      
 ;---------------------------------------------------------------------------
 ;void setMode7(u8 mode)
@@ -491,50 +491,50 @@ setMode7:
     php
     
     sep #$20
-	lda #BG_MODE7
+    lda #BG_MODE7
     sta.l REG_BGMODE                    ; Put video mode to 7
-	
-	lda 5,s                             ; Put mode 7 additional conf
-	sta.l REG_M7SEL
-	
-	lda #BG1_ENABLE | OBJ_ENABLE        ; Enable BG1 and OBJ
-	sta.l REG_TM 
+    
+    lda 5,s                             ; Put mode 7 additional conf
+    sta.l REG_M7SEL
+    
+    lda #BG1_ENABLE | OBJ_ENABLE        ; Enable BG1 and OBJ
+    sta.l REG_TM 
     lda #0
-	sta.l REG_TS
-	
-	lda #$00                            ; Init matrixc parameters
-	sta.l REG_M7A
+    sta.l REG_TS
+    
+    lda #$00                            ; Init matrixc parameters
+    sta.l REG_M7A
     lda #$01
     sta.l REG_M7A
-	lda #$00                            
-	sta.l REG_M7B
+    lda #$00                            
     sta.l REG_M7B
-	sta.l REG_M7C
+    sta.l REG_M7B
+    sta.l REG_M7C
     sta.l REG_M7C
     sta.l REG_M7D
     lda #$01
     sta.l REG_M7D
-	
-	lda #OFSX & 255                     ; center on screen
+    
+    lda #OFSX & 255                     ; center on screen
     sta.l REG_M7X
     lda #OFSX>>8
     sta.l REG_M7X
-	lda #OFSY & 255
+    lda #OFSY & 255
     sta.l REG_M7Y
     lda #OFSY>>8
     sta.l REG_M7Y
 
-	lda #OFSH & 255                     ; Scroll to center
-	sta.l REG_M7HOFS
+    lda #OFSH & 255                     ; Scroll to center
+    sta.l REG_M7HOFS
     lda #OFSH>>8
     sta.l REG_M7HOFS
-	lda #OFSV & 255
+    lda #OFSV & 255
     sta.l REG_M7VOFS
     lda #OFSV>>8
     sta.l REG_M7VOFS
-	
+    
     rep #$20                            ; Init vars
-	lda #0000
+    lda #0000
     sta m7ma
     sta m7mb
     sta m7mc
@@ -544,10 +544,10 @@ setMode7:
     sta m7sx
     sta m7sy
 
-	rep	#$20                            ; m7sin = m7sincos[0]; m7cos = m7sincos[0+64];
+    rep #$20                            ; m7sin = m7sincos[0]; m7cos = m7sincos[0+64];
     lda #m7sincos
     sta tcc__r0
-	lda #:m7sincos
+    lda #:m7sincos
     sta tcc__r0h                        
     sep #$20
     lda.b [tcc__r0]
@@ -557,20 +557,20 @@ setMode7:
     clc
     adc #64
     sta tcc__r0
-	lda #:m7sincos
+    lda #:m7sincos
     sta tcc__r0h                        
     sep #$20
     lda.b [tcc__r0]
     sta m7cos
-	
-	jsr initm7_matric
-	
+    
+    jsr initm7_matric
+    
     sep #$20
     lda #INT_VBLENABLE | INT_JOYPAD_ENABLE      ; enable NMI, enable autojoy 
-	sta.l REG_NMITIMEN
+    sta.l REG_NMITIMEN
 
     plp
-	rtl
+    rtl
 
 ;---------------------------------------------------------------------------
 ;void setMode7Rot(u8 angle)
@@ -578,15 +578,15 @@ setMode7Rot:
     php
 
     lda.w #0
-	sep #$20
+    sep #$20
     lda 5,s
-    rep	#$20                            ; m7sin = m7sincos[angle]; m7cos = m7sincos[angle+64];
+    rep #$20                            ; m7sin = m7sincos[angle]; m7cos = m7sincos[angle+64];
     sta.b tcc__r1
     lda #m7sincos
     clc
     adc.b tcc__r1
     sta tcc__r0
-	lda #:m7sincos
+    lda #:m7sincos
     sta tcc__r0h                        
     sep #$20
     lda.b [tcc__r0]
@@ -603,7 +603,7 @@ setMode7Rot:
     adc.b tcc__r1
     adc #64
     sta tcc__r0
-	lda #:m7sincos
+    lda #:m7sincos
     sta tcc__r0h                        
     sep #$20
     lda.b [tcc__r0]
@@ -615,9 +615,9 @@ setMode7Rot:
 +   sep #$20
     sta.w m7cos
     
-	; compute matrix transformation
-	; calc M7B == -sin(a) * (1/sx)
-	; M7A=SX
+    ; compute matrix transformation
+    ; calc M7B == -sin(a) * (1/sx)
+    ; M7A=SX
     rep #$20                            ; REG_M7A=(m7sx & 255); REG_M7A=(m7sx>>8);
     lda.w m7sx
     and #$00ff
@@ -630,7 +630,7 @@ setMode7Rot:
     sep #$20
     sta.l REG_M7A
     
-	; M7B=-sin(angle)
+    ; M7B=-sin(angle)
     lda.w m7sin
     rep #$20
     xba
@@ -641,13 +641,13 @@ setMode7Rot:
     and.w #255
     sep #$20
     sta.l REG_M7B
-	; __M7_B = sin(angle)*SX
+    ; __M7_B = sin(angle)*SX
     rep #$20
     lda.l REG_MPYMH
     sta.w m7mb
-	
-	; calc M7C == sin(a) * (1/sy)
-	; M7A=SY
+    
+    ; calc M7C == sin(a) * (1/sy)
+    ; M7A=SY
     rep #$20                            ; REG_M7A=(m7sy & 255); REG_M7A=(m7sy>>8);
     lda.w m7sy
     and #$00ff
@@ -659,7 +659,7 @@ setMode7Rot:
     and #$00ff
     sep #$20
     sta.l REG_M7A
-	; M7B=sin(angle)
+    ; M7B=sin(angle)
     lda.w m7sin
     rep #$20
     xba
@@ -671,13 +671,13 @@ setMode7Rot:
     sec
     sbc.b tcc__r0
     sta.l REG_M7B
-	; __M7_C = -sin(angle)*SY
+    ; __M7_C = -sin(angle)*SY
     rep #$20
     lda.l REG_MPYMH
     sta.w m7mc
 
-	; calc M7A == cos(a) * (1/sx)
-	; M7A=SX
+    ; calc M7A == cos(a) * (1/sx)
+    ; M7A=SX
     rep #$20                            ; REG_M7A=(m7sx & 255); REG_M7A=(m7sx>>8);
     lda m7sx
     and #$00ff
@@ -698,13 +698,13 @@ setMode7Rot:
     ora.w #$ff00
 +   and.w #255
     sta.l REG_M7B
-	;  __M7_A = SX*cos(angle)
+    ;  __M7_A = SX*cos(angle)
     rep #$20
     lda.l REG_MPYMH
     sta m7ma
-	
-	; calc M7D == cos(a) * (1/sy)
-	; M7A=SY
+    
+    ; calc M7D == cos(a) * (1/sy)
+    ; M7A=SY
     rep #$20                            ; REG_M7A=(m7sy & 255); REG_M7A=(m7sy>>8);
     lda.w m7sy
     and #$00ff
@@ -716,7 +716,7 @@ setMode7Rot:
     and #$00ff
     sep #$20
     sta.l REG_M7A
-	; M7B=cos(angle)
+    ; M7B=cos(angle)
     lda.w m7cos
     rep #$20
     xba
@@ -725,12 +725,12 @@ setMode7Rot:
     ora.w #$ff00
 +   and.w #255
     sta.l REG_M7B
-	; __M7_D = cos(angle) * (SY)
+    ; __M7_D = cos(angle) * (SY)
     rep #$20
     lda.l REG_MPYMH
     sta m7md
 
-	; Store parameters to matrix
+    ; Store parameters to matrix
     lda.w m7ma                            ; REG_M7A=(m7ma & 255); REG_M7A=(m7ma>>8);
     and #$00ff
     sep #$20
@@ -779,7 +779,7 @@ setMode7Rot:
     sta.l REG_M7D
 
     plp
-	rtl
+    rtl
 
 .ENDS
 
@@ -791,15 +791,15 @@ setMode7Angle:
     php
 
     lda.w #0
-	sep #$20
+    sep #$20
     lda 5,s
-    rep	#$20                            ; m7sin = m7sincos[angle]; m7cos = m7sincos[angle+64];
+    rep #$20                            ; m7sin = m7sincos[angle]; m7cos = m7sincos[angle+64];
     sta.b tcc__r1
     lda #m7sincos
     clc
     adc.b tcc__r1
     sta tcc__r0
-	lda #:m7sincos
+    lda #:m7sincos
     sta tcc__r0h                        
     sep #$20
     lda.b [tcc__r0]
@@ -816,7 +816,7 @@ setMode7Angle:
     adc.b tcc__r1
     adc #64
     sta tcc__r0
-	lda #:m7sincos
+    lda #:m7sincos
     sta tcc__r0h                        
     sep #$20
     lda.b [tcc__r0]
@@ -829,8 +829,8 @@ setMode7Angle:
     sta.w m7cos
 
     plp
-	rtl
-	
+    rtl
+    
 .ENDS
 
 .SECTION ".videos6_text" SUPERFREE
@@ -860,7 +860,7 @@ setMode7Angle:
     adc.b tcc__r0
     sta.w m7sx + 0
 
-	sep #$20                ; m7sy -= z8*m7cos;
+    sep #$20                ; m7sy -= z8*m7cos;
     lda 5,s
     rep #$20
     sta.b tcc__r0
@@ -882,8 +882,8 @@ setMode7Angle:
     sta.w m7sy + 0
 
     plp
-	rtl
-	
+    rtl
+    
 .ENDS
 
 .SECTION ".videos7_text" SUPERFREE
@@ -913,7 +913,7 @@ setMode7Angle:
     adc.b tcc__r0
     sta.w m7sx + 0
 
-	sep #$20                ; m7sz += z8*m7sin;
+    sep #$20                ; m7sz += z8*m7sin;
     lda 5,s
     rep #$20
     sta.b tcc__r0
@@ -935,7 +935,7 @@ setMode7Angle:
     sta.w m7sz + 0
 
     plp
-	rtl
+    rtl
 
 .ENDS
 
@@ -978,7 +978,7 @@ getPalette:
     plx
     
     plp
-	rtl
+    rtl
 
 ; void getPaletteColor(u8 paletteEntry, u16 *paletteColor)
 getPaletteColor:
@@ -1001,7 +1001,6 @@ getPaletteColor:
     sta [tcc__r0]
 
     plp
-	rtl
+    rtl
 
 .ENDS
-
