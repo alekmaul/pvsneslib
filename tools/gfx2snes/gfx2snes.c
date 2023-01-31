@@ -38,7 +38,7 @@
 #include "lodepng.h"
 #include "loadimg.h"
 
-#define RED_ERROR "\e[0;31merror\e[0m '"	// ANSI color codes for more noticeable errors
+#define RED_ERROR "\e[0;31merror\e[0m"	// ANSI color codes for more noticeable errors
 
 int	border=1;						// options and their defaults
 int	packed=0;						//
