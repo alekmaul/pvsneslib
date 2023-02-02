@@ -50,7 +50,7 @@ WaitForVBlank:
 
 ;---------------------------------------------------------------------------
 ; void WaitNVBlank(u16 ntime)
-;WaitNVBlank:
+WaitNVBlank:
     php
 
     sep #$20
