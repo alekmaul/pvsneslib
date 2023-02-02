@@ -659,7 +659,7 @@ int main(int argc, char **arg)
 
 		if(buffer==NULL)
 		{
-			printf("\ngfx2snes: %s' Not enough memory to do image operations...'\n", RED_ERROR);
+			printf("\ngfx2snes: %s 'Not enough memory to do image operations...'\n", RED_ERROR);
 			return 1;
 		}
 
