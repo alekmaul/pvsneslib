@@ -181,11 +181,11 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_object_size_2_obj
 <div class="line">        <a class="code" href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a>(&amp;palsprite64, (128 + 1 * 16), PALETTESPRSIZE);</div>
 <div class="line">    }</div>
 <div class="line"> </div>
-<div class="line">    <a name="a11"></a><a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(0, 70, 120, 0, 0, 0, 0, 0);</div>
+<div class="line">    <a name="a11"></a><a class="code" href="sprite_8h.html#abb854a7fa3bbfe4c2e331bfce9e374a7">oamSet</a>(0, 70, 120, 0, 0, 0, 0, 0);</div>
 <div class="line">    <a name="a12"></a><a class="code" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a>(0, OBJ_SMALL, OBJ_SHOW);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// because we load graphics at 0x2400, offset is 0x40 (0x2400-0x2000)/16</span></div>
-<div class="line">    <a class="code" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(4, 170, 120, 0, 0, 0, 0x0040, 1);</div>
+<div class="line">    <a class="code" href="sprite_8h.html#abb854a7fa3bbfe4c2e331bfce9e374a7">oamSet</a>(4, 170, 120, 0, 0, 0, 0x0040, 1);</div>
 <div class="line">    <a class="code" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a>(4, OBJ_LARGE, OBJ_SHOW);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Reallow graphics (avoid glitch during init)</span></div>
@@ -274,13 +274,13 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_object_size_2_obj
 <div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a></div><div class="ttdeci">@ KEY_DOWN</div><div class="ttdoc">pad DOWN button.</div><div class="ttdef"><b>Definition:</b> pad.h:54</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
 <div class="ttc" id="asprite_8h_html_a1893eab6ffef9928ff2de22d49bd18c0"><div class="ttname"><a href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a></div><div class="ttdeci">#define OBJ_SIZE16_L32</div><div class="ttdoc">default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register</div><div class="ttdef"><b>Definition:</b> sprite.h:42</div></div>
-<div class="ttc" id="asprite_8h_html_a2f62a591672b786d90ebb03fdf25f159"><div class="ttname"><a href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a></div><div class="ttdeci">#define oamSet(id, xspr, yspr, priority, hflip, vflip, gfxoffset, paletteoffset)</div><div class="ttdoc">sets an oam entry to the supplied values</div><div class="ttdef"><b>Definition:</b> sprite.h:202</div></div>
 <div class="ttc" id="asprite_8h_html_a35468d3300e6ad4bdb2c027c93c7dbe5"><div class="ttname"><a href="sprite_8h.html#a35468d3300e6ad4bdb2c027c93c7dbe5">OBJ_SIZE8_L64</a></div><div class="ttdeci">#define OBJ_SIZE8_L64</div><div class="ttdoc">default OAM size 8x8 (SM) and 64x64 (LG) pix for OBJSEL register</div><div class="ttdef"><b>Definition:</b> sprite.h:41</div></div>
 <div class="ttc" id="asprite_8h_html_a4120a8ff32c39973babeca3615a0a2fd"><div class="ttname"><a href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a></div><div class="ttdeci">void oamSetEx(u16 id, u8 size, u8 hide)</div><div class="ttdoc">Put the correct size and hide or show a sprite.</div></div>
 <div class="ttc" id="asprite_8h_html_a449cd6f7c4fc8ca09a632e0c58cdb365"><div class="ttname"><a href="sprite_8h.html#a449cd6f7c4fc8ca09a632e0c58cdb365">OBJ_SIZE32_L64</a></div><div class="ttdeci">#define OBJ_SIZE32_L64</div><div class="ttdoc">default OAM size 32x32 (SM) and 64x64 (LG) pix for OBJSEL register</div><div class="ttdef"><b>Definition:</b> sprite.h:44</div></div>
 <div class="ttc" id="asprite_8h_html_a46e0be47f8fc865a7f43c1b0b126e59a"><div class="ttname"><a href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a></div><div class="ttdeci">void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize)</div><div class="ttdoc">Initializes a sprites Gfx and Loads the GFX into VRAM.</div></div>
 <div class="ttc" id="asprite_8h_html_a4e8556727bbae22ac2e0fa8392a13fc4"><div class="ttname"><a href="sprite_8h.html#a4e8556727bbae22ac2e0fa8392a13fc4">OBJ_SIZE8_L32</a></div><div class="ttdeci">#define OBJ_SIZE8_L32</div><div class="ttdoc">default OAM size 8x8 (SM) and 32x32 (LG) pix for OBJSEL register</div><div class="ttdef"><b>Definition:</b> sprite.h:40</div></div>
 <div class="ttc" id="asprite_8h_html_aa91348e1375ed07236694a7d81fa9ecf"><div class="ttname"><a href="sprite_8h.html#aa91348e1375ed07236694a7d81fa9ecf">OBJ_SIZE8_L16</a></div><div class="ttdeci">#define OBJ_SIZE8_L16</div><div class="ttdoc">default OAM size 8x8 (SM) and 16x16 (LG) pix for OBJSEL register</div><div class="ttdef"><b>Definition:</b> sprite.h:39</div></div>
+<div class="ttc" id="asprite_8h_html_abb854a7fa3bbfe4c2e331bfce9e374a7"><div class="ttname"><a href="sprite_8h.html#abb854a7fa3bbfe4c2e331bfce9e374a7">oamSet</a></div><div class="ttdeci">void oamSet(u16 id, u16 xspr, u16 yspr, u8 priority, u8 hflip, u8 vflip, u16 gfxoffset, u8 paletteoffset)</div><div class="ttdoc">sets an oam entry to the supplied values</div></div>
 <div class="ttc" id="asprite_8h_html_ae03805d727184864087a4cc26e8034e9"><div class="ttname"><a href="sprite_8h.html#ae03805d727184864087a4cc26e8034e9">OBJ_SIZE16_L64</a></div><div class="ttdeci">#define OBJ_SIZE16_L64</div><div class="ttdoc">default OAM size 16x16 (SM) and 64x64 (LG) pix for OBJSEL register</div><div class="ttdef"><b>Definition:</b> sprite.h:43</div></div>
 <div class="ttc" id="avideo_8h_html_a4c257abebd75e4653441e8afe672bb5e"><div class="ttname"><a href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">setBrightness</a></div><div class="ttdeci">void setBrightness(u8 level)</div><div class="ttdoc">sets the screens brightness.</div></div>
 <div class="ttc" id="avideo_8h_html_abc7d4ef8ebc22f5b710927909bb3f144"><div class="ttname"><a href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a></div><div class="ttdeci">void setScreenOn(void)</div><div class="ttdoc">Put screen On.</div></div>
@@ -290,7 +290,7 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_object_size_2_obj
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Fri Feb 3 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sat Feb 4 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

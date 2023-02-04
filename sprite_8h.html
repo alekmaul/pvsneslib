@@ -123,9 +123,6 @@ Macros</h2></td></tr>
 <tr class="memitem:af6b605303fc7a5caa3b97fd254b5d450"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#af6b605303fc7a5caa3b97fd254b5d450">oamGetY</a>(id)&#160;&#160;&#160;(<a class="el" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[id + 1])</td></tr>
 <tr class="memdesc:af6b605303fc7a5caa3b97fd254b5d450"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the y oam coordinate to the supplied values  <a href="sprite_8h.html#af6b605303fc7a5caa3b97fd254b5d450">More...</a><br /></td></tr>
 <tr class="separator:af6b605303fc7a5caa3b97fd254b5d450"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f62a591672b786d90ebb03fdf25f159"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">oamSet</a>(id,  xspr,  yspr,  priority,  hflip,  vflip,  gfxoffset,  paletteoffset)</td></tr>
-<tr class="memdesc:a2f62a591672b786d90ebb03fdf25f159"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets an oam entry to the supplied values  <a href="sprite_8h.html#a2f62a591672b786d90ebb03fdf25f159">More...</a><br /></td></tr>
-<tr class="separator:a2f62a591672b786d90ebb03fdf25f159"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abec859fb490fe23b87fc34b75d8ce804"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#abec859fb490fe23b87fc34b75d8ce804">oamSetGfxOffset</a>(id,  gfxoffset)</td></tr>
 <tr class="memdesc:abec859fb490fe23b87fc34b75d8ce804"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets an oam graphic offset to the supplied values  <a href="sprite_8h.html#abec859fb490fe23b87fc34b75d8ce804">More...</a><br /></td></tr>
 <tr class="separator:abec859fb490fe23b87fc34b75d8ce804"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -226,6 +223,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spri
 <tr class="memitem:a46e0be47f8fc865a7f43c1b0b126e59a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a> (u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize)</td></tr>
 <tr class="memdesc:a46e0be47f8fc865a7f43c1b0b126e59a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a sprites Gfx and Loads the GFX into VRAM.  <a href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">More...</a><br /></td></tr>
 <tr class="separator:a46e0be47f8fc865a7f43c1b0b126e59a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb854a7fa3bbfe4c2e331bfce9e374a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#abb854a7fa3bbfe4c2e331bfce9e374a7">oamSet</a> (u16 id, u16 xspr, u16 yspr, u8 priority, u8 hflip, u8 vflip, u16 gfxoffset, u8 paletteoffset)</td></tr>
+<tr class="memdesc:abb854a7fa3bbfe4c2e331bfce9e374a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets an oam entry to the supplied values  <a href="sprite_8h.html#abb854a7fa3bbfe4c2e331bfce9e374a7">More...</a><br /></td></tr>
+<tr class="separator:abb854a7fa3bbfe4c2e331bfce9e374a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a76e12af57f5debf4df08c98820a2a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a9a76e12af57f5debf4df08c98820a2a5">oamSetAttr</a> (u16 id, u16 xspr, u16 yspr, u16 gfxoffset, u8 attr)</td></tr>
 <tr class="memdesc:a9a76e12af57f5debf4df08c98820a2a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets an oam entry to the supplied values  <a href="sprite_8h.html#a9a76e12af57f5debf4df08c98820a2a5">More...</a><br /></td></tr>
 <tr class="separator:a9a76e12af57f5debf4df08c98820a2a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -278,7 +278,7 @@ Variables</h2></td></tr>
 <tr class="separator:a26ae9bbf7a98025a5d9b529bbe403a7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a832f0c151a6b4de3bd1f5c23aff47848"><td class="memItemLeft" align="right" valign="top"><a id="a832f0c151a6b4de3bd1f5c23aff47848"></a>
 u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a> [128 *4+8 *4]</td></tr>
-<tr class="memdesc:a832f0c151a6b4de3bd1f5c23aff47848"><td class="mdescLeft">&#160;</td><td class="mdescRight">to address oma table low and high <br /></td></tr>
+<tr class="memdesc:a832f0c151a6b4de3bd1f5c23aff47848"><td class="mdescLeft">&#160;</td><td class="mdescRight">to address oam table low and high <br /></td></tr>
 <tr class="separator:a832f0c151a6b4de3bd1f5c23aff47848"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -394,93 +394,6 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite
 
 </div>
 </div>
-<a id="a2f62a591672b786d90ebb03fdf25f159"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f62a591672b786d90ebb03fdf25f159">&#9670;&nbsp;</a></span>oamSet</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define oamSet</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">id, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">xspr, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">yspr, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">priority, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">hflip, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">vflip, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">gfxoffset, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">paletteoffset&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    {                                                                                                                      \</div>
-<div class="line">        oamMemory[<span class="keywordtype">id</span> + 0] = (xspr);                                                                                        \</div>
-<div class="line">        oamMemory[<span class="keywordtype">id</span> + 1] = (yspr);                                                                                        \</div>
-<div class="line">        oamMemory[<span class="keywordtype">id</span> + 2] = (gfxoffset);                                                                                   \</div>
-<div class="line">        oamMemory[<span class="keywordtype">id</span> + 3] = (vflip &lt;&lt; 7) | (hflip &lt;&lt; 6) | (priority &lt;&lt; 4) | (paletteoffset &lt;&lt; 1) | ((gfxoffset &gt;&gt; 8) &amp; 1); \</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>sets an oam entry to the supplied values </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] * 4 because of oam structure </td></tr>
-    <tr><td class="paramname">xspr</td><td>the x location of the sprite in pixels </td></tr>
-    <tr><td class="paramname">yspr</td><td>the y location of the sprite in pixels </td></tr>
-    <tr><td class="paramname">priority</td><td>The sprite priority (0 to 3) </td></tr>
-    <tr><td class="paramname">vflip</td><td>flip the sprite vertically </td></tr>
-    <tr><td class="paramname">hflip</td><td>flip the sprite horizontally </td></tr>
-    <tr><td class="paramname">gfxoffset</td><td>tilenumber graphic offset </td></tr>
-    <tr><td class="paramname">paletteoffset</td><td>palette default offset for sprite </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2breakout_2breakout_8c-example.html#a0">games/breakout/breakout.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a18">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a3">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a9">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a11">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a3">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a7">maps/mapscroll/mapscroll.c</a>, and <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a6">objects/moveobjects/moveobjects.c</a>.</dd>
-</dl>
-
-</div>
-</div>
 <a id="abec859fb490fe23b87fc34b75d8ce804"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abec859fb490fe23b87fc34b75d8ce804">&#9670;&nbsp;</a></span>oamSetGfxOffset</h2>
 
@@ -508,7 +421,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">    <a class="code" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[<span class="keywordtype">id</span> + 2] = (gfxoffset);   \</div>
 <div class="line">    oamMemory[<span class="keywordtype">id</span> + 3] = (<a class="code" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[<span class="keywordtype">id</span> + 3] &amp; 0xFE) | ((gfxoffset &gt;&gt; 8) &amp; 1);</div>
-<div class="ttc" id="asprite_8h_html_a832f0c151a6b4de3bd1f5c23aff47848"><div class="ttname"><a href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a></div><div class="ttdeci">u8 oamMemory[128 *4+8 *4]</div><div class="ttdoc">to address oma table low and high</div></div>
+<div class="ttc" id="asprite_8h_html_a832f0c151a6b4de3bd1f5c23aff47848"><div class="ttname"><a href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a></div><div class="ttdeci">u8 oamMemory[128 *4+8 *4]</div><div class="ttdoc">to address oam table low and high</div></div>
 </div><!-- fragment -->
 <p>sets an oam graphic offset to the supplied values </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -933,6 +846,87 @@ oambuffer[id] needs to be populate before. </p>
 
 </div>
 </div>
+<a id="abb854a7fa3bbfe4c2e331bfce9e374a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb854a7fa3bbfe4c2e331bfce9e374a7">&#9670;&nbsp;</a></span>oamSet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void oamSet </td>
+          <td>(</td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>xspr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>yspr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>priority</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>hflip</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>vflip</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>gfxoffset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>paletteoffset</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>sets an oam entry to the supplied values </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] * 4 because of oam structure </td></tr>
+    <tr><td class="paramname">xspr</td><td>the x location of the sprite in pixels </td></tr>
+    <tr><td class="paramname">yspr</td><td>the y location of the sprite in pixels </td></tr>
+    <tr><td class="paramname">priority</td><td>The sprite priority (0 to 3) </td></tr>
+    <tr><td class="paramname">vflip</td><td>flip the sprite vertically </td></tr>
+    <tr><td class="paramname">hflip</td><td>flip the sprite horizontally </td></tr>
+    <tr><td class="paramname">gfxoffset</td><td>tilenumber graphic offset </td></tr>
+    <tr><td class="paramname">paletteoffset</td><td>palette default offset for sprite </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2breakout_2breakout_8c-example.html#a0">games/breakout/breakout.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a18">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a3">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a9">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a11">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a3">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a7">maps/mapscroll/mapscroll.c</a>, and <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a6">objects/moveobjects/moveobjects.c</a>.</dd>
+</dl>
+
+</div>
+</div>
 <a id="a9a76e12af57f5debf4df08c98820a2a5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9a76e12af57f5debf4df08c98820a2a5">&#9670;&nbsp;</a></span>oamSetAttr()</h2>
 
@@ -1180,7 +1174,7 @@ oambuffer[id] needs to be populate before. </p>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="sprite_8h.html">sprite.h</a></li>
-    <li class="footer">Generated on Fri Feb 3 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sat Feb 4 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>
