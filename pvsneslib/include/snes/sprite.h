@@ -107,7 +107,7 @@ Size bit (Small/Large) can be defined in OBSEL Register (Port 2101h).<br>
 */
 extern t_sprites oambuffer[128]; /*!< \brief current sprite buffer for dynamic engine */
 
-extern u8 oamMemory[128 * 4 + 8 * 4]; /*!< \brief to address oma table low and high */
+extern u8 oamMemory[128 * 4 + 8 * 4]; /*!< \brief to address oam table low and high */
 
 /*! \def REG_OBSEL
     \brief Object Size and Object Base (W)
