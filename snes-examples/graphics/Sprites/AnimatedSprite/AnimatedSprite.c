@@ -19,11 +19,11 @@ extern char palsprite, palsprite_end;
 //---------------------------------------------------------------------
 typedef struct
 {
-    short x, y;
-    int gfx_frame;
-    int state;
-    int anim_frame;
-    int flipx;
+    s16 x, y;
+    u16 gfx_frame;
+    u16 anim_frame;
+    u8 state;
+    u8 flipx;
 } Monster;
 
 //---------------------------------------------------------------------
@@ -42,9 +42,9 @@ enum SpriteState
 //---------------------------------------------------------------------
 enum
 {
-    SCREEN_TOP = 0,
+    SCREEN_TOP = -16,
     SCREEN_BOTTOM = 224,
-    SCREEN_LEFT = 0,
+    SCREEN_LEFT = -16,
     SCREEN_RIGHT = 256
 };
 
@@ -103,7 +103,7 @@ int main(void)
             {
                 if (monster.x <= SCREEN_RIGHT)
                     monster.x++;
-                monster.state = W_LEFT;
+                monster.state = W_RIGHT;
                 monster.flipx = 0;
             }
             if (pad0 & KEY_DOWN)
