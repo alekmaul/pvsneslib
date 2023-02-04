@@ -1,7 +1,7 @@
 ;---------------------------------------------------------------------------------
 ;
 ;	Copyright (C) 2012-2022
-;		Alekmaul 
+;		Alekmaul
 ;
 ;	This software is provided 'as-is', without any express or implied
 ;	warranty.  In no event will the authors be held liable for any
@@ -25,7 +25,7 @@
 .EQU REG_OBSEL					$2101
 
 ;.DEFINE GFXSPR0ADR 				$0000						  ; sprite graphics entry #0 & #1 (not used, for information purpose)
-;.DEFINE GFXSPR1ADR 				$1000   					  ; 
+;.DEFINE GFXSPR1ADR 				$1000   					  ;
 
 .EQU OBJ_SPRITE32				1							  ; sprite with 32x32 identifier
 .EQU OBJ_SPRITE16				2							  ; sprite with 16x16 identifier
@@ -37,16 +37,16 @@
 .EQU MAXSPRTRF					7*6					  	  	  ; 7 sprites max transferred each time to VRAM
 
 .STRUCT t_oam
-oamx							DW							  ;	0 x position on the screen 
+oamx							DW							  ;	0 x position on the screen
 oamy							DW							  ;	2 y position on the screen
 oamframeid						DW 							  ; 4 frame index in graphic file of the sprite
-oamattribute					DB							  ; 6 sprite attribute value (vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num) 
-oamrefresh						DB							  ; 7 =1 if we need to load graphics from graphic file 
-oamgraphics						DSB 4                         ; 8..11 pointer to graphic file 
+oamattribute					DB							  ; 6 sprite attribute value (vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num)
+oamrefresh						DB							  ; 7 =1 if we need to load graphics from graphic file
+oamgraphics						DSB 4                         ; 8..11 pointer to graphic file
 dummy							DSB 4						  ; 12..15 to by align to 16 bytes
 .ENDST
 
-.RAMSECTION ".reg_oams7e" BANK $7E 
+.RAMSECTION ".reg_oams7e" BANK $7E
 
 sprit_val0			            DB                            ; save value #0
 sprit_val1			            DB                            ; save value #1
@@ -63,9 +63,9 @@ oamQueueEntry					DSB OBJ_QUEUELIST_SIZE*6	 ; each entry : graphic pointer (0..2
 oamqueuenumber					DW
 
 oamnumberperframe				DW							  ; number of sprite added during current frame (current, old)
-oamnumberperframeold			DW							  
+oamnumberperframeold			DW
 
-oamnumberspr0					DW							  ; number entry of sprite (and initial value) for 32x32,16x16 and 8x8 sprites	
+oamnumberspr0					DW							  ; number entry of sprite (and initial value) for 32x32,16x16 and 8x8 sprites
 oamnumberspr0Init				DW							  ; number is a multiple of 4
 oamnumberspr1					DW
 oamnumberspr1Init				DW
@@ -74,6 +74,8 @@ spr16addrgfx					DW							  ; graphic address for 16x16 sprites (default is $100
 
 spr0addrgfx						DW							  ; graphic address for large sprites (default is $0000)
 spr1addrgfx						DW							  ; graphic address for small sprites (default is $1000)
+
+sprbyte4                        DB
 
 .ENDS
 
@@ -105,7 +107,7 @@ oamUpdate:
 	sta.l $4304                   ; DMA address bank = oam memory
 
 	lda.b #$1										; DMA channel 0 xxxx xxx1
-	sta.l $420b 
+	sta.l $420b
 
 	plp
 	rtl
@@ -120,42 +122,42 @@ oamFlip:
 	php
 	phb
 	phx
-	
+
 	sep #$20
 	lda #$7e
 	pha
 	plb
-	
+
 	rep #$30                      ; A/X/Y 16 bits
 	lda 8,s                       ; get idoff (11)
 	tax
-  
+
 	sep #$20                      ; A 8 bits
-    lda #$3f                      ; xor mask for flip attribute 
+    lda #$3f                      ; xor mask for flip attribute
     and.w oamMemory+3,x
     sta.w oamMemory+3,x
 
     lda 10,s                       ; get x flipping
     beq +                         ; no x flipping
-    lda #$40                      ; or mask for flip attribute 
+    lda #$40                      ; or mask for flip attribute
     ora.w oamMemory+3,x
  	sta.w oamMemory+3,x
-  
+
 +
     lda 11,s                      ; get y flipping
     beq +                         ; no y flipping
-    lda #$80                      ; or mask for flip attribute 
+    lda #$80                      ; or mask for flip attribute
     ora.w oamMemory+3,x
     sta.w oamMemory+3,x
-  
+
 +
     plx
     plb
     plp
     rtl
- 
+
  .ENDS
- 
+
  .SECTION "spritestable_text" KEEP
 
 oammask:
@@ -194,7 +196,7 @@ oammask:
 .ENDS
 
  .SECTION ".sprites2_text" SUPERFREE
- 
+
 ;---------------------------------------------------------------------------
 ; void oamSetAttr(u16 id, u16 xspr, u16 yspr, u16 gfxoffset, u8 attr);
 oamSetAttr:
@@ -202,12 +204,12 @@ oamSetAttr:
 	phb
 	phx
 	phy
-  
+
 	sep #$20
 	lda #$7e
 	pha
 	plb
-	
+
 	rep #$30                      ; A/X/Y 16 bits
 
 	lda 10,s                       ; get idoff (11)
@@ -219,13 +221,13 @@ oamSetAttr:
 
 	lda 14,s                       ; get y
 	xba
-	rep #$20                      ; A 16 bits 
+	rep #$20                      ; A 16 bits
 	sta.w oamMemory+0,x
 
 ;	sep #$20
 	lda 16,s                      ; get gfxOffset
 	sta.w oamMemory+2,x
-	
+
 	lda.w #$0200                  ; put $02 into MSB
 	sep #$20                      ; A 8 bits
 	lda.l oammask+2,x            ; get offset in the extra OAM data
@@ -239,7 +241,7 @@ oamSetAttr:
 	lda 18,s                      ; get attr
 	ora.l oamMemory+3,x
 	sta.w oamMemory+3,x
-	
+
   ply
   plx
 	plb
@@ -265,7 +267,7 @@ oamSetXY:
 	php
 	phx
 	phy
-  
+
 	rep #$30                      ; A/X/Y 16 bits
 
 	lda 9,s                       ; get idoff
@@ -291,8 +293,8 @@ oamSetXY:
 	lda.l oammask+1,x
 	and.w oamMemory,y
 	sta.w oamMemory,y
-	
-  ply
+
+    ply
 	plx
 	plp
 	rtl
@@ -300,13 +302,95 @@ oamSetXY:
 +	lda.l oammask,x
 	ora.w oamMemory,y
 	sta.w oamMemory,y
-  
-  ply
+
+    ply
 	plx
 	plp
 	rtl
 
-.ENDS	
+;---------------------------------------------------------------------------
+; void oamSet(u16 id, u16 xspr, u16 yspr, u8 priority, u8 hflip, u8 vflip, u16 gfxoffset, u8 paletteoffset);
+;  9,11,13,  15,16,17, 18, 20,
+oamSet:
+	php
+	phx
+	phy
+
+	rep #$30                      ; A/X/Y 16 bits
+
+	lda 9,s                       ; get idoff
+	tax
+	lda 11,s                       ; get x
+	xba
+	sep #$20                      ; A 8 bits
+
+	ror a                         ; x msb into carry
+
+	lda 13,s                       ; get y
+	xba
+	rep #$20                      ; A 16 bits
+	sta.l oamMemory+0,x
+
+	lda.w #$0200                  ; put $02 into MSB
+	sep #$20                      ; A 8 bits
+	lda.l oammask+2,x             ; get offset in the extra OAM data
+	tay
+
+	bcs +
+
+	lda.l oammask+1,x
+	and.w oamMemory,y
+	sta.w oamMemory,y
+	bra osbyte4
+
++	lda.l oammask,x
+	ora.w oamMemory,y
+	sta.w oamMemory,y
+
+osbyte4:
+    lda #$0                       ; prepare Byte 4: vhoopppc    v: vertical flip h: horizontal flip  o: priority bits p: palette # c:sprite size (e.g. 8x8 or 16x16 pixel)
+    sta sprbyte4
+
+    lda 20,s                      ; get palette offset
+    asl a
+    sta sprbyte4
+    lda 15,s                      ; get priority
+    asl a
+    asl a
+    asl a
+    asl a
+    ora sprbyte4
+    sta sprbyte4
+    lda 16,s                      ; get hflip
+    asl a
+    asl a
+    asl a
+    asl a
+    asl a
+    asl a
+    ora sprbyte4
+    sta sprbyte4
+    lda 17,s                      ; get vflip
+    asl a
+    asl a
+    asl a
+    asl a
+    asl a
+    asl a
+    asl a
+    ora sprbyte4
+    ora 19,s                      ; get graphic offset (MSB)
+    sta oamMemory+3,x
+
+    lda 18,s                      ; get graphic offset (LSB)
+    sta oamMemory+2,x
+
+    ply
+	plx
+	plp
+	rtl
+
+.ENDS
 
  .SECTION ".sprites3_text" SUPERFREE
 
@@ -334,7 +418,7 @@ oamSetVisible:
 	clc
 	adc.w #512                   ; id>>4 + 128*4
 	tay                          ; oam pointer is now on oam table #2
-	
+
 	lda	10,s                     ; id
 	lsr a
 	lsr a
@@ -349,7 +433,7 @@ oamSetVisible:
 	sta oamMemory,y              ; store new value in oam table #2
 	;bra oamHide1go
 	bra oamHide1end
-	
+
 oamHide1hi:
 	lda.l oamHideshift,x         ; get shifted value of hide (<<0, <<2, <<4, <<6
 	ora oamMemory,y
@@ -372,14 +456,14 @@ oamHide1go:
 oamHide1end:
 	plx
 	ply
-	
+
 	plb
 	plp
 	rtl
 
-oamHideand: 
+oamHideand:
 	.db $fe, $fb, $ef, $bf
-oamHideshift: 
+oamHideshift:
 	.db $01, $04, $10, $40
 
 .ENDS
@@ -410,7 +494,7 @@ oamSetEx:
 	clc
 	adc.w #512                   ; id>>4 + 512
 	tay                          ; oam pointer is now on oam table #2
-	
+
 	lda	10,s                     ; id
 	lsr a
 	lsr a
@@ -421,7 +505,7 @@ oamSetEx:
 	lda oamMemory,y              ; get value of oam table #2
 	and.l oamSetExand,x
 	sta oamMemory,y              ; store new value in oam table #2
-	
+
 	lda.b 12,s                   ; size
 	beq oamSetEx1nex              ; small size, so go hide test
 
@@ -438,7 +522,7 @@ oamSetEx1nex:
 	and.l oamHideand,x
 	sta oamMemory,y              ; store new value in oam table #2
 	bra oamSetEx1end
-	
+
 oamSetEx1hi:
 	lda.l oamHideshift,x         ; get shifted value of hide (<<0, <<2, <<4, <<6
 	ora oamMemory,y
@@ -462,15 +546,15 @@ oamSetEx1hi:
 oamSetEx1end:
 	plx
 	ply
-	
+
 	plb
 	plp
 	rtl
 
-oamSetExand: 
+oamSetExand:
 	.db $fd, $f7, $df, $7f
 ;	.db $fc, $f3, $cf, $3f
-oamSizeshift: 
+oamSizeshift:
 	.db $02, $08, $20, $80
 
 .ENDS
@@ -482,12 +566,12 @@ oamSizeshift:
 oamInitGfxAttr:
 	php
 	phb
-	
+
 	sep	#$20
 	lda #$7e
 	pha
 	plb
-	
+
 	rep #$20                         ; A 16 bits
 	lda	6,s                      ; address
 
@@ -504,15 +588,15 @@ oamInitGfxAttr:
 	lsr	a
 	lsr	a
 	lsr	a                           ; address >> 13
-	
+
 	sep #$20
 	sta sprit_val1
-	
+
 	lda.b	8,s                      ; oamsize
-	ora sprit_val1               ; oamsize | (address >> 13)  
-	
+	ora sprit_val1               ; oamsize | (address >> 13)
+
 	sta.l	REG_OBSEL
-	
+
 	plb
 	plp
 	rtl
@@ -526,22 +610,22 @@ oamInitGfxAttr:
 oamInit:
 	php
 	phb
-	phx 
-    
+	phx
+
 	sep	#$20
 	lda #$7e
 	pha
 	plb
-    
+
     rep #$20
     ldx #$0000
-    
+
 _oamInit1:                  ; all sprites are outside screen
     lda #$F001              ; 1 & 240
     sta.w oamMemory,x
     inx
     inx
-    lda #$0000              ; 0 & 0 
+    lda #$0000              ; 0 & 0
     sta.w oamMemory,x
     inx
     inx
@@ -568,11 +652,11 @@ _oamInit2:                  ; highatble now
 	rtl
 
 //---------------------------------------------------------------------------------
-; void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize) 
+; void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize)
 oamInitGfxSet:
 	php
 	phb
-    
+
 	wai                         ; force vblank interrupt
 
     rep	#$20                    ; init tiles
@@ -582,7 +666,7 @@ oamInitGfxSet:
     sta.l	$4305               ; number of bytes to be copied
     lda 6,s                     ; loword address to copy
     sta.l $4302                 ; A1T0
-    
+
     sep	#$20                    ; 8bit A
     lda	#$80
     sta.l	$2115               ; VRAM address increment value designation
@@ -595,7 +679,7 @@ oamInitGfxSet:
 
     lda	#$01                    ; turn on bit 7 (channel 7) of DMA
     sta.l	$420b
-        
+
     lda 18,s                    ; init palette
     asl a                       ; palEntry = (128+tilePaletteNumber*16);
     asl a
@@ -605,11 +689,11 @@ oamInitGfxSet:
 	adc #128
     sta.l $2121               ; address for VRAM write(or read)
     rep #$20
-    lda	16,s            	    
+    lda	16,s
     sta.l	$4305               ; number of bytes to be copied
     lda 12,s                    ; loword address to copy
     sta.l $4302                 ; A1T0
-    
+
     sep	#$20                    ; 8bit A
     lda 14,s           		    ; bank address of data in memory
     sta.l $4304					; // A1B0
@@ -617,12 +701,12 @@ oamInitGfxSet:
 	sta.l	$4300
 	lda	#$22
 	sta.l	$4301               ; destination 21xx   this is 2122 (CGRAM Gate)
-    
+
     lda	#$01                    ; turn on bit 7 (channel 7) of DMA
     sta.l	$420b
 
     rep	#$20                    ; update base address if needed (16k byte aligned)
-    lda	19,s            	    ; 
+    lda	19,s            	    ;
 
     phy                         ; oamsize | (address >> 13);
     ldy.w #13
@@ -631,7 +715,7 @@ oamInitGfxSet:
     dey
     bne -
     ply
-    
+
     sep	#$20
     ora 21,s
   	sta.l	REG_OBSEL
@@ -639,7 +723,7 @@ oamInitGfxSet:
     plb
 	plp
 	rtl
-    
+
 //---------------------------------------------------------------------------------
 ; void oamClear(u16 first, u8 numEntries) {
 oamClear:
@@ -648,10 +732,10 @@ oamClear:
 
     phx
     phy
-    
+
     sep #$20
 	lda 12,s                   ; get num entry
-    
+
     rep #$20
     and #$00FF
     asl a
@@ -659,11 +743,11 @@ oamClear:
     cmp #$0000
     bne +
     lda #128*4                ; if no numentries, change it for all
-+   tax                       ; All sprites are outside screen 
-    
++   tax                       ; All sprites are outside screen
+
     lda 10,s                  ; 1sst sprite to update
     tay
-    
+
 _oamClear1:
     lda #1*256+0
     pha
@@ -683,7 +767,7 @@ _oamClear1:
     iny
     txa
     bne _oamClear1
-    
+
     ply
     plx
     plb
@@ -779,17 +863,17 @@ oamInitDynamicSprite:
 	stz.w oamnumberperframeold				 				  ; init current oam per frame number
 	stz.w oamnumberperframe
 
-	; init graphic address for each sprite size 
-    lda 10,s							 					  ; get gfxsp0adr					
+	; init graphic address for each sprite size
+    lda 10,s							 					  ; get gfxsp0adr
     sta spr0addrgfx
-    lda 12,s							 					  ; get gfxsp1adr					
+    lda 12,s							 					  ; get gfxsp1adr
     sta spr1addrgfx
 
 	; init current entry for each sprite size (multiple of 4)
-    lda 14,s							 					  ; get oamsp0init					
+    lda 14,s							 					  ; get oamsp0init
     sta oamnumberspr0
 	sta oamnumberspr0Init
-    lda 16,s							 					  ; get oamsp1init					
+    lda 16,s							 					  ; get oamsp1init
     sta oamnumberspr1
 	sta oamnumberspr1Init
 
@@ -820,30 +904,30 @@ oamInitDynamicSprite:
 	plx
 	plb
 	plp
-	rtl 
+	rtl
 
 ;---------------------------------------------------------------------------------
 ; void oamInitDynamicSpriteScreen(void) {
 oamInitDynamicSpriteScreen:
     php
 	phb
-	
+
 	sep #$20						     					  ; change to correct bank
 	lda #$7e
 	pha
 	plb
 
     rep #$20
-    
+
     lda #0
 	pha
 	pha
 	jsl oamClear						 					 ; Clear all sprites
 	pla
 	pla
-	
+
 	lda oamnumberperframe					 				 ; init current oam per frame number on screen
-	sta oamnumberperframeold				 
+	sta oamnumberperframeold
 	stz.w oamnumberperframe
 
     lda oamnumberspr0Init
@@ -861,18 +945,18 @@ oamInitDynamicSpriteEndFrame:
   	php
 	phb
 	phx
-	
+
 	sep #$20							; change to correct bank
 	lda #$7e
 	pha
 	plb
-	
+
 	rep #$20							; do we have to hide some sprites
 	ldx	oamnumberperframe
 	txa
 	cmp oamnumberperframeold
     bcs _oamIDSEndFrame2				; no, leave the function
-	
+
 	;	change visibility of old frame sprites
 	phy
 _oamIDSEndFrame1:
@@ -883,9 +967,9 @@ _oamIDSEndFrame1:
 	clc
 	adc.w #512               		    ; id>>4 + 512
 	tay                      		    ; oam pointer is now on oam table #2
-	
+
 	txa                       		    ; get id and save it
-	phx														
+	phx
 	lsr a
 	lsr a
 	and.w #$3                   		; id >> 2 & 3
@@ -914,18 +998,18 @@ _oamIDSEndFrame1:
 	inx
 	inx
 	txa
-	
-	cmp oamnumberperframeold 
+
+	cmp oamnumberperframeold
 	bne _oamIDSEndFrame1
 	ply
 
 	; init values for next frame
-_oamIDSEndFrame2:	
+_oamIDSEndFrame2:
 	lda oamnumberperframe
 	sta oamnumberperframeold
     lda #$00
 	sta oamnumberperframe
-	
+
     lda oamnumberspr0Init
     sta oamnumberspr0
     lda oamnumberspr1Init
@@ -934,7 +1018,7 @@ _oamIDSEndFrame2:
 	plx
 	plb
 	plp
-	rtl 
+	rtl
 
 ;---------------------------------------------------------------------------
 ; void oamVramQueueUpdate(void)
@@ -948,16 +1032,16 @@ oamVramQueueUpdate:
 	lda #$7e
 	pha
 	plb
-	
+
 	ldx oamqueuenumber                 					     ; something to transfer to vram ?
-	bne	_ovqug1                    
+	bne	_ovqug1
     jmp _ovqug1z                   	 					     ; no, bye
-    
+
 _ovqug1:
 	lda	#$80
 	sta.l	$2115                     	 					 ; VRAM address increment value designation
 
-	rep #$20          
+	rep #$20
     stz.w oamqueuenumber           						     ; currently, we consider we have enough time for all sprites during frame
     txa                           							 ; A got now number of data queued
     cmp #MAXSPRTRF
@@ -967,8 +1051,8 @@ _ovqug1:
     sbc  #MAXSPRTRF
     sta.l oamqueuenumber           						     ; update to continue on next frame
 
-_ovqug1m:                
-	lda	#$1801  
+_ovqug1m:
+	lda	#$1801
 	sta.l	$4310           								 ; 1= word increment
 	sta.l	$4320           								 ; 1= word increment
 	sta.l	$4330           								 ; 1= word increment
@@ -976,7 +1060,7 @@ _ovqug1m:
 
 	dex								   						 ; only first time, will be done at the end of loop after
 
-_gfxld8:													  
+_gfxld8:
     dex														 ; prepare next entry
     dex
     dex
@@ -994,10 +1078,10 @@ _gfxld8:
 
 _ovqu32b:												     ;-------------------------------------------------
 	rep	#$20												 ; 32x32 sprite transfer to VRAM
-    lda.l oamQueueEntry+3,x   				    			 ; get address	
+    lda.l oamQueueEntry+3,x   				    			 ; get address
     sta.l	$2116           								 ; address for VRAM write(or read)
 
-    lda.l oamQueueEntry,x      					    		 ; get tileSource (lower 16 bits)	
+    lda.l oamQueueEntry,x      					    		 ; get tileSource (lower 16 bits)
     sta.l	$4312           								 ; data offset in memory
     clc
     adc #$200
@@ -1063,10 +1147,10 @@ _ovqu32b:												     ;-------------------------------------------------
 
 _ovqu16b:												     ;-------------------------------------------------
 	rep	#$20												 ; 16x16 sprite transfer to VRAM
-    lda.l oamQueueEntry+3,x    							 	 ; get address	
+    lda.l oamQueueEntry+3,x    							 	 ; get address
     sta.l	$2116                							 ; address for VRAM write(or read)
 
-    lda.l oamQueueEntry,x      							 	 ; get tileSource (lower 16 bits)	
+    lda.l oamQueueEntry,x      							 	 ; get tileSource (lower 16 bits)
     sta.l	$4322         			 						 ; data offset in memory
     clc
     adc #$200
@@ -1087,7 +1171,7 @@ _ovqu16b:												     ;-------------------------------------------------
 
     ; second step
     rep	#$20
-    lda.l oamQueueEntry+3,x    							 	 ; get address	
+    lda.l oamQueueEntry+3,x    							 	 ; get address
     ora #$100
     sta.l	$2116           								 ; address for VRAM write(or read)
 
@@ -1104,10 +1188,10 @@ _ovqu16b:												     ;-------------------------------------------------
 
 _ovqu8b:													 ;-------------------------------------------------
     rep	#$20												 ; 8x8 sprite transfer to VRAM
-    lda.l oamQueueEntry+3,x    								 ; get address	
+    lda.l oamQueueEntry+3,x    								 ; get address
     sta.l	$2116                							 ; address for VRAM write(or read)
 
-    lda.l oamQueueEntry,x      								 ; get tileSource (lower 8 bits)	
+    lda.l oamQueueEntry,x      								 ; get tileSource (lower 8 bits)
     sta.l	$4322         			 						 ; data offset in memory
 
     lda #$0020
@@ -1145,7 +1229,7 @@ _ovqug1z1:
     brl _ovqug1z1
 
 _ovqug1z:
-	
+
 	ply
 	plx
     plb
@@ -1164,7 +1248,7 @@ oamDynamic32Draw:
 	phb
 	phx
     phy
-	
+
 	sep #$20
 	lda #$7e
 	pha
@@ -1176,7 +1260,7 @@ oamDynamic32Draw:
 	asl a
 	asl a
 	asl a
-	
+
 	tay
 	sep #$20
 	lda oambuffer.1.oamrefresh,y						      ; check if we need to update graphics
@@ -1214,11 +1298,11 @@ oamDynamic32Draw:
 	sep #$20                      							  ; A 16 bits
 	lda oambuffer.1.oamgraphics+2,y                		      ; get tileSource (bank)
 	sta.l oamQueueEntry+2,x
-	
-	lda #OBJ_SPRITE32                      					  ; store that it is a 32pix sprite 
+
+	lda #OBJ_SPRITE32                      					  ; store that it is a 32pix sprite
 	sta.l oamQueueEntry+5,x
 
-_o32DRep1:	
+_o32DRep1:
 	rep #$20
 	ldx oamnumberperframe                                     ; get current sprite number (x4 entry)
 
@@ -1237,7 +1321,7 @@ _o32DRep1:
 
 	lda oambuffer.1.oamy,y                     				  ; get y coordinate
 	xba
-	rep #$20                      							  ; A 8 bits 
+	rep #$20                      							  ; A 8 bits
 	sta.w oamMemory,x										  ; store x & y in oam memory
 
 	lda.w #$0200                  							  ; put $02 into MSB
@@ -1257,8 +1341,8 @@ _o32DRep3:
 	lda.l oammask,x
 	ora.w oamMemory,y
 	sta.w oamMemory,y										  ; store x in oam memory
-  
-+:	
+
++:
 	ply
 	lda oambuffer.1.oamattribute,y     						  ; get attr
 	sta oamMemory+3,x										  ; store attributes in oam memory
@@ -1272,7 +1356,7 @@ _o32DRep3:
 	clc
 	adc.w #512                                                ; id>>4 + 512
 	tay                          							  ; oam pointer is now on oam table #2
-	
+
 	lda oamnumberperframe                   				  ; id
 	lsr a
 	lsr a
@@ -1290,7 +1374,7 @@ _o32DRep3:
 
     rep #$20
     inc.w oamnumberspr0										  ; one more sprite 8x8
-       
+
 	lda oamnumberperframe										  ; go to next sprite entry (x4 multiplier)
 	clc
 	adc #$0004
@@ -1298,7 +1382,7 @@ _o32DRep3:
 
 	ply
 	plx
-	
+
 	plb
 	plp
 	rtl
@@ -1314,19 +1398,19 @@ oamDynamic16Draw:
 	phb
 	phx
     phy
-  	
+
 	sep #$20
 	lda #$7e
 	pha
 	plb
-	
+
 	rep #$20
 	lda	10,s                     							  ; get id
 	asl a													  ; to be on correct index (16 bytes per oam)
 	asl a
 	asl a
 	asl a
-	
+
 	tay
 	sep #$20
 	lda oambuffer.1.oamrefresh,y						      ; check if we need to update graphics
@@ -1352,7 +1436,7 @@ oamDynamic16Draw:
     phx
 	lda spr16addrgfx										  ; if large sprite, adjust address
 	cmp spr0addrgfx
-	beq + 
+	beq +
     lda oamnumberspr1                             			  ;  get address
 	brl _o16DRep0p
 +:  lda oamnumberspr0                             			  ;  get address
@@ -1370,8 +1454,8 @@ _o16DRep0p:
 	sep #$20                      							  ; A 16 bits
 	lda oambuffer.1.oamgraphics+2,y                		      ; get tileSource (bank)
 	sta.l oamQueueEntry+2,x
-	
-	lda #OBJ_SPRITE16                      					  ; store that it is a 16pix sprite 
+
+	lda #OBJ_SPRITE16                      					  ; store that it is a 16pix sprite
 	sta.l oamQueueEntry+5,x
 
 _o16DRep1:
@@ -1380,8 +1464,8 @@ _o16DRep1:
 
     phx
 	lda spr16addrgfx										  ; if large sprite, adjust address
-	cmp spr0addrgfx						 
-	beq + 
+	cmp spr0addrgfx
+	beq +
     lda oamnumberspr1                             			  ;  get address
 	brl _o16DRep1p
 +:  lda oamnumberspr0                             			  ;  get address
@@ -1400,7 +1484,7 @@ _o16DRep1p:
 
 	lda oambuffer.1.oamy,y                     				  ; get y coordinate
 	xba
-	rep #$20                      							  ; A 16 bits 
+	rep #$20                      							  ; A 16 bits
 	sta.w oamMemory,x										  ; store x & y in oam memory
 
 	lda.w #$0200                  							  ; put $02 into MSB
@@ -1420,8 +1504,8 @@ _o16DRep3:
 	lda.l oammask,x
 	ora.w oamMemory,y
 	sta.w oamMemory,y										  ; store x in oam memory
- 
-+:	
+
++:
 	ply
 	lda oambuffer.1.oamattribute,y     						  ; get attr
 	sta oamMemory+3,x										  ; store attributes in oam memory
@@ -1435,7 +1519,7 @@ _o16DRep3:
 	clc
 	adc.w #512                                                ; id>>4 + 512
 	tay                          							  ; oam pointer is now on oam table #2
-	
+
 	lda oamnumberperframe                   				  ; id
 	lsr a
 	lsr a
@@ -1449,8 +1533,8 @@ _o16DRep3:
 
 	rep #$20
 	lda spr16addrgfx										  ; if large sprite, adjust it
-	cmp spr1addrgfx						 
-	beq + 
+	cmp spr1addrgfx
+	beq +
 	sep #$20
 	lda.l oamSizeshift,x         							  ; get shifted value of hide (<<1, <<3, <<5, <<7
 	ora oamMemory,y
@@ -1458,8 +1542,8 @@ _o16DRep3:
 
 +:  rep #$20
 	lda spr16addrgfx										  ; if large sprite, adjust address
-	cmp spr0addrgfx						 
-	beq + 
+	cmp spr0addrgfx
+	beq +
     inc.w oamnumberspr1										  ; one more sprite 16x16 small
 	brl _o16DRep2p
 +:  inc.w oamnumberspr0										  ; one more sprite 16x16 large
@@ -1472,7 +1556,7 @@ _o16DRep2p:
 
 	ply
 	plx
-	
+
 	plb
 	plp
 	rtl
@@ -1488,19 +1572,19 @@ oamDynamic8Draw:
 	phb
 	phx
     phy
-  	
+
 	sep #$20
 	lda #$7e
 	pha
 	plb
-	
+
 	rep #$20
 	lda	10,s                     							  ; get id
 	asl a													  ; to be on correct index (16 bytes per oam)
 	asl a
 	asl a
 	asl a
-	
+
 	tay
 	sep #$20
 	lda oambuffer.1.oamrefresh,y						      ; check if we need to update graphics
@@ -1537,8 +1621,8 @@ oamDynamic8Draw:
 	sep #$20                      							  ; A 8 bits
 	lda oambuffer.1.oamgraphics+2,y                		      ; get tileSource (bank)
 	sta.l oamQueueEntry+2,x
-	
-	lda #OBJ_SPRITE8                      					  ; store that it is a 8pix sprite 
+
+	lda #OBJ_SPRITE8                      					  ; store that it is a 8pix sprite
 	sta.l oamQueueEntry+5,x
 
 _o8DRep1:
@@ -1560,7 +1644,7 @@ _o8DRep1:
 
 	lda oambuffer.1.oamy,y                     				  ; get y coordinate
 	xba
-	rep #$20                      							  ; A 8 bits 
+	rep #$20                      							  ; A 8 bits
 	sta.w oamMemory,x										  ; store x & y in oam memory
 
 	lda.w #$0200                  							  ; put $02 into MSB
@@ -1580,8 +1664,8 @@ _o8DRep3:
 	lda.l oammask,x
 	ora.w oamMemory,y
 	sta.w oamMemory,y										  ; store x in oam memory
- 
-+:	
+
++:
 	ply
 	lda oambuffer.1.oamattribute,y     						  ; get attr
 	sta oamMemory+3,x										  ; store attributes in oam memory
@@ -1595,7 +1679,7 @@ _o8DRep3:
 	clc
 	adc.w #512                                                ; id>>4 + 512
 	tay                          							  ; oam pointer is now on oam table #2
-	
+
 	lda oamnumberperframe                   				  ; id
 	lsr a
 	lsr a
@@ -1617,7 +1701,7 @@ _o8DRep3:
 
 	ply
 	plx
-	
+
 	plb
 	plp
 	rtl
@@ -1634,12 +1718,12 @@ oamDynamicMetaDraw:
 	phb
 	phx
     phy
-  	
+
 	sep #$20
 	lda #$7e
 	pha
 	plb
-	
+
 	rep #$20
 	lda	10,s                     							  ; get id of sprite
 	asl a													  ; to be on correct index (16 bytes per oam)
@@ -1669,41 +1753,41 @@ oamDynamicMetaDraw:
 
 _oMTDRep0p:
 	lda	[tcc__r0], y 										  ; get x offset and calculate x coordinate of sprite
-	iny 
-	iny 
-	clc 
+	iny
+	iny
+	clc
 	adc sprit_mxsvg
 	sta oambuffer.1.oamx,x
 
 	lda	[tcc__r0], y 										  ; get y offset and calculate y coordinate of sprite
-	iny 
-	iny 
-	clc 
+	iny
+	iny
+	clc
 	adc sprit_mysvg
 	sta oambuffer.1.oamy,x
 
 	lda	[tcc__r0], y 										  ; get frameid
-	iny 
-	iny 
+	iny
+	iny
 	sta oambuffer.1.oamframeid,x
 
 	sep #$20
 	lda	[tcc__r0], y 										  ; get attribute
-	iny 
+	iny
 	sta oambuffer.1.oamattribute,x
 
 	lda	[tcc__r0], y 										  ; get type (8,16,32)
-	iny 
+	iny
 	sta sprit_val1
 
 	rep #$20
 	lda	[tcc__r0], y 										  ; get graphic address
-	iny 
-	iny 
+	iny
+	iny
 	sta oambuffer.1.oamgraphics,x
 	lda	[tcc__r0], y 										  ; get graphic address (bank)
-	iny 
-	iny 
+	iny
+	iny
 	sta oambuffer.1.oamgraphics+2,x
 
 	txa														  ; push sprite id (must be in 0..127 range)
@@ -1743,7 +1827,7 @@ _oMTDRep1p:
 	tax
 	lda	[tcc__r0], y 										  ; get end or no
 	iny 													  ; 2 inc to go to next id
-	iny 
+	iny
 	iny
 	iny
 	cmp #$FFFF
@@ -1753,7 +1837,7 @@ _oMTDRep1p:
 	plx
 	plb
 	plp
-	
+
 	rtl
 
 .ENDS
