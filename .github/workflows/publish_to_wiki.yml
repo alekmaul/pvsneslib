@@ -1,4 +1,5 @@
 name: Publish to wiki
+# More informations here : https://github.com/marketplace/actions/publish-to-github-wiki
 
 # Events to trigger the action
 on:
@@ -8,31 +9,18 @@ on:
     branches:
       - develop
 
-env:
-  WIKI_REPO: https://${{ secrets.ActionPublicToWiki }}@github.com/${{ github.event.repository.owner.name }}/${{ github.event.repository.name }}.wiki.git
-
 jobs:
   publish_to_wiki:
-    name: Publish wiki folder to Wiki
+    name: Publish wiki folder to Wiki repository
     runs-on: ubuntu-latest
     steps:  
 
       - name: Checkout the repository
         uses: actions/checkout@v3
 
-      - name: Get last modifications
-        run: |
-          mkdir tmp
-          cd tmp
-          git init
-          git config user.name BOT
-          git config user.email notifications@github.com
-          git pull $WIKI_REPO
-
-      - name: Push differences to the wiki repository
-        run: |
-          rsync -av --delete wiki/ tmp/ --exclude .git
-          cd tmp
-          git add .
-          git commit -m "Update from the wiki folder" 
-          git push -f --set-upstream $WIKI_REPO master
+      - name: Publish to the repository
+        uses: SwiftDocOrg/github-wiki-publish-action@v1
+        with:
+          path: "wiki"
+        env:
+          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
