@@ -1,0 +1,38 @@
+name: Publish to wiki
+
+# Events to trigger the action
+on:
+  push:
+    paths:
+      - wiki/**
+    branches:
+      - develop
+
+env:
+  WIKI_REPO: https://${{ secrets.ActionPublicToWiki }}@github.com/${{ github.event.repository.owner.name }}/${{ github.event.repository.name }}.wiki.git
+
+jobs:
+  publish_to_wiki:
+    name: Publish wiki folder to Wiki
+    runs-on: ubuntu-latest
+    steps:  
+
+      - name: Checkout the repository
+      - uses: actions/checkout@v3
+
+      - name: Get last modifications
+        run: |
+          mkdir tmp
+          cd tmp
+          git init
+          git config user.name BOT
+          git config user.email notifications@github.com
+          git pull $WIKI_REPO
+
+      - name: Push differences to the wiki repository
+        run: |
+          rsync -av --delete wiki/ tmp/ --exclude .git
+          cd tmp
+          git add .
+          git commit -m "Update from the wiki folder" 
+          git push -f --set-upstream $WIKI_REPO master
