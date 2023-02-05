@@ -86,7 +86,19 @@ rand:
     rtl
 .ENDS
 
+;---------------------------------------------------------------------------
+; void consoleMesenBreakpoint()
+.SECTION ".mesen_breakpoint" SUPERFREE
+
+consoleMesenBreakpoint:
+    .byte $42, $00	// 42h is the opcode for WDM and 00h is the signature byte
+			// WLA has since been fixed to allow multibyte WDM
+    rtl
+
+.ENDS
+
 .SECTION ".consoles1_text" SUPERFREE
+
 
 ;---------------------------------------------------------------------------
 ; void consoleNocashMessage(char *fmt, ...)
