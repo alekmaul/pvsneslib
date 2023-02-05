@@ -8,6 +8,7 @@ on:
       - wiki/**
     branches:
       - develop
+  workflow_dispatch:
 
 jobs:
   publish_to_wiki:
