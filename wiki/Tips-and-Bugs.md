@@ -94,7 +94,7 @@ Here are some others tips that [Shiru](http://shiru.untergrund.net/articles/prog
 
 In some cases, the **!** operator is not correctly working, use **== 0** instead of it in most cases.
 
-Reather than :
+Rather than :
 ```
     if (!(c & mask1)) {
     ..
