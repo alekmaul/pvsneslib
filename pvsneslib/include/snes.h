@@ -144,6 +144,7 @@
 
     <!-- debugging -->
     \example debug/debug.c
+    \example breakpoints/src/breakpoints.c
 
     <!-- random display -->
     \example random/random.c
@@ -176,5 +177,5 @@
 #include "snes/sound.h"
 #include "snes/sprite.h"
 #include "snes/video.h"
-   
+
 #endif // SNES_INCLUDE
