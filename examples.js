@@ -41,6 +41,7 @@ var examples =
     [ "objects/moveobjects/moveobjects.c", "objects_2moveobjects_2moveobjects_8c-example.html", null ],
     [ "objects/nogravityobject/nogravityobjects.c", "objects_2nogravityobject_2nogravityobjects_8c-example.html", null ],
     [ "debug/debug.c", "debug_2debug_8c-example.html", null ],
+    [ "breakpoints/src/breakpoints.c", "breakpoints_2src_2breakpoints_8c-example.html", null ],
     [ "random/random.c", "random_2random_8c-example.html", null ],
     [ "sram/sram.c", "sram_2sram_8c-example.html", null ],
     [ "scoring/scoring.c", "scoring_2scoring_8c-example.html", null ],
