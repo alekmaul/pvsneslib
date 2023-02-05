@@ -7,6 +7,7 @@ var console_8h =
     [ "consoleInit", "console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad", null ],
     [ "consoleInitText", "console_8h.html#a5413265662e30a0ded3fee6d3c4781f9", null ],
     [ "consoleLoadSram", "console_8h.html#abe1fabedc24a3adef79f32e02c3bc2d5", null ],
+    [ "consoleMesenBreakpoint", "console_8h.html#a8620fbe47bc2afe99a59c67fae3b7b23", null ],
     [ "consoleNocashMessage", "console_8h.html#a3a226cebe7d59aac755e03e1061ff727", null ],
     [ "consoleRegionIsOK", "console_8h.html#ad9f96595d599dca8d09df3da5200a8a8", null ],
     [ "consoleSetTextOffset", "console_8h.html#aaddd205f7bb20885a420f26e28214cfb", null ],
