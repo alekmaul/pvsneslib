@@ -18,7 +18,7 @@ jobs:
     steps:  
 
       - name: Checkout the repository
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
 
       - name: Get last modifications
         run: |
