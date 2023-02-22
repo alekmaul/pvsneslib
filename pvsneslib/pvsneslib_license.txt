@@ -21,12 +21,19 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
+V4.0.2 (February,22,2023)
+- Various Fix on documentation
+- Various lining things up
+- Fix 16 bit increment for text instead of 8 bits for text
+- Fix typo in documentation and comments
+- Add consoleMesenBreakpoint to allow breakpoints with Mesen emulator
+
 V4.0.1 (November,20,2022)
 - Fix example with text (background initialization was incorrect)
 - Add setScreenOff function
 - Fix lz palette entry in decompression routine
 - Add effect sound example
-- Fox PVSneslib version file
+- Fix PVSneslib version file
 
 V4.0.0 (October,30,2022)
 - Fix getPalette which has a bad entry for palette values
@@ -38,7 +45,7 @@ V4.0.0 (October,30,2022)
 - Add oamDynamicMetaDraw for meta sprite drawing
 - Add setModeHdmaReset to remove HDMA effect
 - Add setModeHdmaColor for HDMA color effect (color gradient)
-- Add setModeHdmaWaves, setModeHdmaWavesMove for HDMA waves effect 
+- Add setModeHdmaWaves, setModeHdmaWavesMove for HDMA waves effect
 
 V3.5.0 (29, May, 2022)
 - Add 32 bit supports for variables

@@ -31,6 +31,9 @@ SPECIAL THANKS
 
 CHANGE LOG
 ----------------------
+VERSION 4.0 (February,02,2023)
+- Add colored messages in gfx2snes
+
 VERSION 4.0 (October,30,2022)
 - Add tmx2snes (tool to convert Tiled map (json export) to a SNES format)
 - Improve 816-opt.py (thanks kobenairb)
