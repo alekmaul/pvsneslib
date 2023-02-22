@@ -6,6 +6,8 @@ on:
   push:         # <- Déclenché lorsque l'on pousse du code...
     branches:
       - develop  # <- ... mais seulement sur la branche "develop"
+    paths:
+      -pvsneslib/**
   workflow_dispatch:
 
 jobs:

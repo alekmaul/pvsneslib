@@ -84,7 +84,7 @@ void linkwalk(u8 idx)
 // Update function for link object
 void linkupdate(u8 idx)
 {
-    // Get pad value, no move for the moment
+    // Get pad value to move link
     pad0 = padsCurrent(0);
     *linkxv = 0;
     *linkyv = 0;
@@ -119,7 +119,7 @@ void linkupdate(u8 idx)
             linkobj->action = ACT_WALK;
             *linkxv = (LINK_ACCEL);
         }
-        // go to the up
+        // go up
         if (pad0 & KEY_UP)
         {
             // update anim (sprites 4,5)
@@ -133,7 +133,7 @@ void linkupdate(u8 idx)
             linkobj->action = ACT_WALK;
             *linkyv = -(LINK_ACCEL);
         }
-        // go to the right
+        // go down
         if (pad0 & KEY_DOWN)
         {
             // update anim (sprites 0-1)

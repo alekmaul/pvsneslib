@@ -8,8 +8,6 @@
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-char messtxt[16];
-
 //---------------------------------------------------------------------------------
 int main(void)
 {
@@ -29,7 +27,7 @@ int main(void)
 
     while (1)
     {
-        consoleNocashMessage("FPS=%04d\r\n", (u16)snes_vblank_count);
+        consoleNocashMessage("COUNTER=%04u\r\n", (u16)snes_vblank_count);
         WaitForVBlank();
     }
     return 0;

@@ -799,14 +799,20 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
     {
         // remember to add the blank if its needed....
         if (blank_absent)
+		{
             for (i = 0; i < 8 * bitplanes; i++)
+			{
                 fputc(0, fp);
+			}
+		}
 
         if (quietmode == 0)
             printf("\ngfx2snes: 'decode for %d tiles and %d bitplanes'\n", num_tiles, bitplanes);
 
         for (t = 0; t < num_tiles; t++)        // loop through tiles
+		{
             for (b = 0; b < bitplanes; b += 2) // loop through bitplane pairs
+			{
                 for (y = 0; y < 8; y++)
                 {
                     // get bit-mask
@@ -835,6 +841,8 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
                     }
                     fputc(data, fp);
                 }
+			}
+		}
     }
 
     fclose(fp);

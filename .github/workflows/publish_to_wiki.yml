@@ -1,0 +1,27 @@
+name: Publish to wiki
+# More informations here : https://github.com/marketplace/actions/publish-to-github-wiki
+
+# Events to trigger the action
+on:
+  push:
+    paths:
+      - wiki/**
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  publish_to_wiki:
+    name: Publish wiki folder to Wiki repository
+    runs-on: ubuntu-latest
+    steps:  
+
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Publish to the repository
+        uses: SwiftDocOrg/github-wiki-publish-action@v1
+        with:
+          path: "wiki"
+        env:
+          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}

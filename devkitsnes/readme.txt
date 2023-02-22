@@ -1,19 +1,19 @@
  DevkitSnes 4.0
- 
+
  Programming Compiler and Tools for Snes
 
 INTRODUCTION
 ----------------------
 DevkitSnes is a set of tools built to compile C sources files and
 graphics files to produce homebrews for SNES.
-Users are encouraged to download the source code of libsnes and 
-submit bug fixes and patches as well as new features for inclusion 
+Users are encouraged to download the source code of libsnes and
+submit bug fixes and patches as well as new features for inclusion
 in the DevkitSnes & PVSnesLib distribution.
 
 SPECIAL THANKS
 ----------------------
   Byuu for bass - assembler with SPC700 support: http://byuu.org/programming/
-  Mic_ for 816-tcc, sixpack, optimore, constify: http://jiggawatt.org/badc0de/sixpack/ and 
+  Mic_ for 816-tcc, sixpack, optimore, constify: http://jiggawatt.org/badc0de/sixpack/ and
     http://jiggawatt.org/optimore-816r2.zip
   Neviksti for pcx2snes: <no URL>
   Shiru for snesbmp idea & sound tools: http://shiru.untergrund.net/
@@ -27,9 +27,13 @@ SPECIAL THANKS
   mills32 (https://github.com/mills32) for his mode7 3D example
   n_Arno for his help on Linux version (https://github.com/nArnoSNES/)
   kobenairb for python & docker optimizations
-               
+  jeffythedragonslayer for code cleaning and new functions
+
 CHANGE LOG
 ----------------------
+VERSION 4.0 (February,02,2023)
+- Add colored messages in gfx2snes
+
 VERSION 4.0 (October,30,2022)
 - Add tmx2snes (tool to convert Tiled map (json export) to a SNES format)
 - Improve 816-opt.py (thanks kobenairb)
@@ -62,7 +66,7 @@ VERSION 3.40 (19, June, 2021)
         $(TA) -07 -b -l $< sm_spc.obj sm_spc.lst
         $(TXCONV) -ca sm_spc.obj
         @rm sm_spc.obj
-        
+
 VERSION 3.30 (28, May, 2021)
 - Nothing new
 
@@ -129,7 +133,7 @@ VERSION 0.20 (14, April, 2012)
 - Add bass v0.6
 
 VERSION 0.10 (April, 2012)
-- Initial release 
+- Initial release
 
 If you have questions, please email Alekmaul at alekmaul@portabledev.com.
 

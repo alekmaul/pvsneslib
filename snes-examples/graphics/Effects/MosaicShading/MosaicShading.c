@@ -34,7 +34,7 @@ int main(void)
     while (!padsCurrent(0))
         ;
 
-    // Now just play withj effects :P
+    // Now just play with effects :P
     while (1)
     {
         // Fade out so light to black

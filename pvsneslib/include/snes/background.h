@@ -25,7 +25,7 @@
     distribution.
 
 ---------------------------------------------------------------------------------*/
-/*! \file background.h
+/** \file background.h
     \brief snes background defines and functionality.
 
 
@@ -39,26 +39,26 @@
 #include <snes/interrupt.h>
 #include <snes/video.h>
 
-/*! \brief The shift to apply to map base when storing it in a tile map location register */
+/** \brief The shift to apply to map base when storing it in a tile map location register */
 #define SC_BASE_SHIFT 2
 
-/*! \brief Macro to set the tile map address in tile map location */
+/** \brief Macro to set the tile map address in tile map location */
 #define SC_TILE_BASE(base) ((base) << SC_BASE_SHIFT)
 
-/*!	\brief Bit defines for the background control registers */
-#define SC_32x32 (0 << 0) /*!< \brief 32 x 32 tile size */
-#define SC_64x32 (1 << 0) /*!< \brief 64 x 32 tile size */
-#define SC_32x64 (2 << 0) /*!< \brief 32 x 64 tile size */
-#define SC_64x64 (3 << 0) /*!< \brief 64 x 64 tile size */
+/* Bit defines for the background control registers */
+#define SC_32x32 (0 << 0) /** \brief 32 x 32 tile size */
+#define SC_64x32 (1 << 0) /** \brief 64 x 32 tile size */
+#define SC_32x64 (2 << 0) /** \brief 32 x 64 tile size */
+#define SC_64x64 (3 << 0) /** \brief 64 x 64 tile size */
 
-#define BG_MODE0 (0 << 0) /*!< \brief 4-color     4-color     4-color     4-color   ;Normal */
-#define BG_MODE1 (1 << 0) /*!< \brief 16-color    16-color    4-color     -         ;Normal */
-#define BG_MODE2 (2 << 0) /*!< \brief 16-color    16-color    (o.p.t)     -         ;Offset-per-tile */
-#define BG_MODE3 (3 << 0) /*!< \brief 256-color   16-color    -           -         ;Normal */
-#define BG_MODE4 (4 << 0) /*!< \brief 256-color   4-color     (o.p.t)     -         ;Offset-per-tile */
-#define BG_MODE5 (5 << 0) /*!< \brief 16-color    4-color     -           -         ;512-pix-hires */
-#define BG_MODE6 (6 << 0) /*!< \brief 16-color    -           (o.p.t)     -         ;512-pix plus Offs-p-t */
-#define BG_MODE7 (7 << 0) /*!< \brief 256-color   EXTBG       -           -         ;Rotation/Scaling */
+#define BG_MODE0 (0 << 0) /** \brief 4-color     4-color     4-color     4-color   ;Normal */
+#define BG_MODE1 (1 << 0) /** \brief 16-color    16-color    4-color     -         ;Normal */
+#define BG_MODE2 (2 << 0) /** \brief 16-color    16-color    (o.p.t)     -         ;Offset-per-tile */
+#define BG_MODE3 (3 << 0) /** \brief 256-color   16-color    -           -         ;Normal */
+#define BG_MODE4 (4 << 0) /** \brief 256-color   4-color     (o.p.t)     -         ;Offset-per-tile */
+#define BG_MODE5 (5 << 0) /** \brief 16-color    4-color     -           -         ;512-pix-hires */
+#define BG_MODE6 (6 << 0) /** \brief 16-color    -           (o.p.t)     -         ;512-pix plus Offs-p-t */
+#define BG_MODE7 (7 << 0) /** \brief 256-color   EXTBG       -           -         ;Rotation/Scaling */
 
 #define BG1_TSIZE8x8 (0 << 4)
 #define BG2_TSIZE8x8 (0 << 5)
@@ -82,7 +82,7 @@
 #define BG_256COLORS 256
 #define BG3_MODE1_PRORITY_HIGH (1 << 3)
 
-/*! \def REG_BGMODE
+/** \def REG_BGMODE
     \brief BG Mode and BG Character Size (W)
     7    BG4 Tile Size (0=8x8, 1=16x16)  ;\(BgMode0..4: variable 8x8 or 16x16)
     6    BG3 Tile Size (0=8x8, 1=16x16)  ; (BgMode5: 8x8 acts as 16x8)
@@ -109,7 +109,7 @@
 */
 #define REG_BGMODE (*(vuint8 *)0x2105)
 
-/*! \def REG_MOSAIC
+/** \def REG_MOSAIC
     \brief Mosaic Size and Mosaic Enable (W)
     Allows to divide the BG layer into NxN pixel blocks, in each block,
     the hardware picks the upper-left pixel of each block, and fills the
@@ -130,7 +130,7 @@
 */
 #define REG_MOSAIC (*(vuint8 *)0x2106)
 
-/*! \def REG_BG1SC
+/** \def REG_BG1SC
     \def REG_BG2SC	(*(vuint8*)0x2108)
     \def REG_BG3SC	(*(vuint8*)0x2109)
     \def REG_BG4SC	(*(vuint8*)0x210A)
@@ -153,7 +153,7 @@
 #define REG_BG3SC (*(vuint8 *)0x2109)
 #define REG_BG4SC (*(vuint8 *)0x210A)
 
-/*! \def REG_BG12NBA
+/** \def REG_BG12NBA
     \brief BG Character Data Area Designation (W)
     15-12 BG4 Tile Base Address (in 4K-word steps)
     11-8  BG3 Tile Base Address (in 4K-word steps)
@@ -165,38 +165,38 @@ Ignored in Mode 7 (Base is always zero)
 #define REG_BG12NBA (*(vuint8 *)0x210B)
 #define REG_BG34NBA (*(vuint8 *)0x210C)
 
-/*! \brief BGx Horizontal Scroll (X) (W) and M7HOFS*/
+/** \brief BGx Horizontal Scroll (X) (W) and M7HOFS*/
 #define REG_BGxHOFS 0x210D
-/*! \brief BGx Vertical Scroll (Y) (W) and M7VOFS*/
+/** \brief BGx Vertical Scroll (Y) (W) and M7VOFS*/
 #define REG_BGxVOFS 0x210E
 
-/*! \brief BG1 Horizontal Scroll (X) (W) and M7HOFS*/
+/** \brief BG1 Horizontal Scroll (X) (W) and M7HOFS*/
 #define REG_BG1HOFS (*(vuint8 *)0x210D)
-/*! \brief BG1 Vertical Scroll (Y) (W) and M7VOFS*/
+/** \brief BG1 Vertical Scroll (Y) (W) and M7VOFS*/
 #define REG_BG1VOFS (*(vuint8 *)0x210E)
-/*! \brief BG2 Horizontal Scroll (X) (W)*/
+/** \brief BG2 Horizontal Scroll (X) (W)*/
 #define REG_BG2HOFS (*(vuint8 *)0x210F)
-/*! \brief BG2 Vertical Scroll (Y) (W)*/
+/** \brief BG2 Vertical Scroll (Y) (W)*/
 #define REG_BG2VOFS (*(vuint8 *)0x2110)
-/*! \brief BG3 Horizontal Scroll (X) (W)*/
+/** \brief BG3 Horizontal Scroll (X) (W)*/
 #define REG_BG3HOFS (*(vuint8 *)0x2111)
-/*! \brief BG3 Vertical Scroll (Y) (W)*/
+/** \brief BG3 Vertical Scroll (Y) (W)*/
 #define REG_BG3VOFS (*(vuint8 *)0x2112)
-/*! \brief BG4 Horizontal Scroll (X) (W)*/
+/** \brief BG4 Horizontal Scroll (X) (W)*/
 #define REG_BG4HOFS (*(vuint8 *)0x2113)
-/*! \brief BG4 Vertical Scroll (Y) (W)*/
+/** \brief BG4 Vertical Scroll (Y) (W)*/
 #define REG_BG4VOFS (*(vuint8 *)0x2114)
 
-#define COLWIN_OB13W1ENABLEIN (1 << 0)  /*!< \brief BG1   BG3   OBJ   Window-1 Area Inside */
-#define COLWIN_OB13W1ENABLEOUT (2 << 0) /*!< \brief BG1   BG3   OBJ   Window-1 Area Outside */
-#define COLWIN_OB13W2ENABLEIN (1 << 2)  /*!< \brief BG1   BG3   OBJ   Window-2 Area Inside */
-#define COLWIN_OB13W2ENABLEOUT (2 << 2) /*!< \brief BG1   BG3   OBJ   Window-2 Area Outside */
-#define COLWIN_MB24W1ENABLEIN (1 << 4)  /*!< \brief BG2   BG4   MATH  Window-1 Area Inside */
-#define COLWIN_MB24W1ENABLEOUT (2 << 4) /*!< \brief BG2   BG4   MATH  Window-1 Area Outside */
-#define COLWIN_MB24W2ENABLEIN (1 << 6)  /*!< \brief BG2   BG4   MATH  Window-2 Area Inside */
-#define COLWIN_MB24W2ENABLEOUT (2 << 6) /*!< \brief BG2   BG4   MATH  Window-2 Area Outside */
+#define COLWIN_OB13W1ENABLEIN (1 << 0)  /** \brief BG1   BG3   OBJ   Window-1 Area Inside */
+#define COLWIN_OB13W1ENABLEOUT (2 << 0) /** \brief BG1   BG3   OBJ   Window-1 Area Outside */
+#define COLWIN_OB13W2ENABLEIN (1 << 2)  /** \brief BG1   BG3   OBJ   Window-2 Area Inside */
+#define COLWIN_OB13W2ENABLEOUT (2 << 2) /** \brief BG1   BG3   OBJ   Window-2 Area Outside */
+#define COLWIN_MB24W1ENABLEIN (1 << 4)  /** \brief BG2   BG4   MATH  Window-1 Area Inside */
+#define COLWIN_MB24W1ENABLEOUT (2 << 4) /** \brief BG2   BG4   MATH  Window-1 Area Outside */
+#define COLWIN_MB24W2ENABLEIN (1 << 6)  /** \brief BG2   BG4   MATH  Window-2 Area Inside */
+#define COLWIN_MB24W2ENABLEOUT (2 << 6) /** \brief BG2   BG4   MATH  Window-2 Area Outside */
 
-/*! \def REG_W12SEL
+/** \def REG_W12SEL
     \brief Window BG1/BG2 Mask Settings (W)
     2123h - W12SEL - Window BG1/BG2 Mask Settings (W)
     2124h - W34SEL - Window BG3/BG4 Mask Settings (W)
@@ -211,7 +211,7 @@ Ignored in Mode 7 (Base is always zero)
 #define REG_W34SEL (*(vuint8 *)0x2124)
 #define REG_WOBJSEL (*(vuint8 *)0x2125)
 
-/*! \def REG_WH0
+/** \def REG_WH0
     \brief Window 1 Left Position (X1) (W)
     2126h - WH0 - Window 1 Left Position (X1) (W)
     2127h - WH1 - Window 1 Right Position (X2) (W)
@@ -231,7 +231,7 @@ Ignored in Mode 7 (Base is always zero)
 #define REG_WH2 (*(vuint8 *)0x2128)
 #define REG_WH3 (*(vuint8 *)0x2129)
 
-/*! \def REG_WBGLOG
+/** \def REG_WBGLOG
     \brief Window 1/2 Mask Logic (W)
     212Ah/212Bh - WBGLOG/WOBJLOG - Window 1/2 Mask Logic (W)
     Bit  212Ah 212Bh
@@ -249,7 +249,7 @@ Ignored in Mode 7 (Base is always zero)
 #define REG_WBGLOG (*(vuint8 *)0x212A)
 #define REG_WOBJLOG (*(vuint8 *)0x212B)
 
-/*! \def REG_TM
+/** \def REG_TM
     \def REG_TS
     \brief  TM - Main Screen Designation (W)
             TS - Sub Screen Designation (W)
@@ -268,7 +268,7 @@ Ignored in Mode 7 (Base is always zero)
 #define REG_TM (*(vuint8 *)0x212C)
 #define REG_TS (*(vuint8 *)0x212D)
 
-/*! \def REG_TMW
+/** \def REG_TMW
     \brief Window Area Main Screen Disable (W)
     212Eh - TMW - Window Area Main Screen Disable (W)
     212Fh - TSW - Window Area Sub Screen Disable (W)
@@ -285,25 +285,25 @@ Ignored in Mode 7 (Base is always zero)
 #define REG_TSW (*(vuint8 *)0x212F)
 
 // background address
-extern u16 bg0gfxaddr; /*!\brief Definition of each background address */
-extern u16 bg1gfxaddr; /*!\brief Definition of each background address */
-extern u16 bg2gfxaddr; /*!\brief Definition of each background address */
-extern u16 bg3gfxaddr; /*!\brief Definition of each background address */
+extern u16 bg0gfxaddr; /**\brief Definition of each background address */
+extern u16 bg1gfxaddr; /**\brief Definition of each background address */
+extern u16 bg2gfxaddr; /**\brief Definition of each background address */
+extern u16 bg3gfxaddr; /**\brief Definition of each background address */
 
-/*!\brief Change Background Char address
+/**\brief Change Background Char address
     \param bgNumber	background number (0 to 3)
     \param address	address of tile graphics (4K aligned)
 */
 void bgSetGfxPtr(u8 bgNumber, u16 address);
 
-/*!\brief Change Background Map address
+/**\brief Change Background Map address
     \param bgNumber	background number (0 to 3)
     \param address	address of tile map
     \param mapSize-> map size (0=32x32, 1=64x32, 2=32x64, 3=64x64 tiles)
 */
 void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize);
 
-/*!\brief Initializes a Tile Set and Loads the Tile GFX into VRAM
+/**\brief Initializes a Tile Set and Loads the Tile GFX into VRAM
     \param bgNumber	background number (0 to 3)
     \param tileSource	address of tile graphics entry
     \param tilePalette	address of palette entry
@@ -315,7 +315,7 @@ void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize);
 */
 void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address);
 
-/*!\brief Initializes a Tile Set and Loads the Tile GFX compressed with LZ algo into VRAM
+/**\brief Initializes a Tile Set and Loads the Tile GFX compressed with LZ algo into VRAM
     \param bgNumber	background number (0 to 3)
     \param tileSource	address of tile graphics entry compressed with LZ algo
     \param tilePalette	address of palette entry
@@ -326,7 +326,7 @@ void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry
 */
 void bgInitTileSetLz(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 paletteSize, u16 colorMode, u16 address);
 
-/*!\brief Add some Tile Set and Loads the Tile GFX into VRAM
+/**\brief Add some Tile Set and Loads the Tile GFX into VRAM
     \param bgNumber	background number (0 to 3, 0xff to not change gfx pointer)
     \param tileSource	address of tile graphics entry
     \param tileSize	size of tile graphics
@@ -334,7 +334,7 @@ void bgInitTileSetLz(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEnt
 */
 void bgInitTileSetData(u8 bgNumber, u8 *tileSource, u16 tileSize, u16 address);
 
-/*!\brief Initializes a Tile & Map Set and Loads the Tile & Map GFX into VRAM for Mode 7
+/**\brief Initializes a Tile & Map Set and Loads the Tile & Map GFX into VRAM for Mode 7
     \param tileSource	address of tile graphics entry
     \param mapSource	address of map entry
     \param tilePalette	address of palette entry
@@ -343,7 +343,7 @@ void bgInitTileSetData(u8 bgNumber, u8 *tileSource, u16 tileSize, u16 address);
 */
 void bgInitMapTileSet7(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 tileSize, u16 address);
 
-/*!\brief Initializes a Map Set and loads it into SNES VRAM
+/**\brief Initializes a Map Set and loads it into SNES VRAM
     \param bgNumber	background number (0 to 3, 0xff to not change map pointer)
     \param mapSource	address of map entry
     \param mapSize	size of map
@@ -352,34 +352,34 @@ void bgInitMapTileSet7(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 tileS
 */
 void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address);
 
-/*!	\brief Sets the scroll hardware to the specified location
+/**	\brief Sets the scroll hardware to the specified location
     \param bgNumber	background number (0 to 3)
     \param x	the horizontal scroll
     \param y	the vertical scroll
 */
 void bgSetScroll(u8 bgNumber, u16 x, u16 y);
 
-/*!	\brief Enable a BG in the actual SNES mode
+/**	\brief Enable a BG in the actual SNES mode
     \param bgNumber	background number (0 to 3 regarding current mode)
 */
 void bgSetEnable(u8 bgNumber);
 
-/*!	\brief Disable a BG in the actual SNES mode
+/**	\brief Disable a BG in the actual SNES mode
     \param bgNumber	background number (0 to 3 regarding current mode)
 */
 void bgSetDisable(u8 bgNumber);
 
-/*!	\brief Enable a BG from sub screen (translucent) in the actual SNES mode
+/**	\brief Enable a BG from sub screen (translucent) in the actual SNES mode
     \param bgNumber	background number (0 to 3 regarding current mode)
 */
 void bgSetEnableSub(u8 bgNumber);
 
-/*!	\brief Disable a BG from sub screen (translucent) in the actual SNES mode
+/**	\brief Disable a BG from sub screen (translucent) in the actual SNES mode
     \param bgNumber	background number (0 to 3 regarding current mode)
 */
 void bgSetDisableSub(u8 bgNumber);
 
-/*!	\brief Define a region on screen where map / sprite can be disable
+/**	\brief Define a region on screen where map / sprite can be disable
     \param bgNumber	background number (0 to 3 regarding current mode)
     \param winNumber	windows number (0 to 1 regarding current window)
     \param xLeft	left value where we begin to add map/sprites

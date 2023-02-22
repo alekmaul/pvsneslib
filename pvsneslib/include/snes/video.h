@@ -373,8 +373,8 @@ void setColorIntensity(u8 colorApply, u8 intensity);
 
 /*! \fn  setPalette(palette, paletteEntry, paletteSize)
     \brief Change a palette in CGRAM.
-    \param palette	address of palette entry
-    \param paletteEntry palette number (0..16 for 16 colors mode) of the beginning of each colors
+    \param palette	address of palette
+    \param paletteEntry palette entry (0..16 for 16 colors mode) of the beginning of each colors
     \param paletteSize	size of palette
 */
 #define setPalette(palette, paletteEntry, paletteSize) dmaCopyCGram(palette, paletteEntry, paletteSize)

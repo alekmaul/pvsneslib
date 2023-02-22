@@ -38,27 +38,35 @@
 
 extern void *nmi_handler;
 
-/*!	\brief Bit defines for the interrupt registers */
-#define INT_VBLENABLE (1 << 7) /*!< \brief VBlank NMI Enable  (0=Disable, 1=Enable) (Initially disabled on reset) */
-#define INT_HVIRQ_H (1 << 4)   /*!< \brief H/V IRQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) */
-#define INT_HVIRQ_V (1 << 5)   /*!< \brief H/V IRQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) */
-#define INT_HVIRQ_HV (2 << 4)  /*!< \brief H/V IRQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) */
-#define INT_JOYPAD_ENABLE (1)  /*!< \brief Joypad Enable    (0=Disable, 1=Enable Automatic Reading of Joypad) */
-#define VBL_READY (1 << 7)     /*!< \brief V-Blank Period Flag (0=No, 1=VBlank)*/
-#define HBL_READY (1 << 6)     /*!< \brief H-Blank Period Flag (0=No, 1=HBlank)*/
-#define PAD_BUSY (1)           /*!< \brief Auto-Joypad-Read Busy Flag (1=Busy) (see 4200h, and 4218h..421Fh) */
+/** \brief VBlank NMI Enable  (0=Disable, 1=Enable) (Initially disabled on reset) */
+#define INT_VBLENABLE		(1 << 7) 
+/** \brief H/V IRQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) */
+#define INT_HVIRQ_H			(1 << 4)   
+/** \brief H/V IRQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) */
+#define INT_HVIRQ_V			(1 << 5)  
+/** \brief H/V IRQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V) */ 
+#define INT_HVIRQ_HV		(2 << 4)  
+/** \brief Joypad Enable    (0=Disable, 1=Enable Automatic Reading of Joypad) */
+#define INT_JOYPAD_ENABLE 	(1)  
+/** \brief V-Blank Period Flag (0=No, 1=VBlank)*/
+#define VBL_READY 			(1 << 7)     
+/** \brief H-Blank Period Flag (0=No, 1=HBlank)*/
+#define HBL_READY 			(1 << 6)     
+/** \brief Auto-Joypad-Read Busy Flag (1=Busy) (see 4200h, and 4218h..421Fh) */
+#define PAD_BUSY 			(1)           
 
-/*! \def REG_NMITIMEN
-    \brief Interrupt Enable and Joypad Request (W).
-      7     VBlank NMI Enable  (0=Disable, 1=Enable) (Initially disabled on reset)
-      6     Not used
-      5-4   H/V IRQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V)
-      3-1   Not used
-      0     Joypad Enable    (0=Disable, 1=Enable Automatic Reading of Joypad)
-
-    Disabling IRQs (via bit4-5) does additionally acknowledge IRQs.
-    There's no such effect when disabling NMIs (via bit7).
-
+/**
+ *  \brief 
+ *      Interrupt Enable and Joypad Request (W).<br>
+ *
+ *      7     VBlank NMI Enable  (0=Disable, 1=Enable) (Initially disabled on reset)<br>
+ *      6     Not used<br>
+ *      5-4   H/V IRQ (0=Disable, 1=At H=H + V=Any, 2=At V=V + H=0, 3=At H=H + V=V)<br>
+ *      3-1   Not used<br>
+ *      0     Joypad Enable    (0=Disable, 1=Enable Automatic Reading of Joypad)<br>
+ *<br>
+ *      Disabling IRQs (via bit4-5) does additionally acknowledge IRQs.<br>
+ *      There's no such effect when disabling NMIs (via bit7).<br>
 */
 #define REG_NMITIMEN (*(vuint8 *)0x4200)
 
@@ -79,60 +87,79 @@ The H/V-IRQ flag in Bit7 of TIMEUP, Port 4211h gets set when the H-Counter gets 
 The H/V-IRQ flag in Bit7 of TIMEUP, Port 4211h gets set when the V-Counter gets equal to the V-Count register value.
 */
 
-/*! \def REG_RDNMI
-    \brief V-Blank NMI Flag and CPU Version Number (R) (Read/Ack)
-    7     Vblank NMI Flag  (0=None, 1=Interrupt Request) (set on Begin of Vblank)
-    6-4   Not used
-    3-0   CPU 5A22 Version Number (version 2 exists)
-    The NMI flag gets set at begin of Vblank (this happens even if NMIs are disabled). The flag gets reset automatically
-    at end of Vblank, and gets also reset after reading from this register.
-    The SNES has only one NMI source (vblank), and the NMI flag is automatically reset (on vblank end), so there's
-    normally no need to read/acknowledge the flag, except one special case: If one does disable and re-enable NMIs,
-    then an old NMI may be executed again; acknowledging avoids that effect.
-    The CPU includes another internal NMI flag, which gets set when "[4200h].7 AND [4210h].7" changes from 0-to-1, and
-    gets cleared when the NMI gets executed (which should happen around after the next opcode) (if a DMA transfer is
-    in progress, then it is somewhere after the DMA, in that case the NMI can get executed outside of the Vblank
-    period, ie. at a time when [4210h].7 is no longer set).
+/**
+ *  \brief 
+ *      V-Blank NMI Flag and CPU Version Number (R) (Read/Ack)<br>
+ *
+ *      7     Vblank NMI Flag  (0=None, 1=Interrupt Request) (set on Begin of Vblank)<br>
+ *      6-4   Not used<br>
+ *      3-0   CPU 5A22 Version Number (version 2 exists)<br>
+ *<br>
+ *      The NMI flag gets set at begin of Vblank (this happens even if NMIs are disabled). The flag gets reset automatically<br>
+ *      at end of Vblank, and gets also reset after reading from this register.<br>
+ *      The SNES has only one NMI source (vblank), and the NMI flag is automatically reset (on vblank end), so there's<br>
+ *      normally no need to read/acknowledge the flag, except one special case: If one does disable and re-enable NMIs,<br>
+ *      then an old NMI may be executed again; acknowledging avoids that effect.<br>
+ *      The CPU includes another internal NMI flag, which gets set when "[4200h].7 AND [4210h].7" changes from 0-to-1, and<br>
+ *      gets cleared when the NMI gets executed (which should happen around after the next opcode) (if a DMA transfer is<br>
+ *      in progress, then it is somewhere after the DMA, in that case the NMI can get executed outside of the Vblank<br>
+ *      period, ie. at a time when [4210h].7 is no longer set).<br>
 */
 #define REG_RDNMI (*(vuint8 *)0x4210)
 
-/*
-4211h - TIMEUP - H/V-Timer IRQ Flag (R) (Read/Ack)
-
-  7     H/V-Count Timer IRQ Flag (0=None, 1=Interrupt Request)
-  6-0   Not used
-
-The IRQ flag is automatically reset after reading from this register (except when reading at the very time when the IRQ condition is true (which lasts for 4-8 master cycles), then the CPU receives bit7=1, but register bit7 isn't cleared). The flag is also automatically cleared when disabling IRQs (by setting 4200h.Bit5-4 to zero).
-Unlike NMI handlers, IRQ handlers MUST acknowledge IRQs, otherwise the IRQ gets executed again (ie. immediately after the RTI opcode).
+/**
+ *  \brief 
+ *      TIMEUP - H/V-Timer IRQ Flag (R) (Read/Ack)<br><br>
+ *
+ *      7     H/V-Count Timer IRQ Flag (0=None, 1=Interrupt Request)<br>
+ *      6-0   Not used<br>
+ *<br>
+ *      The IRQ flag is automatically reset after reading from this register<br>
+ *      (except when reading at the very time when the IRQ condition is true <br>
+ *      (which lasts for 4-8 master cycles), then the CPU receives bit7=1, <br>
+ *      but register bit7 isn't cleared). The flag is also automatically cleared <br>
+ *      when disabling IRQs (by setting 4200h.Bit5-4 to zero).<br>
+ *      Unlike NMI handlers, IRQ handlers MUST acknowledge IRQs, otherwise the IRQ <br>
+ *      gets executed again (ie. immediately after the RTI opcode).<br>
 */
+#define REG_TIMEUP (*(vuint8 *)0x4211)
 
-/*! \def REG_HVBJOY
-    \brief H/V-Blank flag and Joypad Busy flag (R).
-      7     V-Blank Period Flag (0=No, 1=VBlank)
-      6     H-Blank Period Flag (0=No, 1=HBlank)
-      5-1   Not used
-      0     Auto-Joypad-Read Busy Flag (1=Busy) (see 4200h, and 4218h..421Fh)
-    The Hblank flag gets toggled in ALL scanlines (including during
-    Vblank/Vsync). Both Vblank and Hblank are always toggling (even
-    during Forced Blank, and no matter if IRQs or NMIs are enabled
+/**
+ *  \brief 
+ *      H/V-Blank flag and Joypad Busy flag (R).<br>
+ *
+ *      7     V-Blank Period Flag (0=No, 1=VBlank)<br>
+ *      6     H-Blank Period Flag (0=No, 1=HBlank)<br>
+ *      5-1   Not used<br>
+ *      0     Auto-Joypad-Read Busy Flag (1=Busy) (see 4200h, and 4218h..421Fh)<br>
+ *<br>
+ *      The Hblank flag gets toggled in ALL scanlines (including during Vblank/Vsync).<br>
+ *      Both Vblank and Hblank are always toggling (even during Forced Blank, <br>
+ *      and no matter if IRQs or NMIs are enabled<br>
 */
 #define REG_HVBJOY (*(vuint8 *)0x4212)
 
-/*! \fn nmiSet(VoidFn handler)
-    \brief Add a handler for the given interrupt mask.
-    Specify the handler to use for the nmi interrupt.
-    \param handler Address of the function to use as an interrupt service routine
+/**
+ *  \brief 
+ *      Add a handler for the given interrupt mask.<br>
+ *
+ *      Specify the handler to use for the nmi interrupt.<br>
+ *  \param handler 
+ *      Address of the function to use as an interrupt service routine<br>
 */
 #define nmiSet(handler) nmi_handler = handler;
 
-/*! \fn  WaitForVBlank()
-    \brief Wait for vblank interrupt
-    Waits for a vertical blank interrupt
+/**
+ *  \brief 
+ *      Wait for vblank interrupt<br>
+ *
+ *      Waits for a vertical blank interrupt<br>
 */
 void WaitForVBlank(void);
 
-/*! \fn  WaitVBLFlag
-    \brief macro to wait the VBL flag OK
+/**
+ *  \brief 
+ *      Wait for VBL flag to be OK<br>
 */
 #define WaitVBLFlag                   \
     while ((REG_HVBJOY & VBL_READY))  \
@@ -141,9 +168,12 @@ void WaitForVBlank(void);
     {                                 \
     };
 
-/*! \fn  WaitNVBlank()
-    \brief Wait for vblank interrupt ntime
-    \param ntime number of time to wait VBlank Interrupt
+/**
+ *  \brief 
+ *      Wait for vblank interrupt ntime times<br>
+ *
+ *  \param 
+ *      ntime number of time to wait VBlank Interrupt<br>
 */
 void WaitNVBlank(u16 ntime);
 

@@ -144,6 +144,7 @@
 
     <!-- debugging -->
     \example debug/debug.c
+    \example breakpoints/src/breakpoints.c
 
     <!-- random display -->
     \example random/random.c
