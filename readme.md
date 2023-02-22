@@ -71,7 +71,7 @@ Sydney Hunter by [CollectorVision](https://collectorvision.com/store/shop/snes/s
 
 # Special thanks #
 
--RetroAntho (https://github.com/RetroAntho) for his great help to move wla-dx to last version and also for all compilation optimizations in Makefile, snes_rules and, at least, for keeping me motivated to update PVSnesLib ;) 
+-RetroAntho (https://github.com/RetroAntho) for his great help to move wla-dx to last version and also for all compilation optimizations in Makefile, snes_rules and, at least, for keeping me motivated to update PVSnesLib ;)  
 -Ulrich Hecht for SNES C SDK: http://code.google.com/p/snes-sdk/ 
 -Byuu for bass - assembler with SPC700 support: http://byuu.org/programming/ 
 -Mic_ for 816-tcc, sixpack, optimore, constify: http://jiggawatt.org/badc0de/sixpack/ and http://jiggawatt.org/optimore-816r2.zip 
