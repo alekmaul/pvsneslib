@@ -1,6 +1,6 @@
 You will find in this page detailed instructions to install PVSnesLib latest release on Windows or Linux (ubuntu or other debian distribution) environment.
 
-Before continuing, please keep in mind that PVsneslib works only on **32 bits** system for now. To avoid conflicts between versions, we recommend to install required dependencies in 32 bits when it is applicable (for msys and gcc).
+Before continuing, please keep in mind that PVsneslib works only on **32 bits** system for now. To avoid conflicts between versions, we recommend to install required dependencies in 32 bits when it is applicable (for msys).
 
 To follow this guide, you will need :
 
@@ -9,7 +9,7 @@ To follow this guide, you will need :
 and these required dependencies
 
 - msys _if you are on Windows environment_
-- GCC for some tools
+- GCC _if you want to rebuild some tools in the kit_
 - python 3 to optimize code
 - a text editor to write your code
 - an emulator to test the roms
@@ -35,7 +35,7 @@ You can install it everywhere on your computer but the path need to be added in 
 
 Other tools as **git bash** or **cygwin** are not compatible for now.
 
-#### GCC
+#### GCC (only if you want to build sources yourself)
 
 Depending on the tools already installed on your computer, you may need to install GCC too. For example, you will have to install it if you encounter this error building projects which use smconv tool (like the mario-like sample) :
 
