@@ -737,8 +737,16 @@ _oiual3y11:
 
 _oiual32:
     sep #$20
+    lda objbuffers.1.onscreen,x
+    bne _oiual321                                       ; no ? we need to refresh
     lda #$1
-    sta objbuffers.1.onscreen,x                        ; store that object is on screen
+    sta objbuffers.1.onscreen,x                         ; store that object is on screen
+    lda objneedrefresh                                  ; if we have noticed a global refresh previously, don't do it again
+    bne _oiual321
+    lda #1
+    sta objneedrefresh
+    jsr objOamRefreshAll                                ; do a global refresh of sprites
+_oiual321:
     lda objbuffers.1.type,x
     rep #$20
     and #$00ff
@@ -883,6 +891,16 @@ _oiral3y11:
 
 _oiral32:
     sep #$20
+    lda objbuffers.1.onscreen,x
+    bne _oiral321                                       ; no ? we need to refresh
+    lda #$1
+    sta objbuffers.1.onscreen,x                         ; store that object is on screen
+    lda objneedrefresh                                  ; if we have noticed a global refresh previously, don't do it again
+    bne _oiral321
+    lda #1
+    sta objneedrefresh
+    jsr objOamRefreshAll                                ; do a global refresh of sprites
+_oiral321:
     lda objbuffers.1.type,x
     rep #$20
     and #$00ff
