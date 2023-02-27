@@ -14,7 +14,6 @@ extern char sprite32, sprite32_end, palsprite32, palsprite32_end;
 extern char sprite64, sprite64_end, palsprite64, palsprite64_end;
 
 u16 selectedItem;
-u16 selectedPriority;
 bool keyPressed;
 
 #define ADRBG1 0x2000
@@ -41,8 +40,8 @@ void draw()
 void changeObjSize()
 {
 
-    // Force VBlank and prepare for graphics initialization
-    setBrightness(0);
+    // Force wait VBlank to avoid black frame
+    WaitForVBlank();
 
     // check regarding the current selection
     if (selectedItem == 0)
@@ -99,8 +98,6 @@ void changeObjSize()
     oamSet(4, 170, 120, 3, 0, 0, 0x0050, 1);
     oamSetEx(4, OBJ_LARGE, OBJ_SHOW);
     
-    // Reallow graphics (avoid glitch during init)
-    setBrightness(0x0F);
 }
 
 //---------------------------------------------------------------------------------
@@ -127,7 +124,6 @@ int main(void)
     bgSetDisable(2);
 
     selectedItem = 0;
-    selectedPriority = 3;
     keyPressed = false;
     draw();
     changeObjSize();
