@@ -28,7 +28,7 @@
 ***************************************************************************/
 #include <stdio.h>
 #include <memory.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 #include "imgtools.h"
 #include "gfx2snes.h"
