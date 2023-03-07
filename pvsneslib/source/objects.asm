@@ -737,8 +737,16 @@ _oiual3y11:
 
 _oiual32:
     sep #$20
+    lda objbuffers.1.onscreen,x
+    bne _oiual321                                       ; no ? we need to refresh
     lda #$1
-    sta objbuffers.1.onscreen,x                        ; store that object is on screen
+    sta objbuffers.1.onscreen,x                         ; store that object is on screen
+    lda objneedrefresh                                  ; if we have noticed a global refresh previously, don't do it again
+    bne _oiual321
+    lda #1
+    sta objneedrefresh
+    jsr objOamRefreshAll                                ; do a global refresh of sprites
+_oiual321:
     lda objbuffers.1.type,x
     rep #$20
     and #$00ff
@@ -822,6 +830,8 @@ objRefreshAll:
 	pha
 	plb
 
+    stz objneedrefresh                                  ; no global refresh needed
+
 	rep #$20
 	ldx #$0000
 
@@ -865,11 +875,32 @@ _oiral3y:                                               ; check now y coordinate
     bcs _oiral32                                        ; but y is greater than min
 
 _oiral3y1:
+    sep #$20                                            ; check if it was previously on screen to refresh all the objects
+    lda objbuffers.1.onscreen,x
+    beq _oiral3y11                                      ; no ? no need to refresh
+    stz objbuffers.1.onscreen,x
+    lda objneedrefresh                                  ; if we have noticed a global refresh previously, don't do it again
+    bne _oiral3y11
+    lda #1
+    sta objneedrefresh
+    jsr objOamRefreshAll                                ; do a global refresh of sprites
+
+_oiral3y11:
     rep #$20
     bra _oiral31
 
 _oiral32:
     sep #$20
+    lda objbuffers.1.onscreen,x
+    bne _oiral321                                       ; no ? we need to refresh
+    lda #$1
+    sta objbuffers.1.onscreen,x                         ; store that object is on screen
+    lda objneedrefresh                                  ; if we have noticed a global refresh previously, don't do it again
+    bne _oiral321
+    lda #1
+    sta objneedrefresh
+    jsr objOamRefreshAll                                ; do a global refresh of sprites
+_oiral321:
     lda objbuffers.1.type,x
     rep #$20
     and #$00ff

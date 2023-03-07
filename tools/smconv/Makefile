@@ -7,7 +7,7 @@ CC = gcc
 CP = g++
 CFLAGS = -O2 -Wall -Wno-unused-result -fpermissive -static -static-libstdc++ -static-libgcc -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 CXXFLAGS :=	$(CFLAGS) -fno-rtti -fno-exceptions
-LDFLAGS := 
+LDFLAGS := -static -static-libstdc++ -static-libgcc
 
 SOURCE = brr.cpp convert.cpp inputdata.cpp io.cpp it2spc.cpp itloader.cpp
 OBJS = brr.o convert.o inputdata.o io.o it2spc.o itloader.o

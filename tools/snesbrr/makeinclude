@@ -4,10 +4,10 @@ CXX = g++
 WINDRES = windres
 RM = rm -f
 
-CFLAGS = -Os -fomit-frame-pointer -fforce-addr -falign-jumps -falign-functions -fno-guess-branch-probability -Wall -Wextra -Winline -Wno-shift-negative-value --param inline-unit-growth=350 -finline-limit=3500 -Wno-unused -pedantic -ffunction-sections -fdata-sections -fpermissive
+CFLAGS = -Os -static -static-libstdc++ -static-libgcc -fomit-frame-pointer -fforce-addr -falign-jumps -falign-functions -fno-guess-branch-probability -Wall -Wextra -Winline -Wno-shift-negative-value --param inline-unit-growth=350 -finline-limit=3500 -Wno-unused -pedantic -ffunction-sections -fdata-sections -fpermissive
 CXXFLAGS = $(CFLAGS)
 CPPFLAGS = -DNDEBUG
-LDFLAGS = -s -Wl,--gc-sections
+LDFLAGS = -s -Wl,--gc-sections -static -static-libstdc++ -static-libgcc
 ARFLAGS = -rcU
 
 
