@@ -31,6 +31,7 @@ You can find with the link below the last stable builds of PVSnesLib. They are d
 
 PVSnesLib works on Windows and Linux systems.
 Due to technical constraints, it is available for now on 32 bits system only.
+For people who cannot work with this constraint, you can build your docker image by following instructions available in the docker folder.
 
 To use it, you will need at least :
 
