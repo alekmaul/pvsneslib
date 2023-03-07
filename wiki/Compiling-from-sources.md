@@ -3,11 +3,21 @@ If you want to build the whole pvsneslib project directly from sources, you will
 _Before following this tutorial, we strongly recommend you to do a first installation from the release version thanks to [this page.](https://github.com/alekmaul/pvsneslib/wiki/Installation)_
 _It will provide you tools and command lines to install dependencies and avoid you some loss of time here !_
 
-Please keep in mind that it works only on **32 bits** system.
+Please keep in mind that it works only on **32 bits** system. If your system is not able to manage it, you can use docker by following instructions available in the docker folder. 
 I will also consider that these tools are mandatory everywhere so i will not add it in the list anymore :
 
+  * git
   * msys
   * GCC
+
+## Clone the repository
+
+By using the `git` command, clone the repository first :
+`git clone --recurse-submodules --depth=1 https://github.com/alekmaul/pvsneslib.git`
+
+The `recurse-submodules` option will download **WLA** and **TCC** tools which are required and stored in other repositories.
+
+`depth=1` is optional but allow you to download only the last version of source code. If you do not want all modifications history, you will probably win some time and disk space by using it.
 
 ## Create PVSNESLIB_HOME
 
@@ -45,7 +55,7 @@ If you did not installed texi2html, the step to generate the documentation will 
 
 ### WLA
 
-WLA is a git submodule of pvsneslib. If you cloned the PVSneslib repository from command line without the --recurse-submodules parameter, you probably have to download the submodule with `git submodule init && git submodule update` command.
+WLA is a git submodule of pvsneslib. If you cloned the PVSneslib repository from command line without the `--recurse-submodules` parameter, you probably have to download the submodule with `git submodule init && git submodule update` command.
 
 To install WLA you will need :
 
