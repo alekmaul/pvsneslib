@@ -66,3 +66,6 @@ linkfile
 soundbank.asm
 soundbank.h
 *.log
+
+# Mac OS cache files
+.DS_Store
