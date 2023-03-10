@@ -52,7 +52,9 @@
 #define OBJ_SPRITE16 2 /*!< \brief sprite with 16x16 identifier */
 #define OBJ_SPRITE8 4  /*!< \brief sprite with 8x8 identifier */
 
-/*!	\brief Dynamic sprite definition */
+/*!	\struct t_sprites
+    \brief Dynamic sprite definition (16 bytes)
+*/
 typedef struct
 {
     s16 oamx;        /*!< 0 x position on the screen  */
@@ -65,7 +67,9 @@ typedef struct
     u16 dummy2;
 } t_sprites __attribute__((__packed__)); /*!< seems to do nothing */
 
-/*!	\brief Dynamic metasprite definition */
+/*!	\struct t_metasprites
+    \brief Dynamic metasprite definition (16 bytes)
+*/
 typedef struct
 {
     s16 metsprofsx;                          /*!< 0 x offset of the current sprite in meta sprite  */
