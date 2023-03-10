@@ -2,7 +2,7 @@
 
     Sound functions.
 
-    Copyright (C) 2012-2013
+    Copyright (C) 2012-2023
         Alekmaul
 
     This software is provided 'as-is', without any express or implied
@@ -44,17 +44,17 @@
 #include <snes/snestypes.h>
 #include <snes/interrupt.h>
 
-/*!	\brief Sound header(8 bytes) */
+/*!	\struct brr sample sound header(8 bytes) */
 typedef struct
 {
-    u8 pitch;   /*!< default PITCH (1..6) (hz = PITCH * 2000) */
-    u8 panning; /*!< default PANNING (0..15) */
-    u8 volume;  /*!< default VOLUME (0..15) */
-    u8 length1; /*!< number of BRR chunks (BYTELEN/9) (max 4kilobytes??) low */
-    u8 length2; /*!< number of BRR chunks (BYTELEN/9) (max 4kilobytes??) high */
-    u8 addr1;   /*!< address of BRR data low */
-    u8 addr2;   /*!< address of BRR data high */
-    u8 bank;    /*!< bank of BRR data */
+    u8 pitch;   /**< default PITCH (1..6) (hz = PITCH * 2000) */
+    u8 panning; /**< default PANNING (0..15) */
+    u8 volume;  /**< default VOLUME (0..15) */
+    u8 length1; /**< number of BRR chunks (BYTELEN/9) (max 4kilobytes??) low */
+    u8 length2; /**< number of BRR chunks (BYTELEN/9) (max 4kilobytes??) high */
+    u8 addr1;   /**< address of BRR data low */
+    u8 addr2;   /**< address of BRR data high */
+    u8 bank;    /**< bank of BRR data */
 } brrsamples;
 
 /*! \def REG_APU00
