@@ -44,7 +44,9 @@
 #include <snes/snestypes.h>
 #include <snes/interrupt.h>
 
-/*!	\struct brr sample sound header(8 bytes) */
+/*!	\struct brrsamples
+    \brief brr sample sound header(8 bytes)
+*/
 typedef struct
 {
     u8 pitch;   /**< default PITCH (1..6) (hz = PITCH * 2000) */
