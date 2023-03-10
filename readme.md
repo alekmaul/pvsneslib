@@ -10,8 +10,8 @@ It contains a snes-sdk compiler / linker and a library (sources included) which 
 It also contains examples which demonstrate how to use the functions in the library.
 
 # Installation #
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.0.0/Windows-x32-400-release.zip"><img src="https://img.shields.io/badge/release-windows32-green?style=flat&logo=github" alt="PVSNESLIB Windows32 Release"></a>
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.0.0/Linux-x32-400-release.zip"><img src="https://img.shields.io/badge/release-linux-orange?style=flat&logo=github" alt="PVSNESLIB Linux32 Release"></a>
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.0.2/Windows-x32-402-release.zip"><img src="https://img.shields.io/badge/release-windows32-green?style=flat&logo=github" alt="PVSNESLIB Windows32 Release"></a>
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.0.2/Linux-x64-402-release.zip"><img src="https://img.shields.io/badge/release-linux-orange?style=flat&logo=github" alt="PVSNESLIB Linux32 Release"></a>
 
 To install the library, please download the latest [release](https://github.com/alekmaul/pvsneslib/releases/latest) or with the link below and follow instructions on the [Wiki pages](https://github.com/alekmaul/pvsneslib/wiki).
 
@@ -31,6 +31,7 @@ You can find with the link below the last stable builds of PVSnesLib. They are d
 
 PVSnesLib works on Windows and Linux systems.
 Due to technical constraints, it is available for now on 32 bits system only.
+For people who cannot work with this constraint, you can build your docker image by following instructions available in the docker folder.
 
 To use it, you will need at least :
 
@@ -71,16 +72,16 @@ Sydney Hunter by [CollectorVision](https://collectorvision.com/store/shop/snes/s
 
 # Special thanks #
 
--RetroAntho (https://github.com/RetroAntho) for his great help to move wla-dx to last version and also for all compilation optimizations in Makefile, snes_rules and, at least, for keeping me motivated to update PVSnesLib ;)
--Ulrich Hecht for SNES C SDK: http://code.google.com/p/snes-sdk/
--Byuu for bass - assembler with SPC700 support: http://byuu.org/programming/
--Mic_ for 816-tcc, sixpack, optimore, constify: http://jiggawatt.org/badc0de/sixpack/ and http://jiggawatt.org/optimore-816r2.zip
--Neviksti for pcx2snes
--Shiru for snesbmp idea & sound tools: http://shiru.untergrund.net/
--Mukunda for smconv tool: http://snes.mukunda.com/
--RedBug for constify tcc bug fix and tips for Linux and Docker
--mills32 (https://github.com/mills32) for his mode7 3D example
--n_Arno for his help on Linux version (https://github.com/nArnoSNES/)
--kobenairb for python & docker optimizations
-
+-RetroAntho (https://github.com/RetroAntho) for his great help to move wla-dx to last version and also for all compilation optimizations in Makefile, snes_rules and, at least, for keeping me motivated to update PVSnesLib ;)  
+-Ulrich Hecht for SNES C SDK: http://code.google.com/p/snes-sdk/  
+-Byuu for bass - assembler with SPC700 support: http://byuu.org/programming/  
+-Mic_ for 816-tcc, sixpack, optimore, constify: http://jiggawatt.org/badc0de/sixpack/ and http://jiggawatt.org/optimore-816r2.zip  
+-Neviksti for pcx2snes  
+-Shiru for snesbmp idea & sound tools: http://shiru.untergrund.net/  
+-Mukunda for smconv tool: http://snes.mukunda.com/  
+-RedBug for constify tcc bug fix and tips for Linux and Docker  
+-mills32 (https://github.com/mills32) for his mode7 3D example  
+-n_Arno for his help on Linux version (https://github.com/nArnoSNES/)  
+-kobenairb for python & docker optimizations  
+  
 Thanks !
