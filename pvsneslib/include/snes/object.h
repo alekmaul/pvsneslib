@@ -38,50 +38,45 @@
 
 #define OB_MAX 64 // total number of objects in the game
 
+/*!	\struct t_objs
+    \brief object definition (64 bytes)
+*/
 typedef struct
 {
-    u16 prev; //  0 previous object linked list
-    u16 next; //  2 next object in linked list
-    u8 type;  //  4 type of object, depend of the game
-    u8 nID;   //  5 obj ID in linked list
-
-    u16 sprnum;     //  6 sprite oam number of the object (multiple of 4)
-    u16 sprid3216;  //  8 sprite oam id in sprite oam memory
-    u16 sprblk3216; // 10 sprite oam address in sprites tiles memory
-    u8 sprflip;     // 12 sprite flip attribute
-    u8 sprpal;      // 13 sprite palette
-    u16 sprframe;   // 14 current frame
-
-    u8 xpos[3]; // 16 x position on the screen (3 fixed point)
-    u8 ypos[3]; // 19 y position on the screen (3 fixed point)
-
-    u16 xofs;   // 22 x offset of the object (from the square 16x16 or 32x32)
-    u16 yofs;   // 24 y offset of the object (from the square 16x16 or 32x32)
-    u16 width;  // 26 width of the object (from the square 16x16 or 32x32)
-    u16 height; // 28 height of the object (from the square 16x16 or 32x32)
-    u16 xmin;   // 30 min x coordinate for action of object, depends of game (ex: revert direction)
-    u16 xmax;   // 32 max x coordinate for action of object, depends of game (ex: revert direction)
-
-    u16 xvel; // 34 x velocity
-    u16 yvel; // 36 y velocity
-
-    u16 tilestand; // 38 tile number object is standing on
-    u16 tileabove; // 40 tile number above object
-    u16 tilesprop; // 42 tile property stand on
-    u16 tilebprop; // 44 tile property on left/right side
-
-    u16 action; // 46 current action of the object, depends of game
-    u8 status;  // 48 status of object regarding collision
-    u8 tempo;   // 49 if object needs tempo
-    u8 count;   // 50 if object needs a counter
-    u8 dir;     // 51 if object needs to manage direction
-
-    u16 parentID;  // 52 obj ID of parent (useful for projectiles)
-    u8 hitpoints;  // 54 number of hit points of object
-    u8 sprrefresh; // 55 if object needs sprite to be refresh
-    u8 onscreen;   // 56 to know if object is on screen or not
-
-    u8 objnotused[7];                 // OB_SIZE-55-1 for future use
+    u16 prev;                         /*!<  0 previous object linked list */
+    u16 next;                         /*!<  2 next object in linked list */
+    u8 type;                          /*!<  4 type of object, depend of the game */
+    u8 nID;                           /*!<  5 obj ID in linked list */
+    u16 sprnum;                       /*!<  6 sprite oam number of the object (multiple of 4) */
+    u16 sprid3216;                    /*!<  8 sprite oam id in sprite oam memory */
+    u16 sprblk3216;                   /*!< 10 sprite oam address in sprites tiles memory */
+    u8 sprflip;                       /*!< 12 sprite flip attribute */
+    u8 sprpal;                        /*!< 13 sprite palette */
+    u16 sprframe;                     /*!< 14 current frame */
+    u8 xpos[3];                       /*!< 16 x position on the screen (3 fixed point) */
+    u8 ypos[3];                       /*!< 19 y position on the screen (3 fixed point) */
+    u16 xofs;                         /*!< 22 x offset of the object (from the square 16x16 or 32x32) */
+    u16 yofs;                         /*!< 24 y offset of the object (from the square 16x16 or 32x32) */
+    u16 width;                        /*!< 26 width of the object (from the square 16x16 or 32x32) */
+    u16 height;                       /*!< 28 height of the object (from the square 16x16 or 32x32) */
+    u16 xmin;                         /*!< 30 min x coordinate for action of object, depends of game (ex: revert direction) */
+    u16 xmax;                         /*!< 32 max x coordinate for action of object, depends of game (ex: revert direction) */
+    u16 xvel;                         /*!< 34 x velocity */
+    u16 yvel;                         /*!< 36 y velocity */
+    u16 tilestand;                    /*!< 38 tile number object is standing on */
+    u16 tileabove;                    /*!< 40 tile number above object */
+    u16 tilesprop;                    /*!< 42 tile property stand on */
+    u16 tilebprop;                    /*!< 44 tile property on left/right side */
+    u16 action;                       /*!< 46 current action of the object, depends of game */
+    u8 status;                        /*!< 48 status of object regarding collision */
+    u8 tempo;                         /*!< 49 if object needs tempo */
+    u8 count;                         /*!< 50 if object needs a counter */
+    u8 dir;                           /*!< 51 if object needs to manage direction */
+    u16 parentID;                     /*!< 52 obj ID of parent (useful for projectiles) */
+    u8 hitpoints;                     /*!< 54 number of hit points of object */
+    u8 sprrefresh;                    /*!< 55 if object needs sprite to be refresh */
+    u8 onscreen;                      /*!< 56 to know if object is on screen or not */
+    u8 objnotused[7];                 /*!<  OB_SIZE-55-1 for future use */
 } t_objs __attribute__((__packed__)); // seems to do nothing :/
 
 extern u16 objptr;   /*!< \brief pointer to current object */

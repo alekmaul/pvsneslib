@@ -129,6 +129,7 @@
 
     <!-- audio -->
     \example audio/effects/effects.c
+    \example audio/effectsandmusic/effectsandmusic.c
     \example audio/music/Music.c
     \example audio/tada/Tada.c
     \example audio/musicGreaterThan32k/musicGreaterThan32k.c

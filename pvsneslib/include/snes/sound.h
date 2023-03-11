@@ -2,7 +2,7 @@
 
     Sound functions.
 
-    Copyright (C) 2012-2013
+    Copyright (C) 2012-2023
         Alekmaul
 
     This software is provided 'as-is', without any express or implied
@@ -44,7 +44,9 @@
 #include <snes/snestypes.h>
 #include <snes/interrupt.h>
 
-/*!	\brief Sound header(8 bytes) */
+/*!	\struct brrsamples
+    \brief brr sample sound header(8 bytes)
+*/
 typedef struct
 {
     u8 pitch;   /*!< default PITCH (1..6) (hz = PITCH * 2000) */
