@@ -4,7 +4,7 @@ VERSION = "1.0.0"
 # options for code generation
 #---------------------------------------------------------------------------------
 CC=gcc
-CFLAGS=-g -O2 -Wall -Wno-implicit-function-declaration -Wno-unused-result -static -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+CFLAGS=-g -O2 -Wall -Wno-implicit-function-declaration -Wno-unused-result -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\"" 
 
 SOURCES=tmx2snes.c
 OBJS=tmx2snes.o
@@ -18,6 +18,14 @@ ifeq ($(OS),Windows_NT)
 else
 	EXT=
 endif
+
+# We want to build the project with static libraries except for Mac OS because the manual page of gcc explain:
+# "The static option will not work on Mac OS X unless all libraries (including libgcc.a) have also been compiled with -static.
+# Since neither a static version of libSystem.dylib nor crt0.o are provided, this option is not useful to most people."
+ifneq ($(shell uname -s),Darwin)
+CFLAGS+=-static
+endif
+
 
 
 #---------------------------------------------------------------------------------
