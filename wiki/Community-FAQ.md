@@ -35,6 +35,7 @@ The remaining entries here on the unofficial FAQ are maintained by the community
 - [Font system doesn't work with some background mode](#how-to-build-tcc-816-provided-with-pvsneslib-sources-)
 - [How to build tcc 816 provided with PVSneslib sources ?](#how-to-build-tcc-816-provided-with-pvsneslib-sources-)
 - [I get the error "echo: command not found"](#i-get-the-error-echo-command-not-found)
+- [How to solve "Cannot openmake" error](#How-to-solve-cannot-openmake-error)
 - [On Linux i get : "fatal error: bits/libc-header-start.h"](#on-linux-i-get--fatal-error-bitslibc-header-starth)
 - [Using malloc with PVSneslib](#using-malloc-with-pvsneslib)
 
@@ -307,6 +308,19 @@ After this command, you can build tcc by doing : **make 816-tcc.exe**
 You probably have an issue with the format of your PVSNESLIB_HOME environment variable.
 The value must be in unix style (**/c/snesdev** instead of **c:\\snesdev**) to avoid this issue. The variable can be created with this command line : `setx PVSNESLIB_HOME "/c/snesdev"`
 
+### How to solve "Cannot openmake" error
+
+As explained in the [installation page](https://github.com/alekmaul/pvsneslib/wiki/Installation) available in the wiki:
+
+Python is used to optimize the code produced, it needs to be added in your path and accessible directly from the python command. If the command `python --version` does not work on your computer, you will have issues while using the script in PVsneslib.
+
+If you get a message like this one :
+
+__Assembling ... main.ps__  
+__/c/snes/devkitsnes/bin/816-opt.py main.ps >main.asp__  
+__Cannot openmake: *** [main.asm] Error 1__
+
+it means that you have an issue with your python installation and you need to review this step.
 
 ### On Linux i get : "fatal error: bits/libc-header-start.h"
 
