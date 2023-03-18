@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['length1_506',['length1',['../structbrrsamples.html#a88adcde351bda684d978194a6a2993d5',1,'brrsamples']]],
-  ['length2_507',['length2',['../structbrrsamples.html#a31a76cfd2811dac5df70684e6ab0beb3',1,'brrsamples']]]
+  ['hdmatable16_544',['HDMATable16',['../dma_8h.html#ad072502d98153debc89f839d45fc1c80',1,'dma.h']]],
+  ['height_545',['height',['../structt__objs.html#a3bf3757f174f93270ff558d1351a7872',1,'t_objs']]],
+  ['hitpoints_546',['hitpoints',['../structt__objs.html#a66724708a48c464c7c9e1a00a6b81b6d',1,'t_objs']]]
 ];

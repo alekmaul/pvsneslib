@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.0.1</span>
+   &#160;<span id="projectnumber">4.0.2</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -140,7 +140,7 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line"> </div>
 <div class="line">u16 pad0; <span class="comment">// pad variable</span></div>
 <div class="line"> </div>
-<div class="line">t_objs *marioobj;             <span class="comment">// pointer to mario object</span></div>
+<div class="line"><a name="_a1"></a><a class="code" href="structt__objs.html">t_objs</a> *marioobj;             <span class="comment">// pointer to mario object</span></div>
 <div class="line">s16 *marioox, *mariooy;       <span class="comment">// basics x/y coordinates pointers with fixed point</span></div>
 <div class="line">s16 *marioxv, *marioyv;       <span class="comment">// basics x/y velocity pointers with fixed point</span></div>
 <div class="line">u16 mariox, marioy;           <span class="comment">// x &amp; y coordinates of mario with map depth (not only screen)</span></div>
@@ -151,38 +151,38 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line"><span class="keywordtype">void</span> marioinit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// to have a little message regarding init (DO NOT USE FOR REAL SNES GAME, JUST DEBUGGING PURPOSE)</span></div>
-<div class="line">    <a name="a1"></a><a class="code" href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a>(<span class="stringliteral">&quot;marioinit %d %d\n&quot;</span>, (u16)xp, (u16)yp);</div>
+<div class="line">    <a name="a2"></a><a class="code" href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a>(<span class="stringliteral">&quot;marioinit %d %d\n&quot;</span>, (u16)xp, (u16)yp);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// prepare new object</span></div>
-<div class="line">    <span class="keywordflow">if</span> (<a name="a2"></a><a class="code" href="object_8h.html#a79ff81c8642b2398a03519c279c2f132">objNew</a>(type, xp, yp) == 0)</div>
+<div class="line">    <span class="keywordflow">if</span> (<a name="a3"></a><a class="code" href="object_8h.html#a79ff81c8642b2398a03519c279c2f132">objNew</a>(type, xp, yp) == 0)</div>
 <div class="line">        <span class="comment">// no more space, get out</span></div>
 <div class="line">        <span class="keywordflow">return</span>;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init some vars for snes sprite (objgetid is the current object id)</span></div>
-<div class="line">    <a name="a3"></a><a class="code" href="object_8h.html#aba30a57977f35e1632eb81b5ae39321f">objGetPointer</a>(<a name="a4"></a><a class="code" href="object_8h.html#ad4b2cf3a008d2011baf65b7ed74eaf65">objgetid</a>);</div>
-<div class="line">    marioobj = &amp;<a name="a5"></a><a class="code" href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a>[<a name="a6"></a><a class="code" href="object_8h.html#a9e81915d1e68d22798a93bb27eb74188">objptr</a> - 1];</div>
-<div class="line">    marioobj-&gt;width = 16;</div>
-<div class="line">    marioobj-&gt;height = 16;</div>
+<div class="line">    <a name="a4"></a><a class="code" href="object_8h.html#aba30a57977f35e1632eb81b5ae39321f">objGetPointer</a>(<a name="a5"></a><a class="code" href="object_8h.html#ad4b2cf3a008d2011baf65b7ed74eaf65">objgetid</a>);</div>
+<div class="line">    marioobj = &amp;<a name="a6"></a><a class="code" href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a>[<a name="a7"></a><a class="code" href="object_8h.html#a9e81915d1e68d22798a93bb27eb74188">objptr</a> - 1];</div>
+<div class="line">    marioobj-&gt;<a name="a8"></a><a class="code" href="structt__objs.html#a44853e98e10b36f63d1d0d23ff37ecd0">width</a> = 16;</div>
+<div class="line">    marioobj-&gt;<a name="a9"></a><a class="code" href="structt__objs.html#a3bf3757f174f93270ff558d1351a7872">height</a> = 16;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// grab the coordinates &amp; velocity pointers</span></div>
-<div class="line">    marioox = (u16 *)&amp;(marioobj-&gt;xpos + 1);</div>
-<div class="line">    mariooy = (u16 *)&amp;(marioobj-&gt;ypos + 1);</div>
-<div class="line">    marioxv = (<span class="keywordtype">short</span> *)&amp;(marioobj-&gt;xvel);</div>
-<div class="line">    marioyv = (<span class="keywordtype">short</span> *)&amp;(marioobj-&gt;yvel);</div>
+<div class="line">    marioox = (u16 *)&amp;(marioobj-&gt;<a name="a10"></a><a class="code" href="structt__objs.html#a7d8d754f7264eebc304486e94750c5ce">xpos</a> + 1);</div>
+<div class="line">    mariooy = (u16 *)&amp;(marioobj-&gt;<a name="a11"></a><a class="code" href="structt__objs.html#af033b263019aea8c1fb4fd095dde7997">ypos</a> + 1);</div>
+<div class="line">    marioxv = (<span class="keywordtype">short</span> *)&amp;(marioobj-&gt;<a name="a12"></a><a class="code" href="structt__objs.html#ae7d9e737a340022fb479b10115082c64">xvel</a>);</div>
+<div class="line">    marioyv = (<span class="keywordtype">short</span> *)&amp;(marioobj-&gt;<a name="a13"></a><a class="code" href="structt__objs.html#a7aa31dcb802be971b0f425a01e6b843e">yvel</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// update some variables for mario</span></div>
 <div class="line">    mariofidx = 0;</div>
 <div class="line">    marioflp = 0;</div>
-<div class="line">    marioobj-&gt;action = <a name="a7"></a><a class="code" href="map_8h.html#a227eedee0994ff2eac6ed2b691d9bcb3">ACT_STAND</a>;</div>
+<div class="line">    marioobj-&gt;<a name="a14"></a><a class="code" href="structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d">action</a> = <a name="a15"></a><a class="code" href="map_8h.html#a227eedee0994ff2eac6ed2b691d9bcb3">ACT_STAND</a>;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// prepare dynamic sprite object</span></div>
-<div class="line">    <a name="a8"></a><a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a name="a9"></a><a class="code" href="structt__sprites.html#a0928afd4ac9d8c3c5cceefa44c3a520a">oamframeid</a> = 6;</div>
-<div class="line">    <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a name="a10"></a><a class="code" href="structt__sprites.html#ac4e74ac3a1b9ad5b2f756c512f608cb8">oamrefresh</a> = 1;</div>
-<div class="line">    <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a name="a11"></a><a class="code" href="structt__sprites.html#ac0fb1ea59809017c11430630430e864d">oamattribute</a> = 0x60 | (0 &lt;&lt; 1); <span class="comment">// palette 0 of sprite and sprite 16x16 and priority 2 and flip sprite</span></div>
-<div class="line">    <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a name="a12"></a><a class="code" href="structt__sprites.html#a5e3bc84cd8412db107dd282ccb5a5738">oamgraphics</a> = &amp;mariogfx;</div>
+<div class="line">    <a name="a16"></a><a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a name="a17"></a><a class="code" href="structt__sprites.html#a0928afd4ac9d8c3c5cceefa44c3a520a">oamframeid</a> = 6;</div>
+<div class="line">    <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a name="a18"></a><a class="code" href="structt__sprites.html#ac4e74ac3a1b9ad5b2f756c512f608cb8">oamrefresh</a> = 1;</div>
+<div class="line">    <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a name="a19"></a><a class="code" href="structt__sprites.html#ac0fb1ea59809017c11430630430e864d">oamattribute</a> = 0x60 | (0 &lt;&lt; 1); <span class="comment">// palette 0 of sprite and sprite 16x16 and priority 2 and flip sprite</span></div>
+<div class="line">    <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a name="a20"></a><a class="code" href="structt__sprites.html#a5e3bc84cd8412db107dd282ccb5a5738">oamgraphics</a> = &amp;mariogfx;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init Sprites palette</span></div>
-<div class="line">    <a name="a13"></a><a class="code" href="video_8h.html#ae29ed0390bca0390d3fdf55362a3663b">setPalette</a>(&amp;mariopal, 128 + 0 * 16, 16 * 2);</div>
+<div class="line">    <a name="a21"></a><a class="code" href="video_8h.html#ae29ed0390bca0390d3fdf55362a3663b">setPalette</a>(&amp;mariopal, 128 + 0 * 16, 16 * 2);</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
@@ -201,9 +201,9 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line"> </div>
 <div class="line">    <span class="comment">// check if we are still walking or not with the velocity properties of object</span></div>
 <div class="line">    <span class="keywordflow">if</span> (*marioyv != 0)</div>
-<div class="line">        marioobj-&gt;action = <a name="a14"></a><a class="code" href="map_8h.html#a8c450076e1da6d4f8aa6e1f7e6737444">ACT_FALL</a>;</div>
+<div class="line">        marioobj-&gt;<a class="code" href="structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d">action</a> = <a name="a22"></a><a class="code" href="map_8h.html#a8c450076e1da6d4f8aa6e1f7e6737444">ACT_FALL</a>;</div>
 <div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((*marioxv == 0) &amp;&amp; (*marioyv == 0))</div>
-<div class="line">        marioobj-&gt;action = <a class="code" href="map_8h.html#a227eedee0994ff2eac6ed2b691d9bcb3">ACT_STAND</a>;</div>
+<div class="line">        marioobj-&gt;<a class="code" href="structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d">action</a> = <a class="code" href="map_8h.html#a227eedee0994ff2eac6ed2b691d9bcb3">ACT_STAND</a>;</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
@@ -213,7 +213,7 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line">    <span class="comment">// if no more falling, just stand</span></div>
 <div class="line">    <span class="keywordflow">if</span> (*marioyv == 0)</div>
 <div class="line">    {</div>
-<div class="line">        marioobj-&gt;action = <a class="code" href="map_8h.html#a227eedee0994ff2eac6ed2b691d9bcb3">ACT_STAND</a>;</div>
+<div class="line">        marioobj-&gt;<a class="code" href="structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d">action</a> = <a class="code" href="map_8h.html#a227eedee0994ff2eac6ed2b691d9bcb3">ACT_STAND</a>;</div>
 <div class="line">        <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a class="code" href="structt__sprites.html#a0928afd4ac9d8c3c5cceefa44c3a520a">oamframeid</a> = 6;</div>
 <div class="line">        <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a class="code" href="structt__sprites.html#ac4e74ac3a1b9ad5b2f756c512f608cb8">oamrefresh</a> = 1;</div>
 <div class="line">    }</div>
@@ -232,7 +232,7 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line"> </div>
 <div class="line">    <span class="comment">// if no more jumping, then fall</span></div>
 <div class="line">    <span class="keywordflow">if</span> (*marioyv &gt;= 0)</div>
-<div class="line">        marioobj-&gt;action = <a class="code" href="map_8h.html#a8c450076e1da6d4f8aa6e1f7e6737444">ACT_FALL</a>;</div>
+<div class="line">        marioobj-&gt;<a class="code" href="structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d">action</a> = <a class="code" href="map_8h.html#a8c450076e1da6d4f8aa6e1f7e6737444">ACT_FALL</a>;</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
@@ -240,10 +240,10 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line"><span class="keywordtype">void</span> marioupdate(u8 idx)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// Get pad value, no move for the moment</span></div>
-<div class="line">    pad0 = <a name="a15"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
+<div class="line">    pad0 = <a name="a23"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// check only the keys for the game</span></div>
-<div class="line">    <span class="keywordflow">if</span> (pad0 &amp; (<a name="a16"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a> | <a name="a17"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a> | <a name="a18"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>))</div>
+<div class="line">    <span class="keywordflow">if</span> (pad0 &amp; (<a name="a24"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a> | <a name="a25"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a> | <a name="a26"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>))</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// go to the left</span></div>
 <div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
@@ -256,7 +256,7 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line">            <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a class="code" href="structt__sprites.html#ac0fb1ea59809017c11430630430e864d">oamattribute</a> &amp;= ~0x40; <span class="comment">// do not flip sprite</span></div>
 <div class="line"> </div>
 <div class="line">            <span class="comment">// update velocity</span></div>
-<div class="line">            marioobj-&gt;action = <a name="a19"></a><a class="code" href="map_8h.html#a912cfae6ccf6375f3c2831d65646c76b">ACT_WALK</a>;</div>
+<div class="line">            marioobj-&gt;<a class="code" href="structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d">action</a> = <a name="a27"></a><a class="code" href="map_8h.html#a912cfae6ccf6375f3c2831d65646c76b">ACT_WALK</a>;</div>
 <div class="line">            *marioxv -= (MARIO_ACCEL);</div>
 <div class="line">            <span class="keywordflow">if</span> (*marioxv &lt;= (-MARIO_MAXACCEL))</div>
 <div class="line">                *marioxv = (-MARIO_MAXACCEL);</div>
@@ -272,7 +272,7 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line">            <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a class="code" href="structt__sprites.html#ac0fb1ea59809017c11430630430e864d">oamattribute</a> |= 0x40; <span class="comment">// flip sprite</span></div>
 <div class="line"> </div>
 <div class="line">            <span class="comment">// update velocity</span></div>
-<div class="line">            marioobj-&gt;action = <a class="code" href="map_8h.html#a912cfae6ccf6375f3c2831d65646c76b">ACT_WALK</a>;</div>
+<div class="line">            marioobj-&gt;<a class="code" href="structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d">action</a> = <a class="code" href="map_8h.html#a912cfae6ccf6375f3c2831d65646c76b">ACT_WALK</a>;</div>
 <div class="line">            *marioxv += (MARIO_ACCEL);</div>
 <div class="line">            <span class="keywordflow">if</span> (*marioxv &gt;= (MARIO_MAXACCEL))</div>
 <div class="line">                *marioxv = (MARIO_MAXACCEL);</div>
@@ -281,32 +281,32 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>)</div>
 <div class="line">        {</div>
 <div class="line">            <span class="comment">// we can jump only if we are on ground</span></div>
-<div class="line">            <span class="keywordflow">if</span> ((marioobj-&gt;tilestand != 0))</div>
+<div class="line">            <span class="keywordflow">if</span> ((marioobj-&gt;<a name="a28"></a><a class="code" href="structt__objs.html#aeef697f0fac50641778967745a612f29">tilestand</a> != 0))</div>
 <div class="line">            {</div>
-<div class="line">                marioobj-&gt;action = <a name="a20"></a><a class="code" href="map_8h.html#a4617d14626ea66580d7996705d0a5bce">ACT_JUMP</a>;</div>
+<div class="line">                marioobj-&gt;<a class="code" href="structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d">action</a> = <a name="a29"></a><a class="code" href="map_8h.html#a4617d14626ea66580d7996705d0a5bce">ACT_JUMP</a>;</div>
 <div class="line">                <span class="comment">// if key up, jump 2x more</span></div>
-<div class="line">                <span class="keywordflow">if</span> (pad0 &amp; <a name="a21"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a>)</div>
+<div class="line">                <span class="keywordflow">if</span> (pad0 &amp; <a name="a30"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a>)</div>
 <div class="line">                    *marioyv = -(MARIO_HIJUMPING);</div>
 <div class="line">                <span class="keywordflow">else</span></div>
 <div class="line">                    *marioyv = -(MARIO_JUMPING);</div>
-<div class="line">                <a name="a22"></a><a class="code" href="sound_8h.html#a8e5286554841ea48b028b4b782364ab0">spcPlaySound</a>(0);</div>
+<div class="line">                <a name="a31"></a><a class="code" href="sound_8h.html#a8e5286554841ea48b028b4b782364ab0">spcPlaySound</a>(0);</div>
 <div class="line">            }</div>
 <div class="line">        }</div>
 <div class="line">    }</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// 1st, check collision with map</span></div>
-<div class="line">    <a name="a23"></a><a class="code" href="object_8h.html#a7b24f15ef5ef84efb8f31ddb7ba22c99">objCollidMap</a>(idx);</div>
+<div class="line">    <a name="a32"></a><a class="code" href="object_8h.html#a7b24f15ef5ef84efb8f31ddb7ba22c99">objCollidMap</a>(idx);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">//  update animation regarding current mario state</span></div>
-<div class="line">    <span class="keywordflow">if</span> (marioobj-&gt;action == <a class="code" href="map_8h.html#a912cfae6ccf6375f3c2831d65646c76b">ACT_WALK</a>)</div>
+<div class="line">    <span class="keywordflow">if</span> (marioobj-&gt;<a class="code" href="structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d">action</a> == <a class="code" href="map_8h.html#a912cfae6ccf6375f3c2831d65646c76b">ACT_WALK</a>)</div>
 <div class="line">        mariowalk(idx);</div>
-<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (marioobj-&gt;action == <a class="code" href="map_8h.html#a8c450076e1da6d4f8aa6e1f7e6737444">ACT_FALL</a>)</div>
+<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (marioobj-&gt;<a class="code" href="structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d">action</a> == <a class="code" href="map_8h.html#a8c450076e1da6d4f8aa6e1f7e6737444">ACT_FALL</a>)</div>
 <div class="line">        mariofall(idx);</div>
-<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (marioobj-&gt;action == <a class="code" href="map_8h.html#a4617d14626ea66580d7996705d0a5bce">ACT_JUMP</a>)</div>
+<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (marioobj-&gt;<a class="code" href="structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d">action</a> == <a class="code" href="map_8h.html#a4617d14626ea66580d7996705d0a5bce">ACT_JUMP</a>)</div>
 <div class="line">        mariojump(idx);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Update position</span></div>
-<div class="line">    <a name="a24"></a><a class="code" href="object_8h.html#a1567925f4b8a87ce6f09aa10980df652">objUpdateXY</a>(idx);</div>
+<div class="line">    <a name="a33"></a><a class="code" href="object_8h.html#a1567925f4b8a87ce6f09aa10980df652">objUpdateXY</a>(idx);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// check boundaries</span></div>
 <div class="line">    <span class="keywordflow">if</span> (*marioox &lt;= 0)</div>
@@ -317,94 +317,94 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line">    <span class="comment">// change sprite coordinates regarding map location</span></div>
 <div class="line">    mariox = (*marioox);</div>
 <div class="line">    marioy = (*mariooy);</div>
-<div class="line">    <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a name="a25"></a><a class="code" href="structt__sprites.html#a562c9dae7fe86f4faa5a9b2651567004">oamx</a> = mariox - x_pos;</div>
-<div class="line">    <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a name="a26"></a><a class="code" href="structt__sprites.html#a6c499b96e640bbad488eb8874bf36281">oamy</a> = marioy - <a name="a27"></a><a class="code" href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a>;</div>
-<div class="line">    <a name="a28"></a><a class="code" href="sprite_8h.html#aebd07ed4460088c9f3b1aca4ddbbcda8">oamDynamic16Draw</a>(0);</div>
+<div class="line">    <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a name="a34"></a><a class="code" href="structt__sprites.html#a562c9dae7fe86f4faa5a9b2651567004">oamx</a> = mariox - x_pos;</div>
+<div class="line">    <a class="code" href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a>[0].<a name="a35"></a><a class="code" href="structt__sprites.html#a6c499b96e640bbad488eb8874bf36281">oamy</a> = marioy - <a name="a36"></a><a class="code" href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a>;</div>
+<div class="line">    <a name="a37"></a><a class="code" href="sprite_8h.html#aebd07ed4460088c9f3b1aca4ddbbcda8">oamDynamic16Draw</a>(0);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// update camera regarding mario object</span></div>
-<div class="line">    <a name="a29"></a><a class="code" href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">mapUpdateCamera</a>(mariox, marioy);</div>
+<div class="line">    <a name="a38"></a><a class="code" href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">mapUpdateCamera</a>(mariox, marioy);</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// Initialize sound engine (take some time)</span></div>
-<div class="line">    <a name="a30"></a><a class="code" href="sound_8h.html#ad8753cb6edb38834257bbf0020700689">spcBoot</a>();</div>
+<div class="line">    <a name="a39"></a><a class="code" href="sound_8h.html#ad8753cb6edb38834257bbf0020700689">spcBoot</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Initialize SNES</span></div>
-<div class="line">    <a name="a31"></a><a class="code" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a>();</div>
+<div class="line">    <a name="a40"></a><a class="code" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Initialize text console with our font</span></div>
-<div class="line">    <a name="a32"></a><a class="code" href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">consoleSetTextVramBGAdr</a>(0x6000);</div>
-<div class="line">    <a name="a33"></a><a class="code" href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">consoleSetTextVramAdr</a>(0x3000);</div>
-<div class="line">    <a name="a34"></a><a class="code" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(1, 16 * 2, &amp;snesfont, &amp;snespal);</div>
+<div class="line">    <a name="a41"></a><a class="code" href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">consoleSetTextVramBGAdr</a>(0x6000);</div>
+<div class="line">    <a name="a42"></a><a class="code" href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">consoleSetTextVramAdr</a>(0x3000);</div>
+<div class="line">    <a name="a43"></a><a class="code" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(1, 16 * 2, &amp;snesfont, &amp;snespal);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Set give soundbank</span></div>
-<div class="line">    <a name="a35"></a><a class="code" href="sound_8h.html#ab68840ba8aab786b8ea206ea077acaac">spcSetBank</a>(&amp;SOUNDBANK__);</div>
+<div class="line">    <a name="a44"></a><a class="code" href="sound_8h.html#ab68840ba8aab786b8ea206ea077acaac">spcSetBank</a>(&amp;SOUNDBANK__);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// allocate around 10K of sound ram (39 256-byte blocks)</span></div>
-<div class="line">    <a name="a36"></a><a class="code" href="sound_8h.html#a2113060be24b307d1e03f167eb241b90">spcAllocateSoundRegion</a>(39);</div>
+<div class="line">    <a name="a45"></a><a class="code" href="sound_8h.html#a2113060be24b307d1e03f167eb241b90">spcAllocateSoundRegion</a>(39);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Load music</span></div>
-<div class="line">    <a name="a37"></a><a class="code" href="sound_8h.html#a313e30fb1962df9fb469f2fedd4d91e4">spcLoad</a>(MOD_OVERWORLD);</div>
+<div class="line">    <a name="a46"></a><a class="code" href="sound_8h.html#a313e30fb1962df9fb469f2fedd4d91e4">spcLoad</a>(MOD_OVERWORLD);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Load sample</span></div>
-<div class="line">    <a name="a38"></a><a class="code" href="sound_8h.html#a4ef9d5d4b7618a2e091194b6c17f75a5">spcSetSoundEntry</a>(15, 8, 6, &amp;jumpsndend - &amp;jumpsnd, &amp;jumpsnd, &amp;Jump);</div>
+<div class="line">    <a name="a47"></a><a class="code" href="sound_8h.html#a4ef9d5d4b7618a2e091194b6c17f75a5">spcSetSoundEntry</a>(15, 8, 6, &amp;jumpsndend - &amp;jumpsnd, &amp;jumpsnd, &amp;Jump);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init layer with tiles and init also map length 0x6800 is mandatory for map engine</span></div>
-<div class="line">    <a name="a39"></a><a class="code" href="background_8h.html#a0206b5b9911749322bcf9da130527924">bgSetGfxPtr</a>(1, 0x3000);</div>
-<div class="line">    <a name="a40"></a><a class="code" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(1, 0x6000, SC_32x32);</div>
-<div class="line">    <a name="a41"></a><a class="code" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(0, &amp;tileset, &amp;tilepal, 0, (&amp;tilesetend - &amp;tileset), 16 * 2, BG_16COLORS, 0x2000);</div>
+<div class="line">    <a name="a48"></a><a class="code" href="background_8h.html#a0206b5b9911749322bcf9da130527924">bgSetGfxPtr</a>(1, 0x3000);</div>
+<div class="line">    <a name="a49"></a><a class="code" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(1, 0x6000, SC_32x32);</div>
+<div class="line">    <a name="a50"></a><a class="code" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(0, &amp;tileset, &amp;tilepal, 0, (&amp;tilesetend - &amp;tileset), 16 * 2, BG_16COLORS, 0x2000);</div>
 <div class="line">    <a class="code" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(0, 0x6800, SC_64x32);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init sprite engine (0x0000 for large, 0x1000 for small)</span></div>
-<div class="line">    <a name="a42"></a><a class="code" href="sprite_8h.html#adc3b431ee9b6bc613e5e4e6734dbfc08">oamInitDynamicSprite</a>(0x0000, 0x1000, 0, 0, <a name="a43"></a><a class="code" href="sprite_8h.html#aa91348e1375ed07236694a7d81fa9ecf">OBJ_SIZE8_L16</a>);</div>
+<div class="line">    <a name="a51"></a><a class="code" href="sprite_8h.html#adc3b431ee9b6bc613e5e4e6734dbfc08">oamInitDynamicSprite</a>(0x0000, 0x1000, 0, 0, <a name="a52"></a><a class="code" href="sprite_8h.html#aa91348e1375ed07236694a7d81fa9ecf">OBJ_SIZE8_L16</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Object engine activate</span></div>
-<div class="line">    <a name="a44"></a><a class="code" href="object_8h.html#ad010f8c119dbd982acd9ddd859f2acec">objInitEngine</a>();</div>
+<div class="line">    <a name="a53"></a><a class="code" href="object_8h.html#ad010f8c119dbd982acd9ddd859f2acec">objInitEngine</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init function for state machine</span></div>
 <div class="line">    objInitFunctions(0, &amp;marioinit, &amp;marioupdate, NULL);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Load all objects into memory</span></div>
-<div class="line">    <a name="a45"></a><a class="code" href="object_8h.html#aeda7828a0cb93ff1985ac0237ac5871b">objLoadObjects</a>((<span class="keywordtype">char</span> *)&amp;objmario);</div>
+<div class="line">    <a name="a54"></a><a class="code" href="object_8h.html#aeda7828a0cb93ff1985ac0237ac5871b">objLoadObjects</a>((<span class="keywordtype">char</span> *)&amp;objmario);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Load map in memory and update it regarding current location of the sprite</span></div>
-<div class="line">    <a name="a46"></a><a class="code" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">mapLoad</a>((u8 *)&amp;mapmario, (u8 *)&amp;tilesetdef, (u8 *)&amp;tilesetatt);</div>
+<div class="line">    <a name="a55"></a><a class="code" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">mapLoad</a>((u8 *)&amp;mapmario, (u8 *)&amp;tilesetdef, (u8 *)&amp;tilesetatt);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode and disable BG3</span></div>
-<div class="line">    <a name="a47"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE1, 0);</div>
-<div class="line">    <a name="a48"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
+<div class="line">    <a name="a56"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE1, 0);</div>
+<div class="line">    <a name="a57"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Put some text</span></div>
-<div class="line">    <a name="a49"></a><a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(6, 16, <span class="stringliteral">&quot;MARIOx00  WORLD TIME&quot;</span>);</div>
+<div class="line">    <a name="a58"></a><a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(6, 16, <span class="stringliteral">&quot;MARIOx00  WORLD TIME&quot;</span>);</div>
 <div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(6, 17, <span class="stringliteral">&quot; 00000 ox00 1-1  000&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Put screen on</span></div>
-<div class="line">    <a name="a50"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
+<div class="line">    <a name="a59"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Play file from the beginning</span></div>
-<div class="line">    <a name="a51"></a><a class="code" href="sound_8h.html#aebf91de1df5e4fa83454a84bb0e60918">spcPlay</a>(0);</div>
-<div class="line">    <a name="a52"></a><a class="code" href="sound_8h.html#ae2c8dfab62ceecf5c302c95f5453a752">spcSetModuleVolume</a>(100);</div>
+<div class="line">    <a name="a60"></a><a class="code" href="sound_8h.html#aebf91de1df5e4fa83454a84bb0e60918">spcPlay</a>(0);</div>
+<div class="line">    <a name="a61"></a><a class="code" href="sound_8h.html#ae2c8dfab62ceecf5c302c95f5453a752">spcSetModuleVolume</a>(100);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Wait VBL &#39;and update sprites too ;-) )</span></div>
-<div class="line">    <a name="a53"></a><a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
+<div class="line">    <a name="a62"></a><a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Wait for nothing :P</span></div>
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// Update the map regarding the camera</span></div>
-<div class="line">        <a name="a54"></a><a class="code" href="map_8h.html#a332bfe570835ef05934b712fd9701c88">mapUpdate</a>();</div>
+<div class="line">        <a name="a63"></a><a class="code" href="map_8h.html#a332bfe570835ef05934b712fd9701c88">mapUpdate</a>();</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Update all the available objects</span></div>
-<div class="line">        <a name="a55"></a><a class="code" href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a>();</div>
+<div class="line">        <a name="a64"></a><a class="code" href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a>();</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// prepare next frame and wait vblank</span></div>
-<div class="line">        <a name="a56"></a><a class="code" href="sprite_8h.html#ac9eb3b2751e5b744470cd16453ff3261">oamInitDynamicSpriteEndFrame</a>();</div>
-<div class="line">        <a name="a57"></a><a class="code" href="sound_8h.html#acab7d87110bac6baa9d74ab314772c98">spcProcess</a>();</div>
+<div class="line">        <a name="a65"></a><a class="code" href="sprite_8h.html#ac9eb3b2751e5b744470cd16453ff3261">oamInitDynamicSpriteEndFrame</a>();</div>
+<div class="line">        <a name="a66"></a><a class="code" href="sound_8h.html#acab7d87110bac6baa9d74ab314772c98">spcProcess</a>();</div>
 <div class="line">        <a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">        <a name="a58"></a><a class="code" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a>();</div>
-<div class="line">        <a name="a59"></a><a class="code" href="sprite_8h.html#a4f830004646995018000dae0f898d221">oamVramQueueUpdate</a>();</div>
+<div class="line">        <a name="a67"></a><a class="code" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a>();</div>
+<div class="line">        <a name="a68"></a><a class="code" href="sprite_8h.html#a4f830004646995018000dae0f898d221">oamVramQueueUpdate</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
@@ -459,13 +459,22 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="ttc" id="asprite_8h_html_ac9eb3b2751e5b744470cd16453ff3261"><div class="ttname"><a href="sprite_8h.html#ac9eb3b2751e5b744470cd16453ff3261">oamInitDynamicSpriteEndFrame</a></div><div class="ttdeci">void oamInitDynamicSpriteEndFrame(void)</div><div class="ttdoc">Must be call at the end of the frame, initialize the dynamic sprite engine for the next frame.</div></div>
 <div class="ttc" id="asprite_8h_html_adc3b431ee9b6bc613e5e4e6734dbfc08"><div class="ttname"><a href="sprite_8h.html#adc3b431ee9b6bc613e5e4e6734dbfc08">oamInitDynamicSprite</a></div><div class="ttdeci">void oamInitDynamicSprite(u16 gfxsp0adr, u16 gfxsp1adr, u16 oamsp0init, u16 oamsp1init, u8 oamsize)</div><div class="ttdoc">initialize the dynamic sprite engine with each sprite size entries</div></div>
 <div class="ttc" id="asprite_8h_html_aebd07ed4460088c9f3b1aca4ddbbcda8"><div class="ttname"><a href="sprite_8h.html#aebd07ed4460088c9f3b1aca4ddbbcda8">oamDynamic16Draw</a></div><div class="ttdeci">void oamDynamic16Draw(u16 id)</div><div class="ttdoc">Add a 16x16 sprite on screen. oambuffer[id] needs to be populate before.</div></div>
-<div class="ttc" id="astructbrrsamples_html"><div class="ttname"><a href="structbrrsamples.html">brrsamples</a></div><div class="ttdoc">Sound header(8 bytes)</div><div class="ttdef"><b>Definition:</b> sound.h:49</div></div>
-<div class="ttc" id="astructt__sprites_html_a0928afd4ac9d8c3c5cceefa44c3a520a"><div class="ttname"><a href="structt__sprites.html#a0928afd4ac9d8c3c5cceefa44c3a520a">t_sprites::oamframeid</a></div><div class="ttdeci">u16 oamframeid</div><div class="ttdef"><b>Definition:</b> sprite.h:60</div></div>
-<div class="ttc" id="astructt__sprites_html_a562c9dae7fe86f4faa5a9b2651567004"><div class="ttname"><a href="structt__sprites.html#a562c9dae7fe86f4faa5a9b2651567004">t_sprites::oamx</a></div><div class="ttdeci">s16 oamx</div><div class="ttdef"><b>Definition:</b> sprite.h:58</div></div>
-<div class="ttc" id="astructt__sprites_html_a5e3bc84cd8412db107dd282ccb5a5738"><div class="ttname"><a href="structt__sprites.html#a5e3bc84cd8412db107dd282ccb5a5738">t_sprites::oamgraphics</a></div><div class="ttdeci">u8 * oamgraphics</div><div class="ttdef"><b>Definition:</b> sprite.h:63</div></div>
-<div class="ttc" id="astructt__sprites_html_a6c499b96e640bbad488eb8874bf36281"><div class="ttname"><a href="structt__sprites.html#a6c499b96e640bbad488eb8874bf36281">t_sprites::oamy</a></div><div class="ttdeci">s16 oamy</div><div class="ttdef"><b>Definition:</b> sprite.h:59</div></div>
-<div class="ttc" id="astructt__sprites_html_ac0fb1ea59809017c11430630430e864d"><div class="ttname"><a href="structt__sprites.html#ac0fb1ea59809017c11430630430e864d">t_sprites::oamattribute</a></div><div class="ttdeci">u8 oamattribute</div><div class="ttdef"><b>Definition:</b> sprite.h:61</div></div>
-<div class="ttc" id="astructt__sprites_html_ac4e74ac3a1b9ad5b2f756c512f608cb8"><div class="ttname"><a href="structt__sprites.html#ac4e74ac3a1b9ad5b2f756c512f608cb8">t_sprites::oamrefresh</a></div><div class="ttdeci">u8 oamrefresh</div><div class="ttdef"><b>Definition:</b> sprite.h:62</div></div>
+<div class="ttc" id="astructbrrsamples_html"><div class="ttname"><a href="structbrrsamples.html">brrsamples</a></div><div class="ttdoc">brr sample sound header(8 bytes)</div><div class="ttdef"><b>Definition:</b> sound.h:51</div></div>
+<div class="ttc" id="astructt__objs_html"><div class="ttname"><a href="structt__objs.html">t_objs</a></div><div class="ttdoc">object definition (64 bytes)</div><div class="ttdef"><b>Definition:</b> object.h:45</div></div>
+<div class="ttc" id="astructt__objs_html_a3bf3757f174f93270ff558d1351a7872"><div class="ttname"><a href="structt__objs.html#a3bf3757f174f93270ff558d1351a7872">t_objs::height</a></div><div class="ttdeci">u16 height</div><div class="ttdef"><b>Definition:</b> object.h:61</div></div>
+<div class="ttc" id="astructt__objs_html_a44853e98e10b36f63d1d0d23ff37ecd0"><div class="ttname"><a href="structt__objs.html#a44853e98e10b36f63d1d0d23ff37ecd0">t_objs::width</a></div><div class="ttdeci">u16 width</div><div class="ttdef"><b>Definition:</b> object.h:60</div></div>
+<div class="ttc" id="astructt__objs_html_a7aa31dcb802be971b0f425a01e6b843e"><div class="ttname"><a href="structt__objs.html#a7aa31dcb802be971b0f425a01e6b843e">t_objs::yvel</a></div><div class="ttdeci">u16 yvel</div><div class="ttdef"><b>Definition:</b> object.h:65</div></div>
+<div class="ttc" id="astructt__objs_html_a7d8d754f7264eebc304486e94750c5ce"><div class="ttname"><a href="structt__objs.html#a7d8d754f7264eebc304486e94750c5ce">t_objs::xpos</a></div><div class="ttdeci">u8 xpos[3]</div><div class="ttdef"><b>Definition:</b> object.h:56</div></div>
+<div class="ttc" id="astructt__objs_html_ae7d9e737a340022fb479b10115082c64"><div class="ttname"><a href="structt__objs.html#ae7d9e737a340022fb479b10115082c64">t_objs::xvel</a></div><div class="ttdeci">u16 xvel</div><div class="ttdef"><b>Definition:</b> object.h:64</div></div>
+<div class="ttc" id="astructt__objs_html_aeef697f0fac50641778967745a612f29"><div class="ttname"><a href="structt__objs.html#aeef697f0fac50641778967745a612f29">t_objs::tilestand</a></div><div class="ttdeci">u16 tilestand</div><div class="ttdef"><b>Definition:</b> object.h:66</div></div>
+<div class="ttc" id="astructt__objs_html_af033b263019aea8c1fb4fd095dde7997"><div class="ttname"><a href="structt__objs.html#af033b263019aea8c1fb4fd095dde7997">t_objs::ypos</a></div><div class="ttdeci">u8 ypos[3]</div><div class="ttdef"><b>Definition:</b> object.h:57</div></div>
+<div class="ttc" id="astructt__objs_html_af4bfdc0bbd947feb9ea45fd95f735a9d"><div class="ttname"><a href="structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d">t_objs::action</a></div><div class="ttdeci">u16 action</div><div class="ttdef"><b>Definition:</b> object.h:70</div></div>
+<div class="ttc" id="astructt__sprites_html_a0928afd4ac9d8c3c5cceefa44c3a520a"><div class="ttname"><a href="structt__sprites.html#a0928afd4ac9d8c3c5cceefa44c3a520a">t_sprites::oamframeid</a></div><div class="ttdeci">u16 oamframeid</div><div class="ttdef"><b>Definition:</b> sprite.h:62</div></div>
+<div class="ttc" id="astructt__sprites_html_a562c9dae7fe86f4faa5a9b2651567004"><div class="ttname"><a href="structt__sprites.html#a562c9dae7fe86f4faa5a9b2651567004">t_sprites::oamx</a></div><div class="ttdeci">s16 oamx</div><div class="ttdef"><b>Definition:</b> sprite.h:60</div></div>
+<div class="ttc" id="astructt__sprites_html_a5e3bc84cd8412db107dd282ccb5a5738"><div class="ttname"><a href="structt__sprites.html#a5e3bc84cd8412db107dd282ccb5a5738">t_sprites::oamgraphics</a></div><div class="ttdeci">u8 * oamgraphics</div><div class="ttdef"><b>Definition:</b> sprite.h:65</div></div>
+<div class="ttc" id="astructt__sprites_html_a6c499b96e640bbad488eb8874bf36281"><div class="ttname"><a href="structt__sprites.html#a6c499b96e640bbad488eb8874bf36281">t_sprites::oamy</a></div><div class="ttdeci">s16 oamy</div><div class="ttdef"><b>Definition:</b> sprite.h:61</div></div>
+<div class="ttc" id="astructt__sprites_html_ac0fb1ea59809017c11430630430e864d"><div class="ttname"><a href="structt__sprites.html#ac0fb1ea59809017c11430630430e864d">t_sprites::oamattribute</a></div><div class="ttdeci">u8 oamattribute</div><div class="ttdef"><b>Definition:</b> sprite.h:63</div></div>
+<div class="ttc" id="astructt__sprites_html_ac4e74ac3a1b9ad5b2f756c512f608cb8"><div class="ttname"><a href="structt__sprites.html#ac4e74ac3a1b9ad5b2f756c512f608cb8">t_sprites::oamrefresh</a></div><div class="ttdeci">u8 oamrefresh</div><div class="ttdef"><b>Definition:</b> sprite.h:64</div></div>
 <div class="ttc" id="avideo_8h_html_abc7d4ef8ebc22f5b710927909bb3f144"><div class="ttname"><a href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a></div><div class="ttdeci">void setScreenOn(void)</div><div class="ttdoc">Put screen On.</div></div>
 <div class="ttc" id="avideo_8h_html_ae29ed0390bca0390d3fdf55362a3663b"><div class="ttname"><a href="video_8h.html#ae29ed0390bca0390d3fdf55362a3663b">setPalette</a></div><div class="ttdeci">#define setPalette(palette, paletteEntry, paletteSize)</div><div class="ttdoc">Change a palette in CGRAM.</div><div class="ttdef"><b>Definition:</b> video.h:380</div></div>
 <div class="ttc" id="avideo_8h_html_afd9e46ae627d055dd8c98a4b0ebb73b1"><div class="ttname"><a href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a></div><div class="ttdeci">void setMode(u8 mode, u8 size)</div><div class="ttdoc">Set the SNES hardware to operate in new display mode.</div></div>
@@ -474,7 +483,7 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Wed Feb 22 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sat Mar 18 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

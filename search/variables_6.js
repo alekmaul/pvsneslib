@@ -1,15 +1,11 @@
 var searchData=
 [
-  ['oamattribute_516',['oamattribute',['../structt__sprites.html#ac0fb1ea59809017c11430630430e864d',1,'t_sprites']]],
-  ['oambuffer_517',['oambuffer',['../sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f',1,'sprite.h']]],
-  ['oamframeid_518',['oamframeid',['../structt__sprites.html#a0928afd4ac9d8c3c5cceefa44c3a520a',1,'t_sprites']]],
-  ['oamgraphics_519',['oamgraphics',['../structt__sprites.html#a5e3bc84cd8412db107dd282ccb5a5738',1,'t_sprites']]],
-  ['oammemory_520',['oamMemory',['../sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848',1,'sprite.h']]],
-  ['oamrefresh_521',['oamrefresh',['../structt__sprites.html#ac4e74ac3a1b9ad5b2f756c512f608cb8',1,'t_sprites']]],
-  ['oamx_522',['oamx',['../structt__sprites.html#a562c9dae7fe86f4faa5a9b2651567004',1,'t_sprites']]],
-  ['oamy_523',['oamy',['../structt__sprites.html#a6c499b96e640bbad488eb8874bf36281',1,'t_sprites']]],
-  ['objbuffers_524',['objbuffers',['../object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1',1,'object.h']]],
-  ['objgetid_525',['objgetid',['../object_8h.html#ad4b2cf3a008d2011baf65b7ed74eaf65',1,'object.h']]],
-  ['objptr_526',['objptr',['../object_8h.html#a9e81915d1e68d22798a93bb27eb74188',1,'object.h']]],
-  ['objtokill_527',['objtokill',['../object_8h.html#adbc29a5fc1d8493c4a23d739727aaef3',1,'object.h']]]
+  ['mapupdbuf_549',['mapupdbuf',['../map_8h.html#ab13b1b784e3f0f177501c469853c894e',1,'map.h']]],
+  ['metsprattribute_550',['metsprattribute',['../structt__metasprites.html#ab02138a421a6916cbddb409447c6d1e6',1,'t_metasprites']]],
+  ['metsprend_551',['metsprend',['../structt__metasprites.html#af5be9d6ce672123e6383e7fd15cd6525',1,'t_metasprites']]],
+  ['metsprframeid_552',['metsprframeid',['../structt__metasprites.html#aca8bec6dfdaad3769ff56aef3fc51976',1,'t_metasprites']]],
+  ['metsprgraphics_553',['metsprgraphics',['../structt__metasprites.html#ab1cd25d0cb7815172bcfef01d400f135',1,'t_metasprites']]],
+  ['metsprofsx_554',['metsprofsx',['../structt__metasprites.html#a8967fcf53bf5b75521f4c9fdd3bb48e7',1,'t_metasprites']]],
+  ['metsprofsy_555',['metsprofsy',['../structt__metasprites.html#aa520d5d1cf0022f03f103ff40b3b8b1d',1,'t_metasprites']]],
+  ['metsprtype_556',['metsprtype',['../structt__metasprites.html#ac6440acd1181f124e9e96ca2bbbf57a4',1,'t_metasprites']]]
 ];

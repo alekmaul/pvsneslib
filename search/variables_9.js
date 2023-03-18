@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['videomode_535',['videoMode',['../video_8h.html#a156a14f040a0569d1c1b59c94669aa6f',1,'video.h']]],
-  ['videomodesub_536',['videoModeSub',['../video_8h.html#a4da52999afa3808bd6e797c9fbf584aa',1,'video.h']]],
-  ['volume_537',['volume',['../structbrrsamples.html#a2cb1142e9dfc5abce53ef89387bbea32',1,'brrsamples']]]
+  ['panning_573',['panning',['../structbrrsamples.html#a8e61543808f3aed3dfcca0fd933bfe92',1,'brrsamples']]],
+  ['parentid_574',['parentID',['../structt__objs.html#a126da553800ad52ce87634a199c222a2',1,'t_objs']]],
+  ['pitch_575',['pitch',['../structbrrsamples.html#a112d2def415a46e02e078f29fe89150d',1,'brrsamples']]],
+  ['prev_576',['prev',['../structt__objs.html#a75a67b882b8b551803155c2fa879900b',1,'t_objs']]]
 ];

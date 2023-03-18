@@ -32,6 +32,7 @@ var examples =
     [ "games/likemario/LikeMario.c", "games_2likemario_2_like_mario_8c-example.html", null ],
     [ "games/breakout/breakout.c", "games_2breakout_2breakout_8c-example.html", null ],
     [ "audio/effects/effects.c", "audio_2effects_2effects_8c-example.html", null ],
+    [ "audio/effectsandmusic/effectsandmusic.c", "audio_2effectsandmusic_2effectsandmusic_8c-example.html", null ],
     [ "audio/music/Music.c", "audio_2music_2_music_8c-example.html", null ],
     [ "audio/tada/Tada.c", "audio_2tada_2_tada_8c-example.html", null ],
     [ "audio/musicGreaterThan32k/musicGreaterThan32k.c", "audio_2music_greater_than32k_2music_greater_than32k_8c-example.html", null ],

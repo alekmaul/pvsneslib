@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.0.1</span>
+   &#160;<span id="projectnumber">4.0.2</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -95,7 +95,7 @@ $(document).ready(function(){initNavTree('sound_8h_source.html',''); initResizab
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">    Sound functions.</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">    Copyright (C) 2012-2013</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">    Copyright (C) 2012-2023</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">        Alekmaul</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">    This software is provided &#39;as-is&#39;, without any express or implied</span></div>
@@ -124,63 +124,63 @@ $(document).ready(function(){initNavTree('sound_8h_source.html',''); initResizab
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="snestypes_8h.html">snes/snestypes.h</a>&gt;</span></div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="interrupt_8h.html">snes/interrupt.h</a>&gt;</span></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="structbrrsamples.html">   48</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="structbrrsamples.html#a112d2def415a46e02e078f29fe89150d">   50</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#a112d2def415a46e02e078f29fe89150d">pitch</a>;   </div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="structbrrsamples.html#a8e61543808f3aed3dfcca0fd933bfe92">   51</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#a8e61543808f3aed3dfcca0fd933bfe92">panning</a>; </div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="structbrrsamples.html#a2cb1142e9dfc5abce53ef89387bbea32">   52</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#a2cb1142e9dfc5abce53ef89387bbea32">volume</a>;  </div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="structbrrsamples.html#a88adcde351bda684d978194a6a2993d5">   53</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#a88adcde351bda684d978194a6a2993d5">length1</a>; </div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="structbrrsamples.html#a31a76cfd2811dac5df70684e6ab0beb3">   54</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#a31a76cfd2811dac5df70684e6ab0beb3">length2</a>; </div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="structbrrsamples.html#a59ba4c3685f1ff631858af06a51c6672">   55</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#a59ba4c3685f1ff631858af06a51c6672">addr1</a>;   </div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="structbrrsamples.html#a46ec973f7c37bb07422e909d087e174a">   56</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#a46ec973f7c37bb07422e909d087e174a">addr2</a>;   </div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="structbrrsamples.html#ad37960d64ecbb142a50cd2e139b44d21">   57</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#ad37960d64ecbb142a50cd2e139b44d21">bank</a>;    </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;} <a class="code" href="structbrrsamples.html">brrsamples</a>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="sound_8h.html#a11d724391e894d7a876635ffb45e1fd9">   71</a></span>&#160;<span class="preprocessor">#define REG_APU00 (*(vuint8 *)0x2140)</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#define REG_APU01 (*(vuint8 *)0x2141)</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#define REG_APU02 (*(vuint8 *)0x2142)</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#define REG_APU03 (*(vuint8 *)0x2143)</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#define REG_APU0001 (*(vuint16 *)0x2140)</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#define REG_APU0203 (*(vuint16 *)0x2142)</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="sound_8h.html#ad8753cb6edb38834257bbf0020700689">   81</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#ad8753cb6edb38834257bbf0020700689">spcBoot</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="sound_8h.html#ab68840ba8aab786b8ea206ea077acaac">   87</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#ab68840ba8aab786b8ea206ea077acaac">spcSetBank</a>(u8 *bank);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="sound_8h.html#a313e30fb1962df9fb469f2fedd4d91e4">   93</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a313e30fb1962df9fb469f2fedd4d91e4">spcLoad</a>(u16 musIndex);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="sound_8h.html#a57d9e744cfa33d55d543b172df59d518">   99</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a57d9e744cfa33d55d543b172df59d518">spcLoadEffect</a>(u16 sfxIndex);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="sound_8h.html#aebf91de1df5e4fa83454a84bb0e60918">  112</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#aebf91de1df5e4fa83454a84bb0e60918">spcPlay</a>(u8 startPos);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="sound_8h.html#af7366527acd378585446999f84d1c6d0">  117</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#af7366527acd378585446999f84d1c6d0">spcStop</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="sound_8h.html#ae2c8dfab62ceecf5c302c95f5453a752">  123</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#ae2c8dfab62ceecf5c302c95f5453a752">spcSetModuleVolume</a>(u8 vol);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
-<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="sound_8h.html#a57a421beca64a638a15579c6a465c522">  130</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a57a421beca64a638a15579c6a465c522">spcFadeModuleVolume</a>(u16 vol, u16 fadespeed);</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="sound_8h.html#a43c7b104744ce3193cbd4b59ba5b8907">  135</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a43c7b104744ce3193cbd4b59ba5b8907">spcFlush</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
-<div class="line"><a name="l00145"></a><span class="lineno"><a class="line" href="sound_8h.html#acab7d87110bac6baa9d74ab314772c98">  145</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#acab7d87110bac6baa9d74ab314772c98">spcProcess</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
-<div class="line"><a name="l00153"></a><span class="lineno"><a class="line" href="sound_8h.html#a99af3b788490e155674f57f455c6be38">  153</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a99af3b788490e155674f57f455c6be38">spcEffect</a>(u16 pitch, u16 sfxIndex, u8 volpan);</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
-<div class="line"><a name="l00160"></a><span class="lineno"><a class="line" href="sound_8h.html#ad1eb603fd2445102225319797d226fea">  160</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#ad1eb603fd2445102225319797d226fea">spcSetSoundTable</a>(u16 sndTableAddr, u8 sndTableBank);</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
-<div class="line"><a name="l00171"></a><span class="lineno"><a class="line" href="sound_8h.html#a4ef9d5d4b7618a2e091194b6c17f75a5">  171</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a4ef9d5d4b7618a2e091194b6c17f75a5">spcSetSoundEntry</a>(u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, <a class="code" href="structbrrsamples.html">brrsamples</a> *ptr);</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160; </div>
-<div class="line"><a name="l00182"></a><span class="lineno"><a class="line" href="sound_8h.html#a6febc2b960755ba902950ee9c93ab637">  182</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a6febc2b960755ba902950ee9c93ab637">spcSetSoundDataEntry</a>(u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, <a class="code" href="structbrrsamples.html">brrsamples</a> *ptr);</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="comment">//---------------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="comment"></span><span class="keywordtype">void</span> spcSetSoundTableEntry(<a class="code" href="structbrrsamples.html">brrsamples</a> *ptr);</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
-<div class="line"><a name="l00202"></a><span class="lineno"><a class="line" href="sound_8h.html#a2113060be24b307d1e03f167eb241b90">  202</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a2113060be24b307d1e03f167eb241b90">spcAllocateSoundRegion</a>(u8 size);</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160; </div>
-<div class="line"><a name="l00208"></a><span class="lineno"><a class="line" href="sound_8h.html#a8e5286554841ea48b028b4b782364ab0">  208</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a8e5286554841ea48b028b4b782364ab0">spcPlaySound</a>(u8 sndIndex);</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160; </div>
-<div class="line"><a name="l00215"></a><span class="lineno"><a class="line" href="sound_8h.html#a6065e170a377a476c1bed7ac23e65d9f">  215</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a6065e170a377a476c1bed7ac23e65d9f">spcPlaySoundV</a>(u8 sndIndex, u16 volume);</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160; </div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// SNES_SOUND_INCLUDE</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="structbrrsamples.html">   50</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="structbrrsamples.html#a112d2def415a46e02e078f29fe89150d">   52</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#a112d2def415a46e02e078f29fe89150d">pitch</a>;   </div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="structbrrsamples.html#a8e61543808f3aed3dfcca0fd933bfe92">   53</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#a8e61543808f3aed3dfcca0fd933bfe92">panning</a>; </div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="structbrrsamples.html#a2cb1142e9dfc5abce53ef89387bbea32">   54</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#a2cb1142e9dfc5abce53ef89387bbea32">volume</a>;  </div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="structbrrsamples.html#a88adcde351bda684d978194a6a2993d5">   55</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#a88adcde351bda684d978194a6a2993d5">length1</a>; </div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="structbrrsamples.html#a31a76cfd2811dac5df70684e6ab0beb3">   56</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#a31a76cfd2811dac5df70684e6ab0beb3">length2</a>; </div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="structbrrsamples.html#a59ba4c3685f1ff631858af06a51c6672">   57</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#a59ba4c3685f1ff631858af06a51c6672">addr1</a>;   </div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="structbrrsamples.html#a46ec973f7c37bb07422e909d087e174a">   58</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#a46ec973f7c37bb07422e909d087e174a">addr2</a>;   </div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="structbrrsamples.html#ad37960d64ecbb142a50cd2e139b44d21">   59</a></span>&#160;    u8 <a class="code" href="structbrrsamples.html#ad37960d64ecbb142a50cd2e139b44d21">bank</a>;    </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;} <a class="code" href="structbrrsamples.html">brrsamples</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="sound_8h.html#a11d724391e894d7a876635ffb45e1fd9">   73</a></span>&#160;<span class="preprocessor">#define REG_APU00 (*(vuint8 *)0x2140)</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#define REG_APU01 (*(vuint8 *)0x2141)</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#define REG_APU02 (*(vuint8 *)0x2142)</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#define REG_APU03 (*(vuint8 *)0x2143)</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#define REG_APU0001 (*(vuint16 *)0x2140)</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#define REG_APU0203 (*(vuint16 *)0x2142)</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="sound_8h.html#ad8753cb6edb38834257bbf0020700689">   83</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#ad8753cb6edb38834257bbf0020700689">spcBoot</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="sound_8h.html#ab68840ba8aab786b8ea206ea077acaac">   89</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#ab68840ba8aab786b8ea206ea077acaac">spcSetBank</a>(u8 *bank);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="sound_8h.html#a313e30fb1962df9fb469f2fedd4d91e4">   95</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a313e30fb1962df9fb469f2fedd4d91e4">spcLoad</a>(u16 musIndex);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="sound_8h.html#a57d9e744cfa33d55d543b172df59d518">  101</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a57d9e744cfa33d55d543b172df59d518">spcLoadEffect</a>(u16 sfxIndex);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="sound_8h.html#aebf91de1df5e4fa83454a84bb0e60918">  114</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#aebf91de1df5e4fa83454a84bb0e60918">spcPlay</a>(u8 startPos);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="sound_8h.html#af7366527acd378585446999f84d1c6d0">  119</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#af7366527acd378585446999f84d1c6d0">spcStop</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="sound_8h.html#ae2c8dfab62ceecf5c302c95f5453a752">  125</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#ae2c8dfab62ceecf5c302c95f5453a752">spcSetModuleVolume</a>(u8 vol);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="sound_8h.html#a57a421beca64a638a15579c6a465c522">  132</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a57a421beca64a638a15579c6a465c522">spcFadeModuleVolume</a>(u16 vol, u16 fadespeed);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00137"></a><span class="lineno"><a class="line" href="sound_8h.html#a43c7b104744ce3193cbd4b59ba5b8907">  137</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a43c7b104744ce3193cbd4b59ba5b8907">spcFlush</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
+<div class="line"><a name="l00147"></a><span class="lineno"><a class="line" href="sound_8h.html#acab7d87110bac6baa9d74ab314772c98">  147</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#acab7d87110bac6baa9d74ab314772c98">spcProcess</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
+<div class="line"><a name="l00155"></a><span class="lineno"><a class="line" href="sound_8h.html#a99af3b788490e155674f57f455c6be38">  155</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a99af3b788490e155674f57f455c6be38">spcEffect</a>(u16 pitch, u16 sfxIndex, u8 volpan);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
+<div class="line"><a name="l00162"></a><span class="lineno"><a class="line" href="sound_8h.html#ad1eb603fd2445102225319797d226fea">  162</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#ad1eb603fd2445102225319797d226fea">spcSetSoundTable</a>(u16 sndTableAddr, u8 sndTableBank);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
+<div class="line"><a name="l00173"></a><span class="lineno"><a class="line" href="sound_8h.html#a4ef9d5d4b7618a2e091194b6c17f75a5">  173</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a4ef9d5d4b7618a2e091194b6c17f75a5">spcSetSoundEntry</a>(u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, <a class="code" href="structbrrsamples.html">brrsamples</a> *ptr);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00184"></a><span class="lineno"><a class="line" href="sound_8h.html#a6febc2b960755ba902950ee9c93ab637">  184</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a6febc2b960755ba902950ee9c93ab637">spcSetSoundDataEntry</a>(u8 vol, u8 panning, u8 pitch, u16 length, u8 *sampleaddr, <a class="code" href="structbrrsamples.html">brrsamples</a> *ptr);</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="comment">//---------------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="comment"></span><span class="keywordtype">void</span> spcSetSoundTableEntry(<a class="code" href="structbrrsamples.html">brrsamples</a> *ptr);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
+<div class="line"><a name="l00204"></a><span class="lineno"><a class="line" href="sound_8h.html#a2113060be24b307d1e03f167eb241b90">  204</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a2113060be24b307d1e03f167eb241b90">spcAllocateSoundRegion</a>(u8 size);</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160; </div>
+<div class="line"><a name="l00212"></a><span class="lineno"><a class="line" href="sound_8h.html#a8e5286554841ea48b028b4b782364ab0">  212</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a8e5286554841ea48b028b4b782364ab0">spcPlaySound</a>(u8 sndIndex);</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160; </div>
+<div class="line"><a name="l00221"></a><span class="lineno"><a class="line" href="sound_8h.html#a6065e170a377a476c1bed7ac23e65d9f">  221</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="sound_8h.html#a6065e170a377a476c1bed7ac23e65d9f">spcPlaySoundV</a>(u8 sndIndex, u16 volume);</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160; </div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// SNES_SOUND_INCLUDE</span></div>
 <div class="ttc" id="ainterrupt_8h_html"><div class="ttname"><a href="interrupt_8h.html">interrupt.h</a></div><div class="ttdoc">snes interrupt support.</div></div>
 <div class="ttc" id="asnestypes_8h_html"><div class="ttname"><a href="snestypes_8h.html">snestypes.h</a></div><div class="ttdoc">Custom types used by libsnes.</div></div>
 <div class="ttc" id="asound_8h_html_a2113060be24b307d1e03f167eb241b90"><div class="ttname"><a href="sound_8h.html#a2113060be24b307d1e03f167eb241b90">spcAllocateSoundRegion</a></div><div class="ttdeci">void spcAllocateSoundRegion(u8 size)</div><div class="ttdoc">set the size of the sound region (this must be big enough to hold your longest/largest sound) this fu...</div></div>
@@ -200,22 +200,22 @@ $(document).ready(function(){initNavTree('sound_8h_source.html',''); initResizab
 <div class="ttc" id="asound_8h_html_ae2c8dfab62ceecf5c302c95f5453a752"><div class="ttname"><a href="sound_8h.html#ae2c8dfab62ceecf5c302c95f5453a752">spcSetModuleVolume</a></div><div class="ttdeci">void spcSetModuleVolume(u8 vol)</div><div class="ttdoc">set the module playback volume</div></div>
 <div class="ttc" id="asound_8h_html_aebf91de1df5e4fa83454a84bb0e60918"><div class="ttname"><a href="sound_8h.html#aebf91de1df5e4fa83454a84bb0e60918">spcPlay</a></div><div class="ttdeci">void spcPlay(u8 startPos)</div><div class="ttdoc">play module. note: this simply queues a message, use spcFlush if you want to wait until the message i...</div></div>
 <div class="ttc" id="asound_8h_html_af7366527acd378585446999f84d1c6d0"><div class="ttname"><a href="sound_8h.html#af7366527acd378585446999f84d1c6d0">spcStop</a></div><div class="ttdeci">void spcStop(void)</div><div class="ttdoc">stop playing the current module.</div></div>
-<div class="ttc" id="astructbrrsamples_html"><div class="ttname"><a href="structbrrsamples.html">brrsamples</a></div><div class="ttdoc">Sound header(8 bytes)</div><div class="ttdef"><b>Definition:</b> sound.h:49</div></div>
-<div class="ttc" id="astructbrrsamples_html_a112d2def415a46e02e078f29fe89150d"><div class="ttname"><a href="structbrrsamples.html#a112d2def415a46e02e078f29fe89150d">brrsamples::pitch</a></div><div class="ttdeci">u8 pitch</div><div class="ttdef"><b>Definition:</b> sound.h:50</div></div>
-<div class="ttc" id="astructbrrsamples_html_a2cb1142e9dfc5abce53ef89387bbea32"><div class="ttname"><a href="structbrrsamples.html#a2cb1142e9dfc5abce53ef89387bbea32">brrsamples::volume</a></div><div class="ttdeci">u8 volume</div><div class="ttdef"><b>Definition:</b> sound.h:52</div></div>
-<div class="ttc" id="astructbrrsamples_html_a31a76cfd2811dac5df70684e6ab0beb3"><div class="ttname"><a href="structbrrsamples.html#a31a76cfd2811dac5df70684e6ab0beb3">brrsamples::length2</a></div><div class="ttdeci">u8 length2</div><div class="ttdef"><b>Definition:</b> sound.h:54</div></div>
-<div class="ttc" id="astructbrrsamples_html_a46ec973f7c37bb07422e909d087e174a"><div class="ttname"><a href="structbrrsamples.html#a46ec973f7c37bb07422e909d087e174a">brrsamples::addr2</a></div><div class="ttdeci">u8 addr2</div><div class="ttdef"><b>Definition:</b> sound.h:56</div></div>
-<div class="ttc" id="astructbrrsamples_html_a59ba4c3685f1ff631858af06a51c6672"><div class="ttname"><a href="structbrrsamples.html#a59ba4c3685f1ff631858af06a51c6672">brrsamples::addr1</a></div><div class="ttdeci">u8 addr1</div><div class="ttdef"><b>Definition:</b> sound.h:55</div></div>
-<div class="ttc" id="astructbrrsamples_html_a88adcde351bda684d978194a6a2993d5"><div class="ttname"><a href="structbrrsamples.html#a88adcde351bda684d978194a6a2993d5">brrsamples::length1</a></div><div class="ttdeci">u8 length1</div><div class="ttdef"><b>Definition:</b> sound.h:53</div></div>
-<div class="ttc" id="astructbrrsamples_html_a8e61543808f3aed3dfcca0fd933bfe92"><div class="ttname"><a href="structbrrsamples.html#a8e61543808f3aed3dfcca0fd933bfe92">brrsamples::panning</a></div><div class="ttdeci">u8 panning</div><div class="ttdef"><b>Definition:</b> sound.h:51</div></div>
-<div class="ttc" id="astructbrrsamples_html_ad37960d64ecbb142a50cd2e139b44d21"><div class="ttname"><a href="structbrrsamples.html#ad37960d64ecbb142a50cd2e139b44d21">brrsamples::bank</a></div><div class="ttdeci">u8 bank</div><div class="ttdef"><b>Definition:</b> sound.h:57</div></div>
+<div class="ttc" id="astructbrrsamples_html"><div class="ttname"><a href="structbrrsamples.html">brrsamples</a></div><div class="ttdoc">brr sample sound header(8 bytes)</div><div class="ttdef"><b>Definition:</b> sound.h:51</div></div>
+<div class="ttc" id="astructbrrsamples_html_a112d2def415a46e02e078f29fe89150d"><div class="ttname"><a href="structbrrsamples.html#a112d2def415a46e02e078f29fe89150d">brrsamples::pitch</a></div><div class="ttdeci">u8 pitch</div><div class="ttdef"><b>Definition:</b> sound.h:52</div></div>
+<div class="ttc" id="astructbrrsamples_html_a2cb1142e9dfc5abce53ef89387bbea32"><div class="ttname"><a href="structbrrsamples.html#a2cb1142e9dfc5abce53ef89387bbea32">brrsamples::volume</a></div><div class="ttdeci">u8 volume</div><div class="ttdef"><b>Definition:</b> sound.h:54</div></div>
+<div class="ttc" id="astructbrrsamples_html_a31a76cfd2811dac5df70684e6ab0beb3"><div class="ttname"><a href="structbrrsamples.html#a31a76cfd2811dac5df70684e6ab0beb3">brrsamples::length2</a></div><div class="ttdeci">u8 length2</div><div class="ttdef"><b>Definition:</b> sound.h:56</div></div>
+<div class="ttc" id="astructbrrsamples_html_a46ec973f7c37bb07422e909d087e174a"><div class="ttname"><a href="structbrrsamples.html#a46ec973f7c37bb07422e909d087e174a">brrsamples::addr2</a></div><div class="ttdeci">u8 addr2</div><div class="ttdef"><b>Definition:</b> sound.h:58</div></div>
+<div class="ttc" id="astructbrrsamples_html_a59ba4c3685f1ff631858af06a51c6672"><div class="ttname"><a href="structbrrsamples.html#a59ba4c3685f1ff631858af06a51c6672">brrsamples::addr1</a></div><div class="ttdeci">u8 addr1</div><div class="ttdef"><b>Definition:</b> sound.h:57</div></div>
+<div class="ttc" id="astructbrrsamples_html_a88adcde351bda684d978194a6a2993d5"><div class="ttname"><a href="structbrrsamples.html#a88adcde351bda684d978194a6a2993d5">brrsamples::length1</a></div><div class="ttdeci">u8 length1</div><div class="ttdef"><b>Definition:</b> sound.h:55</div></div>
+<div class="ttc" id="astructbrrsamples_html_a8e61543808f3aed3dfcca0fd933bfe92"><div class="ttname"><a href="structbrrsamples.html#a8e61543808f3aed3dfcca0fd933bfe92">brrsamples::panning</a></div><div class="ttdeci">u8 panning</div><div class="ttdef"><b>Definition:</b> sound.h:53</div></div>
+<div class="ttc" id="astructbrrsamples_html_ad37960d64ecbb142a50cd2e139b44d21"><div class="ttname"><a href="structbrrsamples.html#ad37960d64ecbb142a50cd2e139b44d21">brrsamples::bank</a></div><div class="ttdeci">u8 bank</div><div class="ttdef"><b>Definition:</b> sound.h:59</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="sound_8h.html">sound.h</a></li>
-    <li class="footer">Generated on Wed Feb 22 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sat Mar 18 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

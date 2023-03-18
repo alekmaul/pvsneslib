@@ -1,5 +1,6 @@
 var object_8h =
 [
+    [ "t_objs", "structt__objs.html", "structt__objs" ],
     [ "ACT_BURN", "object_8h.html#aab4c8cebd89d6e8b2a68e709784829d5", null ],
     [ "ACT_CLIMB", "object_8h.html#ab9c13fbe07aac09e69bc677fe3f0fcaa", null ],
     [ "ACT_DIE", "object_8h.html#a7843ff58f7ae21834eee28a3cefbbd3a", null ],
