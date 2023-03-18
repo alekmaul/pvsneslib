@@ -205,13 +205,17 @@ void spcAllocateSoundRegion(u8 size);
 
 /*! \fn  spcPlaySound(u8 sndIndex)
     \brief Play sound from memory (using default arguments)
-    \param sndIndex	index in sound table
+    \param sndIndex	index in sound table.
+    Be careful: the index 0 correspond to the LAST sound loaded.
+    The index 1 is the penultimate sound loaded and so on...
 */
 void spcPlaySound(u8 sndIndex);
 
 /*! \fn  spcPlaySoundV(u8 sndIndex, u16 volume)
     \brief Play sound from memory (using default arguments)
-    \param sndIndex	index in sound table
+    \param sndIndex	index in sound table.
+    Be careful: the index 0 correspond to the LAST sound loaded.
+    The index 1 is the penultimate sound loaded and so on...
     \param volume	volume (0..15)
 */
 void spcPlaySoundV(u8 sndIndex, u16 volume);
