@@ -1,5 +1,5 @@
 # Nom de notre workflow
-name: PVSNESLIB Build Deploy Documentation
+name: Publish Doxygen documentation
 
 # Événements sur lesquels il doit être déclenché
 on:
@@ -38,6 +38,7 @@ jobs:
       - name: "Build Doxygen Doc"
         run: |
           cd pvsneslib
+          export PVSNESLIB_HOME=`pwd`
           make docs
         shell: bash
 
