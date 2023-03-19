@@ -28,8 +28,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      # 2. Partie spécifique à Sphinx (installation des
-      #    dépendances et génération de la doc)
+      # 2. installation des dépendances et génération de la doc
 
       - name: Install Doxygen
         run: |
@@ -39,7 +38,7 @@ jobs:
       - name: "Build Doxygen Doc"
         run: |
           cd pvsneslib
-          PVSDOCSDIR="docs" PVSVERSION="4.0.2" doxygen docs/pvsneslib.dox
+          make docs
         shell: bash
 
       # 3. Déploiement sur les Github Pages
