@@ -23,6 +23,8 @@ CHANGE LOG
 --------------------------------------------------------------------------
 V4.0.3 (mm,dd,2023)
 - Add sfx+music example
+- Various Fix on documentation
+- Change oamSetGfxOffset into assembly version
 
 V4.0.2 (February,22,2023)
 - Various Fix on documentation

@@ -224,9 +224,10 @@ void oamSetXY(u16 id, u16 xspr, u16 yspr);
     \param id the oam number to be set [0 - 127] * 4 because of oam structure
     \param gfxoffset tilenumber graphic offset
 */
-#define oamSetGfxOffset(id, gfxoffset) \
-    oamMemory[id + 2] = (gfxoffset);   \
-    oamMemory[id + 3] = (oamMemory[id + 3] & 0xFE) | ((gfxoffset >> 8) & 1);
+void oamSetGfxOffset(u16 id, u16 gfxoffset);
+//#define oamSetGfxOffset(id, gfxoffset) \
+//    oamMemory[id + 2] = (gfxoffset);   \
+//    oamMemory[id + 3] = (oamMemory[id + 3] & 0xFE) | ((gfxoffset >> 8) & 1);
 
 /*! \brief Put the correct size and hide or show a sprite
     \param id the oam number to be set [0 - 127] * 4 because of oam structure

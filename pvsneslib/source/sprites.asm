@@ -559,6 +559,43 @@ oamSizeshift:
 
 .ENDS
 
+ .SECTION ".sprites4_0_text" SUPERFREE
+;---------------------------------------------------------------------------
+; void oamSetGfxOffset(u16 id, u16 gfxoffset)
+; 9 11
+oamSetGfxOffset:
+	php
+	phb
+
+	phx
+
+	rep #$20                      ; A 16 bits
+
+	lda 8,s                       ; get idoff
+    tax
+
+	lda 10,s                       ; get offset
+	xba                            ; save msb
+    xba
+	sep #$20                       ; A 8 bits
+	sta.l oamMemory+2,x            ; store lsb oamMemory[id + 2] = (gfxoffset);
+
+    lda oamMemory+3,x
+    and #$FE
+    sta.l oamMemory+3,x
+    xba
+    and #$1
+	ora oamMemory+3,x
+	sta oamMemory+3,x              ; store new value oamMemory[id + 3] = (oamMemory[id + 3] & 0xFE) | ((gfxoffset >> 8) & 1);
+
+    plx
+
+    plb
+    plp
+    rtl
+
+.ENDS
+
  .SECTION ".sprites5_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
