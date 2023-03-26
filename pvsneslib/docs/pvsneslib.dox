@@ -47,7 +47,7 @@ PROJECT_NUMBER         = $(PVSVERSION)
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "Documentation to code in C or ASM for the Nintendo SNES"
+PROJECT_BRIEF          = "Documentation to code in C or ASM for the Super Nintendo Entertainment System"
 
 # With the PROJECT_LOGO tag one can specify a logo or an icon that is included
 # in the documentation. The maximum height of the logo should not exceed 55

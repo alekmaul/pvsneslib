@@ -1,12 +1,12 @@
-# A library to code in C or ASM for the Nintendo SNES #
+# A library to code in C or ASM for the Super Nintendo Entertainment System #
 
 [PVSneslib V4.0.1 (November,20,2022) ](http://www.portabledev.com/jeux/supernes/pvsneslib/)
 
-**PVSnesLib** (**P**rogrammer **V**aluable **Snes** **Lib**rary) is an open and free library to develop programs for the Nintendo SNES using the C programming language.
+**PVSnesLib** (**P**rogrammer **V**aluable **Snes** **Lib**rary) is an open and free library to develop programs for the Super Nintendo using the C programming language.
 
-Created initially for the 20th birthday of the Nintendo SNES (2012) and based on Ulrich Hecht [SDK](http://code.google.com/p/snes-sdk/), it has been evolved a lot and is now mainly coded in assembler for performances reasons. It is also directly usable in asm for those who do not want to use C language but without rewriting everything from scratch.
+Created initially for the 20th birthday of the Super Nintendo (2012) and based on Ulrich Hecht [SDK](http://code.google.com/p/snes-sdk/), it has been evolved a lot and is now mainly coded in assembler for performances reasons. It is also directly usable in asm for those who do not want to use C language but without rewriting everything from scratch.
 
-It contains a snes-sdk compiler / linker and a library (sources included) which offer facilities to use backgrounds / sprites / pads / music & sound on the Nintendo SNES system. 
+It contains a snes-sdk compiler / linker and a library (sources included) which offer facilities to use backgrounds / sprites / pads / music & sound on the Super Nintendo system. 
 It also contains examples which demonstrate how to use the functions in the library.  
 
 # Installation #

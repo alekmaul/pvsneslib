@@ -82,7 +82,7 @@ For convenience reasons, we recommend to use Visual Studio Code which is cross p
 
 #### Emulator
 
-A lot of emulators for the Super Nintendo SNES are available and the behaviour of your code can be different depending the one you use.
+A lot of emulators for the Super Nintendo are available and the behaviour of your code can be different depending the one you use.
 If you are on Windows, we directly recommend to use [no$snes](https://problemkaputt.de/sns.htm) which contains usefull functionalities.
 
 Otherwise, you can use [Mesen-S](https://www.mesen.ca/) which is a high-accuracy emulator for Windows and Linux.
