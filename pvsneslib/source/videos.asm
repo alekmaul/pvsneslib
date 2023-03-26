@@ -1,7 +1,7 @@
 ;---------------------------------------------------------------------------------
 ;
 ;   Copyright (C) 2013-2021
-;       Alekmaul 
+;       Alekmaul
 ;
 ;   This software is provided 'as-is', without any express or implied
 ;   warranty.  In no event will the authors be held liable for any
@@ -71,7 +71,7 @@
 .EQU MOSAIC_OUT     1
 
 
-.RAMSECTION ".reg_video7e" BANK $7E 
+.RAMSECTION ".reg_video7e" BANK $7E
 
 videoMode           DSB 1
 videoModeSub        DSB 1
@@ -81,7 +81,7 @@ iloc                DSB 1
 
 .ENDS
 
-.RAMSECTION ".reg_video7e_matrix" BANK $7E 
+.RAMSECTION ".reg_video7e_matrix" BANK $7E
 
 m7ma                DSB 2
 m7mb                DSB 2
@@ -111,12 +111,12 @@ m7_md               DSB (225-64)*3              ; 483 bytes
 ; void setFadeEffect(u8 mode)
 setFadeEffect:
     php
-    
+
     phx
     phy
 
     sep #$30
-    
+
     lda.b   9,s
     tax
     cpx #$1 ; FADE_OUT ?
@@ -130,9 +130,9 @@ setFadeEffect:
     inx
     cpx #$10
     bne -
-    
+
     rep #$30
-    
+
     ply
     plx
     plp
@@ -146,9 +146,9 @@ _fadeouteffect:
     sta.l   REG_INIDISP
     dex
     bpl -
-    
+
     rep #$30
-    
+
     ply
     plx
     plp
@@ -176,13 +176,13 @@ setMosaicEffect:
     sta.l   REG_MOSAIC
     clc
     adc #$10                        ; Mosaic size in d4-d7 incr (0>-15)
-    
+
     inx
     cpx #$10
     bne -
-    
+
     plx
-    
+
     plp
     rtl
 
@@ -200,13 +200,13 @@ _mosaicouteffect:
     sta.l   REG_MOSAIC
     sec
     sbc #$10                        ; Mosaic size in d4-d7 decr (15->0)
-    
+
     inx
     cpx #$10
     bne -
-    
+
     plx
-    
+
     plp
     rtl
 
@@ -227,16 +227,16 @@ _wait_nmi:
 ; void setScreenOn(void)
 setScreenOn:
     php
-    
+
     sep #$20
     lda #$f
     wai
-    
+
     sta.l REG_INIDISP
-    
+
     plp
     rtl
-    
+
 ;---------------------------------------------------------------------------
 ; void setScreenOff(void)
 setScreenOff:
@@ -248,22 +248,22 @@ setScreenOff:
 
     plp
     rtl
-    
+
 .ENDS
 
 .SECTION ".videos2_text" SUPERFREE
 
 //---------------------------------------------------------------------------------
-; setColorEffect(u8 colorMathA, u8 colorMathB) 
+; setColorEffect(u8 colorMathA, u8 colorMathB)
 setColorEffect:
     php
-    
+
     sep #$20
     lda 5,s             ; colorMathA
-    sta.l   REG_CGWSEL  
+    sta.l   REG_CGWSEL
 
     lda 6,s             ; colorMathB
-    sta.l   REG_CGADSUB  
+    sta.l   REG_CGADSUB
 
     plp
     rtl
@@ -272,13 +272,13 @@ setColorEffect:
 ; setColorIntensity(u8 colorApply, u8 intensity) {
 setColorIntensity:
     php
-    
+
     sep #$20
     lda 6,s               ; intensity
     and #0Fh              ; maximum 15 levels
     ora 5,s               ; colorApply
 
-    sta.l   REG_COLDATA  
+    sta.l   REG_COLDATA
 
     plp
     rtl
@@ -287,7 +287,7 @@ setColorIntensity:
 ; setBrightness(u8 level)
 setBrightness:
     php
-    
+
     sep #$20
     lda 5,s                      ; get level
     bne +
@@ -301,7 +301,7 @@ _sbv1:
 
     plp
     rtl
-    
+
 .ENDS
 
 .SECTION ".videos3_text" SUPERFREE
@@ -310,18 +310,18 @@ _sbv1:
 ;void setMode(u8 mode, u8 size) {
 setMode:
     php
-    
+
     sep #$20
     lda 5,s                     ; get mode
     and #$07                    ; Adjust mode to be ok
     sta iloc
-    
+
     lda 6,s
     ora iloc
-    sta.l REG_BGMODE            ; Change default mode 
+    sta.l REG_BGMODE            ; Change default mode
 
     stz videoModeSub            ; Default sub mode
-    
+
     lda iloc                    ; Regarding mode, adjust BGs
     cmp #BG_MODE0
     bne _smdm124
@@ -385,13 +385,13 @@ _smd11:
     ina
     cmp bgCnt
     bne _smd11
-    
-    lda #INT_VBLENABLE | INT_JOYPAD_ENABLE          ; enable NMI, enable autojoy 
+
+    lda #INT_VBLENABLE | INT_JOYPAD_ENABLE          ; enable NMI, enable autojoy
     sta.l REG_NMITIMEN
 
     plp
     rtl
-    
+
 .ENDS
 
 .SECTION ".videos4_text" SUPERFREE
@@ -401,14 +401,14 @@ _smd11:
 initm7_matric:
     php
     phx
-    
+
     sep #$20
     lda #$40
     sta m7_ma
     sta m7_mb
     sta m7_mc
     sta m7_md
-    
+
     ldx #$0003
 
 _im7m1:
@@ -431,17 +431,17 @@ _im7m1:
     sta m7_md,x
     inx
     rep #$20
-    txa 
+    txa
     cmp #160*3
     bne _im7m1
-    
+
     sep #$20
     lda #$00
     sta m7_ma+160*3
     sta m7_mb+160*3
     sta m7_mc+160*3
     sta m7_md+160*3
-    
+
     plx
     plp
     rts
@@ -484,29 +484,29 @@ m7sincos:
     .db  -72,   -70, -67,   -64,  -62,  -59,  -56,  -53
     .db  -51,   -48, -45,   -42,  -39,  -36,  -33,  -30
     .db  -27,   -24, -21,   -18,  -15,  -12,   -8, -5
-     
+
 ;---------------------------------------------------------------------------
 ;void setMode7(u8 mode)
 setMode7:
     php
-    
+
     sep #$20
     lda #BG_MODE7
     sta.l REG_BGMODE                    ; Put video mode to 7
-    
+
     lda 5,s                             ; Put mode 7 additional conf
     sta.l REG_M7SEL
-    
+
     lda #BG1_ENABLE | OBJ_ENABLE        ; Enable BG1 and OBJ
-    sta.l REG_TM 
+    sta.l REG_TM
     lda #0
     sta.l REG_TS
-    
+
     lda #$00                            ; Init matrixc parameters
     sta.l REG_M7A
     lda #$01
     sta.l REG_M7A
-    lda #$00                            
+    lda #$00
     sta.l REG_M7B
     sta.l REG_M7B
     sta.l REG_M7C
@@ -514,7 +514,7 @@ setMode7:
     sta.l REG_M7D
     lda #$01
     sta.l REG_M7D
-    
+
     lda #OFSX & 255                     ; center on screen
     sta.l REG_M7X
     lda #OFSX>>8
@@ -532,7 +532,7 @@ setMode7:
     sta.l REG_M7VOFS
     lda #OFSV>>8
     sta.l REG_M7VOFS
-    
+
     rep #$20                            ; Init vars
     lda #0000
     sta m7ma
@@ -548,7 +548,7 @@ setMode7:
     lda #m7sincos
     sta tcc__r0
     lda #:m7sincos
-    sta tcc__r0h                        
+    sta tcc__r0h
     sep #$20
     lda.b [tcc__r0]
     sta m7sin
@@ -558,15 +558,15 @@ setMode7:
     adc #64
     sta tcc__r0
     lda #:m7sincos
-    sta tcc__r0h                        
+    sta tcc__r0h
     sep #$20
     lda.b [tcc__r0]
     sta m7cos
-    
+
     jsr initm7_matric
-    
+
     sep #$20
-    lda #INT_VBLENABLE | INT_JOYPAD_ENABLE      ; enable NMI, enable autojoy 
+    lda #INT_VBLENABLE | INT_JOYPAD_ENABLE      ; enable NMI, enable autojoy
     sta.l REG_NMITIMEN
 
     plp
@@ -587,7 +587,7 @@ setMode7Rot:
     adc.b tcc__r1
     sta tcc__r0
     lda #:m7sincos
-    sta tcc__r0h                        
+    sta tcc__r0h
     sep #$20
     lda.b [tcc__r0]
     rep #$20
@@ -604,7 +604,7 @@ setMode7Rot:
     adc #64
     sta tcc__r0
     lda #:m7sincos
-    sta tcc__r0h                        
+    sta tcc__r0h
     sep #$20
     lda.b [tcc__r0]
     rep #$20
@@ -614,7 +614,7 @@ setMode7Rot:
     ora.w #$ff00
 +   sep #$20
     sta.w m7cos
-    
+
     ; compute matrix transformation
     ; calc M7B == -sin(a) * (1/sx)
     ; M7A=SX
@@ -629,7 +629,7 @@ setMode7Rot:
     and #$00ff
     sep #$20
     sta.l REG_M7A
-    
+
     ; M7B=-sin(angle)
     lda.w m7sin
     rep #$20
@@ -645,7 +645,7 @@ setMode7Rot:
     rep #$20
     lda.l REG_MPYMH
     sta.w m7mb
-    
+
     ; calc M7C == sin(a) * (1/sy)
     ; M7A=SY
     rep #$20                            ; REG_M7A=(m7sy & 255); REG_M7A=(m7sy>>8);
@@ -702,7 +702,7 @@ setMode7Rot:
     rep #$20
     lda.l REG_MPYMH
     sta m7ma
-    
+
     ; calc M7D == cos(a) * (1/sy)
     ; M7A=SY
     rep #$20                            ; REG_M7A=(m7sy & 255); REG_M7A=(m7sy>>8);
@@ -741,37 +741,37 @@ setMode7Rot:
     and #$00ff
     sep #$20
     sta.l REG_M7A
-    
+
     rep #$20                            ; REG_M7B=(m7mb & 255); REG_M7B=(m7mb>>8);
     lda.w m7mb
     and #$00ff
     sep #$20
     sta.l REG_M7B
-    rep #$20                            
+    rep #$20
     lda.w m7mb
     xba
     and #$00ff
     sep #$20
     sta.l REG_M7B
-    
+
     rep #$20                            ; REG_M7C=(m7mc & 255); REG_M7C=(m7mc>>8);
     lda.w m7mc
     and #$00ff
     sep #$20
     sta.l REG_M7C
-    rep #$20                            
+    rep #$20
     lda.w m7mc
     xba
     and #$00ff
     sep #$20
     sta.l REG_M7C
-    
+
     rep #$20                            ; REG_M7D=(m7md & 255); REG_M7D=(m7md>>8);
     lda.w m7md
     and #$00ff
     sep #$20
     sta.l REG_M7D
-    rep #$20                            
+    rep #$20
     lda.w m7md
     xba
     and #$00ff
@@ -800,7 +800,7 @@ setMode7Angle:
     adc.b tcc__r1
     sta tcc__r0
     lda #:m7sincos
-    sta tcc__r0h                        
+    sta tcc__r0h
     sep #$20
     lda.b [tcc__r0]
     rep #$20
@@ -817,7 +817,7 @@ setMode7Angle:
     adc #64
     sta tcc__r0
     lda #:m7sincos
-    sta tcc__r0h                        
+    sta tcc__r0h
     sep #$20
     lda.b [tcc__r0]
     rep #$20
@@ -830,15 +830,16 @@ setMode7Angle:
 
     plp
     rtl
-    
+
 .ENDS
 
 .SECTION ".videos6_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ;void setMode7MoveForwardBack(u8 z8)
+setMode7MoveForwardBack:
     php
-    
+
     sep #$20                ; m7sx += z8*m7sin;
     lda 5,s
     rep #$20
@@ -883,13 +884,14 @@ setMode7Angle:
 
     plp
     rtl
-    
+
 .ENDS
 
 .SECTION ".videos7_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ;void setMode7MoveLeftRight(u8 z8)
+setMode7MoveLeftRight:
     php
 
     sep #$20                ; m7sx += z8*m7cos;
@@ -946,21 +948,21 @@ setMode7Angle:
 ;5 6 7-10
 getPalette:
     php
-    
+
     rep #$20                            ; get paletteColors
     lda 7,s
     sta tcc__r0
     lda 9,s
     sta tcc__r0h
-    
+
     phx
     ldx.w #$0
-    
+
     sep #$20
     lda 8,s                             ; get paletteSize (6+2)
-    dea                                 ; to have 0..palette size 
+    dea                                 ; to have 0..palette size
     tax
-    
+
     lda 7,s                             ; get palette entry (5+2)
 -   pha
     sta.l REG_CGADD
@@ -976,7 +978,7 @@ getPalette:
     dex
     bne -
     plx
-    
+
     plp
     rtl
 
@@ -989,7 +991,7 @@ getPaletteColor:
     sta tcc__r0
     lda 8,s
     sta tcc__r0h
- 
+
     sep #$20
     lda 5,s
     sta.l REG_CGADD
