@@ -43,6 +43,7 @@
 snes_vblank_count       DB                                  ; to count number of vblank
 
 snes_50hz               DB                                  ; 1 if PAL console (50 Hz) instead of NTSC (60Hz)
+snes_fps                DB                                  ; 50 if PAL console (50 Hz) or 60 if NTSC console (60Hz)
 
 scr_txt_dirty           DB                                  ; 1 if we need to refresh screen
 txt_pal_adr             DB                                  ; text attribute (palette, high priority ...)
@@ -364,11 +365,15 @@ consoleInit:
     sep #$20                                                  ; init PAL / NTSC console
     lda #$0
     sta snes_50hz
+    lda #60
+    sta snes_fps
     lda.l REG_STAT78
     and #PPU_50HZ
     beq +
     lda #$1
     sta snes_50hz
+    lda #50
+    sta snes_fps
 
 +   jsl oamInit                                               ; Init sprites
 
