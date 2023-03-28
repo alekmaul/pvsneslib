@@ -93,7 +93,7 @@ For convenience reasons, we recommend to use Visual Studio Code which is cross p
 A lot of emulators for the Super Nintendo SNES are available and the behaviour of your code can be different depending the one you use.
 If you are on Windows, we directly recommend to use [no$snes](https://problemkaputt.de/sns.htm) which contains usefull functionalities.
 
-Otherwise, you can use [Mesen-S](https://www.mesen.ca/) which is a high-accuracy emulator for Windows and Linux.
+Otherwise, you can use [Mesen](https://www.mesen.ca/) which is a high-accuracy emulator for Windows and Linux.
 
 You can use any other emulator you want but in all cases, it is important to test you rom on different one which wich works as nearest possible than the real hardware.
 
