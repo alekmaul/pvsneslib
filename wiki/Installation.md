@@ -10,7 +10,6 @@ and these required dependencies
 
 - msys _if you are on Windows environment_
 - GCC _if you want to rebuild some tools in the kit_
-- python 3 to optimize code
 - a text editor to write your code
 - an emulator to test the roms
 
@@ -55,32 +54,6 @@ By running this command line, you will have gcc :
 
 For gfx2snes, you will need to install gcc-multilib too :
 `sudo apt install gcc-multilib`
-
-#### Python 3
-
-##### On Windows
-
-Download and install the latest version of [python 3](https://www.python.org/downloads/windows/) compatible with your OS version.
-
-##### On Linux
-
-You just need to run :
-`sudo apt install python-is-python3`
-
-##### Check that it works!
-
-Python is used to optimize the code produced, it needs to be added in your path and accessible directly from the python command. If the command `python --version` does not work on your computer, you will have issues while using the script in PVsneslib.
-
-For instance, if you get the message with "**Cannot openmake**" error :
-
-__Assembling ... main.ps__  
-__/c/snes/devkitsnes/bin/816-opt.py main.ps >main.asp__  
-__Cannot openmake: *** [main.asm] Error 1__
-
-it means that you have an issue with your python installation and you need to review this step.
-
-Please note that the code is still compatible with Python 2 but we do not recommend to use this old version.
-
 
 #### Text editor
 
