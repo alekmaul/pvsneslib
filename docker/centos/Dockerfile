@@ -25,7 +25,6 @@ RUN dnf -y upgrade && \
         cmake\
         gcc-c++ \
         glibc-static \
-        libstdc++-static && \
-    alternatives --set python /usr/bin/python3
+        libstdc++-static
 
 CMD ./docker/scripts/container.sh "${PVSNESLIB_HOME}" "${DISTRO}"
