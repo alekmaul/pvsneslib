@@ -56,10 +56,10 @@ loadimg.o : loadimg.c
 imgtools.o : imgtools.c
 	@echo make obj $(notdir $<)
 	$(CC) $(CFLAGS) -c $<
-	
+
 #---------------------------------------------------------------------------------
 clean:
 	rm -f $(EXE)$(EXT) $(OBJS) *.tds
 
 install:
-	mkdir -p ../../devkitsnes/tools && cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
+	cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)

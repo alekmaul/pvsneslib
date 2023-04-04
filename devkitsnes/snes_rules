@@ -29,8 +29,6 @@ endif
 export CC	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/816-tcc
 export AS	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/wla-65816
 export LD	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/wlalink
-export PY	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/816-opt.py
-export CTF	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/constify
 
 export GFXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/gfx2snes
 export SMCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/smconv
@@ -38,6 +36,8 @@ export BRCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snesbrr
 export TXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/bin2txt
 export SNTOOLS	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snestools
 export TMXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/tmx2snes
+export PY		:=	$(PVSNESLIB_HOME)/devkitsnes/tools/816-opt
+export CTF		:=	$(PVSNESLIB_HOME)/devkitsnes/tools/constify
 
 #---------------------------------------------------------------------------------
 # Add default flag for compiling
@@ -75,6 +75,7 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 %.ps: %.c
 	@echo Compiling to .ps ... $(notdir $<)
 	$(CC) $(CFLAGS) -Wall -c $< -o $@
+	cp $@ /tmp/
 
 %.obj: %.asm
 	@echo Doing obj files ... $(fname)
@@ -88,7 +89,7 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 	@echo Assembling ... $(notdir $<)
 	$(PY) $< >$*.asp
 	@echo Moving constants ... $(notdir $<)
-	$(CTF) $*.c $*.asp $@	
+	$(CTF) $*.c $*.asp $@
 	@rm $*.asp
 
 #---------------------------------------------------------------------------------
@@ -108,7 +109,7 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 
 	@sed 's/://' <$(ROMNAME).sym >$(ROMNAME).tmp
 	@mv $(ROMNAME).tmp $(ROMNAME).sym
-		
+
 	@echo
 	@echo Build finished successfully !
 	@echo
@@ -122,7 +123,7 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 %.brr: %.wav
 	@echo convert wav file ... $(notdir $<)
 	$(BRCONV) -e $< $@
-	
+
 $(SOUNDBANK).asm : $(AUDIOFILES)
 	@echo Compiling Soundbank ...
 	$(SMCONV) $(SMCONVFLAGS) $^
@@ -136,7 +137,7 @@ cleanBuildRes:
 cleanRom:
 	@echo clean rom
 	@rm -f $(ROMNAME).sfc $(ROMNAME).sym
-	
+
 cleanGfx:
 	@echo clean graphics data
 	@rm -f *.pic *.map *.pal *.pc7 *.mp7 *.til *.m16 *.b16 *.o16 *.t16
@@ -144,4 +145,4 @@ cleanGfx:
 cleanAudio:
 	@echo clean audio data
 	@rm -f $(SOUNDBANK).asm $(SOUNDBANK).h $(SOUNDBANK).bnk
-	
+

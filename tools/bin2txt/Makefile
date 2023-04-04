@@ -37,4 +37,4 @@ clean:
 	rm -f *.tds $(EXE)$(EXT) $(OBJS)
 
 install:
-	mkdir -p ../../devkitsnes/tools && cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
+	cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
