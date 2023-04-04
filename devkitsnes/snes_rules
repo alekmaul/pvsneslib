@@ -36,7 +36,7 @@ export BRCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snesbrr
 export TXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/bin2txt
 export SNTOOLS	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snestools
 export TMXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/tmx2snes
-export PY		:=	$(PVSNESLIB_HOME)/devkitsnes/tools/816-opt
+export OPT		:=	$(PVSNESLIB_HOME)/devkitsnes/tools/816-opt
 export CTF		:=	$(PVSNESLIB_HOME)/devkitsnes/tools/constify
 
 #---------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 #---------------------------------------------------------------------------------
 %.asm: %.ps
 	@echo Assembling ... $(notdir $<)
-	$(PY) $< >$*.asp
+	$(OPT) $< >$*.asp
 	@echo Moving constants ... $(notdir $<)
 	$(CTF) $*.c $*.asp $@
 	@rm $*.asp
@@ -107,8 +107,7 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 	@echo Linking ... $(notdir $@)
 	$(LD) -d -s -v -A -L ${LIBDIRSOBJS} linkfile $@
 
-	@sed 's/://' <$(ROMNAME).sym >$(ROMNAME).tmp
-	@mv $(ROMNAME).tmp $(ROMNAME).sym
+	@sed -i 's/://' $(ROMNAME).sym
 
 	@echo
 	@echo Build finished successfully !

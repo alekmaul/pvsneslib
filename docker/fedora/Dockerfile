@@ -21,7 +21,6 @@ RUN dnf -y upgrade && \
     dnf -y install glibc-devel.i686 \
         cmake\
         gcc-c++ \
-        python \
         glibc-static \
         libstdc++-static
 
