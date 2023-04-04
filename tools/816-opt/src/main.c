@@ -49,67 +49,6 @@ int main(int argc, char **argv)
     {
         fprintf(stdout, "%s\n", optAsm.arr[i]);
     }
-    // size_t labelon = 0;
-
-    // for (size_t i = 0; i < optAsm.used; i++)
-    // {
-    //     // Skip empty lines.
-    //     if (optAsm.arr[i][0] == '\0')
-    //         continue;
-
-    //     // Remove the inline comments.
-    //     if (isInText(optAsm.arr[i], ASM_COMMENT))
-    //         strtok(optAsm.arr[i], ASM_COMMENT);
-
-    //     if (startWith(optAsm.arr[i], ".SECTION")
-    //         || startWith(optAsm.arr[i], ".RAMSECTION"))
-    //     {
-    //         printf("\n%s\n", optAsm.arr[i]);
-    //         continue;
-    //     }
-
-    //     if (startWith(optAsm.arr[i], ".if")
-    //         || endWith(optAsm.arr[i], SECTION_END)
-    //         || endWith(optAsm.arr[i], ".endif"))
-    //     {
-    //         printf("%s\n", optAsm.arr[i]);
-    //         continue;
-    //     }
-
-    //     // Chek if we are inside label to add indentation
-    //     // Don't need to reset labelon to 0 as
-    //     // when a label is found, all other instructions
-    //     // will also be inside a label.
-
-    //     // Don't need a new line if the label is preceded by
-    //     // a section (already performed above).
-    //     if (endWith(optAsm.arr[i], ":")
-    //         && (startWith(optAsm.arr[i - 1], ".SECTION")
-    //             || optAsm.arr[i - 1][0] == '\0'))
-    //     {
-    //         labelon = 1;
-    //         printf("%s\n", optAsm.arr[i]);
-    //         continue;
-    //     }
-
-    //     if (endWith(optAsm.arr[i], ":")
-    //         && (!startWith(optAsm.arr[i - 1], ".SECTION")
-    //             || optAsm.arr[i - 1][0] == '\0'))
-    //     {
-    //         labelon = 1;
-    //         printf("\n%s\n", optAsm.arr[i]);
-    //         continue;
-    //     }
-
-    //     // Add indentation if instruction is
-    //     // inside a label.
-    //     if (labelon)
-    //     {
-    //         fprintf(stdout, "    %s\n", trimWhiteSpace(optAsm.arr[i]));
-    //     }
-    //     else
-    //         fprintf(stdout, "%s\n", trimWhiteSpace(optAsm.arr[i]));
-    // }
 
     /* -------------------------------- */
     /*       Free pointers              */
