@@ -75,7 +75,6 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 %.ps: %.c
 	@echo Compiling to .ps ... $(notdir $<)
 	$(CC) $(CFLAGS) -Wall -c $< -o $@
-	cp $@ /tmp/
 
 %.obj: %.asm
 	@echo Doing obj files ... $(fname)
