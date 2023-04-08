@@ -214,7 +214,7 @@ char *replaceStr(char *str, char *orig, char *rep)
     static char buffer[MAXLEN_LINE];
     char *p;
     size_t orig_len = strlen(orig);
-    size_t rep_len = strlen(rep);
+    size_t rep_len  = strlen(rep);
 
     if (!(p = strstr(str, orig)))
         return str;
@@ -357,7 +357,7 @@ dynArray pushToArray(dynArray text_opt, char *str)
     strcpy(text_opt.arr[text_opt.used], str);
     text_opt.used++;
 
-    updatedDynArray.arr = text_opt.arr;
+    updatedDynArray.arr  = text_opt.arr;
     updatedDynArray.used = text_opt.used;
 
     return updatedDynArray;

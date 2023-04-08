@@ -210,10 +210,10 @@ dynArray storeBss(dynArray file)
 dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
 {
 
-    size_t totalopt = 0; // Total number of optimizations performed
-    int opted = -1;      // Have we Optimized in this pass
-    size_t opass = 0;    // Optimization pass counter
-    dynArray r, r1;      // Store regexMatchGroups structs
+    size_t totalopt = 0;  // Total number of optimizations performed
+    int opted       = -1; // Have we Optimized in this pass
+    size_t opass    = 0;  // Optimization pass counter
+    dynArray r, r1;       // Store regexMatchGroups structs
     char snp_buf1[MAXLEN_LINE],
         snp_buf2[MAXLEN_LINE]; // Store snprintf buffers
     dynArray text_opt;
@@ -228,7 +228,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
 
         text_opt.used = 0;
         opass += 1;
-        opted = 0;
+        opted    = 0;
         size_t i = 0;
 
         if (verbose)
@@ -426,8 +426,8 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                         continue;
                     }
                     /* Convert incs/decs on pregs incs/decs on hwregs */
-                    size_t cont = 0;
-                    const char *crem[] = {"inc", "dec"};
+                    size_t cont        = 0;
+                    const char *crem[] = { "inc", "dec" };
                     for (size_t k = 0; k < sizeof(crem) / sizeof(const char *); k++)
                     {
                         snprintf(snp_buf1, sizeof(snp_buf1), "%s.b tcc__%s",
@@ -714,7 +714,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                         text_opt = pushToArray(text_opt, file.arr[i + 2]);
 
                         char *rs_buffer = replaceStr(file.arr[i + 3], ",x", "");
-                        text_opt = pushToArray(text_opt, rs_buffer);
+                        text_opt        = pushToArray(text_opt, rs_buffer);
 
                         freedynArray(r1);
                         freedynArray(r);
@@ -732,7 +732,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                     text_opt = pushToArray(text_opt, "sep #$20");
                     text_opt = pushToArray(text_opt, file.arr[i + 5]);
 
-                    char *ss_buffer = sliceStr(file.arr[i + 2], 7, strlen(file.arr[i + 2]));
+                    char *ss_buffer  = sliceStr(file.arr[i + 2], 7, strlen(file.arr[i + 2]));
                     char *ss_buffer2 = sliceStr(file.arr[i], 7, strlen(file.arr[i]));
                     snprintf(snp_buf1, sizeof(snp_buf1), "sta.l %lu",
                              atol(ss_buffer) * 65536 + atol(ss_buffer2));
@@ -755,7 +755,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                     {
 
                         char *rs_buffer = replaceStr(file.arr[i + 1], "sta.", "stz.");
-                        text_opt = pushToArray(text_opt, rs_buffer);
+                        text_opt        = pushToArray(text_opt, rs_buffer);
 
                         i += 2;
                         opted += 1;
@@ -771,7 +771,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                         text_opt = pushToArray(text_opt, "sep #$20");
 
                         char *rs_buffer = replaceStr(file.arr[i], "lda.w", "lda.b");
-                        text_opt = pushToArray(text_opt, rs_buffer);
+                        text_opt        = pushToArray(text_opt, rs_buffer);
 
                         text_opt = pushToArray(text_opt, file.arr[i + 2]);
                         text_opt = pushToArray(text_opt, file.arr[i + 3]);
@@ -799,7 +799,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                 {
 
                     char *local = sliceStr(file.arr[i], 4, strlen(file.arr[i]));
-                    char *reg = sliceStr(file.arr[i + 1], 6, strlen(file.arr[i + 1]));
+                    char *reg   = sliceStr(file.arr[i + 1], 6, strlen(file.arr[i + 1]));
 
                     /* lda stack ; store high preg ; ...
                         ; load high preg ; sta stack */
@@ -1043,7 +1043,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
 
                 if (matchStr(ss_buffer, "lda.l ") || matchStr(ss_buffer, "sta.l "))
                 {
-                    size_t cont = 0;
+                    size_t cont      = 0;
                     char *ss_buffer2 = sliceStr(file.arr[i], 2, strlen(file.arr[i]));
 
                     for (size_t b = 0; b < bss.used; b++)
@@ -1054,7 +1054,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                         {
 
                             char *rs_buffer = replaceStr(file.arr[i], "a.l", "a.w");
-                            text_opt = pushToArray(text_opt, rs_buffer);
+                            text_opt        = pushToArray(text_opt, rs_buffer);
 
                             i += 1;
                             opted += 1;
@@ -1074,7 +1074,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
 
             if (startWith(file.arr[i], "jmp.w ") || startWith(file.arr[i], "bra __"))
             {
-                size_t j = i + 1;
+                size_t j    = i + 1;
                 size_t cont = 0;
                 while (j < file.used && endWith(file.arr[j], ":"))
                 {
@@ -1110,7 +1110,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                     {
 
                         char *rs_buffer = replaceStr(file.arr[i], "jmp.w", "bra");
-                        text_opt = pushToArray(text_opt, rs_buffer);
+                        text_opt        = pushToArray(text_opt, rs_buffer);
 
                         i += 1;
                         opted += 1;
