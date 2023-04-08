@@ -146,7 +146,6 @@ dynArray tidyFile(const int argc, char **argv)
     if (fp != stdin)
         fclose(fp);
 
-    // dynArray r = { lines, used };
     return file;
 }
 
