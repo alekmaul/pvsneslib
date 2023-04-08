@@ -36,16 +36,10 @@ void freedynArray(dynArray s)
  */
 int matchStr(const char *str1, const char *str2)
 {
-    if (str1[0] == '\0')
-        return 0;
+    if (!str1 || !str2)
+        return 0; // handle NULL inputs
 
-    if (str1 != NULL)
-    {
-        if (strcmp(str1, str2) == 0)
-            return 1;
-    }
-
-    return 0;
+    return strcmp(str1, str2) == 0;
 }
 
 /**
@@ -56,16 +50,11 @@ int matchStr(const char *str1, const char *str2)
  */
 int startWith(const char *source, const char *prefix)
 {
-    if (source[0] == '\0')
-        return 0;
+    if (!source || !prefix)
+        return 0; // handle NULL inputs
 
-    if (source != NULL)
-    {
-        if (strncmp(source, prefix, strlen(prefix)) == 0)
-            return 1;
-    }
-
-    return 0;
+    size_t prefix_len = strlen(prefix);
+    return strncmp(source, prefix, prefix_len) == 0;
 }
 
 /**
@@ -74,24 +63,17 @@ int startWith(const char *source, const char *prefix)
  * @param prefix Pattern string.
  * @return 1 (true) or 0 (false).
  */
-int endWith(const char *source, const char *prefix)
+int endWith(const char *source, const char *suffix)
 {
-    if (source[0] == '\0')
-        return 0;
+    if (!source || !suffix)
+        return 0; // handle NULL inputs
 
-    if (source != NULL)
-    {
-        size_t slen = strlen(source);
-        size_t plen = strlen(prefix);
+    size_t source_len = strlen(source);
+    size_t suffix_len = strlen(suffix);
+    if (source_len < suffix_len)
+        return 0; // suffix is longer than source
 
-        if (slen < plen)
-            return 0;
-
-        if (strncmp(source + slen - plen, prefix, plen) == 0)
-            return 1;
-    }
-
-    return 0;
+    return strcmp(source + source_len - suffix_len, suffix) == 0;
 }
 
 /**
@@ -102,15 +84,10 @@ int endWith(const char *source, const char *prefix)
  */
 int isInText(const char *source, const char *pattern)
 {
-    if (source[0] == '\0')
-        return 0;
+    if (!source || !pattern)
+        return 0; // handle NULL inputs
 
-    if (source != NULL)
-    {
-        if (strstr(source, pattern) != NULL)
-            return 1;
-    }
-    return 0;
+    return strstr(source, pattern) != NULL;
 }
 
 /**
@@ -121,9 +98,7 @@ int isInText(const char *source, const char *pattern)
  */
 int min(const int a, const int b)
 {
-    if (a > b)
-        return b;
-    return a;
+    return a < b ? a : b;
 }
 
 /**
@@ -134,9 +109,7 @@ int min(const int a, const int b)
  */
 int max(const int a, const int b)
 {
-    if (a > b)
-        return a;
-    return b;
+    return a > b ? a : b;
 }
 
 /**
@@ -146,23 +119,22 @@ int max(const int a, const int b)
  */
 char *trimWhiteSpace(char *str)
 {
-    char *end;
+    size_t len = strlen(str);
 
     /* Trim leading space */
     while (isspace((unsigned char)*str))
-        str++;
+        str++, len--;
 
     /* Only spaces */
-    if (*str == 0)
+    if (len == 0)
         return str;
 
     /* Trim trailing space */
-    end = str + strlen(str) - 1;
-    while (end > str && isspace((unsigned char)*end))
-        end--;
+    while (isspace((unsigned char)str[len - 1]))
+        len--;
 
     /* Write new null terminator character */
-    end[1] = '\0';
+    str[len] = '\0';
 
     return str;
 }
@@ -177,55 +149,57 @@ char *trimWhiteSpace(char *str)
  */
 char *sliceStr(char *str, int slice_from, int slice_to)
 {
+
     /*
         Inspired by Padymko:
         https://stackoverflow.com/a/42283266
     */
 
-    // if a string is empty, returns nothing
-    if (str[0] == '\0')
-        return NULL;
+    int str_len = strlen(str);
 
-    char *buffer;
-    int str_len, buffer_len;
+    // if a string is empty, returns nothing
+    if (str_len == 0)
+        return NULL;
 
     // for negative indexes "slice_from" must be less "slice_to"
     if (slice_to < 0 && slice_from < slice_to)
     {
-        str_len = strlen(str);
-
         // if "slice_to" goes beyond permissible limits
         if (abs(slice_to) > str_len - 1)
             return NULL;
 
         // if "slice_from" goes beyond permissible limits
-        if (abs(slice_from) > str_len)
-            slice_from = (-1) * str_len;
+        slice_from = max(-str_len, slice_from);
 
-        buffer_len = slice_to - slice_from;
-        str += (str_len + slice_from);
+        // calculate the buffer length
+        int buffer_len = min(slice_to - slice_from, str_len + slice_from);
 
-        // for positive indexes "slice_from" must be more "slice_to"
+        char *buffer = malloc(buffer_len + 1);
+        memcpy(buffer, &str[str_len + slice_from], buffer_len);
+        buffer[buffer_len] = '\0';
+
+        return buffer;
     }
-    else if (slice_from >= 0 && slice_to > slice_from)
-    {
-        str_len = strlen(str);
 
+    // for positive indexes "slice_from" must be more "slice_to"
+    if (slice_from >= 0 && slice_to > slice_from)
+    {
         // if "slice_from" goes beyond permissible limits
         if (slice_from > str_len - 1)
             return NULL;
 
-        buffer_len = slice_to - slice_from;
-        str += slice_from;
+        // calculate the buffer length
+        int buffer_len = min(slice_to - slice_from, str_len - slice_from);
 
-        // otherwise, returns NULL
+        char *buffer = malloc(buffer_len + 1);
+        memcpy(buffer, &str[slice_from], buffer_len);
+        buffer[buffer_len] = '\0';
+
+        return buffer;
     }
-    else
-        return NULL;
 
-    buffer = calloc(buffer_len, sizeof(char) + 1);
-    strncpy(buffer, str, buffer_len);
-    return buffer;
+    // otherwise, returns NULL
+    return NULL;
 }
 
 /**
@@ -239,14 +213,17 @@ char *replaceStr(char *str, char *orig, char *rep)
 {
     static char buffer[MAXLEN_LINE];
     char *p;
+    size_t orig_len = strlen(orig);
+    size_t rep_len = strlen(rep);
 
     if (!(p = strstr(str, orig)))
         return str;
 
-    strncpy(buffer, str, p - str);
+    memcpy(buffer, str, p - str);
     buffer[p - str] = '\0';
 
-    sprintf(buffer + (p - str), "%s%s", rep, p + strlen(orig));
+    strcpy(buffer + (p - str), rep);
+    strcat(buffer + (p - str + rep_len), p + orig_len);
 
     return buffer;
 }
@@ -318,12 +295,10 @@ dynArray regexMatchGroups(char *string, char *regex, const size_t maxGroups)
     if (!re)
     {
         size_t len, g;
+        char *stringCopy = malloc(strlen(string) + 1);
+        strcpy(stringCopy, string);
 
-        if ((regexgroup.arr = malloc(maxGroups * sizeof(char *))) == NULL)
-        {
-            perror("malloc-lines");
-            exit(EXIT_FAILURE);
-        }
+        regexgroup.arr = malloc(maxGroups * sizeof(char *));
 
         for (g = 0; g < maxGroups; g++)
         {
@@ -332,21 +307,18 @@ dynArray regexMatchGroups(char *string, char *regex, const size_t maxGroups)
                 break; // No more groups
             }
 
-            char stringCopy[strlen(string) + 1];
-            strcpy(stringCopy, string);
-            stringCopy[groupArray[g].rm_eo] = 0;
-
-            len = strlen(stringCopy + groupArray[g].rm_so);
+            len = groupArray[g].rm_eo - groupArray[g].rm_so;
 
             /* allocate storage for line */
             regexgroup.arr[regexgroup.used] = malloc(len + 1);
-            memcpy(regexgroup.arr[regexgroup.used], stringCopy + groupArray[g].rm_so, len + 1);
+            memcpy(regexgroup.arr[regexgroup.used], stringCopy + groupArray[g].rm_so, len);
+            regexgroup.arr[regexgroup.used][len] = '\0';
             regexgroup.used += 1;
         }
 
+        free(stringCopy);
         regfree(&regexCompiled);
 
-        // dynArray r = { groups, used };
         return regexgroup;
     }
     else if (re == REG_NOMATCH)
@@ -373,7 +345,6 @@ dynArray regexMatchGroups(char *string, char *regex, const size_t maxGroups)
  */
 dynArray pushToArray(dynArray text_opt, char *str)
 {
-
     size_t len = strlen(str);
     dynArray updatedDynArray;
 
@@ -383,10 +354,10 @@ dynArray pushToArray(dynArray text_opt, char *str)
         exit(EXIT_FAILURE);
     }
 
-    memcpy(text_opt.arr[text_opt.used], str, len + 1);
-    text_opt.used += 1;
+    strcpy(text_opt.arr[text_opt.used], str);
+    text_opt.used++;
 
-    updatedDynArray.arr  = text_opt.arr;
+    updatedDynArray.arr = text_opt.arr;
     updatedDynArray.used = text_opt.used;
 
     return updatedDynArray;

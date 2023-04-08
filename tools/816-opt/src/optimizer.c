@@ -37,14 +37,8 @@ int verbosity()
  */
 int changeAccu(const char *a)
 {
-    if (strlen(a) > 2)
-    {
-        if (a[2] == 'a'
-            && !(startWith(a, "pha") || startWith(a, "sta")))
-            return 1;
-        if (strlen(a) == 5 && endWith(a, " a"))
-            return 1;
-    }
+    if (strlen(a) > 2 && ((a[2] == 'a' && !startWith(a, "pha") && !startWith(a, "sta")) || (strlen(a) == 5 && endWith(a, " a"))))
+        return 1;
 
     return 0;
 }
@@ -56,19 +50,30 @@ int changeAccu(const char *a)
  */
 int isControl(const char *a)
 {
-    if (strlen(a) > 0)
+    const char *p = a;
+
+    while (*p != '\0' && isspace(*p))
     {
-        if (endWith(a, ":"))
-        {
-            return 1;
-        }
-        if (startWith(a, "j")
-            || startWith(a, "b")
-            || startWith(a, "-")
-            || startWith(a, "+"))
-        {
-            return 1;
-        }
+        p++;
+    }
+
+    if (*p == '\0')
+    {
+        return 0;
+    }
+
+    switch (*p)
+    {
+    case 'j':
+    case 'b':
+    case '-':
+    case '+':
+        return 1;
+    }
+
+    if (endWith(a, ":"))
+    {
+        return 1;
     }
 
     return 0;
@@ -205,10 +210,10 @@ dynArray storeBss(dynArray file)
 dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
 {
 
-    size_t totalopt = 0;  // Total number of optimizations performed
-    int opted       = -1; // Have we Optimized in this pass
-    size_t opass    = 0;  // Optimization pass counter
-    dynArray r, r1;       // Store regexMatchGroups structs
+    size_t totalopt = 0; // Total number of optimizations performed
+    int opted = -1;      // Have we Optimized in this pass
+    size_t opass = 0;    // Optimization pass counter
+    dynArray r, r1;      // Store regexMatchGroups structs
     char snp_buf1[MAXLEN_LINE],
         snp_buf2[MAXLEN_LINE]; // Store snprintf buffers
     dynArray text_opt;
@@ -223,7 +228,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
 
         text_opt.used = 0;
         opass += 1;
-        opted    = 0;
+        opted = 0;
         size_t i = 0;
 
         if (verbose)
@@ -251,8 +256,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                             break;
                         }
                         /* Before function call (will be clobbered anyway) */
-                        if (startWith(file.arr[j], "jsr.l ")
-                            && !startWith(file.arr[j], "jsr.l tcc__"))
+                        if (startWith(file.arr[j], "jsr.l ") && !startWith(file.arr[j], "jsr.l tcc__"))
                         {
 
                             doopt = 1;
@@ -269,8 +273,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                         /* #2 Use as a pointer */
                         snprintf(snp_buf1, sizeof(snp_buf1), "[tcc__%s", r.arr[2]);
                         char *ss_buffer = sliceStr(snp_buf1, 0, strlen(snp_buf1) - 1); // Remove the last char
-                        if (endWith(r.arr[2], "h")
-                            && isInText(file.arr[j], ss_buffer))
+                        if (endWith(r.arr[2], "h") && isInText(file.arr[j], ss_buffer))
                         {
 
                             free(ss_buffer);
@@ -295,8 +298,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                         function call -> push hwreg, function call */
                     snprintf(snp_buf1, sizeof(snp_buf1), "pei (tcc__%s)",
                              r.arr[2]);
-                    if (matchStr(file.arr[i + 1], snp_buf1)
-                        && startWith(file.arr[i + 2], "jsr.l "))
+                    if (matchStr(file.arr[i + 1], snp_buf1) && startWith(file.arr[i + 2], "jsr.l "))
                     {
 
                         snprintf(snp_buf1, sizeof(snp_buf1), "ph%s", r.arr[1]);
@@ -330,8 +332,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                              r.arr[2]);
                     snprintf(snp_buf2, sizeof(snp_buf2),
                              "lda.b tcc__%s ; DON'T OPTIMIZE", r.arr[2]);
-                    if (matchStr(file.arr[i + 1], snp_buf1)
-                        || matchStr(file.arr[i + 1], snp_buf2))
+                    if (matchStr(file.arr[i + 1], snp_buf1) || matchStr(file.arr[i + 1], snp_buf2))
                     {
 
                         text_opt = pushToArray(text_opt, file.arr[i]);
@@ -368,9 +369,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                         continue;
                     }
                     /* Store preg followed by load preg with ldx/ldy in between */
-                    if ((startWith(file.arr[i + 1], "ldx")
-                         || startWith(file.arr[i + 1], "ldy"))
-                        && matchStr(file.arr[i + 2], snp_buf1))
+                    if ((startWith(file.arr[i + 1], "ldx") || startWith(file.arr[i + 1], "ldy")) && matchStr(file.arr[i + 2], snp_buf1))
                     {
 
                         text_opt = pushToArray(text_opt, file.arr[i]);
@@ -386,8 +385,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                         function call */
                     snprintf(snp_buf1, sizeof(snp_buf1), "pei (tcc__%s)",
                              r.arr[1]);
-                    if (matchStr(file.arr[i + 1], snp_buf1)
-                        && startWith(file.arr[i + 2], "jsr.l "))
+                    if (matchStr(file.arr[i + 1], snp_buf1) && startWith(file.arr[i + 2], "jsr.l "))
                     {
 
                         text_opt = pushToArray(text_opt, "pha");
@@ -414,8 +412,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                     }
                     /* Store accu to preg1, push preg2, push preg1 -> store accu to
                        preg1, push preg2, push accu */
-                    else if (startWith(file.arr[i + 1], "pei ")
-                             && matchStr(file.arr[i + 2], snp_buf1))
+                    else if (startWith(file.arr[i + 1], "pei ") && matchStr(file.arr[i + 2], snp_buf1))
                     {
 
                         text_opt = pushToArray(text_opt, file.arr[i + 1]);
@@ -429,8 +426,8 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                         continue;
                     }
                     /* Convert incs/decs on pregs incs/decs on hwregs */
-                    size_t cont        = 0;
-                    const char *crem[] = { "inc", "dec" };
+                    size_t cont = 0;
+                    const char *crem[] = {"inc", "dec"};
                     for (size_t k = 0; k < sizeof(crem) / sizeof(const char *); k++)
                     {
                         snprintf(snp_buf1, sizeof(snp_buf1), "%s.b tcc__%s",
@@ -439,8 +436,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                         {
 
                             /* Store to preg followed by crement on preg */
-                            if (matchStr(file.arr[i + 2], snp_buf1)
-                                && startWith(file.arr[i + 3], "lda"))
+                            if (matchStr(file.arr[i + 2], snp_buf1) && startWith(file.arr[i + 3], "lda"))
                             {
 
                                 /* Store to preg followed by two crements on preg
@@ -504,8 +500,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                     {
 
                         char *ss_buffer = sliceStr(file.arr[i + 2], 0, 3);
-                        if (matchStr(ss_buffer, "and")
-                            || matchStr(ss_buffer, "ora"))
+                        if (matchStr(ss_buffer, "and") || matchStr(ss_buffer, "ora"))
                         {
 
                             /* Store to preg1, load from preg2, and/or preg1 ->
@@ -538,8 +533,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                      * load */
                     snprintf(snp_buf1, sizeof(snp_buf1), "lda.b tcc__%s",
                              r.arr[1]);
-                    if (matchStr(file.arr[i + 1], "sep #$20")
-                        && matchStr(file.arr[i + 2], snp_buf1))
+                    if (matchStr(file.arr[i + 1], "sep #$20") && matchStr(file.arr[i + 2], snp_buf1))
                     {
 
                         text_opt = pushToArray(text_opt, file.arr[i]);
@@ -598,9 +592,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                         with something in-between that does not alter */
                     snprintf(snp_buf1, sizeof(snp_buf1), "tcc__%s", r.arr[1]);
 
-                    if (!(isControl(file.arr[i + 1])
-                          || changeAccu(file.arr[i + 1])
-                          || isInText(file.arr[i + 1], snp_buf1)))
+                    if (!(isControl(file.arr[i + 1]) || changeAccu(file.arr[i + 1]) || isInText(file.arr[i + 1], snp_buf1)))
                     {
 
                         snprintf(snp_buf1, sizeof(snp_buf1), "lda.b tcc__%s",
@@ -722,7 +714,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                         text_opt = pushToArray(text_opt, file.arr[i + 2]);
 
                         char *rs_buffer = replaceStr(file.arr[i + 3], ",x", "");
-                        text_opt        = pushToArray(text_opt, rs_buffer);
+                        text_opt = pushToArray(text_opt, rs_buffer);
 
                         freedynArray(r1);
                         freedynArray(r);
@@ -734,20 +726,13 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                     freedynArray(r);
                 }
 
-                if (startWith(file.arr[i], "lda.w #")
-                    && matchStr(file.arr[i + 1], "sta.b tcc__r9")
-                    && startWith(file.arr[i + 2], "lda.w #")
-                    && matchStr(file.arr[i + 3], "sta.b tcc__r9h")
-                    && matchStr(file.arr[i + 4], "sep #$20")
-                    && startWith(file.arr[i + 5], "lda.b ")
-                    && matchStr(file.arr[i + 6], "sta.b [tcc__r9]")
-                    && matchStr(file.arr[i + 7], "rep #$20"))
+                if (startWith(file.arr[i], "lda.w #") && matchStr(file.arr[i + 1], "sta.b tcc__r9") && startWith(file.arr[i + 2], "lda.w #") && matchStr(file.arr[i + 3], "sta.b tcc__r9h") && matchStr(file.arr[i + 4], "sep #$20") && startWith(file.arr[i + 5], "lda.b ") && matchStr(file.arr[i + 6], "sta.b [tcc__r9]") && matchStr(file.arr[i + 7], "rep #$20"))
                 {
 
                     text_opt = pushToArray(text_opt, "sep #$20");
                     text_opt = pushToArray(text_opt, file.arr[i + 5]);
 
-                    char *ss_buffer  = sliceStr(file.arr[i + 2], 7, strlen(file.arr[i + 2]));
+                    char *ss_buffer = sliceStr(file.arr[i + 2], 7, strlen(file.arr[i + 2]));
                     char *ss_buffer2 = sliceStr(file.arr[i], 7, strlen(file.arr[i]));
                     snprintf(snp_buf1, sizeof(snp_buf1), "sta.l %lu",
                              atol(ss_buffer) * 65536 + atol(ss_buffer2));
@@ -766,12 +751,11 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                 if (matchStr(file.arr[i], "lda.w #0"))
                 {
 
-                    if (startWith(file.arr[i + 1], "sta.b ")
-                        && startWith(file.arr[i + 2], "lda"))
+                    if (startWith(file.arr[i + 1], "sta.b ") && startWith(file.arr[i + 2], "lda"))
                     {
 
                         char *rs_buffer = replaceStr(file.arr[i + 1], "sta.", "stz.");
-                        text_opt        = pushToArray(text_opt, rs_buffer);
+                        text_opt = pushToArray(text_opt, rs_buffer);
 
                         i += 2;
                         opted += 1;
@@ -781,16 +765,13 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                 else if (startWith(file.arr[i], "lda.w #"))
                 {
 
-                    if (matchStr(file.arr[i + 1], "sep #$20")
-                        && startWith(file.arr[i + 2], "sta ")
-                        && matchStr(file.arr[i + 3], "rep #$20")
-                        && startWith(file.arr[i + 4], "lda"))
+                    if (matchStr(file.arr[i + 1], "sep #$20") && startWith(file.arr[i + 2], "sta ") && matchStr(file.arr[i + 3], "rep #$20") && startWith(file.arr[i + 4], "lda"))
                     {
 
                         text_opt = pushToArray(text_opt, "sep #$20");
 
                         char *rs_buffer = replaceStr(file.arr[i], "lda.w", "lda.b");
-                        text_opt        = pushToArray(text_opt, rs_buffer);
+                        text_opt = pushToArray(text_opt, rs_buffer);
 
                         text_opt = pushToArray(text_opt, file.arr[i + 2]);
                         text_opt = pushToArray(text_opt, file.arr[i + 3]);
@@ -801,10 +782,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                     }
                 }
 
-                if (startWith(file.arr[i], "lda.b")
-                    && !isControl(file.arr[i + 1])
-                    && !isInText(file.arr[i + 1], "a")
-                    && startWith(file.arr[i + 2], "lda.b"))
+                if (startWith(file.arr[i], "lda.b") && !isControl(file.arr[i + 1]) && !isInText(file.arr[i + 1], "a") && startWith(file.arr[i + 2], "lda.b"))
                 {
 
                     text_opt = pushToArray(text_opt, file.arr[i + 1]);
@@ -817,29 +795,23 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
 
                 /* Don't write preg high back to stack if
                     it hasn't been updated */
-                if (endWith(file.arr[i + 1], "h")
-                    && startWith(file.arr[i + 1], "sta.b tcc__r")
-                    && startWith(file.arr[i], "lda ")
-                    && endWith(file.arr[i], ",s"))
+                if (endWith(file.arr[i + 1], "h") && startWith(file.arr[i + 1], "sta.b tcc__r") && startWith(file.arr[i], "lda ") && endWith(file.arr[i], ",s"))
                 {
 
                     char *local = sliceStr(file.arr[i], 4, strlen(file.arr[i]));
-                    char *reg   = sliceStr(file.arr[i + 1], 6, strlen(file.arr[i + 1]));
+                    char *reg = sliceStr(file.arr[i + 1], 6, strlen(file.arr[i + 1]));
 
                     /* lda stack ; store high preg ; ...
                         ; load high preg ; sta stack */
                     size_t j = i + 2;
-                    while (j < (file.used - 2)
-                           && !isControl(file.arr[j])
-                           && !isInText(file.arr[j], reg))
+                    while (j < (file.used - 2) && !isControl(file.arr[j]) && !isInText(file.arr[j], reg))
                     {
 
                         j += 1;
                     }
                     snprintf(snp_buf1, sizeof(snp_buf1), "lda.b %s", reg);
                     snprintf(snp_buf2, sizeof(snp_buf2), "sta %s", local);
-                    if (matchStr(file.arr[j], snp_buf1)
-                        && matchStr(file.arr[j + 1], snp_buf2))
+                    if (matchStr(file.arr[j], snp_buf1) && matchStr(file.arr[j + 1], snp_buf2))
                     {
                         while (i < j)
                         {
@@ -868,17 +840,11 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                         sta.b tcc_rYh
                         ...tcc_rX...
                 */
-                if (startWith(file.arr[i], "lda")
-                    && startWith(file.arr[i + 1], "sta.b tcc__r"))
+                if (startWith(file.arr[i], "lda") && startWith(file.arr[i + 1], "sta.b tcc__r"))
                 {
 
                     char *reg = sliceStr(file.arr[i + 1], 6, strlen(file.arr[i + 1]));
-                    if (!endWith(reg, "h")
-                        && startWith(file.arr[i + 2], "lda")
-                        && !endWith(file.arr[i + 2], reg)
-                        && startWith(file.arr[i + 3], "sta.b tcc__r")
-                        && endWith(file.arr[i + 3], "h")
-                        && endWith(file.arr[i + 4], reg))
+                    if (!endWith(reg, "h") && startWith(file.arr[i + 2], "lda") && !endWith(file.arr[i + 2], reg) && startWith(file.arr[i + 3], "sta.b tcc__r") && endWith(file.arr[i + 3], "h") && endWith(file.arr[i + 4], reg))
                     {
 
                         text_opt = pushToArray(text_opt, file.arr[i + 2]);
@@ -901,20 +867,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                     We try to detect those cases by checking if a tya follows the
                     comparison (not sure if this is reliable, but it passes the test suite)
                 */
-                if (matchStr(file.arr[i], "ldx #1")
-                    && startWith(file.arr[i + 1], "lda.b tcc__")
-                    && matchStr(file.arr[i + 2], "sec")
-                    && startWith(file.arr[i + 3], "sbc #")
-                    && matchStr(file.arr[i + 4], "tay")
-                    && matchStr(file.arr[i + 5], "beq +")
-                    && matchStr(file.arr[i + 6], "dex")
-                    && matchStr(file.arr[i + 7], "+")
-                    && startWith(file.arr[i + 8], "stx.b tcc__")
-                    && matchStr(file.arr[i + 9], "txa")
-                    && matchStr(file.arr[i + 10], "bne +")
-                    && startWith(file.arr[i + 11], "brl ")
-                    && matchStr(file.arr[i + 12], "+")
-                    && !matchStr(file.arr[i + 13], "tya"))
+                if (matchStr(file.arr[i], "ldx #1") && startWith(file.arr[i + 1], "lda.b tcc__") && matchStr(file.arr[i + 2], "sec") && startWith(file.arr[i + 3], "sbc #") && matchStr(file.arr[i + 4], "tay") && matchStr(file.arr[i + 5], "beq +") && matchStr(file.arr[i + 6], "dex") && matchStr(file.arr[i + 7], "+") && startWith(file.arr[i + 8], "stx.b tcc__") && matchStr(file.arr[i + 9], "txa") && matchStr(file.arr[i + 10], "bne +") && startWith(file.arr[i + 11], "brl ") && matchStr(file.arr[i + 12], "+") && !matchStr(file.arr[i + 13], "tya"))
                 {
 
                     text_opt = pushToArray(text_opt, file.arr[i + 1]);
@@ -934,19 +887,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                     continue;
                 }
 
-                if (matchStr(file.arr[i], "ldx #1")
-                    && matchStr(file.arr[i + 1], "sec")
-                    && startWith(file.arr[i + 2], "sbc #")
-                    && matchStr(file.arr[i + 3], "tay")
-                    && matchStr(file.arr[i + 4], "beq +")
-                    && matchStr(file.arr[i + 5], "dex")
-                    && matchStr(file.arr[i + 6], "+")
-                    && startWith(file.arr[i + 7], "stx.b tcc__")
-                    && matchStr(file.arr[i + 8], "txa")
-                    && matchStr(file.arr[i + 9], "bne +")
-                    && startWith(file.arr[i + 10], "brl ")
-                    && matchStr(file.arr[i + 11], "+")
-                    && !matchStr(file.arr[i + 12], "tya"))
+                if (matchStr(file.arr[i], "ldx #1") && matchStr(file.arr[i + 1], "sec") && startWith(file.arr[i + 2], "sbc #") && matchStr(file.arr[i + 3], "tay") && matchStr(file.arr[i + 4], "beq +") && matchStr(file.arr[i + 5], "dex") && matchStr(file.arr[i + 6], "+") && startWith(file.arr[i + 7], "stx.b tcc__") && matchStr(file.arr[i + 8], "txa") && matchStr(file.arr[i + 9], "bne +") && startWith(file.arr[i + 10], "brl ") && matchStr(file.arr[i + 11], "+") && !matchStr(file.arr[i + 12], "tya"))
                 {
 
                     char *ins = sliceStr(file.arr[i + 2], 5, strlen(file.arr[i + 2]));
@@ -964,21 +905,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                     continue;
                 }
 
-                if (matchStr(file.arr[i], "ldx #1")
-                    && startWith(file.arr[i + 1], "lda.b tcc__r")
-                    && matchStr(file.arr[i + 2], "sec")
-                    && startWith(file.arr[i + 3], "sbc.b tcc__r")
-                    && matchStr(file.arr[i + 4], "tay")
-                    && matchStr(file.arr[i + 5], "beq +")
-                    && matchStr(file.arr[i + 6], "bcs ++")
-                    && matchStr(file.arr[i + 7], "+ dex")
-                    && matchStr(file.arr[i + 8], "++")
-                    && startWith(file.arr[i + 9], "stx.b tcc__r")
-                    && matchStr(file.arr[i + 10], "txa")
-                    && matchStr(file.arr[i + 11], "bne +")
-                    && startWith(file.arr[i + 12], "brl ")
-                    && matchStr(file.arr[i + 13], "+")
-                    && !matchStr(file.arr[i + 14], "tya"))
+                if (matchStr(file.arr[i], "ldx #1") && startWith(file.arr[i + 1], "lda.b tcc__r") && matchStr(file.arr[i + 2], "sec") && startWith(file.arr[i + 3], "sbc.b tcc__r") && matchStr(file.arr[i + 4], "tay") && matchStr(file.arr[i + 5], "beq +") && matchStr(file.arr[i + 6], "bcs ++") && matchStr(file.arr[i + 7], "+ dex") && matchStr(file.arr[i + 8], "++") && startWith(file.arr[i + 9], "stx.b tcc__r") && matchStr(file.arr[i + 10], "txa") && matchStr(file.arr[i + 11], "bne +") && startWith(file.arr[i + 12], "brl ") && matchStr(file.arr[i + 13], "+") && !matchStr(file.arr[i + 14], "tya"))
                 {
 
                     text_opt = pushToArray(text_opt, file.arr[i + 1]);
@@ -1001,23 +928,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                     continue;
                 }
 
-                if (matchStr(file.arr[i], "ldx #1")
-                    && matchStr(file.arr[i + 1], "sec")
-                    && startWith(file.arr[i + 2], "sbc.w #")
-                    && matchStr(file.arr[i + 3], "tay")
-                    && matchStr(file.arr[i + 4], "bvc +")
-                    && matchStr(file.arr[i + 5], "eor #$8000")
-                    && matchStr(file.arr[i + 6], "+")
-                    && matchStr(file.arr[i + 7], "bmi +++")
-                    && matchStr(file.arr[i + 8], "++")
-                    && matchStr(file.arr[i + 9], "dex")
-                    && matchStr(file.arr[i + 10], "+++")
-                    && startWith(file.arr[i + 11], "stx.b tcc__r")
-                    && matchStr(file.arr[i + 12], "txa")
-                    && matchStr(file.arr[i + 13], "bne +")
-                    && startWith(file.arr[i + 14], "brl ")
-                    && matchStr(file.arr[i + 15], "+")
-                    && !matchStr(file.arr[i + 16], "tya"))
+                if (matchStr(file.arr[i], "ldx #1") && matchStr(file.arr[i + 1], "sec") && startWith(file.arr[i + 2], "sbc.w #") && matchStr(file.arr[i + 3], "tay") && matchStr(file.arr[i + 4], "bvc +") && matchStr(file.arr[i + 5], "eor #$8000") && matchStr(file.arr[i + 6], "+") && matchStr(file.arr[i + 7], "bmi +++") && matchStr(file.arr[i + 8], "++") && matchStr(file.arr[i + 9], "dex") && matchStr(file.arr[i + 10], "+++") && startWith(file.arr[i + 11], "stx.b tcc__r") && matchStr(file.arr[i + 12], "txa") && matchStr(file.arr[i + 13], "bne +") && startWith(file.arr[i + 14], "brl ") && matchStr(file.arr[i + 15], "+") && !matchStr(file.arr[i + 16], "tya"))
                 {
 
                     text_opt = pushToArray(text_opt, file.arr[i + 1]);
@@ -1034,24 +945,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                     continue;
                 }
 
-                if (matchStr(file.arr[i], "ldx #1")
-                    && startWith(file.arr[i + 1], "lda.b tcc__r")
-                    && matchStr(file.arr[i + 2], "sec")
-                    && startWith(file.arr[i + 3], "sbc.b tcc__r")
-                    && matchStr(file.arr[i + 4], "tay")
-                    && matchStr(file.arr[i + 5], "bvc +")
-                    && matchStr(file.arr[i + 6], "eor #$8000")
-                    && matchStr(file.arr[i + 7], "+")
-                    && matchStr(file.arr[i + 8], "bmi +++")
-                    && matchStr(file.arr[i + 9], "++")
-                    && matchStr(file.arr[i + 10], "dex")
-                    && matchStr(file.arr[i + 11], "+++")
-                    && startWith(file.arr[i + 12], "stx.b tcc__r")
-                    && matchStr(file.arr[i + 13], "txa")
-                    && matchStr(file.arr[i + 14], "bne +")
-                    && startWith(file.arr[i + 15], "brl ")
-                    && matchStr(file.arr[i + 16], "+")
-                    && !matchStr(file.arr[i + 17], "tya"))
+                if (matchStr(file.arr[i], "ldx #1") && startWith(file.arr[i + 1], "lda.b tcc__r") && matchStr(file.arr[i + 2], "sec") && startWith(file.arr[i + 3], "sbc.b tcc__r") && matchStr(file.arr[i + 4], "tay") && matchStr(file.arr[i + 5], "bvc +") && matchStr(file.arr[i + 6], "eor #$8000") && matchStr(file.arr[i + 7], "+") && matchStr(file.arr[i + 8], "bmi +++") && matchStr(file.arr[i + 9], "++") && matchStr(file.arr[i + 10], "dex") && matchStr(file.arr[i + 11], "+++") && startWith(file.arr[i + 12], "stx.b tcc__r") && matchStr(file.arr[i + 13], "txa") && matchStr(file.arr[i + 14], "bne +") && startWith(file.arr[i + 15], "brl ") && matchStr(file.arr[i + 16], "+") && !matchStr(file.arr[i + 17], "tya"))
                 {
 
                     text_opt = pushToArray(text_opt, file.arr[i + 1]);
@@ -1069,23 +963,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                     continue;
                 }
 
-                if (matchStr(file.arr[i], "ldx #1")
-                    && matchStr(file.arr[i + 1], "sec")
-                    && startWith(file.arr[i + 2], "sbc.b tcc__r")
-                    && matchStr(file.arr[i + 3], "tay")
-                    && matchStr(file.arr[i + 4], "bvc +")
-                    && matchStr(file.arr[i + 5], "eor #$8000")
-                    && matchStr(file.arr[i + 6], "+")
-                    && matchStr(file.arr[i + 7], "bmi +++")
-                    && matchStr(file.arr[i + 8], "++")
-                    && matchStr(file.arr[i + 9], "dex")
-                    && matchStr(file.arr[i + 10], "+++")
-                    && startWith(file.arr[i + 11], "stx.b tcc__r")
-                    && matchStr(file.arr[i + 12], "txa")
-                    && matchStr(file.arr[i + 13], "bne +")
-                    && startWith(file.arr[i + 14], "brl ")
-                    && matchStr(file.arr[i + 15], "+")
-                    && !matchStr(file.arr[i + 16], "tya"))
+                if (matchStr(file.arr[i], "ldx #1") && matchStr(file.arr[i + 1], "sec") && startWith(file.arr[i + 2], "sbc.b tcc__r") && matchStr(file.arr[i + 3], "tay") && matchStr(file.arr[i + 4], "bvc +") && matchStr(file.arr[i + 5], "eor #$8000") && matchStr(file.arr[i + 6], "+") && matchStr(file.arr[i + 7], "bmi +++") && matchStr(file.arr[i + 8], "++") && matchStr(file.arr[i + 9], "dex") && matchStr(file.arr[i + 10], "+++") && startWith(file.arr[i + 11], "stx.b tcc__r") && matchStr(file.arr[i + 12], "txa") && matchStr(file.arr[i + 13], "bne +") && startWith(file.arr[i + 14], "brl ") && matchStr(file.arr[i + 15], "+") && !matchStr(file.arr[i + 16], "tya"))
                 {
 
                     text_opt = pushToArray(text_opt, file.arr[i + 1]);
@@ -1103,8 +981,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                 }
             } // End of startWith(file.arr[i], "ld")
 
-            if (matchStr(file.arr[i], "rep #$20")
-                && matchStr(file.arr[i + 1], "sep #$20"))
+            if (matchStr(file.arr[i], "rep #$20") && matchStr(file.arr[i + 1], "sep #$20"))
             {
 
                 i += 2;
@@ -1112,11 +989,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                 continue;
             }
 
-            if (matchStr(file.arr[i], "sep #$20")
-                && startWith(file.arr[i + 1], "lda #")
-                && matchStr(file.arr[i + 2], "pha")
-                && startWith(file.arr[i + 3], "lda #")
-                && matchStr(file.arr[i + 4], "pha"))
+            if (matchStr(file.arr[i], "sep #$20") && startWith(file.arr[i + 1], "lda #") && matchStr(file.arr[i + 2], "pha") && startWith(file.arr[i + 3], "lda #") && matchStr(file.arr[i + 4], "pha"))
             {
 
                 char *token1, *token2;
@@ -1142,8 +1015,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
 
                     snprintf(snp_buf1, sizeof(snp_buf1), "inc.b %s",
                              r1.arr[1]);
-                    if (file.arr[i + 2] && file.arr[i + 3] && matchStr(file.arr[i + 2], snp_buf1)
-                        && matchStr(file.arr[i + 3], snp_buf1))
+                    if (file.arr[i + 2] && file.arr[i + 3] && matchStr(file.arr[i + 2], snp_buf1) && matchStr(file.arr[i + 3], snp_buf1))
                     {
 
                         snprintf(snp_buf1, sizeof(snp_buf1), "adc #%s + 2",
@@ -1169,10 +1041,9 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
             {
                 char *ss_buffer = sliceStr(file.arr[i], 0, 6);
 
-                if (matchStr(ss_buffer, "lda.l ")
-                    || matchStr(ss_buffer, "sta.l "))
+                if (matchStr(ss_buffer, "lda.l ") || matchStr(ss_buffer, "sta.l "))
                 {
-                    size_t cont      = 0;
+                    size_t cont = 0;
                     char *ss_buffer2 = sliceStr(file.arr[i], 2, strlen(file.arr[i]));
 
                     for (size_t b = 0; b < bss.used; b++)
@@ -1183,7 +1054,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                         {
 
                             char *rs_buffer = replaceStr(file.arr[i], "a.l", "a.w");
-                            text_opt        = pushToArray(text_opt, rs_buffer);
+                            text_opt = pushToArray(text_opt, rs_buffer);
 
                             i += 1;
                             opted += 1;
@@ -1201,10 +1072,9 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                 free(ss_buffer);
             }
 
-            if (startWith(file.arr[i], "jmp.w ")
-                || startWith(file.arr[i], "bra __"))
+            if (startWith(file.arr[i], "jmp.w ") || startWith(file.arr[i], "bra __"))
             {
-                size_t j    = i + 1;
+                size_t j = i + 1;
                 size_t cont = 0;
                 while (j < file.used && endWith(file.arr[j], ":"))
                 {
@@ -1240,7 +1110,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                     {
 
                         char *rs_buffer = replaceStr(file.arr[i], "jmp.w", "bra");
-                        text_opt        = pushToArray(text_opt, rs_buffer);
+                        text_opt = pushToArray(text_opt, rs_buffer);
 
                         i += 1;
                         opted += 1;
