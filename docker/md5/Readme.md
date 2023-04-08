@@ -1,7 +1,7 @@
 # ROM integrity check
 
 - [ROM integrity check](#rom-integrity-check)
-  - [Generate a sfc_md5sum.ref for a new release](#generate-a-sfc_md5sumref-for-a-new-release)
+  - [Generate a sfc\_md5sum.ref for a new release](#generate-a-sfc_md5sumref-for-a-new-release)
   - [ROM integrity check](#rom-integrity-check-1)
     - [From Docker](#from-docker)
     - [Manually](#manually)
@@ -18,7 +18,7 @@ Position yourself in the stable branch (master) and run the following command:
 ```bash
 find snes-examples -not \( -path snes-examples/bin -prune \) \
     -type f -name "*.sfc" -print0 | \
-    xargs -0 md5sum | awk '{print $1"|"$2}' > "${PVSNESLIB_HOME}/sfc_md5sum.ref"
+    xargs -0 md5sum | awk '{print $1"|"$2}' > "${PVSNESLIB_HOME}/docker/md5/sfc_md5sum.ref"
 ```
 
 ## ROM integrity check

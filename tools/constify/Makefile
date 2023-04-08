@@ -4,7 +4,7 @@ VERSION = "4.0.0"
 # options for code generation
 #---------------------------------------------------------------------------------
 CC=g++
-CFLAGS=-g -O2 -Wall -Wno-literal-suffix -Wno-overflow -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\"" 
+CFLAGS=-g -O2 -Wall -Wno-literal-suffix -Wno-overflow -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 # We want to build the project with static libraries except for Mac OS because the manual page of gcc explain:
 # "The static option will not work on Mac OS X unless all libraries (including libgcc.a) have also been compiled with -static.
@@ -32,7 +32,7 @@ all: $(EXE)$(EXT)
 $(EXE)$(EXT) : $(OBJS)
 	@echo make exe $(notdir $<)
 	$(CC) $(CFLAGS) $(OBJS) -o $@
-	
+
 constify.o : constify.cpp
 	@echo make obj $(notdir $<)
 	$(CC) $(CFLAGS) -c $<
@@ -46,5 +46,5 @@ clean:
 	rm -f $(EXE)$(EXT) $(OBJS)
 
 install:
-	mkdir -p ../../devkitsnes/bin && cp $(EXE)$(EXT) ../../devkitsnes/bin/$(EXE)$(EXT)
+	cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
 

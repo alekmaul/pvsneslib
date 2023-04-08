@@ -13,7 +13,6 @@ RUN apt-get update -y && \
     apt-get install -y build-essential \
         gcc-multilib \
         git \
-        python-is-python3 \
         cmake \
         wget
 

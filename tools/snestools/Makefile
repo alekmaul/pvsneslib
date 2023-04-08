@@ -17,8 +17,8 @@ CFLAGS+=-Wall -Wno-unused-but-set-variable -Wno-format -D__BUILD_DATE="\"`date +
 SOURCES=snestools.c
 OBJS=snestools.o
 EXE=snestools
-DEFINES = 
-LIBS = 
+DEFINES =
+LIBS =
 
 ifeq ($(OS),Windows_NT)
         EXT=.exe
@@ -32,11 +32,11 @@ all: $(EXE)$(EXT)
 
 #---------------------------------------------------------------------------------
 $(EXE)$(EXT) : $(OBJS)
-	@echo make exe $(notdir $<) 
+	@echo make exe $(notdir $<)
 	$(CC) $(CFLAGS) $(OBJS) -o $@
-	
+
 snestools.o : snestools.c
-	@echo make obj $(notdir $<) 
+	@echo make obj $(notdir $<)
 	$(CC) $(CFLAGS) -c $<
 
 #---------------------------------------------------------------------------------
@@ -44,4 +44,4 @@ clean:
 	rm -f $(EXE)$(EXT) $(OBJS)
 
 install:
-	mkdir -p ../../devkitsnes/tools && cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
+	cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)

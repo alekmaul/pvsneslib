@@ -36,7 +36,6 @@ For people who cannot work with this constraint, you can build your docker image
 To use it, you will need at least :
 
 - a unix-like environment like msys if you work on Windows
-- python 3 installed and available in your path environment variable (accessible with the **python** command)
 
 If you want to compile the whole project, please see [this wiki page](https://github.com/alekmaul/pvsneslib/wiki/Compiling-from-sources) to get all required dependencies.
 
@@ -72,16 +71,16 @@ Sydney Hunter by [CollectorVision](https://collectorvision.com/store/shop/snes/s
 
 # Special thanks #
 
--RetroAntho (https://github.com/RetroAntho) for his great help to move wla-dx to last version and also for all compilation optimizations in Makefile, snes_rules and, at least, for keeping me motivated to update PVSnesLib ;)  
--Ulrich Hecht for SNES C SDK: http://code.google.com/p/snes-sdk/  
--Byuu for bass - assembler with SPC700 support: http://byuu.org/programming/  
--Mic_ for 816-tcc, sixpack, optimore, constify: http://jiggawatt.org/badc0de/sixpack/ and http://jiggawatt.org/optimore-816r2.zip  
--Neviksti for pcx2snes  
--Shiru for snesbmp idea & sound tools: http://shiru.untergrund.net/  
--Mukunda for smconv tool: http://snes.mukunda.com/  
--RedBug for constify tcc bug fix and tips for Linux and Docker  
--mills32 (https://github.com/mills32) for his mode7 3D example  
--n_Arno for his help on Linux version (https://github.com/nArnoSNES/)  
--kobenairb for python & docker optimizations  
-  
+- [**RetroAntho**](https://github.com/RetroAntho) for his great help to move wla-dx to last version and also for all compilation optimizations in Makefile, snes_rules and, at least, for keeping me motivated to update PVSnesLib 😉.
+- **Ulrich Hecht** for [SNES C SDK](http://code.google.com/p/snes-sdk/).
+- **Byuu** for [bass](http://byuu.org/programming/), the assembler with SPC700 support.
+- **Mic_** for 816-tcc, [sixpack](http://jiggawatt.org/badc0de/sixpack/), [optimore](http://jiggawatt.org/optimore-816r2.zip) and constify.
+- **Neviksti** for pcx2snes.
+- [**Shiru**](http://shiru.untergrund.net/) for snesbmp idea & sound tools.
+- [**Mukunda**](http://snes.mukunda.com/) for smconv tool.
+- **RedBug** for constify tcc bug fix and tips for Linux and Docker.
+- [**Mills32**](https://github.com/mills32) for his mode7 3D example.
+- [**N_Arno**](https://github.com/nArnoSNES/) for his help on Linux version.
+- [**Kobenairb**](https://github.com/kobenairb/) for python & docker optimizations.
+
 Thanks !

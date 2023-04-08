@@ -9,7 +9,7 @@ RUN apt-get update -y && \
     dpkg --add-architecture i386 && \
     apt-get install -y build-essential \
         gcc-multilib \
-        git python-is-python3 \
+        git \
         cmake \
         wget
 

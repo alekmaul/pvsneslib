@@ -12,8 +12,8 @@ LDFLAGS := -static -static-libstdc++ -static-libgcc
 SOURCE = brr.cpp convert.cpp inputdata.cpp io.cpp it2spc.cpp itloader.cpp
 OBJS = brr.o convert.o inputdata.o io.o it2spc.o itloader.o
 EXE=smconv
-DEFINES = 
-LIBS = 
+DEFINES =
+LIBS =
 
 ifeq ($(OS),Windows_NT)
         EXT=.exe
@@ -26,20 +26,20 @@ all: $(EXE)$(EXT)
 
 #---------------------------------------------------------------------------------
 $(EXE)$(EXT) : $(OBJS)
-	@echo make exe $(notdir $<) 
+	@echo make exe $(notdir $<)
 	$(CP) $(LDFLAGS) $(OBJS) -o $@
 
 %.o: %.cpp
-	@echo make cpp obj $(notdir $<) 
+	@echo make cpp obj $(notdir $<)
 	$(CP) $(CXXFLAGS) -c $<
 
 %.o: %.c
-	@echo make c obj $(notdir $<) 
+	@echo make c obj $(notdir $<)
 	$(CC) $(CFLAGS) -c $<
-	
+
 #---------------------------------------------------------------------------------
 clean:
 	rm -f $(EXE)$(EXT) $(OBJS) *.tds
 
 install:
-	mkdir -p ../../devkitsnes/tools && cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
+	cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)

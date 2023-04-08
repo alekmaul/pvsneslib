@@ -3,7 +3,7 @@ If you want to build the whole pvsneslib project directly from sources, you will
 _Before following this tutorial, we strongly recommend you to do a first installation from the release version thanks to [this page.](https://github.com/alekmaul/pvsneslib/wiki/Installation)_
 _It will provide you tools and command lines to install dependencies and avoid you some loss of time here !_
 
-Please keep in mind that it works only on **32 bits** system. If your system is not able to manage it, you can use docker by following instructions available in the docker folder. 
+Please keep in mind that it works only on **32 bits** system. If your system is not able to manage it, you can use docker by following instructions available in the docker folder.
 I will also consider that these tools are mandatory everywhere so i will not add it in the list anymore :
 
   * git
@@ -77,17 +77,11 @@ It will build tcc then wla.
 
 To install PVSneslib, you will need :
 
- * Python 3
  * doxygen for documentation (optional)
 
 To build PVSneslib, **PVSNESLIB_HOME** environment variable have to be defined. If you followed all steps of this page, you should arleady have it.
 
 Tools and compiler should be compiled and installed before too !
-
-Python is used to optimize the code produced by TCC, it needs to be added in your path and accessible directly from the **python** command.
-If the command `python --version` does not work on your computer, you will have issues while using the script in PVsneslib.
-
-_Please note that the code is still compatible with Python 2 but we do not recommend to use this old version._
 
 Go to pvsneslib directory and run the `make` command. There is no the `make install` because it generate automatically the files in the final directory.
 

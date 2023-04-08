@@ -25,19 +25,40 @@ The remaining entries here on the unofficial FAQ are maintained by the community
 
 **[Common errors](#common-errors)**
 
-- [What is CHECK_HEADERS error ?](#what-is-check_headers-error-)
-- [Colors of my loaded picture are wrong](#colors-of-my-loaded-picture-are-wrong)
-- [I get FIX_LABELS error when i build my project](#i-get-fix_labels-error-when-i-build-my-project)
-- [Why HDMA channel 0 doesn't work ?](#why-hdma-channel-0-doesnt-work-)
-- [Soundbank files are missing in music samples](#soundbank-files-are-missing-in-music-samples)
-- [My music has some glitch during playing](#my-music-has-some-glitches-during-playing)
-- [Programmer's Notepad add text anywhere when i compile](#programmers-notepad-adds-other-text-when-i-compile)
-- [Font system doesn't work with some background mode](#how-to-build-tcc-816-provided-with-pvsneslib-sources-)
-- [How to build tcc 816 provided with PVSneslib sources ?](#how-to-build-tcc-816-provided-with-pvsneslib-sources-)
-- [I get the error "echo: command not found"](#i-get-the-error-echo-command-not-found)
-- [How to solve "Cannot openmake" error](#How-to-solve-cannot-openmake-error)
-- [On Linux i get : "fatal error: bits/libc-header-start.h"](#on-linux-i-get--fatal-error-bitslibc-header-starth)
-- [Using malloc with PVSneslib](#using-malloc-with-pvsneslib)
+- [Frequently asked questions (FAQ)](#frequently-asked-questions-faq)
+  - [Miscellaneous](#miscellaneous)
+    - [I want to contribute to this project](#i-want-to-contribute-to-this-project)
+    - [I want to ask something](#i-want-to-ask-something)
+    - [I found a bug. What can i do ?](#i-found-a-bug-what-can-i-do-)
+    - [Can we create HiROM games with the lib ?](#can-we-create-hirom-games-with-the-lib-)
+    - [Why is it called PVSnesLib ?](#why-is-it-called-pvsneslib-)
+    - [I would like to share my project with PVSneslib community](#i-would-like-to-share-my-project-with-pvsneslib-community)
+    - [Is it possible to use Docker ?](#is-it-possible-to-use-docker-)
+    - [How to update WLA submodule to the latest commit ?](#how-to-update-wla-submodule-to-the-latest-commit-)
+  - [About the lib](#about-the-lib)
+    - [Is it possible to rotate a picture ?](#is-it-possible-to-rotate-a-picture-)
+    - [What is the function to clear text ?](#what-is-the-function-to-clear-text-)
+    - [How can I display special characters in text ?](#how-can-i-display-special-characters-in-text-)
+    - [How to create random number ?](#how-to-create-random-number-)
+    - [What is the goal of each tool ?](#what-is-the-goal-of-each-tool-)
+    - [What are .it files ?](#what-are-it-files-)
+    - [How to convert .mid to .it ?](#how-to-convert-mid-to-it-)
+  - [Common errors](#common-errors)
+    - [What is CHECK\_HEADERS error ?](#what-is-check_headers-error-)
+    - [Colors of my loaded picture are wrong](#colors-of-my-loaded-picture-are-wrong)
+    - [I get FIX\_LABELS error when I build my project](#i-get-fix_labels-error-when-i-build-my-project)
+    - [Why HDMA channel 0 doesn't work ?](#why-hdma-channel-0-doesnt-work-)
+    - [Soundbank files are missing in music samples](#soundbank-files-are-missing-in-music-samples)
+    - [My music has some glitches during playing](#my-music-has-some-glitches-during-playing)
+    - [Programmer's Notepad adds other text when I compile](#programmers-notepad-adds-other-text-when-i-compile)
+    - [Font system doesn't work with some background mode](#font-system-doesnt-work-with-some-background-mode)
+    - [How to build tcc 816 provided with PVSnesLib sources ?](#how-to-build-tcc-816-provided-with-pvsneslib-sources-)
+    - [I get the error "echo: command not found"](#i-get-the-error-echo-command-not-found)
+    - [On Linux i get : "fatal error: bits/libc-header-start.h"](#on-linux-i-get--fatal-error-bitslibc-header-starth)
+    - [Using malloc with PVSneslib](#using-malloc-with-pvsneslib)
+  - [Maps](#maps)
+    - [How to create maps with 16x16 tiles ?](#how-to-create-maps-with-16x16-tiles-)
+    - [Backgrounds begin at x = 0 and y = 1](#backgrounds-begin-at-x--0-and-y--1)
 
 **[Maps](#maps)**
 
@@ -123,7 +144,7 @@ Remember that we have a lot of constraints on SNES and each parameter of the too
 
 - snestools : this tool is not used anymore by PVSnesLib (it was used to patch the ROM after its build) but it is still provided with it if you want to see the header of your ROM.
 
-- 816-tcc and 816-opt.py : this is the tiny C compiler for 8/16 bits architecture, it translate your C code to ASM for 65c816. Due to some limitations and performances issues, a python script is used after to optimize the generated code.
+- 816-tcc and 816-opt : this is the tiny C compiler for 8/16 bits architecture, it translate your C code to ASM for 65c816. Due to some limitations and performances issues, the 816-opt is used after to optimize the generated code.
 
 - constify : it looks through your .c source files to detect const variables, it moves variables from RAM to ROM in .asm files to improve performance.
 
@@ -307,20 +328,6 @@ After this command, you can build tcc by doing : **make 816-tcc.exe**
 
 You probably have an issue with the format of your PVSNESLIB_HOME environment variable.
 The value must be in unix style (**/c/snesdev** instead of **c:\\snesdev**) to avoid this issue. The variable can be created with this command line : `setx PVSNESLIB_HOME "/c/snesdev"`
-
-### How to solve "Cannot openmake" error
-
-As explained in the [installation page](https://github.com/alekmaul/pvsneslib/wiki/Installation) available in the wiki:
-
-Python is used to optimize the code produced, it needs to be added in your path and accessible directly from the python command. If the command `python --version` does not work on your computer, you will have issues while using the script in PVsneslib.
-
-If you get a message like this one :
-
-__Assembling ... main.ps__  
-__/c/snes/devkitsnes/bin/816-opt.py main.ps >main.asp__  
-__Cannot openmake: *** [main.asm] Error 1__
-
-it means that you have an issue with your python installation and you need to review this step.
 
 ### On Linux i get : "fatal error: bits/libc-header-start.h"
 
