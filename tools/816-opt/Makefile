@@ -16,7 +16,7 @@ endif
 
 all: $(BIN)$(EXT)
 
-$(BIN): $(OBJECTS)
+$(BIN)$(EXT): $(OBJECTS)
 	$(CC) $^ -o $@
 
 $(OBJ)/%.o: $(SRC)/%.c
