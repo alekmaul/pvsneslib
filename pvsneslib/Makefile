@@ -2,54 +2,43 @@ ifeq ($(strip $(PVSNESLIB_HOME)),)
 $(error "Please create an environment variable PVSNESLIB_HOME with path to its folder and restart application. (you can do it on windows with <setx PVSNESLIB_HOME "/c/snesdev">)")
 endif
 
-export TOPDIR	:=	$(CURDIR)
+export TOPDIR := $(CURDIR)
 
 # create version number which will be used everywhere
-export PVSNESLIB_MAJOR	:= 4
-export PVSNESLIB_MINOR	:= 0
-export PVSNESLIB_PATCH	:= 3
+export PVSNESLIB_MAJOR := 4
+export PVSNESLIB_MINOR := 0
+export PVSNESLIB_PATCH := 3
 
 # Directory with docs config and output (via doxygen)
-export PVSDOCSDIR = $(TOPDIR)/docs
+export PVSDOCSDIR := $(TOPDIR)/docs
 
 .PHONY: release clean all docs
 
 all: include/snes/libversion.h pvsneslibversion release docs
 
-#-------------------------------------------------------------------------------
 release: lib
-	make -C source all
+	$(MAKE) -C source all
 
-#-------------------------------------------------------------------------------
 lib:
-	mkdir lib
+	@mkdir -p $@
 
-#-------------------------------------------------------------------------------
-examples:
-	cd ../snes-examples && \
-	make && \
-	make install
-
-#-------------------------------------------------------------------------------
 clean:
-	make -C source clean
-	rm -rf $(PVSDOCSDIR)/html
-	rm -f pvsneslib_version.txt
+	$(MAKE) -C source clean
+	@rm -rf $(PVSDOCSDIR)/html
+	@rm -f pvsneslib_version.txt
 
-#---------------------------------------------------------------------------------
 doxygenInstalled := $(shell command -v doxygen 2> /dev/null)
 docs:
 ifndef doxygenInstalled
 	@echo "doxygen is not installed, documentation will be not generated.";
 else
-	@rm -rf $(PVSDOCSDIR)/html; \
-	PVSDOCSDIR="$(PVSDOCSDIR)" PVSVERSION="$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)" doxygen "$(PVSDOCSDIR)/pvsneslib.dox"
+	@rm -rf $(PVSDOCSDIR)/html
+	@PVSDOCSDIR="$(PVSDOCSDIR)" PVSVERSION="$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)" doxygen "$(PVSDOCSDIR)/pvsneslib.dox"
 	@if [ "$(DOCS_PDF_ON)" = "YES" ]; then\
-		$(MAKE) -C $(PVSDOCSDIR)/latex;\
-		cp $(PVSDOCSDIR)/latex/refman.pdf $(PVSDOCSDIR)/pvsneslib_manual.pdf;\
+		$(MAKE) -C $(PVSDOCSDIR)/latex && cp $(PVSDOCSDIR)/latex/refman.pdf $(PVSDOCSDIR)/pvsneslib_manual.pdf;\
 	fi
 	@if [ -f 'warn.log' ]; then \
-			@cat warn.log; \
+		cat warn.log; \
 	fi
 	@rm -rf $(PVSDOCSDIR)/latex
 endif
@@ -67,7 +56,6 @@ endif
 docspdf: DOCS_PDF_ON=YES
 docspdf: docs
 
-#---------------------------------------------------------------------------------
 include/snes/libversion.h : Makefile
 	@echo "#ifndef __PVSNESLIBVERSION_H__" > $@
 	@echo "#define __PVSNESLIBVERSION_H__" >> $@
