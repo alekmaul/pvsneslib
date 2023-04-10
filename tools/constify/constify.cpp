@@ -30,12 +30,12 @@
 
 */
 
+#include <iterator>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <string>
 #include <vector>
-#include <iterator>
 
 #define CONSTIFYVERSION __BUILD_VERSION
 #define CONSTIFYDATE __BUILD_DATE
@@ -138,7 +138,7 @@ void PrintOptions(const char *str)
 //////////////////////////////////////////////////////////////////////////////
 void PrintVersion(void)
 {
-    printf("\n\nconstify.exe (" CONSTIFYDATE ") version " CONSTIFYVERSION "");
+    printf("constify.exe (" CONSTIFYDATE ") version " CONSTIFYVERSION "");
     printf("\nCopyright (c) 2013-2021 Alekmaul");
     printf("\nBased on constify by Mic\n");
 }
@@ -152,7 +152,7 @@ int main(int argc, char **argv)
     unsigned int i, j;
     int k;
     int varOffs, varSize = 0, varsMoved, bytesMoved, ch, currSection;
-    char cFilebase[256] = "";
+    char cFilebase[256]   = "";
     char asmFilebase[256] = "";
     char outFilebase[256] = "";
 
@@ -286,7 +286,7 @@ int main(int argc, char **argv)
     }
 
     oneLine.clear();
-    saveCode = false;
+    saveCode    = false;
     currSection = -1;
     while (1)
     {
@@ -299,20 +299,20 @@ int main(int argc, char **argv)
                     // if (oneLine.find(".RAMSECTION \"ram.data\"") != string::npos)
                     if (oneLine.find("APPENDTO \"globram.data\"") != string::npos)
                     {
-                        saveCode = true;
+                        saveCode    = true;
                         currSection = 0;
                         asmSections[currSection].push_back(oneLine);
                     }
                     // else if (oneLine.find(".SECTION \".data\"") != string::npos)
                     else if (oneLine.find("APPENDTO \"glob.data\"") != string::npos)
                     {
-                        saveCode = true;
+                        saveCode    = true;
                         currSection = 1;
                         asmSections[currSection].push_back(oneLine);
                     }
                     else if (oneLine.find(".SECTION \".rodata\"") != string::npos)
                     {
-                        saveCode = true;
+                        saveCode    = true;
                         currSection = 2;
                         if (sectName.length())
                         {
@@ -360,7 +360,7 @@ int main(int argc, char **argv)
     {
         unsigned int k, m;
         int n;
-        j = 1;
+        j       = 1;
         varOffs = 0;
         while (j < asmSections[0].size())
         {
@@ -387,7 +387,7 @@ int main(int argc, char **argv)
                 varSize = atoi(asmSections[0][j].substr(k + 4).data());
             }
             int dataOffs = 0;
-            m = 1;
+            m            = 1;
             while ((dataOffs < varOffs) && (m < asmSections[1].size()))
             {
                 n = 1;
