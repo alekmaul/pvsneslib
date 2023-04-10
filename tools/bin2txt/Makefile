@@ -5,11 +5,10 @@ DATESTRING := $(shell date +%Y%m%d)
 # options for code generation
 #---------------------------------------------------------------------------------
 CC := gcc
-CFLAGS := -g -O2 -Wall -Wno-implicit-function-declaration -Wno-unused-result -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\"" -MMD
+CFLAGS := -g -O2 -Wall -Wno-implicit-function-declaration -Wno-unused-result -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 SOURCES := bin2txt.c
 OBJS := $(SOURCES:%.c=%.o)
-DEPS := $(SOURCES:%.c=%.d)
 EXE := bin2txt
 DEFINES :=
 LIBS :=
@@ -25,8 +24,6 @@ endif
 #---------------------------------------------------------------------------------
 all: $(EXE)$(EXT)
 
--include $(DEPS)
-
 #---------------------------------------------------------------------------------
 $(EXE)$(EXT) : $(OBJS)
 	@echo "Linking $@"
@@ -38,7 +35,7 @@ $(EXE)$(EXT) : $(OBJS)
 
 #---------------------------------------------------------------------------------
 clean:
-	@rm -f $(DEPS) $(OBJS) $(EXE)$(EXT)
+	@rm -f $(OBJS) $(EXE)$(EXT)
 
 #---------------------------------------------------------------------------------
 install: all
