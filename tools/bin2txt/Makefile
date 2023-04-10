@@ -4,11 +4,9 @@ DATESTRING := $(shell date +%Y%m%d)
 CC := gcc
 CFLAGS := -g -O2 -Wall -Wno-implicit-function-declaration -Wno-unused-result -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-SOURCES := bin2txt.c
+SOURCES := $(wildcard *.c)
 OBJS := $(SOURCES:%.c=%.o)
 EXE := bin2txt
-DEFINES :=
-LIBS :=
 
 ifeq ($(OS),Windows_NT)
 	EXT := .exe
