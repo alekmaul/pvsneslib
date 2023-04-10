@@ -42,7 +42,7 @@ $(EXE)$(EXT): $(OBJS)
 
 #---------------------------------------------------------------------------------
 clean:
-	rm -f $(EXE)$(EXT) $(OBJS)
+	@rm -f $(EXE)$(EXT) $(OBJS)
 
 install: $(EXE)$(EXT)
-	cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
+	@cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
