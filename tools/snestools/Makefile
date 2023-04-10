@@ -1,5 +1,5 @@
 VERSION := 1.0.0
-
+DATESTRING := $(shell date +%Y%m%d)
 
 cpu_sys=$(shell uname -m)
 
