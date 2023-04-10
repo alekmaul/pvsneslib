@@ -18,7 +18,7 @@ else
     LIBS := -lm
 endif
 
-SOURCES := constify.cpp
+SOURCES := $(wildcard *.cpp)
 OBJS := $(SOURCES:%.cpp=%.o)
 EXE := constify
 
