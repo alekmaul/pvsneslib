@@ -1,65 +1,42 @@
-VERSION = "2.5.0"
+VERSION := 2.5.0
+DATESTRING := $(shell date +%Y%m%d)
 
-#---------------------------------------------------------------------------------
-# options for code generation
-#---------------------------------------------------------------------------------
+cpu_sys := $(shell uname -m)
 
-cpu_sys=$(shell uname -m)
+CC := gcc
+CFLAGS := -g -O2 -Wall -Wno-unused-result -Wno-incompatible-pointer-types -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-CC=gcc
-
-
-CFLAGS=-g -O2
-#-m32 flag is not supported by gcc on arm architecture
+# Only add -m32 if the system is not arm
 ifneq ($(findstring arm,$(cpu_sys)),arm)
-CFLAGS+=-m32
+	CFLAGS += -m32
 endif
-CFLAGS+=-Wall -Wno-unused-result -Wno-incompatible-pointer-types -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-SOURCES=gfx2snes.c lz77.c lodepng.c loadimg.c imgtools.c
-OBJS=gfx2snes.o lz77.o lodepng.o loadimg.o imgtools.o
-EXE=gfx2snes
-DEFINES =
-LIBS =
+SOURCES := $(wildcard *.c)
+OBJS := $(patsubst %.c, %.o, $(SOURCES))
+EXE := gfx2snes
+DEFINES :=
+LIBS :=
 
 ifeq ($(OS),Windows_NT)
-        EXT=.exe
+	EXT := .exe
 else
-        EXT=
+	EXT :=
 endif
 
-
-#---------------------------------------------------------------------------------
 all: $(EXE)$(EXT)
 
-#---------------------------------------------------------------------------------
 $(EXE)$(EXT) : $(OBJS)
-	@echo make exe $(notdir $<)
+	@echo "Linking $@"
 	$(CC) $(CFLAGS) $(OBJS) -o $@
 
-gfx2snes.o : gfx2snes.c
-	@echo make obj $(notdir $<)
-	$(CC) $(CFLAGS) -c $<
+%.o : %.c
+	@echo "Compiling $<"
+	$(CC) $(CFLAGS) -c $< -o $@
 
-lz77.o : lz77.c
-	@echo make obj $(notdir $<)
-	$(CC) $(CFLAGS) -c $<
-
-lodepng.o : lodepng.c
-	@echo make obj $(notdir $<)
-	$(CC) $(CFLAGS) -c $<
-
-loadimg.o : loadimg.c
-	@echo make obj $(notdir $<)
-	$(CC) $(CFLAGS) -c $<
-
-imgtools.o : imgtools.c
-	@echo make obj $(notdir $<)
-	$(CC) $(CFLAGS) -c $<
-
-#---------------------------------------------------------------------------------
 clean:
-	rm -f $(EXE)$(EXT) $(OBJS) *.tds
+	@rm -f $(OBJS) $(EXE)$(EXT)
 
-install:
-	cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
+install: all
+	@cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
+
+.PHONY: all clean install
