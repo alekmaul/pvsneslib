@@ -46,3 +46,5 @@ clean:
 
 install: $(EXE)$(EXT)
 	@cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
+
+.PHONY: all clean install
