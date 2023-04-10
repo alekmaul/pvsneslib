@@ -40,5 +40,3 @@ clean:
 
 install:
 	cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
-
-.PHONY: all clean install
