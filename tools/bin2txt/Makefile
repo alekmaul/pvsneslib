@@ -1,40 +1,35 @@
-VERSION = "1.0.0"
+VERSION := 1.0.0
+DATESTRING := $(shell date +%Y%m%d)
 
-#---------------------------------------------------------------------------------
-# options for code generation
-#---------------------------------------------------------------------------------
-CC=gcc
-CFLAGS=-g -O2 -Wall -Wno-implicit-function-declaration -Wno-unused-result -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+CC := gcc
+CFLAGS := -g -O2 -Wall -Wno-implicit-function-declaration -Wno-unused-result -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-SOURCES=bin2txt.c
-OBJS=bin2txt.o
-EXE=bin2txt
-DEFINES=
-LIBS=
+SOURCES := $(wildcard *.c)
+OBJS := $(SOURCES:%.c=%.o)
+EXE := bin2txt
 
 ifeq ($(OS),Windows_NT)
-	EXT=.exe
+	EXT := .exe
 	CFLAGS += -D__HAS_STRUPR
 else
-	EXT=
+	EXT :=
 endif
 
-
-#---------------------------------------------------------------------------------
 all: $(EXE)$(EXT)
 
-#---------------------------------------------------------------------------------
 $(EXE)$(EXT) : $(OBJS)
-	@echo make exe $(notdir $<)
+	@echo "Linking $@"
 	$(CC) $(CFLAGS) $(OBJS) -o $@
 
-bin2txt.o : bin2txt.c
-	@echo make obj $(notdir $<)
-	$(CC) $(CFLAGS) -c $<
+%.o : %.c
+	@echo "Compiling $<"
+	$(CC) $(CFLAGS) -c $< -o $@
 
-#---------------------------------------------------------------------------------
+
 clean:
-	rm -f *.tds $(EXE)$(EXT) $(OBJS)
+	@rm -f $(OBJS) $(EXE)$(EXT)
 
-install:
-	cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
+install: all
+	@cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
+
+.PHONY: all clean install
