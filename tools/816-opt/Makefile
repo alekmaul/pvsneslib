@@ -1,12 +1,12 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -O2 -g
 
-BIN = 816-opt
+EXE = 816-opt
 SRC = src
 OBJ = build
 
 SOURCES := $(wildcard $(SRC)/*.c)
-OBJECTS := $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SOURCES))
+OBJS := $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SOURCES))
 
 ifeq ($(OS),Windows_NT)
 	EXT=.exe
@@ -14,19 +14,18 @@ else
 	EXT=
 endif
 
-all: $(BIN)$(EXT)
+all: $(EXE)$(EXT)
 
-$(BIN)$(EXT): $(OBJECTS)
+$(EXE)$(EXT): $(OBJS)
 	$(CC) $^ -o $@
 
 $(OBJ)/%.o: $(SRC)/%.c
 	$(CC) $(CFLAGS) -I$(SRC) -c $< -o $@
 
-install:
-	cp $(BIN)$(EXT) ../../devkitsnes/tools/$(BIN)$(EXT)
+install: $(EXE)$(EXT)
+	@cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
 
 clean:
-	rm -rf ${OBJECTS}
-	rm -f $(BIN)$(EXT)
+	@rm -f ${OBJS} $(EXE)$(EXT)
 
-
+.PHONY: all clean install
