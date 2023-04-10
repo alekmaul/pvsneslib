@@ -39,5 +39,4 @@ clean:
 
 #---------------------------------------------------------------------------------
 install: all
-	$(MAKE) -C ../../devkitsnes/tools/
 	@cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
