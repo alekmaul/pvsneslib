@@ -36,7 +36,7 @@ lzss.o : lzss.c
 	$(CC) $(CFLAGS) -c $<
 
 clean:
-	rm -f $(EXE)$(EXT) $(OBJS)
+	@rm -f $(EXE)$(EXT) $(OBJS)
 
 install:
-	cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
+	@cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
