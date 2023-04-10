@@ -16,7 +16,7 @@ MAKE_OPTIONS = -j$(NUM_JOBS)
 ifeq ($(OS),Windows_NT)
     NUM_JOBS ?= $(NUMBER_OF_PROCESSORS)
 else
-    NUM_JOBS ?= $(shell nproc || echo 4)
+    NUM_JOBS ?= $(shell nproc || echo 1)
 endif
 
 # Set the default target
