@@ -5,35 +5,35 @@ SNES_EXAMPLES_PATH := snes-examples
 PVSNESLIB_PATH := pvsneslib
 RELEASE_PATH := release/pvsneslib
 DOXYGEN_INSTALLED := $(shell command -v doxygen 2> /dev/null)
-OPERATING_SYSTEM :=
 ARCH := x86_32
 
+OPERATING_SYSTEM := $(shell uname -s | tr '[:upper:]' '[:lower:]')
 ifeq ($(OS),Windows_NT)
 	OPERATING_SYSTEM := windows
 else
 	ifneq (,$(wildcard /etc/os-release))
 		include /etc/os-release
-		OPERATING_SYSTEM := linux_$(shell echo $(NAME) | tr A-Z a-z)
-	else
-		ifeq ($(shell uname -s),Darwin)
-			OPERATING_SYSTEM := darwin
-		endif
+		OPERATING_SYSTEM := linux_$(shell echo $(NAME) | tr '[:upper:]' '[:lower:]')
 	endif
 endif
 
 # default target
 all: clean
-# build compiler
-	$(MAKE) -C $(COMPILER_PATH)
-	$(MAKE) -C $(COMPILER_PATH) install
-# build tools
-	$(MAKE) -C $(TOOLS_PATH)
-	$(MAKE) -C $(TOOLS_PATH) install
-# build pvsneslib
 ifndef DOXYGEN_INSTALLED
 	$(error "doxygen is not installed but is mandatory to create the release version.")
 endif
+
+# build compiler
+	$(MAKE) -C $(COMPILER_PATH)
+	$(MAKE) -C $(COMPILER_PATH) install
+
+# build tools
+	$(MAKE) -C $(TOOLS_PATH)
+	$(MAKE) -C $(TOOLS_PATH) install
+
+# build pvsneslib
 	$(MAKE) -C $(PVSNESLIB_PATH)
+
 # build snes-examples and install them
 	$(MAKE) -C $(SNES_EXAMPLES_PATH)
 	$(MAKE) -C $(SNES_EXAMPLES_PATH) install
