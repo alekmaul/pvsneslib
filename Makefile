@@ -19,9 +19,6 @@ endif
 
 # default target
 all: clean
-ifndef DOXYGEN_INSTALLED
-	$(error "doxygen is not installed but is mandatory to create the release version.")
-endif
 
 # build compiler
 	$(MAKE) -C $(COMPILER_PATH)
@@ -54,6 +51,9 @@ clean:
 release: clean all
 ifeq ($(OPERATING_SYSTEM),)
 	$(error "Unable to detect your operating system to create the release version.")
+endif
+ifndef DOXYGEN_INSTALLED
+	$(error "doxygen is not installed but is mandatory to create the release version.")
 endif
 	@mkdir -p $(RELEASE_PATH)/$(PVSNESLIB_PATH)
 	@cp -r devkitsnes $(RELEASE_PATH)
