@@ -54,7 +54,11 @@ tcc-install:
 
 # Define the wla target
 wla:
-	$(MAKE) -C wla-dx CMAKE_TYPE=$(CMAKE_TYPE) wla-65816 wla-spc700 wlalink
+	@cd wla-dx
+	cmake -G $(CMAKE_TYPE) .
+	$(MAKE) wla-65816
+	$(MAKE) wla-spc700
+	$(MAKE) wlalink
 
 # Define the wla-clean target
 wla-clean:
