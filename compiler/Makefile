@@ -1,5 +1,3 @@
-
-
 # Define variables for directory paths and build types
 ifeq ($(OS),Windows_NT)
     CMAKE_TYPE = MSYS Makefiles
@@ -46,7 +44,7 @@ tcc:
 
 # Define the tcc-clean target
 tcc-clean:
-	$(MAKE) $(MAKE_OPTIONS) -C $(TCC_DIR) clean
+	$(MAKE) -C $(TCC_DIR) clean
 
 # Define the tcc-install target
 tcc-install:
@@ -54,15 +52,11 @@ tcc-install:
 
 # Define the wla target
 wla:
-	@cd wla-dx
-	cmake -G $(CMAKE_TYPE) .
-	$(MAKE) wla-65816
-	$(MAKE) wla-spc700
-	$(MAKE) wlalink
+	$(MAKE) $(MAKE_OPTIONS) -C $(WLA_DIR) wla-65816 wla-spc700 wlalink CMAKE_GENERATOR="$(CMAKE_TYPE)"
 
 # Define the wla-clean target
 wla-clean:
-	$(MAKE) $(MAKE_OPTIONS) -C $(WLA_DIR) clean
+	$(MAKE) -C $(WLA_DIR) clean
 	@rm -f $(WLA_DIR)/CMakeCache.txt
 
 # Define the wla-install target
