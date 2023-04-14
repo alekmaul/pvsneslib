@@ -30,6 +30,9 @@ jobs:
         if: matrix.name == 'ubuntu-latest'
         run: |
           sudo apt-get install -y build-essential gcc-multilib git doxygen
+          cmake --version
+          gcc -v
+          make -v
       - name: Install dependencies for Windows
         if: matrix.name == 'windows-latest'
         uses: msys2/setup-msys2@v2
@@ -65,24 +68,24 @@ jobs:
       # ------------------------------------ #
       # Compiling sources                    #
       # ------------------------------------ #
-      - name: Build PVSNESLIB for Linux
-        if: (matrix.name == 'ubuntu-latest')
-        run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          make
-      - name: Build PVSNESLIB for Windows
-        if: (matrix.name == 'windows-latest')
-        run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          make
-      - name: Build PVSNESLIB for MacOS
-        if: (matrix.name == 'macos-latest')
-        run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          make
+      # - name: Build PVSNESLIB for Linux
+      #   if: (matrix.name == 'ubuntu-latest')
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     make
+      # - name: Build PVSNESLIB for Windows
+      #   if: (matrix.name == 'windows-latest')
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     make
+      # - name: Build PVSNESLIB for MacOS
+      #   if: (matrix.name == 'macos-latest')
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     make
 
       # ------------------------------------ #
       # Compiling sources and create release #
