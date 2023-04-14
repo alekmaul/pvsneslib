@@ -53,7 +53,7 @@ tcc-install:
 # Define the wla target
 wla:
 	cd wla-dx ; \
-	cmake -G $(CMAKE_TYPE) . ; \
+	cmake -G "$(CMAKE_TYPE)" . ; \
 	make wla-65816 ; \
 	make wla-spc700 ; \
 	make wlalink ; \
