@@ -10,7 +10,7 @@ CXXFLAGS :=	$(CFLAGS) -fno-rtti -fno-exceptions
 LDFLAGS := -static -static-libstdc++ -static-libgcc
 
 SOURCES := $(wildcard *.cpp)
-OBJS := $(SOURCES:%.c=%.o)
+OBJS := $(SOURCES:%.cpp=%.o)
 EXE=smconv
 
 ifeq ($(OS),Windows_NT)
