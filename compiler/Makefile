@@ -50,14 +50,18 @@ tcc-clean:
 tcc-install:
 	@cp $(TCC_DIR)/816-tcc $(BIN_DIR)
 
-# Define the wla target
 wla:
-	$(MAKE) $(MAKE_OPTIONS) -C $(WLA_DIR) wla-65816 wla-spc700 wlalink CMAKE_GENERATOR="$(CMAKE_TYPE)"
+	cd wla-dx ; \
+	cmake -G $(CMAKE_TYPE) . ; \
+	cat CMakeCache.txt
+	make wla-65816 ; \
+	make wla-spc700 ; \
+	make wlalink ; \
 
-# Define the wla-clean target
 wla-clean:
-	$(MAKE) $(MAKE_OPTIONS) -C $(WLA_DIR) clean
-	@rm -f $(WLA_DIR)/CMakeCache.txt
+	cd wla-dx ; \
+	make clean ; \
+	rm -f CMakeCache.txt
 
 # Define the wla-install target
 wla-install:
