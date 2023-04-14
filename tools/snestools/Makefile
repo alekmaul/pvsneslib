@@ -6,10 +6,6 @@ cpu_sys=$(shell uname -m)
 CC=gcc
 
 CFLAGS=-g -O2
-#-m32 flag is not supported by gcc on arm architecture
-ifneq ($(findstring arm,$(cpu_sys)),arm)
-	CFLAGS+=-m32
-endif
 CFLAGS+=-Wall -Wno-unused-but-set-variable -Wno-format -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 SOURCES := $(wildcard *.c)
