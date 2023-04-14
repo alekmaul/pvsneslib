@@ -69,12 +69,12 @@ jobs:
       # ------------------------------------ #
       # Compiling sources                    #
       # ------------------------------------ #
-      # - name: Build PVSNESLIB for Linux
-      #   if: (matrix.name == 'ubuntu-latest')
-      #   run: |
-      #     cd pvsneslib
-      #     export PVSNESLIB_HOME=$(pwd)
-      #     make
+      - name: Build PVSNESLIB for Linux
+        if: (matrix.name == 'ubuntu-latest')
+        run: |
+          cd pvsneslib
+          export PVSNESLIB_HOME=$(pwd)
+          make
       # - name: Build PVSNESLIB for Windows
       #   if: (matrix.name == 'windows-latest')
       #   run: |
