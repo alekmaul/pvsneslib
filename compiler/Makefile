@@ -1,9 +1,5 @@
 # Define variables for directory paths and build types
-ifeq ($(OS),Windows_NT)
-    CMAKE_TYPE = MSYS Makefiles
-else
-    CMAKE_TYPE = Unix Makefiles
-endif
+CMAKE_TYPE = Unix Makefiles
 
 TCC_DIR = tcc-65816
 WLA_DIR = wla-dx
