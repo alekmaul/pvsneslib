@@ -14,11 +14,11 @@ jobs:
         include:
           - os: ubuntu-latest
             name: ubuntu-latest
-          # - os: windows-latest
-          #   name: windows-latest
-          #   defaults:
-          #     run:
-          #       shell: msys2 {0}
+          - os: windows-latest
+            name: windows-latest
+            defaults:
+              run:
+                shell: msys2 {0}
           # - os: macos-latest
           #   name: macos-latest
 
@@ -75,18 +75,18 @@ jobs:
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           make
-      # - name: Build PVSNESLIB for Windows
-      #   if: (matrix.name == 'windows-latest')
-      #   run: |
-      #     cd pvsneslib
-      #     export PVSNESLIB_HOME=$(pwd)
-      #     make
-      # - name: Build PVSNESLIB for MacOS
-      #   if: (matrix.name == 'macos-latest')
-      #   run: |
-      #     cd pvsneslib
-      #     export PVSNESLIB_HOME=$(pwd)
-      #     make
+      - name: Build PVSNESLIB for Windows
+        if: (matrix.name == 'windows-latest')
+        run: |
+          cd pvsneslib
+          export PVSNESLIB_HOME=$(pwd)
+          make
+      - name: Build PVSNESLIB for MacOS
+        if: (matrix.name == 'macos-latest')
+        run: |
+          cd pvsneslib
+          export PVSNESLIB_HOME=$(pwd)
+          make
 
       # ------------------------------------ #
       # Compiling sources and create release #
