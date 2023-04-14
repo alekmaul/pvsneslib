@@ -1,39 +1,66 @@
+
+
+# Define variables for directory paths and build types
 ifeq ($(OS),Windows_NT)
-    CMAKE_TYPE="MSYS Makefiles"
+    CMAKE_TYPE = MSYS Makefiles
 else
-    CMAKE_TYPE="Unix Makefiles"
+    CMAKE_TYPE = Unix Makefiles
 endif
 
-all: tcc wla
-clean: tcc-clean wla-clean
+TCC_DIR = tcc-65816
+WLA_DIR = wla-dx
+BIN_DIR = ../devkitsnes/bin
+
+# Define variables for build options
+MAKE_OPTIONS = -j$(NUM_JOBS)
+
+# Set default number of jobs to run in parallel based on available CPU cores
+ifeq ($(OS),Windows_NT)
+    NUM_JOBS ?= $(NUMBER_OF_PROCESSORS)
+else
+    NUM_JOBS ?= $(shell nproc || echo 1)
+endif
+
+# Set the default target
+.DEFAULT_GOAL := all
+
+# Define phony targets
+.PHONY: all clean install tcc-configure tcc wla
+
+# Define the all target
+all: tcc-configure tcc wla
+
+# Define the clean target
+clean: tcc-configure tcc-clean wla-clean
+
+# Define the install target
 install: tcc-install wla-install
 
+# Configure tcc target
+tcc-configure:
+	@cd $(TCC_DIR) && ./configure
+
+# Define the tcc target
 tcc:
-	cd tcc-65816 ; \
-	./configure ; \
-	make ;
+	$(MAKE) $(MAKE_OPTIONS) -C $(TCC_DIR)
 
+# Define the tcc-clean target
 tcc-clean:
-	cd tcc-65816 ; \
-	make clean ;
+	$(MAKE) $(MAKE_OPTIONS) -C $(TCC_DIR) clean
 
+# Define the tcc-install target
 tcc-install:
-	cp tcc-65816/816-tcc ../devkitsnes/bin ;
+	@cp $(TCC_DIR)/816-tcc $(BIN_DIR)
 
+# Define the wla target
 wla:
-	cd wla-dx ; \
-	cmake -G $(CMAKE_TYPE) . ; \
-	make wla-65816 -Werror=unused-result; \
-	make wla-spc700 -Werror=unused-result; \
-	make wlalink -Werror=unused-result; \
+	$(MAKE) -C wla-dx CMAKE_TYPE=$(CMAKE_TYPE) wla-65816 wla-spc700 wlalink
 
+# Define the wla-clean target
 wla-clean:
-	cd wla-dx ; \
-	make clean ; \
-	rm -f CMakeCache.txt
+	$(MAKE) $(MAKE_OPTIONS) -C $(WLA_DIR) clean
+	@rm -f $(WLA_DIR)/CMakeCache.txt
 
+# Define the wla-install target
 wla-install:
-	cd ./wla-dx/binaries ; \
-	cp wla-65816 wla-spc700 wlalink ../../../devkitsnes/bin ;
-
-.PHONY: all
+	@cp $(WLA_DIR)/binaries/wla-65816 $(WLA_DIR)/binaries/wla-spc700 $(WLA_DIR)/binaries/wlalink $(BIN_DIR)
