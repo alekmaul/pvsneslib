@@ -16,8 +16,8 @@ jobs:
             name: ubuntu-latest
           - os: windows-latest
             name: windows-latest
-          # - os: macos-latest
-          #   name: macos-latest
+          - os: macos-latest
+            name: macos-latest
 
     steps:
       # ------------------------------------ #
@@ -84,7 +84,7 @@ jobs:
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          make
+          CC="gcc-12" CFLAGS+=-I/usr/local/Cellar/pcre/8.45/include make
 
       # ------------------------------------ #
       # Compiling sources and create release #
