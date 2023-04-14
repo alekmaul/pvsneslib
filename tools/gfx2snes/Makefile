@@ -6,11 +6,6 @@ cpu_sys := $(shell uname -m)
 CC := gcc
 CFLAGS := -g -O2 -Wall -Wno-unused-result -Wno-incompatible-pointer-types -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-# Only add -m32 if the system is not arm
-ifneq ($(findstring arm,$(cpu_sys)),arm)
-	CFLAGS += -m32
-endif
-
 SOURCES := $(wildcard *.c)
 OBJS := $(patsubst %.c, %.o, $(SOURCES))
 EXE := gfx2snes
