@@ -29,7 +29,7 @@ endif
 all: tcc-configure tcc wla
 
 # Define the clean target
-clean: tcc-configure tcc-clean wla-clean
+clean: tcc-clean wla-clean
 
 # Define the install target
 install: tcc-install wla-install
@@ -52,12 +52,17 @@ tcc-install:
 
 # Define the wla target
 wla:
-	$(MAKE) $(MAKE_OPTIONS) -C $(WLA_DIR) wla-65816 wla-spc700 wlalink CMAKE_GENERATOR="$(CMAKE_TYPE)"
+	cd wla-dx ; \
+	cmake -G $(CMAKE_TYPE) . ; \
+	make wla-65816 ; \
+	make wla-spc700 ; \
+	make wlalink ; \
 
 # Define the wla-clean target
 wla-clean:
-	$(MAKE) $(MAKE_OPTIONS) -C $(WLA_DIR) clean
-	@rm -f $(WLA_DIR)/CMakeCache.txt
+	cd wla-dx ; \
+	make clean ; \
+	rm -f CMakeCache.txt
 
 # Define the wla-install target
 wla-install:
