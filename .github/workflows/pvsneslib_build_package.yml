@@ -84,7 +84,7 @@ jobs:
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          CP="g++" CC="gcc-12" CFLAGS+=-I/usr/local/Cellar/pcre/8.45/include make
+          CP="g++-12" CC="gcc-12" CFLAGS+=-I/usr/local/Cellar/pcre/8.45/include make
 
       # ------------------------------------ #
       # Compiling sources and create release #
