@@ -23,9 +23,9 @@ tcc-install:
 wla:
 	cd wla-dx ; \
 	cmake -G $(CMAKE_TYPE) . ; \
-	make wla-65816 ; \
-	make wla-spc700 ; \
-	make wlalink ; \
+	make wla-65816 -Werror=unused-result; \
+	make wla-spc700 -Werror=unused-result; \
+	make wlalink -Werror=unused-result; \
 
 wla-clean:
 	cd wla-dx ; \
