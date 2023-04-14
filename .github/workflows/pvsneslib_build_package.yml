@@ -30,7 +30,7 @@ jobs:
         if: matrix.name == 'ubuntu-latest'
         run: |
           sudo apt-get install -y build-essential gcc-12 cmake make git doxygen
-          uname -a
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 90
           cmake --version
           gcc -v
           make -v
