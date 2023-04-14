@@ -52,7 +52,7 @@ tcc-install:
 
 wla:
 	cd wla-dx ; \
-	cmake -G $(CMAKE_TYPE) . ; \
+	cmake -G "$(CMAKE_TYPE)" . ; \
 	cat CMakeCache.txt
 	make wla-65816 ; \
 	make wla-spc700 ; \
