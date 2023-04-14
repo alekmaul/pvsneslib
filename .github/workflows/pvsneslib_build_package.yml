@@ -63,7 +63,7 @@ jobs:
           ref: ${{ github.head_ref }}
           path: pvsneslib
           fetch-depth: 0
-          submodules: true
+          submodules: recursive
           persist-credentials: false
 
       # ------------------------------------ #
