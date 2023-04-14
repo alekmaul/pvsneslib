@@ -1,10 +1,10 @@
 name: PVSNESLIB Build & Release
 
 on:
-  workflow_dispatch:
+  # workflow_dispatch:
   push:
     branches:
-      - "testing"
+      - "pvsneslib_runners"
 
 jobs:
   build:
