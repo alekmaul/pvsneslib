@@ -3,7 +3,7 @@ DATESTRING := $(shell date +%Y%m%d)
 
 cpu_sys := $(shell uname -m)
 
-CC ?= gcc
+CC := gcc
 CFLAGS := -g -O2 -Wall -Wno-unused-result -Wno-incompatible-pointer-types -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 SOURCES := $(wildcard *.c)

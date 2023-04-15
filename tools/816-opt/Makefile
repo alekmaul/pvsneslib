@@ -1,4 +1,4 @@
-CC ?= gcc
+CC := gcc
 CFLAGS = -Wall -Wextra -O2 -g
 
 EXE = 816-opt

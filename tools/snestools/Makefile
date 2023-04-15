@@ -3,7 +3,7 @@ DATESTRING := $(shell date +%Y%m%d)
 
 cpu_sys=$(shell uname -m)
 
-CC ?= gcc
+CC := gcc
 
 CFLAGS=-g -O2
 CFLAGS+=-Wall -Wno-unused-but-set-variable -Wno-format -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
