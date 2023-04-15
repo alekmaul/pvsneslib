@@ -7,7 +7,7 @@ RM = rm -f
 CFLAGS = -Os -fomit-frame-pointer -fforce-addr -falign-jumps -falign-functions -fno-guess-branch-probability -Wall -Wextra -Winline --param inline-unit-growth=350 -finline-limit=3500 -Wno-unused -pedantic -ffunction-sections -fdata-sections
 CXXFLAGS = $(CFLAGS)
 CPPFLAGS = -DNDEBUG
-LDFLAGS = -s -Wl,--gc-sections
+# LDFLAGS = -s -Wl,--gc-sections
 ARFLAGS = -rc
 
 
