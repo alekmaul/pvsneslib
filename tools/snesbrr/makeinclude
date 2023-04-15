@@ -1,6 +1,6 @@
-CC = gcc
+CC ?= gcc
 CPP = $(CC) -E
-CXX = g++
+CXX ?= g++
 WINDRES = windres
 RM = rm -f
 

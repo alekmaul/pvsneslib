@@ -4,7 +4,7 @@ DATESTRING := $(shell date +%Y%m%d)
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-CC := g++
+CC ?= g++
 CFLAGS := -g -O2 -Wall -Wno-literal-suffix -Wno-overflow
 DEFINES := -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
