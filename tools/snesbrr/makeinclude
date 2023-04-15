@@ -14,10 +14,10 @@ ARFLAGS = -rcu
 # "The static option will not work on Mac OS X unless all libraries (including libgcc.a) have also been compiled with -static.
 # Since neither a static version of libSystem.dylib nor crt0.o are provided, this option is not useful to most people."
 #-Wl,--gc-sections allow to remove the dead code, but it is not supported on Mac OS
-ifneq ($(shell uname -s),Darwin)
-CFLAGS+=-static -static-libgcc
-LDFLAGS+=-static -static-libgcc -Wl,--gc-sections 
-endif
+# ifneq ($(shell uname -s),Darwin)
+# CFLAGS+=-static -static-libgcc
+# LDFLAGS+=-static -static-libgcc -Wl,--gc-sections 
+# endif
 
 
 /make_dep/ = @echo "Making Dependency File $@"; $(CC) $(CPPFLAGS) -MM -MG -MP -MT "$(@:.d=.o) $@" $< -MF $@
