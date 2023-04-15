@@ -1,6 +1,5 @@
 include ../makeinclude
 
-
 SRC := $(wildcard *.cpp)
 OBJ := $(addsuffix .o,$(SRC))
 DEP := $(addsuffix .d,$(SRC))
@@ -17,9 +16,7 @@ all : $(OBJ) $(LIB)
 $(LIB) : $(LIB)($(OBJ))
 
 clean :
-	-$(RM) $(OBJ) $(LIB) $(DEP)
-
-install :
+	-$(RM) $(OBJ) $(LIB)
 
 distclean : clean
 	-$(RM) $(DEP)
@@ -27,4 +24,3 @@ distclean : clean
 ifeq ($(findstring $(MAKECMDGOALS),clean distclean compress),)
  -include $(DEP)
 endif
-
