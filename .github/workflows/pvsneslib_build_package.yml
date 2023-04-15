@@ -12,12 +12,12 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
-            name: ubuntu-latest
-          - os: windows-latest
-            name: windows-latest
-          # - os: macos-latest
-          #   name: macos-latest
+          # - os: ubuntu-latest
+          #   name: ubuntu-latest
+          # - os: windows-latest
+          #   name: windows-latest
+          - os: macos-latest
+            name: macos-latest
 
     steps:
       # ------------------------------------ #
@@ -84,7 +84,12 @@ jobs:
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          CP="g++-12" CC="gcc-12" CFLAGS+=-I/usr/local/Cellar/pcre/8.45/include make
+          find /usr/local/ -type f -name "pcre.h"
+          ls -rtl /usr/local/Cellar/pcre/8.45/include
+          sudo ln -s /usr/local/bin/gcc-12 /usr/local/bin/gcc
+          sudo ln -s /usr/local/bin/g++-12 /usr/local/bin/g++
+          gcc -v
+          g++ -v
 
       # ------------------------------------ #
       # Compiling sources and create release #
