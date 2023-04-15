@@ -15,6 +15,11 @@ SRC := $(wildcard *.cpp)
 OBJ := $(addsuffix .o,$(SRC))
 DEP := $(addsuffix .d,$(SRC))
 
+ifeq ($(OS),Windows_NT)
+        EXT=.exe
+else
+        EXT=
+endif
 
 .PHONY : all clean distclean compress
 
@@ -29,6 +34,9 @@ distclean : clean
 
 compress :
 	-upx --best $(BIN)
+
+install:
+	cp $(BINDIR)$(EXT) ../../../devkitsnes/tools/$(BIN)$(EXT)
 
 $(BIN) : $(OBJ) ../libbase.a
 	@echo "Linking $(words $(OBJ)) Object Files Into $@"; $(CXX) $(OBJ) -o $@ $(LDFLAGS) $(LIBS)
