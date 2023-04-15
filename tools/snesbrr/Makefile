@@ -1,5 +1,3 @@
-CXX := g++
-
 SUBDIRS := base brr
 
 .PHONY : all $(SUBDIRS)

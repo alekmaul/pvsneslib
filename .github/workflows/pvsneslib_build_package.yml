@@ -16,8 +16,8 @@ jobs:
             name: ubuntu-latest
           - os: windows-latest
             name: windows-latest
-          - os: macos-latest
-            name: macos-latest
+          # - os: macos-latest
+          #   name: macos-latest
 
     steps:
       # ------------------------------------ #
