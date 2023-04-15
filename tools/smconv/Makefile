@@ -4,9 +4,8 @@ VERSION = "2.0.0"
 # options for code generation
 #---------------------------------------------------------------------------------
 CP ?= g++
-CFLAGS = -O2 -Wall -Wno-unused-result -fpermissive -static -static-libstdc++ -static-libgcc -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+CFLAGS = -O2 -Wall -Wno-unused-result -fpermissive -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 CXXFLAGS :=	$(CFLAGS) -fno-rtti -fno-exceptions
-LDFLAGS := -static -static-libstdc++ -static-libgcc
 
 SOURCES := $(wildcard *.cpp)
 OBJS := $(SOURCES:%.cpp=%.o)
