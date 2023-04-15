@@ -1,3 +1,4 @@
+CXX := g++
 
 SUBDIRS := base brr
 

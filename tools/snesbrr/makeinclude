@@ -1,6 +1,6 @@
-CC ?= gcc
+CC := gcc
 CPP = $(CC) -E
-CXX ?= g++
+CXX := g++
 WINDRES = windres
 RM = rm -f
 
@@ -12,12 +12,6 @@ ARFLAGS = -rc
 
 
 /make_dep/ = @echo "Making Dependency File $@"; $(CC) $(CPPFLAGS) -MM -MG -MP -MT "$(@:.d=.o) $@" $< -MF $@
-
-%.c :
-%.c.d : %.c
-	$(/make_dep/)
-%.c.o : %.c
-	@echo "Compiling $<"; $(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 %.cpp :
 %.cpp.d : %.cpp
