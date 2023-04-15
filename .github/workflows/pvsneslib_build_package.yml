@@ -50,6 +50,7 @@ jobs:
         run: |
           brew install pcre
           brew install doxygen
+          brew install gnu-sed
 
       # ------------------------------------ #
       # Checkout the project                 #
@@ -84,6 +85,7 @@ jobs:
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
+          PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
           sudo ln -s /usr/local/bin/gcc-12 /usr/local/bin/gcc
           sudo ln -s /usr/local/bin/g++-12 /usr/local/bin/g++
           CFLAGS+=-I/usr/local/include/ make
