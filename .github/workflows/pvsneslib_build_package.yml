@@ -84,13 +84,9 @@ jobs:
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          find /usr/local -type f -name "pcre.h"
-          ls -rtl /usr/local/Cellar/pcre/8.45/include
-          ls -rtl /usr/local/include/
           sudo ln -s /usr/local/bin/gcc-12 /usr/local/bin/gcc
           sudo ln -s /usr/local/bin/g++-12 /usr/local/bin/g++
-          gcc -v
-          g++ -v
+          CFLAGS+=-I/usr/local/include/ make
 
       # ------------------------------------ #
       # Compiling sources and create release #
