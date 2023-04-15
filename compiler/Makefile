@@ -8,21 +8,23 @@ BIN_DIR = ../devkitsnes/bin
 # Define variables for build options
 MAKE_OPTIONS = -j$(NUM_JOBS)
 
+# Define variables for System
+UNAME := $(shell uname)
+
 # Set default number of jobs to run in parallel based on available CPU cores
 ifeq ($(OS),Windows_NT)
   # Set NUM_JOBS to the number of processors on Windows
   NUM_JOBS ?= $(NUMBER_OF_PROCESSORS)
-else ifeq ($(OS),Darwin)
+else ifeq ($(UNAME), Darwin)
   # Set NUM_JOBS to the number of CPUs on macOS
   NUM_JOBS ?= $(shell sysctl -n hw.ncpu)
-else ifeq ($(OS),Linux)
+else ifeq ($(UNAME), Linux)
   # Set NUM_JOBS to the number of CPUs on Linux
   NUM_JOBS ?= $(shell nproc)
 else
   # Set NUM_JOBS to 1 for all other operating systems
   NUM_JOBS ?= 1
 endif
-
 
 # Set the default target
 .DEFAULT_GOAL := all
