@@ -10,7 +10,8 @@ VERSION = "1.0.0"
 
 CFLAGS += -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-BIN := ../snesbrr
+BIN := snesbrr
+BINDIR := ../$(BIN)
 SRC := $(wildcard *.cpp)
 OBJ := $(addsuffix .o,$(SRC))
 DEP := $(addsuffix .d,$(SRC))
