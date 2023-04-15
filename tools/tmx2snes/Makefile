@@ -6,7 +6,7 @@ CFLAGS := -g -O2 -Wall -Wno-implicit-function-declaration -Wno-unused-result -D_
 
 SOURCES := $(wildcard *.c)
 OBJS := $(SOURCES:%.c=%.o)
-EXE=tmx2snes
+EXE := tmx2snes
 
 ifeq ($(OS),Windows_NT)
 	EXT=.exe

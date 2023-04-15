@@ -1,17 +1,17 @@
 CC := gcc
-CFLAGS = -Wall -Wextra -O2 -g
+CFLAGS := -Wall -Wextra -O2 -g
 
-EXE = 816-opt
-SRC = src
-OBJ = build
+EXE := 816-opt
+SRC := src
+OBJ := build
 
 SOURCES := $(wildcard $(SRC)/*.c)
 OBJS := $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SOURCES))
 
 ifeq ($(OS),Windows_NT)
-	EXT=.exe
+	EXT := .exe
 else
-	EXT=
+	EXT :=
 endif
 
 all: $(EXE)$(EXT)

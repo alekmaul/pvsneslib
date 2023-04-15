@@ -1,83 +1,135 @@
-# define variables
-COMPILER_PATH := compiler
-TOOLS_PATH := tools
-SNES_EXAMPLES_PATH := snes-examples
-PVSNESLIB_PATH := pvsneslib
-RELEASE_PATH := release/pvsneslib
-DOXYGEN_INSTALLED := $(shell command -v doxygen 2> /dev/null)
+name: PVSNESLIB Build & Release
 
-# Define variables for System
-UNAME := $(shell uname)
+on:
+  # workflow_dispatch:
+  push:
+    branches:
+      - "pvsneslib_runners"
 
-# Set default operating system
-ifeq ($(OS),Windows_NT)
-	OPERATING_SYSTEM := windows
-else ifeq ($(UNAME)), MINGW64_NT)
-	OPERATING_SYSTEM := mingw
-else ifeq ($(UNAME), Darwin)
-	OPERATING_SYSTEM := darwin
-else ifeq ($(UNAME), Linux)
-	OPERATING_SYSTEM := linux
-else
-	$(error Unsupported operating system)
-endif
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            name: ubuntu-latest
+          - os: windows-latest
+            name: windows-latest
+          - os: macos-latest
+            name: macos-latest
 
-# default target
-all: clean
+    steps:
+      # ------------------------------------ #
+      # Install dependencies                 #
+      # ------------------------------------ #
+      - name: Install dependencies for Linux
+        if: matrix.name == 'ubuntu-latest'
+        run: |
+          sudo apt-get install -y build-essential gcc-12 cmake make git doxygen
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 90
+          cmake --version
+          gcc -v
+          make -v
+      - name: Install dependencies for Windows
+        if: matrix.name == 'windows-latest'
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            base-devel
+            gcc
+            make
+            cmake
+            pcre-devel
+            git
+            python
+            doxygen
+      - name: Install dependencies for MacOS
+        if: matrix.name == 'macos-latest'
+        run: |
+          brew install pcre
+          brew install doxygen
+          brew install gnu-sed
 
-# build compiler
-	$(MAKE) -C $(COMPILER_PATH)
-	$(MAKE) -C $(COMPILER_PATH) install
+      # ------------------------------------ #
+      # Checkout the project                 #
+      # ------------------------------------ #
+      - name: Check out PVSNESLIB
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          path: pvsneslib
+          fetch-depth: 0
+          submodules: recursive
+          persist-credentials: false
 
-# build tools
-	$(MAKE) -C $(TOOLS_PATH)
-	$(MAKE) -C $(TOOLS_PATH) install
+      # ------------------------------------ #
+      # Compiling sources                    #
+      # ------------------------------------ #
+      - name: Build PVSNESLIB for Linux
+        if: (matrix.name == 'ubuntu-latest')
+        run: |
+          cd pvsneslib
+          export PVSNESLIB_HOME=$(pwd)
+          make
+      - name: Build PVSNESLIB for Windows
+        if: (matrix.name == 'windows-latest')
+        shell: msys2 {0}
+        run: |
+          cd pvsneslib
+          export PVSNESLIB_HOME=$(pwd)
+          make
+      - name: Build PVSNESLIB for MacOS
+        if: (matrix.name == 'macos-latest')
+        run: |
+          cd pvsneslib
+          export PVSNESLIB_HOME=$(pwd)
+          PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+          sudo ln -s /usr/local/bin/gcc-12 /usr/local/bin/gcc
+          sudo ln -s /usr/local/bin/g++-12 /usr/local/bin/g++
+          CFLAGS+=-I/usr/local/include/ make
 
-# build pvsneslib
-	$(MAKE) -C $(PVSNESLIB_PATH)
+      # ------------------------------------ #
+      # Compiling sources and create release #
+      # ------------------------------------ #
+      # - name: Build & Release PVSNESLIB for Linux
+      #   if: (matrix.name == 'ubuntu-latest')
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     make release
+      # - name: Build & Release PVSNESLIB for Windows
+      #   if: (matrix.name == 'windows-latest')
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     make release
+      # - name: Build & Release PVSNESLIB for MacOS
+      #   if: (matrix.name == 'macos-latest')
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     make release
 
-# build snes-examples and install them
-	$(MAKE) -C $(SNES_EXAMPLES_PATH)
-	$(MAKE) -C $(SNES_EXAMPLES_PATH) install
-
-	@echo
-	@echo "* Build finished successfully !"
-	@echo
-
-# clean everything
-clean:
-	$(MAKE) -C $(COMPILER_PATH) clean
-	$(MAKE) -C $(TOOLS_PATH) clean
-	$(MAKE) -C $(PVSNESLIB_PATH) clean
-	$(MAKE) -C $(SNES_EXAMPLES_PATH) clean
-	@rm -rf release
-
-# create a release version
-release: clean all
-ifeq ($(OPERATING_SYSTEM),)
-	$(error "Unable to detect your operating system to create the release version.")
-endif
-ifndef DOXYGEN_INSTALLED
-	$(error "doxygen is not installed but is mandatory to create the release version.")
-endif
-	@mkdir -p $(RELEASE_PATH)/$(PVSNESLIB_PATH)
-	@cp -r devkitsnes $(RELEASE_PATH)
-	@cp -r $(PVSNESLIB_PATH)/include $(RELEASE_PATH)/$(PVSNESLIB_PATH)
-	@cp -r $(PVSNESLIB_PATH)/lib $(RELEASE_PATH)/$(PVSNESLIB_PATH)
-	@cp -r $(PVSNESLIB_PATH)/docs/html $(RELEASE_PATH)/$(PVSNESLIB_PATH)
-	@cp $(PVSNESLIB_PATH)/PVSnesLib_Logo.png $(RELEASE_PATH)/$(PVSNESLIB_PATH)/PVSnesLib_Logo.png
-	@cp $(PVSNESLIB_PATH)/pvsneslib_license.txt $(RELEASE_PATH)/$(PVSNESLIB_PATH)/pvsneslib_license.txt
-	@cp $(PVSNESLIB_PATH)/pvsneslib_snesmod.txt $(RELEASE_PATH)/$(PVSNESLIB_PATH)/pvsneslib_snesmod.txt
-	@cp $(PVSNESLIB_PATH)/pvsneslib_version.txt $(RELEASE_PATH)/$(PVSNESLIB_PATH)/pvsneslib_version.txt
-	@cp -r $(SNES_EXAMPLES_PATH) $(RELEASE_PATH)/snes-examples
-	@cd release
-	zip -q -y -r -m pvsneslib_$(OPERATING_SYSTEM).zip pvsneslib
-
-	@echo "* Release pvsneslib_$(OPERATING_SYSTEM) created successfully !"
-	@echo
-
-# define phony targets
-.PHONY: all
-
-# Set the default target
-.DEFAULT_GOAL := all
+      # ------------------------------------ #
+      # Upload release                       #
+      # ------------------------------------ #
+      # - name: Upload PVSNESLIB release for Linux
+      #   if: (matrix.name == 'ubuntu-latest')
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: pvsneslib-linux.zip
+      #     path: pvnseslib/release/pvsneslib-linux.zip
+      # - name: Upload PVSNESLIB release for Windows
+      #   if: (matrix.name == 'windows-latest')
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: pvsneslib-windows.zip
+      #     path: pvnseslib/release/pvsneslib-windows.zip
+      # - name: Upload PVSNESLIB release for MacOS
+      #   if: (matrix.name == 'macos-latest')
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: pvsneslib-darwin.zip
+      #     path: pvnseslib/release/pvsneslib-darwin.zip

@@ -9,8 +9,8 @@ CFLAGS=-g -O2
 CFLAGS+=-Wall -Wno-unused-but-set-variable -Wno-format -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 SOURCES := $(wildcard *.c)
-OBJS := $(SOURCES:%.c=%.o)
-EXE=snestools
+OBJS    := $(SOURCES:%.c=%.o)
+EXE     := snestools
 
 ifeq ($(OS),Windows_NT)
         EXT=.exe
