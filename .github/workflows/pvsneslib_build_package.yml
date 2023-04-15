@@ -70,25 +70,16 @@ jobs:
       - name: Build PVSNESLIB for Linux
         if: (matrix.name == 'ubuntu-latest')
         run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          make
+          uname -s
       - name: Build PVSNESLIB for Windows
         if: (matrix.name == 'windows-latest')
         shell: msys2 {0}
         run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          make
+          uname -s
       - name: Build PVSNESLIB for MacOS
         if: (matrix.name == 'macos-latest')
         run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-          sudo ln -s /usr/local/bin/gcc-12 /usr/local/bin/gcc
-          sudo ln -s /usr/local/bin/g++-12 /usr/local/bin/g++
-          CFLAGS+=-I/usr/local/include/ make
+          uname -s
 
       # ------------------------------------ #
       # Compiling sources and create release #
