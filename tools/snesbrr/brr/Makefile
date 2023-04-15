@@ -1,6 +1,7 @@
 include ../makeinclude
 
-VERSION = "1.0.0"
+VERSION := "1.0.0"
+DATESTRING := $(shell date +%Y%m%d)
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -8,7 +9,7 @@ VERSION = "1.0.0"
 LIBS = -lbase
 CPPFLAGS += -I"../"
 LDFLAGS += -L"../"
-CFLAGS += -O3 -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+CFLAGS += -O3 -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 BIN := snesbrr
 BINDIR := ../$(BIN)
