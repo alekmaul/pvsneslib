@@ -5,16 +5,21 @@ SNES_EXAMPLES_PATH := snes-examples
 PVSNESLIB_PATH := pvsneslib
 RELEASE_PATH := release/pvsneslib
 DOXYGEN_INSTALLED := $(shell command -v doxygen 2> /dev/null)
-ARCH := x86_32
 
-OPERATING_SYSTEM := $(shell uname -s | tr '[:upper:]' '[:lower:]')
+# Define variables for System
+UNAME := $(shell uname)
+
+# Set default operating system
 ifeq ($(OS),Windows_NT)
 	OPERATING_SYSTEM := windows
+else ifeq ($(UNAME)), MINGW64_NT)
+	OPERATING_SYSTEM := mingw
+else ifeq ($(UNAME), Darwin)
+	OPERATING_SYSTEM := darwin
+else ifeq ($(UNAME), Linux)
+	OPERATING_SYSTEM := linux
 else
-	ifneq (,$(wildcard /etc/os-release))
-		include /etc/os-release
-		OPERATING_SYSTEM := linux_$(shell echo $(NAME) | tr '[:upper:]' '[:lower:]')
-	endif
+	$(error Unsupported operating system)
 endif
 
 # default target
@@ -65,9 +70,10 @@ endif
 	@cp $(PVSNESLIB_PATH)/pvsneslib_snesmod.txt $(RELEASE_PATH)/$(PVSNESLIB_PATH)/pvsneslib_snesmod.txt
 	@cp $(PVSNESLIB_PATH)/pvsneslib_version.txt $(RELEASE_PATH)/$(PVSNESLIB_PATH)/pvsneslib_version.txt
 	@cp -r $(SNES_EXAMPLES_PATH) $(RELEASE_PATH)/snes-examples
-	@cd release && zip -q -y -r -m pvsneslib_$(ARCH)_$(OPERATING_SYSTEM).zip pvsneslib
+	@cd release
+	zip -q -y -r -m pvsneslib_$(OPERATING_SYSTEM).zip pvsneslib
 
-	@echo "* Release pvsneslib_$(ARCH)_$(OPERATING_SYSTEM) created successfully !"
+	@echo "* Release pvsneslib_$(OPERATING_SYSTEM) created successfully !"
 	@echo
 
 # define phony targets

@@ -70,16 +70,16 @@ jobs:
       - name: Build PVSNESLIB for Linux
         if: (matrix.name == 'ubuntu-latest')
         run: |
-          uname -s
+          uname
       - name: Build PVSNESLIB for Windows
         if: (matrix.name == 'windows-latest')
         shell: msys2 {0}
         run: |
-          uname -s
+          uname
       - name: Build PVSNESLIB for MacOS
         if: (matrix.name == 'macos-latest')
         run: |
-          uname -s
+          uname
 
       # ------------------------------------ #
       # Compiling sources and create release #
