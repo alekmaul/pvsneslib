@@ -21,6 +21,8 @@ clean :
 distclean : clean
 	-$(RM) $(DEP)
 
+install :
+
 ifeq ($(findstring $(MAKECMDGOALS),clean distclean compress),)
  -include $(DEP)
 endif
