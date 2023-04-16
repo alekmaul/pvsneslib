@@ -30,6 +30,12 @@ int verbosity()
     return 0;
 }
 
+void PrintVersion(void)
+{
+    printf("816-tcc-opt v%s\n", BINVERSION);
+    printf("built: %s\n", BINDATE);
+}
+
 /**
  * @brief Checks if it touches the accumulator register.
  * @param a The asm instruction.
@@ -52,7 +58,7 @@ int isControl(const char *a)
 {
     const char *p = a;
 
-    while (*p != '\0' && isspace(*p))
+    while (*p != '\0' && isspace((unsigned char)*p))
     {
         p++;
     }
@@ -146,6 +152,7 @@ dynArray tidyFile(const int argc, char **argv)
     if (fp != stdin)
         fclose(fp);
 
+    // dynArray r = { lines, used };
     return file;
 }
 

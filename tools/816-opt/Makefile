@@ -1,42 +1,58 @@
-# Set the compiler and flags
-CC := gcc
-CFLAGS := -Wall -Wextra -O2 -g
+# Define version and build date strings
+VERSION    := 1.0.0
+DATESTRING := $(shell date +%Y%m%d)
 
-# Set the name of the executable, source directory, and object directory
-EXE := 816-opt
-SRC := src
-OBJ := build
+# Compiler and compiler flags
+CC      := gcc
+CFLAGS  += -Wall -Wextra -O2 -g -pedantic -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-# Find all .c files in the source directory
-SOURCES := $(wildcard $(SRC)/*.c)
-
-# Create a list of object files to build
-OBJS    := $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SOURCES))
-
-# Detect the operating system and set the extension of the executable
-ifeq ($(OS),Windows_NT)
-	EXT := .exe
+# Define the libraries to be used depending on the OS
+ifeq ($(shell uname),Darwin)
+    # If it is, set LDFLAGS to link against the 'pcre' library
+    # This option will not work on Mac OS X unless all libraries (including libgcc.a) have also been compiled with -static. Since neither a static version of libSystem.dylib nor crt0.o are provided, this option is not useful to most people.
+    LDFLAGS := -lpcre
 else
-	EXT :=
+    # Otherwise (i.e. for Linux and other Unix-like systems), set LDFLAGS to link against
+    # the 'pcreposix' and 'pcre' libraries, and to link statically against all libraries
+    LDFLAGS := -static -lpcreposix -lpcre
 endif
 
-# Build the executable
+# Source and object file locations
+SRC := src
+OBJ := build
+SOURCES := $(wildcard $(SRC)/*.c)
+OBJS    := $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SOURCES))
+
+# Executable file name and extension
+EXE := 816-opt
+ifeq ($(OS),Windows_NT)
+	EXT=.exe
+else
+	EXT=
+endif
+
+# Define the default target
 all: $(EXE)$(EXT)
 
+# Define the recipe for linking the executable
 $(EXE)$(EXT): $(OBJS)
-	$(CC) $^ -o $@
+	@echo "Compiling $<"
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
-# Compile each .c file into an object file
+# Define the recipe for compiling object files
+%.o : %.c
 $(OBJ)/%.o: $(SRC)/%.c
-	$(CC) $(CFLAGS) -I$(SRC) -c $< -o $@
+	@echo "Compiling $<"
+	$(CC) $(CFLAGS) -I$(SRC) -c $< -o $@ $(LDFLAGS)
 
-# Install the executable to the devkitSANE tools directory
+# Define the install target
 install: $(EXE)$(EXT)
 	@cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
 
-# Remove all object files and the executable
+# Define the clean target
 clean:
-	@rm -f ${OBJS} $(EXE)$(EXT)
+	rm -rf ${OBJS}
+	rm -f $(BIN)
 
 # Declare the phony targets
 .PHONY: all clean install

@@ -2,7 +2,7 @@
 #define HELPERS_H
 
 #include <ctype.h>
-#include <regex.h>
+#include <pcre.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

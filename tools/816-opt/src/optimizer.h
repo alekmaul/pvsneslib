@@ -3,6 +3,9 @@
 
 #include "helpers.h"
 
+#define BINVERSION __BUILD_VERSION
+#define BINDATE __BUILD_DATE
+
 /*!
  * @brief Define comment for ASM files
  */
@@ -32,6 +35,7 @@
 #define STORE_A_TO_PSEUDO "sta.b tcc__([rf][0-9]{0,}h{0,1})$"
 
 int verbosity();
+void PrintVersion(void);
 dynArray tidyFile(const int argc, char **argv);
 dynArray storeBss(dynArray file);
 dynArray optimizeAsm(dynArray file, dynArray bss, size_t verbose);
