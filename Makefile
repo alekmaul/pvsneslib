@@ -53,10 +53,7 @@ clean:
 	@rm -rf release
 
 # create a release version
-release: clean all
-ifeq ($(OPERATING_SYSTEM),)
-	$(error "Unable to detect your operating system to create the release version.")
-endif
+release: all
 ifndef DOXYGEN_INSTALLED
 	$(error "doxygen is not installed but is mandatory to create the release version.")
 endif
