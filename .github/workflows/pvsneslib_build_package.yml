@@ -131,21 +131,21 @@ jobs:
       # ------------------------------------ #
       # Upload release                       #
       # ------------------------------------ #
-      - name: Upload PVSNESLIB release for Linux
-        if: (matrix.name == 'ubuntu-latest')
-        uses: actions/upload-artifact@v3
-        with:
-          name: pvsneslib_x86_64_linux.zip
-          path: pvnseslib/release/pvsneslib_x86_64_linux.zip
-      - name: Upload PVSNESLIB release for Windows
-        if: (matrix.name == 'windows-latest')
-        uses: actions/upload-artifact@v3
-        with:
-          name: pvsneslib_x86_64_windows.zip
-          path: pvnseslib/release/pvsneslib_x86_64_windows.zip
-      - name: Upload PVSNESLIB release for MacOS
-        if: (matrix.name == 'macos-latest')
-        uses: actions/upload-artifact@v3
-        with:
-          name: pvsneslib_x86_64_darwin.zip
-          path: pvnseslib/release/pvsneslib_x86_64_darwin.zip
+      # - name: Upload PVSNESLIB release for Linux
+      #   if: (matrix.name == 'ubuntu-latest')
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: pvsneslib_x86_64_linux.zip
+      #     path: pvnseslib/release/pvsneslib_x86_64_linux.zip
+      # - name: Upload PVSNESLIB release for Windows
+      #   if: (matrix.name == 'windows-latest')
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: pvsneslib_x86_64_windows.zip
+      #     path: pvnseslib/release/pvsneslib_x86_64_windows.zip
+      # - name: Upload PVSNESLIB release for MacOS
+      #   if: (matrix.name == 'macos-latest')
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: pvsneslib_x86_64_darwin.zip
+      #     path: pvnseslib/release/pvsneslib_x86_64_darwin.zip
