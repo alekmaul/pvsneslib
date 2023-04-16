@@ -1,12 +1,12 @@
 # Define variables for directory paths and build types
-CMAKE_TYPE = Unix Makefiles
+CMAKE_TYPE := Unix Makefiles
 
-TCC_DIR = tcc-65816
-WLA_DIR = wla-dx
-BIN_DIR = ../devkitsnes/bin
+TCC_DIR := tcc-65816
+WLA_DIR := wla-dx
+BIN_DIR := ../devkitsnes/bin
 
 # Define variables for build options
-MAKE_OPTIONS = -j$(NUM_JOBS)
+MAKE_OPTIONS := -j$(NUM_JOBS)
 
 # Define variables for System
 UNAME := $(shell uname)
@@ -61,14 +61,14 @@ tcc-install:
 wla: 
 	cd wla-dx ; \
 	cmake -G "$(CMAKE_TYPE)" . ; \
-	make wla-65816 ; \
-	make wla-spc700 ; \
-	make wlalink ; \
+	$(MAKE) wla-65816 ; \
+	$(MAKE) wla-spc700 ; \
+	$(MAKE) wlalink ; \
 
 # Define the wla-clean target
 wla-clean: 
 	cd wla-dx ; \
-	make clean ; \
+	$(MAKE) clean ; \
 	rm -f CMakeCache.txt
 
 # Define the wla-install target
