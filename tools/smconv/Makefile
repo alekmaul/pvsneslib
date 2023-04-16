@@ -3,7 +3,7 @@ VERSION := 2.0.0
 DATESTRING := $(shell date +%Y%m%d)
 
 # Define compilers and flags
-CP       ?= g++     # Compiler for C++ files, default is g++
+CP       := g++
 CFLAGS   := -O2 -Wall -Wno-unused-result -fpermissive -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 # Flags for both C and C++ files
 CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions  # Flags only for C++ files
