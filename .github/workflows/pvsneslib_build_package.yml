@@ -26,6 +26,8 @@ jobs:
       - name: Install dependencies for Linux
         if: matrix.name == 'ubuntu-latest'
         run: |
+          sudo apt update -y
+          sudo apt upgrade -y
           sudo apt-get install -y build-essential \
               gcc-12 \
               cmake \
