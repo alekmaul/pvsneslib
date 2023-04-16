@@ -4,7 +4,7 @@ DATESTRING := $(shell date +%Y%m%d)
 
 # Define the C++ compiler and flags to be used
 CC      := g++
-CFLAGS  := -g -O2 -static -Wall -Wno-literal-suffix -Wno-overflow
+CFLAGS  := -g -O2 -Wall -Wno-literal-suffix -Wno-overflow
 DEFINES := -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 # Define the libraries to be used depending on the OS
@@ -12,6 +12,7 @@ UNAME := $(shell uname -s)
 ifeq ($(UNAME), Darwin)
 	LIBS :=
 else
+	CFLAGS += -static
 	LIBS := -lm
 endif
 
