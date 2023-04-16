@@ -5,7 +5,7 @@ SNES_EXAMPLES_PATH  := snes-examples
 PVSNESLIB_PATH      := pvsneslib
 RELEASE_PATH        := release/pvsneslib
 DOXYGEN_INSTALLED   := $(shell command -v doxygen 2> /dev/null)
-
+ARCH := x86_64
 # Define variables for System
 UNAME := $(shell uname -s)
 
@@ -70,14 +70,13 @@ endif
 	@cp $(PVSNESLIB_PATH)/pvsneslib_snesmod.txt $(RELEASE_PATH)/$(PVSNESLIB_PATH)/pvsneslib_snesmod.txt
 	@cp $(PVSNESLIB_PATH)/pvsneslib_version.txt $(RELEASE_PATH)/$(PVSNESLIB_PATH)/pvsneslib_version.txt
 	@cp -r $(SNES_EXAMPLES_PATH) $(RELEASE_PATH)/snes-examples
-	@cd release
-	zip -q -y -r -m pvsneslib_$(OPERATING_SYSTEM).zip pvsneslib
+	@cd release && zip -q -y -r -m pvsneslib_$(ARCH)_$(OPERATING_SYSTEM).zip pvsneslib
 
-	@echo "* Release pvsneslib_$(OPERATING_SYSTEM) created successfully !"
+	@echo "* Release pvsneslib_$(ARCH)_$(OPERATING_SYSTEM) created successfully !"
 	@echo
 
 # define phony targets
 .PHONY: all
 
-# Declare the phony targets
+# Set the default target
 .DEFAULT_GOAL := all
