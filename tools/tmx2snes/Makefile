@@ -4,7 +4,7 @@ DATESTRING := $(shell date +%Y%m%d)
 
 # Set the C compiler to use and the compiler flags
 CC     := gcc
-CFLAGS := -g -O2 -Wall -Wno-implicit-function-declaration -Wno-unused-result -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
+CFLAGS := -g -O2 -Wall -static -Wno-implicit-function-declaration -Wno-unused-result -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 # Identify the source files and object files to be used in the build
 SOURCES := $(wildcard *.c)
@@ -17,12 +17,6 @@ ifeq ($(OS),Windows_NT)
 	EXT := .exe
 else
 	EXT :=
-endif
-
-# Define the libraries to be used depending on the OS
-UNAME := $(shell uname -s)
-ifneq ($(UNAME), Darwin)
-	CFLAGS += -static
 endif
 
 # Define the targets to be built
