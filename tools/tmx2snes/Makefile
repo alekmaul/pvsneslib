@@ -19,14 +19,14 @@ else
 	EXT :=
 endif
 
+# Define the targets to be built
+all: $(EXE)$(EXT)
+
 # Define the libraries to be used depending on the OS
 UNAME := $(shell uname -s)
 ifneq ($(UNAME), Darwin)
 	CFLAGS += -static
 endif
-
-# Define the targets to be built
-all: $(EXE)$(EXT)
 
 # Define the rule to compile object files from source files
 $(EXE)$(EXT) : $(OBJS)

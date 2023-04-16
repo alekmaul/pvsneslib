@@ -21,6 +21,12 @@ endif
 # Targets
 all: $(EXE)$(EXT)
 
+# Define the libraries to be used depending on the OS
+UNAME := $(shell uname -s)
+ifneq ($(UNAME), Darwin)
+	CFLAGS += -static
+endif
+
 # Link the object files to create the executable
 $(EXE)$(EXT) : $(OBJS)
 	@echo "Linking $@"

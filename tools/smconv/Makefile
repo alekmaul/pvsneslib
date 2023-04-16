@@ -23,15 +23,21 @@ endif
 # Define targets
 all: $(EXE)$(EXT)
 
+# Define the libraries to be used depending on the OS
+UNAME := $(shell uname -s)
+ifneq ($(UNAME), Darwin)
+	CFLAGS += -static
+endif
+
 # Link the object files to create the executable
 $(EXE)$(EXT) : $(OBJS)
 	@echo "linking $@"
-	$(CP) $(LDFLAGS) $(OBJS) -o $@
+	$(CP) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@
 
 # Compile the source files to create the object files
 %.o: %.cpp
 	@echo "compiling $<"
-	$(CP) $(CXXFLAGS) -c $<
+	$(CP) $(CFLAGS) $(CXXFLAGS) -c $<
 
 # Clean up the object files and executable
 clean:

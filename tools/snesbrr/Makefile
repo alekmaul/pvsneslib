@@ -21,5 +21,4 @@ $(SUBDIRS) :
 
 endif
 
-
-brr : base
+brr: base

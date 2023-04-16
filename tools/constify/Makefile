@@ -9,11 +9,8 @@ DEFINES := -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 # Define the libraries to be used depending on the OS
 UNAME := $(shell uname -s)
-ifeq ($(UNAME), Darwin)
-	LIBS :=
-else
-	CFLAGS += -static
-	LIBS := -lm
+ifneq ($(UNAME), Darwin)
+	CFLAGS += -static -lm
 endif
 
 # Define the source files, object files, and executable name
@@ -33,7 +30,7 @@ all: $(EXE)$(EXT)
 # Link the object files to create the executable
 $(EXE)$(EXT): $(OBJS)
 	@echo "linking $@"
-	$(CC) $(CFLAGS) $(DEFINES) $(LIBS) $(OBJS) -o $@
+	$(CC) $(CFLAGS) $(DEFINES) $(OBJS) -o $@
 
 # Compile the source files to create the object files
 %.o: %.cpp
