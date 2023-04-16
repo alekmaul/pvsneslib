@@ -102,12 +102,12 @@ jobs:
       # ------------------------------------ #
       # Compiling sources and create release #
       # ------------------------------------ #
-      # - name: Build & Release PVSNESLIB for Linux
-      #   if: (matrix.name == 'ubuntu-latest')
-      #   run: |
-      #     cd pvsneslib
-      #     export PVSNESLIB_HOME=$(pwd)
-      #     make release
+      - name: Build & Release PVSNESLIB for Linux
+        if: (matrix.name == 'ubuntu-latest')
+        run: |
+          cd pvsneslib
+          export PVSNESLIB_HOME=$(pwd)
+          make release
       # - name: Build & Release PVSNESLIB for Windows
       #   if: (matrix.name == 'windows-latest')
       #   run: |
