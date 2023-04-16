@@ -111,6 +111,7 @@ jobs:
           make release
       - name: Build & Release PVSNESLIB for Windows
         if: (matrix.name == 'windows-latest')
+        shell: msys2 {0}
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
