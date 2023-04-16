@@ -54,6 +54,7 @@ jobs:
             git
             python
             doxygen
+            zip
       - name: Install dependencies for MacOS
         if: matrix.name == 'macos-latest'
         run: |
