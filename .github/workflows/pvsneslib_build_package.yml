@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - "pvsneslib_runners"
+      - "pvsneslib_runners_release"
 
 jobs:
   build:
