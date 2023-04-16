@@ -1,15 +1,14 @@
 # Define variables for directory paths and build types
 CMAKE_TYPE := Unix Makefiles
-
-TCC_DIR := tcc-65816
-WLA_DIR := wla-dx
-BIN_DIR := ../devkitsnes/bin
+TCC_DIR    := tcc-65816
+WLA_DIR    := wla-dx
+BIN_DIR    := ../devkitsnes/bin
 
 # Define variables for build options
 MAKE_OPTIONS := -j$(NUM_JOBS)
 
 # Define variables for System
-UNAME := $(shell uname)
+UNAME := $(shell uname -s)
 
 # Set default number of jobs to run in parallel based on available CPU cores
 ifeq ($(OS),Windows_NT)
@@ -26,11 +25,8 @@ else
   NUM_JOBS ?= 1
 endif
 
-# Set the default target
+# Declare the phony targets
 .DEFAULT_GOAL := all
-
-# Define phony targets
-.PHONY: all clean install tcc-configure tcc wla
 
 # Define the all target
 all: tcc-configure tcc wla
@@ -74,3 +70,6 @@ wla-clean:
 # Define the wla-install target
 wla-install:
 	@cp $(WLA_DIR)/binaries/wla-65816 $(WLA_DIR)/binaries/wla-spc700 $(WLA_DIR)/binaries/wlalink $(BIN_DIR)
+
+# Define phony targets
+.PHONY: all clean install tcc-configure tcc wla

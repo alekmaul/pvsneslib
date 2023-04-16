@@ -1,18 +1,18 @@
 # define variables
-COMPILER_PATH := compiler
-TOOLS_PATH := tools
-SNES_EXAMPLES_PATH := snes-examples
-PVSNESLIB_PATH := pvsneslib
-RELEASE_PATH := release/pvsneslib
-DOXYGEN_INSTALLED := $(shell command -v doxygen 2> /dev/null)
+COMPILER_PATH       := compiler
+TOOLS_PATH          := tools
+SNES_EXAMPLES_PATH  := snes-examples
+PVSNESLIB_PATH      := pvsneslib
+RELEASE_PATH        := release/pvsneslib
+DOXYGEN_INSTALLED   := $(shell command -v doxygen 2> /dev/null)
 
 # Define variables for System
-UNAME := $(shell uname)
+UNAME := $(shell uname -s)
 
 # Set default operating system
 ifeq ($(OS),Windows_NT)
 	OPERATING_SYSTEM := windows
-else ifeq ($(UNAME), MINGW64_NT)
+else ifneq ($(findstring MINGW64_NT,$(UNAME)),)
 	OPERATING_SYSTEM := mingw
 else ifeq ($(UNAME), Darwin)
 	OPERATING_SYSTEM := darwin
@@ -79,5 +79,5 @@ endif
 # define phony targets
 .PHONY: all
 
-# Set the default target
+# Declare the phony targets
 .DEFAULT_GOAL := all
