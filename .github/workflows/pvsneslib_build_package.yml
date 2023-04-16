@@ -110,6 +110,7 @@ jobs:
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           make release
+          ls -rtl release/
       - name: Build & Release PVSNESLIB for Windows
         if: (matrix.name == 'windows-latest')
         shell: msys2 {0}
@@ -117,6 +118,7 @@ jobs:
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           make release
+          ls -rtl release/
       - name: Build & Release PVSNESLIB for MacOS
         if: (matrix.name == 'macos-latest')
         run: |
@@ -124,6 +126,7 @@ jobs:
           export PVSNESLIB_HOME=$(pwd)
           PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
           CFLAGS+=-I/usr/local/include make release
+          ls -rtl release/
 
       # ------------------------------------ #
       # Upload release                       #
