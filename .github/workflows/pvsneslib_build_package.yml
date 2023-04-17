@@ -44,6 +44,8 @@ jobs:
         if: matrix.name == 'windows-latest'
         uses: msys2/setup-msys2@v2
         with:
+          msystem: MINGW64
+          path-type: minimal
           update: true
           install: >-
             base-devel
