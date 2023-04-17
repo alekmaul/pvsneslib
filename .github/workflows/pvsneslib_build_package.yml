@@ -90,8 +90,9 @@ jobs:
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          cd tools
-          make
+          pacman -Ql pcre-devel
+      # cd tools
+      # make
       # make LIBS="$(echo ${LIBS} | sed 's/-ldl//g')"
       # - name: Build PVSNESLIB for MacOS
       #   if: (matrix.name == 'macos-latest')
