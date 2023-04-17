@@ -51,7 +51,6 @@ jobs:
             mingw-w64-x86_64-cmake
             pcre-devel
             git
-            python
             doxygen
             zip
       - name: Install dependencies for MacOS
@@ -91,8 +90,7 @@ jobs:
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           cd compiler/tcc-65816
-          make -n -e LIBS=
-          make -e LIBS=
+          make LIBS="$(echo ${LIBS} | sed 's/-ldl//g')"
       # - name: Build PVSNESLIB for MacOS
       #   if: (matrix.name == 'macos-latest')
       #   run: |
