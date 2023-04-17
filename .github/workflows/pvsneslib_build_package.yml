@@ -78,55 +78,56 @@ jobs:
       # ------------------------------------ #
       # Compiling sources                    #
       # ------------------------------------ #
-      - name: Build PVSNESLIB for Linux
-        if: (matrix.name == 'ubuntu-latest')
-        run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          make
+      # - name: Build PVSNESLIB for Linux
+      #   if: (matrix.name == 'ubuntu-latest')
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     make
       - name: Build PVSNESLIB for Windows
         if: (matrix.name == 'windows-latest')
         shell: msys2 {0}
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          make
-      - name: Build PVSNESLIB for MacOS
-        if: (matrix.name == 'macos-latest')
-        run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-          sudo ln -s /usr/local/bin/gcc-12 /usr/local/bin/gcc
-          sudo ln -s /usr/local/bin/g++-12 /usr/local/bin/g++
-          CFLAGS+=-I/usr/local/include make
+          cd compiler/wla-dx
+          cmake -G "toto" .
+      # - name: Build PVSNESLIB for MacOS
+      #   if: (matrix.name == 'macos-latest')
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+      #     sudo ln -s /usr/local/bin/gcc-12 /usr/local/bin/gcc
+      #     sudo ln -s /usr/local/bin/g++-12 /usr/local/bin/g++
+      #     CFLAGS+=-I/usr/local/include make
 
       # ------------------------------------ #
       # Compiling sources and create release #
       # ------------------------------------ #
-      - name: Build & Release PVSNESLIB for Linux
-        if: (matrix.name == 'ubuntu-latest')
-        run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          make release
-          ls -rtl release/
-      - name: Build & Release PVSNESLIB for Windows
-        if: (matrix.name == 'windows-latest')
-        shell: msys2 {0}
-        run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          make release
-          ls -rtl release/
-      - name: Build & Release PVSNESLIB for MacOS
-        if: (matrix.name == 'macos-latest')
-        run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-          CFLAGS+=-I/usr/local/include make release
-          ls -rtl release/
+      # - name: Build & Release PVSNESLIB for Linux
+      #   if: (matrix.name == 'ubuntu-latest')
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     make release
+      #     ls -rtl release/
+      # - name: Build & Release PVSNESLIB for Windows
+      #   if: (matrix.name == 'windows-latest')
+      #   shell: msys2 {0}
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     make release
+      #     ls -rtl release/
+      # - name: Build & Release PVSNESLIB for MacOS
+      #   if: (matrix.name == 'macos-latest')
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+      #     CFLAGS+=-I/usr/local/include make release
+      #     ls -rtl release/
 
       # ------------------------------------ #
       # Upload release                       #
@@ -136,16 +137,16 @@ jobs:
       #   uses: actions/upload-artifact@v3
       #   with:
       #     name: pvsneslib_x86_64_linux.zip
-      #     path: pvnseslib/release/pvsneslib_x86_64_linux.zip
+      #     path: pvsneslib/pvnseslib/release/pvsneslib_x86_64_linux.zip
       # - name: Upload PVSNESLIB release for Windows
       #   if: (matrix.name == 'windows-latest')
       #   uses: actions/upload-artifact@v3
       #   with:
       #     name: pvsneslib_x86_64_windows.zip
-      #     path: pvnseslib/release/pvsneslib_x86_64_windows.zip
+      #     path: pvsneslib/pvnseslib/release/pvsneslib_x86_64_windows.zip
       # - name: Upload PVSNESLIB release for MacOS
       #   if: (matrix.name == 'macos-latest')
       #   uses: actions/upload-artifact@v3
       #   with:
       #     name: pvsneslib_x86_64_darwin.zip
-      #     path: pvnseslib/release/pvsneslib_x86_64_darwin.zip
+      #     path: pvsneslib/pvnseslib/release/pvsneslib_x86_64_darwin.zip
