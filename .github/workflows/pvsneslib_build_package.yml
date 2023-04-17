@@ -95,7 +95,7 @@ jobs:
           export PVSNESLIB_HOME=$(pwd)
           cd tools/816-opt/
           make
-          ldd tools/816-opt/816-opt.exe
+          ldd 816-opt.exe
       # cd tools
       # make
       # make LIBS="$(echo ${LIBS} | sed 's/-ldl//g')"
