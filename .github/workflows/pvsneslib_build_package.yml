@@ -84,6 +84,8 @@ jobs:
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           make
+          ldd tools/816-opt/816-opt
+          ldd tools/snesbrr/snesbrr
       - name: Build PVSNESLIB for Windows
         if: (matrix.name == 'windows-latest')
         shell: msys2 {0}
@@ -91,6 +93,8 @@ jobs:
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           make
+          ldd tools/816-opt/816-opt.exe
+          ldd tools/snesbrr/snesbrr.exe
       - name: Build PVSNESLIB for MacOS
         if: (matrix.name == 'macos-latest')
         run: |
@@ -99,7 +103,7 @@ jobs:
           PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
           sudo ln -s /usr/local/bin/gcc-12 /usr/local/bin/gcc
           sudo ln -s /usr/local/bin/g++-12 /usr/local/bin/g++
-          CFLAGS+=-I/usr/local/include make
+          make
 
       # ------------------------------------ #
       # Compiling sources and create release #
