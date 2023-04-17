@@ -94,7 +94,7 @@ jobs:
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           cd tools/816-opt/
-          CLFAGS+=-I/mingw64/include LDFLAGS+=-L/mingw64/lib make
+          make
       # cd tools
       # make
       # make LIBS="$(echo ${LIBS} | sed 's/-ldl//g')"
