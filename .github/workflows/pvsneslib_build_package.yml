@@ -13,12 +13,12 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
-            name: ubuntu-latest
+          # - os: ubuntu-latest
+          #   name: ubuntu-latest
           - os: windows-latest
             name: windows-latest
-          - os: macos-latest
-            name: macos-latest
+          # - os: macos-latest
+          #   name: macos-latest
 
     steps:
       # ------------------------------------ #
@@ -91,7 +91,8 @@ jobs:
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           cd compiler/tcc-65816
-          make -n -e LIBS-=-ldl
+          make -n -e LIBS=
+          make -e LIBS=
       # - name: Build PVSNESLIB for MacOS
       #   if: (matrix.name == 'macos-latest')
       #   run: |
