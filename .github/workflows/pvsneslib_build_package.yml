@@ -89,7 +89,7 @@ jobs:
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          cd compiler/tcc-65816
+          gcc -v
           make LIBS="$(echo ${LIBS} | sed 's/-ldl//g')"
       # - name: Build PVSNESLIB for MacOS
       #   if: (matrix.name == 'macos-latest')
