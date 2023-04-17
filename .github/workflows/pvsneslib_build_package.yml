@@ -91,12 +91,7 @@ jobs:
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          cd compiler/wla-dx
-          which cmake
-          cmake --version
-          cmake -G "MSYS Makefiles" .
-
-
+          make
       # - name: Build PVSNESLIB for MacOS
       #   if: (matrix.name == 'macos-latest')
       #   run: |
