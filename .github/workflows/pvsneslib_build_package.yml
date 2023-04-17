@@ -1,135 +1,177 @@
-name: PVSNESLIB Build and Package
+name: PVSNESLIB Build & Release
 
 on:
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  # Triggers the workflow on push or pull request events but only for the develop branch
-  # push:
-  #   branches: [ develop ]
-  
+  push:
+    branches:
+      - "develop"
+      - "pvsneslib_runners"
+
 jobs:
   build:
-    runs-on: ${{ matrix.os }}  
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
     strategy:
       matrix:
         include:
-          - os: ubuntu-20.04
-            name: Linux-x64
-          - os: windows-2019
-            name: Windows-x32
-    #      - os: macos-11
-    #        name: MacOS-x64
-    steps:
-    
-      # ==== OS Specific Dependencies ====
-      - name: Install dependencies
-        if: matrix.name == 'Linux-x64'
-        run: |
-          sudo apt-get install gcc-multilib
+          - os: ubuntu-latest
+            name: ubuntu-latest
+          - os: windows-latest
+            name: windows-latest
+          - os: macos-latest
+            name: macos-latest
 
-      - name: Windows Depends MSYS2/MinGW32
-        if: matrix.name == 'Windows-x32'
+    steps:
+      # ------------------------------------ #
+      # Install dependencies                 #
+      # ------------------------------------ #
+      - name: Install dependencies for Linux
+        if: matrix.name == 'ubuntu-latest'
+        run: |
+          sudo apt update -y
+          sudo apt-get install -y build-essential \
+              gcc-12 \
+              cmake \
+              make \
+              git \
+              doxygen \
+              texi2html \
+              texlive-latex-base \
+              texlive-latex-recommended \
+              texlive-latex-extra
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 90
+      - name: Install dependencies for Windows
+        if: matrix.name == 'windows-latest'
         uses: msys2/setup-msys2@v2
         with:
-          msystem: MINGW32
-          path-type: minimal #strict
-          release: false
-          update: false
+          update: true
+          msystem: MINGW64
           install: >-
             base-devel
-            mingw-w64-i686-toolchain
+            gcc
+            make
+            cmake
+            pcre-devel
+            git
+            doxygen
+            zip
+      - name: Install dependencies for MacOS
+        if: matrix.name == 'macos-latest'
+        run: |
+          brew update
+          brew install pcre
+          brew install doxygen
+          brew install gnu-sed
+          brew install texi2html
+          brew install texlive
+          sudo ln -s /usr/local/bin/gcc-12 /usr/local/bin/gcc
+          sudo ln -s /usr/local/bin/g++-12 /usr/local/bin/g++
 
-      # ==== Build Steps ====
+      # ------------------------------------ #
+      # Checkout the project                 #
+      # ------------------------------------ #
       - name: Check out PVSNESLIB
         uses: actions/checkout@v3
         with:
-          ref: develop
+          ref: ${{ github.head_ref }}
           path: pvsneslib
           fetch-depth: 0
-          submodules: true
+          submodules: recursive
           persist-credentials: false
-          
-      # ==== Pre-Build: Set environment vars ====
-      # Needs to be in a separate step than build so that setting the environment var takes effect
-      #
-      - name: Pre-Build Linux/MacOS
-        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
-        shell: bash
-        run: |
-          echo "BUILD_PACKAGE_FILENAME=pvsneslib-${{ matrix.name }}.tar.gz" >> $GITHUB_ENV
 
-      - name: Pre-Build Windows
-        if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
-        shell: bash
-        run: |
-          echo "BUILD_PACKAGE_FILENAME=pvsneslib-${{ matrix.name }}.zip" >> $GITHUB_ENV
-
-      # ==== Builds ====
-      - name: Build PVSNESLIB Linux/MacOS
-        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
-        shell: bash
+      # ------------------------------------ #
+      # Compiling sources                    #
+      # ------------------------------------ #
+      - name: Build PVSNESLIB for Linux
+        if: (matrix.name == 'ubuntu-latest')
         run: |
           cd pvsneslib
-          export PVSNESLIB_HOME=`pwd`
+          export PVSNESLIB_HOME=$(pwd)
           make
-          cd ..
-
-      - name: Build PVSNESLIB Windows
-        if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
-        shell: cmd
+      - name: Build PVSNESLIB for Windows
+        if: (matrix.name == 'windows-latest')
+        shell: msys2 {0}
         run: |
           cd pvsneslib
-          #set PVSNESLIB_HOME=%CD% it is D:\a\pvsneslib\pvsneslib\pvsneslib (not working after)
-          set PVSNESLIB_HOME=/d/a/pvsneslib/pvsneslib/pvsneslib
-          echo %PVSNESLIB_HOME%
-          msys2 -c 'make'
-          cd ..
-
-      # ==== Packaging ====
-      - name: Package build Linux/MacOS
-        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-x64')
-        shell: bash
+          export PVSNESLIB_HOME=$(pwd)
+          make
+      - name: Build PVSNESLIB for MacOS
+        if: (matrix.name == 'macos-latest')
         run: |
           cd pvsneslib
-          mkdir package
-          mkdir -p package/pvsneslib 
-          mkdir -p package/pvsneslib/pvsneslib
-          cp -r devkitsnes package/pvsneslib
-          cp -r pvsneslib/include package/pvsneslib/pvsneslib
-          cp -r pvsneslib/lib package/pvsneslib/pvsneslib
-          cp -r pvsneslib/pvsneslib_license.txt package/pvsneslib/pvsneslib_license.txt
-          cp -r pvsneslib/pvsneslib_snesmod.txt package/pvsneslib/pvsneslib_snesmod.txt
-          cp -r pvsneslib/pvsneslib_version.txt package/pvsneslib/pvsneslib_version.txt
-          cp -r snes-examples package/pvsneslib/snes-examples
-          cd package
-          tar -czf ${{ env.BUILD_PACKAGE_FILENAME }} pvsneslib
-          cd ..
-          cd ..
+          export PVSNESLIB_HOME=$(pwd)
+          PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+          make
 
-      - name: Package build Windows
-        if: (matrix.name == 'Windows-x64') || (matrix.name == 'Windows-x32')
-        shell: cmd
+      # ------------------------------------ #
+      # Compiling sources and create release #
+      # ------------------------------------ #
+      - name: Build & Release PVSNESLIB for Linux
+        if: (matrix.name == 'ubuntu-latest')
         run: |
           cd pvsneslib
-          mkdir package
-          mkdir package\pvsneslib 
-          mkdir package\pvsneslib\pvsneslib
-          cp -r devkitsnes package\pvsneslib
-          cp -r pvsneslib\include package\pvsneslib\pvsneslib
-          cp -r pvsneslib\lib package\pvsneslib\pvsneslib
-          cp -r pvsneslib\pvsneslib_license.txt package\pvsneslib\pvsneslib_license.txt
-          cp -r pvsneslib\pvsneslib_snesmod.txt package\pvsneslib\pvsneslib_snesmod.txt
-          cp -r pvsneslib\pvsneslib_version.txt package\pvsneslib\pvsneslib_version.txt
-          cp -r snes-examples package\pvsneslib\snes-examples
-          cd package
-          7z a ${{ env.BUILD_PACKAGE_FILENAME }} pvsneslib
-          cd ..
-          cd ..
+          export PVSNESLIB_HOME=$(pwd)
+          make release
+          ldd devkitsnes/bin/* || true
+          ldd devkitsnes/tools/* || true
+          ls -rtl release/
+      - name: Build & Release PVSNESLIB for Windows
+        if: (matrix.name == 'windows-latest')
+        shell: msys2 {0}
+        run: |
+          cd pvsneslib
+          export PVSNESLIB_HOME=$(pwd)
+          make release
+          ldd devkitsnes/bin/* || true
+          ldd devkitsnes/tools/* || true
+          ls -rtl release/
+      - name: Build & Release PVSNESLIB for MacOS
+        if: (matrix.name == 'macos-latest')
+        run: |
+          cd pvsneslib
+          export PVSNESLIB_HOME=$(pwd)
+          PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+          make release
+          otool -L devkitsnes/bin/* || true
+          otool -L devkitsnes/tools/* || true
+          ls -rtl release/
 
-      - name: Store build
-        if: (matrix.name == 'Linux-x64') || (matrix.name == 'MacOS-64') || ('Windows-x64') || ('Windows-x32')
+      # ------------------------------------ #
+      # debug                    #
+      # ------------------------------------ #
+      # - name: Look for release files
+      #   if: (matrix.name == 'ubuntu-latest')
+      #   run: |
+      #     find . -type f -name '*.zip' -ls
+      # - name: Look for release files
+      #   if: (matrix.name == 'windows-latest')
+      #   shell: msys2 {0}
+      #   run: |
+      #     find . -type f -name '*.zip' -ls
+      # - name: Look for release files
+      #   if: (matrix.name == 'macos-latest')
+      #   run: |
+      #     find . -type f -name '*.zip' -ls
+
+      # ------------------------------------ #
+      # Upload release                       #
+      # ------------------------------------ #
+      - name: Upload PVSNESLIB release for Linux
+        if: (matrix.name == 'ubuntu-latest')
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.name }}-build
-          path: pvsneslib/package/${{ env.BUILD_PACKAGE_FILENAME }}
-          # retention-days: 14
+          name: pvsneslib_64b_linux.zip
+          path: pvsneslib/release/pvsneslib_64b_linux.zip
+      - name: Upload PVSNESLIB release for Windows
+        if: (matrix.name == 'windows-latest')
+        uses: actions/upload-artifact@v3
+        with:
+          name: pvsneslib_64b_windows.zip
+          path: pvsneslib/release/pvsneslib_64b_windows.zip
+      - name: Upload PVSNESLIB release for MacOS
+        if: (matrix.name == 'macos-latest')
+        uses: actions/upload-artifact@v3
+        with:
+          name: pvsneslib_64b_darwin.zip
+          path: pvsneslib/release/pvsneslib_64b_darwin.zip
+

@@ -26,6 +26,20 @@
 int main(int argc, char **argv)
 {
     /* -------------------------------- */
+    /*      Parse the arguments         */
+    /* -------------------------------- */
+    for (size_t i = 1; i < (size_t)argc; i++)
+    {
+        if (argv[i][0] == '-')
+        {
+            if (argv[i][1] == 'v') // show version
+            {
+                PrintVersion();
+                exit(0);
+            }
+        }
+    }
+    /* -------------------------------- */
     /*       Enable verbosity level     */
     /* -------------------------------- */
     size_t verbose = verbosity();

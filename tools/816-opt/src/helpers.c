@@ -271,70 +271,44 @@ char *splitStr(char *str, char *sep, size_t pos)
  */
 dynArray regexMatchGroups(char *string, char *regex, const size_t maxGroups)
 {
-    /*
-        Inspired by Ianmackinnon:
-        https://gist.github.com/ianmackinnon/3294587
-    */
+    pcre *regexCompiled;
+    const char *error;
+    int erroffset;
+    int groupArray[maxGroups > 0 ? maxGroups * 3 : 2];
+    int rc;
 
-    regex_t regexCompiled;
-    regmatch_t groupArray[maxGroups];
+    dynArray regexgroup = { NULL, 0 };
 
-    dynArray regexgroup;
-    regexgroup.used = 0;
-
-    int re = regcomp(&regexCompiled, regex, REG_EXTENDED);
-
-    if (re)
+    regexCompiled = pcre_compile(regex, 0, &error, &erroffset, NULL);
+    if (regexCompiled == NULL)
     {
-        fprintf(stderr, "Could not compile regular expression.\n");
-        exit(EXIT_FAILURE);
-    };
-
-    re = regexec(&regexCompiled, string, maxGroups, groupArray, 0);
-
-    if (!re)
-    {
-        size_t len, g;
-        char *stringCopy = malloc(strlen(string) + 1);
-        strcpy(stringCopy, string);
-
-        regexgroup.arr = malloc(maxGroups * sizeof(char *));
-
-        for (g = 0; g < maxGroups; g++)
-        {
-            if ((size_t)groupArray[g].rm_so == (size_t)-1)
-            {
-                break; // No more groups
-            }
-
-            len = groupArray[g].rm_eo - groupArray[g].rm_so;
-
-            /* allocate storage for line */
-            regexgroup.arr[regexgroup.used] = malloc(len + 1);
-            memcpy(regexgroup.arr[regexgroup.used], stringCopy + groupArray[g].rm_so, len);
-            regexgroup.arr[regexgroup.used][len] = '\0';
-            regexgroup.used += 1;
-        }
-
-        free(stringCopy);
-        regfree(&regexCompiled);
-
-        return regexgroup;
-    }
-    else if (re == REG_NOMATCH)
-    {
-        regfree(&regexCompiled);
-
-        regexgroup.arr = NULL;
-        return regexgroup;
-    }
-    else
-    {
-        char msgbuf[100];
-        regerror(re, &regexCompiled, msgbuf, sizeof(msgbuf));
-        fprintf(stderr, "Regex match failed: %s\n", msgbuf);
+        fprintf(stderr, "Could not compile regular expression: %s\n", error);
         exit(EXIT_FAILURE);
     }
+
+    rc = maxGroups == 0 ? pcre_exec(regexCompiled, NULL, string, strlen(string), 0, 0, groupArray, 2)
+                        : pcre_exec(regexCompiled, NULL, string, strlen(string), 0, 0, groupArray, maxGroups * 3);
+    if (rc < 0)
+    {
+        pcre_free(regexCompiled);
+        return regexgroup;
+    }
+
+    regexgroup.arr = malloc(sizeof(char *) * maxGroups);
+    for (size_t i = 0; i < maxGroups; i++)
+    {
+        if (groupArray[i * 2] == -1)
+            break;
+        const int len     = groupArray[i * 2 + 1] - groupArray[i * 2];
+        regexgroup.arr[i] = malloc(len + 1);
+        memcpy(regexgroup.arr[i], string + groupArray[i * 2], len);
+        regexgroup.arr[i][len] = '\0';
+        regexgroup.used++;
+    }
+
+    pcre_free(regexCompiled);
+
+    return regexgroup;
 }
 
 /**
