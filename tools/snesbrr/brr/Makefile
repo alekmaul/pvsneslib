@@ -1,7 +1,6 @@
 include ../makeinclude
 
-VERSION := "1.0.0"
-DATESTRING := $(shell date +%Y%m%d)
+VERSION = "1.0.0"
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -9,7 +8,7 @@ DATESTRING := $(shell date +%Y%m%d)
 LIBS = -lbase
 CPPFLAGS += -I"../"
 LDFLAGS += -L"../"
-CFLAGS += -O3 -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
+CFLAGS += -O3 -static -static-libstdc++ -static-libgcc -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 BIN := snesbrr
 BINDIR := ../$(BIN)
@@ -28,7 +27,7 @@ endif
 #---------------------------------------------------------------------------------
 all : $(BINDIR)$(EXT)
 
-$(BINDIR)$(EXT) : $(OBJ)
+$(BINDIR)$(EXT) : $(OBJ) ../libbase.a
 	@echo "Linking $(words $(OBJ)) Object Files Into $@"; $(CXX) $(OBJ) -o $@ $(LDFLAGS) $(LIBS)
 
 #---------------------------------------------------------------------------------
@@ -49,3 +48,4 @@ compress :
 ifeq ($(findstring $(MAKECMDGOALS),clean distclean compress),)
  -include $(DEP)
 endif
+

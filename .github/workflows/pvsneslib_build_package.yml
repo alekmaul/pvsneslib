@@ -6,6 +6,7 @@ on:
     branches:
       - "pvsneslib_runners"
       - "pvsneslib_runners_release"
+      - "test_windows"
 
 jobs:
   build:
@@ -52,7 +53,6 @@ jobs:
             cmake
             pcre-devel
             git
-            python
             doxygen
             zip
       - name: Install dependencies for MacOS
@@ -104,29 +104,29 @@ jobs:
       # ------------------------------------ #
       # Compiling sources and create release #
       # ------------------------------------ #
-      - name: Build & Release PVSNESLIB for Linux
-        if: (matrix.name == 'ubuntu-latest')
-        run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          make release
-          ls -rtl release/
-      - name: Build & Release PVSNESLIB for Windows
-        if: (matrix.name == 'windows-latest')
-        shell: msys2 {0}
-        run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          make release
-          ls -rtl release/
-      - name: Build & Release PVSNESLIB for MacOS
-        if: (matrix.name == 'macos-latest')
-        run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-          CFLAGS+=-I/usr/local/include make release
-          ls -rtl release/
+      # - name: Build & Release PVSNESLIB for Linux
+      #   if: (matrix.name == 'ubuntu-latest')
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     make release
+      #     ls -rtl release/
+      # - name: Build & Release PVSNESLIB for Windows
+      #   if: (matrix.name == 'windows-latest')
+      #   shell: msys2 {0}
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     make release
+      #     ls -rtl release/
+      # - name: Build & Release PVSNESLIB for MacOS
+      #   if: (matrix.name == 'macos-latest')
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+      #     CFLAGS+=-I/usr/local/include make release
+      #     ls -rtl release/
 
       # ------------------------------------ #
       # Upload release                       #
