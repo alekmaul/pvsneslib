@@ -5,7 +5,7 @@ SNES_EXAMPLES_PATH  := snes-examples
 PVSNESLIB_PATH      := pvsneslib
 RELEASE_PATH        := release/pvsneslib
 DOXYGEN_INSTALLED   := $(shell command -v doxygen 2> /dev/null)
-ARCH := x86_64
+ARCH := 64b
 # Define variables for System
 UNAME := $(shell uname -s)
 
