@@ -62,6 +62,8 @@ jobs:
           brew install gnu-sed
           brew install texi2html
           brew install texlive
+        # to try gnu-sed
+        # and add PATH="$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
 
       # ------------------------------------ #
       # Checkout the project                 #
@@ -90,7 +92,8 @@ jobs:
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          pacman -Ql pcre-devel
+          cd tools/816-opt/
+          CLFAGS+=-I/usr/include LDFLAGS+=-L/usr/lib make
       # cd tools
       # make
       # make LIBS="$(echo ${LIBS} | sed 's/-ldl//g')"
