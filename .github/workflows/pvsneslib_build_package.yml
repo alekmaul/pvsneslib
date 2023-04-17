@@ -64,8 +64,8 @@ jobs:
           brew install gnu-sed
           brew install texi2html
           brew install texlive
-        # to try gnu-sed
-        # and add PATH="$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
+          sudo ln -s /usr/local/bin/gcc-12 /usr/local/bin/gcc
+          sudo ln -s /usr/local/bin/g++-12 /usr/local/bin/g++
 
       # ------------------------------------ #
       # Checkout the project                 #
@@ -106,8 +106,6 @@ jobs:
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-          sudo ln -s /usr/local/bin/gcc-12 /usr/local/bin/gcc
-          sudo ln -s /usr/local/bin/g++-12 /usr/local/bin/g++
           make
           otool -L devkitsnes/bin/* || true
           otool -L devkitsnes/tools/* || true
