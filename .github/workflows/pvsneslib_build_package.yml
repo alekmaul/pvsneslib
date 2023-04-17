@@ -46,10 +46,8 @@ jobs:
         with:
           update: true
           install: >-
-            base-devel
-            gcc
-            make
-            cmake
+            mingw-w64-x86_64-toolchain
+            mingw-w64-x86_64-make
             pcre-devel
             git
             python
