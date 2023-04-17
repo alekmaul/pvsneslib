@@ -45,6 +45,7 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           update: true
+          msystem: MINGW64
           install: >-
             base-devel
             mingw-w64-x86_64-toolchain
@@ -93,8 +94,9 @@ jobs:
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          cd tools/816-opt/
-          CLFAGS+=-I/usr/include LDFLAGS+=-L/usr/lib make
+          pacman -Ql mingw-w64-x86_64-pcre
+      # cd tools/816-opt/
+      # CLFAGS+=-I/usr/include LDFLAGS+=-L/usr/lib make
       # cd tools
       # make
       # make LIBS="$(echo ${LIBS} | sed 's/-ldl//g')"
