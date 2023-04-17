@@ -1,9 +1,5 @@
-# Define a build system generator
-ifeq ($(OS),Windows_NT)
-    CMAKE_TYPE := MSYS Makefiles
-else
-    CMAKE_TYPE := Unix Makefiles
-endif
+# Set the POSIX build system generator
+CMAKE_TYPE := Unix Makefiles
 
 # Define variables for directory paths and build types
 TCC_DIR    := tcc-65816
