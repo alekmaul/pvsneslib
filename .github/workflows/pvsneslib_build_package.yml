@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - "pvsneslib_runners"
-      - "pvsneslib_runners_release"
+      #- "pvsneslib_runners_release"
 
 jobs:
   build:
@@ -49,7 +49,6 @@ jobs:
             base-devel
             mingw-w64-x86_64-toolchain
             mingw-w64-x86_64-cmake
-            gcc
             pcre-devel
             git
             python
@@ -93,7 +92,7 @@ jobs:
           export PVSNESLIB_HOME=$(pwd)
           cd compiler/tcc-65816
           make -n
-          make
+          LIBS-=-ldl make
       # - name: Build PVSNESLIB for MacOS
       #   if: (matrix.name == 'macos-latest')
       #   run: |
