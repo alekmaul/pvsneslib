@@ -45,13 +45,11 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           update: true
-          msystem: MINGW64
-          path-type: minimal
           install: >-
             base-devel
             mingw-w64-x86_64-toolchain
-            mingw-w64-i686-toolchain
             mingw-w64-x86_64-cmake
+            gcc
             pcre-devel
             git
             python
