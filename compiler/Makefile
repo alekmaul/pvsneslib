@@ -1,5 +1,11 @@
+# Define a build system generator
+ifeq ($(OS),Windows_NT)
+    CMAKE_TYPE := MSYS Makefiles
+else
+    CMAKE_TYPE := Unix Makefiles
+endif
+
 # Define variables for directory paths and build types
-CMAKE_TYPE := Unix Makefiles
 TCC_DIR    := tcc-65816
 WLA_DIR    := wla-dx
 BIN_DIR    := ../devkitsnes/bin
