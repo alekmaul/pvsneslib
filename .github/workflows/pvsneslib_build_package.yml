@@ -145,16 +145,16 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: pvsneslib_64b_linux.zip
-          path: pvsneslib/pvnseslib/release/pvsneslib_64b_linux.zip
+          path: release/pvsneslib_64b_linux.zip
       - name: Upload PVSNESLIB release for Windows
         if: (matrix.name == 'windows-latest')
         uses: actions/upload-artifact@v3
         with:
           name: pvsneslib_64b_windows.zip
-          path: pvsneslib/pvnseslib/release/pvsneslib_64b_windows.zip
+          path: release/pvsneslib_64b_windows.zip
       - name: Upload PVSNESLIB release for MacOS
         if: (matrix.name == 'macos-latest')
         uses: actions/upload-artifact@v3
         with:
           name: pvsneslib_64b_darwin.zip
-          path: pvsneslib/pvnseslib/release/pvsneslib_64b_darwin.zip
+          path: release/pvsneslib_64b_darwin.zip
