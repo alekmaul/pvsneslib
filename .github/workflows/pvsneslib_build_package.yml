@@ -44,7 +44,7 @@ jobs:
         if: matrix.name == 'windows-latest'
         uses: msys2/setup-msys2@v2
         with:
-          update: true
+          # update: true
           install: >-
             base-devel
             mingw-w64-x86_64-toolchain
@@ -56,6 +56,7 @@ jobs:
       - name: Install dependencies for MacOS
         if: matrix.name == 'macos-latest'
         run: |
+          brew update && brew upgrade
           brew install pcre
           brew install doxygen
           brew install gnu-sed
@@ -89,8 +90,9 @@ jobs:
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          gcc -v
-          make LIBS="$(echo ${LIBS} | sed 's/-ldl//g')"
+          cd tools/snesbrr
+          make
+      # make LIBS="$(echo ${LIBS} | sed 's/-ldl//g')"
       # - name: Build PVSNESLIB for MacOS
       #   if: (matrix.name == 'macos-latest')
       #   run: |
@@ -135,17 +137,17 @@ jobs:
       #   if: (matrix.name == 'ubuntu-latest')
       #   uses: actions/upload-artifact@v3
       #   with:
-      #     name: pvsneslib_x86_64_linux.zip
-      #     path: pvsneslib/pvnseslib/release/pvsneslib_x86_64_linux.zip
+      #     name: pvsneslib_64b_linux.zip
+      #     path: pvsneslib/pvnseslib/release/pvsneslib_64b_linux.zip
       # - name: Upload PVSNESLIB release for Windows
       #   if: (matrix.name == 'windows-latest')
       #   uses: actions/upload-artifact@v3
       #   with:
-      #     name: pvsneslib_x86_64_windows.zip
-      #     path: pvsneslib/pvnseslib/release/pvsneslib_x86_64_windows.zip
+      #     name: pvsneslib_64b_windows.zip
+      #     path: pvsneslib/pvnseslib/release/pvsneslib_64b_windows.zip
       # - name: Upload PVSNESLIB release for MacOS
       #   if: (matrix.name == 'macos-latest')
       #   uses: actions/upload-artifact@v3
       #   with:
-      #     name: pvsneslib_x86_64_darwin.zip
-      #     path: pvsneslib/pvnseslib/release/pvsneslib_x86_64_darwin.zip
+      #     name: pvsneslib_64b_darwin.zip
+      #     path: pvsneslib/pvnseslib/release/pvsneslib_64b_darwin.zip
