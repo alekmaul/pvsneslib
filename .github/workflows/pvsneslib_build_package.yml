@@ -84,8 +84,8 @@ jobs:
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           make
-          ldd devkitsnes/bin/*
-          ldd devkitsnes/tools/*
+          ldd devkitsnes/bin/* || true
+          ldd devkitsnes/tools/* || true
       - name: Build PVSNESLIB for Windows
         if: (matrix.name == 'windows-latest')
         shell: msys2 {0}
@@ -93,8 +93,8 @@ jobs:
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           make
-          ldd devkitsnes/bin/*
-          ldd devkitsnes/tools/*
+          ldd devkitsnes/bin/* || true
+          ldd devkitsnes/tools/* || true
       - name: Build PVSNESLIB for MacOS
         if: (matrix.name == 'macos-latest')
         run: |
@@ -104,8 +104,8 @@ jobs:
           sudo ln -s /usr/local/bin/gcc-12 /usr/local/bin/gcc
           sudo ln -s /usr/local/bin/g++-12 /usr/local/bin/g++
           make
-          ldd devkitsnes/bin/*
-          ldd devkitsnes/tools/*
+          ldd devkitsnes/bin/* || true
+          ldd devkitsnes/tools/* || true
 
       # ------------------------------------ #
       # Compiling sources and create release #
