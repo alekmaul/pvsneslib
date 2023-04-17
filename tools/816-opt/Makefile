@@ -11,6 +11,8 @@ ifeq ($(shell uname),Darwin)
     # If it is, set LDFLAGS to link against the 'pcre' library
     # This option will not work on Mac OS X unless all libraries (including libgcc.a) have also been compiled with -static. Since neither a static version of libSystem.dylib nor crt0.o are provided, this option is not useful to most people.
     LDFLAGS := -lpcre
+else ifeq ($(OS),Windows_NT)
+    LDFLAGS := -static -L/mingw64/lib/ -lpcreposix -lpcre 
 else
     # Otherwise (i.e. for Linux and other Unix-like systems), set LDFLAGS to link against
     # the 'pcreposix' and 'pcre' libraries, and to link statically against all libraries
@@ -36,8 +38,8 @@ all: $(EXE)$(EXT)
 
 # Define the recipe for linking the executable
 $(EXE)$(EXT): $(OBJS)
-	@echo "Compiling $<"
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+	@echo "Linking $<"
+	$(CC) -print-search-dirs $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 # Define the recipe for compiling object files
 %.o : %.c
