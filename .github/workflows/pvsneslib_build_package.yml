@@ -138,23 +138,39 @@ jobs:
           ls -rtl release/
 
       # ------------------------------------ #
+      # debug                    #
+      # ------------------------------------ #
+      - name: Look for release files
+        if: (matrix.name == 'ubuntu-latest')
+        run: |
+          find . -type f -name '*.zip' -ls
+      - name: Look for release files
+        if: (matrix.name == 'windows-latest')
+        shell: msys2 {0}
+        run: |
+          find . -type f -name '*.zip' -ls
+      - name: Look for release files
+        if: (matrix.name == 'macos-latest')
+        run: |
+          find . -type f -name '*.zip' -ls
+      # ------------------------------------ #
       # Upload release                       #
       # ------------------------------------ #
-      - name: Upload PVSNESLIB release for Linux
-        if: (matrix.name == 'ubuntu-latest')
-        uses: actions/upload-artifact@v3
-        with:
-          name: pvsneslib_64b_linux.zip
-          path: release/pvsneslib_64b_linux.zip
-      - name: Upload PVSNESLIB release for Windows
-        if: (matrix.name == 'windows-latest')
-        uses: actions/upload-artifact@v3
-        with:
-          name: pvsneslib_64b_windows.zip
-          path: release/pvsneslib_64b_windows.zip
-      - name: Upload PVSNESLIB release for MacOS
-        if: (matrix.name == 'macos-latest')
-        uses: actions/upload-artifact@v3
-        with:
-          name: pvsneslib_64b_darwin.zip
-          path: release/pvsneslib_64b_darwin.zip
+      # - name: Upload PVSNESLIB release for Linux
+      #   if: (matrix.name == 'ubuntu-latest')
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: pvsneslib_64b_linux.zip
+      #     path: release/pvsneslib_64b_linux.zip
+      # - name: Upload PVSNESLIB release for Windows
+      #   if: (matrix.name == 'windows-latest')
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: pvsneslib_64b_windows.zip
+      #     path: release/pvsneslib_64b_windows.zip
+      # - name: Upload PVSNESLIB release for MacOS
+      #   if: (matrix.name == 'macos-latest')
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: pvsneslib_64b_darwin.zip
+      #     path: release/pvsneslib_64b_darwin.zip
