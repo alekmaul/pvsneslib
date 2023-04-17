@@ -1,3 +1,4 @@
+
 SUBDIRS := base brr
 
 .PHONY : all $(SUBDIRS)
@@ -21,4 +22,4 @@ $(SUBDIRS) :
 
 endif
 
-brr: base
+brr : base

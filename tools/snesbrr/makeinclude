@@ -1,15 +1,32 @@
-CC := gcc
+CC = gcc
 CPP = $(CC) -E
-CXX := g++
+CXX = g++
 WINDRES = windres
 RM = rm -f
 
-CFLAGS = -Os -fomit-frame-pointer -fforce-addr -falign-jumps -falign-functions -fno-guess-branch-probability -Wall -Wextra -Winline --param inline-unit-growth=350 -finline-limit=3500 -Wno-unused -pedantic -ffunction-sections -fdata-sections
+CFLAGS = -Os -static-libstdc++ -fomit-frame-pointer -fforce-addr -falign-jumps -falign-functions -Wall -Wextra -Winline -Wno-shift-negative-value --param inline-unit-growth=350 -finline-limit=3500 -Wno-unused -pedantic -ffunction-sections -fdata-sections -fpermissive 
 CXXFLAGS = $(CFLAGS)
 CPPFLAGS = -DNDEBUG
-ARFLAGS = -rc
+LDFLAGS = -s -static-libstdc++ 
+ARFLAGS = -rcu
+
+# We want to build the project with static libraries except for Mac OS because the manual page of gcc explain:
+# "The static option will not work on Mac OS X unless all libraries (including libgcc.a) have also been compiled with -static.
+# Since neither a static version of libSystem.dylib nor crt0.o are provided, this option is not useful to most people."
+#-Wl,--gc-sections allow to remove the dead code, but it is not supported on Mac OS
+ifneq ($(shell uname -s),Darwin)
+CFLAGS+=-static -static-libgcc
+LDFLAGS+=-static -static-libgcc -Wl,--gc-sections 
+endif
+
 
 /make_dep/ = @echo "Making Dependency File $@"; $(CC) $(CPPFLAGS) -MM -MG -MP -MT "$(@:.d=.o) $@" $< -MF $@
+
+%.c :
+%.c.d : %.c
+	$(/make_dep/)
+%.c.o : %.c
+	@echo "Compiling $<"; $(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 %.cpp :
 %.cpp.d : %.cpp
@@ -21,3 +38,4 @@ ARFLAGS = -rc
 %.rc.d :
 %.rc.o : %.rc
 	@echo "Compiling $<"; $(WINDRES) -i $< --input-format=rc -o $@ -O coff
+
