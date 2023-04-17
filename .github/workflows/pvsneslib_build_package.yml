@@ -91,11 +91,8 @@ jobs:
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           cd compiler/wla-dx
-          cmake --version
-          msys2 cmake --version
-          uname -a
-          uname -s
-          cmake
+          which cmake
+          cmake .
 
 
       # - name: Build PVSNESLIB for MacOS
