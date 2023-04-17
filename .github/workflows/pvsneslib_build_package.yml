@@ -51,7 +51,6 @@ jobs:
             mingw-w64-x86_64-toolchain
             mingw-w64-x86_64-cmake
             mingw-w64-x86_64-pcre
-            pcre-devel
             git
             doxygen
             zip
@@ -94,9 +93,8 @@ jobs:
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          pacman -Ql mingw-w64-x86_64-pcre
-      # cd tools/816-opt/
-      # CLFAGS+=-I/usr/include LDFLAGS+=-L/usr/lib make
+          cd tools/816-opt/
+          CLFAGS+=-I/mingw64/include LDFLAGS+=-L/mingw64/lib make
       # cd tools
       # make
       # make LIBS="$(echo ${LIBS} | sed 's/-ldl//g')"
