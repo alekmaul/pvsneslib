@@ -26,7 +26,7 @@
 .DEFINE OB_ID_NULL	        $0000		    ; null value for obj id
 
 .DEFINE OB_MAX				64		        ; total number of objects in the game
-.DEFINE OB_TYPE_MAX		    32		        ; total number of type of objects in the game
+.DEFINE OB_TYPE_MAX		    48		        ; total number of type of objects in the game
 
 .DEFINE OB_SIZE				64		        ; 64 bytes for each object
 
@@ -676,7 +676,7 @@ objUpdateAll:
 	pha
 	plb
 
-    stz objneedrefresh                                  ; no global refresh needed
+;    stz objneedrefresh                                  ; no global refresh needed
 
 	rep #$20
 	ldx #$0000
@@ -732,8 +732,7 @@ _oiual3y1:
     jsr objOamRefreshAll                                ; do a global refresh of sprites
 
 _oiual3y11:
-    rep #$20
-    bra _oial31
+    bra _oial4
 
 _oiual32:
     sep #$20
@@ -772,6 +771,7 @@ _oiual321:
     lda objtokill										; object returned that it is now dead
     beq _oial4
 
+_oial41:
     rep #$20
     lda objcidx
     asl a
@@ -782,6 +782,7 @@ _oiual321:
     asl a
     tax
     sep #$20
+    stz objbuffers.1.onscreen,x                         ; remove it from the screen
     lda objbuffers.1.nID,x
     rep #$20
     and #$00ff
@@ -792,9 +793,12 @@ _oiual321:
     jsl objKill
     pla
 
-_oial31:
-    pla
-    brl _oiual10
+    sep #$20
+    lda objneedrefresh                                  ; it is dead, so remove sprite from screen
+    bne _oial4                                         ; if we have noticed a global refresh previously, don't do it again
+    lda #1
+    sta objneedrefresh
+    jsr objOamRefreshAll                                ; do a global refresh of sprites
 
 _oial4:
     rep #$20                                            ; goto next object  (saved at beginning)
@@ -855,52 +859,14 @@ _oiral3:
     lda objbuffers.1.next,x                             ; grab the next object to update
     pha                                                 ; will be restore at the end
 
-    lda objbuffers.1.xpos+1,x
-    sec
-    sbc.l x_pos
-
-    cmp.w #OB_SCR_XRI_CHK
-    bcc _oiral3y                                        ; x is lower than max
-    cmp.w #OB_SCR_XLE_CHK
-    bcc _oiral3y1                                       ; but x is lower than min
-
-_oiral3y:                                               ; check now y coordinates
-    lda objbuffers.1.ypos+1,x
-    sec
-    sbc.l y_pos
-
-    cmp.w #OB_SCR_YRI_CHK
-    bcc _oiral32                                        ; y is lower than max
-    cmp.w #OB_SCR_YLE_CHK
-    bcs _oiral32                                        ; but y is greater than min
-
-_oiral3y1:
     sep #$20                                            ; check if it was previously on screen to refresh all the objects
     lda objbuffers.1.onscreen,x
-    beq _oiral3y11                                      ; no ? no need to refresh
-    stz objbuffers.1.onscreen,x
-    lda objneedrefresh                                  ; if we have noticed a global refresh previously, don't do it again
-    bne _oiral3y11
-    lda #1
-    sta objneedrefresh
-    jsr objOamRefreshAll                                ; do a global refresh of sprites
+    bne _oiral32                                        ; no ? no need to refresh
 
-_oiral3y11:
     rep #$20
     bra _oiral31
 
 _oiral32:
-    sep #$20
-    lda objbuffers.1.onscreen,x
-    bne _oiral321                                       ; no ? we need to refresh
-    lda #$1
-    sta objbuffers.1.onscreen,x                         ; store that object is on screen
-    lda objneedrefresh                                  ; if we have noticed a global refresh previously, don't do it again
-    bne _oiral321
-    lda #1
-    sta objneedrefresh
-    jsr objOamRefreshAll                                ; do a global refresh of sprites
-_oiral321:
     lda objbuffers.1.type,x
     rep #$20
     and #$00ff
