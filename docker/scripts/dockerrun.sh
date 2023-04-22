@@ -14,11 +14,11 @@ clear
 PVSNESLIB_HOME="$(pwd)"
 
 no_args="true"
-create_zip="false"
 padding_width=50
 batch_mode="false"
+make_release="false"
 
-while getopts ":d:r:hb" flag; do
+while getopts ":d:rhb" flag; do
     case "${flag}" in
     d)
         distro=${OPTARG}
@@ -31,8 +31,7 @@ while getopts ":d:r:hb" flag; do
         exit 0
         ;;
     r)
-        release_path=${OPTARG:=/var/tmp/build}
-        create_zip="true"
+        make_release="true"
         ;;
     b)
         batch_mode="true"
@@ -47,7 +46,7 @@ done
 
 export padding_width \
     release_path \
-    create_zip \
+    make_release \
     batch_mode \
     PVSNESLIB_HOME \
     image
@@ -57,12 +56,6 @@ export padding_width \
     exit 1
 }
 
-f_print_os_info
-
 f_build_docker_image
 
 f_run_docker_container
-
-f_create_zip
-
-f_check_sfc_md5

@@ -1,12 +1,18 @@
 name: PVSNESLIB Build & Release
 
+      # ------------------------------------ #
+      # Events to trigger the action         #
+      # ------------------------------------ #
 on:
   workflow_dispatch:
   push:
     branches:
       - "develop"
-      - "pvsneslib_runners"
+      - "upgrade"
 
+      # ------------------------------------ #
+      # Set O.S matrix                       #
+      # ------------------------------------ #
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -137,24 +143,7 @@ jobs:
           ls -rtl release/
 
       # ------------------------------------ #
-      # debug                    #
-      # ------------------------------------ #
-      # - name: Look for release files
-      #   if: (matrix.name == 'ubuntu-latest')
-      #   run: |
-      #     find . -type f -name '*.zip' -ls
-      # - name: Look for release files
-      #   if: (matrix.name == 'windows-latest')
-      #   shell: msys2 {0}
-      #   run: |
-      #     find . -type f -name '*.zip' -ls
-      # - name: Look for release files
-      #   if: (matrix.name == 'macos-latest')
-      #   run: |
-      #     find . -type f -name '*.zip' -ls
-
-      # ------------------------------------ #
-      # Upload release                       #
+      # Upload releases                      #
       # ------------------------------------ #
       - name: Upload PVSNESLIB release for Linux
         if: (matrix.name == 'ubuntu-latest')
