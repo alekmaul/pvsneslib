@@ -6,16 +6,16 @@ DATESTRING := $(shell date +%Y%m%d)
 CC      := gcc
 CFLAGS  += -Wall -Wextra -O2 -g -pedantic -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-# Define the libraries to be used depending on the OS
+# Define the libraries to be used depending on the OS, '-pthread' allows better portability.
 ifeq ($(shell uname),Darwin)
     # If it is, set LDFLAGS to link against the 'pcre' library
     # This option will not work on Mac OS X unless all libraries (including libgcc.a) have also been compiled with -static. Since neither a static version of libSystem.dylib nor crt0.o are provided, this option is not useful to most people.
-    LDFLAGS := -lpcre
+    LDFLAGS := -lpcre -pthread
 	CFLAGS  += -I/usr/local/include
 else
     # Otherwise (i.e. for Linux and other Unix-like systems), set LDFLAGS to link against
     # the 'pcreposix' and 'pcre' libraries, and to link statically against all libraries
-    LDFLAGS := -static -lpcreposix -lpcre
+    LDFLAGS := -static -lpcreposix -lpcre -pthread
 endif
 
 # Source and object file locations
@@ -53,7 +53,7 @@ install: $(EXE)$(EXT)
 # Define the clean target
 clean:
 	rm -rf ${OBJS}
-	rm -f $(BIN)
+	rm -f $(EXE)$(EXT)
 
 # Declare the phony targets
 .PHONY: all clean install
