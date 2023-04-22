@@ -81,6 +81,6 @@ Sydney Hunter by [CollectorVision](https://collectorvision.com/store/shop/snes/s
 - **RedBug** for constify tcc bug fix and tips for Linux and Docker.
 - [**Mills32**](https://github.com/mills32) for his mode7 3D example.
 - [**N_Arno**](https://github.com/nArnoSNES/) for his help on Linux version.
-- [**Kobenairb**](https://github.com/kobenairb/) for python & docker optimizations.
+- [**Kobenairb**](https://github.com/kobenairb/) for the port of python optimiser to c version, docker images, building scripts harmonisation and cleaning and the tcc-816 upgrade
 
 Thanks !
