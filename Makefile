@@ -72,8 +72,19 @@ endif
 	@echo "* Release pvsneslib_$(ARCH)_$(OPERATING_SYSTEM) created successfully !"
 	@echo
 
+# Print the version of the development tools used on the system
+version:
+	@echo "Version of gcc:"
+	@$(CC) --version | head -n 1
+	@echo ""
+	@echo "Version of cmake:"
+	@$(CMAKE) --version | head -n 1
+	@echo ""
+	@echo "Version of make:"
+	@$(MAKE) --version | head -n 1
+
 # define phony targets
-.PHONY: all
+.PHONY: version all
 
 # Set the default target
 .DEFAULT_GOAL := all
