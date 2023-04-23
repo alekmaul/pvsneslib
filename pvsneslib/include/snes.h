@@ -55,6 +55,9 @@
  - \ref pad.h "Keypad"
  - \ref console.h "Console and Debug Printing"
 
+\section network_api Network (with Retrolink hardwaqre) API
+ - \ref network.h "Network (retrolink hardware) management"
+
  \section engine_api Engine API functions
  - \ref object.h "Objects management"
  - \ref map.h "map management"
