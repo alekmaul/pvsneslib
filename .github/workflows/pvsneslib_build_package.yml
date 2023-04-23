@@ -88,26 +88,26 @@ jobs:
       # ------------------------------------ #
       # Compiling sources                    #
       # ------------------------------------ #
-      - name: Build PVSNESLIB for Linux
-        if: (matrix.name == 'ubuntu-latest')
-        run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          make
-      - name: Build PVSNESLIB for Windows
-        if: (matrix.name == 'windows-latest')
-        shell: msys2 {0}
-        run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          make
-      - name: Build PVSNESLIB for MacOS
-        if: (matrix.name == 'macos-latest')
-        run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=$(pwd)
-          PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-          make
+      # - name: Build PVSNESLIB for Linux
+      #   if: (matrix.name == 'ubuntu-latest')
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     make
+      # - name: Build PVSNESLIB for Windows
+      #   if: (matrix.name == 'windows-latest')
+      #   shell: msys2 {0}
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     make
+      # - name: Build PVSNESLIB for MacOS
+      #   if: (matrix.name == 'macos-latest')
+      #   run: |
+      #     cd pvsneslib
+      #     export PVSNESLIB_HOME=$(pwd)
+      #     PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+      #     make
 
       # ------------------------------------ #
       # Compiling sources and create release #

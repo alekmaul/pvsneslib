@@ -1,7 +1,7 @@
 # folder containing sources :
-SRC =src
+SRC := src
 
-LIBDIRSOBJS  := $(PVSNESLIB_HOME)/pvsneslib/lib
+LIBDIRSOBJS := $(PVSNESLIB_HOME)/pvsneslib/lib
 
 # to avoid some bugs if the PVSNESLIB_HOME is not well defined, we let a small check here
 ifeq ($(findstring \,$(PVSNESLIB_HOME)),\)
