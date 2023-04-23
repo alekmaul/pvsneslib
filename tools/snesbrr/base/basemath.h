@@ -63,14 +63,8 @@ namespace base
         template <uint N, typename T>
         inline static T clamp(T x)
         {
-            enum
-            {
-                low = -1 << (N - 1)
-            };
-            enum
-            {
-                high = (1 << (N - 1)) - 1
-            };
+            const T low = static_cast<T>(static_cast<unsigned int>(-1) << (N - 1));
+            const T high = (1 << (N - 1)) - 1;
 
             if (x > high)
                 x = high;
@@ -83,10 +77,7 @@ namespace base
         template <uint N, typename T>
         inline static T uclamp(T x)
         {
-            enum
-            {
-                high = (((1 << (N - 1)) - 1) << 1) + 1
-            };
+            const T high = (static_cast<T>(1) << N) - 1;
 
             if (x > high)
                 x = high;

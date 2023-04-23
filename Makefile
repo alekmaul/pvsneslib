@@ -1,77 +1,79 @@
-# do not forget that to build pvsneslib, you have to install compiler and tools first !
+# define variables
+COMPILER_PATH       := compiler
+TOOLS_PATH          := tools
+SNES_EXAMPLES_PATH  := snes-examples
+PVSNESLIB_PATH      := pvsneslib
+RELEASE_PATH        := release/pvsneslib
+DOXYGEN_INSTALLED   := $(shell command -v doxygen 2> /dev/null)
+ARCH := 64b
+# Define variables for System
+UNAME := $(shell uname -s)
 
-#---------------------------------------------------------------------------------
-all:
-	cd compiler && \
-	make && \
-	make install && \
-	cd ../tools && \
-	make && \
-	make install && \
-	cd ../pvsneslib && \
-	make && \
-	cd ../snes-examples && \
-	make && \
-	make install && \
-	echo && \
-	echo Build finished successfully ! && \
-	echo
-
-clean:
-	cd compiler ; \
-	make clean ; \
-	cd ../tools ; \
-	make clean ; \
-	cd ../pvsneslib ; \
-	make clean ; \
-	cd ../devkitsnes/bin ; \
-	find . -type f -not -name '816-opt.py' -delete ; \
-	rm -f ../tools/* ; \
-	cd ../../snes-examples ; \
-	make clean ; \
-	rm -rf release
-
-
-# requirements to launch the "release" rule
-doxygenInstalled := $(shell command -v doxygen 2> /dev/null)
-operatingSystem=
+# Set default operating system
 ifeq ($(OS),Windows_NT)
-operatingSystem=windows
+	OPERATING_SYSTEM := windows
+else ifneq ($(findstring MINGW64_NT,$(UNAME)),)
+	OPERATING_SYSTEM := mingw
+else ifeq ($(UNAME), Darwin)
+	OPERATING_SYSTEM := darwin
+else ifeq ($(UNAME), Linux)
+	OPERATING_SYSTEM := linux
 else
-# only for linux platforms, we use the os-release file
-ifneq (,$(wildcard /etc/os-release))
-include /etc/os-release
-# convert to lower case the result
-operatingSystem=linux_$(shell echo $(NAME) | tr A-Z a-z)
-else
-ifeq ($(shell uname -s),Darwin)
-operatingSystem=darwin
-else
-$(error "Unable to detect your operating system, please update the code in global pvsneslib Makefile to continue")
-endif
-endif
+	$(error Unsupported operating system)
 endif
 
-#---------------------------------------------------------------------------------
-# to create the release version for github containing binaries and all snes-examples :
+# default target
+all: clean
+
+# build compiler
+	$(MAKE) -C $(COMPILER_PATH)
+	$(MAKE) -C $(COMPILER_PATH) install
+
+# build tools
+	$(MAKE) -C $(TOOLS_PATH)
+	$(MAKE) -C $(TOOLS_PATH) install
+
+# build pvsneslib
+	$(MAKE) -C $(PVSNESLIB_PATH)
+
+# build snes-examples and install them
+	$(MAKE) -C $(SNES_EXAMPLES_PATH)
+	$(MAKE) -C $(SNES_EXAMPLES_PATH) install
+
+	@echo
+	@echo "* Build finished successfully !"
+	@echo
+
+# clean everything
+clean:
+	$(MAKE) -C $(COMPILER_PATH) clean
+	$(MAKE) -C $(TOOLS_PATH) clean
+	$(MAKE) -C $(PVSNESLIB_PATH) clean
+	$(MAKE) -C $(SNES_EXAMPLES_PATH) clean
+	@rm -rf release
+
+# create a release version
 release: all
-ifndef doxygenInstalled
+ifndef DOXYGEN_INSTALLED
 	$(error "doxygen is not installed but is mandatory to create the release version.")
 endif
-ifeq ($(operatingSystem),)
-	$(error "Unable to detect your operating system to create the release version.")
-endif
-	rm -rf release && mkdir -p release/pvsneslib && \
-	cp -r devkitsnes release/pvsneslib/devkitsnes && \ 
-	mkdir release/pvsneslib/pvsneslib && cp -r pvsneslib/include release/pvsneslib/pvsneslib/include && \
-	cp -r pvsneslib/lib release/pvsneslib/pvsneslib/lib && \
-	mkdir release/pvsneslib/pvsneslib/docs && cp -r pvsneslib/docs/html release/pvsneslib/pvsneslib/docs/html && \
-	cp pvsneslib/PVSnesLib_Logo.png release/pvsneslib/pvsneslib/PVSnesLib_Logo.png && \
-	cp pvsneslib/pvsneslib_license.txt release/pvsneslib/pvsneslib/pvsneslib_license.txt && \
-	cp pvsneslib/pvsneslib_snesmod.txt release/pvsneslib/pvsneslib/pvsneslib_snesmod.txt && \
-    cp pvsneslib/pvsneslib_version.txt release/pvsneslib/pvsneslib/pvsneslib_version.txt && \
-	cp -r snes-examples release/pvsneslib/snes-examples && \
-	cd release && zip -r -m pvsneslib_32b_$(operatingSystem).zip pvsneslib && \
-	echo && echo Release created successfully ! && echo
+	@mkdir -p $(RELEASE_PATH)/$(PVSNESLIB_PATH)
+	@cp -r devkitsnes $(RELEASE_PATH)
+	@cp -r $(PVSNESLIB_PATH)/include $(RELEASE_PATH)/$(PVSNESLIB_PATH)
+	@cp -r $(PVSNESLIB_PATH)/lib $(RELEASE_PATH)/$(PVSNESLIB_PATH)
+	@cp -r $(PVSNESLIB_PATH)/docs/html $(RELEASE_PATH)/$(PVSNESLIB_PATH)
+	@cp $(PVSNESLIB_PATH)/PVSnesLib_Logo.png $(RELEASE_PATH)/$(PVSNESLIB_PATH)/PVSnesLib_Logo.png
+	@cp $(PVSNESLIB_PATH)/pvsneslib_license.txt $(RELEASE_PATH)/$(PVSNESLIB_PATH)/pvsneslib_license.txt
+	@cp $(PVSNESLIB_PATH)/pvsneslib_snesmod.txt $(RELEASE_PATH)/$(PVSNESLIB_PATH)/pvsneslib_snesmod.txt
+	@cp $(PVSNESLIB_PATH)/pvsneslib_version.txt $(RELEASE_PATH)/$(PVSNESLIB_PATH)/pvsneslib_version.txt
+	@cp -r $(SNES_EXAMPLES_PATH) $(RELEASE_PATH)/snes-examples
+	@cd release && zip -q -y -r -m pvsneslib_$(ARCH)_$(OPERATING_SYSTEM).zip pvsneslib
 
+	@echo "* Release pvsneslib_$(ARCH)_$(OPERATING_SYSTEM) created successfully !"
+	@echo
+
+# define phony targets
 .PHONY: all
+
+# Set the default target
+.DEFAULT_GOAL := all

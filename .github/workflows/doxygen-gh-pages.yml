@@ -34,7 +34,7 @@ jobs:
         run: |
           sudo apt-get install doxygen -y
         shell: bash
-      
+
       - name: "Build Doxygen Doc"
         run: |
           cd pvsneslib
@@ -47,5 +47,5 @@ jobs:
       - name: "Deploy Github Pages"
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          BRANCH: gh-pages     # <- Branche sur laquelle seront commités les fichiers
-          FOLDER: pvsneslib/docs/html/  # <- Dossier contenant notre documentation générée
+          branch: gh-pages     # <- Branche sur laquelle seront commités les fichiers
+          folder: pvsneslib/docs/html/  # <- Dossier contenant notre documentation générée

@@ -1,22 +1,8 @@
-SUBDIRS := gfx2snes smconv bin2txt constify snestools snesbrr tmx2snes
+SUBDIRS := gfx2snes smconv bin2txt constify snestools snesbrr tmx2snes 816-opt
 
-all: $(SUBDIRS)
+all clean install: $(SUBDIRS)
 
 $(SUBDIRS):
-	make -C $@
+	$(MAKE) -C $@ $(MAKECMDGOALS)
 
-clean:
-	for f in $(SUBDIRS); do \
-	 cd $$f ; \
-	 make clean ; \
-	 cd .. ; \
-	done
-
-install:
-	for f in $(SUBDIRS); do \
-	 cd $$f ; \
-	 make install ; \
-	 cd .. ; \
-	done
-
-.PHONY: all $(SUBDIRS)
+.PHONY: all clean install $(SUBDIRS)

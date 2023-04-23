@@ -2,9 +2,12 @@ Feel free to help us by implementing any of this functionalities !
 
 # High priority:
 
-- Include the python script directly in tcc tool (or convert it in a new tool in c which will regroup all optimisations parts)
+- ~~Include the python script directly in tcc tool (or convert it in a new tool in c which will regroup all optimisations parts)~~
 - upgrade to the latest version of tcc
-- Review of constify tools :
+- Review of constify tools :- [High priority:](#high-priority)
+- [Medium priority:](#medium-priority)
+- [Low priority:](#low-priority)
+
 	- '\_\_tcc_' should become 'tcc_'
 	- manage const declared like : const myArray[5*6] = ...;
 	- add a function to remove comments in C source file (// ou /* */)
@@ -28,7 +31,7 @@ Feel free to help us by implementing any of this functionalities !
 - replace pixel.c file by asm version to improve performances and provide function to draw pixels
 - improve the current text system to draw on any background. See the .c example created by [Digifox](https://github.com/malayli/snes-bg3-text)
 - test to build the library with Cygwin and update it if necessary
-- add fixed point support 
+- add fixed point support
 
 # Low priority:
 

@@ -1,65 +1,49 @@
-VERSION = "2.5.0"
+# Version number and build date string
+VERSION    := 2.5.0
+DATESTRING := $(shell date +%Y%m%d)
 
-#---------------------------------------------------------------------------------
-# options for code generation
-#---------------------------------------------------------------------------------
+# Compiler and flags
+CC     := gcc
+CFLAGS := -g -O2 -Wall -Wno-unused-result -Wno-incompatible-pointer-types -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-cpu_sys=$(shell uname -m)
+# Source files and object files
+SOURCES := $(wildcard *.c)
+OBJS    := $(patsubst %.c, %.o, $(SOURCES))
+EXE     := gfx2snes
 
-CC=gcc
-
-
-CFLAGS=-g -O2
-#-m32 flag is not supported by gcc on arm architecture
-ifneq ($(findstring arm,$(cpu_sys)),arm)
-CFLAGS+=-m32
-endif
-CFLAGS+=-Wall -Wno-unused-result -Wno-incompatible-pointer-types -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
-
-SOURCES=gfx2snes.c lz77.c lodepng.c loadimg.c imgtools.c
-OBJS=gfx2snes.o lz77.o lodepng.o loadimg.o imgtools.o
-EXE=gfx2snes
-DEFINES =
-LIBS =
-
+# Determine file extension based on operating system
 ifeq ($(OS),Windows_NT)
-        EXT=.exe
+	EXT := .exe
 else
-        EXT=
+	EXT :=
 endif
 
-
-#---------------------------------------------------------------------------------
+# Targets
 all: $(EXE)$(EXT)
 
-#---------------------------------------------------------------------------------
+# Define the libraries to be used depending on the OS
+UNAME := $(shell uname -s)
+ifneq ($(UNAME), Darwin)
+	CFLAGS += -static
+endif
+
+# Link the object files to create the executable
 $(EXE)$(EXT) : $(OBJS)
-	@echo make exe $(notdir $<)
+	@echo "Linking $@"
 	$(CC) $(CFLAGS) $(OBJS) -o $@
 
-gfx2snes.o : gfx2snes.c
-	@echo make obj $(notdir $<)
-	$(CC) $(CFLAGS) -c $<
+# Compile the source files to create the object files
+%.o : %.c
+	@echo "Compiling $<"
+	$(CC) $(CFLAGS) -c $< -o $@
 
-lz77.o : lz77.c
-	@echo make obj $(notdir $<)
-	$(CC) $(CFLAGS) -c $<
+# Define the install target to copy the executable to a specified location
+install: all
+	@cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
 
-lodepng.o : lodepng.c
-	@echo make obj $(notdir $<)
-	$(CC) $(CFLAGS) -c $<
-
-loadimg.o : loadimg.c
-	@echo make obj $(notdir $<)
-	$(CC) $(CFLAGS) -c $<
-
-imgtools.o : imgtools.c
-	@echo make obj $(notdir $<)
-	$(CC) $(CFLAGS) -c $<
-	
-#---------------------------------------------------------------------------------
+# Define the clean target to remove built files
 clean:
-	rm -f $(EXE)$(EXT) $(OBJS) *.tds
+	@rm -f $(OBJS) $(EXE)$(EXT)
 
-install:
-	mkdir -p ../../devkitsnes/tools && cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
+# Declare the phony targets
+.PHONY: all clean install

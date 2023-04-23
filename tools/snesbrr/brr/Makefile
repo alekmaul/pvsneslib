@@ -34,9 +34,10 @@ $(BINDIR)$(EXT) : $(OBJ) ../libbase.a
 clean :
 	-$(RM) $(OBJ)
 	-$(RM) $(BINDIR)$(EXT)
+	-$(RM) $(DEP)
 
 install:
-	mkdir -p ../../../devkitsnes/tools && cp $(BINDIR)$(EXT) ../../../devkitsnes/tools/$(BIN)$(EXT)
+	cp $(BINDIR)$(EXT) ../../../devkitsnes/tools/$(BIN)$(EXT)
 
 distclean : clean
 	-$(RM) $(DEP)

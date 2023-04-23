@@ -106,7 +106,7 @@ void PrintOptions(char *str)
 //////////////////////////////////////////////////////////////////////////////
 void PrintVersion(void)
 {
-    printf("\ntmx2snes.exe (" TMX2SNESDATE ") version " TMX2SNESVERSION "");
+    printf("tmx2snes.exe (" TMX2SNESDATE ") version " TMX2SNESVERSION "");
     printf("\nCopyright (c) 2022 Alekmaul\n");
 }
 

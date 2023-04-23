@@ -15,8 +15,6 @@ release
 # exclude binaries (specific to your OS)
 devkitsnes/tools
 devkitsnes/bin
-# except the python script !
-!devkitsnes/bin/816-opt.py
 
 # everything related to submodules
 compiler/wla-dx
@@ -37,8 +35,10 @@ tools/snestools/snestools
 tools/snestools/snestools.exe
 tools/tmx2snes/tmx2snes
 tools/tmx2snes/tmx2snes.exe
+tools/816-opt/816-opt
+tools/816-opt/816-opt.exe
 
-# tmx2snes files: 
+# tmx2snes files:
 *.b16
 *.o16
 *.t16
