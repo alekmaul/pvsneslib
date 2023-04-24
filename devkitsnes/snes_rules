@@ -42,7 +42,7 @@ export CTF		:=	$(PVSNESLIB_HOME)/devkitsnes/tools/constify
 #---------------------------------------------------------------------------------
 # Add default flag for compiling
 #---------------------------------------------------------------------------------
-CFLAGS += -I$(PVSNESLIB_HOME)/pvsneslib/include -I${PVSNESLIB_HOME}/devkitsnes/include -I$(CURDIR)
+CFLAGS += -I$(PVSNESLIB_HOME)/pvsneslib/include -I$(PVSNESLIB_HOME)/devkitsnes/include -I$(CURDIR)
 
 
 SFILES=

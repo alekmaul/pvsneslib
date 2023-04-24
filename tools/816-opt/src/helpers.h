@@ -10,7 +10,7 @@
 /*!
  * @brief Max length of the line.
  */
-#define MAXLEN_LINE 1024
+#define MAXLEN_LINE 10240
 
 /**
  * @struct dynArray
