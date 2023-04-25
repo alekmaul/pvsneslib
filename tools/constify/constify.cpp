@@ -62,7 +62,7 @@ int safe_string_access(string s, int pos)
 }
 
 // Finds a word (i.e. word=="foo" would match on "foo bar" or "a foo bar" but not on "foobar")
-unsigned int find_word(string s, const char *word)
+size_t find_word(string s, const char *word)
 {
     int p = s.find(word);
     if (is_whitespace(safe_string_access(s, p - 1)) && is_whitespace(safe_string_access(s, p + strlen(word))))
