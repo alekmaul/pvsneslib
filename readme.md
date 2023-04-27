@@ -9,7 +9,7 @@ Created initially for the 20th birthday of the Nintendo SNES (2012) and based on
 It contains a snes-sdk compiler / linker and a library (sources included) which offer facilities to use backgrounds / sprites / pads / music & sound on the Nintendo SNES system.
 It also contains examples which demonstrate how to use the functions in the library.
 
-# Before Getting stared #
+# Before getting started #
 First, you need to know that PVSnesLib uses the C language (assembly is possible and highly recommended for some speed aspects). It's highly recommended to be familiar with C programming before trying to develop with PVSnesLib. Learning C language at same time as learning Super Nintendo programming is definitely too difficult and you will end up getting nowhere. It's important to have a knowledge of the Super Nintendo hardware.
 
 # Installation #
