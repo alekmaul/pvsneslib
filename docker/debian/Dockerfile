@@ -18,8 +18,6 @@ RUN apt-get install -y build-essential \
         gcc-12 \
         cmake \
         make \
-        libpcre3-dev \
-        libpcre3 \
         git \
         doxygen \
         texi2html \

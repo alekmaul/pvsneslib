@@ -56,7 +56,7 @@ tcc-install:
 	@cp $(TCC_DIR)/816-tcc $(BIN_DIR)
 
 # Define the wla target
-wla: 
+wla:
 	cd wla-dx ; \
 	cmake -G "$(CMAKE_TYPE)" . ; \
 	$(MAKE) wla-65816 ; \
@@ -64,7 +64,7 @@ wla:
 	$(MAKE) wlalink ; \
 
 # Define the wla-clean target
-wla-clean: 
+wla-clean:
 	cd wla-dx ; \
 	$(MAKE) clean ; \
 	rm -f CMakeCache.txt

@@ -24,9 +24,6 @@ RUN dnf -y install cmake \
         gcc-c++ \
         glibc-static \
         libstdc++-static \
-        pcre-static \
-        pcre-devel \
-        pcre \
         git \
         doxygen \
         texi2html \
