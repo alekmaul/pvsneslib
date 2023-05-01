@@ -52,10 +52,10 @@ jobs:
           update: true
           msystem: MINGW64
           install: >-
+            base-devel
             mingw-w64-ucrt-x86_64-toolchain
             mingw-w64-ucrt-x86_64-libsystre
             mingw-w64-ucrt-x86_64-cmake
-            base-devel
             git
             doxygen
             zip
@@ -122,6 +122,8 @@ jobs:
         if: (matrix.name == 'windows-latest')
         shell: msys2 {0}
         run: |
+          cat compiler/tcc-65816/config.mak
+          which gcc
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           make release
