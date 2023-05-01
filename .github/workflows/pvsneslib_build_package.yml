@@ -8,7 +8,6 @@ on:
   push:
     branches:
       - "develop"
-      - "upgrade"
 
       # ------------------------------------ #
       # Set O.S matrix                       #
@@ -53,11 +52,10 @@ jobs:
           update: true
           msystem: MINGW64
           install: >-
+            mingw-w64-x86_64-toolchain
+            mingw-w64-x86_64-libsystre
             base-devel
-            gcc
-            make
             cmake
-            pcre-devel
             git
             doxygen
             zip
@@ -65,7 +63,6 @@ jobs:
         if: matrix.name == 'macos-latest'
         run: |
           brew update
-          brew install pcre
           brew install doxygen
           brew install gnu-sed
           brew install texi2html

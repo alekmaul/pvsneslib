@@ -6,16 +6,15 @@ DATESTRING := $(shell date +%Y%m%d)
 CC      := gcc
 CFLAGS  += -Wall -Wextra -O2 -g -pedantic -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-# Define the libraries to be used depending on the OS, '-pthread' allows better portability.
+# Define the libraries and compilation flags to be used depending on the OS.
 ifeq ($(shell uname),Darwin)
     # If it is, set LDFLAGS to link against the 'pcre' library
     # This option will not work on Mac OS X unless all libraries (including libgcc.a) have also been compiled with -static. Since neither a static version of libSystem.dylib nor crt0.o are provided, this option is not useful to most people.
-    LDFLAGS := -lpcre -pthread
-	CFLAGS  += -I/usr/local/include
+    LDFLAGS := -pthread
+else ifeq ($(OS),Windows_NT)
+	LDFLAGS := -pthread -static -L/mingw64/lib -lregex -ltre -lintl -liconv
 else
-    # Otherwise (i.e. for Linux and other Unix-like systems), set LDFLAGS to link against
-    # the 'pcreposix' and 'pcre' libraries, and to link statically against all libraries
-    LDFLAGS := -static -lpcreposix -lpcre -pthread
+	LDFLAGS := -pthread -static
 endif
 
 # Source and object file locations
@@ -38,13 +37,13 @@ all: $(EXE)$(EXT)
 # Define the recipe for linking the executable
 $(EXE)$(EXT): $(OBJS)
 	@echo "Linking $<"
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
 
 # Define the recipe for compiling object files
 %.o : %.c
 $(OBJ)/%.o: $(SRC)/%.c
 	@echo "Compiling $<"
-	$(CC) $(CFLAGS) -I$(SRC) -c $< -o $@ $(LDFLAGS)
+	$(CC) $(CFLAGS) -I$(SRC) -c $< -o $@
 
 # Define the install target
 install: $(EXE)$(EXT)
