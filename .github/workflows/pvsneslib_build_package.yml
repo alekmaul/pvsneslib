@@ -52,9 +52,9 @@ jobs:
           update: true
           msystem: MINGW64
           install: >-
-            mingw-w64-x86_64-toolchain
-            mingw-w64-x86_64-libsystre
-            mingw-w64-x86_64-cmake
+            mingw-w64-ucrt-x86_64-toolchain
+            mingw-w64-ucrt-x86_64-libsystre
+            mingw-w64-ucrt-x86_64-cmake
             base-devel
             git
             doxygen
