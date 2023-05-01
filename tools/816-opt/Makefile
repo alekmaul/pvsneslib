@@ -5,13 +5,16 @@ DATESTRING := $(shell date +%Y%m%d)
 # Compiler and compiler flags
 CC      := gcc
 CFLAGS  += -Wall -Wextra -O2 -g -pedantic -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
-LDFLAGS := -pthread
 
 # Define the libraries and compilation flags to be used depending on the OS.
-ifeq ($(OS),Windows_NT)
-	LDFLAGS += -static -L/mingw64/lib -lregex -ltre -lintl -liconv
+ifeq ($(shell uname),Darwin)
+    # If it is, set LDFLAGS to link against the 'pcre' library
+    # This option will not work on Mac OS X unless all libraries (including libgcc.a) have also been compiled with -static. Since neither a static version of libSystem.dylib nor crt0.o are provided, this option is not useful to most people.
+    LDFLAGS := -pthread
+else ifeq ($(OS),Windows_NT)
+	LDFLAGS := -pthread -static -L/mingw64/lib -lregex -ltre -lintl -liconv
 else
-	LDFLAGS += -static
+	LDFLAGS := -pthread -static
 endif
 
 # Source and object file locations
