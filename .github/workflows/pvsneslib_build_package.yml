@@ -54,8 +54,8 @@ jobs:
           install: >-
             mingw-w64-x86_64-toolchain
             mingw-w64-x86_64-libsystre
+            mingw-w64-x86_64-cmake
             base-devel
-            cmake
             git
             doxygen
             zip
