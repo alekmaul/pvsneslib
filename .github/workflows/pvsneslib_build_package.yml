@@ -50,7 +50,7 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           update: true
-          msystem: UCRT64
+          msystem: MINGW64
           install: >-
             base-devel
             mingw-w64-x86_64-toolchain
