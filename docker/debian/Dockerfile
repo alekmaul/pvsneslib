@@ -12,7 +12,11 @@ RUN echo 'PS1=$PS1A' >> ~/.bashrc
 
 RUN echo 'deb http://deb.debian.org/debian testing main' >> /etc/apt/sources.list
 
-RUN apt-get update && apt-get install -y tzdata
+RUN apt-get update -y
+
+RUN apt-get install -y tzdata
+
+RUN apt-get upgrade -y
 
 RUN apt-get install -y build-essential \
         gcc-12 \
