@@ -7,11 +7,16 @@ CC      := gcc
 CFLAGS  += -Wall -O2 -pedantic -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 LDFLAGS := -lpthread
 # Define the libraries and compilation flags to be used depending on the OS.
-ifeq ($(OS),Windows_NT)
-	LDFLAGS += -static -L/mingw64/lib -lregex -ltre -lintl -liconv
+ifeq ($(shell uname),Darwin)
+    # If it is, set LDFLAGS to link against the 'pcre' library
+    # This option will not work on Mac OS X unless all libraries (including libgcc.a) have also been compiled with -static. Since neither a static version of libSystem.dylib nor crt0.o are provided, this option is not useful to most people.
+    LDFLAGS := -pthread
+	EXT     :=
+else ifeq ($(OS),Windows_NT)
+	LDFLAGS += -lpthread -static -L/mingw64/lib -lregex -ltre -lintl -liconv
 	EXT     :=.exe
 else
-	LDFLAGS += -static
+	LDFLAGS += -lpthread -static
 	EXT     :=
 endif
 
