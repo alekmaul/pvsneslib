@@ -63,6 +63,7 @@ jobs:
         if: matrix.name == 'macos-latest'
         run: |
           brew update
+          brew install bash
           brew install doxygen
           brew install gnu-sed
           brew install texi2html
@@ -122,9 +123,7 @@ jobs:
         if: (matrix.name == 'windows-latest')
         shell: msys2 {0}
         run: |
-          export PATH="/ucrt64/bin:$PATH"
           cd pvsneslib
-          ls -rtl
           export PVSNESLIB_HOME=$(pwd)
           make release
           ldd devkitsnes/bin/* || true
@@ -132,6 +131,7 @@ jobs:
           ls -rtl release/
       - name: Build & Release PVSNESLIB for MacOS
         if: (matrix.name == 'macos-latest')
+        shell: bash
         run: |
           export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
           cd pvsneslib
