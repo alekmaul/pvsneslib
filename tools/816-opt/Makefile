@@ -7,7 +7,7 @@ CC      := gcc
 CFLAGS  += -Wall -O2 -pedantic -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 LDFLAGS := -lpthread
 # Define the libraries and compilation flags to be used depending on the OS.
-feq ($(OS),Windows_NT)
+ifeq ($(OS),Windows_NT)
 	LDFLAGS += -static -L/mingw64/lib -lregex -ltre -lintl -liconv
 	EXT     :=.exe
 else
