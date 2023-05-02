@@ -10,7 +10,11 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN echo 'PS1=$PS1A' >> ~/.bashrc
 
-RUN apt-get update && apt-get install -y tzdata
+RUN apt-get update -y
+
+RUN apt-get install -y tzdata
+
+RUN apt-get upgrade -y
 
 RUN apt-get install -y build-essential \
         gcc-12 \

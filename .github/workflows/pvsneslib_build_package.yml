@@ -8,7 +8,7 @@ on:
   push:
     branches:
       - "develop"
-
+      - "tmpfile"
       # ------------------------------------ #
       # Set O.S matrix                       #
       # ------------------------------------ #
@@ -50,12 +50,12 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           update: true
-          msystem: MINGW64
+          msystem: UCRT64
           install: >-
-            mingw-w64-x86_64-toolchain
-            mingw-w64-x86_64-libsystre
             base-devel
-            cmake
+            mingw-w64-ucrt-x86_64-toolchain
+            mingw-w64-ucrt-x86_64-libsystre
+            mingw-w64-ucrt-x86_64-cmake
             git
             doxygen
             zip
@@ -63,6 +63,7 @@ jobs:
         if: matrix.name == 'macos-latest'
         run: |
           brew update
+          brew install bash
           brew install doxygen
           brew install gnu-sed
           brew install texi2html
@@ -130,10 +131,11 @@ jobs:
           ls -rtl release/
       - name: Build & Release PVSNESLIB for MacOS
         if: (matrix.name == 'macos-latest')
+        shell: bash
         run: |
+          export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
           make release
           otool -L devkitsnes/bin/* || true
           otool -L devkitsnes/tools/* || true

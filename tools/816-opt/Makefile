@@ -4,17 +4,15 @@ DATESTRING := $(shell date +%Y%m%d)
 
 # Compiler and compiler flags
 CC      := gcc
-CFLAGS  += -Wall -Wextra -O2 -g -pedantic -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
-
+CFLAGS  += -Wall -O2 -pedantic -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
+LDFLAGS := -lpthread
 # Define the libraries and compilation flags to be used depending on the OS.
-ifeq ($(shell uname),Darwin)
-    # If it is, set LDFLAGS to link against the 'pcre' library
-    # This option will not work on Mac OS X unless all libraries (including libgcc.a) have also been compiled with -static. Since neither a static version of libSystem.dylib nor crt0.o are provided, this option is not useful to most people.
-    LDFLAGS := -pthread
-else ifeq ($(OS),Windows_NT)
-	LDFLAGS := -pthread -static -L/mingw64/lib -lregex -ltre -lintl -liconv
+ifeq ($(OS),Windows_NT)
+	LDFLAGS += -static -L/mingw64/lib -lregex -ltre -lintl -liconv
+	EXT     :=.exe
 else
-	LDFLAGS := -pthread -static
+	LDFLAGS += -static
+	EXT     :=
 endif
 
 # Source and object file locations
@@ -23,13 +21,8 @@ OBJ := build
 SOURCES := $(wildcard $(SRC)/*.c)
 OBJS    := $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SOURCES))
 
-# Executable file name and extension
+# Executable binary file name
 EXE := 816-opt
-ifeq ($(OS),Windows_NT)
-	EXT=.exe
-else
-	EXT=
-endif
 
 # Define the default target
 all: $(EXE)$(EXT)
