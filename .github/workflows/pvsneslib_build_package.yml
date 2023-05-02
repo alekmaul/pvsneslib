@@ -8,7 +8,7 @@ on:
   push:
     branches:
       - "develop"
-      - "tmpfile"
+
       # ------------------------------------ #
       # Set O.S matrix                       #
       # ------------------------------------ #
@@ -52,9 +52,10 @@ jobs:
           update: true
           msystem: MINGW64
           install: >-
-            base-devel
             mingw-w64-x86_64-toolchain
-            mingw-w64-x86_64-x86_64-cmake
+            mingw-w64-x86_64-libsystre
+            mingw-w64-x86_64-cmake
+            base-devel
             git
             doxygen
             zip
@@ -62,7 +63,6 @@ jobs:
         if: matrix.name == 'macos-latest'
         run: |
           brew update
-          brew install bash
           brew install doxygen
           brew install gnu-sed
           brew install texi2html
@@ -130,11 +130,10 @@ jobs:
           ls -rtl release/
       - name: Build & Release PVSNESLIB for MacOS
         if: (matrix.name == 'macos-latest')
-        shell: bash
         run: |
-          export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
+          PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
           make release
           otool -L devkitsnes/bin/* || true
           otool -L devkitsnes/tools/* || true
@@ -161,4 +160,3 @@ jobs:
         with:
           name: pvsneslib_64b_darwin.zip
           path: pvsneslib/release/pvsneslib_64b_darwin.zip
-
