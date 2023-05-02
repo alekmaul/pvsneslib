@@ -50,7 +50,7 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           update: true
-          msystem: MINGW64
+          msystem: UCRT64
           install: >-
             base-devel
             mingw-w64-ucrt-x86_64-toolchain
@@ -122,9 +122,9 @@ jobs:
         if: (matrix.name == 'windows-latest')
         shell: msys2 {0}
         run: |
+          export PATH="/ucrt64/bin:$PATH"
           cd pvsneslib
-          cat compiler/tcc-65816/config.mak
-          which gcc
+          ls -rtl
           export PVSNESLIB_HOME=$(pwd)
           make release
           ldd devkitsnes/bin/* || true
@@ -133,9 +133,9 @@ jobs:
       - name: Build & Release PVSNESLIB for MacOS
         if: (matrix.name == 'macos-latest')
         run: |
+          export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
           make release
           otool -L devkitsnes/bin/* || true
           otool -L devkitsnes/tools/* || true
