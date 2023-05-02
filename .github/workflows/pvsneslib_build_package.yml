@@ -122,9 +122,9 @@ jobs:
         if: (matrix.name == 'windows-latest')
         shell: msys2 {0}
         run: |
+          cd pvsneslib
           cat compiler/tcc-65816/config.mak
           which gcc
-          cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           make release
           ldd devkitsnes/bin/* || true
