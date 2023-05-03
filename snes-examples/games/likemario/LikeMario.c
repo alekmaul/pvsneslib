@@ -85,7 +85,7 @@ void marioinit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx)
     // prepare dynamic sprite object
     oambuffer[0].oamframeid = 6;
     oambuffer[0].oamrefresh = 1;
-    oambuffer[0].oamattribute = 0x60 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2 and flip sprite
+    oambuffer[0].oamattribute.value = 0x60 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2 and flip sprite
     oambuffer[0].oamgraphics = &mariogfx;
 
     // Init Sprites palette
@@ -160,7 +160,7 @@ void marioupdate(u8 idx)
             {
                 marioflp = 2;
             }
-            oambuffer[0].oamattribute &= ~0x40; // do not flip sprite
+            oambuffer[0].oamattribute.value &= ~0x40; // do not flip sprite
 
             // update velocity
             marioobj->action = ACT_WALK;
@@ -176,7 +176,7 @@ void marioupdate(u8 idx)
             {
                 marioflp = 2;
             }
-            oambuffer[0].oamattribute |= 0x40; // flip sprite
+            oambuffer[0].oamattribute.value |= 0x40; // flip sprite
 
             // update velocity
             marioobj->action = ACT_WALK;

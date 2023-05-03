@@ -52,13 +52,33 @@
 #define OBJ_SPRITE16 2 /*!< \brief sprite with 16x16 identifier */
 #define OBJ_SPRITE8 4  /*!< \brief sprite with 8x8 identifier */
 
+/*!	\brief Oam attribute struct bits */
+typedef struct 
+{
+
+    u8 small : 1;       /*!< bit 0 sprite size */
+    u8 pallnum : 3;     /*!< bit 1:3 pal number*/
+    u8 priority : 2;    /*!< bit 4:5 priority*/
+    u8 hflip : 1;       /*!< bit 6 horizontal flip */
+    u8 vflip : 1;       /*!< bit 7 vertical flip */
+
+}t_oam_attribute_bits;
+
+/*!	\brief Oam attribute struct */
+typedef union 
+{
+    t_oam_attribute_bits valuebits;
+    u8 value;
+}t_oam_attribute;
+
+
 /*!	\brief Dynamic sprite definition */
 typedef struct
 {
     s16 oamx;        /*!< 0 x position on the screen  */
     s16 oamy;        /*!< 2 y position on the screen  */
     u16 oamframeid;  /*!< 4 frame index in graphic file of the sprite  */
-    u8 oamattribute; /*!< 6 sprite attribute value (vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num)  */
+    t_oam_attribute oamattribute; /*!< 6 sprite attribute value (vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num)  */
     u8 oamrefresh;   /*!< 7 =1 if we need to load graphics from graphic file  */
     u8 *oamgraphics; /*!< 8..11 pointer to graphic file  */
     u16 dummy1;      /*! 12..15 to be 16 aligned */

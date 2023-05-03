@@ -72,7 +72,7 @@ void marioinit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx)
     oambuffer[0].oamy = yp;
     oambuffer[0].oamframeid = 0;
     oambuffer[0].oamrefresh = 1;
-    oambuffer[0].oamattribute = 0x20 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2
+    oambuffer[0].oamattribute.value = 0x20 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2
     oambuffer[0].oamgraphics = &sprmario;
 }
 

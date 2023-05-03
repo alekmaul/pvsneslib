@@ -55,14 +55,14 @@ void koopatroopainit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx)
     oambuffer[nbobjects].oamy = yp-16;
     oambuffer[nbobjects].oamframeid = 0;
     oambuffer[nbobjects].oamrefresh = 1;
-    oambuffer[nbobjects].oamattribute = 0x20 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2
+    oambuffer[nbobjects].oamattribute.value = 0x20 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2
     oambuffer[nbobjects].oamgraphics = &sprkoopatroopa;
 	nbobjects++; 		// 2 sprites for koopatroopa
     oambuffer[nbobjects].oamx = xp;
     oambuffer[nbobjects].oamy = yp;
     oambuffer[nbobjects].oamframeid = 1;
     oambuffer[nbobjects].oamrefresh = 1;
-    oambuffer[nbobjects].oamattribute = 0x20 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2
+    oambuffer[nbobjects].oamattribute.value = 0x20 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2
     oambuffer[nbobjects].oamgraphics = &sprkoopatroopa;
 	nbobjects++; 		// 2 sprites for koopatroopa
 }
@@ -97,8 +97,8 @@ void koopatroopaupdate(u8 idx)
                 koopatroopaobj->sprflip = 1;
                 koopatroopaobj->xvel = +KOOPATROOPA_XVELOC;
                 koopatroopaobj->yvel = 0;
-				oambuffer[koopatroopanum].oamattribute |=0x40;
-				oambuffer[koopatroopanum+1].oamattribute |=0x40;
+				oambuffer[koopatroopanum].oamattribute.valuebits.hflip = 1;
+				oambuffer[koopatroopanum+1].oamattribute.valuebits.hflip = 1;
             }
             else
             {
@@ -114,8 +114,8 @@ void koopatroopaupdate(u8 idx)
                 koopatroopaobj->sprflip = 0;
                 koopatroopaobj->xvel = -KOOPATROOPA_XVELOC;
                 koopatroopaobj->yvel = 0;
-				oambuffer[koopatroopanum].oamattribute &=~0x40;
-				oambuffer[koopatroopanum+1].oamattribute &=~0x40;
+				oambuffer[koopatroopanum].oamattribute.valuebits.hflip = 0;
+				oambuffer[koopatroopanum+1].oamattribute.valuebits.hflip = 0;
             }
             else
             {

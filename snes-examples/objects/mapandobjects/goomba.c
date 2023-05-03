@@ -51,7 +51,7 @@ void goombainit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx)
     oambuffer[nbobjects].oamy = yp;
     oambuffer[nbobjects].oamframeid = 0;
     oambuffer[nbobjects].oamrefresh = 1;
-    oambuffer[nbobjects].oamattribute = 0x20 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2
+    oambuffer[nbobjects].oamattribute.value = 0x20 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2
     oambuffer[nbobjects].oamgraphics = &sprgoomba;
 	nbobjects++;
 

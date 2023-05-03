@@ -50,12 +50,17 @@ int main(void)
         oambuffer[i].oamrefresh = 1;
         if (i < 8)
         {
-            oambuffer[i].oamattribute = 0x20 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2
+            oambuffer[i].oamattribute.value = 0x20 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2
             oambuffer[i].oamgraphics = &spr32g;
         }
         else
         {
-            oambuffer[i].oamattribute = 0x21 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2
+            oambuffer[i].oamattribute.valuebits.hflip = 0;
+            oambuffer[i].oamattribute.valuebits.vflip = 0;
+            oambuffer[i].oamattribute.valuebits.pallnum = 0;
+            oambuffer[i].oamattribute.valuebits.small = 1;
+            oambuffer[i].oamattribute.valuebits.priority = 2;
+
             oambuffer[i].oamgraphics = &spr16g;
         }
     }
