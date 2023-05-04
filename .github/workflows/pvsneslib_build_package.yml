@@ -20,18 +20,18 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            name: ubuntu-latest
+            name: linux
           - os: windows-latest
-            name: windows-latest
+            name: windows
           - os: macos-latest
-            name: macos-latest
+            name: darwin
 
     steps:
       # ------------------------------------ #
       # Install dependencies                 #
       # ------------------------------------ #
       - name: Install dependencies for Linux
-        if: matrix.name == 'ubuntu-latest'
+        if: matrix.name == 'linux'
         run: |
           sudo apt update -y
           sudo apt-get install -y build-essential \
@@ -46,21 +46,20 @@ jobs:
               texlive-latex-extra
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 90
       - name: Install dependencies for Windows
-        if: matrix.name == 'windows-latest'
+        if: matrix.name == 'windows'
         uses: msys2/setup-msys2@v2
         with:
           update: true
-          msystem: MINGW64
+          msystem: UCRT64
           install: >-
-            mingw-w64-x86_64-toolchain
-            mingw-w64-x86_64-libsystre
-            mingw-w64-x86_64-cmake
+            mingw-w64-ucrt-x86_64-toolchain
+            mingw-w64-ucrt-x86_64-cmake
             base-devel
             git
             doxygen
             zip
       - name: Install dependencies for MacOS
-        if: matrix.name == 'macos-latest'
+        if: matrix.name == 'darwin'
         run: |
           brew update
           brew install doxygen
@@ -83,80 +82,57 @@ jobs:
           persist-credentials: false
 
       # ------------------------------------ #
-      # Compiling sources                    #
-      # ------------------------------------ #
-      # - name: Build PVSNESLIB for Linux
-      #   if: (matrix.name == 'ubuntu-latest')
-      #   run: |
-      #     cd pvsneslib
-      #     export PVSNESLIB_HOME=$(pwd)
-      #     make
-      # - name: Build PVSNESLIB for Windows
-      #   if: (matrix.name == 'windows-latest')
-      #   shell: msys2 {0}
-      #   run: |
-      #     cd pvsneslib
-      #     export PVSNESLIB_HOME=$(pwd)
-      #     make
-      # - name: Build PVSNESLIB for MacOS
-      #   if: (matrix.name == 'macos-latest')
-      #   run: |
-      #     cd pvsneslib
-      #     export PVSNESLIB_HOME=$(pwd)
-      #     PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-      #     make
-
-      # ------------------------------------ #
       # Compiling sources and create release #
       # ------------------------------------ #
       - name: Build & Release PVSNESLIB for Linux
-        if: (matrix.name == 'ubuntu-latest')
+        if: (matrix.name == 'linux')
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          make release
-          ldd devkitsnes/bin/* || true
-          ldd devkitsnes/tools/* || true
-          ls -rtl release/
+          make release | tee pvsneslib_release_${{ matrix.name }}.log
       - name: Build & Release PVSNESLIB for Windows
-        if: (matrix.name == 'windows-latest')
+        if: (matrix.name == 'windows')
         shell: msys2 {0}
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          make release
-          ldd devkitsnes/bin/* || true
-          ldd devkitsnes/tools/* || true
-          ls -rtl release/
+          make release | tee pvsneslib_release_${{ matrix.name }}.log
       - name: Build & Release PVSNESLIB for MacOS
-        if: (matrix.name == 'macos-latest')
+        if: (matrix.name == 'darwin')
         run: |
           cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
-          PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-          make release
-          otool -L devkitsnes/bin/* || true
-          otool -L devkitsnes/tools/* || true
-          ls -rtl release/
+          export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+          make release | tee pvsneslib_release_${{ matrix.name }}.log
+
+      # ------------------------------------ #
+      # Checking libraries linking           #
+      # ------------------------------------ #
+      - name: Checking libraries linking PVSNESLIB toolchain
+        if: matrix.name == 'darwin'
+        run: |
+          cd pvsneslib
+          otool -L devkitsnes/bin/* devkitsnes/tools/* | tee pvsneslib_toolchain_linking_${{ matrix.name }}.log || true
+      - name: Checking libraries linking PVSNESLIB toolchain
+        if: matrix.name == 'windows' || matrix.name == 'linux'
+        run: |
+          cd pvsneslib
+          ldd devkitsnes/bin/* devkitsnes/tools/* | tee pvsneslib_toolchain_linking_${{ matrix.name }}.log || true
 
       # ------------------------------------ #
       # Upload releases                      #
       # ------------------------------------ #
-      - name: Upload PVSNESLIB release for Linux
-        if: (matrix.name == 'ubuntu-latest')
+      - name: Upload PVSNESLIB release
         uses: actions/upload-artifact@v3
         with:
-          name: pvsneslib_64b_linux.zip
-          path: pvsneslib/release/pvsneslib_64b_linux.zip
-      - name: Upload PVSNESLIB release for Windows
-        if: (matrix.name == 'windows-latest')
+          name: PVSNESLIB Release for ${{ matrix.name }}
+          path: pvsneslib/release/pvsneslib_64b_${{ matrix.name }}.zip
+
+      # ------------------------------------ #
+      # Upload releases                      #
+      # ------------------------------------ #
+      - name: Upload PVSNESLIB logs
         uses: actions/upload-artifact@v3
         with:
-          name: pvsneslib_64b_windows.zip
-          path: pvsneslib/release/pvsneslib_64b_windows.zip
-      - name: Upload PVSNESLIB release for MacOS
-        if: (matrix.name == 'macos-latest')
-        uses: actions/upload-artifact@v3
-        with:
-          name: pvsneslib_64b_darwin.zip
-          path: pvsneslib/release/pvsneslib_64b_darwin.zip
+          name: PVSNESLIB Release Logs for ${{ matrix.name }}
+          path: pvsneslib/*.log

@@ -10,25 +10,19 @@ TCC_DIR    := tcc-65816
 WLA_DIR    := wla-dx
 BIN_DIR    := ../devkitsnes/bin
 
-# Define variables for build options
-MAKE_OPTIONS := -j$(NUM_JOBS)
-
 # Define variables for System
 UNAME := $(shell uname -s)
 
 # Set default number of jobs to run in parallel based on available CPU cores
 ifeq ($(OS),Windows_NT)
   # Set NUM_JOBS to the number of processors on Windows
-  NUM_JOBS := $(NUMBER_OF_PROCESSORS)
+  MAKEFLAGS := -j$(NUMBER_OF_PROCESSORS)
 else ifeq ($(UNAME), Darwin)
   # Set NUM_JOBS to the number of CPUs on macOS
-  NUM_JOBS := $(shell sysctl -n hw.ncpu)
+  MAKEFLAGS := -j$(shell sysctl -n hw.ncpu)
 else ifeq ($(UNAME), Linux)
   # Set NUM_JOBS to the number of CPUs on Linux
-  NUM_JOBS := $(shell nproc)
-else
-  # Set NUM_JOBS to 1 for all other operating systems
-  NUM_JOBS := 1
+  MAKEFLAGS := -j$(shell nproc)
 endif
 
 # Declare the phony targets
@@ -49,7 +43,7 @@ tcc-configure:
 
 # Define the tcc target
 tcc:
-	$(MAKE) $(MAKE_OPTIONS) -C $(TCC_DIR)
+	$(MAKE) -C $(TCC_DIR)
 
 # Define the tcc-clean target
 tcc-clean:
@@ -61,11 +55,9 @@ tcc-install:
 
 # Define the wla target
 wla:
-	cd wla-dx ; \
-	cmake -G "$(CMAKE_TYPE)" . ; \
-	$(MAKE) wla-65816 ; \
-	$(MAKE) wla-spc700 ; \
-	$(MAKE) wlalink ; \
+	cd $(WLA_DIR) && \
+	cmake -G "$(CMAKE_TYPE)" . && \
+	$(MAKE) wla-65816 wla-spc700 wlalink
 
 # Define the wla-clean target
 wla-clean:
