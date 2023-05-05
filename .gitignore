@@ -67,5 +67,8 @@ soundbank.asm
 soundbank.h
 *.log
 
+# debug files
+*.dbg
+
 # Mac OS cache files
 .DS_Store
