@@ -8,6 +8,13 @@ ifeq ($(findstring \,$(PVSNESLIB_HOME)),\)
 $(error "PVSNESLIB_HOME environment variable is not defined correctly: the path must be in Unix style (on Windows operating system too!). For example, use /c/snesdev instead of c:\snesdev")
 endif
 
+ifeq ($(PVSNESLIB_DEBUG),1)
+DEBUG = 1
+$(info The debug mode is enabled)
+else
+DEBUG = 0
+$(info The debug mode is NOT enabled, you can do it by executing "export PVSNESLIB_DEBUG=1")
+endif
 
 #---------------------------------------------------------------------------------
 # on windows, linkfile can only manage path like E:\pvsneslib\lib\crt0_snes.obj
@@ -75,6 +82,23 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 %.ps: %.c
 	@echo Compiling to .ps ... $(notdir $<)
 	$(CC) $(CFLAGS) -Wall -c $< -o $@
+ifeq ($(DEBUG),1)
+	cp $@ $@.01.dbg
+endif
+
+#---------------------------------------------------------------------------------
+%.asm: %.ps
+	@echo Assembling ... $(notdir $<)
+	$(OPT) $< >$*.asp
+ifeq ($(DEBUG),1)
+	cp $*.asp $*.opt.02.dbg
+endif
+	@echo Moving constants ... $(notdir $<)
+	$(CTF) $*.c $*.asp $@
+ifeq ($(DEBUG),1)
+	cp $*.asp $*.ctf.03.dbg
+endif
+	@rm $*.asp
 
 %.obj: %.asm
 	@echo Doing obj files ... $(fname)
@@ -82,14 +106,6 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 # -d switch disable WLA's ability to calculate A-B where A and B are labels.
 # if you remove it, you will have some updates to do at least in crt0_snes.asm
 	$(AS) -d -s -x -o $@ $<
-
-#---------------------------------------------------------------------------------
-%.asm: %.ps
-	@echo Assembling ... $(notdir $<)
-	$(OPT) $< >$*.asp
-	@echo Moving constants ... $(notdir $<)
-	$(CTF) $*.c $*.asp $@
-	@rm $*.asp
 
 #---------------------------------------------------------------------------------
 %.sfc: $(OFILES)
@@ -131,6 +147,10 @@ $(SOUNDBANK).asm : $(AUDIOFILES)
 cleanBuildRes:
 	@echo clean build resources
 	@rm -f $(OFILES) linkfile
+ifeq ($(DEBUG),1)
+	@echo clean debug files
+	@rm -f *.dbg **/*.dbg
+endif
 
 cleanRom:
 	@echo clean rom
