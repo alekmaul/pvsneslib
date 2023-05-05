@@ -394,7 +394,7 @@ _smd11:
 
 .ENDS
 
-.SECTION ".videos4_text" SUPERFREE
+.SECTION ".videos70_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ;void initm7_matric(void)
@@ -783,10 +783,10 @@ setMode7Rot:
 
 .ENDS
 
-.SECTION ".videos5_text" SUPERFREE
+.SECTION ".videos71_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
-;void setMode7Rot(u8 angle)
+;void setMode7Angle(u8 angle);
 setMode7Angle:
     php
 
@@ -833,7 +833,7 @@ setMode7Angle:
 
 .ENDS
 
-.SECTION ".videos6_text" SUPERFREE
+.SECTION ".videos72_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ;void setMode7MoveForwardBack(u8 z8)
@@ -887,7 +887,7 @@ setMode7MoveForwardBack:
 
 .ENDS
 
-.SECTION ".videos7_text" SUPERFREE
+.SECTION ".videos73_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ;void setMode7MoveLeftRight(u8 z8)
@@ -940,6 +940,39 @@ setMode7MoveLeftRight:
     rtl
 
 .ENDS
+
+.SECTION ".videos74_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+;void setMode7Scale(u16 xscale, u16 yscale)
+setMode7Scale:
+    php
+
+    rep #$20                ; get xscale
+    lda 5,s
+    
+    sep #$20                ; REG_M7A = xscale;
+    sta.l REG_M7A
+    rep #$20
+    xba
+    sep #$20                ; REG_M7A = xscale>>8;
+    sta.l REG_M7A
+
+    rep #$20                ; get yscale
+    lda 7,s
+    
+    sep #$20                ; REG_M7D = yscale;
+    sta.l REG_M7D
+    rep #$20
+    xba
+    sep #$20                ; REG_M7D = yscale>>8;
+    sta.l REG_M7D
+
+    plp
+    rtl
+
+.ENDS
+
 
 .SECTION ".videos8_text" SUPERFREE
 

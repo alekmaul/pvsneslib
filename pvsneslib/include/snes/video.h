@@ -434,4 +434,11 @@ void setMode7MoveLeftRight(u8 z8);
 */
 void setMode7Angle(u8 angle);
 
+/*! \fn  setMode7Scale(u16 xscale, u16 yscale)
+    \brief Change scaling effect of screen in mode 7.
+    \param xscale : scaling for x 
+    \param yscale : scaling for y 
+*/
+void setMode7Scale(u16 xscale, u16 yscale);
+
 #endif // SNES_VIDEO_INCLUDE
