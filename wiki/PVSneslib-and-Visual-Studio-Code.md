@@ -28,8 +28,29 @@ For example, if you installed it in `C:/pvsneslib`, you should have
 ### Use it
 
 To use it, you can duplicate the **.vscode** folder template in each folder of your project or just open the whole PVSneslib root folder.
-You have an integrated terminal in the software (by clicking on "_Terminal_ > _New Terminal_" from the menu) and depending of your preferences, you can :
 
-- use the terminal to navigate in the folder you work with then run `make` commands (you can also right click on the folder you want to build in the browser view then "_open in the integrated terminal_" to avoid navigating with `cd` commands in the terminal)
+You have an integrated terminal (which require one new configuration step on Windows) in the software (by clicking on "_Terminal_ > _New Terminal_" from the menu) and depending of your preferences, you can :
+
+- use the terminal to navigate in the folder you work with then run `make` commands (you can also right click on the folder you want to build in the browser view then "_open in the integrated terminal_" to avoid navigating with `cd` commands in the terminal. If you are on Windows, it will require one more configuration step. Please read it after !)
 
 - Use `Ctrl + Shift + B` shortcut to access to the 2 tasks to build or clean the project.
+
+### Integrated terminal on Windows
+
+On Windows, the library requires to use MSYS2 with the UCRT64 binary.
+
+If you use the integrated terminal in vscode, you will have to update the user settings by adding this block :
+
+`"terminal.integrated.profiles.windows": {
+    "MSYS2 UCRT": {
+        "path": "cmd.exe",
+        "args": [
+            "/c",
+            "C:\\msys64\\msys2_shell.cmd -defterm -here -no-start -ucrt64"
+        ]
+    }
+},`
+
+and the workspace settings with this one :
+
+`"terminal.integrated.defaultProfile.windows": "MSYS2 UCRT"`
