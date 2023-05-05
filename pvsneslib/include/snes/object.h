@@ -85,12 +85,14 @@ extern u16 objgetid; /*!< \brief id of current object (useful when creating it) 
 
 extern t_objs objbuffers[OB_MAX]; /*!< \brief current object buffer with all objects */
 
-#define T_EMPTY 0x0000  /*!< \brief Type Empty (action will be fall) for tile  */
-#define T_SOLID 0xFF00  /*!< \brief Type Solid (action is walk only) for tile  */
-#define T_LADDER 0x0001 /*!< \brief Type Ladder (action will be climb) for tile  */
-#define T_FIRES 0x0002  /*!< \brief Type Fire (action will be burn) for tile  */
-#define T_SPIKE 0x0004  /*!< \brief Type Spike (action will be die) for tile  */
-#define T_PLATE 0x0008  /*!< \brief Type Plate (action will be jump through and land) for tile  */
+#define T_EMPTY 	0x0000  /*!< \brief Type Empty (action will be fall) for tile  */
+#define T_SOLID 	0xFF00  /*!< \brief Type Solid (action is walk only) for tile  */
+#define T_LADDER 	0x0001  /*!< \brief Type Ladder (action will be climb) for tile  */
+#define T_FIRES 	0x0002  /*!< \brief Type Fire (action will be burn) for tile  */
+#define T_SPIKE 	0x0004  /*!< \brief Type Spike (action will be die) for tile  */
+#define T_PLATE 	0x0008  /*!< \brief Type Plate (action will be jump through and land) for tile  */
+#define T_SLOPEU	0x0010  /*!< \brief Type Slope Up (action will be climb on it) for tile  */
+#define T_SLOPED	0x0012  /*!< \brief Type Slope Down (action will be descend on it) for tile  */
 
 #define ACT_STAND 0x0000 /*!< \brief Action type STAND for object */
 #define ACT_WALK 0x0001  /*!< \brief Action type WALK for object */
