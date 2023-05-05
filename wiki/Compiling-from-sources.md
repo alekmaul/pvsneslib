@@ -94,6 +94,15 @@ If everything works correctly until here, samples will be really easy to build.
 
 Just run the `make` command from snes-examples directory then `make install` to move all the rom files generated to the bin folder.
 
+## Use the debug mode
+
+During the build process, PVSneslib apply some changes on the .asm files automatically generated from .c sources.
+
+It can be useful to see the result of each step to investigate on an issue or to debug it.  
+To keep these temporary files without modifying scripts, just define the **PVSNESLIB_DEBUG** environment variable to **1** by doing `export PVSNESLIB_DEBUG=1` before compiling.
+
+You will see some `*.xx.dbg` files created where `xx` is the step number in the process.
+
 ## For the next time
 
 Now all dependencies are installed and works correctly, you can go quicker to build the whole project.
