@@ -75,7 +75,7 @@ void PrintOptions(char *str)
 //////////////////////////////////////////////////////////////////////////////
 void PrintVersion(void)
 {
-    printf("bin2txt.exe (" BIN2TXTDATE ") version " BIN2TXTVERSION "");
+    printf("bin2txt (" BIN2TXTDATE ") version " BIN2TXTVERSION "");
     printf("\nCopyright (c) 2012-2021 Alekmaul\n");
 }
 

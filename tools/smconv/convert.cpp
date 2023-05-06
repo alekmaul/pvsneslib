@@ -32,18 +32,18 @@ const char USAGE[] = {
     "\n-i                Use HIROM mapping mode for soundbank."
     "\n-f                Check size of IT files with 1st IT file (useful for effects\n"
     "\n\nMisc options"
-    "\n-v                Enable verbose output"
+    "\n-V                Enable verbose output"
     "\n-h                Show help"
-    "\n-n                Show version"
+    "\n-v                Show version"
     "\n\nTips:"
     "\nTypical options to create soundbank for project:"
     "\n  smconv -s -o build/soundbank -h input1.it input2.it"
     "\n\nAnd for IT->SPC:"
     "\n  smconv input.it"
-    "\n\nUse -v to view how much RAM the modules will use.\n"};
+    "\n\nUse -V to view how much RAM the modules will use.\n"};
 
 const char VERSION[] = {
-    "\nsmconv.exe (" SMCONVDATE ") version " SMCONVVERSION ""
+    "smconv (" SMCONVDATE ") version " SMCONVVERSION ""
     "\nCopyright (c) 2012-2021 Alekmaul "
     "\nBased on SNESMOD (C) 2009 Mukunda Johnson (www.mukunda.com)\n"};
 
@@ -58,12 +58,6 @@ int main(int argc, char *argv[])
     VERBOSE = od.verbose_mode;
     BANKNUM = od.banknumber;
 
-    if (argc < 2)
-    {
-        printf(USAGE);
-        exit(1);
-    }
-
     if (od.show_help)
     {
         printf(USAGE);
@@ -74,6 +68,12 @@ int main(int argc, char *argv[])
     {
         printf(VERSION);
         exit(0);
+    }
+
+    if (argc < 2)
+    {
+        printf(USAGE);
+        exit(1);
     }
 
     if (od.output.empty())

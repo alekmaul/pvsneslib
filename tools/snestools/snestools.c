@@ -945,7 +945,7 @@ void PrintOptions(char *str)
 //////////////////////////////////////////////////////////////////////////////
 void PrintVersion(void)
 {
-    printf("snestools.exe (" SNESTOOLSDATE ") version " SNESTOOLSVERSION "");
+    printf("snestools (" SNESTOOLSDATE ") version " SNESTOOLSVERSION "");
     printf("\nCopyright (c) 2012-2021 Alekmaul\n");
 }
 

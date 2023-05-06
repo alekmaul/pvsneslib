@@ -138,7 +138,7 @@ void PrintOptions(const char *str)
 //////////////////////////////////////////////////////////////////////////////
 void PrintVersion(void)
 {
-    printf("constify.exe (" CONSTIFYDATE ") version " CONSTIFYVERSION "");
+    printf("constify (" CONSTIFYDATE ") version " CONSTIFYVERSION "");
     printf("\nCopyright (c) 2013-2021 Alekmaul");
     printf("\nBased on constify by Mic\n");
 }
