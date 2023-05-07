@@ -19,6 +19,13 @@ namespace base
         }
     }
 
+    void OptionParser::print_version(const char *version, const char *date) const
+    {
+        std::printf("snesbrr ( %s ) version %s\n", date, version);
+        std::printf("Copyright (c) 2006-2021 DMV27 & Alekmaul\n");
+        std::printf("Based on SNESBRR (C) 2006 DMV27\n");
+    }
+
     bool OptionParser::next()
     {
         if (index >= argc)

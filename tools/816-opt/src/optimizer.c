@@ -30,9 +30,12 @@ int verbosity()
     return 0;
 }
 
+/**
+ * @brief Print the version.
+ */
 void PrintVersion(void)
 {
-    printf("816-tcc-opt v%s\n", BINVERSION);
+    printf("816-opt v%s\n", BINVERSION);
     printf("built: %s\n", BINDATE);
 }
 

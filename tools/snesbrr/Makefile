@@ -1,25 +1,24 @@
-
 SUBDIRS := base brr
 
-.PHONY : all $(SUBDIRS)
+.PHONY: all $(SUBDIRS)
 
-all : $(SUBDIRS)
+all: $(SUBDIRS)
 
 ifeq ($(findstring $(MAKECMDGOALS),$(SUBDIRS)),)
 
 ifneq ($(strip $(MAKECMDGOALS)),)
-.PHONY : $(MAKECMDGOALS)
-$(MAKECMDGOALS) : $(SUBDIRS)
+.PHONY: $(MAKECMDGOALS)
+$(MAKECMDGOALS): $(SUBDIRS)
 endif
 
-$(SUBDIRS) :
+$(SUBDIRS):
 	$(MAKE) -C $@ $(MAKECMDGOALS)
 
 else
 
-$(SUBDIRS) :
+$(SUBDIRS):
 	$(MAKE) -C $@
 
 endif
 
-brr : base
+brr: base

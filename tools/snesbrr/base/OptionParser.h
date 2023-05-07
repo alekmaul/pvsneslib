@@ -7,6 +7,9 @@
 #include "basetypes.h"
 #include "noncopyable.h"
 
+#define SNESBRRVERSION __BUILD_VERSION
+#define SNESBRRDATE __BUILD_DATE
+
 namespace base
 {
 
@@ -39,6 +42,8 @@ namespace base
         }
 
         void print_help(const char *usage) const;
+
+        void print_version(const char *version, const char *date) const;
 
         bool next();
         uint parse() const;

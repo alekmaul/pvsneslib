@@ -101,11 +101,11 @@ namespace ConversionInput
                 {
                     hirom = true;
                 }
-                else if (TESTARG2("--verbose", "-v"))
+                else if (TESTARG2("--verbose", "-V"))
                 {
                     verbose_mode = true;
                 }
-                else if (TESTARG2("--version", "-n"))
+                else if (TESTARG2("--version", "-v"))
                 {
                     show_version = true;
                 }
