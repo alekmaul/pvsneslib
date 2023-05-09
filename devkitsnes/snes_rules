@@ -149,7 +149,7 @@ cleanBuildRes:
 	@rm -f $(OFILES) linkfile
 ifeq ($(DEBUG),1)
 	@echo clean debug files
-	@rm -f *.dbg **/*.dbg
+	@find . -name *.dbg -type f -delete
 endif
 
 cleanRom:
