@@ -120,6 +120,7 @@ endif
 	done
 
 	@echo Linking ... $(notdir $@)
+	@rm -f $(ROMNAME).sym
 	$(LD) -d -s -v -A -L ${LIBDIRSOBJS} linkfile $@
 
 	@sed -i 's/://' $(ROMNAME).sym

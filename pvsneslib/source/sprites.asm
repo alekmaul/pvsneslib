@@ -65,6 +65,8 @@ oamqueuenumber					DW
 oamnumberperframe				DW							  ; number of sprite added during current frame (current, old)
 oamnumberperframeold			DW
 
+oamnumbercurrent				DW							  ; current oam number when adding a dynamic sprite
+
 oamnumberspr0					DW							  ; number entry of sprite (and initial value) for 32x32,16x16 and 8x8 sprites
 oamnumberspr0Init				DW							  ; number is a multiple of 4
 oamnumberspr1					DW
@@ -830,7 +832,12 @@ lkup16oamS:  ; lookup table for 16x16 sprites in VRAM (64 sprites max $0000->$10
 	.word $0800,$0840,$0880,$08c0,$0900,$0940,$0980,$09c0,$0c00,$0c40,$0c80,$0cc0,$0d00,$0d40,$0d80,$0dc0
 	.word $1000,$1040,$1080,$10c0,$1100,$1140,$1180,$11c0,$1400,$1440,$1480,$14c0,$1500,$1540,$1580,$15c0
 	.word $1800,$1840,$1880,$18c0,$1900,$1940,$1980,$19c0,$1c00,$1c40,$1c80,$1cc0,$1d00,$1d40,$1d80,$1dc0
-lkup16idT:  ; lookup table for 16x16 sprites ID identification
+lkup16idT0:  ; lookup table for 16x16 sprites ID identification when sprite 16 are big sprites
+	.word $0000,$0002,$0004,$0006,$0008,$000A,$000C,$000E,$0020,$0022,$0024,$0026,$0028,$002A,$002C,$002E
+	.word $0040,$0042,$0044,$0046,$0048,$004A,$004C,$004E,$0060,$0062,$0064,$0066,$0068,$006A,$006C,$006E
+	.word $0080,$0082,$0084,$0086,$0088,$008A,$008C,$008E,$00A0,$00A2,$00A4,$00A6,$00A8,$00AA,$00AC,$00AE
+	.word $00C0,$00C2,$00C4,$00C6,$00C8,$00CA,$00CC,$00CE,$00E0,$00E2,$00E4,$00E6,$00E8,$00EA,$00EC,$00EE
+lkup16idT:  ; lookup table for 16x16 sprites ID identification when sprite 16 are not big srites
 	.word $0100,$0102,$0104,$0106,$0108,$010A,$010C,$010E,$0120,$0122,$0124,$0126,$0128,$012A,$012C,$012E
 	.word $0140,$0142,$0144,$0146,$0148,$014A,$014C,$014E,$0160,$0162,$0164,$0166,$0168,$016A,$016C,$016E
 	.word $0180,$0182,$0184,$0186,$0188,$018A,$018C,$018E,$01A0,$01A2,$01A4,$01A6,$01A8,$01AA,$01AC,$01AE
@@ -1295,7 +1302,11 @@ oamDynamic32Draw:
 	lda	10,s                     							  ; get id
 	asl a													  ; to be on correct index (16 bytes per oam)
 	asl a
-	asl a
+	sta oamnumbercurrent									  ; temporary store of id for oam (id*4)
+	cmp oamnumberperframe									  ; if less than max number of sprite, store it
+    bcc +				
+	sta oamnumberperframe										
++:	asl a													  ; continue to have index of sprite
 	asl a
 
 	tay
@@ -1341,7 +1352,7 @@ oamDynamic32Draw:
 
 _o32DRep1:
 	rep #$20
-	ldx oamnumberperframe                                     ; get current sprite number (x4 entry)
+	ldx oamnumbercurrent                                      ; get current sprite number (x4 entry)
 
     phx
     lda oamnumberspr0                  						  ; get graphics offset of 32x32 sprites
@@ -1385,7 +1396,7 @@ _o32DRep3:
 	sta oamMemory+3,x										  ; store attributes in oam memory
 
 	rep #$20												  ; oamSetEx(nb_sprites_oam, OBJ_SMALL, OBJ_SHOW);
-	lda oamnumberperframe									  ; always small for 8px sprites
+	lda oamnumbercurrent									  ; always small for 8px sprites
 	lsr a
 	lsr a
 	lsr a
@@ -1394,7 +1405,7 @@ _o32DRep3:
 	adc.w #512                                                ; id>>4 + 512
 	tay                          							  ; oam pointer is now on oam table #2
 
-	lda oamnumberperframe                   				  ; id
+	lda oamnumbercurrent                     				  ; id
 	lsr a
 	lsr a
 	and.w #$0003                 							  ; id >> 2 & 3
@@ -1411,11 +1422,6 @@ _o32DRep3:
 
     rep #$20
     inc.w oamnumberspr0										  ; one more sprite 8x8
-
-	lda oamnumberperframe										  ; go to next sprite entry (x4 multiplier)
-	clc
-	adc #$0004
-	sta.w oamnumberperframe
 
 	ply
 	plx
@@ -1445,7 +1451,11 @@ oamDynamic16Draw:
 	lda	10,s                     							  ; get id
 	asl a													  ; to be on correct index (16 bytes per oam)
 	asl a
-	asl a
+	sta oamnumbercurrent									  ; temporary store of id for oam (id*4)
+	cmp oamnumberperframe									  ; if less than max number of sprite, store it
+    bcc +				
+	sta oamnumberperframe										
++:	asl a													  ; continue to have index of sprite
 	asl a
 
 	tay
@@ -1497,20 +1507,23 @@ _o16DRep0p:
 
 _o16DRep1:
 	rep #$20
-	ldx oamnumberperframe                                        ; get current sprite number (x4 entry)
+	ldx oamnumbercurrent                                        ; get current sprite number (x4 entry)
 
     phx
 	lda spr16addrgfx										  ; if large sprite, adjust address
 	cmp spr0addrgfx
 	beq +
-    lda oamnumberspr1                             			  ;  get address
-	brl _o16DRep1p
-+:  lda oamnumberspr0                             			  ;  get address
-
-_o16DRep1p:
+    lda oamnumberspr1                             			  ;  get address if not big sprite
 	asl a
     tax
     lda.l lkup16idT,x
+	brl _o16DRep1p
+
++:  lda oamnumberspr0                             			  ;  get address if big sprite
+	asl a
+    tax
+    lda.l lkup16idT0,x
+_o16DRep1p:
     plx
 	sta.w oamMemory+2,x										  ; store in oam memory
 
@@ -1548,7 +1561,7 @@ _o16DRep3:
 	sta oamMemory+3,x										  ; store attributes in oam memory
 
 	rep #$20												  ; oamSetEx(nb_sprites_oam, OBJ_SMALL, OBJ_SHOW);
-	lda oamnumberperframe
+	lda oamnumbercurrent
 	lsr a
 	lsr a
 	lsr a
@@ -1557,7 +1570,7 @@ _o16DRep3:
 	adc.w #512                                                ; id>>4 + 512
 	tay                          							  ; oam pointer is now on oam table #2
 
-	lda oamnumberperframe                   				  ; id
+	lda oamnumbercurrent                   				  ; id
 	lsr a
 	lsr a
 	and.w #$0003                 							  ; id >> 2 & 3
@@ -1586,11 +1599,6 @@ _o16DRep3:
 +:  inc.w oamnumberspr0										  ; one more sprite 16x16 large
 
 _o16DRep2p:
-	lda oamnumberperframe									  ; go to next sprite entry (x4 multiplier)
-	clc
-	adc #$0004
-	sta.w oamnumberperframe
-
 	ply
 	plx
 
@@ -1619,7 +1627,11 @@ oamDynamic8Draw:
 	lda	10,s                     							  ; get id
 	asl a													  ; to be on correct index (16 bytes per oam)
 	asl a
-	asl a
+	sta oamnumbercurrent									  ; temporary store of id for oam (id*4)
+	cmp oamnumberperframe									  ; if less than max number of sprite, store it
+    bcc +				
+	sta oamnumberperframe										
++:	asl a													  ; continue to have index of sprite
 	asl a
 
 	tay
@@ -1664,7 +1676,7 @@ oamDynamic8Draw:
 
 _o8DRep1:
 	rep #$20
-	ldx oamnumberperframe                                     ; get current sprite number (x4 entry)
+	ldx oamnumbercurrent                                     ; get current sprite number (x4 entry)
 
     phx
     lda oamnumberspr1                  						  ; get graphics offset of 8x8 sprites
@@ -1708,7 +1720,7 @@ _o8DRep3:
 	sta oamMemory+3,x										  ; store attributes in oam memory
 
 	rep #$20												  ; oamSetEx(nb_sprites_oam, OBJ_SMALL, OBJ_SHOW);
-	lda oamnumberperframe									  ; always small for 8px sprites
+	lda oamnumbercurrent									  ; always small for 8px sprites
 	lsr a
 	lsr a
 	lsr a
@@ -1717,7 +1729,7 @@ _o8DRep3:
 	adc.w #512                                                ; id>>4 + 512
 	tay                          							  ; oam pointer is now on oam table #2
 
-	lda oamnumberperframe                   				  ; id
+	lda oamnumbercurrent                   				  ; id
 	lsr a
 	lsr a
 	and.w #$0003                 							  ; id >> 2 & 3
@@ -1730,11 +1742,6 @@ _o8DRep3:
 
     rep #$20
     inc.w oamnumberspr1										  ; one more sprite 8x8
-
-	lda oamnumberperframe										  ; go to next sprite entry (x4 multiplier)
-	clc
-	adc #$0004
-	sta.w oamnumberperframe
 
 	ply
 	plx
