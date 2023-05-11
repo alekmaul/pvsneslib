@@ -57,13 +57,13 @@
 */
 typedef struct
 {
-    s16 oamx;        /*!< 0 x position on the screen  */
-    s16 oamy;        /*!< 2 y position on the screen  */
-    u16 oamframeid;  /*!< 4 frame index in graphic file of the sprite  */
-    u8 oamattribute; /*!< 6 sprite attribute value (vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num)  */
-    u8 oamrefresh;   /*!< 7 =1 if we need to load graphics from graphic file  */
-    u8 *oamgraphics; /*!< 8..11 pointer to graphic file  */
-    u16 dummy1;      /*! 12..15 to be 16 aligned */
+    s16 oamx;        /*!< \brief 0 x position on the screen  */
+    s16 oamy;        /*!< \brief 2 y position on the screen  */
+    u16 oamframeid;  /*!< \brief 4 frame index in graphic file of the sprite  */
+    u8 oamattribute; /*!< \brief 6 sprite attribute value (vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num)  */
+    u8 oamrefresh;   /*!< \brief 7 =1 if we need to load graphics from graphic file  */
+    u8 *oamgraphics; /*!< \brief 8..11 pointer to graphic file  */
+    u16 dummy1;      /*!< \brief 12..15 to be 16 aligned */
     u16 dummy2;
 } t_sprites __attribute__((__packed__)); /*!< seems to do nothing */
 
@@ -229,13 +229,15 @@ void oamSetGfxOffset(u16 id, u16 gfxoffset);
 /*! \brief Put the correct size and hide or show a sprite
     \param id the oam number to be set [0 - 127] * 4 because of oam structure
     \param size	normal or large (OBJ_SMALL or OBJ_LARGE)
-    \param hide	0 or 1 to hide / see oam
+    \param hide	1 (OBJ_HIDE) to to hide the sprite, 0 (OBJ_SHOW) to see it
 */
 void oamSetEx(u16 id, u8 size, u8 hide);
 
-/*! \brief Hide or show a sprite
+/** \brief Hide or show a sprite
     \param id the oam number to be set [0 - 127] * 4 because of oam structure
-    \param hide	0 or 1 to hide / see oam
+    \param hide	1 (OBJ_HIDE) to to hide the sprite, 0 (OBJ_SHOW) to see it
+    \warning When OBJ_HIDE is used, the sprite is set at these coordinates: x = 255, y 240. Therefore when a sprite is hidden and it is needed to show it again (use OBJ_SHOW), it is necessary to reset the sprite coordinates with oamSetXY().
+    If the sprite needs to be hidden and keep its coordinates, please use oamSetGfxOffset instead by passing a transparent tile.
 */
 void oamSetVisible(u16 id, u8 hide);
 
