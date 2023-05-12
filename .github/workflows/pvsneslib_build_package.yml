@@ -54,9 +54,9 @@ jobs:
           install: >-
             mingw-w64-ucrt-x86_64-toolchain
             mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-doxygen
             base-devel
             git
-            doxygen
             zip
       - name: Install dependencies for MacOS
         if: matrix.name == 'darwin'
