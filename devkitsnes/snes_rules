@@ -145,13 +145,9 @@ $(SOUNDBANK).asm : $(AUDIOFILES)
 
 .PHONY: cleanBuildRes cleanRom cleanGfx cleanAudio
 
-cleanBuildRes:
+cleanBuildRes: cleanDebug
 	@echo clean build resources
 	@rm -f $(OFILES) linkfile
-ifeq ($(DEBUG),1)
-	@echo clean debug files
-	@find . -name *.dbg -type f -delete
-endif
 
 cleanRom:
 	@echo clean rom
@@ -165,3 +161,8 @@ cleanAudio:
 	@echo clean audio data
 	@rm -f $(SOUNDBANK).asm $(SOUNDBANK).h $(SOUNDBANK).bnk
 
+cleanDebug:
+ifeq ($(DEBUG),1)
+	@echo clean debug files
+	@find . -type f -name "*.dbg" -delete
+endif
