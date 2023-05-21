@@ -1,19 +1,19 @@
 /*---------------------------------------------------------------------------------
 
 
-    Simple tile mode 1 demo
+    Simple tile mode 0 demo
     -- alekmaul
 
 
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-extern char m0, m0_end, p0, p0_end, t0, t0_end;
-extern char m1, m1_end, p1, p1_end, t1, t1_end;
-extern char m2, m2_end, p2, p2_end, t2, t2_end;
-extern char m3, m3_end, p3, p3_end, t3, t3_end;
+extern unsigned char bgm0, bgm0_end, p0, p0_end, t0, t0_end;
+extern unsigned char bgm1, bgm1_end, p1, p1_end, t1, t1_end;
+extern unsigned char bgm2, bgm2_end, p2, p2_end, t2, t2_end;
+extern unsigned char bgm3, bgm3_end, p3, p3_end, t3, t3_end;
 
-unsigned char sxbg1 = 0, sxbg2 = 0, sxbg3 = 0, flip = 0;
+short sxbg1 = 0, sxbg2 = 0, sxbg3 = 0, flip = 0;
 
 //---------------------------------------------------------------------------------
 int main(void)
@@ -42,10 +42,10 @@ int main(void)
     bgInitTileSet(3, &t3, &p3, 0, (&t3_end - &t3), 16, BG_4COLORS0, 0x5000);
 
     // Copy Map to VRAM
-    bgInitMapSet(0, &m0, (&m0_end - &m0), SC_32x32, 0x0000);
-    bgInitMapSet(1, &m1, (&m1_end - &m1), SC_32x32, 0x0400);
-    bgInitMapSet(2, &m2, (&m2_end - &m2), SC_32x32, 0x0800);
-    bgInitMapSet(3, &m3, (&m3_end - &m3), SC_32x32, 0x0C00);
+    bgInitMapSet(0, &bgm0, (&bgm0_end-&bgm0), SC_32x32, 0x0000);
+    bgInitMapSet(1, &bgm1, (&bgm1_end-&bgm1), SC_32x32, 0x0400);
+    bgInitMapSet(2, &bgm2, (&bgm2_end-&bgm2), SC_32x32, 0x0800);
+    bgInitMapSet(3, &bgm3, (&bgm3_end-&bgm3), SC_32x32, 0x0C00);
 
     // Now Put in 16 color mode and disable other BGs except 1st one
     setMode(BG_MODE0, 0);
