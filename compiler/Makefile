@@ -29,7 +29,7 @@ endif
 .DEFAULT_GOAL := all
 
 # Define the all target
-all: tcc-configure tcc wla
+all: tcc wla
 
 # Define the clean target
 clean: tcc-configure tcc-clean wla-clean
@@ -42,7 +42,7 @@ tcc-configure:
 	@cd $(TCC_DIR) && ./configure
 
 # Define the tcc target
-tcc:
+tcc: tcc-configure
 	$(MAKE) -C $(TCC_DIR)
 
 # Define the tcc-clean target
