@@ -69,5 +69,9 @@ wla-clean:
 wla-install:
 	@cp $(WLA_DIR)/binaries/wla-65816 $(WLA_DIR)/binaries/wla-spc700 $(WLA_DIR)/binaries/wlalink $(BIN_DIR)
 
+# update the submodule to the last commit
+wla-update:
+	git submodule update --remote --merge wla-dx
+
 # Define phony targets
 .PHONY: all clean install tcc-configure tcc wla
