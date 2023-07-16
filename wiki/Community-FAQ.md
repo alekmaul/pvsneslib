@@ -43,6 +43,7 @@ The remaining entries here on the unofficial FAQ are maintained by the community
     - [What is the goal of each tool ?](#what-is-the-goal-of-each-tool-)
     - [What are .it files ?](#what-are-it-files-)
     - [How to convert .mid to .it ?](#how-to-convert-mid-to-it-)
+    - [Why i get "error 5" with smconv when compiling a .it file saved with OpenMPT ?](#how-to-convert-mid-to-it-)
   - [Common errors](#common-errors)
     - [What is CHECK\_HEADERS error ?](#what-is-check_headers-error-)
     - [Colors of my loaded picture are wrong](#colors-of-my-loaded-picture-are-wrong)
@@ -160,6 +161,21 @@ Remember that we have a lot of constraints on SNES and each parameter of the too
 ### How to convert .mid to .it ?
 
 [OpenMPT (Open ModPlug Tracker)](https://openmpt.org/features) is able to do it !
+
+### Why i get "error 5" with smconv when compiling a .it file saved with OpenMPT ?
+
+OpenMPT enables IT sample compression by default now, which is not supported.
+To turn it off, go to OpenMPT > View > Setup :
+
+![Setup](https://user-images.githubusercontent.com/48180545/251185140-ce2998d8-3687-4837-8fd6-dcce030a1e35.png)
+
+Click on the Advanced tab and search for ITCompression.
+You will find two values: ITCompressionMono and ITCompressionStereo:
+
+![ITCompression](https://user-images.githubusercontent.com/48180545/251185152-cf38c2cb-eb29-4ba4-a764-ea7fe5338963.png)
+
+By default, the former is set to 7 and the latter is set to 4.
+Set them both to 0.
 
 ---
 
