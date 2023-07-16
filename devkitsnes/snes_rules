@@ -121,7 +121,8 @@ endif
 
 	@echo Linking ... $(notdir $@)
 	@rm -f $(ROMNAME).sym
-	$(LD) -d -s -v -A -L ${LIBDIRSOBJS} linkfile $@
+# -c should be removed ASAP ! It allow duplicate labels and definitions
+	$(LD) -d -s -v -A -c -L ${LIBDIRSOBJS} linkfile $@
 
 	@sed -i 's/://' $(ROMNAME).sym
 
