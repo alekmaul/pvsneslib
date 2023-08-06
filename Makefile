@@ -18,6 +18,8 @@ else ifeq ($(UNAME), Darwin)
 	OPERATING_SYSTEM := darwin
 else ifeq ($(UNAME), Linux)
 	OPERATING_SYSTEM := linux
+else ifeq ($(UNAME), FreeBSD)
+	OPERATING_SYSTEM := freebsd
 else
 	$(error Unsupported operating system)
 endif
