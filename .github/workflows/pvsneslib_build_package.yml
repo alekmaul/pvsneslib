@@ -55,6 +55,7 @@ jobs:
             mingw-w64-ucrt-x86_64-toolchain
             mingw-w64-ucrt-x86_64-cmake
             mingw-w64-ucrt-x86_64-doxygen
+            mingw-w64-ucrt-x86_64-pcre2
             base-devel
             git
             zip
