@@ -77,7 +77,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
-          path: pvsneslib
           submodules: recursive
           persist-credentials: false
 
@@ -87,20 +86,17 @@ jobs:
       - name: Build & Release PVSNESLIB for Linux
         if: (matrix.name == 'linux')
         run: |
-          cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           make release | tee pvsneslib_release_${{ matrix.name }}.log
       - name: Build & Release PVSNESLIB for Windows
         if: (matrix.name == 'windows')
         shell: msys2 {0}
         run: |
-          cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           make release | tee pvsneslib_release_${{ matrix.name }}.log
       - name: Build & Release PVSNESLIB for MacOS
         if: (matrix.name == 'darwin')
         run: |
-          cd pvsneslib
           export PVSNESLIB_HOME=$(pwd)
           export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
           make release | tee pvsneslib_release_${{ matrix.name }}.log
@@ -111,12 +107,10 @@ jobs:
       - name: Checking libraries linking PVSNESLIB toolchain
         if: matrix.name == 'darwin'
         run: |
-          cd pvsneslib
           otool -L devkitsnes/bin/* devkitsnes/tools/* | tee pvsneslib_toolchain_linking_${{ matrix.name }}.log || true
       - name: Checking libraries linking PVSNESLIB toolchain
         if: matrix.name == 'windows' || matrix.name == 'linux'
         run: |
-          cd pvsneslib
           ldd devkitsnes/bin/* devkitsnes/tools/* | tee pvsneslib_toolchain_linking_${{ matrix.name }}.log || true
 
       # ------------------------------------ #
@@ -126,7 +120,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: PVSNESLIB Release for ${{ matrix.name }}
-          path: pvsneslib/release/pvsneslib_64b_${{ matrix.name }}.zip
+          path: release/pvsneslib_64b_${{ matrix.name }}.zip
 
       # ------------------------------------ #
       # Upload releases                      #
@@ -135,4 +129,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: PVSNESLIB Release Logs for ${{ matrix.name }}
-          path: pvsneslib/*.log
+          path: "*.log"
