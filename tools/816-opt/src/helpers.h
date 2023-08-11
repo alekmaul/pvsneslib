@@ -2,10 +2,14 @@
 #define HELPERS_H
 
 #include <ctype.h>
-#include <regex.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef PCRE2_STATIC
+#include <pcre2posix.h>
+#else
+#include <regex.h>
+#endif
 
 /*!
  * @brief Max length of the line.

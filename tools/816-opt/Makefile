@@ -12,7 +12,8 @@ ifeq ($(shell uname),Darwin)
     LDFLAGS := -pthread
 	EXT     :=
 else ifeq ($(OS),Windows_NT)
-	LDFLAGS += -lpthread -static -lregex -ltre -lintl -liconv
+	CFLAGS  += -DPCRE2_STATIC
+	LDFLAGS += -lpthread -static -lpcre2-posix -lpcre2-8 -liconv
 	EXT     :=.exe
 else
 	LDFLAGS += -lpthread -static
