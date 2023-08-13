@@ -124,7 +124,7 @@ setFadeEffect:
 
     ldx.b   #$0
 -:
-    jsr.w   _wait_nmi
+    wai 
     txa
     sta.l   REG_INIDISP
     inx
@@ -141,7 +141,7 @@ setFadeEffect:
 _fadeouteffect:
     ldx.b   #$F
 -:
-    jsr.w   _wait_nmi
+    wai 
     txa
     sta.l   REG_INIDISP
     dex
@@ -153,6 +153,67 @@ _fadeouteffect:
     plx
     plp
     rtl
+.ENDS
+
+.SECTION ".videos000_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+; void setFadeEffectEx(u8 mode, u8 framesNumber)
+setFadeEffectEx:
+    php
+
+    phx
+    phy
+
+    sep #$30
+
+    lda.b   9,s
+    tax
+    cpx #$1                                 ; FADE_OUT ?
+    beq _sfeex1
+
+    ldx.b   #$0
+-:
+    lda.b 10,s
+--  wai
+    dea
+    bne --
+
+    txa
+    sta.l   REG_INIDISP
+    inx
+    cpx #$10
+    bne -
+
+    rep #$30
+
+    ply
+    plx
+    plp
+    rtl
+
+_sfeex1:
+    ldx.b   #$F
+-:
+    lda.b 10,s
+--  wai
+    dea
+    bne --
+
+    txa
+    sta.l   REG_INIDISP
+    dex
+    bpl -
+
+    rep #$30
+
+    ply
+    plx
+    plp
+    rtl
+.ENDS
+
+.SECTION ".videos00_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void setMosaicEffect(u8 mode, u8 bgNumbers)
@@ -209,15 +270,6 @@ _mosaicouteffect:
 
     plp
     rtl
-
-_wait_nmi:
--:
-    lda.l   REG_RDNMI
-    bmi -
--:
-    lda.l   REG_RDNMI
-    bpl -
-    rts
 
 .ENDS
 
