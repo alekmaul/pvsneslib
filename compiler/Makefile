@@ -73,5 +73,8 @@ wla-install:
 wla-update:
 	git submodule update --remote --merge wla-dx
 
+tcc-update:
+	git submodule update --remote --merge tcc
+
 # Define phony targets
 .PHONY: all clean install tcc-configure tcc wla
