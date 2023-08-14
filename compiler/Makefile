@@ -6,7 +6,7 @@ else
 endif
 
 # Define variables for directory paths and build types
-TCC_DIR    := tcc-65816
+TCC_DIR    := tcc
 WLA_DIR    := wla-dx
 BIN_DIR    := ../devkitsnes/bin
 
