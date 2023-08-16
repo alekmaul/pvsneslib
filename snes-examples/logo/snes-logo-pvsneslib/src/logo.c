@@ -111,9 +111,9 @@ u16 logoPalettePVSnesLib[] = {
 u16 bgTileIndex;
 u16 bg3TileMap[1024];
 u8 logoState;
-u8 logoTimer;
 u8 logoColorCounter;
 u8 logoColorSpeed;
+u16 framesCounter;
 
 /*!\brief Load the logo music.
 */
@@ -166,13 +166,10 @@ void insertElement(u16 array[], u8 startIndex, u8 endIndex, u16 value) {
     array[endIndex] = value;
 }
 
-u16 framesCounter;
-
 /*!\brief Initialize the "Made with PVSnesLib" logo screen.
 */
 void initPVSnesLibLogo() {
     logoState = 0;
-    logoTimer = 0;
     framesCounter = 0;
 
     // Load logo on BG1
@@ -211,13 +208,11 @@ void initPVSnesLibLogo() {
 u8 updatePVSnesLibLogo() {
     switch(logoState) {
         case 0:
-            if (logoTimer == 40) {
+            if (framesCounter == 40) {
                 logoState = 1;
                 logoColorCounter = 0;
                 logoColorSpeed = 4;
             }
-
-            logoTimer++;
 
             spcProcess();
             break;
