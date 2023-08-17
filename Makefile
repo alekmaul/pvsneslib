@@ -2,19 +2,12 @@
 
 #---------------------------------------------------------------------------------
 all:
-	cd compiler && \
-	make && \
-	make install && \
-	cd ../tools && \
-	make && \
-	make install && \
-	cd ../pvsneslib && \
-	make && \
-	cd ../snes-examples && \
-	make && \
-	make install && \
-	echo && \
-	echo Build finished successfully ! && \
+	make -C compiler all install
+	make -C tools all install
+	make -C pvsneslib
+	make -C snes-examples all install
+	echo
+	echo Build finished successfully !
 	echo
 
 clean:
