@@ -6,8 +6,8 @@ export TOPDIR := $(CURDIR)
 
 # create version number which will be used everywhere
 export PVSNESLIB_MAJOR := 4
-export PVSNESLIB_MINOR := 0
-export PVSNESLIB_PATCH := 3
+export PVSNESLIB_MINOR := 1
+export PVSNESLIB_PATCH := 0
 
 # Directory with docs config and output (via doxygen)
 export PVSDOCSDIR := $(TOPDIR)/docs
