@@ -370,4 +370,4 @@ It is not a bug and it is linked to a technical constraint of the SNES:
 
 > Note that many games will set their vertical scroll values to -1 rather than 0. This is because the SNES loads OBJ data for each scanline during the previous scanline. The very first line, though, wouldn't have any OBJ data loaded! So the SNES doesn't actually output scanline 0, although it does everything to render it.
 
-If you want more informations on it, you can consult [this page.](https://wiki.superfamicom.org/backgrounds#toc-3)
+If you want more information on it, you can consult [this page.](https://wiki.superfamicom.org/backgrounds#toc-3)

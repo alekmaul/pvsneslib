@@ -222,7 +222,7 @@ Then, install [*brew*](https://brew.sh/):
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-Finaly, install brew packages:
+Finally, install brew packages:
 
 ```bash
 brew install doxygen
@@ -253,7 +253,7 @@ Save the file and reload it:
 source ~/.zshrc
 ```
 
-Now `gnu-sed` will be used by default because it preceeds all other sed commands installed on your system.
+Now `gnu-sed` will be used by default because it precedes all other sed commands installed on your system.
 
 Congratulations, you're done to start to compile **PVSNESLIB** on *MacOS*!
 

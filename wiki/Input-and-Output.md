@@ -25,7 +25,7 @@ where :
   * the last one is the address of graphics for font converted with gfx2snes
 
 ``` 
-.. Somewhere where you initialized varables ...
+.. Somewhere where you initialized variables ...
 extern char snesfont;
 
 //---------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ extern char snesfont;
 
 ### Put text on screen
   
-This is done with the **consoleDrawText** function, just call it with text coordonates and text value.
+This is done with the **consoleDrawText** function, just call it with text coordinates and text value.
 For example **consoleDrawText(5,10,"hello world")** to display at column **5**, row **10** the text **hello world **.   
 
 Also, you can format the string to display with generic format options :  

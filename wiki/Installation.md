@@ -36,7 +36,7 @@ In the `MSYS2 UCRT64` terminal, update it:
 
 Please remember that:
 
-- Allways use **MSYS2 UCRT64** terminal windows to compile your code.
+- Always use **MSYS2 UCRT64** terminal windows to compile your code.
 
 
 #### Text editor
@@ -48,11 +48,11 @@ For convenience reasons, we recommend to use Visual Studio Code which is cross p
 #### Emulator
 
 A lot of emulators for the Super Nintendo SNES are available and the behaviour of your code can be different depending the one you use.
-If you are on Windows, we directly recommend to use [no$snes](https://problemkaputt.de/sns.htm) which contains usefull functionalities.
+If you are on Windows, we directly recommend to use [no$snes](https://problemkaputt.de/sns.htm) which contains useful functionalities.
 
 Otherwise, you can use [Mesen](https://www.mesen.ca/) which is a high-accuracy emulator for Windows and Linux.
 
-You can use any other emulator you want but in all cases, it is important to test you rom on different one which wich works as nearest possible than the real hardware.
+You can use any other emulator you want but in all cases, it is important to test you rom on different one which which works as nearest possible than the real hardware.
 
 ### Installing PVSnesLib
 
