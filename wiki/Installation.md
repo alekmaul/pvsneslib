@@ -1,6 +1,4 @@
-You will find in this page detailed instructions to install PVSnesLib latest release on Windows or Linux (ubuntu or other debian distribution) environment.
-
-Before continuing, please keep in mind that PVsneslib works only on **32 bits** system for now. To avoid conflicts between versions, we recommend to install required dependencies in 32 bits when it is applicable (for msys).
+You will find in this page detailed instructions to install PVSnesLib latest release on Windows or Linux (ubuntu or other debian distribution) or MacOS environment.
 
 To follow this guide, you will need :
 
@@ -8,8 +6,7 @@ To follow this guide, you will need :
 
 and these required dependencies
 
-- msys _if you are on Windows environment_
-- GCC _if you want to rebuild some tools in the kit_
+- msys2 _if you are on Windows environment_
 - a text editor to write your code
 - an emulator to test the roms
 
@@ -24,36 +21,19 @@ As you have probably a package management tool installed, it is more easy to do 
 
 ### Required dependencies
 
-#### MSYS (step required for Windows only)
+#### MSYS2 (step required for Windows only)
 
 PVsneslib need application to run scripts and makefiles like you do on Linux environments.
 If you work on Linux, please ignore this step but on Windows, you will need a tool to do it : MSYS.
-You can download it from [portabledev.com](https://www.portabledev.com/wp-content/files/msys-1.0.17.exe) (the official Alekmaul’s website, developer of the library) or you can find newest version easily on internet.
 
-You can install it everywhere on your computer but the path need to be added in the **PATH** environment variable to works correctly with PVSneslib.
+You can download it from [here](https://www.msys2.org/#installation). Just follow the instructions from step `1` to `5`.
 
-Other tools as **git bash** or **cygwin** are not compatible for now.
+When `MSYS2` is installed, we want first to be sure that all is updated.
 
-#### GCC (only if you want to build sources yourself)
+In the `MSYS2` terminal, update it:
 
-Depending on the tools already installed on your computer, you may need to install GCC too. For example, you will have to install it if you encounter this error building projects which use smconv tool (like the mario-like sample) :
+- Run `pacman -Suuy` to update the rest of the packages (allowing downgrades). You **MUST** restart MSYS2.
 
-![smConv error](https://user-images.githubusercontent.com/981773/120016823-5e926300-bfe5-11eb-9ec3-c76223072ae0.png)
-
-It is also necessary if you want to build yourself some tools in devkitsnes (like smconv !).
-
-##### On Windows
-
-You can download the latest version of the tool [here](https://sourceforge.net/projects/tdm-gcc/) but we recommend you to get the 32 bit one, as we advised you for other tools!
-
-##### On Linux
-
-As explained before, i will show the command line using apt-get tool.
-By running this command line, you will have gcc :
-`sudo apt install gcc`
-
-For gfx2snes, you will need to install gcc-multilib too :
-`sudo apt install gcc-multilib`
 
 #### Text editor
 
@@ -94,19 +74,38 @@ You can set **PVSNESLIB_HOME** to `/c/snesdev` by using this command line: `setx
 Depending your distribution, you have different ways to create this variable.
 
 If you want to declare the variable only for the current terminal session, you can execute :
-`export PVSNESLIB_HOME=/path/to/pvsneslib`
+```bash
+export PVSNESLIB_HOME=/path/to/pvsneslib
+```
 
 But if you do not want to execute this command before using the library, you can add it to the file **.profile** located in your home directory.
 
 Open the terminal and execute this commands after editing the path with your own:
 
-`cd && echo export PVSNESLIB_HOME=/path/to/pvsneslib >> .profile`
+```bash
+cd && echo export PVSNESLIB_HOME=/path/to/pvsneslib >> .profile
+```
 
 It will add this variable to your .profile file, you now need to reload it to take this change into account.
 
 To do it, just launch `source ~/.profile` command in your terminal.
 
 If you want to use the **~** character to point on your home directory, you can also do it like that : `export PVSNESLIB_HOME=~/pvsneslib`
+
+#### On MacOS
+
+You can accomplish it by using the following command in your terminal in your pvsneslib directory:
+
+```bash
+export PVSNESLIB_HOME=$(pwd)
+```
+
+Please remember that:
+
+- `PVSNESLIB_HOME` environment variable (or any folder you will create under its tree) **CANNOT contains spaces**.
+- This environment variable is not persistent. It means you'll have to set it if you launch a new terminal, or close the current one.
+
+Don't worry, if you forget, you will be notified of an error message by running the `make` command.
 
 ### It is ready !
 
