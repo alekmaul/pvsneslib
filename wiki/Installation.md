@@ -24,15 +24,19 @@ As you have probably a package management tool installed, it is more easy to do 
 #### MSYS2 (step required for Windows only)
 
 PVsneslib need application to run scripts and makefiles like you do on Linux environments.
-If you work on Linux, please ignore this step but on Windows, you will need a tool to do it : MSYS.
+If you work on Linux, please ignore this step but on Windows, you will need a tool to do it : MSYS2 UCRT64
 
 You can download it from [here](https://www.msys2.org/#installation). Just follow the instructions from step `1` to `5`.
 
 When `MSYS2` is installed, we want first to be sure that all is updated.
 
-In the `MSYS2` terminal, update it:
+In the `MSYS2 UCRT64` terminal, update it:
 
 - Run `pacman -Suuy` to update the rest of the packages (allowing downgrades). You **MUST** restart MSYS2.
+
+Please remember that:
+
+- Allways use **MSYS2 UCRT64** terminal windows to compile your code.
 
 
 #### Text editor
