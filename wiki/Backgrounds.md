@@ -4,7 +4,7 @@ Background is a term in 2D graphics programming which refers to the image displa
 
 ## SNES Background Specs
 
-SNES backgrounds are composed of tiled background. A tiled background consists of a collection of tiles and a map. Each tile has a number , so the map is the collection of numbers that are reprsented with the tiles.
+SNES backgrounds are composed of tiled background. A tiled background consists of a collection of tiles and a map. Each tile has a number , so the map is the collection of numbers that are represented with the tiles.
 
 A tile is a collection of 64 pixels forming a rectangle 8 pixels wide and 8 pixels tall. It is also possible to have 16x16 tiles but it is not implemented in PVSneslib for now.
 A tile’s colors are defined by the tile’s color palette.
@@ -50,4 +50,4 @@ Backgrounds begin at x = 0 and y = 1. It is not a bug and it is linked to a tech
 > Note that many games will set their vertical scroll values to -1 rather than 0.
 > This is because the SNES loads OBJ data for each scanline during the previous scanline. The very first line, though, wouldn't have any OBJ data loaded! So the SNES doesn't actually output scanline 0, although it does everything to render it.
 
-If you want more informations on it, you can consult [this page](https://wiki.superfamicom.org/backgrounds#toc-3)
+If you want more information on it, you can consult [this page](https://wiki.superfamicom.org/backgrounds#toc-3)

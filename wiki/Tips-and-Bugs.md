@@ -74,7 +74,7 @@ What you can do is to set attribute((packed)) on all members of the struct to so
 
 ### Shiru's tips
 
-Here are some others tips that [Shiru](http://shiru.untergrund.net/articles/programming_nes_games_in_c.htm) wrote about cc65 compiler but they can also aplied to 816-tcc compiler.  
+Here are some others tips that [Shiru](http://shiru.untergrund.net/articles/programming_nes_games_in_c.htm) wrote about cc65 compiler but they can also applied to 816-tcc compiler.  
 * Ordered List Item
 * Avoid local variables as much as possible, make them static at least 
 * Avoid passing parameters to functions 
