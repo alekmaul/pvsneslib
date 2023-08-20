@@ -21,7 +21,7 @@ Here are good entry points to know how Super Nintendo works:
 # Installation #
 <a href="https://github.com/alekmaul/pvsneslib/releases/download/4.1.0/pvsneslib_410_64b_windows_release.zip"><img src="https://img.shields.io/badge/release-windows32-green?style=flat&logo=github" alt="PVSNESLIB Windows Release"></a>
 <a href="https://github.com/alekmaul/pvsneslib/releases/download/4.1.0/pvsneslib_410_64b_linux_release.zip"><img src="https://img.shields.io/badge/release-linux-orange?style=flat&logo=github" alt="PVSNESLIB Linux Release"></a>
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.1.0/pvsneslib_410_64b_linux_darwin.zip"><img src="https://img.shields.io/badge/release-macos-blue?style=flat&logo=github" alt="PVSNESLIB MacOS Release"></a>
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.1.0/pvsneslib_410_64b_darwin_release.zip"><img src="https://img.shields.io/badge/release-macos-blue?style=flat&logo=github" alt="PVSNESLIB MacOS Release"></a>
 
 To install the library, please download the latest [release](https://github.com/alekmaul/pvsneslib/releases/latest) or with the link below and follow instructions on the [Wiki pages](https://github.com/alekmaul/pvsneslib/wiki).
 
