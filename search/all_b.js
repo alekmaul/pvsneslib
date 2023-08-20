@@ -24,7 +24,7 @@ var searchData=
   ['oamset_159',['oamSet',['../sprite_8h.html#abb854a7fa3bbfe4c2e331bfce9e374a7',1,'sprite.h']]],
   ['oamsetattr_160',['oamSetAttr',['../sprite_8h.html#a9a76e12af57f5debf4df08c98820a2a5',1,'sprite.h']]],
   ['oamsetex_161',['oamSetEx',['../sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd',1,'sprite.h']]],
-  ['oamsetgfxoffset_162',['oamSetGfxOffset',['../sprite_8h.html#abec859fb490fe23b87fc34b75d8ce804',1,'sprite.h']]],
+  ['oamsetgfxoffset_162',['oamSetGfxOffset',['../sprite_8h.html#ab251607837e3fbf6f087879c915c707f',1,'sprite.h']]],
   ['oamsetvisible_163',['oamSetVisible',['../sprite_8h.html#a35a0da9852240ef41b5030ed21b6eeb2',1,'sprite.h']]],
   ['oamsetxy_164',['oamSetXY',['../sprite_8h.html#a4b8ea6388961b74cc228104a97eaecbd',1,'sprite.h']]],
   ['oamupdate_165',['oamUpdate',['../sprite_8h.html#a880416b4272104d4e9b83ea5331b6260',1,'sprite.h']]],

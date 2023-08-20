@@ -1,6 +1,6 @@
 var structt__sprites =
 [
-    [ "dummy2", "structt__sprites.html#a4b18c6d2b062f4663ba6cb0fbcf61cf3", null ],
+    [ "dummy1", "structt__sprites.html#af0a876e2163316875c74a8867aa412cb", null ],
     [ "oamattribute", "structt__sprites.html#ac0fb1ea59809017c11430630430e864d", null ],
     [ "oamframeid", "structt__sprites.html#a0928afd4ac9d8c3c5cceefa44c3a520a", null ],
     [ "oamgraphics", "structt__sprites.html#a5e3bc84cd8412db107dd282ccb5a5738", null ],

@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.0.3</span>
+   &#160;<span id="projectnumber">4.1.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -123,9 +123,6 @@ Macros</h2></td></tr>
 <tr class="memitem:af6b605303fc7a5caa3b97fd254b5d450"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#af6b605303fc7a5caa3b97fd254b5d450">oamGetY</a>(id)&#160;&#160;&#160;(<a class="el" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[id + 1])</td></tr>
 <tr class="memdesc:af6b605303fc7a5caa3b97fd254b5d450"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the y oam coordinate to the supplied values  <a href="sprite_8h.html#af6b605303fc7a5caa3b97fd254b5d450">More...</a><br /></td></tr>
 <tr class="separator:af6b605303fc7a5caa3b97fd254b5d450"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abec859fb490fe23b87fc34b75d8ce804"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#abec859fb490fe23b87fc34b75d8ce804">oamSetGfxOffset</a>(id,  gfxoffset)</td></tr>
-<tr class="memdesc:abec859fb490fe23b87fc34b75d8ce804"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets an oam graphic offset to the supplied values  <a href="sprite_8h.html#abec859fb490fe23b87fc34b75d8ce804">More...</a><br /></td></tr>
-<tr class="separator:abec859fb490fe23b87fc34b75d8ce804"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1893eab6ffef9928ff2de22d49bd18c0"><td class="memItemLeft" align="right" valign="top"><a id="a1893eab6ffef9928ff2de22d49bd18c0"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>&#160;&#160;&#160;(3 &lt;&lt; 5)</td></tr>
 <tr class="memdesc:a1893eab6ffef9928ff2de22d49bd18c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register <br /></td></tr>
@@ -232,6 +229,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spri
 <tr class="memitem:a4120a8ff32c39973babeca3615a0a2fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a> (u16 id, u8 size, u8 hide)</td></tr>
 <tr class="memdesc:a4120a8ff32c39973babeca3615a0a2fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Put the correct size and hide or show a sprite.  <a href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">More...</a><br /></td></tr>
 <tr class="separator:a4120a8ff32c39973babeca3615a0a2fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab251607837e3fbf6f087879c915c707f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#ab251607837e3fbf6f087879c915c707f">oamSetGfxOffset</a> (u16 id, u16 gfxoffset)</td></tr>
+<tr class="memdesc:ab251607837e3fbf6f087879c915c707f"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets an oam graphic offset to the supplied values  <a href="sprite_8h.html#ab251607837e3fbf6f087879c915c707f">More...</a><br /></td></tr>
+<tr class="separator:ab251607837e3fbf6f087879c915c707f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35a0da9852240ef41b5030ed21b6eeb2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a35a0da9852240ef41b5030ed21b6eeb2">oamSetVisible</a> (u16 id, u8 hide)</td></tr>
 <tr class="memdesc:a35a0da9852240ef41b5030ed21b6eeb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hide or show a sprite.  <a href="sprite_8h.html#a35a0da9852240ef41b5030ed21b6eeb2">More...</a><br /></td></tr>
 <tr class="separator:a35a0da9852240ef41b5030ed21b6eeb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -388,46 +388,6 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] * 4 because of oam structure </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="abec859fb490fe23b87fc34b75d8ce804"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abec859fb490fe23b87fc34b75d8ce804">&#9670;&nbsp;</a></span>oamSetGfxOffset</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define oamSetGfxOffset</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">id, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">gfxoffset&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    <a class="code" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[<span class="keywordtype">id</span> + 2] = (gfxoffset);   \</div>
-<div class="line">    oamMemory[<span class="keywordtype">id</span> + 3] = (<a class="code" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[<span class="keywordtype">id</span> + 3] &amp; 0xFE) | ((gfxoffset &gt;&gt; 8) &amp; 1);</div>
-<div class="ttc" id="asprite_8h_html_a832f0c151a6b4de3bd1f5c23aff47848"><div class="ttname"><a href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a></div><div class="ttdeci">u8 oamMemory[128 *4+8 *4]</div><div class="ttdoc">to address oam table low and high</div></div>
-</div><!-- fragment -->
-<p>sets an oam graphic offset to the supplied values </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] * 4 because of oam structure </td></tr>
-    <tr><td class="paramname">gfxoffset</td><td>tilenumber graphic offset </td></tr>
   </table>
   </dd>
 </dl>
@@ -1022,11 +982,48 @@ oambuffer[id] needs to be populate before. </p>
   <table class="params">
     <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] * 4 because of oam structure </td></tr>
     <tr><td class="paramname">size</td><td>normal or large (OBJ_SMALL or OBJ_LARGE) </td></tr>
-    <tr><td class="paramname">hide</td><td>0 or 1 to hide / see oam </td></tr>
+    <tr><td class="paramname">hide</td><td>1 (OBJ_HIDE) to to hide the sprite, 0 (OBJ_SHOW) to see it </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2breakout_2breakout_8c-example.html#a16">games/breakout/breakout.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a19">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a4">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a10">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a12">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a4">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a8">maps/mapscroll/mapscroll.c</a>, and <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a9">objects/moveobjects/moveobjects.c</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="ab251607837e3fbf6f087879c915c707f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab251607837e3fbf6f087879c915c707f">&#9670;&nbsp;</a></span>oamSetGfxOffset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void oamSetGfxOffset </td>
+          <td>(</td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>gfxoffset</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>sets an oam graphic offset to the supplied values </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] * 4 because of oam structure </td></tr>
+    <tr><td class="paramname">gfxoffset</td><td>tilenumber graphic offset </td></tr>
+  </table>
+  </dd>
 </dl>
 
 </div>
@@ -1061,10 +1058,11 @@ oambuffer[id] needs to be populate before. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">id</td><td>the oam number to be set [0 - 127] * 4 because of oam structure </td></tr>
-    <tr><td class="paramname">hide</td><td>0 or 1 to hide / see oam </td></tr>
+    <tr><td class="paramname">hide</td><td>1 (OBJ_HIDE) to to hide the sprite, 0 (OBJ_SHOW) to see it </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section warning"><dt>Warning</dt><dd>When OBJ_HIDE is used, the sprite is set at these coordinates: x = 255, y 240. Therefore when a sprite is hidden and it is needed to show it again (use OBJ_SHOW), it is necessary to reset the sprite coordinates with <a class="el" href="sprite_8h.html#a4b8ea6388961b74cc228104a97eaecbd" title="sets an oam coordinate to the supplied values">oamSetXY()</a>. If the sprite needs to be hidden and keep its coordinates, please use oamSetGfxOffset instead by passing a transparent tile. </dd></dl>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a15">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a5">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, and <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a9">maps/mapscroll/mapscroll.c</a>.</dd>
 </dl>
 
@@ -1174,7 +1172,7 @@ oambuffer[id] needs to be populate before. </p>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="sprite_8h.html">sprite.h</a></li>
-    <li class="footer">Generated on Sun Mar 19 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

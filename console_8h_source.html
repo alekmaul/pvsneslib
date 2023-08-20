@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.0.3</span>
+   &#160;<span id="projectnumber">4.1.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -131,47 +131,49 @@ $(document).ready(function(){initNavTree('console_8h_source.html',''); initResiz
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="sound_8h.html">snes/sound.h</a>&gt;</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="video_8h.html">snes/video.h</a>&gt;</span></div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="console_8h.html#ad3897ef4ed73fa003953d4a979ed50b0">scr_txt_font_map</a>[0x800];  </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="console_8h.html#a73c5f483e71c951f267ad0375084242f">scr_txt_dirty</a>;            </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="console_8h.html#ad3897ef4ed73fa003953d4a979ed50b0">scr_txt_font_map</a>[0x800]; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="console_8h.html#a73c5f483e71c951f267ad0375084242f">scr_txt_dirty</a>;           </div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">extern</span> u16 <a class="code" href="console_8h.html#a5e14b74b621c822db9af978d0ad31d1a">snes_vblank_count</a>; </div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="console_8h.html#aef3bf9522613bca02b4a00ea910d492f">snes_50hz</a>;          </div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">   55</a></span>&#160;u16 <a class="code" href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="console_8h.html#a9bfb9c53fa37e76873d14be4446e71e5">   60</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a9bfb9c53fa37e76873d14be4446e71e5">consoleUpdate</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">   72</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(u8 palnum, u8 palsize, u8 *tilfont, u8 *palfont);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">   78</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">consoleSetTextVramAdr</a>(u16 vramfont);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">   84</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">consoleSetTextVramBGAdr</a>(u16 offsetfont);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">   90</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a>(u16 offsetfont);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="console_8h.html#a89a3c9953b95485d2d19db1846aa0755">   98</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a89a3c9953b95485d2d19db1846aa0755">consoleSetTextPal</a>(u8 palnum, u8 *palfont, u8 palsize);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">  108</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(u16 x, u16 y, <span class="keywordtype">char</span> *fmt, ...);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno"><a class="line" href="console_8h.html#a882be7db6fd3f16e7cccbe28cbecd025">  120</a></span>&#160;<a class="code" href="console_8h.html#a882be7db6fd3f16e7cccbe28cbecd025">consoleDrawTextMap</a>(u16 x, u16 y, u8 *map, u8 attributes, <span class="keywordtype">char</span> *fmt, ...);</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="console_8h.html#a514ade13c61cd2f237bd100d78d5e11d">  132</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a514ade13c61cd2f237bd100d78d5e11d">consoleDrawTextMapCenter</a>(u16 y, u16 *map, u8 attributes, <span class="keywordtype">char</span> *fmt, ...);</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">  140</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
-<div class="line"><a name="l00145"></a><span class="lineno"><a class="line" href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">  145</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a>(<span class="keywordtype">char</span> *fmt, ...);</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
-<div class="line"><a name="l00149"></a><span class="lineno"><a class="line" href="console_8h.html#a8620fbe47bc2afe99a59c67fae3b7b23">  149</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a8620fbe47bc2afe99a59c67fae3b7b23">consoleMesenBreakpoint</a>();</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
-<div class="line"><a name="l00155"></a><span class="lineno"><a class="line" href="console_8h.html#ac3c55f6e16ff70d19c046404b9aa8a9b">  155</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#ac3c55f6e16ff70d19c046404b9aa8a9b">consoleCopySram</a>(u8 *source, u16 size);</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
-<div class="line"><a name="l00161"></a><span class="lineno"><a class="line" href="console_8h.html#abe1fabedc24a3adef79f32e02c3bc2d5">  161</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#abe1fabedc24a3adef79f32e02c3bc2d5">consoleLoadSram</a>(u8 *dest, u16 size);</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="keywordtype">int</span> sprintf(<span class="keywordtype">char</span> *buf, <span class="keyword">const</span> <span class="keywordtype">char</span> *fmt, ...);</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
-<div class="line"><a name="l00171"></a><span class="lineno"><a class="line" href="console_8h.html#ad9f96595d599dca8d09df3da5200a8a8">  171</a></span>&#160;u16 <a class="code" href="console_8h.html#ad9f96595d599dca8d09df3da5200a8a8">consoleRegionIsOK</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160; </div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="console_8h.html#a2f267aa4dde2e613c3d2bc961104b531">snes_fps</a>;           </div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">   56</a></span>&#160;u16 <a class="code" href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="console_8h.html#a9bfb9c53fa37e76873d14be4446e71e5">   61</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a9bfb9c53fa37e76873d14be4446e71e5">consoleUpdate</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">   73</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(u8 palnum, u8 palsize, u8 *tilfont, u8 *palfont);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">   79</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">consoleSetTextVramAdr</a>(u16 vramfont);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">   85</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">consoleSetTextVramBGAdr</a>(u16 offsetfont);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">   91</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a>(u16 offsetfont);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="console_8h.html#a89a3c9953b95485d2d19db1846aa0755">   99</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a89a3c9953b95485d2d19db1846aa0755">consoleSetTextPal</a>(u8 palnum, u8 *palfont, u8 palsize);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">  109</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(u16 x, u16 y, <span class="keywordtype">char</span> *fmt, ...);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="console_8h.html#ab062e25ee448ec8a56aa73107c33491f">  121</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#ab062e25ee448ec8a56aa73107c33491f">consoleDrawTextMap</a>(u16 x, u16 y, u8 *map, u8 attributes, <span class="keywordtype">char</span> *fmt, ...);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00133"></a><span class="lineno"><a class="line" href="console_8h.html#a514ade13c61cd2f237bd100d78d5e11d">  133</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a514ade13c61cd2f237bd100d78d5e11d">consoleDrawTextMapCenter</a>(u16 y, u16 *map, u8 attributes, <span class="keywordtype">char</span> *fmt, ...);</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno"><a class="line" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">  141</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
+<div class="line"><a name="l00146"></a><span class="lineno"><a class="line" href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">  146</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a>(<span class="keywordtype">char</span> *fmt, ...);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
+<div class="line"><a name="l00150"></a><span class="lineno"><a class="line" href="console_8h.html#a8620fbe47bc2afe99a59c67fae3b7b23">  150</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a8620fbe47bc2afe99a59c67fae3b7b23">consoleMesenBreakpoint</a>();</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
+<div class="line"><a name="l00156"></a><span class="lineno"><a class="line" href="console_8h.html#ac3c55f6e16ff70d19c046404b9aa8a9b">  156</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#ac3c55f6e16ff70d19c046404b9aa8a9b">consoleCopySram</a>(u8 *source, u16 size);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
+<div class="line"><a name="l00162"></a><span class="lineno"><a class="line" href="console_8h.html#abe1fabedc24a3adef79f32e02c3bc2d5">  162</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#abe1fabedc24a3adef79f32e02c3bc2d5">consoleLoadSram</a>(u8 *dest, u16 size);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="keywordtype">int</span> sprintf(<span class="keywordtype">char</span> *buf, <span class="keyword">const</span> <span class="keywordtype">char</span> *fmt, ...);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
+<div class="line"><a name="l00172"></a><span class="lineno"><a class="line" href="console_8h.html#ad9f96595d599dca8d09df3da5200a8a8">  172</a></span>&#160;u16 <a class="code" href="console_8h.html#ad9f96595d599dca8d09df3da5200a8a8">consoleRegionIsOK</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="abackground_8h_html"><div class="ttname"><a href="background_8h.html">background.h</a></div><div class="ttdoc">snes background defines and functionality.</div></div>
 <div class="ttc" id="aconsole_8h_html_a0615d3903c2ad6faaed1443bd44c8ae2"><div class="ttname"><a href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a></div><div class="ttdeci">u16 rand(void)</div><div class="ttdoc">return a randomized number</div></div>
+<div class="ttc" id="aconsole_8h_html_a2f267aa4dde2e613c3d2bc961104b531"><div class="ttname"><a href="console_8h.html#a2f267aa4dde2e613c3d2bc961104b531">snes_fps</a></div><div class="ttdeci">u8 snes_fps</div><div class="ttdoc">50 if PAL console (50 Hz) or 60 if NTSC console (60Hz)</div></div>
 <div class="ttc" id="aconsole_8h_html_a344184ac8dda28ea0170c153c854aa16"><div class="ttname"><a href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">consoleSetTextVramAdr</a></div><div class="ttdeci">void consoleSetTextVramAdr(u16 vramfont)</div><div class="ttdoc">Change text graphics address (4K aligned)</div></div>
 <div class="ttc" id="aconsole_8h_html_a3a226cebe7d59aac755e03e1061ff727"><div class="ttname"><a href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a></div><div class="ttdeci">void consoleNocashMessage(char *fmt,...)</div><div class="ttdoc">Send a message to the no$sns debug window.</div></div>
 <div class="ttc" id="aconsole_8h_html_a514ade13c61cd2f237bd100d78d5e11d"><div class="ttname"><a href="console_8h.html#a514ade13c61cd2f237bd100d78d5e11d">consoleDrawTextMapCenter</a></div><div class="ttdeci">void consoleDrawTextMapCenter(u16 y, u16 *map, u8 attributes, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen, centered it (2 colors tiles mode)</div></div>
@@ -181,10 +183,10 @@ $(document).ready(function(){initNavTree('console_8h_source.html',''); initResiz
 <div class="ttc" id="aconsole_8h_html_a73c5f483e71c951f267ad0375084242f"><div class="ttname"><a href="console_8h.html#a73c5f483e71c951f267ad0375084242f">scr_txt_dirty</a></div><div class="ttdeci">u8 scr_txt_dirty</div><div class="ttdoc">flag to redraw text during vblank</div></div>
 <div class="ttc" id="aconsole_8h_html_a7e52d15b5a1befa42f5758de19dfb70c"><div class="ttname"><a href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a></div><div class="ttdeci">void consoleDrawText(u16 x, u16 y, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen (tiles mode)</div></div>
 <div class="ttc" id="aconsole_8h_html_a8620fbe47bc2afe99a59c67fae3b7b23"><div class="ttname"><a href="console_8h.html#a8620fbe47bc2afe99a59c67fae3b7b23">consoleMesenBreakpoint</a></div><div class="ttdeci">void consoleMesenBreakpoint()</div><div class="ttdoc">Execute the special WDM opcode which Mesen can break on.</div></div>
-<div class="ttc" id="aconsole_8h_html_a882be7db6fd3f16e7cccbe28cbecd025"><div class="ttname"><a href="console_8h.html#a882be7db6fd3f16e7cccbe28cbecd025">consoleDrawTextMap</a></div><div class="ttdeci">consoleDrawTextMap(u16 x, u16 y, u8 *map, u8 attributes, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen (2 colors tiles mode)</div></div>
 <div class="ttc" id="aconsole_8h_html_a89a3c9953b95485d2d19db1846aa0755"><div class="ttname"><a href="console_8h.html#a89a3c9953b95485d2d19db1846aa0755">consoleSetTextPal</a></div><div class="ttdeci">void consoleSetTextPal(u8 palnum, u8 *palfont, u8 palsize)</div><div class="ttdoc">Change text font palette.</div></div>
 <div class="ttc" id="aconsole_8h_html_a9bfb9c53fa37e76873d14be4446e71e5"><div class="ttname"><a href="console_8h.html#a9bfb9c53fa37e76873d14be4446e71e5">consoleUpdate</a></div><div class="ttdeci">void consoleUpdate(void)</div><div class="ttdoc">Update current text buffer on screen.</div></div>
 <div class="ttc" id="aconsole_8h_html_aaddd205f7bb20885a420f26e28214cfb"><div class="ttname"><a href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a></div><div class="ttdeci">void consoleSetTextOffset(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
+<div class="ttc" id="aconsole_8h_html_ab062e25ee448ec8a56aa73107c33491f"><div class="ttname"><a href="console_8h.html#ab062e25ee448ec8a56aa73107c33491f">consoleDrawTextMap</a></div><div class="ttdeci">void consoleDrawTextMap(u16 x, u16 y, u8 *map, u8 attributes, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen (2 colors tiles mode)</div></div>
 <div class="ttc" id="aconsole_8h_html_ab2c949172b9690e58ffb9b3294a36b38"><div class="ttname"><a href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">consoleSetTextVramBGAdr</a></div><div class="ttdeci">void consoleSetTextVramBGAdr(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
 <div class="ttc" id="aconsole_8h_html_abe1fabedc24a3adef79f32e02c3bc2d5"><div class="ttname"><a href="console_8h.html#abe1fabedc24a3adef79f32e02c3bc2d5">consoleLoadSram</a></div><div class="ttdeci">void consoleLoadSram(u8 *dest, u16 size)</div><div class="ttdoc">Load data from SRAM.</div></div>
 <div class="ttc" id="aconsole_8h_html_ac3c55f6e16ff70d19c046404b9aa8a9b"><div class="ttname"><a href="console_8h.html#ac3c55f6e16ff70d19c046404b9aa8a9b">consoleCopySram</a></div><div class="ttdeci">void consoleCopySram(u8 *source, u16 size)</div><div class="ttdoc">Send data to SRAM.</div></div>
@@ -204,7 +206,7 @@ $(document).ready(function(){initNavTree('console_8h_source.html',''); initResiz
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="console_8h.html">console.h</a></li>
-    <li class="footer">Generated on Sun Mar 19 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

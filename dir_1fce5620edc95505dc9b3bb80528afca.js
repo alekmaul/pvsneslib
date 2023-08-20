@@ -7,6 +7,7 @@ var dir_1fce5620edc95505dc9b3bb80528afca =
     [ "libversion.h", "libversion_8h_source.html", null ],
     [ "lzss.h", "lzss_8h.html", "lzss_8h" ],
     [ "map.h", "map_8h.html", "map_8h" ],
+    [ "network.h", "network_8h.html", "network_8h" ],
     [ "object.h", "object_8h.html", "object_8h" ],
     [ "pad.h", "pad_8h.html", "pad_8h" ],
     [ "pixel.h", "pixel_8h.html", "pixel_8h" ],

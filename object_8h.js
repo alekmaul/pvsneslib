@@ -12,6 +12,8 @@ var object_8h =
     [ "T_FIRES", "object_8h.html#a6cc6b73b3328f0e2a7553a4e1db3a5e9", null ],
     [ "T_LADDER", "object_8h.html#a7b834046275ade27bcb100e684cdbf2a", null ],
     [ "T_PLATE", "object_8h.html#ad36b80734e14117314d2ec683f552969", null ],
+    [ "T_SLOPED", "object_8h.html#a699c59e479d10cfa343a2f0ed4a35a47", null ],
+    [ "T_SLOPEU", "object_8h.html#a3d3e1a88a76543f4ea5568da3635c613", null ],
     [ "T_SOLID", "object_8h.html#af873aaa17834669d0f263af08c2912c3", null ],
     [ "T_SPIKE", "object_8h.html#a87a89f657f33f4eab646bb7f6ad21fa3", null ],
     [ "objCollidMap", "object_8h.html#a7b24f15ef5ef84efb8f31ddb7ba22c99", null ],

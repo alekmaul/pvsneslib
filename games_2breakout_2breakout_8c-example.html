@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.0.3</span>
+   &#160;<span id="projectnumber">4.1.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -385,7 +385,7 @@ $(document).ready(function(){initNavTree('games_2breakout_2breakout_8c-example.h
 <div class="line">    draw_screen();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Wait a key pressed</span></div>
-<div class="line">    <span class="keywordflow">while</span> (<a name="a4"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) == 0)</div>
+<div class="line">    <span class="keywordflow">while</span> (<a name="a4"></a><a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) == 0)</div>
 <div class="line">        <a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Remove message on screen</span></div>
@@ -424,7 +424,7 @@ $(document).ready(function(){initNavTree('games_2breakout_2breakout_8c-example.h
 <div class="line">    draw_screen();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Wait a key pressed</span></div>
-<div class="line">    <span class="keywordflow">while</span> (<a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) == 0)</div>
+<div class="line">    <span class="keywordflow">while</span> (<a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) == 0)</div>
 <div class="line">        <a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Remove message</span></div>
@@ -438,7 +438,7 @@ $(document).ready(function(){initNavTree('games_2breakout_2breakout_8c-example.h
 <div class="line"><span class="keywordtype">void</span> handle_pause(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// If we push START button</span></div>
-<div class="line">    <span class="keywordflow">if</span> ((pad0 &amp; <a name="a5"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b">KEY_START</a>) != 0)</div>
+<div class="line">    <span class="keywordflow">if</span> ((pad0 &amp; <a name="a5"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b">KEY_START</a>) != 0)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// Put a message on screen</span></div>
 <div class="line">        writestring(ST_PAUSED, blockmap, 0x269, 0x3F6);</div>
@@ -446,17 +446,17 @@ $(document).ready(function(){initNavTree('games_2breakout_2breakout_8c-example.h
 <div class="line">        <a class="code" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>((u8 *)blockmap, 0x0000, 0x800);</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Wait for START released</span></div>
-<div class="line">        <span class="keywordflow">while</span> (<a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) != 0)</div>
+<div class="line">        <span class="keywordflow">while</span> (<a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) != 0)</div>
 <div class="line">        {</div>
 <div class="line">            <a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line">        }</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Wait for START pressed again</span></div>
-<div class="line">        <span class="keywordflow">while</span> ((<a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) &amp; <a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b">KEY_START</a>) == 0)</div>
+<div class="line">        <span class="keywordflow">while</span> ((<a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) &amp; <a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b">KEY_START</a>) == 0)</div>
 <div class="line">            <a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Wait for START released</span></div>
-<div class="line">        <span class="keywordflow">while</span> (<a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) != 0)</div>
+<div class="line">        <span class="keywordflow">while</span> (<a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) != 0)</div>
 <div class="line">        {</div>
 <div class="line">            <a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line">        }</div>
@@ -472,27 +472,27 @@ $(document).ready(function(){initNavTree('games_2breakout_2breakout_8c-example.h
 <div class="line"><span class="keywordtype">void</span> run_frame(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// Get current pad #0 status</span></div>
-<div class="line">    pad0 = <a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
+<div class="line">    pad0 = <a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Do we push START for pause ?</span></div>
 <div class="line">    handle_pause();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// If A pressed, do a fast move</span></div>
-<div class="line">    <span class="keywordflow">if</span> (pad0 &amp; <a name="a6"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>)</div>
+<div class="line">    <span class="keywordflow">if</span> (pad0 &amp; <a name="a6"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>)</div>
 <div class="line">    {</div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a7"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a7"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
 <div class="line">            px += 4;</div>
 <div class="line"> </div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a8"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a8"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
 <div class="line">            px -= 4;</div>
 <div class="line">    }</div>
 <div class="line">    <span class="comment">// Not A, so a normal move</span></div>
 <div class="line">    <span class="keywordflow">else</span></div>
 <div class="line">    {</div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
 <div class="line">            px += 2;</div>
 <div class="line"> </div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
 <div class="line">            px -= 2;</div>
 <div class="line">    }</div>
 <div class="line"> </div>
@@ -685,7 +685,7 @@ $(document).ready(function(){initNavTree('games_2breakout_2breakout_8c-example.h
 <div class="line">        <a name="a16"></a><a class="code" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a>(i, OBJ_SMALL, OBJ_SHOW);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Wait a key pressed</span></div>
-<div class="line">    <span class="keywordflow">while</span> (<a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) == 0)</div>
+<div class="line">    <span class="keywordflow">while</span> (<a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) == 0)</div>
 <div class="line">        <a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Remove the PLAYER1 READY text (need to wait VBlank to be sure of no glitches)</span></div>
@@ -709,11 +709,11 @@ $(document).ready(function(){initNavTree('games_2breakout_2breakout_8c-example.h
 <div class="ttc" id="adma_8h_html_adddf1dea4bd52a083b3ee4b39f1e20f2"><div class="ttname"><a href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a></div><div class="ttdeci">void dmaCopyVram(u8 *source, u16 address, u16 size)</div><div class="ttdoc">copy data from source to destination using channel 0 of DMA available channels in half words</div></div>
 <div class="ttc" id="adma_8h_html_aff1f11e7dc93b535c3c84cb8007bb16a"><div class="ttname"><a href="dma_8h.html#aff1f11e7dc93b535c3c84cb8007bb16a">dmaCopyCGram</a></div><div class="ttdeci">void dmaCopyCGram(u8 *source, u16 address, u16 size)</div><div class="ttdoc">copy data from source to destination using channel 0 of DMA available channels in half words</div></div>
 <div class="ttc" id="ainterrupt_8h_html_abd33830487e4764e5ec22ec98b749f4b"><div class="ttname"><a href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt</div></div>
-<div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:122</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a></div><div class="ttdeci">@ KEY_LEFT</div><div class="ttdoc">pad LEFT button.</div><div class="ttdef"><b>Definition:</b> pad.h:53</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b">KEY_START</a></div><div class="ttdeci">@ KEY_START</div><div class="ttdoc">pad START button.</div><div class="ttdef"><b>Definition:</b> pad.h:51</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a></div><div class="ttdeci">@ KEY_RIGHT</div><div class="ttdoc">pad RIGHT button.</div><div class="ttdef"><b>Definition:</b> pad.h:52</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition:</b> pad.h:48</div></div>
+<div class="ttc" id="anetwork_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> network.h:122</div></div>
+<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a></div><div class="ttdeci">@ KEY_LEFT</div><div class="ttdoc">pad LEFT button.</div><div class="ttdef"><b>Definition:</b> network.h:53</div></div>
+<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b">KEY_START</a></div><div class="ttdeci">@ KEY_START</div><div class="ttdoc">pad START button.</div><div class="ttdef"><b>Definition:</b> network.h:51</div></div>
+<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a></div><div class="ttdeci">@ KEY_RIGHT</div><div class="ttdoc">pad RIGHT button.</div><div class="ttdef"><b>Definition:</b> network.h:52</div></div>
+<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition:</b> network.h:48</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
 <div class="ttc" id="asprite_8h_html_a4120a8ff32c39973babeca3615a0a2fd"><div class="ttname"><a href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">oamSetEx</a></div><div class="ttdeci">void oamSetEx(u16 id, u8 size, u8 hide)</div><div class="ttdoc">Put the correct size and hide or show a sprite.</div></div>
 <div class="ttc" id="asprite_8h_html_abb854a7fa3bbfe4c2e331bfce9e374a7"><div class="ttname"><a href="sprite_8h.html#abb854a7fa3bbfe4c2e331bfce9e374a7">oamSet</a></div><div class="ttdeci">void oamSet(u16 id, u16 xspr, u16 yspr, u8 priority, u8 hflip, u8 vflip, u16 gfxoffset, u8 paletteoffset)</div><div class="ttdoc">sets an oam entry to the supplied values</div></div>
@@ -725,7 +725,7 @@ $(document).ready(function(){initNavTree('games_2breakout_2breakout_8c-example.h
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Mar 19 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

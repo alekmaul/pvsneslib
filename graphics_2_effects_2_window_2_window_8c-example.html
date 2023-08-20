@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.0.3</span>
+   &#160;<span id="projectnumber">4.1.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -168,10 +168,10 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_window_2_window_8
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// Get current #0 pad</span></div>
-<div class="line">        pad0 = <a name="a13"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
+<div class="line">        pad0 = <a name="a13"></a><a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// only bg1 with A</span></div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a14"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>) {</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a14"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>) {</div>
 <div class="line">            <span class="keywordflow">if</span> (!pada) {</div>
 <div class="line">                pada=1;</div>
 <div class="line">                setModeHdmaWindow(<a class="code" href="dma_8h.html#a2b875796929dfd18bb81e25bbb610b54">MSWIN_BG1</a>, <a class="code" href="dma_8h.html#a200a74fdc8a0532c0ac7199e3ea1f22d">MSWIN1_BG1MSKENABLE</a> | <a class="code" href="dma_8h.html#a66d2702fd40da5970df67b9c7f60dfb8">MSWIN1_BG1MSKOUT</a>, (u8 *) &amp;tablelefttriangle, (u8 *) &amp;tablerighttriangle);            </div>
@@ -180,7 +180,7 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_window_2_window_8
 <div class="line">        <span class="keywordflow">else</span> pada=0;</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// only bg2 with X</span></div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a15"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497">KEY_X</a>) {</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a15"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497">KEY_X</a>) {</div>
 <div class="line">            <span class="keywordflow">if</span> (!padx) {</div>
 <div class="line">                padx=1;</div>
 <div class="line">                setModeHdmaWindow(<a class="code" href="dma_8h.html#acc92eb3c10e2d9fdafea29ff92ca0b93">MSWIN_BG2</a>, <a class="code" href="dma_8h.html#ac66980762b38860ee821f19833988971">MSWIN1_BG2MSKENABLE</a> | <a class="code" href="dma_8h.html#a8de63e77a8d05fbf5a4ee88b0ced15d4">MSWIN1_BG2MSKOUT</a>, (u8 *) &amp;tablelefttriangle, (u8 *) &amp;tablerighttriangle);            </div>
@@ -190,7 +190,7 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_window_2_window_8
 <div class="line"> </div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// bg1 &amp; bg2 with B</span></div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a16"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a">KEY_B</a>) {</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a16"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a">KEY_B</a>) {</div>
 <div class="line">            <span class="keywordflow">if</span> (!padb) {</div>
 <div class="line">                padb=1;</div>
 <div class="line">                setModeHdmaWindow(<a class="code" href="dma_8h.html#a2b875796929dfd18bb81e25bbb610b54">MSWIN_BG1</a> | <a class="code" href="dma_8h.html#acc92eb3c10e2d9fdafea29ff92ca0b93">MSWIN_BG2</a>, <a class="code" href="dma_8h.html#a200a74fdc8a0532c0ac7199e3ea1f22d">MSWIN1_BG1MSKENABLE</a> | <a class="code" href="dma_8h.html#ac66980762b38860ee821f19833988971">MSWIN1_BG2MSKENABLE</a> | <a class="code" href="dma_8h.html#a66d2702fd40da5970df67b9c7f60dfb8">MSWIN1_BG1MSKOUT</a> | <a class="code" href="dma_8h.html#a8de63e77a8d05fbf5a4ee88b0ced15d4">MSWIN1_BG2MSKOUT</a>, (u8 *) &amp;tablelefttriangle, (u8 *) &amp;tablerighttriangle);</div>
@@ -215,10 +215,10 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_window_2_window_8
 <div class="ttc" id="adma_8h_html_ac66980762b38860ee821f19833988971"><div class="ttname"><a href="dma_8h.html#ac66980762b38860ee821f19833988971">MSWIN1_BG2MSKENABLE</a></div><div class="ttdeci">#define MSWIN1_BG2MSKENABLE</div><div class="ttdoc">Window 1 area BG2 enable.</div><div class="ttdef"><b>Definition:</b> dma.h:62</div></div>
 <div class="ttc" id="adma_8h_html_acc92eb3c10e2d9fdafea29ff92ca0b93"><div class="ttname"><a href="dma_8h.html#acc92eb3c10e2d9fdafea29ff92ca0b93">MSWIN_BG2</a></div><div class="ttdeci">#define MSWIN_BG2</div><div class="ttdoc">Main Screen BG2 disable background.</div><div class="ttdef"><b>Definition:</b> dma.h:53</div></div>
 <div class="ttc" id="ainterrupt_8h_html_abd33830487e4764e5ec22ec98b749f4b"><div class="ttname"><a href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt</div></div>
-<div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:122</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a">KEY_B</a></div><div class="ttdeci">@ KEY_B</div><div class="ttdoc">pad B button.</div><div class="ttdef"><b>Definition:</b> pad.h:49</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497">KEY_X</a></div><div class="ttdeci">@ KEY_X</div><div class="ttdoc">pad X button.</div><div class="ttdef"><b>Definition:</b> pad.h:58</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition:</b> pad.h:48</div></div>
+<div class="ttc" id="anetwork_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> network.h:122</div></div>
+<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a">KEY_B</a></div><div class="ttdeci">@ KEY_B</div><div class="ttdoc">pad B button.</div><div class="ttdef"><b>Definition:</b> network.h:49</div></div>
+<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497">KEY_X</a></div><div class="ttdeci">@ KEY_X</div><div class="ttdoc">pad X button.</div><div class="ttdef"><b>Definition:</b> network.h:58</div></div>
+<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition:</b> network.h:48</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
 <div class="ttc" id="avideo_8h_html_abc7d4ef8ebc22f5b710927909bb3f144"><div class="ttname"><a href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a></div><div class="ttdeci">void setScreenOn(void)</div><div class="ttdoc">Put screen On.</div></div>
 <div class="ttc" id="avideo_8h_html_afd9e46ae627d055dd8c98a4b0ebb73b1"><div class="ttname"><a href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a></div><div class="ttdeci">void setMode(u8 mode, u8 size)</div><div class="ttdoc">Set the SNES hardware to operate in new display mode.</div></div>
@@ -227,7 +227,7 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_window_2_window_8
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Mar 19 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

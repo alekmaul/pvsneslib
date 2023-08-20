@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.0.3</span>
+   &#160;<span id="projectnumber">4.1.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -116,9 +116,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a7e52d15b5a1befa42f5758de19dfb70c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a> (u16 x, u16 y, char *fmt,...)</td></tr>
 <tr class="memdesc:a7e52d15b5a1befa42f5758de19dfb70c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output formatted string on a screen (tiles mode)  <a href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">More...</a><br /></td></tr>
 <tr class="separator:a7e52d15b5a1befa42f5758de19dfb70c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a882be7db6fd3f16e7cccbe28cbecd025"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="console_8h.html#a882be7db6fd3f16e7cccbe28cbecd025">consoleDrawTextMap</a> (u16 x, u16 y, u8 *map, u8 attributes, char *fmt,...)</td></tr>
-<tr class="memdesc:a882be7db6fd3f16e7cccbe28cbecd025"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output formatted string on a screen (2 colors tiles mode)  <a href="console_8h.html#a882be7db6fd3f16e7cccbe28cbecd025">More...</a><br /></td></tr>
-<tr class="separator:a882be7db6fd3f16e7cccbe28cbecd025"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab062e25ee448ec8a56aa73107c33491f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="console_8h.html#ab062e25ee448ec8a56aa73107c33491f">consoleDrawTextMap</a> (u16 x, u16 y, u8 *map, u8 attributes, char *fmt,...)</td></tr>
+<tr class="memdesc:ab062e25ee448ec8a56aa73107c33491f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output formatted string on a screen (2 colors tiles mode)  <a href="console_8h.html#ab062e25ee448ec8a56aa73107c33491f">More...</a><br /></td></tr>
+<tr class="separator:ab062e25ee448ec8a56aa73107c33491f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a514ade13c61cd2f237bd100d78d5e11d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="console_8h.html#a514ade13c61cd2f237bd100d78d5e11d">consoleDrawTextMapCenter</a> (u16 y, u16 *map, u8 attributes, char *fmt,...)</td></tr>
 <tr class="memdesc:a514ade13c61cd2f237bd100d78d5e11d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output formatted string on a screen, centered it (2 colors tiles mode)  <a href="console_8h.html#a514ade13c61cd2f237bd100d78d5e11d">More...</a><br /></td></tr>
 <tr class="separator:a514ade13c61cd2f237bd100d78d5e11d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -175,6 +175,10 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="consol
 u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="console_8h.html#aef3bf9522613bca02b4a00ea910d492f">snes_50hz</a></td></tr>
 <tr class="memdesc:aef3bf9522613bca02b4a00ea910d492f"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 if on a PAL/50Hz SNES <br /></td></tr>
 <tr class="separator:aef3bf9522613bca02b4a00ea910d492f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f267aa4dde2e613c3d2bc961104b531"><td class="memItemLeft" align="right" valign="top"><a id="a2f267aa4dde2e613c3d2bc961104b531"></a>
+u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="console_8h.html#a2f267aa4dde2e613c3d2bc961104b531">snes_fps</a></td></tr>
+<tr class="memdesc:a2f267aa4dde2e613c3d2bc961104b531"><td class="mdescLeft">&#160;</td><td class="mdescRight">50 if PAL console (50 Hz) or 60 if NTSC console (60Hz) <br /></td></tr>
+<tr class="separator:a2f267aa4dde2e613c3d2bc961104b531"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e14b74b621c822db9af978d0ad31d1a"><td class="memItemLeft" align="right" valign="top"><a id="a5e14b74b621c822db9af978d0ad31d1a"></a>
 u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="console_8h.html#a5e14b74b621c822db9af978d0ad31d1a">snes_vblank_count</a></td></tr>
 <tr class="memdesc:a5e14b74b621c822db9af978d0ad31d1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of VBL since consoleInit called. <br /></td></tr>
@@ -270,19 +274,19 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conso
   </dd>
 </dl>
 <p>Output a text string to the screen. Before using this, you need to call <a class="el" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9" title="Initialize the Text System.">consoleInitText()</a>. You can also print the value of variables this way, by putting a format string and additional parameters. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="audio_2effects_2effects_8c-example.html#a14">audio/effects/effects.c</a>, <a class="el" href="audio_2effectsandmusic_2effectsandmusic_8c-example.html#a14">audio/effectsandmusic/effectsandmusic.c</a>, <a class="el" href="audio_2music_2_music_8c-example.html#a12">audio/music/Music.c</a>, <a class="el" href="audio_2music_greater_than32k_2music_greater_than32k_8c-example.html#a12">audio/musicGreaterThan32k/musicGreaterThan32k.c</a>, <a class="el" href="audio_2tada_2_tada_8c-example.html#a12">audio/tada/Tada.c</a>, <a class="el" href="breakpoints_2src_2breakpoints_8c-example.html#a10">breakpoints/src/breakpoints.c</a>, <a class="el" href="games_2likemario_2_like_mario_8c-example.html#a58">games/likemario/LikeMario.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_scroll_2_mode1_scroll_8c-example.html#a19">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="graphics_2_palette_2_get_colors_2_get_colors_8c-example.html#a8">graphics/Palette/GetColors/GetColors.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a0">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="hello_world_2src_2hello_world_8c-example.html#a9">hello_world/src/hello_world.c</a>, <a class="el" href="pads_2input_2input_8c-example.html#a5">pads/input/input.c</a>, <a class="el" href="pads_2multiplay5_2multiplay5_8c-example.html#a7">pads/multiplay5/multiplay5.c</a>, <a class="el" href="random_2random_8c-example.html#a5">random/random.c</a>, <a class="el" href="scoring_2scoring_8c-example.html#a8">scoring/scoring.c</a>, <a class="el" href="sram_2sram_8c-example.html#a5">sram/sram.c</a>, <a class="el" href="testregion_2testregion_8c-example.html#a5">testregion/testregion.c</a>, <a class="el" href="timer_2timer_8c-example.html#a5">timer/timer.c</a>, and <a class="el" href="typeconsole_2src_2pal_ntsc_8c-example.html#a9">typeconsole/src/pal_ntsc.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="audio_2effects_2effects_8c-example.html#a13">audio/effects/effects.c</a>, <a class="el" href="audio_2effectsandmusic_2effectsandmusic_8c-example.html#a14">audio/effectsandmusic/effectsandmusic.c</a>, <a class="el" href="audio_2music_2_music_8c-example.html#a12">audio/music/Music.c</a>, <a class="el" href="audio_2music_greater_than32k_2music_greater_than32k_8c-example.html#a12">audio/musicGreaterThan32k/musicGreaterThan32k.c</a>, <a class="el" href="audio_2tada_2_tada_8c-example.html#a12">audio/tada/Tada.c</a>, <a class="el" href="breakpoints_2src_2breakpoints_8c-example.html#a10">breakpoints/src/breakpoints.c</a>, <a class="el" href="games_2likemario_2_like_mario_8c-example.html#a58">games/likemario/LikeMario.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_scroll_2_mode1_scroll_8c-example.html#a19">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="graphics_2_palette_2_get_colors_2_get_colors_8c-example.html#a8">graphics/Palette/GetColors/GetColors.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a0">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="hello_world_2src_2hello_world_8c-example.html#a9">hello_world/src/hello_world.c</a>, <a class="el" href="pads_2input_2input_8c-example.html#a5">pads/input/input.c</a>, <a class="el" href="pads_2multiplay5_2multiplay5_8c-example.html#a7">pads/multiplay5/multiplay5.c</a>, <a class="el" href="random_2random_8c-example.html#a5">random/random.c</a>, <a class="el" href="scoring_2scoring_8c-example.html#a8">scoring/scoring.c</a>, <a class="el" href="sram_2sram_8c-example.html#a5">sram/sram.c</a>, <a class="el" href="testregion_2testregion_8c-example.html#a5">testregion/testregion.c</a>, <a class="el" href="timer_2timer_8c-example.html#a5">timer/timer.c</a>, and <a class="el" href="typeconsole_2src_2pal_ntsc_8c-example.html#a9">typeconsole/src/pal_ntsc.c</a>.</dd>
 </dl>
 
 </div>
 </div>
-<a id="a882be7db6fd3f16e7cccbe28cbecd025"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a882be7db6fd3f16e7cccbe28cbecd025">&#9670;&nbsp;</a></span>consoleDrawTextMap()</h2>
+<a id="ab062e25ee448ec8a56aa73107c33491f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab062e25ee448ec8a56aa73107c33491f">&#9670;&nbsp;</a></span>consoleDrawTextMap()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">consoleDrawTextMap </td>
+          <td class="memname">void consoleDrawTextMap </td>
           <td>(</td>
           <td class="paramtype">u16&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -733,7 +737,7 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conso
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="console_8h.html">console.h</a></li>
-    <li class="footer">Generated on Sun Mar 19 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

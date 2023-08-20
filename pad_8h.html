@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.0.3</span>
+   &#160;<span id="projectnumber">4.1.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -91,7 +91,6 @@ $(document).ready(function(){initNavTree('pad_8h.html',''); initResizable(); });
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">pad.h File Reference</div>  </div>
@@ -107,9 +106,6 @@ $(document).ready(function(){initNavTree('pad_8h.html',''); initResizable(); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a6063e0eec9a36e437fc32951acafa44c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(value)&#160;&#160;&#160;(pad_keys[value])</td></tr>
-<tr class="memdesc:a6063e0eec9a36e437fc32951acafa44c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return current value of selected pad.  <a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">More...</a><br /></td></tr>
-<tr class="separator:a6063e0eec9a36e437fc32951acafa44c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3cae01317d787d65697fdf0543714272"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pad_8h.html#a3cae01317d787d65697fdf0543714272">REG_JOYxLH</a>(a)&#160;&#160;&#160;(((vuint16 *)0x4218)[(a)])</td></tr>
 <tr class="memdesc:a3cae01317d787d65697fdf0543714272"><td class="mdescLeft">&#160;</td><td class="mdescRight">SNES Controllers I/O Ports - Automatic Reading. 4218h/4219h - JOY1L/JOY1H - Joypad 1 (gameport 1, pin 4) (R) 421Ah/421Bh - JOY2L/JOY2H - Joypad 2 (gameport 2, pin 4) (R) 421Ch/421Dh - JOY3L/JOY3H - Joypad 3 (gameport 1, pin 5) (R) 421Eh/421Fh - JOY4L/JOY4H - Joypad 4 (gameport 2, pin 5) (R)  <a href="pad_8h.html#a3cae01317d787d65697fdf0543714272">More...</a><br /></td></tr>
 <tr class="separator:a3cae01317d787d65697fdf0543714272"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -117,13 +113,28 @@ Macros</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:a8c22a2afdbaf11439d90ba163fc8180f"><td class="memItemLeft" align="right" valign="top"><a id="a8c22a2afdbaf11439d90ba163fc8180f"></a>
-typedef enum <a class="el" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072">KEYPAD_BITS</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pad_8h.html#a8c22a2afdbaf11439d90ba163fc8180f">KEYPAD_BITS</a></td></tr>
+typedef enum <a class="el" href="network_8h.html#aa27cad8fa018a58930b6622783a83072">KEYPAD_BITS</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pad_8h.html#a8c22a2afdbaf11439d90ba163fc8180f">KEYPAD_BITS</a></td></tr>
 <tr class="memdesc:a8c22a2afdbaf11439d90ba163fc8180f"><td class="mdescLeft">&#160;</td><td class="mdescRight">enum values for the pad buttons. <br /></td></tr>
 <tr class="separator:a8c22a2afdbaf11439d90ba163fc8180f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:aa27cad8fa018a58930b6622783a83072"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072">KEYPAD_BITS</a> { <br />
+&#160;&#160;<a class="el" href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a> = BIT(7)
+, <a class="el" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a">KEY_B</a> = BIT(15)
+, <a class="el" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a3b37a163628bc7015aac5efab4a66ef5">KEY_SELECT</a> = BIT(13)
+, <a class="el" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b">KEY_START</a> = BIT(12)
+, <br />
+&#160;&#160;<a class="el" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a> = BIT(8)
+, <a class="el" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a> = BIT(9)
+, <a class="el" href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a> = BIT(10)
+, <a class="el" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a> = BIT(11)
+, <br />
+&#160;&#160;<a class="el" href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff">KEY_R</a> = BIT(4)
+, <a class="el" href="network_8h.html#aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62">KEY_L</a> = BIT(5)
+, <a class="el" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497">KEY_X</a> = BIT(6)
+, <a class="el" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a5d44524b2a6090fa97aa9353d69f67a3">KEY_Y</a> = BIT(14)
+, <br />
 &#160;&#160;<a class="el" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a> = BIT(7)
 , <a class="el" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a">KEY_B</a> = BIT(15)
 , <a class="el" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a3b37a163628bc7015aac5efab4a66ef5">KEY_SELECT</a> = BIT(13)
@@ -143,30 +154,6 @@ Enumerations</h2></td></tr>
 <tr class="memdesc:aa27cad8fa018a58930b6622783a83072"><td class="mdescLeft">&#160;</td><td class="mdescRight">enum values for the pad buttons.  <a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072">More...</a><br /></td></tr>
 <tr class="separator:aa27cad8fa018a58930b6622783a83072"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:abd31fc41ec07d41a5ea5349d5483e0ba"><td class="memItemLeft" align="right" valign="top"><a id="abd31fc41ec07d41a5ea5349d5483e0ba"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pad_8h.html#abd31fc41ec07d41a5ea5349d5483e0ba">detectMPlay5</a> (void)</td></tr>
-<tr class="memdesc:abd31fc41ec07d41a5ea5349d5483e0ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if MultiPlayer5 is connected and populate snes_mplay5 (0 or 1 for connected) <br /></td></tr>
-<tr class="separator:abd31fc41ec07d41a5ea5349d5483e0ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a283ec438fdbb3b6068afd2e50bc9211d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pad_8h.html#a283ec438fdbb3b6068afd2e50bc9211d">padsClear</a> (u16 value)</td></tr>
-<tr class="memdesc:a283ec438fdbb3b6068afd2e50bc9211d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear internal variables for selected pad.  <a href="pad_8h.html#a283ec438fdbb3b6068afd2e50bc9211d">More...</a><br /></td></tr>
-<tr class="separator:a283ec438fdbb3b6068afd2e50bc9211d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66237b0d7609c6f62d2234ef50abbd78"><td class="memItemLeft" align="right" valign="top">unsigned short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pad_8h.html#a66237b0d7609c6f62d2234ef50abbd78">padsDown</a> (u16 value)</td></tr>
-<tr class="memdesc:a66237b0d7609c6f62d2234ef50abbd78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return value of down keys for selected pad.  <a href="pad_8h.html#a66237b0d7609c6f62d2234ef50abbd78">More...</a><br /></td></tr>
-<tr class="separator:a66237b0d7609c6f62d2234ef50abbd78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51de6b359e19a3a0279d42afc7fe6165"><td class="memItemLeft" align="right" valign="top">unsigned short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pad_8h.html#a51de6b359e19a3a0279d42afc7fe6165">padsUp</a> (u16 value)</td></tr>
-<tr class="memdesc:a51de6b359e19a3a0279d42afc7fe6165"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return value of up keys for selected pad.  <a href="pad_8h.html#a51de6b359e19a3a0279d42afc7fe6165">More...</a><br /></td></tr>
-<tr class="separator:a51de6b359e19a3a0279d42afc7fe6165"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c6e694e00ac17bc50940125a917ab6b"><td class="memItemLeft" align="right" valign="top"><a id="a6c6e694e00ac17bc50940125a917ab6b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pad_8h.html#a6c6e694e00ac17bc50940125a917ab6b">scanMPlay5</a> (void)</td></tr>
-<tr class="memdesc:a6c6e694e00ac17bc50940125a917ab6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for multiplayer5 pads ready and read pad values in . <br /></td></tr>
-<tr class="separator:a6c6e694e00ac17bc50940125a917ab6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42632e79292dc47a567aab4dc3e4407d"><td class="memItemLeft" align="right" valign="top"><a id="a42632e79292dc47a567aab4dc3e4407d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pad_8h.html#a42632e79292dc47a567aab4dc3e4407d">scanPads</a> (void)</td></tr>
-<tr class="memdesc:a42632e79292dc47a567aab4dc3e4407d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for pad ready and read pad values in . <br /></td></tr>
-<tr class="separator:a42632e79292dc47a567aab4dc3e4407d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a0776b45d03084ed05cfad12d759249f0"><td class="memItemLeft" align="right" valign="top"><a id="a0776b45d03084ed05cfad12d759249f0"></a>
@@ -179,35 +166,6 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pad_8h
 <p>common values for pad input.</p>
 <p>common values that can be used to test auto pad. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a6063e0eec9a36e437fc32951acafa44c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6063e0eec9a36e437fc32951acafa44c">&#9670;&nbsp;</a></span>padsCurrent</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">padsCurrent</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">value</td><td>)</td>
-          <td>&#160;&#160;&#160;(pad_keys[value])</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Return current value of selected pad. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">value</td><td>Address of the pad to use (0 or 1 to 4 if multiplayer 5 connected) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>unsigned short of the current pad value </dd></dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="audio_2effects_2effects_8c-example.html#a17">audio/effects/effects.c</a>, <a class="el" href="audio_2effectsandmusic_2effectsandmusic_8c-example.html#a17">audio/effectsandmusic/effectsandmusic.c</a>, <a class="el" href="audio_2tada_2_tada_8c-example.html#a16">audio/tada/Tada.c</a>, <a class="el" href="games_2breakout_2breakout_8c-example.html#a4">games/breakout/breakout.c</a>, <a class="el" href="games_2likemario_2_like_mario_8c-example.html#a23">games/likemario/LikeMario.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a23">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_scroll_2_mode1_scroll_8c-example.html#a13">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode7_2_mode7_8c-example.html#a4">graphics/Backgrounds/Mode7/Mode7.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode7_perspective_2_mode7_perspective_8c-example.html#a12">graphics/Backgrounds/Mode7Perspective/Mode7Perspective.c</a>, <a class="el" href="graphics_2_effects_2_gradient_colors_2_gradient_colors_8c-example.html#a7">graphics/Effects/GradientColors/GradientColors.c</a>, <a class="el" href="graphics_2_effects_2_mosaic_shading_2_mosaic_shading_8c-example.html#a6">graphics/Effects/MosaicShading/MosaicShading.c</a>, <a class="el" href="graphics_2_effects_2_waves_2_waves_8c-example.html#a7">graphics/Effects/Waves/Waves.c</a>, <a class="el" href="graphics_2_effects_2_window_2_window_8c-example.html#a13">graphics/Effects/Window/Window.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a9">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a14">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a23">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a13">maps/mapscroll/mapscroll.c</a>, <a class="el" href="maps_2tiled_2tiled_8c-example.html#a8">maps/tiled/tiled.c</a>, <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a12">objects/moveobjects/moveobjects.c</a>, <a class="el" href="pads_2input_2input_8c-example.html#a11">pads/input/input.c</a>, <a class="el" href="pads_2multiplay5_2multiplay5_8c-example.html#a13">pads/multiplay5/multiplay5.c</a>, <a class="el" href="random_2random_8c-example.html#a11">random/random.c</a>, and <a class="el" href="sram_2sram_8c-example.html#a11">sram/sram.c</a>.</dd>
-</dl>
-
-</div>
-</div>
 <a id="a3cae01317d787d65697fdf0543714272"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3cae01317d787d65697fdf0543714272">&#9670;&nbsp;</a></span>REG_JOYxLH</h2>
 
@@ -239,7 +197,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pad_8h
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072">KEYPAD_BITS</a></td>
+          <td class="memname">enum <a class="el" href="network_8h.html#aa27cad8fa018a58930b6622783a83072">KEYPAD_BITS</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -270,90 +228,31 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pad_8h
 </td></tr>
 <tr><td class="fieldname"><a id="aa27cad8fa018a58930b6622783a83072a5d44524b2a6090fa97aa9353d69f67a3"></a>KEY_Y&#160;</td><td class="fielddoc"><p>pad Y button. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"></a>KEY_A&#160;</td><td class="fielddoc"><p>pad A button. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a"></a>KEY_B&#160;</td><td class="fielddoc"><p>pad B button. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa27cad8fa018a58930b6622783a83072a3b37a163628bc7015aac5efab4a66ef5"></a>KEY_SELECT&#160;</td><td class="fielddoc"><p>pad SELECT button. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa27cad8fa018a58930b6622783a83072a616a1f5c4ed36080ca954453084aea3b"></a>KEY_START&#160;</td><td class="fielddoc"><p>pad START button. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d"></a>KEY_RIGHT&#160;</td><td class="fielddoc"><p>pad RIGHT button. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"></a>KEY_LEFT&#160;</td><td class="fielddoc"><p>pad LEFT button. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416"></a>KEY_DOWN&#160;</td><td class="fielddoc"><p>pad DOWN button. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd"></a>KEY_UP&#160;</td><td class="fielddoc"><p>pad UP button. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff"></a>KEY_R&#160;</td><td class="fielddoc"><p>Right shoulder button. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62"></a>KEY_L&#160;</td><td class="fielddoc"><p>Left shoulder button. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497"></a>KEY_X&#160;</td><td class="fielddoc"><p>pad X button. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa27cad8fa018a58930b6622783a83072a5d44524b2a6090fa97aa9353d69f67a3"></a>KEY_Y&#160;</td><td class="fielddoc"><p>pad Y button. </p>
+</td></tr>
 </table>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a283ec438fdbb3b6068afd2e50bc9211d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a283ec438fdbb3b6068afd2e50bc9211d">&#9670;&nbsp;</a></span>padsClear()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">padsClear </td>
-          <td>(</td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>value</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Clear internal variables for selected pad. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">value</td><td>Address of the pad to use (0 or 1 to 4 if multiplayer 5 connected) </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a66237b0d7609c6f62d2234ef50abbd78"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a66237b0d7609c6f62d2234ef50abbd78">&#9670;&nbsp;</a></span>padsDown()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">padsDown </td>
-          <td>(</td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>value</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Return value of down keys for selected pad. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">value</td><td>Address of the pad to use (0 or 1 to 4 if multiplayer 5 connected) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>unsigned short of the current pad value </dd></dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_effects_2_h_d_m_a_gradient_2_h_d_m_a_gradient_8c-example.html#a7">graphics/Effects/HDMAGradient/HDMAGradient.c</a>.</dd>
-</dl>
-
-</div>
-</div>
-<a id="a51de6b359e19a3a0279d42afc7fe6165"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51de6b359e19a3a0279d42afc7fe6165">&#9670;&nbsp;</a></span>padsUp()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">padsUp </td>
-          <td>(</td>
-          <td class="paramtype">u16&#160;</td>
-          <td class="paramname"><em>value</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Return value of up keys for selected pad. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">value</td><td>Address of the pad to use (0 or 1 to 4 if multiplayer 5 connected) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>unsigned short of the current pad value </dd></dl>
 
 </div>
 </div>
@@ -363,7 +262,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pad_8h
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="pad_8h.html">pad.h</a></li>
-    <li class="footer">Generated on Sun Mar 19 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

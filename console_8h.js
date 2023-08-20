@@ -2,7 +2,7 @@ var console_8h =
 [
     [ "consoleCopySram", "console_8h.html#ac3c55f6e16ff70d19c046404b9aa8a9b", null ],
     [ "consoleDrawText", "console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c", null ],
-    [ "consoleDrawTextMap", "console_8h.html#a882be7db6fd3f16e7cccbe28cbecd025", null ],
+    [ "consoleDrawTextMap", "console_8h.html#ab062e25ee448ec8a56aa73107c33491f", null ],
     [ "consoleDrawTextMapCenter", "console_8h.html#a514ade13c61cd2f237bd100d78d5e11d", null ],
     [ "consoleInit", "console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad", null ],
     [ "consoleInitText", "console_8h.html#a5413265662e30a0ded3fee6d3c4781f9", null ],
@@ -19,5 +19,6 @@ var console_8h =
     [ "scr_txt_dirty", "console_8h.html#a73c5f483e71c951f267ad0375084242f", null ],
     [ "scr_txt_font_map", "console_8h.html#ad3897ef4ed73fa003953d4a979ed50b0", null ],
     [ "snes_50hz", "console_8h.html#aef3bf9522613bca02b4a00ea910d492f", null ],
+    [ "snes_fps", "console_8h.html#a2f267aa4dde2e613c3d2bc961104b531", null ],
     [ "snes_vblank_count", "console_8h.html#a5e14b74b621c822db9af978d0ad31d1a", null ]
 ];

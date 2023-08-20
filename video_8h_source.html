@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.0.3</span>
+   &#160;<span id="projectnumber">4.1.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -243,34 +243,38 @@ $(document).ready(function(){initNavTree('video_8h_source.html',''); initResizab
 <div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160; </div>
 <div class="line"><a name="l00351"></a><span class="lineno"><a class="line" href="video_8h.html#ac34bd13a8556c8ac8e1eeeded15f7632">  351</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#ac34bd13a8556c8ac8e1eeeded15f7632">setFadeEffect</a>(u8 mode);</div>
 <div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160; </div>
-<div class="line"><a name="l00358"></a><span class="lineno"><a class="line" href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">  358</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">setMosaicEffect</a>(u8 mode, u8 bgNumbers);</div>
+<div class="line"><a name="l00358"></a><span class="lineno"><a class="line" href="video_8h.html#ad58e188357569ae06c08b2fc33ed5aa2">  358</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#ad58e188357569ae06c08b2fc33ed5aa2">setFadeEffectEx</a>(u8 mode, u8 framesNumber);</div>
 <div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160; </div>
-<div class="line"><a name="l00365"></a><span class="lineno"><a class="line" href="video_8h.html#a87d6cb8ec2433c908666a0a7f2306cb4">  365</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a87d6cb8ec2433c908666a0a7f2306cb4">setColorEffect</a>(u8 colorMathA, u8 colorMathB);</div>
+<div class="line"><a name="l00365"></a><span class="lineno"><a class="line" href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">  365</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">setMosaicEffect</a>(u8 mode, u8 bgNumbers);</div>
 <div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160; </div>
-<div class="line"><a name="l00372"></a><span class="lineno"><a class="line" href="video_8h.html#aedc79f1675778d0573d181fe22a0902d">  372</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#aedc79f1675778d0573d181fe22a0902d">setColorIntensity</a>(u8 colorApply, u8 intensity);</div>
+<div class="line"><a name="l00372"></a><span class="lineno"><a class="line" href="video_8h.html#a87d6cb8ec2433c908666a0a7f2306cb4">  372</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a87d6cb8ec2433c908666a0a7f2306cb4">setColorEffect</a>(u8 colorMathA, u8 colorMathB);</div>
 <div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160; </div>
-<div class="line"><a name="l00380"></a><span class="lineno"><a class="line" href="video_8h.html#ae29ed0390bca0390d3fdf55362a3663b">  380</a></span>&#160;<span class="preprocessor">#define setPalette(palette, paletteEntry, paletteSize) dmaCopyCGram(palette, paletteEntry, paletteSize)</span></div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160; </div>
-<div class="line"><a name="l00387"></a><span class="lineno"><a class="line" href="video_8h.html#a549263481ac687a7e1d6f6cd5bd85d29">  387</a></span>&#160;<span class="preprocessor">#define setPaletteColor(paletteEntry, paletteColor) \</span></div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="preprocessor">    REG_CGADD = paletteEntry;                       \</span></div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;<span class="preprocessor">    *CGRAM_PALETTE = (paletteColor)&amp;0xFF;           \</span></div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="preprocessor">    *CGRAM_PALETTE = (paletteColor) &gt;&gt; 8;</span></div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160; </div>
-<div class="line"><a name="l00398"></a><span class="lineno"><a class="line" href="video_8h.html#a4edcd61c70a2e22ed69a93ced9da9126">  398</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a4edcd61c70a2e22ed69a93ced9da9126">getPalette</a>(u8 paletteEntry, u8 paletteSize, u16 *paletteColors);</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160; </div>
-<div class="line"><a name="l00405"></a><span class="lineno"><a class="line" href="video_8h.html#acbf8deabd274fb30b9448036296efb8d">  405</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#acbf8deabd274fb30b9448036296efb8d">getPaletteColor</a>(u8 paletteEntry, u16 *paletteColor);</div>
+<div class="line"><a name="l00379"></a><span class="lineno"><a class="line" href="video_8h.html#aedc79f1675778d0573d181fe22a0902d">  379</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#aedc79f1675778d0573d181fe22a0902d">setColorIntensity</a>(u8 colorApply, u8 intensity);</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160; </div>
+<div class="line"><a name="l00387"></a><span class="lineno"><a class="line" href="video_8h.html#ae29ed0390bca0390d3fdf55362a3663b">  387</a></span>&#160;<span class="preprocessor">#define setPalette(palette, paletteEntry, paletteSize) dmaCopyCGram(palette, paletteEntry, paletteSize)</span></div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160; </div>
+<div class="line"><a name="l00394"></a><span class="lineno"><a class="line" href="video_8h.html#a549263481ac687a7e1d6f6cd5bd85d29">  394</a></span>&#160;<span class="preprocessor">#define setPaletteColor(paletteEntry, paletteColor) \</span></div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;<span class="preprocessor">    REG_CGADD = paletteEntry;                       \</span></div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;<span class="preprocessor">    *CGRAM_PALETTE = (paletteColor)&amp;0xFF;           \</span></div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;<span class="preprocessor">    *CGRAM_PALETTE = (paletteColor) &gt;&gt; 8;</span></div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160; </div>
+<div class="line"><a name="l00405"></a><span class="lineno"><a class="line" href="video_8h.html#a4edcd61c70a2e22ed69a93ced9da9126">  405</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a4edcd61c70a2e22ed69a93ced9da9126">getPalette</a>(u8 paletteEntry, u8 paletteSize, u16 *paletteColors);</div>
 <div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160; </div>
-<div class="line"><a name="l00411"></a><span class="lineno"><a class="line" href="video_8h.html#af7e722fd2eba5682bc0eafa9d5a9c51a">  411</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#af7e722fd2eba5682bc0eafa9d5a9c51a">setMode7</a>(u8 mode);</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160; </div>
-<div class="line"><a name="l00417"></a><span class="lineno"><a class="line" href="video_8h.html#a4d332cdc88b26fc9ec2cdd4f6710ce8c">  417</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a4d332cdc88b26fc9ec2cdd4f6710ce8c">setMode7Rot</a>(u8 angle);</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160; </div>
-<div class="line"><a name="l00423"></a><span class="lineno"><a class="line" href="video_8h.html#a44845006a2852ac2fa78c07bd1553d52">  423</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a44845006a2852ac2fa78c07bd1553d52">setMode7MoveForwardBack</a>(u8 z8);</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160; </div>
-<div class="line"><a name="l00429"></a><span class="lineno"><a class="line" href="video_8h.html#ade2a8e199ad857a17e402333123b1f43">  429</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#ade2a8e199ad857a17e402333123b1f43">setMode7MoveLeftRight</a>(u8 z8);</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160; </div>
-<div class="line"><a name="l00435"></a><span class="lineno"><a class="line" href="video_8h.html#ac4b1645f376fa266f0e614a1d7903a31">  435</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#ac4b1645f376fa266f0e614a1d7903a31">setMode7Angle</a>(u8 angle);</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160; </div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// SNES_VIDEO_INCLUDE</span></div>
+<div class="line"><a name="l00412"></a><span class="lineno"><a class="line" href="video_8h.html#acbf8deabd274fb30b9448036296efb8d">  412</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#acbf8deabd274fb30b9448036296efb8d">getPaletteColor</a>(u8 paletteEntry, u16 *paletteColor);</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160; </div>
+<div class="line"><a name="l00418"></a><span class="lineno"><a class="line" href="video_8h.html#af7e722fd2eba5682bc0eafa9d5a9c51a">  418</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#af7e722fd2eba5682bc0eafa9d5a9c51a">setMode7</a>(u8 mode);</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160; </div>
+<div class="line"><a name="l00424"></a><span class="lineno"><a class="line" href="video_8h.html#a4d332cdc88b26fc9ec2cdd4f6710ce8c">  424</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a4d332cdc88b26fc9ec2cdd4f6710ce8c">setMode7Rot</a>(u8 angle);</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160; </div>
+<div class="line"><a name="l00430"></a><span class="lineno"><a class="line" href="video_8h.html#a44845006a2852ac2fa78c07bd1553d52">  430</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a44845006a2852ac2fa78c07bd1553d52">setMode7MoveForwardBack</a>(u8 z8);</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160; </div>
+<div class="line"><a name="l00436"></a><span class="lineno"><a class="line" href="video_8h.html#ade2a8e199ad857a17e402333123b1f43">  436</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#ade2a8e199ad857a17e402333123b1f43">setMode7MoveLeftRight</a>(u8 z8);</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160; </div>
+<div class="line"><a name="l00442"></a><span class="lineno"><a class="line" href="video_8h.html#ac4b1645f376fa266f0e614a1d7903a31">  442</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#ac4b1645f376fa266f0e614a1d7903a31">setMode7Angle</a>(u8 angle);</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160; </div>
+<div class="line"><a name="l00449"></a><span class="lineno"><a class="line" href="video_8h.html#a79a6e89e2d541b67229f6033ebc861ce">  449</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a79a6e89e2d541b67229f6033ebc861ce">setMode7Scale</a>(u16 xscale, u16 yscale);</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160; </div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// SNES_VIDEO_INCLUDE</span></div>
 <div class="ttc" id="asnestypes_8h_html"><div class="ttname"><a href="snestypes_8h.html">snestypes.h</a></div><div class="ttdoc">Custom types used by libsnes.</div></div>
 <div class="ttc" id="asnestypes_8h_html_a3a8ea58898cb58fc96013383d39f482c"><div class="ttname"><a href="snestypes_8h.html#a3a8ea58898cb58fc96013383d39f482c">BIT</a></div><div class="ttdeci">#define BIT(n)</div><div class="ttdoc">bit field</div><div class="ttdef"><b>Definition:</b> snestypes.h:34</div></div>
 <div class="ttc" id="avideo_8h_html_a156a14f040a0569d1c1b59c94669aa6f"><div class="ttname"><a href="video_8h.html#a156a14f040a0569d1c1b59c94669aa6f">videoMode</a></div><div class="ttdeci">u8 videoMode</div><div class="ttdoc">Current value of REG_TM.</div></div>
@@ -289,6 +293,7 @@ $(document).ready(function(){initNavTree('video_8h_source.html',''); initResizab
 <div class="ttc" id="avideo_8h_html_a5623bfd6fefb79d4f21d260b7e333523acbbc69e337e06fc13a5f572284c5ddfe"><div class="ttname"><a href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523acbbc69e337e06fc13a5f572284c5ddfe">VRAM_ADRTR_0B</a></div><div class="ttdeci">@ VRAM_ADRTR_0B</div><div class="ttdoc">Address Translation (0..3 = 0bit/None, 8bit, 9bit, 10bit)</div><div class="ttdef"><b>Definition:</b> video.h:43</div></div>
 <div class="ttc" id="avideo_8h_html_a5623bfd6fefb79d4f21d260b7e333523acef8d68eaf1d65e1bcf2ac9ee730c7d2"><div class="ttname"><a href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523acef8d68eaf1d65e1bcf2ac9ee730c7d2">DSP_FORCEVBL</a></div><div class="ttdeci">@ DSP_FORCEVBL</div><div class="ttdoc">Forced Blanking (0=Normal, 1=Screen Black)</div><div class="ttdef"><b>Definition:</b> video.h:39</div></div>
 <div class="ttc" id="avideo_8h_html_a5623bfd6fefb79d4f21d260b7e333523acfee058cf30c9aacc05573725e3775d8"><div class="ttname"><a href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523acfee058cf30c9aacc05573725e3775d8">VRAM_ADRSTINC_1</a></div><div class="ttdeci">@ VRAM_ADRSTINC_1</div><div class="ttdoc">Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128)</div><div class="ttdef"><b>Definition:</b> video.h:47</div></div>
+<div class="ttc" id="avideo_8h_html_a79a6e89e2d541b67229f6033ebc861ce"><div class="ttname"><a href="video_8h.html#a79a6e89e2d541b67229f6033ebc861ce">setMode7Scale</a></div><div class="ttdeci">void setMode7Scale(u16 xscale, u16 yscale)</div><div class="ttdoc">Change scaling effect of screen in mode 7.</div></div>
 <div class="ttc" id="avideo_8h_html_a87d6cb8ec2433c908666a0a7f2306cb4"><div class="ttname"><a href="video_8h.html#a87d6cb8ec2433c908666a0a7f2306cb4">setColorEffect</a></div><div class="ttdeci">void setColorEffect(u8 colorMathA, u8 colorMathB)</div><div class="ttdoc">Do addition or other color effects.</div></div>
 <div class="ttc" id="avideo_8h_html_aa14785c4eb1ce08cc02eb98d26c98c44"><div class="ttname"><a href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">setMosaicEffect</a></div><div class="ttdeci">void setMosaicEffect(u8 mode, u8 bgNumbers)</div><div class="ttdoc">Do a mosaic in or out effect.</div></div>
 <div class="ttc" id="avideo_8h_html_aaeaea299a3cfb90fa5232b842f7f7cd0"><div class="ttname"><a href="video_8h.html#aaeaea299a3cfb90fa5232b842f7f7cd0">setScreenOff</a></div><div class="ttdeci">void setScreenOff(void)</div><div class="ttdoc">Put screen Off.</div></div>
@@ -296,6 +301,7 @@ $(document).ready(function(){initNavTree('video_8h_source.html',''); initResizab
 <div class="ttc" id="avideo_8h_html_ac34bd13a8556c8ac8e1eeeded15f7632"><div class="ttname"><a href="video_8h.html#ac34bd13a8556c8ac8e1eeeded15f7632">setFadeEffect</a></div><div class="ttdeci">void setFadeEffect(u8 mode)</div><div class="ttdoc">Do a fadein or fadeout effect.</div></div>
 <div class="ttc" id="avideo_8h_html_ac4b1645f376fa266f0e614a1d7903a31"><div class="ttname"><a href="video_8h.html#ac4b1645f376fa266f0e614a1d7903a31">setMode7Angle</a></div><div class="ttdeci">void setMode7Angle(u8 angle)</div><div class="ttdoc">Change angle view in mode 7 without changing matrix.</div></div>
 <div class="ttc" id="avideo_8h_html_acbf8deabd274fb30b9448036296efb8d"><div class="ttname"><a href="video_8h.html#acbf8deabd274fb30b9448036296efb8d">getPaletteColor</a></div><div class="ttdeci">void getPaletteColor(u8 paletteEntry, u16 *paletteColor)</div><div class="ttdoc">Get a color palette from CGRAM.</div></div>
+<div class="ttc" id="avideo_8h_html_ad58e188357569ae06c08b2fc33ed5aa2"><div class="ttname"><a href="video_8h.html#ad58e188357569ae06c08b2fc33ed5aa2">setFadeEffectEx</a></div><div class="ttdeci">void setFadeEffectEx(u8 mode, u8 framesNumber)</div><div class="ttdoc">Do a fadein or fadeout effect.</div></div>
 <div class="ttc" id="avideo_8h_html_ade2a8e199ad857a17e402333123b1f43"><div class="ttname"><a href="video_8h.html#ade2a8e199ad857a17e402333123b1f43">setMode7MoveLeftRight</a></div><div class="ttdeci">void setMode7MoveLeftRight(u8 z8)</div><div class="ttdoc">Change perspective view left/right in mode 7 without changing matrix.</div></div>
 <div class="ttc" id="avideo_8h_html_aedc79f1675778d0573d181fe22a0902d"><div class="ttname"><a href="video_8h.html#aedc79f1675778d0573d181fe22a0902d">setColorIntensity</a></div><div class="ttdeci">void setColorIntensity(u8 colorApply, u8 intensity)</div><div class="ttdoc">Change intensity for transparency.</div></div>
 <div class="ttc" id="avideo_8h_html_af7e722fd2eba5682bc0eafa9d5a9c51a"><div class="ttname"><a href="video_8h.html#af7e722fd2eba5682bc0eafa9d5a9c51a">setMode7</a></div><div class="ttdeci">void setMode7(u8 mode)</div><div class="ttdoc">Put screen in mode 7 with generic init.</div></div>
@@ -306,7 +312,7 @@ $(document).ready(function(){initNavTree('video_8h_source.html',''); initResizab
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="video_8h.html">video.h</a></li>
-    <li class="footer">Generated on Sun Mar 19 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

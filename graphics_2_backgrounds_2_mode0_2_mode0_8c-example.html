@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.0.3</span>
+   &#160;<span id="projectnumber">4.1.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -94,19 +94,19 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode0_2_mode0
 <div class="fragment"><div class="line"><span class="comment">/*---------------------------------------------------------------------------------</span></div>
 <div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment"></span> </div>
-<div class="line"><span class="comment">    Simple tile mode 1 demo</span></div>
+<div class="line"><span class="comment">    Simple tile mode 0 demo</span></div>
 <div class="line"><span class="comment">    -- alekmaul</span></div>
 <div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">---------------------------------------------------------------------------------*/</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="snes_8h.html">snes.h</a>&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> m0, m0_end, p0, p0_end, t0, t0_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> m1, m1_end, p1, p1_end, t1, t1_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> m2, m2_end, p2, p2_end, t2, t2_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> m3, m3_end, p3, p3_end, t3, t3_end;</div>
+<div class="line"><span class="keyword">extern</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> bgm0, bgm0_end, p0, p0_end, t0, t0_end;</div>
+<div class="line"><span class="keyword">extern</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> bgm1, bgm1_end, p1, p1_end, t1, t1_end;</div>
+<div class="line"><span class="keyword">extern</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> bgm2, bgm2_end, p2, p2_end, t2, t2_end;</div>
+<div class="line"><span class="keyword">extern</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> bgm3, bgm3_end, p3, p3_end, t3, t3_end;</div>
 <div class="line"> </div>
-<div class="line"><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> sxbg1 = 0, sxbg2 = 0, sxbg3 = 0, flip = 0;</div>
+<div class="line"><span class="keywordtype">short</span> sxbg1 = 0, sxbg2 = 0, sxbg3 = 0, flip = 0;</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
@@ -135,10 +135,10 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode0_2_mode0
 <div class="line">    <a class="code" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(3, &amp;t3, &amp;p3, 0, (&amp;t3_end - &amp;t3), 16, BG_4COLORS0, 0x5000);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Copy Map to VRAM</span></div>
-<div class="line">    <a name="a2"></a><a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(0, &amp;m0, (&amp;m0_end - &amp;m0), SC_32x32, 0x0000);</div>
-<div class="line">    <a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(1, &amp;m1, (&amp;m1_end - &amp;m1), SC_32x32, 0x0400);</div>
-<div class="line">    <a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(2, &amp;m2, (&amp;m2_end - &amp;m2), SC_32x32, 0x0800);</div>
-<div class="line">    <a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(3, &amp;m3, (&amp;m3_end - &amp;m3), SC_32x32, 0x0C00);</div>
+<div class="line">    <a name="a2"></a><a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(0, &amp;bgm0, (&amp;bgm0_end-&amp;bgm0), SC_32x32, 0x0000);</div>
+<div class="line">    <a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(1, &amp;bgm1, (&amp;bgm1_end-&amp;bgm1), SC_32x32, 0x0400);</div>
+<div class="line">    <a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(2, &amp;bgm2, (&amp;bgm2_end-&amp;bgm2), SC_32x32, 0x0800);</div>
+<div class="line">    <a class="code" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(3, &amp;bgm3, (&amp;bgm3_end-&amp;bgm3), SC_32x32, 0x0C00);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode and disable other BGs except 1st one</span></div>
 <div class="line">    <a name="a3"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE0, 0);</div>
@@ -176,7 +176,7 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode0_2_mode0
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Mar 19 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

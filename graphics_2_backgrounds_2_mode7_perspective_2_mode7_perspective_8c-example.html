@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.0.3</span>
+   &#160;<span id="projectnumber">4.1.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -532,20 +532,20 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode7_perspec
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// Get current #0 pad</span></div>
-<div class="line">        pad0 = <a name="a12"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
+<div class="line">        pad0 = <a name="a12"></a><a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Read pad</span></div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a13"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a13"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
 <div class="line">            sx--;</div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a14"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a14"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
 <div class="line">            sx++;</div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a15"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a15"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a>)</div>
 <div class="line">            sy--;</div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a16"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a16"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a>)</div>
 <div class="line">            sy++;</div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a17"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff">KEY_R</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a17"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff">KEY_R</a>)</div>
 <div class="line">            sz++;</div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a18"></a><a class="code" href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62">KEY_L</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a name="a18"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62">KEY_L</a>)</div>
 <div class="line">            sz--;</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// HDMA change mode and perspective</span></div>
@@ -562,13 +562,13 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode7_perspec
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
 <div class="ttc" id="adma_8h_html_a468ac9497087f0cbab21a3e0453f438b"><div class="ttname"><a href="dma_8h.html#a468ac9497087f0cbab21a3e0453f438b">REG_HDMAEN</a></div><div class="ttdeci">#define REG_HDMAEN</div><div class="ttdoc">Select H-Blank DMA (H-DMA) Channel(s) (W) 7-0 H-DMA Channel 7-0 Enable (0=Disable,...</div><div class="ttdef"><b>Definition:</b> dma.h:112</div></div>
 <div class="ttc" id="ainterrupt_8h_html_abd33830487e4764e5ec22ec98b749f4b"><div class="ttname"><a href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt</div></div>
-<div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:122</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a></div><div class="ttdeci">@ KEY_UP</div><div class="ttdoc">pad UP button.</div><div class="ttdef"><b>Definition:</b> pad.h:55</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a></div><div class="ttdeci">@ KEY_LEFT</div><div class="ttdoc">pad LEFT button.</div><div class="ttdef"><b>Definition:</b> pad.h:53</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a></div><div class="ttdeci">@ KEY_RIGHT</div><div class="ttdoc">pad RIGHT button.</div><div class="ttdef"><b>Definition:</b> pad.h:52</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff">KEY_R</a></div><div class="ttdeci">@ KEY_R</div><div class="ttdoc">Right shoulder button.</div><div class="ttdef"><b>Definition:</b> pad.h:56</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a></div><div class="ttdeci">@ KEY_DOWN</div><div class="ttdoc">pad DOWN button.</div><div class="ttdef"><b>Definition:</b> pad.h:54</div></div>
-<div class="ttc" id="apad_8h_html_aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62"><div class="ttname"><a href="pad_8h.html#aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62">KEY_L</a></div><div class="ttdeci">@ KEY_L</div><div class="ttdoc">Left shoulder button.</div><div class="ttdef"><b>Definition:</b> pad.h:57</div></div>
+<div class="ttc" id="anetwork_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> network.h:122</div></div>
+<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a></div><div class="ttdeci">@ KEY_UP</div><div class="ttdoc">pad UP button.</div><div class="ttdef"><b>Definition:</b> network.h:55</div></div>
+<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a></div><div class="ttdeci">@ KEY_LEFT</div><div class="ttdoc">pad LEFT button.</div><div class="ttdef"><b>Definition:</b> network.h:53</div></div>
+<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a></div><div class="ttdeci">@ KEY_RIGHT</div><div class="ttdoc">pad RIGHT button.</div><div class="ttdef"><b>Definition:</b> network.h:52</div></div>
+<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa3ec8a2ffd5b0e200db5ebe7b65515ff">KEY_R</a></div><div class="ttdeci">@ KEY_R</div><div class="ttdoc">Right shoulder button.</div><div class="ttdef"><b>Definition:</b> network.h:56</div></div>
+<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa9cdac7967bf7d88fdb761138a2a3416">KEY_DOWN</a></div><div class="ttdeci">@ KEY_DOWN</div><div class="ttdoc">pad DOWN button.</div><div class="ttdef"><b>Definition:</b> network.h:54</div></div>
+<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072aece16de35a5ea11f9b228c9376bebc62">KEY_L</a></div><div class="ttdeci">@ KEY_L</div><div class="ttdoc">Left shoulder button.</div><div class="ttdef"><b>Definition:</b> network.h:57</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
 <div class="ttc" id="avideo_8h_html_a149770d8a7300cb577f99ff1198978bc"><div class="ttname"><a href="video_8h.html#a149770d8a7300cb577f99ff1198978bc">REG_M7HOFS</a></div><div class="ttdeci">#define REG_M7HOFS</div><div class="ttdoc">BG1 Horizontal Scroll (X) (W)</div><div class="ttdef"><b>Definition:</b> video.h:265</div></div>
 <div class="ttc" id="avideo_8h_html_a4545542b6058c4dfa9b60e85d398fbc0"><div class="ttname"><a href="video_8h.html#a4545542b6058c4dfa9b60e85d398fbc0">REG_M7X</a></div><div class="ttdeci">#define REG_M7X</div><div class="ttdoc">Rotation/Scaling Center Coordinate X (W)</div><div class="ttdef"><b>Definition:</b> video.h:267</div></div>
@@ -581,7 +581,7 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode7_perspec
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Mar 19 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

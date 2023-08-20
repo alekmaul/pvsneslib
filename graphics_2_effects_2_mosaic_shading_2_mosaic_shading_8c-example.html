@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.0.3</span>
+   &#160;<span id="projectnumber">4.1.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -124,7 +124,7 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_mosaic_shading_2_
 <div class="line">    <a name="a5"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Wait for a key</span></div>
-<div class="line">    <span class="keywordflow">while</span> (!<a name="a6"></a><a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0))</div>
+<div class="line">    <span class="keywordflow">while</span> (!<a name="a6"></a><a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0))</div>
 <div class="line">        ;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now just play with effects :P</span></div>
@@ -133,25 +133,25 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_mosaic_shading_2_
 <div class="line">        <span class="comment">// Fade out so light to black</span></div>
 <div class="line">        <a name="a7"></a><a class="code" href="video_8h.html#ac34bd13a8556c8ac8e1eeeded15f7632">setFadeEffect</a>(FADE_OUT);</div>
 <div class="line">        <a name="a8"></a><a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">        <span class="keywordflow">while</span> (!<a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0))</div>
+<div class="line">        <span class="keywordflow">while</span> (!<a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0))</div>
 <div class="line">            ;</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Fade in now so black to light</span></div>
 <div class="line">        <a class="code" href="video_8h.html#ac34bd13a8556c8ac8e1eeeded15f7632">setFadeEffect</a>(FADE_IN);</div>
 <div class="line">        <a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">        <span class="keywordflow">while</span> (!<a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0))</div>
+<div class="line">        <span class="keywordflow">while</span> (!<a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0))</div>
 <div class="line">            ;</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Now do some big pixels</span></div>
 <div class="line">        <a name="a9"></a><a class="code" href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">setMosaicEffect</a>(MOSAIC_OUT, MOSAIC_BG1);</div>
 <div class="line">        <a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">        <span class="keywordflow">while</span> (!<a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0))</div>
+<div class="line">        <span class="keywordflow">while</span> (!<a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0))</div>
 <div class="line">            ;</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// And now restore screen to normal</span></div>
 <div class="line">        <a class="code" href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">setMosaicEffect</a>(MOSAIC_IN, MOSAIC_BG1);</div>
 <div class="line">        <a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">        <span class="keywordflow">while</span> (!<a class="code" href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0))</div>
+<div class="line">        <span class="keywordflow">while</span> (!<a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0))</div>
 <div class="line">            ;</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
@@ -161,7 +161,7 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_mosaic_shading_2_
 <div class="ttc" id="abackground_8h_html_ae09a7ac09be78eef0f28a6c7aabc82ad"><div class="ttname"><a href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a></div><div class="ttdeci">void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)</div><div class="ttdoc">Initializes a Tile Set and Loads the Tile GFX into VRAM.</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
 <div class="ttc" id="ainterrupt_8h_html_abd33830487e4764e5ec22ec98b749f4b"><div class="ttname"><a href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt</div></div>
-<div class="ttc" id="apad_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="pad_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> pad.h:122</div></div>
+<div class="ttc" id="anetwork_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> network.h:122</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
 <div class="ttc" id="avideo_8h_html_aa14785c4eb1ce08cc02eb98d26c98c44"><div class="ttname"><a href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">setMosaicEffect</a></div><div class="ttdeci">void setMosaicEffect(u8 mode, u8 bgNumbers)</div><div class="ttdoc">Do a mosaic in or out effect.</div></div>
 <div class="ttc" id="avideo_8h_html_abc7d4ef8ebc22f5b710927909bb3f144"><div class="ttname"><a href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a></div><div class="ttdeci">void setScreenOn(void)</div><div class="ttdoc">Put screen On.</div></div>
@@ -172,7 +172,7 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_mosaic_shading_2_
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Mar 19 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>
