@@ -8,6 +8,7 @@ export TOPDIR := $(CURDIR)
 export PVSNESLIB_MAJOR := 4
 export PVSNESLIB_MINOR := 1
 export PVSNESLIB_PATCH := 0
+export PVSNESLIB_VERSION := $(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
 
 # Directory with docs config and output (via doxygen)
 export PVSDOCSDIR := $(TOPDIR)/docs
@@ -37,7 +38,7 @@ else
 	# Remove the existing HTML documentation
 	@rm -rf $(PVSDOCSDIR)/html
 	# Set the PVSDOCSDIR and PVSVERSION variables and run Doxygen
-	@PVSDOCSDIR=$(PVSDOCSDIR) PVSVERSION="$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)" doxygen "$(PVSDOCSDIR)/pvsneslib.dox"
+	@PVSDOCSDIR=$(PVSDOCSDIR) doxygen "$(PVSDOCSDIR)/pvsneslib.dox"
 
 	# If PDF output is enabled, build the LaTeX documentation and copy the resulting PDF
 	@if [ "$(DOCS_PDF_ON)" = "YES" ]; then \
@@ -68,13 +69,13 @@ include/snes/libversion.h : Makefile
 	@echo "#define _PVSNESLIB_MINOR_	$(PVSNESLIB_MINOR)" >> $@
 	@echo "#define _PVSNESLIB_PATCH_	$(PVSNESLIB_PATCH)" >> $@
 	@echo >> $@
-	@echo '#define _PVSNESLIB_STRING_ "PVSnesLib V'$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)'"' >> $@
+	@echo '#define _PVSNESLIB_STRING_ "PVSnesLib V'$(PVSNESLIB_VERSION)'"' >> $@
 	@echo >> $@
 	@echo "#endif // __PVSNESLIBVERSION_H__" >> $@
 
 # This target generates a text file containing the current version number of PVSnesLib. This allows for easier installation for users, as the version is no longer included in the folder name (which previously required users to update the 'pvsneslib_home' variable). Instead, the version can now be found in this specific file.
 pvsneslibversion:
-	@echo $(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH) > pvsneslib_version.txt
+	@echo $(PVSNESLIB_VERSION) > pvsneslib_version.txt
 
 # Declare the phony targets
 .PHONY: release clean all docs
