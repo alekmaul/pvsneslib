@@ -10,7 +10,7 @@ It contains a snes-sdk compiler / linker and a library (sources included) which 
 It also contains examples which demonstrate how to use the functions in the library.
 
 # Before getting started #
-First, you need to know that PVSnesLib uses the C language (assembly is possible and highly recommended for some speed aspects). It's highly recommended to be familiar with C programming before trying to develop with PVSnesLib. Learning C language at same time as learning Super Nintendo programming is definitely too difficult and you will end up getting nowhere. It's important to have a knowledge of the Super Nintendo hardware.
+First, you need to know that PVSnesLib uses the C language (assembly is possible and highly recommended for some speed aspects). It's highly recommended to be familiar with C programming before trying to develop with PVSnesLib. Learning C language at same time as learning Super Nintendo programming is definitely too difficult and you will end up getting nowhere. It's also important to have a good knowledge of the Super Nintendo hardware.
 
 Here are good entry points to know how Super Nintendo works:
 
@@ -19,8 +19,9 @@ Here are good entry points to know how Super Nintendo works:
 - [**Super NES Programming**](https://en.wikibooks.org/wiki/Super_NES_Programming/)
 
 # Installation #
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.0.2/Windows-x32-402-release.zip"><img src="https://img.shields.io/badge/release-windows32-green?style=flat&logo=github" alt="PVSNESLIB Windows32 Release"></a>
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.0.2/Linux-x64-402-release.zip"><img src="https://img.shields.io/badge/release-linux-orange?style=flat&logo=github" alt="PVSNESLIB Linux32 Release"></a>
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.1.0/pvsneslib_410_64b_windows_release.zip"><img src="https://img.shields.io/badge/release-windows32-green?style=flat&logo=github" alt="PVSNESLIB Windows Release"></a>
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.1.0/pvsneslib_410_64b_linux_release.zip"><img src="https://img.shields.io/badge/release-linux-orange?style=flat&logo=github" alt="PVSNESLIB Linux Release"></a>
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.1.0/pvsneslib_410_64b_linux_darwin.zip"><img src="https://img.shields.io/badge/release-macos-blue?style=flat&logo=github" alt="PVSNESLIB MacOS Release"></a>
 
 To install the library, please download the latest [release](https://github.com/alekmaul/pvsneslib/releases/latest) or with the link below and follow instructions on the [Wiki pages](https://github.com/alekmaul/pvsneslib/wiki).
 
@@ -82,6 +83,7 @@ Sydney Hunter by [CollectorVision](https://collectorvision.com/store/shop/snes/s
 
 - [**RetroAntho**](https://github.com/RetroAntho) for his great help to move wla-dx to last version and also for all compilation optimizations in Makefile, snes_rules and, at least, for keeping me motivated to update PVSnesLib 😉.
 - [**Kobenairb**](https://github.com/kobenairb/) for the port of python optimiser to c version, docker images, building scripts harmonisation and cleaning and the tcc-816 upgrade.
+- [**Digifox**](https://github.com/malayli) and **lunoka** for their work on the logo intro.
 - **Ulrich Hecht** for [SNES C SDK](http://code.google.com/p/snes-sdk/).
 - **Byuu** for [bass](http://byuu.org/programming/), the assembler with SPC700 support.
 - **Mic_** for 816-tcc, [sixpack](http://jiggawatt.org/badc0de/sixpack/), [optimore](http://jiggawatt.org/optimore-816r2.zip) and constify.
@@ -92,6 +94,6 @@ Sydney Hunter by [CollectorVision](https://collectorvision.com/store/shop/snes/s
 - [**Mills32**](https://github.com/mills32) for his mode7 3D example.
 - [**N_Arno**](https://github.com/nArnoSNES/) for his help on Linux version.
 
-All the discor community !
+All the discord community !
 
 Thanks !

@@ -1,6 +1,6 @@
 These basic tutorials aim to give you the basis to start developing on the Super NES using PVSneslib.
 
-First, you need to know that PVSnesLib uses the C language (assembly is possible and highly recommended for some speed aspects). It's highly recommended to be familiar with C programming before trying to develop with PVSnesLib. Learning C language at same time as learning Super Nintendo programming is definitely too difficult and you will end up getting nowhere. It's important to have a knowledge of the Super Nintendo hardware.
+First, you need to know that PVSnesLib uses the C language (assembly is possible and highly recommended for some speed aspects). It's highly recommended to be familiar with C programming before trying to develop with PVSnesLib. Learning C language at same time as learning Super Nintendo programming is definitely too difficult and you will end up getting nowhere. It's also important to have a good knowledge of the Super Nintendo hardware.
 
 Here are good entry points to know how Super Nintendo works:
 
