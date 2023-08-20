@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------
-  Copyright (C) 2012-2022
+  Copyright (C) 2012-2023
    Alekmaul
 
   This software is provided 'as-is', without any express or implied
@@ -21,10 +21,8 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
-V4.0.3 (mm,dd,2023)
-- Add sfx+music example
-- Various Fix on documentation
-- Change oamSetGfxOffset into assembly version
+V4.1.0 (August,20,2023)
+- See github changelog of the release
 
 V4.0.2 (February,22,2023)
 - Various Fix on documentation
