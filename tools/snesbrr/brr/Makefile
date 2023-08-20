@@ -1,50 +1,51 @@
 include ../makeinclude
 
-VERSION = "1.0.0"
+VERSION := "1.0.0"
+DATESTRING := $(shell date +%Y%m%d)
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-LIBS = -lbase
+LIBS     := -lbase
 CPPFLAGS += -I"../"
-LDFLAGS += -L"../"
-CFLAGS += -O3 -static -static-libstdc++ -static-libgcc -D__BUILD_DATE="\"`date +'%Y%m%d'`\"" -D__BUILD_VERSION="\"$(VERSION)\""
+LDFLAGS  += -L"../"
+CFLAGS   += -O3 -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-BIN := snesbrr
+BIN    := snesbrr
 BINDIR := ../$(BIN)
-SRC := $(wildcard *.cpp)
-OBJ := $(addsuffix .o,$(SRC))
-DEP := $(addsuffix .d,$(SRC))
+SRC    := $(wildcard *.cpp)
+OBJ    := $(addsuffix .o,$(SRC))
+DEP    := $(addsuffix .d,$(SRC))
 
 ifeq ($(OS),Windows_NT)
-        EXT=.exe
+        EXT := .exe
 else
-        EXT=
+        EXT :=
 endif
 
-.PHONY : all clean distclean compress
+.PHONY: all clean distclean compress
 
 #---------------------------------------------------------------------------------
-all : $(BINDIR)$(EXT)
+all: $(BINDIR)$(EXT)
 
-$(BINDIR)$(EXT) : $(OBJ) ../libbase.a
+$(BINDIR)$(EXT) : $(OBJ) $(LIB)
 	@echo "Linking $(words $(OBJ)) Object Files Into $@"; $(CXX) $(OBJ) -o $@ $(LDFLAGS) $(LIBS)
 
 #---------------------------------------------------------------------------------
-clean :
+clean:
 	-$(RM) $(OBJ)
 	-$(RM) $(BINDIR)$(EXT)
-
-install:
-	mkdir -p ../../../devkitsnes/tools && cp $(BINDIR)$(EXT) ../../../devkitsnes/tools/$(BIN)$(EXT)
-
-distclean : clean
 	-$(RM) $(DEP)
 
-compress :
+install:
+	cp $(BINDIR)$(EXT) ../../../devkitsnes/tools/$(BIN)$(EXT)
+
+distclean: clean
+	-$(RM) $(DEP)
+
+compress:
 	-upx --best $(BINDIR)$(EXT)
 
 ifeq ($(findstring $(MAKECMDGOALS),clean distclean compress),)
  -include $(DEP)
 endif
-

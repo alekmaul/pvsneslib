@@ -16,6 +16,7 @@ using namespace base::types;
 enum
 {
     OPT_Help = 1,
+    OPT_Version,
     OPT_Encode,
     OPT_Decode,
     OPT_Transcode,
@@ -25,15 +26,17 @@ enum
 };
 
 static const OptionParser::Option option_list[] =
-    {
+{
         {OPT_Help, "-?", "--help", "Display this help message"},
+        {OPT_Version, "-v", "--version", "Display the version"},
         {OPT_Encode, "-e", "--encode", "Encode WAV -> BRR"},
         {OPT_Decode, "-d", "--decode", "Decode BRR -> WAV"},
         {OPT_Transcode, "-t", "--transcode", "Transcode WAV -> (BRR) -> WAV"},
         {OPT_Loop, "-l", "--loop-start", "Set the loop start sample"},
         {OPT_Pitch, "-p", "--pitch", "Set the pitch rate for decoding"},
         {OPT_Gauss, "-g", "--enable-gauss", "Enable gaussian filtering during decoding"},
-        {0, 0, 0, 0}};
+        {0, 0, 0, 0}
+};
 
 static void cb_progress(BrrCodec &codec)
 {
@@ -78,6 +81,7 @@ static int run_main(int argc, const char *const *argv)
         switch (id)
         {
         case OPT_Help:
+        case OPT_Version:
         case OPT_Encode:
         case OPT_Decode:
         case OPT_Transcode:
@@ -161,6 +165,12 @@ static int run_main(int argc, const char *const *argv)
     if (mode == OPT_Help)
     {
         op.print_help("[options] input-file output-file");
+        return 0;
+    }
+
+    if (mode == OPT_Version)
+    {
+        op.print_version(SNESBRRVERSION, SNESBRRDATE);
         return 0;
     }
 
@@ -287,17 +297,8 @@ static int run_main(int argc, const char *const *argv)
     return 0;
 }
 
-#define SNESBRRVERSION __BUILD_VERSION
-#define SNESBRRDATE __BUILD_DATE
-
 int main(int argc, const char *const *argv)
 {
-    std::printf("\n===========================================================");
-    std::printf("\n---                  snesbrr v%s %s            ---", SNESBRRVERSION, SNESBRRDATE);
-    std::printf("\n-----------------------------------------------------------");
-    std::printf("\n           (c) 2006-2021 DMV27 & Alekmaul ");
-    std::printf("\nBased on SNESBRR (C) 2006 DMV27 ");
-    std::printf("\n===========================================================\n");
     try
     {
         return run_main(argc, argv);

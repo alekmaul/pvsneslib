@@ -1,8 +1,8 @@
-# Build code from docker container
+# Build and release sources from docker container
 
 This readme explains how and why to use docker containers.
 
-- [Build code from docker container](#build-code-from-docker-container)
+- [Build and release sources from docker container](#build-and-release-sources-from-docker-container)
   - [Why use docker for this project](#why-use-docker-for-this-project)
   - [Features](#features)
   - [Integrated linux distributions](#integrated-linux-distributions)
@@ -18,17 +18,15 @@ This readme explains how and why to use docker containers.
 - Each distribution uses different package versions, by testing the most used distributions, it is easier to trace the regressions between each release of **pvsneslib**.
 - You don't want to install all the development packages on your OS but you want to be able to compile the code and test by yourself.
 - The Dockerfiles serve as documentation if you want to test the compilation locally on your distribution but you don't know which packages to install.
-- Have the possibility to add continuous integration by testing the modifications with each modification
-- Have the possibility to push each new version of pvsneslib in github in the release section
-- And so on...
+
 
 ## Features
 
 - Compile **pvnseslib** tools from different linux distribution versions.
 - Create ready-to-use releases in zip form
-- Check that pvsneslib compiles correctly on different linux distributions, and thus test different versions of tools and libraries used to compile.
+- Check that pvsneslib compiles correctly on different linux distributions, and thus test different versions of tools and libraries used to compile it.
 
-> There is no relationship between the version of Linux you are using and the type of container used. The binaries do not use the OS libraries.
+> There is no relationship between the version of Linux you are using and the type of container used.
 
 ## Integrated linux distributions
 
@@ -52,64 +50,58 @@ These distributions have been integrated because they represent the most used on
 
 
 Activate and start the docker service.
-```
+
+```bash
  sudo systemctl enable docker
  sudo systemctl start docker
 ```
 
 Add your current user to the docker group and restart your system to make it effective.
-```
-  sudo usermod -aG docker <username>
+
+```bash
+  sudo usermod -aG docker ${USER}
 ```
 
 ## How to use dockerrun.sh
 
-Above all, this script must be executed at the root of the project, which is the equivalent of `PVSNESLIB_HOME`.
+Above all, this script must be executed at the root of the project, which is the equivalent of the `PVSNESLIB_HOME` environment variable.
 
 No need to set this environment variable, the script takes care of it for you.
 
 ```
   ./dockerrun -h
-
-usage: ./dockerrun.sh options:<d|h|c>
--d: name of the linux distribution (fedora, ubuntu or debian)
+usage: ./dockerrun.sh options:<d|h|r|b>
 -h: help, print this message
--r: Create release (zip) to /var/tmp/build by default or by providing a custom path in parameter
+-d: followed by the name of the linux distribution (fedora, ubuntu or debian)
+-r: Create release (make release)
 -b: Run this script in batch mode, useful when using without terminal
-
 ```
 
 ### Use cases
 
-I just want to compile my code for my ubuntu distribution.
+I just want to compile my code for ubuntu distribution.
 
 > Notes: dockerrun.sh *must* be launched at the root of the repository as it used the current working directory to set `PVSNESLIB_HOME`.
 
-```
+```bash
   docker/scripts/dockerrun.sh -d ubuntu
 
 ```
+
 > Notes: The `-d` option is the only mandatory option (except help `-h` menu).
 
-I want to compile my code for my **ubuntu** distribution and create my own release (zip).
+I want to compile my code for my **ubuntu** distribution and create the release (`make release`).
 
-```
+```bash
   docker/scripts/dockerrun.sh -d ubuntu -r
 
 ```
 
-In this case, the archive will be located in `/var/tmp`.
-
-Ditto but I want to put my archive in a custom directory.
-
-```
-  docker/scripts/dockerrun.sh -d ubuntu -r /somewhere/over/the/rainbow
-
-```
+The release file is located in the `release` directory.
 
 Finally I want to integrate this script in batch mode (without terminal), without progress bars to keep readable logs.
 
-```
+```bash
   ./dockerrun -d ubuntu -b
 
 ```
@@ -118,13 +110,9 @@ Finally I want to integrate this script in batch mode (without terminal), withou
 
 The **centos** and **fedora** versions (especially) take longer on first use (to build the docker image). Made some changes to improve build times.
 
-
 ## Todo
 
-- Add the ability to specify a **git tag** and build a release from it.
-- Add continuous integration to pre-validate each pull request.
-  - In addition to validating the correct compilation of the code, we could add a checksum test on the sfc files in the examples, comparing them to those of the latest versions. If the hash does not change, everything is fine, otherwise raise a warning and test the rom manually. This avoids systematically testing each rom following a new version of **pvsneslib**.
-- Add continuous delivery by creating pushing a new release in **github** automatically.
+Create a Dockerfile for the latest **windows** and **macos** O.S.
 
 ## To contribute
 

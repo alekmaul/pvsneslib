@@ -27,7 +27,6 @@ namespace Conversion
     {
 
     public:
-        Bank(ConversionInput::SoundbankData *);
         void AddModule(const char *filename);
     };
 };

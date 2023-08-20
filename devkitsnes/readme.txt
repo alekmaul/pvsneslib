@@ -1,4 +1,4 @@
- DevkitSnes 4.0
+ DevkitSnes 4.1
 
  Programming Compiler and Tools for Snes
 
@@ -31,6 +31,9 @@ SPECIAL THANKS
 
 CHANGE LOG
 ----------------------
+VERSION 4.1 (August,20,2023)
+- See github changelog of the release
+
 VERSION 4.0 (February,02,2023)
 - Add colored messages in gfx2snes
 

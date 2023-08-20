@@ -226,6 +226,10 @@ mapLoad:
     lda #$7e                                ; safely use of 7E as it is explicit declared
     sta.l $2183
 
+    lda #$0                                 ; 230805 to point to correct bank for x dma value
+    pha                                     
+    plb
+
     lda 16,s                                ; get metatiles definition  bank address (11+1+2+2)
     sta.l $4304
 

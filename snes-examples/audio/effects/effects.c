@@ -38,9 +38,6 @@ int main(void)
     // Set give soundbank
     spcSetBank(&SOUNDBANK__);
 
-    // Load music
-    spcLoad(MOD_EFFECTSSFX);
-
     // Init background
     bgSetGfxPtr(0, 0x2000);
     bgSetMapPtr(0, 0x6800, SC_32x32);
@@ -50,15 +47,15 @@ int main(void)
     bgSetDisable(1);
     bgSetDisable(2);
 
-	// Load all effects
-	spcStop(); spcLoad(0); 
-	for (i=0;i<5;i++) { 
+    // Load all effects
+    spcStop();
+    for (i=0;i<5;i++) { 
         spcLoadEffect(i); 
     }
 
     // Draw a wonderfull text :P
     consoleDrawText(5, 10, "Press A to play effect !");
-	consoleDrawText(5, 11, "Press L and R to change !");
+    consoleDrawText(5, 11, "Press L and R to change !");
 
     // Wait for nothing :P
     setScreenOn();

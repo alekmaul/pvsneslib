@@ -1,13 +1,11 @@
 #!/bin/bash
 
-# shellcheck disable=SC2154
-
 function f_usage {
 
-    echo "usage: ${0} options:<d|h|c>"
-    echo "-d: name of the linux distribution (fedora, ubuntu or debian)"
+    echo "usage: ${0} options:<d|h|r|b>"
     echo "-h: help, print this message"
-    echo "-r: Create release (zip) to /var/tmp/build"
+    echo "-d: followed by the name of the linux distribution (fedora, ubuntu or debian)"
+    echo "-r: Create release (make release)"
     echo "-b: Run this script in batch mode, useful when using without terminal"
 
 }
@@ -31,7 +29,7 @@ function f_check_distro {
 
     if [[ $(echo "${distro}" | grep -Ec '^centos$|^fedora$|^debian$|^ubuntu$') -ne 1 ]]; then
 
-        echo "Wrong distrution: ${distro}"
+        echo "Wrong distrution: ${distro}, supported distributions are centos, fedora, ubuntu or debian"
 
         f_usage
         exit 1
@@ -70,50 +68,10 @@ function f_run_docker_container {
         -u "$(id -u):$(id -g)" \
         -e "PVSNESLIB_HOME=${PVSNESLIB_HOME}" \
         -e "DISTRO=${distro}" \
+        -e "MAKE_RELEASE=${make_release}" \
         "${image}"
 
     f_print_message "DOCKER" "Running container with tasks" $?
-
-}
-
-function f_create_zip {
-
-    if [[ "${create_zip}" == "true" ]]; then
-        {
-            [[ -d "${release_path}/pvsneslib" ]] ||
-                mkdir -p "${release_path}/pvsneslib" >/dev/null 2>&1
-            cp -pvr pvsneslib snes-examples devkitsnes \
-                "${release_path}/pvsneslib"
-            cd "${release_path}" || exit 1
-        } >/dev/null 2>&1
-
-        zip -qr "${release_file}.zip" pvsneslib; exit_code=$?
-
-        {
-            rm -rf pvsneslib
-            cd "${PVSNESLIB_HOME}" || exit 1
-        } >/dev/null 2>&1
-
-        f_print_message "ZIP" "Building the release file ${release_file}" ${exit_code}
-
-        echo -e "\tThe release file is ${release_path}/${release_file}.zip"
-    fi
-}
-
-function f_print_os_info {
-
-    echo ">>>> SYSTEM INFORMATION" >"${PVSNESLIB_HOME}/docker/${distro}/infos.log"
-
-    {
-        echo -n "O.S version "
-        grep -E '^PRETTY_NAME' /etc/os-release |
-            cut -d "=" -f2 |
-            tr -d "\""
-        echo -n "Kernel version "
-        uname -a
-        docker -v
-    } >>"${PVSNESLIB_HOME}/docker/${distro}/infos.log"
-    echo
 
 }
 
@@ -123,7 +81,7 @@ function f_print_message {
 
     action="${1}"
     message="${2}"
-    status=${3}
+    status="${3}"
 
     if [[ $status -eq 0 ]]; then
         fmt_status="PASS"
@@ -143,47 +101,6 @@ function f_quit {
     read -re ctrlc
     if [ "$ctrlc" = 'y' ]; then
         exit 1
-    fi
-
-}
-
-function f_check_sfc_md5 {
-
-    mapfile -t sfc_md5hash < <(cat "${PVSNESLIB_HOME}/docker/md5/sfc_md5sum.ref")
-
-    sfc_missing=0
-    declare -a wrong_sfc_md5=()
-
-    for line in "${sfc_md5hash[@]}"; do
-            sfc_hash="$(echo "${line}" | cut -d "|" -f1)"
-            sfc_file="$(echo "${line}" | cut -d "|" -f2)"
-
-            if [[ ! -f ${sfc_file} ]]; then
-               echo "<!!> ${sfc_file} is missing"
-                sfc_missing=1
-                break
-
-            fi
-
-            if [[ "$(md5sum "${PVSNESLIB_HOME}/${sfc_file}" | cut -d " " -f1)" != "${sfc_hash}" ]]; then
-                    {
-                        wrong_sfc_md5+=("${sfc_file}")
-                    }
-            fi
-    done
-
-    if [[ ${sfc_missing} -eq 1 ]]; then
-        f_print_message "SFC" "Checking SFC file(s)" 1
-    else
-        f_print_message "SFC" "Checking SFC file(s)" 0
-        if [[ ${#wrong_sfc_md5[@]} -ne 0 ]]; then
-            echo "<!> ${#wrong_sfc_md5[@]} SFC rom(s) differ, please check it with an emulator:"
-            for sfc in "${wrong_sfc_md5[@]}"; do
-                echo "  - ${sfc}"
-            done
-            echo
-
-        fi
     fi
 
 }

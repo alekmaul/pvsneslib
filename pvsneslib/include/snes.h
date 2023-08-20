@@ -55,6 +55,9 @@
  - \ref pad.h "Keypad"
  - \ref console.h "Console and Debug Printing"
 
+\section network_api Network (with Retrolink hardwaqre) API
+ - \ref network.h "Network (retrolink hardware) management"
+
  \section engine_api Engine API functions
  - \ref object.h "Objects management"
  - \ref map.h "map management"
@@ -129,6 +132,7 @@
 
     <!-- audio -->
     \example audio/effects/effects.c
+    \example audio/effectsandmusic/effectsandmusic.c
     \example audio/music/Music.c
     \example audio/tada/Tada.c
     \example audio/musicGreaterThan32k/musicGreaterThan32k.c

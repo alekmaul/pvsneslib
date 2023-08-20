@@ -27,6 +27,26 @@ Once it is done, you have to :
       - Auto format code in C and C++ as it is now.
         > The formatting is provided by the C/C++ MS plugin as specified above.
 
+### Building sources with the integrated terminal on Windows
+
+On Windows, the library requires to use MSYS2 with the UCRT64 binary.
+
+If you use the integrated terminal in vscode, you will have to update the user settings by adding this block :
+
+`"terminal.integrated.profiles.windows": {
+    "MSYS2 UCRT": {
+        "path": "cmd.exe",
+        "args": [
+            "/c",
+            "C:\\msys64\\msys2_shell.cmd -defterm -here -no-start -ucrt64"
+        ]
+    }
+},`
+
+and the workspace settings with this one :
+
+`"terminal.integrated.defaultProfile.windows": "MSYS2 UCRT"`
+
 ## Usage
 
 * Open `VSCode` then `File->Open Folder...` and choose the folder of your project.

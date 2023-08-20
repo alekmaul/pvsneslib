@@ -17,16 +17,21 @@ RUN echo "minrate=30k" >> /etc/dnf/dnf.conf
 
 RUN echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf
 
-RUN dnf -y upgrade && \
-    dnf -y groupinstall "Development Tools" && \
-    dnf -y install dnf-plugins-core && \
-    dnf -y config-manager --set-enabled powertools && \
-    dnf -y install glibc-devel.i686 \
-        cmake\
+RUN dnf -y update
+
+RUN dnf -y install dnf-plugins-core
+
+RUN dnf -y config-manager --set-enabled powertools
+
+RUN dnf -y groupinstall "Development Tools"
+
+RUN dnf -y install cmake \
         gcc-c++ \
-        python3 \
         glibc-static \
-        libstdc++-static && \
-    alternatives --set python /usr/bin/python3
+        libstdc++-static \
+        git \
+        doxygen \
+        texi2html \
+        texlive-scheme-basic
 
 CMD ./docker/scripts/container.sh "${PVSNESLIB_HOME}" "${DISTRO}"

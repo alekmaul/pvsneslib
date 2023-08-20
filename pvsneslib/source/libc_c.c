@@ -45,6 +45,12 @@
 #include <string.h>
 #include <limits.h>
 
+/**
+ * @brief Check if a character is a decimal digit.
+ *
+ * @param c The character to check.
+ * @return Nonzero if the character is a decimal digit, zero otherwise.
+ */
 int isdigit(int c)
 {
     if (c >= '0' && c <= '9')
@@ -53,6 +59,12 @@ int isdigit(int c)
         return 0;
 }
 
+/**
+ * @brief Check if a character is a hexadecimal digit.
+ *
+ * @param c The character to check.
+ * @return Nonzero if the character is a hexadecimal digit, zero otherwise.
+ */
 int isxdigit(int c)
 {
     if (isdigit(c) ||
@@ -63,6 +75,12 @@ int isxdigit(int c)
         return 0;
 }
 
+/**
+ * @brief Check if a character is a lowercase letter.
+ *
+ * @param c The character to check.
+ * @return Nonzero if the character is a lowercase letter, zero otherwise.
+ */
 int islower(int c)
 {
     if (c >= 'a' && c <= 'z')
@@ -71,6 +89,12 @@ int islower(int c)
         return 0;
 }
 
+/**
+ * @brief Convert a lowercase letter to uppercase.
+ *
+ * @param c The character to convert.
+ * @return The uppercase equivalent of the input character, or the input character if it is not a lowercase letter.
+ */
 int toupper(int c)
 {
     if (islower(c))
@@ -79,6 +103,12 @@ int toupper(int c)
         return c;
 }
 
+/**
+ * @brief Check if a character is a whitespace character.
+ *
+ * @param c The character to check.
+ * @return Nonzero if the character is a whitespace character, zero otherwise.
+ */
 int isspace(int c)
 {
     if (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r')
@@ -87,6 +117,14 @@ int isspace(int c)
         return 0;
 }
 
+/**
+ * @brief Determines whether the given character is printable or not.
+ *
+ * This function checks whether the given character is a printable ASCII character
+in the range of 0x20 to 0x7E (inclusive).
+ * @param c The character to be checked for printability.
+ * @return Returns 1 if the character is printable, and 0 otherwise.
+ */
 int isprint(int c)
 {
     if (c >= ' ' && c <= '~')
@@ -94,22 +132,49 @@ int isprint(int c)
     else
         return 0;
 }
-
+/**
+ * @def USED
+ *
+ * @brief A macro used to mark memory blocks as used in the memory allocation algorithm.
+ */
 #define USED 1
 
+/**
+ * @brief The memory block header used by the custom memory allocation implementation.
+ *
+ * This structure represents the header of each memory block that is allocated using the custom memory allocation implementation. It only contains the size of the block, which is used to manage the allocation and deallocation of memory.
+ */
 typedef struct
 {
-    unsigned int size;
+    unsigned int size; /**< The size of the memory block, including the header. */
 } unit;
 
+/**
+ * @brief Memory system structure that holds the free and heap units.
+ */
 typedef struct
 {
-    unit *free;
-    unit *heap;
+    unit *free; /**< Pointer to the beginning of the free unit */
+    unit *heap; /**< Pointer to the beginning of the heap unit */
 } msys_t;
 
+/**
+ * @brief The memory system instance.
+ *
+ * This global variable is an instance of the memory system structure used by the malloc() and free() functions to manage memory.
+ */
 static msys_t msys;
 
+/**
+ * @brief Compacts the free memory blocks in the heap to ensure contiguous space for future allocations.
+ *
+ * This function searches the heap for consecutive free blocks of memory and merges them together. If a block of
+memory can fit the required size, it is returned to the caller. If the heap is not large enough to contain
+such a block of memory, the function returns NULL.
+ * @param p Pointer to the start of the heap.
+ * @param nsize The size of the memory block to allocate.
+ * @return A pointer to the allocated block of memory, or NULL if the heap is not large enough.
+ */
 static unit *__compact(unit *p, unsigned int nsize)
 {
     unsigned int bsize, psize;
@@ -152,6 +217,11 @@ static unit *__compact(unit *p, unsigned int nsize)
     return 0;
 }
 
+/**
+ * @brief Frees a block of memory that was previously allocated using malloc().
+ *
+ * @param ptr A pointer to the beginning of the block to free.
+ */
 void free(void *ptr)
 {
     if (ptr)
@@ -163,6 +233,13 @@ void free(void *ptr)
     }
 }
 
+/**
+ * @brief Allocates a block of memory of the specified size.
+ *
+ * @param size The size of the block to allocate.
+ * @return void* Returns a pointer to the beginning of the allocated block, or
+NULL if the allocation failed.
+ */
 void *malloc(unsigned int size)
 {
     unsigned int fsize;
@@ -201,6 +278,15 @@ void *malloc(unsigned int size)
     return (void *)((void *)p + sizeof(unit));
 }
 
+/**
+ * @brief Initializes a dynamic memory allocation system.
+ *
+ * This function initializes a dynamic memory allocation system using the specified heap of the given length.
+It sets the free pointer and the heap pointer to the start of the heap, and sets the size of both pointers to the length of the heap minus the size of a memory unit.
+It also sets the last word of the heap to zero to indicate the end of the heap.
+ * @param heap A pointer to the start of the heap.
+ * @param len The length of the heap.
+ */
 void malloc_init(void *heap, unsigned int len)
 {
     len >>= 2;
@@ -210,16 +296,25 @@ void malloc_init(void *heap, unsigned int len)
     *(unsigned int *)((char *)heap + len - sizeof(unit)) = 0;
 }
 
+/**
+ * @brief Compacts the memory heap by consolidating adjacent free blocks.
+ *
+ * This function compacts the memory heap by consolidating adjacent free blocks.
+ * It sets the free block pointer to point to the start of the newly compacted heap.
+ */
 void compact(void)
 {
     msys.free = __compact(msys.heap, 0xffff);
 }
 
 /**
- * strtoul - convert a string to an unsigned long
- * @cp: The start of the string
- * @endp: A pointer to the end of the parsed string will be placed here
- * @base: The number base to use
+ * @brief Converts the initial part of a string to an unsigned long integer.
+ *
+ * This function parses the string pointed to by @p cp, interpreting its content as an unsigned long integer in the specified @p base.
+ * @param cp Pointer to the string to be converted to an unsigned long integer.
+ * @param endp Pointer to a pointer that is set to the character past the last character used in the conversion.
+ * @param base Optional integer argument specifying the conversion base. If 0, the base is determined by the prefix of the string.
+ * @return The converted unsigned long integer value.
  */
 unsigned long strtoul(const char *cp, char **endp, unsigned int base)
 {
@@ -251,10 +346,14 @@ unsigned long strtoul(const char *cp, char **endp, unsigned int base)
 }
 
 /**
- * strtol - convert a string to a signed long
- * @cp: The start of the string
- * @endp: A pointer to the end of the parsed string will be placed here
- * @base: The number base to use
+ * @brief Converts a string to a signed long integer.
+ *
+ * This function converts the initial part of the string pointed to by @p cp to a
+signed long integer value according to the given @p base, which must be between 2
+ * @param cp A pointer to the string to be converted.
+ * @param endp A pointer to a pointer to the first invalid character in the input string.
+ * @param base The number base to use for the conversion (2-36 inclusive), or 0 to  automatically detect the base from the * input string.
+ * @return The converted value as a signed long integer.
  */
 long strtol(const char *cp, char **endp, unsigned int base)
 {
@@ -264,10 +363,14 @@ long strtol(const char *cp, char **endp, unsigned int base)
 }
 
 /**
- * strtoull - convert a string to an unsigned long long
- * @cp: The start of the string
- * @endp: A pointer to the end of the parsed string will be placed here
- * @base: The number base to use
+ * @brief Converts a string to an unsigned long long integer value.
+ *
+ * The function parses the initial portion of the string pointed to by cp as an unsigned integer of the specified base.
+The string must begin with a sequence of whitespace or digits followed by a valid digit or a letter representing a * digit in the given base.
+ * @param cp A pointer to the string to be converted.
+ * @param endp A pointer to a pointer to the character that stops the scan.
+ * @param base The base to be used for the conversion.
+ * @return The converted value of type unsigned long long.
  */
 unsigned long long strtoull(const char *cp, char **endp, unsigned int base)
 {
@@ -298,10 +401,15 @@ unsigned long long strtoull(const char *cp, char **endp, unsigned int base)
 }
 
 /**
- * strtoll - convert a string to a signed long long
- * @cp: The start of the string
- * @endp: A pointer to the end of the parsed string will be placed here
- * @base: The number base to use
+ * @brief Converts a string to a long long integer with specified base.
+ *
+ * This function parses the string pointed to by cp interpreting its content as a long long integer value according to the specified base, which must be between 2 and 36 inclusive or be the special value 0.
+If base is 0, the base used is determined by the format of the string: if it starts with "0x" or "0X", base 16 is used,if it starts with "0", base 8 is used, otherwise base 10 is used.
+The function optionally returns the pointer to the character immediately following the last character used in the conversion through endp.
+ * @param cp Pointer to the string to convert.
+ * @param endp Pointer to a pointer to a character that will be set by the function to the first invalid character encountered in the input string. This argument can be NULL if unused.
+ * @param base Numeric base to be used for the conversion. If base is zero or 16, the string may include a 0x prefix.
+ * @return The converted long long integer value. If the converted value overflows, LLONG_MAX or LLONG_MIN is returned,depending on the sign of the value.
  */
 long long strtoll(const char *cp, char **endp, unsigned int base)
 {
@@ -310,6 +418,15 @@ long long strtoll(const char *cp, char **endp, unsigned int base)
     return strtoull(cp, endp, base);
 }
 
+/**
+ * @brief Skips over and converts any decimal digit string pointed to by the input pointer.
+ *
+ * This function takes a pointer to a pointer to a character array (string) and converts
+any decimal digits found in the string to an integer value. The input pointer will be
+updated to point at the character following the last digit in the string.
+ * @param s A pointer to a pointer to a character array (string) containing the decimal digit string.
+ * @return The integer value resulting from the conversion of the decimal digit string.
+ */
 static int skip_atoi(const char **s)
 {
     int i = 0;
@@ -319,30 +436,78 @@ static int skip_atoi(const char **s)
     return i;
 }
 
-/*
-+ * The semantics of do_div() are:
-+ *
-+ * uint32_t do_div(uint64_t *n, uint32_t base)
-+ * {
-+ * uint32_t remainder = *n % base;
-+ * *n = *n / base;
-+ * return remainder;
-+ * }
-+ */
+/**
+ * @def do_div
+ * @ref number "Used in *number function"
+ * @brief Divides an unsigned long long integer by a given base.
+ *
+ * This macro divides an unsigned long long integer by a given base, and returns the remainder of the division.
+ The original value of the integer is modified to store the result of the integer division.
+ * @param n The unsigned 64-bit integer to be divided.
+ * @param base The unsigned 32-bit integer to divide the integer by.
+ * @return The remainder of the division of the integer by the given base.
+ */
 #define do_div(n, base) ({ \
     int __res; \
     __res = ((unsigned long long) n) % (unsigned) base; \
     n = ((unsigned long long) n) / (unsigned) base; \
     __res; })
 
-#define ZEROPAD 1  /* pad with zero */
-#define SIGN 2     /* unsigned/signed long */
-#define PLUS 4     /* show plus */
-#define SPACE 8    /* space if plus */
-#define LEFT 16    /* left justified */
-#define SPECIAL 32 /* 0x */
-#define LARGE 64   /* use 'ABCDEF' instead of 'abcdef' */
+/**
+ * @def ZEROPAD
+ * @ref number "Used in *number function"
+ * @brief Pad the result with zeros instead of spaces.
+ */
+#define ZEROPAD 1
+/**
+ * @def SIGN
+ * @ref number "Used in *number function"
+ * @brief Always include a sign (+ or -) before the number.
+ */
+#define SIGN 2
+/**
+ * @def PLUS
+ * @ref number "Used in *number function"
+ * @brief Include a sign (+) before positive numbers.
+ */
+#define PLUS 4
+/**
+ * @def SPACE
+ * @ref number "Used in *number function"
+ * @brief Include a space before positive numbers (ignored if the PLUS flag is set).
+ */
+#define SPACE 8
+/**
+ * @def LEFT
+ * @ref number "Used in *number function"
+ * @brief Left-justify the result within the given field width.
+ */
+#define LEFT 16
+/**
+ * @def SPECIAL
+ * @ref number "Used in *number function"
+ * @brief Add a 0 or 0x before the number if base is 8 or 16, respectively.
+ */
+#define SPECIAL 32
+/**
+ * @def LARGE
+ * @ref number "Used in *number function"
+ * @brief Use uppercase letters (A-F) instead of lowercase (a-f) for base 16.
+ */
+#define LARGE 64
 
+/**
+ * @brief Converts a long long number to a string representation using a given base and formatting options
+ *
+ * @param buf Pointer to a character buffer where the resulting string will be stored
+ * @param end Pointer to the end of the buffer
+ * @param num The number to be converted
+ * @param base The base to be used for the conversion (must be between 2 and 36 inclusive)
+ * @param size Minimum width of the resulting string; if the resulting string is shorter, it will be padded with spaces (or zeros, if the ZEROPAD flag is set)
+ * @param precision Minimum number of digits to be used; if the number is shorter, it will be padded with zeros
+ * @param type Flags indicating special formatting options (ZEROPAD, SIGN, PLUS, SPACE, LEFT, SPECIAL or LARGE).
+ * @return A pointer to the end of the resulting string
+ */
 static char *number(char *buf, char *end, long long num, int base, int size, int precision, int type)
 {
     char c, sign, tmp[66];
@@ -457,14 +622,24 @@ static char *number(char *buf, char *end, long long num, int base, int size, int
 }
 
 /**
- * vsnprintf - Format a string and place it in a buffer
- * @buf: The buffer to place the result into
- * @size: The size of the buffer, including the trailing null space
- * @fmt: The format string to use
- * @args: Arguments for the format string
+ * @brief Formats and prints a string to the given buffer.
  *
- * Call this function if you are already dealing with a va_list.
- * You probably want snprintf instead.
+ * This function formats a string in the same way as printf() function
+and writes the output to the provided buffer. It supports all the standard
+format specifiers such as %d, %s, %f, etc. and also some additional
+ones such as %n, %p, etc. If the length of the output string is greater
+than the size of the buffer, the function will write up to size characters
+to the buffer and return the number of characters that would have been
+written if the buffer was large enough. If the buffer is NULL, the function
+will not write anything and return the number of characters that would have
+been written if the buffer was large enough.
+ * @note Call this function if you are already dealing with a va_list.
+You probably want snprintf instead.
+ * @param buf Pointer to the buffer to write the output to.
+ * @param size Maximum number of characters to write to the buffer.
+ * @param fmt Format string.
+ * @param args Variable arguments list containing the values to be printed.
+ * @return Number of characters that would have been written if the buffer was
  */
 int vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
 {
@@ -738,11 +913,18 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
 }
 
 /**
- * snprintf - Format a string and place it in a buffer
- * @buf: The buffer to place the result into
- * @size: The size of the buffer, including the trailing null space
- * @fmt: The format string to use
- * @...: Arguments for the format string
+ * @brief Writes a formatted string to a buffer.
+ *
+This function writes a formatted string to the specified buffer, taking into account a maximum
+buffer size.
+ * @param buf Pointer to the buffer where the output should be written.
+ * @param size Maximum number of characters that can be written to the buffer, including the
+terminating null character.
+ * @param fmt Format string.
+ * @param ... Additional arguments to be substituted into the format string.
+ * @return The total number of characters that would have been written if the buffer were large
+enough, not including the terminating null character. If the returned value is greater
+than or equal to the specified buffer size, then the output has been truncated.
  */
 int snprintf(char *buf, size_t size, const char *fmt, ...)
 {
@@ -756,13 +938,12 @@ int snprintf(char *buf, size_t size, const char *fmt, ...)
 }
 
 /**
- * vsprintf - Format a string and place it in a buffer
- * @buf: The buffer to place the result into
- * @fmt: The format string to use
- * @args: Arguments for the format string
+ * @brief Formats and writes a string from a va_list of arguments to a buffer.
  *
- * Call this function if you are already dealing with a va_list.
- * You probably want sprintf instead.
+ * @param buf The buffer to store the resulting string.
+ * @param fmt The format string.
+ * @param args The va_list of arguments to format.
+ * @return The number of characters written (excluding the null byte).
  */
 int vsprintf(char *buf, const char *fmt, va_list args)
 {
@@ -770,10 +951,14 @@ int vsprintf(char *buf, const char *fmt, va_list args)
 }
 
 /**
- * sprintf - Format a string and place it in a buffer
- * @buf: The buffer to place the result into
- * @fmt: The format string to use
- * @...: Arguments for the format string
+ * @brief Write formatted data to a string.
+ *
+ * This function writes the output to the string pointed to by buf, according to the format string fmt
+and arguments passed to it. It is a wrapper function that calls vsprintf with a buffer size of 0xFFFFUL.
+ * @param buf Pointer to the buffer where the resulting C-string is stored
+ * @param fmt Format string containing the specifications for the output
+ * @param ... Additional arguments to be formatted and inserted in the resulting C-string
+ * @return Number of characters written, not including the terminating null character
  */
 int sprintf(char *buf, const char *fmt, ...)
 {
@@ -787,10 +972,21 @@ int sprintf(char *buf, const char *fmt, ...)
 }
 
 /**
- * vsscanf - Unformat a buffer into a list of arguments
- * @buf:	input buffer
- * @fmt:	format of buffer
- * @args:	arguments
+ * @brief Reads formatted input from a string, according to a format specifier.
+ *
+ * This function is similar to the `sscanf` function, except that the input is
+ * read from a string instead of from the standard input. The arguments following
+ * the `fmt` argument are pointers to variables where the parsed values should be
+ * stored. The format specifier `fmt` is a string that contains conversion
+ * specifications, each beginning with a '%' character and optionally ending
+ * with a conversion qualifier (one of 'h', 'l', 'L', or 'Z'). The supported
+ * conversion characters are 'c', 's', 'd', 'i', 'o', 'u', 'x', and 'X'.
+ * @param buf A pointer to the input string.
+ * @param fmt A format string that specifies how to interpret the input.
+ * @param args A variable-length argument list of pointers to variables where
+the parsed values should be stored.
+ * @return The number of input items successfully matched and assigned, which
+ can be fewer than the number of format specifiers.
  */
 int vsscanf(const char *buf, const char *fmt, va_list args)
 {
@@ -994,10 +1190,17 @@ int vsscanf(const char *buf, const char *fmt, va_list args)
 }
 
 /**
- * sscanf - Unformat a buffer into a list of arguments
- * @buf:	input buffer
- * @fmt:	formatting of buffer
- * @...:	resulting arguments
+ * @brief Reads input from a string according to a specified format and stores the results in the corresponding variables.
+ *
+ * This function is similar to scanf(), but reads input from a string instead of from standard input. It scans the input
+from the string buf using the format string fmt, and stores the results in the corresponding variables. The input
+is parsed according to the format specifier in the format string, which specifies the types of the variables that the
+input should be stored in.
+ * @param buf Pointer to the buffer containing the input string to scan.
+ * @param fmt Pointer to the format string that specifies the expected format of the input.
+ * @param ... A variable number of arguments that correspond to the variables specified in the format string.
+ * @return The number of input items that were successfully matched and assigned, which can be fewer than the number of
+variables specified in the format string if there are not enough input items available.
  */
 int sscanf(const char *buf, const char *fmt, ...)
 {

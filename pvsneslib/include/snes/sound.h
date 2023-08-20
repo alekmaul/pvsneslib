@@ -2,7 +2,7 @@
 
     Sound functions.
 
-    Copyright (C) 2012-2013
+    Copyright (C) 2012-2023
         Alekmaul
 
     This software is provided 'as-is', without any express or implied
@@ -44,7 +44,9 @@
 #include <snes/snestypes.h>
 #include <snes/interrupt.h>
 
-/*!	\brief Sound header(8 bytes) */
+/*!	\struct brrsamples
+    \brief brr sample sound header(8 bytes)
+*/
 typedef struct
 {
     u8 pitch;   /*!< default PITCH (1..6) (hz = PITCH * 2000) */
@@ -203,13 +205,17 @@ void spcAllocateSoundRegion(u8 size);
 
 /*! \fn  spcPlaySound(u8 sndIndex)
     \brief Play sound from memory (using default arguments)
-    \param sndIndex	index in sound table
+    \param sndIndex	index in sound table.
+    Be careful: the index 0 corresponds to the LAST sound loaded.
+    The index 1 is the penultimate sound loaded and so on...
 */
 void spcPlaySound(u8 sndIndex);
 
 /*! \fn  spcPlaySoundV(u8 sndIndex, u16 volume)
     \brief Play sound from memory (using default arguments)
-    \param sndIndex	index in sound table
+    \param sndIndex	index in sound table.
+    Be careful: the index 0 corresponds to the LAST sound loaded.
+    The index 1 is the penultimate sound loaded and so on...
     \param volume	volume (0..15)
 */
 void spcPlaySoundV(u8 sndIndex, u16 volume);

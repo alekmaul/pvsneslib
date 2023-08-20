@@ -16,13 +16,17 @@ RUN sed -i 's|enabled=1|enabled=0|g' /etc/yum.repos.d/fedora-cisco-openh264.repo
 
 RUN sed -i 's|enabled=1|enabled=0|g' /etc/yum.repos.d/fedora-modular.repo
 
-RUN dnf -y upgrade && \
-    dnf -y groupinstall "Development Tools" && \
-    dnf -y install glibc-devel.i686 \
-        cmake\
+RUN dnf -y update
+
+RUN dnf -y groupinstall "Development Tools"
+
+RUN dnf -y install cmake \
         gcc-c++ \
-        python \
         glibc-static \
-        libstdc++-static
+        libstdc++-static \
+        git \
+        doxygen \
+        texi2html \
+        texlive-scheme-basic
 
 CMD ./docker/scripts/container.sh "${PVSNESLIB_HOME}" "${DISTRO}"

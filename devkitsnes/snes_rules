@@ -1,13 +1,20 @@
 # folder containing sources :
-SRC =src
+SRC := src
 
-LIBDIRSOBJS  := $(PVSNESLIB_HOME)/pvsneslib/lib
+LIBDIRSOBJS := $(PVSNESLIB_HOME)/pvsneslib/lib
 
 # to avoid some bugs if the PVSNESLIB_HOME is not well defined, we let a small check here
 ifeq ($(findstring \,$(PVSNESLIB_HOME)),\)
 $(error "PVSNESLIB_HOME environment variable is not defined correctly: the path must be in Unix style (on Windows operating system too!). For example, use /c/snesdev instead of c:\snesdev")
 endif
 
+ifeq ($(PVSNESLIB_DEBUG),1)
+DEBUG = 1
+$(info The debug mode is enabled)
+else
+DEBUG = 0
+$(info The debug mode is NOT enabled, you can do it by executing "export PVSNESLIB_DEBUG=1")
+endif
 
 #---------------------------------------------------------------------------------
 # on windows, linkfile can only manage path like E:\pvsneslib\lib\crt0_snes.obj
@@ -29,8 +36,6 @@ endif
 export CC	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/816-tcc
 export AS	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/wla-65816
 export LD	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/wlalink
-export PY	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/816-opt.py
-export CTF	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/constify
 
 export GFXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/gfx2snes
 export SMCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/smconv
@@ -38,11 +43,13 @@ export BRCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snesbrr
 export TXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/bin2txt
 export SNTOOLS	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snestools
 export TMXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/tmx2snes
+export OPT		:=	$(PVSNESLIB_HOME)/devkitsnes/tools/816-opt
+export CTF		:=	$(PVSNESLIB_HOME)/devkitsnes/tools/constify
 
 #---------------------------------------------------------------------------------
 # Add default flag for compiling
 #---------------------------------------------------------------------------------
-CFLAGS += -I$(PVSNESLIB_HOME)/pvsneslib/include -I${PVSNESLIB_HOME}/devkitsnes/include -I$(CURDIR)
+CFLAGS += -I$(PVSNESLIB_HOME)/pvsneslib/include -I$(PVSNESLIB_HOME)/devkitsnes/include -I$(CURDIR)
 
 
 SFILES=
@@ -75,6 +82,23 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 %.ps: %.c
 	@echo Compiling to .ps ... $(notdir $<)
 	$(CC) $(CFLAGS) -Wall -c $< -o $@
+ifeq ($(DEBUG),1)
+	cp $@ $@.01.dbg
+endif
+
+#---------------------------------------------------------------------------------
+%.asm: %.ps
+	@echo Assembling ... $(notdir $<)
+	$(OPT) $< >$*.asp
+ifeq ($(DEBUG),1)
+	cp $*.asp $*.opt.02.dbg
+endif
+	@echo Moving constants ... $(notdir $<)
+	$(CTF) $*.c $*.asp $@
+ifeq ($(DEBUG),1)
+	cp $*.asp $*.ctf.03.dbg
+endif
+	@rm $*.asp
 
 %.obj: %.asm
 	@echo Doing obj files ... $(fname)
@@ -82,14 +106,6 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 # -d switch disable WLA's ability to calculate A-B where A and B are labels.
 # if you remove it, you will have some updates to do at least in crt0_snes.asm
 	$(AS) -d -s -x -o $@ $<
-
-#---------------------------------------------------------------------------------
-%.asm: %.ps
-	@echo Assembling ... $(notdir $<)
-	$(PY) $< >$*.asp
-	@echo Moving constants ... $(notdir $<)
-	$(CTF) $*.c $*.asp $@	
-	@rm $*.asp
 
 #---------------------------------------------------------------------------------
 %.sfc: $(OFILES)
@@ -104,11 +120,12 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 	done
 
 	@echo Linking ... $(notdir $@)
-	$(LD) -d -s -v -A -L ${LIBDIRSOBJS} linkfile $@
+	@rm -f $(ROMNAME).sym
+# -c should be removed ASAP ! It allow duplicate labels and definitions
+	$(LD) -d -s -v -A -c -L ${LIBDIRSOBJS} linkfile $@
 
-	@sed 's/://' <$(ROMNAME).sym >$(ROMNAME).tmp
-	@mv $(ROMNAME).tmp $(ROMNAME).sym
-		
+	@sed -i 's/://' $(ROMNAME).sym
+
 	@echo
 	@echo Build finished successfully !
 	@echo
@@ -122,21 +139,21 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 %.brr: %.wav
 	@echo convert wav file ... $(notdir $<)
 	$(BRCONV) -e $< $@
-	
+
 $(SOUNDBANK).asm : $(AUDIOFILES)
 	@echo Compiling Soundbank ...
 	$(SMCONV) $(SMCONVFLAGS) $^
 
 .PHONY: cleanBuildRes cleanRom cleanGfx cleanAudio
 
-cleanBuildRes:
+cleanBuildRes: cleanDebug
 	@echo clean build resources
 	@rm -f $(OFILES) linkfile
 
 cleanRom:
 	@echo clean rom
 	@rm -f $(ROMNAME).sfc $(ROMNAME).sym
-	
+
 cleanGfx:
 	@echo clean graphics data
 	@rm -f *.pic *.map *.pal *.pc7 *.mp7 *.til *.m16 *.b16 *.o16 *.t16
@@ -144,4 +161,9 @@ cleanGfx:
 cleanAudio:
 	@echo clean audio data
 	@rm -f $(SOUNDBANK).asm $(SOUNDBANK).h $(SOUNDBANK).bnk
-	
+
+cleanDebug:
+ifeq ($(DEBUG),1)
+	@echo clean debug files
+	@find . -type f -name "*.dbg" -delete
+endif

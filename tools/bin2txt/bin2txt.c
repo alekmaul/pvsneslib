@@ -24,8 +24,8 @@
 
 ---------------------------------------------------------------------------------*/
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #define BIN2TXTVERSION __BUILD_VERSION
@@ -33,7 +33,7 @@
 
 //// M A I N   V A R I A B L E S ////////////////////////////////////////////////
 int convformat = 1;      // conversion formation (1=c , 2 = asm)
-int quietmode = 0;       // 0 = not quiet, 1 = i can't say anything :P
+int quietmode  = 0;      // 0 = not quiet, 1 = i can't say anything :P
 FILE *fpi, *fpo;         // input and output file handler
 unsigned int filesize;   // input file size
 char filebase[256] = ""; // input filename
@@ -75,7 +75,7 @@ void PrintOptions(char *str)
 //////////////////////////////////////////////////////////////////////////////
 void PrintVersion(void)
 {
-    printf("\n\nbin2txt.exe (" BIN2TXTDATE ") version " BIN2TXTVERSION "");
+    printf("bin2txt (" BIN2TXTDATE ") version " BIN2TXTVERSION "");
     printf("\nCopyright (c) 2012-2021 Alekmaul\n");
 }
 

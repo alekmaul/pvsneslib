@@ -1,30 +1,23 @@
 include ../makeinclude
 
-
 SRC := $(wildcard *.cpp)
 OBJ := $(addsuffix .o,$(SRC))
 DEP := $(addsuffix .d,$(SRC))
-LIB := ../libbase.a
 
+.PHONY: all clean distclean compress
 
-.PHONY : all clean distclean compress
+all: $(OBJ) $(LIB)
 
-all : $(OBJ) $(LIB)
+$(LIB): $(LIB)($(OBJ))
 
-#$(LIB) : $(OBJ)
-#	$(AR) -cr $(LIB) $(OBJ)
+clean:
+	-$(RM) $(OBJ) $(LIB) $(DEP)
 
-$(LIB) : $(LIB)($(OBJ))
+install:
 
-clean :
-	-$(RM) $(OBJ) $(LIB)
-
-install :
-
-distclean : clean
+distclean: clean
 	-$(RM) $(DEP)
 
 ifeq ($(findstring $(MAKECMDGOALS),clean distclean compress),)
  -include $(DEP)
 endif
-

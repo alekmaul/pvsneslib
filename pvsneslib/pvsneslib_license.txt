@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------
-  Copyright (C) 2012-2022
+  Copyright (C) 2012-2023
    Alekmaul
 
   This software is provided 'as-is', without any express or implied
@@ -21,12 +21,15 @@
 --------------------------------------------------------------------------
 CHANGE LOG
 --------------------------------------------------------------------------
+V4.1.0 (August,20,2023)
+- See github changelog of the release
+
 V4.0.2 (February,22,2023)
 - Various Fix on documentation
 - Various lining things up
 - Fix 16 bit increment for text instead of 8 bits for text
 - Fix typo in documentation and comments
-- Add consoleMesenBreakpoint to allow breakpoints with Mesen emulator
+- Add consoleMesenBreakpoint to allow breakpoints with Mesen emulator (thanks )
 
 V4.0.1 (November,20,2022)
 - Fix example with text (background initialization was incorrect)

@@ -16,8 +16,10 @@ extern char sprite64, sprite64_end, palsprite64, palsprite64_end;
 u16 selectedItem;
 bool keyPressed;
 
-#define ADRSPRITE 0x2000
-#define ADRSPRITLARDGE 0x2400 // arbitrary to have enough space but small & large one
+#define ADRBG1 0x2000
+
+#define ADRSPRITE 0x2100
+#define ADRSPRITLARDGE 0x2500 // arbitrary to have enough space but small & large one
 
 #define PALETTESPRSIZE (16 * 2) // We are using words for palette entry
 
@@ -31,14 +33,15 @@ void draw()
     consoleDrawText(3, 6, "%s %s", selectedItem == 3 ? ">" : " ", "Small: 16 - Large: 32");
     consoleDrawText(3, 7, "%s %s", selectedItem == 4 ? ">" : " ", "Small: 16 - Large: 64");
     consoleDrawText(3, 8, "%s %s", selectedItem == 5 ? ">" : " ", "Small: 32 - Large: 64");
+
 }
 
 // Load current sprites regarding size for small & large one
 void changeObjSize()
 {
 
-    // Force VBlank and prepare for graphics initialization
-    setBrightness(0);
+    // Force wait VBlank to avoid black frame
+    WaitForVBlank();
 
     // check regarding the current selection
     if (selectedItem == 0)
@@ -87,16 +90,14 @@ void changeObjSize()
         dmaCopyVram(&sprite64, ADRSPRITLARDGE, (&sprite64_end - &sprite64));
         dmaCopyCGram(&palsprite64, (128 + 1 * 16), PALETTESPRSIZE);
     }
-
-    oamSet(0, 70, 120, 0, 0, 0, 0, 0);
+    // because we load graphics at 0x2100, offset is 0x10 (0x2100-0x2000)/16
+    oamSet(0, 70, 120, 3, 0, 0, 0x0010, 0);
     oamSetEx(0, OBJ_SMALL, OBJ_SHOW);
 
-    // because we load graphics at 0x2400, offset is 0x40 (0x2400-0x2000)/16
-    oamSet(4, 170, 120, 0, 0, 0, 0x0040, 1);
+    // because we load graphics at 0x2500, offset is 0x50 (0x2500-0x2000)/16
+    oamSet(4, 170, 120, 3, 0, 0, 0x0050, 1);
     oamSetEx(4, OBJ_LARGE, OBJ_SHOW);
-
-    // Reallow graphics (avoid glitch during init)
-    setBrightness(0x0F);
+    
 }
 
 //---------------------------------------------------------------------------------
@@ -114,8 +115,8 @@ int main(void)
     consoleInitText(0, 16 * 2, &snesfont, &snespal);
 
     // Init background
-    bgSetGfxPtr(0, 0x2000);
-    bgSetMapPtr(0, 0x6800, SC_32x32);
+    bgSetGfxPtr(0, ADRBG1);
+    bgSetMapPtr(0, 0x6803, SC_32x32);
 
     // Now Put in 16 color mode and disable all backgrounds
     setMode(BG_MODE1, 0);

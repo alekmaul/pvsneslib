@@ -29,7 +29,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <memory.h>
-#include <malloc.h>
 #include <string.h>
 
 #include "gfx2snes.h"
@@ -165,7 +164,7 @@ void PrintOptions(char *str)
 //////////////////////////////////////////////////////////////////////////////
 void PrintVersion(void)
 {
-	printf("\ngfx2snes.exe ("GFX2SNESVERSION") version "GFX2SNESDATE"");
+	printf("gfx2snes ("GFX2SNESVERSION") version "GFX2SNESDATE"");
     printf("\nCopyright (c) 2013-2021 Alekmaul");
     printf("\nBased on pcx2snes by Neviksti\n");
 }

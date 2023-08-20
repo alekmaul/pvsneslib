@@ -11,7 +11,7 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-C_SRC	:=	
+C_SRC	:=
 
 CFLAGS	+=	-I${PVSNESLIB_HOME}/devkitsnes/include \
 		-I${PVSNESLIB_HOME}/pvsneslib/include \
@@ -24,8 +24,7 @@ export SNESOBJS = crt0_snes.obj libm.obj libtcc.obj libc.obj
 %.ps: %.c
 	@echo $(notdir $<)
 	$(CC) $(CFLAGS) -Wall -c $< -o $@
-	sed 's/.include "hdr.asm"//' <$@ >$@.tmp
-	mv $@.tmp $@
+	sed -i 's/.include "hdr.asm"//' $@
 
 all: $(SNESOBJS)
 	@mv *.obj ../lib

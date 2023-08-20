@@ -25,18 +25,41 @@ The remaining entries here on the unofficial FAQ are maintained by the community
 
 **[Common errors](#common-errors)**
 
-- [What is CHECK_HEADERS error ?](#what-is-check_headers-error-)
-- [Colors of my loaded picture are wrong](#colors-of-my-loaded-picture-are-wrong)
-- [I get FIX_LABELS error when i build my project](#i-get-fix_labels-error-when-i-build-my-project)
-- [Why HDMA channel 0 doesn't work ?](#why-hdma-channel-0-doesnt-work-)
-- [Soundbank files are missing in music samples](#soundbank-files-are-missing-in-music-samples)
-- [My music has some glitch during playing](#my-music-has-some-glitches-during-playing)
-- [Programmer's Notepad add text anywhere when i compile](#programmers-notepad-adds-other-text-when-i-compile)
-- [Font system doesn't work with some background mode](#how-to-build-tcc-816-provided-with-pvsneslib-sources-)
-- [How to build tcc 816 provided with PVSneslib sources ?](#how-to-build-tcc-816-provided-with-pvsneslib-sources-)
-- [I get the error "echo: command not found"](#i-get-the-error-echo-command-not-found)
-- [On Linux i get : "fatal error: bits/libc-header-start.h"](#on-linux-i-get--fatal-error-bitslibc-header-starth)
-- [Using malloc with PVSneslib](#using-malloc-with-pvsneslib)
+- [Frequently asked questions (FAQ)](#frequently-asked-questions-faq)
+  - [Miscellaneous](#miscellaneous)
+    - [I want to contribute to this project](#i-want-to-contribute-to-this-project)
+    - [I want to ask something](#i-want-to-ask-something)
+    - [I found a bug. What can i do ?](#i-found-a-bug-what-can-i-do-)
+    - [Can we create HiROM games with the lib ?](#can-we-create-hirom-games-with-the-lib-)
+    - [Why is it called PVSnesLib ?](#why-is-it-called-pvsneslib-)
+    - [I would like to share my project with PVSneslib community](#i-would-like-to-share-my-project-with-pvsneslib-community)
+    - [Is it possible to use Docker ?](#is-it-possible-to-use-docker-)
+    - [How to update WLA submodule to the latest commit ?](#how-to-update-wla-submodule-to-the-latest-commit-)
+  - [About the lib](#about-the-lib)
+    - [Is it possible to rotate a picture ?](#is-it-possible-to-rotate-a-picture-)
+    - [What is the function to clear text ?](#what-is-the-function-to-clear-text-)
+    - [How can I display special characters in text ?](#how-can-i-display-special-characters-in-text-)
+    - [How to create random number ?](#how-to-create-random-number-)
+    - [What is the goal of each tool ?](#what-is-the-goal-of-each-tool-)
+    - [What are .it files ?](#what-are-it-files-)
+    - [How to convert .mid to .it ?](#how-to-convert-mid-to-it-)
+    - [Why i get "error 5" with smconv when compiling a .it file saved with OpenMPT ?](#how-to-convert-mid-to-it-)
+  - [Common errors](#common-errors)
+    - [What is CHECK\_HEADERS error ?](#what-is-check_headers-error-)
+    - [Colors of my loaded picture are wrong](#colors-of-my-loaded-picture-are-wrong)
+    - [I get FIX\_LABELS error when I build my project](#i-get-fix_labels-error-when-i-build-my-project)
+    - [Why HDMA channel 0 doesn't work ?](#why-hdma-channel-0-doesnt-work-)
+    - [Soundbank files are missing in music samples](#soundbank-files-are-missing-in-music-samples)
+    - [My music has some glitches during playing](#my-music-has-some-glitches-during-playing)
+    - [Programmer's Notepad adds other text when I compile](#programmers-notepad-adds-other-text-when-i-compile)
+    - [Font system doesn't work with some background mode](#font-system-doesnt-work-with-some-background-mode)
+    - [How to build tcc 816 provided with PVSnesLib sources ?](#how-to-build-tcc-816-provided-with-pvsneslib-sources-)
+    - [I get the error "echo: command not found"](#i-get-the-error-echo-command-not-found)
+    - [On Linux i get : "fatal error: bits/libc-header-start.h"](#on-linux-i-get--fatal-error-bitslibc-header-starth)
+    - [Using malloc with PVSneslib](#using-malloc-with-pvsneslib)
+  - [Maps](#maps)
+    - [How to create maps with 16x16 tiles ?](#how-to-create-maps-with-16x16-tiles-)
+    - [Backgrounds begin at x = 0 and y = 1](#backgrounds-begin-at-x--0-and-y--1)
 
 **[Maps](#maps)**
 
@@ -122,7 +145,7 @@ Remember that we have a lot of constraints on SNES and each parameter of the too
 
 - snestools : this tool is not used anymore by PVSnesLib (it was used to patch the ROM after its build) but it is still provided with it if you want to see the header of your ROM.
 
-- 816-tcc and 816-opt.py : this is the tiny C compiler for 8/16 bits architecture, it translate your C code to ASM for 65c816. Due to some limitations and performances issues, a python script is used after to optimize the generated code.
+- 816-tcc and 816-opt : this is the tiny C compiler for 8/16 bits architecture, it translate your C code to ASM for 65c816. Due to some limitations and performances issues, the 816-opt is used after to optimize the generated code.
 
 - constify : it looks through your .c source files to detect const variables, it moves variables from RAM to ROM in .asm files to improve performance.
 
@@ -138,6 +161,21 @@ Remember that we have a lot of constraints on SNES and each parameter of the too
 ### How to convert .mid to .it ?
 
 [OpenMPT (Open ModPlug Tracker)](https://openmpt.org/features) is able to do it !
+
+### Why i get "error 5" with smconv when compiling a .it file saved with OpenMPT ?
+
+OpenMPT enables IT sample compression by default now, which is not supported.
+To turn it off, go to OpenMPT > View > Setup :
+
+![Setup](https://user-images.githubusercontent.com/48180545/251185140-ce2998d8-3687-4837-8fd6-dcce030a1e35.png)
+
+Click on the Advanced tab and search for ITCompression.
+You will find two values: ITCompressionMono and ITCompressionStereo:
+
+![ITCompression](https://user-images.githubusercontent.com/48180545/251185152-cf38c2cb-eb29-4ba4-a764-ea7fe5338963.png)
+
+By default, the former is set to 7 and the latter is set to 4.
+Set them both to 0.
 
 ---
 
@@ -307,7 +345,6 @@ After this command, you can build tcc by doing : **make 816-tcc.exe**
 You probably have an issue with the format of your PVSNESLIB_HOME environment variable.
 The value must be in unix style (**/c/snesdev** instead of **c:\\snesdev**) to avoid this issue. The variable can be created with this command line : `setx PVSNESLIB_HOME "/c/snesdev"`
 
-
 ### On Linux i get : "fatal error: bits/libc-header-start.h"
 
 When building some tools on Linux like **snestools**, if you get the error _/usr/include/stdlib.h:25:10: fatal error: bits/libc-header-start.h: no such file or directory_, it is related to the -m32 CFLAG provided in the makefile, you probably forgot to install some libraries from gcc. For example on Ubuntu, you just have to install **gcc-multilib** by executing `sudo apt-get install gcc-multilib`
@@ -333,4 +370,4 @@ It is not a bug and it is linked to a technical constraint of the SNES:
 
 > Note that many games will set their vertical scroll values to -1 rather than 0. This is because the SNES loads OBJ data for each scanline during the previous scanline. The very first line, though, wouldn't have any OBJ data loaded! So the SNES doesn't actually output scanline 0, although it does everything to render it.
 
-If you want more informations on it, you can consult [this page.](https://wiki.superfamicom.org/backgrounds#toc-3)
+If you want more information on it, you can consult [this page.](https://wiki.superfamicom.org/backgrounds#toc-3)
