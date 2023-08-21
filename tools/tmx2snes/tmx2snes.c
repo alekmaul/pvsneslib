@@ -480,10 +480,13 @@ int main(int argc, char **argv)
     fclose(fpi);
 
     // test some attributes of Tiled map
-    float currentExportSupportedVersion = 1.9;
-    if (map->version != currentExportSupportedVersion)
+    float minExportSupportedVersion = 1.9;
+    // as the value is float, we cannot differentiate the version of Tiled 1.1 and 1.10.
+    // We can consider than the Tiled 1.1 will not be used anymore as it was in January 2018)
+    float maxExportSupportedVersion = 1.10;
+    if (map->version <= minExportSupportedVersion || map->version >= maxExportSupportedVersion)
     {
-        printf("tmx2snes: error 'the export version you used (%.1f) is not yet supported. The tool supports only the %.1f version.'\n", map->version, currentExportSupportedVersion);
+        printf("tmx2snes: error 'the export version you used (%.1f) is not yet supported. The tool supports only the versions from %.1f to %.1f.'\n", map->version, minExportSupportedVersion, maxExportSupportedVersion);
         return 1;
     }
 
