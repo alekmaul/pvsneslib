@@ -46,8 +46,7 @@ typedef enum
     VRAM_ADRTR_10B = (3 << 2),    /*!< \brief Address Translation    (0..3 = 0bit/None, 8bit, 9bit, 10bit) */
     VRAM_ADRSTINC_1 = (0 << 0),   /*!< \brief Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128) */
     VRAM_ADRSTINC_32 = (1 << 0),  /*!< \brief Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128) */
-    VRAM_ADRSTINC_128 = (2 << 0), /*!< \brief Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128) */
-    VRAM_ADRSTINC_128 = (3 << 0), /*!< \brief Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128) */
+    VRAM_ADRSTINC_128 = (2 << 0) /*!< \brief Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128) */
 } VideoControl;
 
 #define FADE_IN 2
