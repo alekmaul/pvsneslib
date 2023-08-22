@@ -50,7 +50,6 @@
          "name":"Entities",
          "objects":[
                 {
-                 "class":"1",
                  "height":16,
                  "id":1,
                  "name":"Goomba",
@@ -66,24 +65,24 @@
                          "value":"480"
                         }],
                  "rotation":0,
+                 "type":"1",
                  "visible":true,
                  "width":16,
                  "x":528,
                  "y":192
                 }, 
                 {
-                 "class":"0",
                  "height":16,
                  "id":2,
                  "name":"Mario",
                  "rotation":0,
+                 "type":"0",
                  "visible":true,
                  "width":16,
                  "x":15,
                  "y":96
                 }, 
                 {
-                 "class":"2",
                  "height":16,
                  "id":3,
                  "name":"koopatroopa",
@@ -99,13 +98,13 @@
                          "value":"640"
                         }],
                  "rotation":0,
+                 "type":"2",
                  "visible":true,
                  "width":16,
                  "x":680,
                  "y":192
                 }, 
                 {
-                 "class":"1",
                  "height":16,
                  "id":4,
                  "name":"Goomba",
@@ -121,13 +120,13 @@
                          "value":"768"
                         }],
                  "rotation":0,
+                 "type":"1",
                  "visible":true,
                  "width":16,
                  "x":866,
                  "y":191.333333333333
                 }, 
                 {
-                 "class":"2",
                  "height":16,
                  "id":5,
                  "name":"koopatroopa",
@@ -143,6 +142,7 @@
                          "value":"944"
                         }],
                  "rotation":0,
+                 "type":"2",
                  "visible":true,
                  "width":16,
                  "x":976,
@@ -158,7 +158,7 @@
  "nextobjectid":6,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.9.2",
+ "tiledversion":"1.10.2",
  "tileheight":8,
  "tilesets":[
         {
@@ -1374,6 +1374,6 @@
         }],
  "tilewidth":8,
  "type":"map",
- "version":"1.9",
+ "version":"1.10",
  "width":422
 }
