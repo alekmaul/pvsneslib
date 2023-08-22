@@ -37,8 +37,8 @@
 #define TMX2SNESVERSION __BUILD_VERSION
 #define TMX2SNESDATE __BUILD_DATE
 
-#define HI_BYTE(n) (((int)n >> 8) & 0x00ff) // extracts the hi-byte of a word
-#define LOW_BYTE(n) ((int)n & 0x00ff)       // extracts the low-byte of a word
+#define HI_BYTE(n) (((int) n >> 8) & 0x00ff) // extracts the hi-byte of a word
+#define LOW_BYTE(n) ((int) n & 0x00ff)       // extracts the low-byte of a word
 
 #define N_METATILES 1024 // maximum tiles
 #define N_OBJECTS 64     // maximum objects
@@ -60,16 +60,18 @@ char filebase[256];    // input filename
 char filebasetil[256]; // input filename for tiles (map filename)
 char filemapname[260]; // output filename for map & objects
 
-int *data;                               // data from Tiled layer
-cute_tiled_layer_t *layer;               // layers from Tiled  map
-cute_tiled_tileset_t *tset;              // tileset from Tiled
-cute_tiled_object_t *objm;               // objects from Tiled layer objects
-cute_tiled_map_t *map;                   // map from Tiled
-cute_tiled_tile_descriptor_t *tile;      // tiles from Tiled tiles attributes
-cute_tiled_property_t *propm;            // properties from Tiled tiles properties
-unsigned short tileprop[N_METATILES][3]; // to store tiles properties in correct order with index 0:attribute, 1:priority and 2:palette
-pvsneslib_object_t objsnes[N_OBJECTS];   // to store objects in correct order
-unsigned short tilesetmap[N_METATILES];  // to have map for each tile (optimization purpose)
+int *data;                          // data from Tiled layer
+cute_tiled_layer_t *layer;          // layers from Tiled  map
+cute_tiled_tileset_t *tset;         // tileset from Tiled
+cute_tiled_object_t *objm;          // objects from Tiled layer objects
+cute_tiled_map_t *map;              // map from Tiled
+cute_tiled_tile_descriptor_t *tile; // tiles from Tiled tiles attributes
+cute_tiled_property_t *propm;       // properties from Tiled tiles properties
+unsigned short tileprop
+    [N_METATILES]
+    [3]; // to store tiles properties in correct order with index 0:attribute, 1:priority and 2:palette
+pvsneslib_object_t objsnes[N_OBJECTS];  // to store objects in correct order
+unsigned short tilesetmap[N_METATILES]; // to have map for each tile (optimization purpose)
 
 //// F U N C T I O N S //////////////////////////////////////////////////////////
 
@@ -79,6 +81,48 @@ void PutWord(int data, FILE *fp)
     putc(LOW_BYTE(data), fp);
     putc(HI_BYTE(data), fp);
 } // end of PutWord
+
+// Structure representing a software version number.
+typedef struct
+{
+    int major;  // Major version number.
+    int minor;  // Minor version number.
+} Version;
+
+
+// Convert a floating point version number to its major and minor components.
+void floatToVersion(float version, Version *v) {
+    
+    // Convert the floating point version to an integer representation by multiplying by 100.
+    // This allows us to handle two decimal places. Additionally, add 0.5 to round to the nearest integer 
+    // to account for potential floating point inaccuracies.
+    int fullVersion = (int)(version * 100 + 0.5);
+
+    // The major version is obtained by dividing the integer representation by 100.
+    v->major = fullVersion / 100;
+
+    // The minor version is obtained by taking the remainder when divided by 100.
+    v->minor = fullVersion % 100;
+}
+
+// Compare two Version structures to determine their order.
+int compareVersions(Version v1, Version v2)
+{
+    // Compare the major version numbers first.
+    if (v1.major < v2.major)
+        return -1;
+    if (v1.major > v2.major)
+        return 1;
+
+    // If major version numbers are equal, compare the minor version numbers.
+    if (v1.minor < v2.minor)
+        return -1;
+    if (v1.minor > v2.minor)
+        return 1;
+
+    // Both major and minor version numbers are equal.
+    return 0;
+}
 
 //////////////////////////////////////////////////////////////////////////////
 void PrintOptions(char *str)
@@ -128,8 +172,7 @@ void WriteMap(void)
         printf("tmx2snes:     Writing tiles map file...\n");
     // sprintf(filemapname,"%s.m16",layer->name.ptr);
     fpo = fopen(filemapname, "wb");
-    if (fpo == NULL)
-    {
+    if (fpo == NULL) {
         printf("tmx2snes: error 'Can't open layer map file [%s] for writing'\n", filemapname);
         exit(1);
     }
@@ -148,12 +191,10 @@ void WriteMap(void)
     //				                        p: palette number   o: priority bit
     data = layer->data;
     fflush(stdout);
-    for (i = 0; i < layer->data_count; i++)
-    {
+    for (i = 0; i < layer->data_count; i++) {
         // is data not "empty" ?
         tileattr = data[i];
-        if (tileattr)
-        {
+        if (tileattr) {
             tilesnes = (tileattr - 1) & 0x03FF; // keep on the low 16bits of tile number
 
             if (tileattr & CUTE_TILED_FLIPPED_HORIZONTALLY_FLAG) // Flipx attribute
@@ -180,8 +221,7 @@ void WriteTileset(void)
         printf("tmx2snes: Writing tiles attribute file...\n");
     sprintf(filemapname, "%s.b16", filebase);
     fpo = fopen(filemapname, "wb");
-    if (fpo == NULL)
-    {
+    if (fpo == NULL) {
         printf("tmx2snes: error 'Can't open tiles attribute file [%s] for writing'\n", filemapname);
         exit(1);
     }
@@ -192,37 +232,33 @@ void WriteTileset(void)
     tset = map->tilesets;
     tile = tset->tiles;
 
-    if (tset->tilecount > N_METATILES)
-    {
-        printf("tmx2snes: error 'too much tiles in tileset (%d tiles, %d max expected)'\n", tset->tilecount, N_METATILES);
+    if (tset->tilecount > N_METATILES) {
+        printf("tmx2snes: error 'too much tiles in tileset (%d tiles, %d max expected)'\n",
+               tset->tilecount,
+               N_METATILES);
         fclose(fpo);
         exit(1);
     }
 
     // browse and store in table
     memset(tileprop, 0x00, sizeof(tileprop));
-    while (tile)
-    {
+    while (tile) {
         // browse through all properties of current tile
-        for (i = 0; i < tile->property_count; i++)
-        {
+        for (i = 0; i < tile->property_count; i++) {
             propm = tile->properties + i;
             // write attribute (blocker, etc..) property (which is a string)
-            if (strcmp(propm->name.ptr, "attribute") == 0)
-            {
-                blkprop = (unsigned short)strtol(propm->data.string.ptr, &pend, 16);
+            if (strcmp(propm->name.ptr, "attribute") == 0) {
+                blkprop = (unsigned short) strtol(propm->data.string.ptr, &pend, 16);
                 tileprop[tile->tile_index][0] = blkprop;
             }
             // write priority property (which is a string)
-            if (strcmp(propm->name.ptr, "priority") == 0)
-            {
-                blkprop = (unsigned short)strtol(propm->data.string.ptr, &pend, 16);
+            if (strcmp(propm->name.ptr, "priority") == 0) {
+                blkprop = (unsigned short) strtol(propm->data.string.ptr, &pend, 16);
                 tileprop[tile->tile_index][1] = blkprop;
             }
             // write palette property (which is a string)
-            if (strcmp(propm->name.ptr, "palette") == 0)
-            {
-                blkprop = (unsigned short)strtol(propm->data.string.ptr, &pend, 16);
+            if (strcmp(propm->name.ptr, "palette") == 0) {
+                blkprop = (unsigned short) strtol(propm->data.string.ptr, &pend, 16);
                 tileprop[tile->tile_index][2] = blkprop;
             }
         }
@@ -235,8 +271,7 @@ void WriteTileset(void)
     if (quietmode == 0)
         printf("tmx2snes:     Writing %d tiles attributes to file...\n", tset->tilecount);
 
-    for (i = 0; i < tset->tilecount; i++)
-    {
+    for (i = 0; i < tset->tilecount; i++) {
         PutWord(tileprop[i][0], fpo);
     }
 
@@ -251,8 +286,7 @@ void WriteMapTileset(void)
     // now write tileset file with properties (only priority & palette for the moment)
     sprintf(filemapname, "%s.t16", filebase);
     fpo = fopen(filemapname, "wb");
-    if (fpo == NULL)
-    {
+    if (fpo == NULL) {
         printf("tmx2snes: error 'Can't open tiles properties file [%s] for writing'\n", filemapname);
         exit(1);
     }
@@ -262,8 +296,7 @@ void WriteMapTileset(void)
     if (quietmode == 0)
         printf("tmx2snes:     Writing %d tiles properties to file...\n", tset->tilecount);
 
-    for (i = 0; i < tset->tilecount; i++)
-    {
+    for (i = 0; i < tset->tilecount; i++) {
         // compute attribute to match with vhopppcc cccccccc
         blkprop = tilesetmap[i] & 0x03FF;            // get tile number
         blkprop |= tileprop[i][1] ? 0x2000 : 0x0000; // check priority
@@ -284,17 +317,17 @@ void WriteEntities(void)
         printf("tmx2snes: Writing entities object file...\n");
     sprintf(filemapname, "%s.o16", filebase);
     fpo = fopen(filemapname, "wb");
-    if (fpo == NULL)
-    {
+    if (fpo == NULL) {
         printf("tmx2snes: error 'Can't open layer object file [%s] for writing'\n", filemapname);
         exit(1);
     }
 
     // write objects to file
     objm = layer->objects;
-    if (layer->object_count > N_OBJECTS)
-    {
-        printf("tmx2snes: error 'too much entities in map (%d entities, %d max expected)'\n", layer->object_count, N_OBJECTS);
+    if (layer->object_count > N_OBJECTS) {
+        printf("tmx2snes: error 'too much entities in map (%d entities, %d max expected)'\n",
+               layer->object_count,
+               N_OBJECTS);
         exit(1);
     }
 
@@ -304,27 +337,23 @@ void WriteEntities(void)
     objidx = layer->object_count - 1;
 
     // if we have some objects to store
-    if (layer->object_count)
-    {
-        while (objm)
-        {
+    if (layer->object_count) {
+        while (objm) {
             // put object in reverse order
-            objsnes[objidx].class = atoi(objm->type.ptr); //(unsigned short) strtol(objm->class.ptr,&pend,10);
-            objsnes[objidx].x = (int)(objm->x);
-            objsnes[objidx].y = (int)(objm->y);
-            for (i = 0; i < objm->property_count; i++)
-            {
+            objsnes[objidx].class = atoi(
+                objm->type.ptr); //(unsigned short) strtol(objm->class.ptr,&pend,10);
+            objsnes[objidx].x = (int) (objm->x);
+            objsnes[objidx].y = (int) (objm->y);
+            for (i = 0; i < objm->property_count; i++) {
                 propm = objm->properties + i;
                 // write blocker property (which is a string)
-                if (strcmp(propm->name.ptr, "minx") == 0)
-                {
-                    blkprop = (unsigned short)strtol(propm->data.string.ptr, &pend, 10);
+                if (strcmp(propm->name.ptr, "minx") == 0) {
+                    blkprop = (unsigned short) strtol(propm->data.string.ptr, &pend, 10);
                     objsnes[objidx].minx = blkprop;
                 }
                 // write prio property (which is a string)
-                if (strcmp(propm->name.ptr, "maxx") == 0)
-                {
-                    blkprop = (unsigned short)strtol(propm->data.string.ptr, &pend, 10);
+                if (strcmp(propm->name.ptr, "maxx") == 0) {
+                    blkprop = (unsigned short) strtol(propm->data.string.ptr, &pend, 10);
                     objsnes[objidx].maxx = blkprop;
                 }
             }
@@ -338,8 +367,7 @@ void WriteEntities(void)
     // now write to file
     if (quietmode == 0)
         printf("tmx2snes:     Writing %d objects to file...\n", layer->object_count);
-    for (i = 0; i < layer->object_count; i++)
-    {
+    for (i = 0; i < layer->object_count; i++) {
         PutWord(objsnes[i].x, fpo);
         PutWord(objsnes[i].y, fpo);
         PutWord(objsnes[i].class, fpo);
@@ -366,32 +394,25 @@ int main(int argc, char **argv)
     strcpy(filemapname, "");
 
     // parse the arguments
-    for (i = 1; i < argc; i++)
-    {
-        if (argv[i][0] == '-')
-        {
+    for (i = 1; i < argc; i++) {
+        if (argv[i][0] == '-') {
             if (argv[i][1] == 'v') // show version
             {
                 PrintVersion();
                 exit(0);
-            }
-            else if (argv[i][1] == 'h') // show help
+            } else if (argv[i][1] == 'h') // show help
             {
-                PrintOptions((char *)"");
+                PrintOptions((char *) "");
                 exit(0);
-            }
-            else if (argv[i][1] == 'q') // quiet mode
+            } else if (argv[i][1] == 'q') // quiet mode
             {
                 quietmode = 1;
-            }
-            else // invalid option
+            } else // invalid option
             {
                 PrintOptions(argv[i]);
                 exit(1);
             }
-        }
-        else
-        {
+        } else {
             // its not an option flag, so it must be the filebase
             if (filebase[0] != 0) // if already defined... there's a problem
             {
@@ -399,13 +420,11 @@ int main(int argc, char **argv)
                 {
                     PrintOptions(argv[i]);
                     exit(1);
-                }
-                else // not defined, ok it is the map file
+                } else // not defined, ok it is the map file
                 {
                     strcpy(filebasetil, argv[i]);
                 }
-            }
-            else // not defined, ok it is the tmx file
+            } else // not defined, ok it is the tmx file
             {
                 strcpy(filebase, argv[i]);
             }
@@ -413,14 +432,12 @@ int main(int argc, char **argv)
     }
 
     // make sure options are valid
-    if (filebase[0] == 0)
-    {
+    if (filebase[0] == 0) {
         printf("\ntmx2snes: error 'You must specify a tmx filename'");
         PrintOptions("");
         exit(1);
     }
-    if (filebasetil[0] == 0)
-    {
+    if (filebasetil[0] == 0) {
         printf("\ntmx2snes: error 'You must specify a tileset map filename'");
         PrintOptions("");
         exit(1);
@@ -428,8 +445,7 @@ int main(int argc, char **argv)
 
     // open the tmx file
     fpi = fopen(filebase, "rb");
-    if (fpi == NULL)
-    {
+    if (fpi == NULL) {
         printf("\ntmx2snes: error 'Can't open file [%s]'", filebase);
         exit(1);
     }
@@ -443,8 +459,7 @@ int main(int argc, char **argv)
     if (quietmode == 0)
         printf("tmx2snes: Loading map: [%s]\n", filebase);
     map = cute_tiled_load_map_from_file(filebase, 0);
-    if (map == NULL)
-    {
+    if (map == NULL) {
         printf("tmx2snes: error 'Cannot load map'\n");
         fclose(fpi);
         return 1;
@@ -455,8 +470,7 @@ int main(int argc, char **argv)
 
     // open the tileset map file
     fpi = fopen(filebasetil, "rb");
-    if (fpi == NULL)
-    {
+    if (fpi == NULL) {
         printf("\ntmx2snes: error 'Can't open file [%s]'", filebasetil);
         exit(1);
     }
@@ -479,46 +493,60 @@ int main(int argc, char **argv)
     // close the input file
     fclose(fpi);
 
-    // test some attributes of Tiled map
-    float minExportSupportedVersion = 1.9;
-    // as the value is float, we cannot differentiate the version of Tiled 1.1 and 1.10.
-    // We can consider than the Tiled 1.1 will not be used anymore as it was in January 2018)
-    float maxExportSupportedVersion = 1.10;
-    if (map->version <= minExportSupportedVersion || map->version >= maxExportSupportedVersion)
-    {
-        printf("tmx2snes: error 'the export version you used (%.1f) is not yet supported. The tool supports only the versions from %.1f to %.1f.'\n", map->version, minExportSupportedVersion, maxExportSupportedVersion);
+    // Setting the minimum supported version.
+    Version minExportSupportedVersion = {1, 9};
+    // Setting the maximum supported version.
+    Version maxExportSupportedVersion = {1, 10};
+
+    // Convert the map's version (which is a float) to a Version struct for easy comparison.
+    Version mapVersion;
+    floatToVersion(map->version, &mapVersion);
+
+    // Check if the map's version is outside of the supported range.
+    if (compareVersions(mapVersion, minExportSupportedVersion) < 0  // If map version is less than minimum supported version
+        || compareVersions(mapVersion, maxExportSupportedVersion) > 0) { // Or if map version is greater than maximum supported version
+
+        printf("tmx2snes: error 'the export version you used (%d.%d) is not supported. The "
+               "tool supports only the versions from %d.%d to %d.%d.'\n",
+               mapVersion.major,
+               mapVersion.minor,
+               minExportSupportedVersion.major,
+               minExportSupportedVersion.minor,
+               maxExportSupportedVersion.major,
+               maxExportSupportedVersion.minor);
+
         return 1;
     }
 
-    if ((map->width * map->height) > 16384)
-    {
-        printf("tmx2snes: error 'map is too big (max 32K)! (%dK)'\n", (map->width * map->height * 2) / 1024);
+    if ((map->width * map->height) > 16384) {
+        printf("tmx2snes: error 'map is too big (max 32K)! (%dK)'\n",
+               (map->width * map->height * 2) / 1024);
         return 1;
     }
-    if (map->height > 256)
-    {
+    if (map->height > 256) {
         printf("tmx2snes: error 'map height is too big! (max 256) (%d)'\n", map->height);
         return 1;
     }
-    if ((map->tilewidth != 8) || (map->tileheight != 8))
-    {
-        printf("tmx2snes: error 'tile width or height are not 8px! (%d %d)\n", map->tilewidth, map->tileheight);
+    if ((map->tilewidth != 8) || (map->tileheight != 8)) {
+        printf("tmx2snes: error 'tile width or height are not 8px! (%d %d)\n",
+               map->tilewidth,
+               map->tileheight);
         return 1;
     }
 
     // remove filename extension (tmj or json)
-    if (filebase[strlen(filebase) - 5] == '.')
-    {
+    if (filebase[strlen(filebase) - 5] == '.') {
         filebase[strlen(filebase) - 5] = '\0';
-    }
-    else if (filebase[strlen(filebase) - 4] == '.')
-    {
+    } else if (filebase[strlen(filebase) - 4] == '.') {
         filebase[strlen(filebase) - 4] = '\0';
     }
 
     // Print what the user has selected
-    printf("\n<layername>.m16 file for map, used by pvsneslib 'mapLoad' function as 1st argument (only 1 layer)\n");
-    printf("%s.b16 file for tile attributes, used by pvsneslib 'mapLoad' function  as 3rd argument\n", filebase);
+    printf("\n<layername>.m16 file for map, used by pvsneslib 'mapLoad' function as 1st argument "
+           "(only 1 layer)\n");
+    printf(
+        "%s.b16 file for tile attributes, used by pvsneslib 'mapLoad' function  as 3rd argument\n",
+        filebase);
     printf("%s.o16 file for objects, used by pvsneslib 'objLoadObjects' as argument\n\n", filebase);
 
     // loop over the map's layers and write them to disk
@@ -529,24 +557,21 @@ int main(int argc, char **argv)
     // write .b16 file first (to have priority flag of each tile for map...
     WriteTileset();
 
-    while (layer)
-    {
+    while (layer) {
         if (quietmode == 0)
             printf("tmx2snes: Found layer %s...\n", layer->name.ptr);
 
         // if it is an entity layer
-        if (strcmp(layer->name.ptr, "Entities") == 0)
-        {
+        if (strcmp(layer->name.ptr, "Entities") == 0) {
             // Write .o16 file ...
             WriteEntities();
         }
         // No it is a map layer
-        else
-        {
+        else {
             // write .m16 and .t16 files ...
             WriteMap();
-			WriteMapTileset();
-		}
+            WriteMapTileset();
+        }
 
         layer = layer->next;
     }
