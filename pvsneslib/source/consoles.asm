@@ -40,7 +40,7 @@
 
 .RAMSECTION ".reg_cons7e" BANK $7E
 
-snes_vblank_count       DB                                  ; to count number of vblank
+snes_vblank_count       DW                                  ; to count number of vblank
 
 snes_50hz               DB                                  ; 1 if PAL console (50 Hz) instead of NTSC (60Hz)
 snes_fps                DB                                  ; 50 if PAL console (50 Hz) or 60 if NTSC console (60Hz)
