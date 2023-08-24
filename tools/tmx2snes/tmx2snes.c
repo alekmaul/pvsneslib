@@ -493,6 +493,7 @@ int main(int argc, char **argv)
     // close the input file
     fclose(fpi);
 
+    /*
     // Setting the minimum supported version.
     Version minExportSupportedVersion = {1, 9};
     // Setting the maximum supported version.
@@ -517,6 +518,7 @@ int main(int argc, char **argv)
 
         return 1;
     }
+    */
 
     if ((map->width * map->height) > 16384) {
         printf("tmx2snes: error 'map is too big (max 32K)! (%dK)'\n",
