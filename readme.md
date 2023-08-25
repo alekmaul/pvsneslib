@@ -1,6 +1,6 @@
 # A library to code in C or ASM for the Nintendo SNES #
 
-[PVSneslib V4.1.0 (August,20,2023) ](http://www.portabledev.com/jeux/supernes/pvsneslib/)
+[PVSneslib V4.1.1 (mmm,dd,2023) ](http://www.portabledev.com/jeux/supernes/pvsneslib/)
 
 **PVSnesLib** (**P**rogrammer **V**aluable **Snes** **Lib**rary) is an open and free library to develop programs for the Nintendo SNES using the C programming language.
 

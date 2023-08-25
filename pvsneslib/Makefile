@@ -7,7 +7,7 @@ export TOPDIR := $(CURDIR)
 # create version number which will be used everywhere
 export PVSNESLIB_MAJOR := 4
 export PVSNESLIB_MINOR := 1
-export PVSNESLIB_PATCH := 0
+export PVSNESLIB_PATCH := 1
 export PVSNESLIB_VERSION := $(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
 
 # Directory with docs config and output (via doxygen)
@@ -37,7 +37,7 @@ ifndef doxygenInstalled
 else
 	# Remove the existing HTML documentation
 	@rm -rf $(PVSDOCSDIR)/html
-	# Set the PVSDOCSDIR and PVSVERSION variables and run Doxygen
+	# Set the PVSDOCSDIR variable and run Doxygen
 	@PVSDOCSDIR=$(PVSDOCSDIR) doxygen "$(PVSDOCSDIR)/pvsneslib.dox"
 
 	# If PDF output is enabled, build the LaTeX documentation and copy the resulting PDF
