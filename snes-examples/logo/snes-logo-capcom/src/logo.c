@@ -44,10 +44,6 @@ const u8 emptyPicture[] = {
 
 extern char SOUNDBANK__;
 
-extern char blackPic, blackPic_end;
-extern char blackPalette, blackPalette_end;
-extern char blackMap, blackMap_end;
-
 extern char logoPic, logoPic_end;
 extern char logoPalette;
 
@@ -240,6 +236,8 @@ u8 logoState;
 u16 framesCounter;
 s8 colorIntensity;
 u8 intensityState;
+u16 bgTileIndex;
+u16 bg3TileMap[1024];
 
 /*!\brief Load the logo music.
 */
@@ -248,13 +246,25 @@ void initLogoMusic() {
     spcLoad(MOD_LOGO);
 }
 
+/*!\brief Set all the tiles to 0, set a palette number and a tile priority.
+*/
+void clearBgTextEx(u16 *tileMap, u8 paletteNumber, u8 priority) {
+    for (bgTileIndex=0; bgTileIndex < 1024;) {
+        tileMap[bgTileIndex] = 0 | (paletteNumber<<10) | (priority<<13);
+        bgTileIndex += 1;
+    }
+}
+
 /*!\brief Load a black background on BG3.
 */
 void initBg3Black() {
     bgSetMapPtr(BG2, 0x0000 + 2048, SC_32x32);
-    bgInitTileSet(2, &blackPic, &blackPalette, 0, (&blackPic_end - &blackPic), (&blackPalette_end - &blackPalette), BG_4COLORS, 0x1000);
+    bgSetGfxPtr(BG2, 0x5000);
+    clearBgTextEx((u16 *)bg3TileMap, PAL0, 0);
     WaitForVBlank();
-    dmaCopyVram((u8 *)blackMap, 0x0000 + 2048, 32*32*2);
+    setPaletteColor(PAL0, blackColor);
+    dmaCopyVram((u8 *)bg3TileMap, 0x1000, 32*32*2);
+    dmaCopyVram((u8 *)emptyPicture, 0x5000, 32);
 }
 
 /*!\brief Copy the given background palette to CGRAM.
