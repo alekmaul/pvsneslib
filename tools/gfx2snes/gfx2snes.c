@@ -458,7 +458,7 @@ int main(int argc, char **arg)
 	if((size == 0) && (screen == 0))
 	{
 		if (quietmode == 0)
-			printf("\ngfx2snes: %s 'Auto-detecting size of image blocks...'", RED_ERROR);
+			printf("\ngfx2snes: 'Auto-detecting size of image blocks...'");
 
 		clr = image.buffer[0]; //get the border color
 		for(i=1; i<width; i++)
