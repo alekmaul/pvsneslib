@@ -29,7 +29,6 @@ int main(void) {
             // consoleNocashMessage("Start your game!");
         }
 
-        // Wait for vblank
         WaitForVBlank();
     }
     return 0;
