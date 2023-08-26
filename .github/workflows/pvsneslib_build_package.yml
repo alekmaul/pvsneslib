@@ -62,8 +62,12 @@ jobs:
       - name: Install dependencies for MacOS
         if: matrix.name == 'darwin'
         run: |
+          rm /usr/local/bin/2to3 || true
+          rm /usr/local/bin/idle3 || true
+          rm /usr/local/bin/pydoc3 || true
+          rm /usr/local/bin/python3 || true
+          rm /usr/local/bin/python3-config || true
           brew update
-          rm -f '/usr/local/bin/2to3'
           brew install doxygen
           brew install gnu-sed
           brew install texi2html
