@@ -924,8 +924,10 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                 && matchStr(file.arr[i + 2], "pha") && startWith(file.arr[i + 3], "lda #")
                 && matchStr(file.arr[i + 4], "pha")) {
                 char *token1, *token2;
+
                 token1 = splitStr(file.arr[i + 1], "#", 1);
                 token2 = splitStr(file.arr[i + 3], "#", 1);
+
                 snprintf(snp_buf2, sizeof(snp_buf2), "pea.w (%s * 256 + %s)", token1, token2);
                 text_opt = pushToArray(text_opt, snp_buf2);
                 text_opt = pushToArray(text_opt, file.arr[i]);
