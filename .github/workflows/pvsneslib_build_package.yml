@@ -39,11 +39,7 @@ jobs:
               cmake \
               make \
               git \
-              doxygen \
-              texi2html \
-              texlive-latex-base \
-              texlive-latex-recommended \
-              texlive-latex-extra
+              doxygen 
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 90
       - name: Install dependencies for Windows
         if: matrix.name == 'windows'
@@ -66,7 +62,6 @@ jobs:
           rm -f '/usr/local/bin/2to3'
           brew install doxygen
           brew install gnu-sed
-          brew install texi2html
           sudo ln -s /usr/local/bin/gcc-12 /usr/local/bin/gcc
           sudo ln -s /usr/local/bin/g++-12 /usr/local/bin/g++
 
