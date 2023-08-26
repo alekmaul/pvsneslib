@@ -63,6 +63,7 @@ jobs:
         if: matrix.name == 'darwin'
         run: |
           brew update
+          rm -f '/usr/local/bin/2to3'
           brew install doxygen
           brew install gnu-sed
           brew install texi2html
