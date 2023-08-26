@@ -934,6 +934,8 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
 
                 i += 5;
                 opted += 1;
+                free(token1);
+                free(token2);
                 continue;
             }
 
