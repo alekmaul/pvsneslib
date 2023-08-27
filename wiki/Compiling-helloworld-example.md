@@ -121,7 +121,11 @@ That's all, just after, we put the text and wait for an inifite loop!
 
 # How the graphic of the font is used in the code
 
-The font is declare outisde the **hello_world.c** file, but we need to add an external declaration to allow **consoleInitText**  to work:
+The font used for **Hello World** example is in main directory. You can change it but colors must stay with only the 1st 16 colors palette.
+
+![image](https://github.com/alekmaul/pvsneslib/assets/2528347/4110969c-5ab2-4181-9446-8d8fcc27e5e4)
+
+The font is declare outside the **hello_world.c** file, but we need to add an external declaration to allow **consoleInitText**  to work:
 
 ```bash
 extern char tilfont, palfont;
@@ -155,8 +159,10 @@ and then
 ```bash
 make 
 ```
-It will produce a large amount of line to explain what's going on (it's also here where you can see errors).
+It will produce a large amount of lines to explain what's going on (it's also here where you can see errors).
+
+![image](https://github.com/alekmaul/pvsneslib/assets/2528347/78dadffa-bc9f-4391-b99c-066325c5c8ce)
 
 you will have a **.sfc** file produced name **hello_world.sfc**.
 
-That's all! you're ready to do a great SNES game for our awesome console. Try to look at all examples to understand how to use joypad, other graphi modes, and so on.
+That's all! you're ready to do a great SNES game for our awesome console. Try to look at all examples to understand how to use joypad, other graphic modes, and so on.
