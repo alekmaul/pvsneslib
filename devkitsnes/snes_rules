@@ -1,5 +1,7 @@
-# folder containing sources :
-SRC := src
+# folder containing sources is src if it's not already defined:
+ifeq ($(origin SRC), undefined)
+    SRC := src
+endif
 
 LIBDIRSOBJS := $(PVSNESLIB_HOME)/pvsneslib/lib
 
