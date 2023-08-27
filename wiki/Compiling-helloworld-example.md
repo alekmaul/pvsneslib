@@ -165,4 +165,8 @@ It will produce a large amount of lines to explain what's going on (it's also he
 
 you will have a **.sfc** file produced name **hello_world.sfc**.
 
+When you run it in no$sns, you will see this screen:
+
+![image](https://github.com/alekmaul/pvsneslib/assets/2528347/3a8d8d9c-8e23-4f19-a44f-db1221f63f01)
+
 That's all! you're ready to do a great SNES game for our awesome console. Try to look at all examples to understand how to use joypad, other graphic modes, and so on.
