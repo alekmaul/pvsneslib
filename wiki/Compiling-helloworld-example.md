@@ -15,7 +15,7 @@ SRC=./source
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules)`
 ```
 
-If you are skilled with assembly code, you can also add anoter variabe to allow the creation of **.dbg** files, each debug file is create during compilation process.
+If you are skilled with assembly code, you can also add another variable to allow the creation of **.dbg** files, each debug file is create during compilation process.
 
 ```bash
 export PVSNESLIB_DEBUG=1
