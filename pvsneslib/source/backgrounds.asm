@@ -89,7 +89,7 @@ bgSetScroll:
     sta REG_BGxHOFS,y
     rep #$20 
 
-    lda 11,s                     ; x scrolling offset
+    lda 11,s                     ; y scrolling offset
     sep #$20
     sta REG_BGyHOFS,y
     rep #$20
