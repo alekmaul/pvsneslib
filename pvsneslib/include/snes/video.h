@@ -365,8 +365,8 @@ void setMosaicEffect(u8 mode, u8 bgNumbers);
 
 /*! \fn  setColorEffect(u8 colorMathA, u8 colorMathB)
     \brief Do addition or other color effects.
-    \param colorMathA	value for color math A register
-    \param colorMathB	value for color math B register
+    \param colorMathA	value for color math A register (REG_CGWSEL)
+    \param colorMathB	value for color math B register (REG_CGADSUB)
 */
 void setColorEffect(u8 colorMathA, u8 colorMathB);
 
