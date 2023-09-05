@@ -32,23 +32,23 @@ doxygenInstalled := $(shell command -v doxygen -q 2> /dev/null)
 # The default docs target. Here we build the doxygen documentation if doxygen is installed and pdf documentation if latexn is installed.
 docs:
 ifndef doxygenInstalled
-	# If Doxygen is not installed, print an error message
+# If Doxygen is not installed, print an error message
 	@echo "Doxygen is not installed, documentation will not be generated."
 else
-	# Remove the existing HTML documentation
+# Remove the existing HTML documentation
 	@rm -rf $(PVSDOCSDIR)/html
-	# Set the PVSDOCSDIR variable and run Doxygen
+# Set the PVSDOCSDIR variable and run Doxygen
 	@PVSDOCSDIR=$(PVSDOCSDIR) doxygen "$(PVSDOCSDIR)/pvsneslib.dox"
 
-	# If PDF output is enabled, build the LaTeX documentation and copy the resulting PDF
+# If PDF output is enabled, build the LaTeX documentation and copy the resulting PDF
 	@if [ "$(DOCS_PDF_ON)" = "YES" ]; then \
 		$(MAKE) -C $(PVSDOCSDIR)/latex && cp $(PVSDOCSDIR)/latex/refman.pdf $(PVSDOCSDIR)/pvsneslib_manual.pdf;\
 	fi
-	# If there are warnings, print them to the console
+# If there are warnings, print them to the console
 	@if [ -f 'warn.log' ]; then \
 		cat warn.log; \
 	fi
-	# Remove the LaTeX documentation
+# Remove the LaTeX documentation
 	@rm -rf $(PVSDOCSDIR)/latex
 endif
 
