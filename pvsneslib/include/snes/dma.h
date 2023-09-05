@@ -307,24 +307,24 @@ void dmaCopyOAram(u8 *source, u16 address, u16 size);
 void dmaCopyVram7(u8 *source, u16 address, u16 size, u8 vrammodeinc, u16 dmacontrol);
 
 /*! \fn  setModeHdmaGradient(u8 maxLevels)
-    \brief Do a brightness gradient on screen. Use HDAM Channels 3. 
+    \brief Do a brightness gradient on screen. Use HDMA Channels 3. 
     \param maxLevels value between 1..15 for the maximum level of brightness (15=light, 1=near dark)
 */
 void setModeHdmaGradient(u8 maxLevels);
 
 /*! \fn  setModeHdmaShadeUpDown(void)
-    \brief Do a brightness gradient from up/down to center of the screen. Use HDAM Channels 3.
+    \brief Do a brightness gradient from up/down to center of the screen. Use HDMA Channels 3.
 */
 void setModeHdmaShadeUpDown(void);
 
 /*! \fn  setModeHdmaShading(unsigned char mode)
-    \brief Do a shading effect on screen. Use HDAM Channels 0 to 2.
+    \brief Do a shading effect on screen. Use HDMA Channels 0 to 2.
     \param mode value 0 disactivate 1, other value activate it
 */
 void setModeHdmaShading(unsigned char mode);
 
 /*! \fn  setParallaxScrolling(u8 bgrnd)
-    \brief Do a parallax scrolling effect on screen. Use HDAM Channels 3.
+    \brief Do a parallax scrolling effect on screen. Use HDMA Channels 3.
     \brief use HDMATable16 variable to store scrolling value
     \brief each entry is number of lines (8bits) and scrolling value 16 bits (low & high)
     \brief WARNING : no more than 112 values and last value MUST be $0000
@@ -345,13 +345,13 @@ void setModeHdmaReset(u8 channels);
 void setModeHdmaWindowReset(u8 channels);
 
 /*! \fn  setModeHdmaColor(u8* hdmatable)
-    \brief Do a color gradient effect on screen (with color 0). Use HDAM Channels 6.
+    \brief Do a color gradient effect on screen (with color 0). Use HDMA Channels 6.
     \param hdmatable table with gradient colors
 */    
 void setModeHdmaColor(u8* hdmatable);
 
 /*! \fn  setModeHdmaWaves(u8 bgrnd)
-    \brief Do a waves effect on screen (init function). Use HDAM Channels 6.
+    \brief Do a waves effect on screen (init function). Use HDMA Channels 6.
     \param bgrnd background for the wave effect (value 0..1)
 */    
 void setModeHdmaWaves(u8 bgrnd);
@@ -362,7 +362,7 @@ void setModeHdmaWaves(u8 bgrnd);
 void setModeHdmaWavesMove(void);
 
 /*! \fn  setModeHdmaWindow(u8 bgrnd, u8* hdmatableL,u8* hdmatableR)
-    \brief Do a window  effect on screen. Use HDAM Channels 4 & 5.
+    \brief Do a window  effect on screen. Use HDMA Channels 4 & 5.
     \param bgrnd background for the windows effect  (value MSWIN_BG1..MSWIN_BG4)
     \param bgrndmask background mask (inside, outside) for the windows effect  (value MSWIN1_BG13MSKIN..MSWIN1_BG13MSKIN)
     \param hdmatableL table with windows effect on the left
