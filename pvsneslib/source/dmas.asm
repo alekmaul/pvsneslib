@@ -1213,3 +1213,19 @@ _cchend:
     rtl
 
 .ENDS
+
+.SECTION ".dmas16_text" SUPERFREE
+
+; void enableDmaChannels(u8 channels)
+enableDmaChannels:
+
+sep #$20
+
+lda 4,s
+sta.l REG_HDMAEN
+
+rep #$20
+
+rtl
+
+.ENDS

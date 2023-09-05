@@ -370,4 +370,11 @@ void setModeHdmaWavesMove(void);
 */    
 void setModeHdmaWindow(u8 bgrnd, u8 bgrndmask,u8* hdmatableL,u8* hdmatableR);
 
+/*! \fn  enableDmaChannels(u8 channels)
+    \brief Enable DMA channels.
+    \param channels	the DMA channels to enable.
+    \note enableDmaChannels(0b11000000) enables channels 7 and 6.
+*/
+void enableDmaChannels(u8 channels);
+
 #endif // SNES_DMA_INCLUDE
