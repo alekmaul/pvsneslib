@@ -941,3 +941,57 @@ mapGetMetaTile:
     rtl
 
 .ENDS
+
+.SECTION ".maps2_text" SUPERFREE
+
+;---------------------------------------------------------------------------------
+; u16 mapGetMetaTilesProp(u16 xpos, u16 ypos)
+mapGetMetaTilesProp:
+    php
+
+    phx
+    phy
+
+    rep #$30
+    lda  11,s                               ; get y (7+2+2)
+    lsr
+    lsr
+    and #$FFFE                              ; y in tile coordinates
+    tax
+
+    lda 9,s                                 ; get x (5+2+2)
+    lsr
+    lsr
+    and #$FFFE                              ; x in tile coordinates
+    clc
+    adc mapadrrowlut,x
+    tax                                     ; x is row value
+
+    phx
+    lda maptile_L1d                         ; get direct rom value
+    clc
+    adc 1,s
+    tax
+
+    phb
+    sep #$20
+    lda maptile_L1b.b
+    pha
+    plb
+    rep #$20
+    lda 0,x
+    plb
+    plx
+
+    asl a                                   ; property is a 16bit arrays
+    tax
+    lda	metatilesprop, x                    ; get tile property
+
+    sta.w tcc__r0
+
+    ply
+    plx
+    plp
+    rtl
+
+.ENDS
