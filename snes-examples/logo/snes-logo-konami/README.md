@@ -3,9 +3,6 @@
 ## Description
 This is a demo showing the Konami logo on the Super Nintendo and Super Famicom.
 
-It is built and tested with PVSnesLib, develop branch and MSYS2:
-https://github.com/alekmaul/pvsneslib
-
 ## Credits
 Code made by [Digifox](https://github.com/malayli).
 
