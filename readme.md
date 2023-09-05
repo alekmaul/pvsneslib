@@ -1,5 +1,5 @@
 # A library to code in C or ASM for the Nintendo SNES #
-[![Discord](https://img.shields.io/badge/chat-on%20discord-blue.svg)](https://discord.gg/DzEFnhB)
+[![Discord](https://img.shields.io/badge/chat-on%20discord-blue.svg)](https://discord.com/channels/@me)
 
 **PVSnesLib** (**P**rogrammer **V**aluable **Snes** **Lib**rary) is an open and free library to develop programs for the Nintendo SNES using the C programming language.
 
