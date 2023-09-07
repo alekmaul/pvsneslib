@@ -8,15 +8,18 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 #---------------------------------------------------------------------------------
 # ROMNAME is used in snes_rules file
-export ROMNAME := testregion
+export ROMNAME := TransparentWindow
 
 all: bitmaps $(ROMNAME).sfc
 
-clean: cleanBuildRes cleanRom cleanGfx
+cleanGfxBackground:
+	@echo clean Background graphics data
+	@rm -f res/*.pic res/*.pal res/*.map
 
-#---------------------------------------------------------------------------------
-pvsneslibfont.pic: pvsneslibfont.bmp
-	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFXCONV) -n -gs8 -po2 -pc16 -pe1 -mR! -m! $<
+clean: cleanBuildRes cleanRom cleanGfx cleanGfxBackground
 
-bitmaps : pvsneslibfont.pic
+background.pic: res/background.png
+	@echo convert bitmap ... $(notdir $@)
+	$(GFXCONV) -pc16 -n -gs8 -pe0 -m -fpng  $<
+
+bitmaps : background.pic
