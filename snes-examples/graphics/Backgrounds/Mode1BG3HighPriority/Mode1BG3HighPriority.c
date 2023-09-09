@@ -54,7 +54,6 @@ int main(void)
 
     // IMPORTANT - use mode1 with BG3_MODE1_PRORITY_HIGH otherwise your HUD will not have the highest priority
     setMode(BG_MODE1, BG3_MODE1_PRORITY_HIGH);
-    bgSetDisable(3);
 
     setScreenOn();
 
