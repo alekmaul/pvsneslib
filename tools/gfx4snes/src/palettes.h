@@ -1,0 +1,4 @@
+#ifndef _GFX4SNES_PALETTES_H
+#define _GFX4SNES_PALETTES_H
+
+#endif
