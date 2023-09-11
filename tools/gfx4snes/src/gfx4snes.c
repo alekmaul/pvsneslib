@@ -28,34 +28,7 @@
 ***************************************************************************/
 #include "gfx4snes.h"
 
-t_gfx4snes_args gfx4snes_args={
-	/*savemap*/	0,
-	/*dispversion*/	0,				    											// 1 = display version number
-	/*quietmode*/	0,			    												// 0 = not quiet, 1 = i can't say anything :P
-	/*filetype*/	NULL,			    											// bmp, png = type of file
-	/*filebase*/	NULL,			    											// file to use for graphic conversion
-
-	/*tileblank*/	0,              	      										// 1 = blank tile generated
-	/*tilesize*/	8,																// size tile, 8 16 32 64
-	/*tilereduction*/	1,	        												// 0 = no tile reduction (warning !)
-	/*tilelzpacked*/	0,                     										// 1 = compress file with LZSS algorithm
-	/*tilepacked*/	0,                     											// 1 = compress file with packed pixel format
-	/*tileoffset*/  0,																// tile offset (0..2047)
-	/*mapscreenmode*/	1,															// screen mode for map generation (1 or 7)
-	/*mapcollision*/	0,															// 1 = generate map collision
-
-	/*paletteoutput*/	-1,	            											// -1= not managed, number of color for palette output 
-	/*paletteentry*/	0,		        											// value of palette entry (0 to 15)
-	/*palettecolors*/	256,	        											// number of colors to use (4, 16, 128 or 256)
-	/*palettesave*/	1,		           												// 1 = save the palette
-	/*paletteround*/	0,                  										// 1 = round palette up & down
-	/*paletterearrange*/	0,				    									// 1 = compute palette to fit with snes capabilities
-};
-
-void display_version(void);
-
 //-------------------------------------------------------------------------------------------------
-cmdp_ctx gfx4snes_ctx = {0};
 static cmdp_command_st gfx4snes_command = {
     .doc = "Usage: gfx4snes [options] -i file...\n"
            "  where file is a 256 color PNG or BMP file"
@@ -93,6 +66,9 @@ static cmdp_command_st gfx4snes_command = {
 
 #if 0
 /*
+	still need to add to be like gfx2snes 
+
+
 	printf("\n\n--- Map options ---");
 	printf("\n-mp               Convert the whole picture with high priority");
 	printf("\n-ms#              Generate collision map only with sprites table");
@@ -102,6 +78,8 @@ static cmdp_command_st gfx4snes_command = {
 struct argparse argparseexe;													// options passed in command line
 #endif
 
+cmdp_ctx gfx4snes_ctx = {0};																		// contect for command line options
+t_gfx4snes_args gfx4snes_args={0};																	// generic struct for all arguments
 
 //-------------------------------------------------------------------------------------------------
 void display_version(void)
@@ -115,6 +93,11 @@ void display_version(void)
 //-------------------------------------------------------------------------------------------------
 int main(int argc, const char **argv) 
 {
+	clock_t startimgconv, endimgconv;
+
+	// get the current time
+	startimgconv=clock();
+
 	// check if no parameters
 	if (argc <= 1) 
 	{
@@ -134,8 +117,25 @@ int main(int argc, const char **argv)
 	}
 
 	// load image file
+	image_load(gfx4snes_args.filebase, gfx4snes_args.filetype, gfx4snes_args.quietmode);
 
 	// processes image file
+
+	// convert palette to a snes format
+	palette_convert_snes(&snesimage.palette, &snesimage.snespalette, gfx4snes_args.paletteround);
+
+	// save palette if needed
+	if (gfx4snes_args.palettesave)
+	{
+		palette_save (gfx4snes_args.filebase, &snesimage.snespalette,gfx4snes_args.paletteoutput , gfx4snes_args.quietmode);
+	}
+
+	// free memory used for image processing
+	image_free();
+
+	// display time processing
+	endimgconv=clock();
+	if (!gfx4snes_args.quietmode) info("processed in %ldms",(endimgconv -  startimgconv) * 1000 / CLOCKS_PER_SEC);
 
     return (EXIT_SUCCESS);
 }

@@ -2,11 +2,18 @@
 #define _GFX4SNES_H
 
 #include <stdio.h>
+#include <time.h>
+
+#include "common.h"
 
 #include "cmdparser.h"
-
 #include "arguments.h"
 #include "errors.h"
+
+#include "images.h"
+#include "palettes.h"
+#include "maps.h"
+#include "tiles.h"
 
 #ifndef __BUILD_VERSION
 #include "config.h"
