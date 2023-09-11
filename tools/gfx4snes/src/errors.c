@@ -29,7 +29,21 @@
 #include "errors.h"
 
 #define ERRORRED(STRING) "\x1B[31m" STRING "\033[0m"
+#define ERRORPINK(STRING) "\x1B[35m" STRING "\033[0m"
 #define ERRORBRIGHT(STRING) "\x1B[97m" STRING "\033[0m"
+
+//-------------------------------------------------------------------------------------------------
+// Print an info message - output produced, that's all
+void info (const char *format, ...)
+{
+  va_list ap;
+
+  va_start (ap, format);
+  fprintf (stderr, "%s: ", ERRORBRIGHT("gfx4snes"));
+  vfprintf (stderr, format, ap);
+  va_end (ap);
+  fputc ('\n', stderr);
+}
 
 //-------------------------------------------------------------------------------------------------
 // Print a warning message - output produced, but there may be problems.
@@ -38,7 +52,7 @@ void warning (const char *format, ...)
   va_list ap;
 
   va_start (ap, format);
-  fprintf (stderr, "%s: warning: ", ERRORBRIGHT("gfx4snes"));
+  fprintf (stderr, "%s: " ERRORPINK("warning") ": ", ERRORBRIGHT("gfx4snes"));
   vfprintf (stderr, format, ap);
   va_end (ap);
   fputc ('\n', stderr);
