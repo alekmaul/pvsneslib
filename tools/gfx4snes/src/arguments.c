@@ -102,10 +102,15 @@ cmdp_action_t argument_callback(cmdp_process_param_st *params)
 
 	// check palette number of color to output (default is 256)
 	if (gfx4snes_args.paletteoutput!=-1) 
-		if ( (gfx4snes_args.paletteoutput<0) || (gfx4snes_args.paletteoutput>2047) )
+	{
+		if ( (gfx4snes_args.paletteoutput<0) || (gfx4snes_args.paletteoutput>256) )
 		{
 			fatal("incorrect value for palette color to output [%d]\nconversion terminated.", gfx4snes_args.palettecolors); // exit gfx4snes at this point
 		}
+	}
+	// put default to 256 colors to export
+	else
+		gfx4snes_args.paletteoutput=256;
 
 	// check palette number of color to use (default is 256)
 	if ( (gfx4snes_args.palettecolors!=4) && (gfx4snes_args.palettecolors!=16) && (gfx4snes_args.palettecolors!=128) && (gfx4snes_args.palettecolors!=256) )
@@ -113,10 +118,12 @@ cmdp_action_t argument_callback(cmdp_process_param_st *params)
 		fatal("incorrect value for palette color to use [%d]\nconversion terminated.", gfx4snes_args.palettecolors); // exit gfx4snes at this point
 	}
 
+#if 0
 	// TEST parameters option
 	for (int i = 0; i < params->argc; i++)
     {
         printf("argv[%d]: %s\n", i, params->argv[i]);
     }
+#endif	
     return CMDP_ACT_OK;
 }
