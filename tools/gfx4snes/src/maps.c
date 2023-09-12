@@ -27,3 +27,40 @@
 	
 ***************************************************************************/
 #include "maps.h"
+
+//-------------------------------------------------------------------------------------------------
+void mapsave (const char *filename, int *map,int mode, int nbtilex, int nbtiley, bool isquiet)
+{
+	char *outputname;
+	FILE *fp;
+	int i;
+
+	// remove extension and put the ".pal" to filename
+	outputname=malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
+	if(outputname==NULL)
+	{
+		fatal("can't allocate memory for map filename");
+	}
+	sscanf(filename,"%[^.]",outputname);  
+	
+	sprintf(outputname,"%s.pal",outputname);
+	if (!isquiet) info("saving palette file [%s] file...",outputname);
+
+	// try to open file for write
+	fp = fopen(outputname,"wb");
+	if(fp==NULL)
+	{
+		fatal("can't open palette file [%s] for writing", outputname);
+	}
+
+	// write data ...
+	for(i=0;i<nbcolors;i++)
+	{
+		PUTWORD(palette[i],fp);
+	}
+
+	// close file and leave
+	fclose(fp);
+	free (outputname);
+}
+
