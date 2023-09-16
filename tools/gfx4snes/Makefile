@@ -10,10 +10,10 @@ CFLAGS  = -g -Wall -O2 -pedantic -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VE
 ifeq ($(shell uname),Darwin)
 	EXT     :=
 else ifeq ($(OS),Windows_NT)
-    LDFLAGS := -static
+    CFLAGS  += -static
 	EXT     :=.exe
 else
-	CFLAGS += -static
+	CFLAGS 	+= -static
 	EXT     :=
 endif
 
