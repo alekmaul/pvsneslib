@@ -180,14 +180,10 @@ int main(int argc, const char **argv)
 	{
 		palette_save (gfx4snes_args.filebase,(int *) &palette_snes,gfx4snes_args.paletteoutput , gfx4snes_args.quietmode);
 	}
-info("lklmlkk %x",map_snes);
 	// free memory used for image processing
 	if (map_snes != NULL) free(map_snes);
-info("lklmlkk %x",tiles_snes);
 	if (tiles_snes != NULL) free(tiles_snes);
-info("lklmlkk %x",snesimage.buffer);
 	if (snesimage.buffer != NULL) free (snesimage.buffer);
-info("lklmlkk");
 
 	// display time processing
 	endimgconv=clock();
