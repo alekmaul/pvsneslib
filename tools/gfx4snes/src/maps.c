@@ -60,7 +60,7 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
 
     // allocate map
       // get memory for the new buffer
-    map = (unsigned short *) malloc(nbblockx * nbblocky);
+    map = (unsigned short *) malloc(nbblockx * nbblocky * sizeof(unsigned short));
     if (map == NULL)
     {
         fatal("can't allocate enough memory for the buffer in map_convertsnes");
