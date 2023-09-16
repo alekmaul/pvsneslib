@@ -98,6 +98,8 @@ mapendloop              DW                  ; The ending position of the draw lo
 mapupdbuf               DB                  ; State of buffer update (vert / horiz / all)
 mapdirty                DB                  ; 1 if map is not correct and need update
 
+maptmpvalue             DW                  ; TO store a temporary value (used for tile flipping for example)
+
 .ends
 
 .SECTION ".maps0_text" SUPERFREE
@@ -368,9 +370,16 @@ _mapDAS1:
     lda 0,x
     plb
 
+    pha
+    and #$03FF                              ; seperate tileaddress
     asl a
     tax
-    lda.w metatiles.topleft,x               ; get tile value from map
+    lda.l metatiles.topleft,x               ; get tile value from map
+    sta.w maptmpvalue
+    pla                                     ; get attributes
+    and #$C000                              ; HV mirror flags
+    ora maptmpvalue                         ; add tile value
+
     sta.w bg_L1, y                          ; put in buffer for display
     plx
 
@@ -471,10 +480,16 @@ _phb1:
     lda 0,x
     plb
 
+    pha
+    and #$03FF                              ; seperate tileaddress
     asl a
     tax
+    lda.l metatiles.topleft,x               ; get tile value from map
+    sta.w maptmpvalue
+    pla                                     ; get attributes
+    and #$C000                              ; HV mirror flags
+    ora maptmpvalue                         ; add tile value
 
-    lda.l metatiles.topleft, x
     sta bg_L1, y
 
     plx
@@ -527,9 +542,16 @@ _pvb1:
     lda 0,x
     plb
 
-    asl a                             ; because 8 bits
+    pha
+    and #$03FF                              ; seperate tileaddress
+    asl a                                   ; because of 8 bits
     tax
-    lda.l metatiles.topleft, X
+    lda.l metatiles.topleft,x               ; get tile value from map
+    sta.w maptmpvalue
+    pla                                     ; get attributes
+    and #$C000                              ; HV mirror flags
+    ora maptmpvalue                         ; add tile value
+
     sta bgvertleftbuf_L1, Y
 
     pla

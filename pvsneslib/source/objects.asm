@@ -989,6 +989,7 @@ _oicm1:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
 	asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1008,6 +1009,7 @@ _oicm2:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1144,6 +1146,7 @@ _oicmtstyn:												   ; ----------------------------------------------------
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1162,6 +1165,7 @@ _oicmtstyn1:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1276,6 +1280,7 @@ _oicmtstx13:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1375,6 +1380,7 @@ _oicmtstxnc:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1500,6 +1506,7 @@ _oicm1d1:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
 	asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1519,6 +1526,7 @@ _oicm1d2:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1645,6 +1653,7 @@ _oicm1dtstyn:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1663,6 +1672,7 @@ _oicm1dtstyn1:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1759,6 +1769,7 @@ _oicm1dtstx13:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1851,6 +1862,7 @@ _oicm1dtstxnc:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
