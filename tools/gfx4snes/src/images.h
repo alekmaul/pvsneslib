@@ -18,7 +18,7 @@ typedef struct RGB_color_typ
 
 typedef struct header_typ
 {
-    int width, height;                                              // width & height of image
+    unsigned int width, height;                                     // width & height of image
 } t_header;
 
 typedef struct pngbmp_image_typ
@@ -32,6 +32,5 @@ extern t_image snesimage;											// current image converted
 
 //-------------------------------------------------------------------------------------------------
 extern void image_load(const char *filename, const char *filetype, t_image *img, bool isquiet);
-extern void image_free(void);
 
 #endif

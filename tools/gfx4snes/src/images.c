@@ -32,7 +32,7 @@
 
 #include "images.h"
 
-t_image snesimage;															// current image converted
+t_image snesimage={0};														// current image converted
 
 //-------------------------------------------------------------------------------------------------
 void image_load_png(const char *filename, t_image *img, bool isquiet) 
@@ -155,11 +155,3 @@ void image_load(const char *filename, const char *filetype, t_image *img, bool i
 	}
 }
 
-//-------------------------------------------------------------------------------------------------
-void image_free(void)
-{
-	if (snesimage.buffer)
-	{
-		free (snesimage.buffer);
-	}
-}

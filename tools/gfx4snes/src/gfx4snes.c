@@ -100,8 +100,8 @@ cmdp_ctx gfx4snes_ctx = {0};																		// contect for command line option
 t_gfx4snes_args gfx4snes_args={0};																	// generic struct for all arguments
 
 int palette_snes[256];					                        									// palette in snes format (5bits RGB)
-unsigned short *map_snes;																			// map in snes format (16 bits table)
-unsigned char *tiles_snes;																			// tiles in snes format
+unsigned short *map_snes=NULL;																		// map in snes format (16 bits table)
+unsigned char *tiles_snes=NULL;																		// tiles in snes format
 
 //-------------------------------------------------------------------------------------------------
 void display_version(void)
@@ -155,7 +155,13 @@ int main(int argc, const char **argv)
 	// convert map to a snes format if needed
 	if (gfx4snes_args.mapoutput)
 	{
-		map_snes=map_convertsnes (snesimage.buffer, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, blksx, blksy, gfx4snes_args.palettecolors, gfx4snes_args.paletteentry , gfx4snes_args.tilereduction, gfx4snes_args.tileblank, gfx4snes_args.quietmode);
+		map_snes=map_convertsnes (tiles_snes, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, blksx, blksy, gfx4snes_args.palettecolors, gfx4snes_args.paletteentry , gfx4snes_args.tilereduction, gfx4snes_args.tileblank, gfx4snes_args.quietmode);
+	}
+
+	// save map if needed
+	if (gfx4snes_args.mapoutput)
+	{
+		map_save (gfx4snes_args.filebase, map_snes,gfx4snes_args.mapscreenmode, blksx, blksy, gfx4snes_args.tileoffset,gfx4snes_args.quietmode);
 	}
 
 	// save tiles
@@ -168,21 +174,20 @@ int main(int argc, const char **argv)
 		tiles_save (gfx4snes_args.filebase, tiles_snes,nbtiles, gfx4snes_args.palettecolors, gfx4snes_args.tileblank, gfx4snes_args.tilelzpacked,gfx4snes_args.quietmode);
 
 	}
-	info("jkkjj");
-	// save map if needed
-	if (gfx4snes_args.mapoutput)
-	{
-		map_save (gfx4snes_args.filebase, map_snes,gfx4snes_args.mapscreenmode, blksx, blksy, gfx4snes_args.tileoffset,gfx4snes_args.quietmode);
-	}
 
 	// save palette if needed
 	if (gfx4snes_args.palettesave)
 	{
 		palette_save (gfx4snes_args.filebase,(int *) &palette_snes,gfx4snes_args.paletteoutput , gfx4snes_args.quietmode);
 	}
-
+info("lklmlkk %x",map_snes);
 	// free memory used for image processing
-	image_free();
+	if (map_snes != NULL) free(map_snes);
+info("lklmlkk %x",tiles_snes);
+	if (tiles_snes != NULL) free(tiles_snes);
+info("lklmlkk %x",snesimage.buffer);
+	if (snesimage.buffer != NULL) free (snesimage.buffer);
+info("lklmlkk");
 
 	// display time processing
 	endimgconv=clock();

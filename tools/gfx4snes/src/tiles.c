@@ -57,7 +57,7 @@ unsigned char *tiles_convertsnes (unsigned char *imgbuf, int imgwidth, int imghe
     if (((*sizex) * (*sizey)) % (newwidth / blksizex) != 0) {
         rows++;
     }
-    if (!isquiet) info("convert image from %dx%d to %dx%d...",imgwidth,imgheight,newwidth,rows*blksizey);
+    if (!isquiet) info("convert image from %dx%d to %dx%d...",imgwidth,imgheight,newwidth,rows*blksizex);
 
     // get memory for the new buffer
     buffer = (unsigned char *) malloc(rows * blksizex * newwidth);
