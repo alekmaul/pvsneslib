@@ -26,7 +26,12 @@
   BMP BI_RLE8 compression support by Andrey Beletsky
 	
 ***************************************************************************/
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdarg.h>
+
 #include "errors.h"
+
 
 #define ERRORRED(STRING) "\x1B[31m" STRING "\033[0m"
 #define ERRORPINK(STRING) "\x1B[35m" STRING "\033[0m"
@@ -39,10 +44,11 @@ void info (const char *format, ...)
   va_list ap;
 
   va_start (ap, format);
-  fprintf (stderr, "%s: ", ERRORBRIGHT("gfx4snes"));
-  vfprintf (stderr, format, ap);
+  fprintf (stdout, "%s: ", ERRORBRIGHT("gfx4snes"));
+  vfprintf (stdout, format, ap);
   va_end (ap);
-  fputc ('\n', stderr);
+  fputc ('\n', stdout);
+  fflush(stdout);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -56,6 +62,21 @@ void warning (const char *format, ...)
   vfprintf (stderr, format, ap);
   va_end (ap);
   fputc ('\n', stderr);
+  fflush(stderr);
+}
+
+//-------------------------------------------------------------------------------------------------
+// Print an error message - output produced, but terminate execution is elsewhere.
+void errorcontinue (const char *format, ...)
+{
+  va_list ap;
+
+  va_start (ap, format);
+  fprintf (stderr, "%s: " ERRORRED("error") ": ", ERRORBRIGHT("gfx4snes"));
+  vfprintf (stderr, format, ap);
+  va_end (ap);
+  fputc ('\n', stderr);
+  fflush(stderr);
 }
 
 //-------------------------------------------------------------------------------------------------

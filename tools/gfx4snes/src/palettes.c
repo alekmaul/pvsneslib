@@ -26,10 +26,18 @@
   BMP BI_RLE8 compression support by Andrey Beletsky
 	
 ***************************************************************************/
+#include <stdbool.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "palettes.h"
 
 //-------------------------------------------------------------------------------------------------
-void palette_convert_snes(t_RGB_color *palette, int *palettesnes, bool isrounded)
+// palette = R,G,B color palette to convert
+// palettesnes = RGB555 converted palette
+// isrounded = 1 if we want to round colors of the palette
+// isquiet = 0 if we want some messages in console
+void palette_convert_snes(t_RGB_color *palette, int *palettesnes, bool isrounded, bool isquiet)
 {
     int i, data;
     int rounded;
@@ -40,6 +48,10 @@ void palette_convert_snes(t_RGB_color *palette, int *palettesnes, bool isrounded
     // alternate rounding down and rounding up. This is an attempt to preserve the brightness of a color
     // which the human eye notices easier than a change in color
     rounded = 0;
+   	if (!isquiet) {
+        if (isrounded) info("rounding R,G,B colors...");
+        else info("saving R,G,B colors...");
+    }
     for (i = 0; i < 256; i++)
     {
         if (isrounded)
@@ -92,41 +104,6 @@ void palette_convert_snes(t_RGB_color *palette, int *palettesnes, bool isrounded
             palettesnes[i] = data;
         }
     } // loop through all colors
-}
-
-//-------------------------------------------------------------------------------------------------
-void palette_save (const char *filename, int *palette,int nbcolors, bool isquiet)
-{
-	char *outputname;
-	FILE *fp;
-	int i;
-
-	// remove extension and put the ".pal" to filename
-	outputname=malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
-	if(outputname==NULL)
-	{
-		fatal("can't allocate memory for palette filename");
-	}
-	sscanf(filename,"%[^.]",outputname);  
-	sprintf(outputname,"%s.pal",outputname);
-	if (!isquiet) info("saving palette file [%s] file...",outputname);
-
-	// try to open file for write
-	fp = fopen(outputname,"wb");
-	if(fp==NULL)
-	{
-		fatal("can't open palette file [%s] for writing", outputname);
-	}
-
-	// write data ...
-	for(i=0;i<nbcolors;i++)
-	{
-		PUTWORD(palette[i],fp);
-	}
-
-	// close file and leave
-	fclose(fp);
-	free (outputname);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -374,3 +351,45 @@ int RearrangePalette(unsigned char *buffer, int *palette,
     return -1;
 } // end of RearrangePalette()
 #endif
+
+//-------------------------------------------------------------------------------------------------
+// filename = bitmap file name (png or bmp)
+// palette = palette buffer to save
+// nbcolors = number of colors of the palette buffer
+// isquiet = 0 if we want some messages in console
+void palette_save (const char *filename, int *palette,int nbcolors, bool isquiet)
+{
+	char *outputname;
+	FILE *fp;
+	int i;
+
+	// remove extension and put the ".pal" to filename
+	outputname=(char *) malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
+	if(outputname==NULL)
+	{
+		fatal("can't allocate memory for palette filename");
+	}
+	sprintf(outputname,"%s.pal",filename);
+
+	if (!isquiet) info("saving palette file [%s]...",outputname);
+
+	// try to open file for write
+	fp = fopen(outputname,"wb");
+	if(fp==NULL)
+	{
+		errorcontinue("can't open palette file [%s] for writing", outputname);
+        free (outputname);
+        exit(EXIT_FAILURE);
+	}
+
+	// write data ...
+	for(i=0;i<nbcolors;i++)
+	{
+		WRITEFILEWORD(palette[i],fp);
+	}
+
+	// close file and leave
+	fclose(fp);
+	free (outputname);
+}
+

@@ -26,20 +26,33 @@
   BMP BI_RLE8 compression support by Andrey Beletsky
 	
 ***************************************************************************/
+#include <stdbool.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "images.h"
 
 t_image snesimage;															// current image converted
 
 //-------------------------------------------------------------------------------------------------
-void image_load_png(const char *filename, bool isquiet) 
+void image_load_png(const char *filename, t_image *img, bool isquiet) 
 {
 	unsigned char *pngbuff = NULL;											// png image buffer
 	unsigned char *pngimage = NULL;											// png decoded image buffer
 	size_t pngsize;															// png image buffer size
-	size_t pngwidth, pngheight;												// png image width & height
+	unsigned int pngwidth, pngheight;										// png image width & height
 	LodePNGState pngstate;													// png settings
 	unsigned int pngerror;													// error management
 	int i,j;
+	char *outputname;
+
+	// prepare file extension
+	outputname=(char *) malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
+	if(outputname==NULL)
+	{
+		fatal("can't allocate memory for png filename");
+	}
+	sprintf(outputname,"%s.png",filename);
 
     // optionally customize the state
     lodepng_state_init(&pngstate);
@@ -48,7 +61,7 @@ void image_load_png(const char *filename, bool isquiet)
     pngstate.decoder.color_convert = 0;
 
 	// load the png file and try to decode it
-    pngerror = lodepng_load_file(&pngbuff, &pngsize, filename);
+    pngerror = lodepng_load_file(&pngbuff, &pngsize, outputname);
     if (!pngerror)
     {
         pngerror = lodepng_decode(&pngimage, &pngwidth, &pngheight, &pngstate, pngbuff, pngsize);
@@ -84,38 +97,39 @@ void image_load_png(const char *filename, bool isquiet)
 	if (!isquiet) info("process image (%dx%dpx, %dcolors)", pngwidth, pngheight, pngstate.info_png.color.palettesize);
     for (i = 0; i < pngstate.info_png.color.palettesize; i++)
     {
-        snesimage.palette[i].red = pngstate.info_png.color.palette[(i * 4) + 0] >> 2;				// >>2 to have a 5bits colors
-        snesimage.palette[i].green = pngstate.info_png.color.palette[(i * 4) + 1] >> 2;
-        snesimage.palette[i].blue = pngstate.info_png.color.palette[(i * 4) + 2] >> 2;
+        img->palette[i].red = pngstate.info_png.color.palette[(i * 4) + 0] >> 2;				// >>2 to have a 5bits colors
+        img->palette[i].green = pngstate.info_png.color.palette[(i * 4) + 1] >> 2;
+        img->palette[i].blue = pngstate.info_png.color.palette[(i * 4) + 2] >> 2;
     }
 	for (;i<256;i++)
 	{
-        snesimage.palette[i].red =  snesimage.palette[i].green = snesimage.palette[i].blue = 0;
+        img->palette[i].red =  img->palette[i].green = img->palette[i].blue = 0;
 	}
-	
+
+	// clean up png memory	
+    lodepng_state_cleanup(&pngstate);
+
 	// get the image
-	snesimage.header.width = pngwidth;
-    snesimage.header.height = pngheight;
-    snesimage.buffer = malloc((size_t)(pngheight + 64) * pngwidth); // allocate memory for the picture + 64 empty lines
-    if (snesimage.buffer == NULL)
+	img->header.width = pngwidth;
+    img->header.height = pngheight;
+    img->buffer = (unsigned char *) malloc( (size_t) (pngheight + 64) * pngwidth ); // (pngheight + 64) * pngwidth); // allocate memory for the picture + 64 empty lines
+    if (img->buffer == NULL)
     {
         free(pngbuff);
-        lodepng_state_cleanup(&pngstate);
         free(pngimage);
         fatal("can't allocate enough memory for the image");
     }
 
-	for (j = 0; j < pngheight; j++)
+	for (j = 0; j < img->header.height; j++)
     {
-        for (i = 0; i < pngwidth; i++)
+        for (i = 0; i < img->header.width; i++)
         {
-            snesimage.buffer[i + (pngwidth * j)] = pngimage[i + (pngwidth * j)];
+            img->buffer[i + (img->header.width * j)] = pngimage[i + (img->header.width * j)];
         }
     }
 
 	// clean up memory before leaving png loding
 	free(pngbuff);
-    lodepng_state_cleanup(&pngstate);
     free(pngimage);
 }
 
@@ -126,17 +140,17 @@ void image_load_bmp(const char *filename, bool isquiet)
 }
 
 //-------------------------------------------------------------------------------------------------
-void image_load(const char *filename, const char *filetype, bool isquiet)
+void image_load(const char *filename, const char *filetype, t_image *img, bool isquiet)
 {
 	// load image regarding file type
 	if ( (filetype==NULL) || (!strcmp(filetype,"png")) ) 
 	{
-		if (!isquiet) info("load png [%s] file...",filename);
-		image_load_png(filename,isquiet);
+		if (!isquiet) info("load png [%s.png] file...",filename);
+		image_load_png(filename, img, isquiet);
 	}
 	else 
 	{
-		if (!isquiet) info("load bmp [%s] file...",filename);
+		if (!isquiet) info("load bmp [%s.bmp] file...",filename);
 		image_load_bmp(filename,isquiet);
 	}
 }

@@ -25,20 +25,22 @@
 // global variables for options
 typedef struct
 {
-    int savemap;				    											// 1 = save the map
     int dispversion;				    										// 1 = display version number
     int quietmode;			    												// 0 = not quiet, 1 = i can't say anything :P
     const char *filetype;			    										// bmp, png = type of file
-    const char *filebase;			    										// file to use for graphic conversion
+    char *filebase;			    							        			// file to use for graphic conversion
 
     int tileblank;              	      										// 1 = blank tile generated
-    int tilesize;																// size tile, 8 16 32 64
+    int tilesize;																// size tile, 8x8 16x16 32x32 64x64
+    int tilewidth;
+    int tileheight;
     int tilereduction;	        												// 0 = no tile reduction (warning !)
     int tilelzpacked;                     										// 1 = compress file with LZSS algorithm
     int tilepacked;                     										// 1 = compress file with packed pixel format
     int tileoffset;                                                             // tile offset (0..2047)
     int mapscreenmode;															// screen mode for map generation (1 or 7)
     int mapcollision;                                                           // 1 = generate map collision
+    int mapoutput;				    											// 1 = save the map
 
     int paletteoutput;	            											// -1= not managed, number of color for palette output 
     int paletteentry;		        											// value of palette entry (0 to 15)
