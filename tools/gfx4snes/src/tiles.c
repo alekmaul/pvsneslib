@@ -140,9 +140,7 @@ void tiles_save (const char *filename, unsigned char *tiles,int nbtiles, int nbc
 
     // allocate local buffer for all the tiles (needed for lz77 packing), 1st (8 * bitplanes) if for blank tile
     bufsize = (addblank ? (8 * bitplanes) : 0) + (nbtiles * 8 * bitplanes);  
-    info("before hang %d",bufsize);
     buftolzin = (unsigned char *) malloc( bufsize);
-    info("after hang  %d",bufsize);
     if (buftolzin == NULL)
     {
 		free (outputname);
