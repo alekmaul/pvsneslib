@@ -48,7 +48,7 @@
 // istilereduction = 1 if we want tile reduction (i hope often ;) )
 // isblanktile = 1 if we want the 1st tile to be blank
 // isquiet = 0 if we want some messages in console
-unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksizex, int blksizey, int nbblockx, int nbblocky, int nbcolors, int offsetpal, bool istilereduction, bool isblanktile, bool isquiet)
+unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksizex, int blksizey, int nbblockx, int nbblocky, int nbcolors, int offsetpal, bool isnoreduction, bool isblanktile, bool isquiet)
 {
     unsigned short *map;                                                            
     unsigned short tilevalue;
@@ -117,6 +117,17 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
         }
     }
 
+    // truncate the colors if necessary
+    if (nbcolors != 256)
+    {
+        tilevalue = nbcolors - 1; // color truncation mask
+
+        for (i = 0; i < blksizex * blksizey * sizetile; i++)
+        {
+            imgbuf[i] = imgbuf[i] & tilevalue;
+        }
+    }
+
     // make a blank tile
     memset(blanktile, 0, sizeof(blanktile));
 
@@ -140,8 +151,8 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
 
     // add all the tiles to time map
     if (!isquiet) {
-        if (istilereduction) info("check whole bitmap for tile map with tile reduction...");
-        else info("check whole bitmap for tile map...");
+        if (isnoreduction) info("check whole bitmap (%dx%d blocks) for tile map with no optimization!...",nbblockx,nbblocky);
+        else info("check whole bitmap for tile map (%dx%d blocks) with tile reduction...",nbblockx,nbblocky);
     }
     for (y = 0; y < nbblocky; y++)
     {
@@ -151,17 +162,27 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
             if ( (x == 0) && (y == 0) )
                 continue;
 
-            // if tile reduction
-            if (istilereduction)
+            // if no tile reduction
+            if (isnoreduction)
+            {   
+                // always add a new tile
+                i = newnbtiles;
+
+                // yes -> add it
+                memcpy(&imgbuf[newnbtiles * sizetile], &imgbuf[currenttile * sizetile], sizetile);
+                tilevalue = newnbtiles + blanktileabsent;
+                newnbtiles++;
+            }
+            else
             {
-                // is the current tile blank?
+                // check if the current is tile blank?
                 if ((memcmp(blanktile, &imgbuf[currenttile * sizetile], sizetile) == 0) && (isblanktile == 1))
                 {
                     tilevalue = 0;
                 }
+                // check for matches with previous tiles if tile reduction on
                 else
                 {
-                    // check for matches with previous tiles if tile_reduction on
                     for (i = 0; i < newnbtiles; i++)
                     {
                         if (memcmp(&imgbuf[i * sizetile], &imgbuf[currenttile * sizetile], sizetile) == 0)
@@ -171,26 +192,21 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
                     // is it a new tile?
                     if (i == newnbtiles)
                     {
+
+                        //info("add new tile #%d",i);
+
                         // yes -> add it
                         memcpy(&imgbuf[newnbtiles * sizetile], &imgbuf[currenttile * sizetile], sizetile);
                         tilevalue = newnbtiles + blanktileabsent;
                         newnbtiles++;
                     }
                     else
-                    { // no -> find what tile number it is
+                    { 
+                        //info("use tile #%d",i);
+                        // no -> find what tile number it is
                         tilevalue = i + blanktileabsent;
                     }
                 }
-            }
-            // else, always a new tile
-            else
-            {
-                i = newnbtiles;
-
-                // yes -> add it
-                memcpy(&imgbuf[newnbtiles * sizetile], &imgbuf[currenttile * sizetile], sizetile);
-                tilevalue = newnbtiles + blanktileabsent;
-                newnbtiles++;
             }
 
             // put tile number in map
@@ -245,7 +261,10 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
     }
 
     // also return the number of new tiles
-    if (!isquiet) if (istilereduction) info("%d tiles (%d%%) after optimization",newnbtiles,(1-(newnbtiles/(*nbtiles)))*100);
+    if (!isquiet) {
+        if (!isnoreduction) info("%d tiles (ratio %.0f%%) processed",newnbtiles,100.0-(100.0*newnbtiles/(*nbtiles)));
+        else info("%d tiles processed",newnbtiles);
+    }
     *nbtiles = newnbtiles;
 
     return map;
