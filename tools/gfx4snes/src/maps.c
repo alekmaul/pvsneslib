@@ -52,11 +52,10 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
 {
     unsigned short *map;                                                            
     unsigned short tilevalue;
-    int currenttile, sizetile,newtiles;
-    int paletteno;
-    int i, x, y;
+    unsigned int currenttile, sizetile,newnbtiles,blanktileabsent;
     unsigned char blanktile[128];
-    int blankabsent;
+    unsigned int paletteno;
+    unsigned int i, x, y;
 
     // allocate map
       // get memory for the new buffer
@@ -123,15 +122,15 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
 
     // do we want tile #0 to be blank..
     tilevalue = 0;
-    blankabsent = 0;
+    blanktileabsent = 0;
     currenttile = 1;
-    newtiles = 1;
+    newnbtiles = 1;
     if (isblanktile == 1)
     {
         if (memcmp(blanktile, imgbuf, sizetile) != 0)
         {
             tilevalue = 1;
-            blankabsent = 1;
+            blanktileabsent = 1;
             if (!isquiet) info("no blank tile detected...");
         }
     }
@@ -163,33 +162,35 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
                 else
                 {
                     // check for matches with previous tiles if tile_reduction on
-                    for (i = 0; i < newtiles; i++)
+                    for (i = 0; i < newnbtiles; i++)
+                    {
                         if (memcmp(&imgbuf[i * sizetile], &imgbuf[currenttile * sizetile], sizetile) == 0)
                             break;
+                    }
 
                     // is it a new tile?
-                    if (i == newtiles)
+                    if (i == newnbtiles)
                     {
                         // yes -> add it
-                        memcpy(&imgbuf[newtiles * sizetile], &imgbuf[currenttile * sizetile], sizetile);
-                        tilevalue = newtiles + blankabsent;
-                        newtiles++;
+                        memcpy(&imgbuf[newnbtiles * sizetile], &imgbuf[currenttile * sizetile], sizetile);
+                        tilevalue = newnbtiles + blanktileabsent;
+                        newnbtiles++;
                     }
                     else
                     { // no -> find what tile number it is
-                        tilevalue = i + blankabsent;
+                        tilevalue = i + blanktileabsent;
                     }
                 }
             }
             // else, always a new tile
             else
             {
-                i = newtiles;
+                i = newnbtiles;
 
                 // yes -> add it
-                memcpy(&imgbuf[newtiles * sizetile], &imgbuf[currenttile * sizetile], sizetile);
-                tilevalue = newtiles + blankabsent;
-                newtiles++;
+                memcpy(&imgbuf[newnbtiles * sizetile], &imgbuf[currenttile * sizetile], sizetile);
+                tilevalue = newnbtiles + blanktileabsent;
+                newnbtiles++;
             }
 
             // put tile number in map
@@ -244,8 +245,8 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
     }
 
     // also return the number of new tiles
-    if (!isquiet) if (istilereduction) info("%d tiles (%d%%) after optimization",newtiles,(1-(newtiles/(*nbtiles))*100));
-    *nbtiles = newtiles;
+    if (!isquiet) if (istilereduction) info("%d tiles (%d%%) after optimization",newnbtiles,(1-(newnbtiles/(*nbtiles)))*100);
+    *nbtiles = newnbtiles;
 
     return map;
 } 
@@ -280,7 +281,9 @@ void map_save (const char *filename, unsigned short *map,int snesmode, int nbtil
 	fp = fopen(outputname,"wb");
 	if(fp==NULL)
 	{
-		fatal("can't open map file [%s] for writing", outputname);
+		errorcontinue("can't open map file [%s] for writing", outputname);
+		free (outputname);
+        exit(EXIT_FAILURE);
 	}
 
 	// Little warning for more than one bank

@@ -71,6 +71,7 @@ void image_load_png(const char *filename, t_image *img, bool isquiet)
         free(pngbuff);
         lodepng_state_cleanup(&pngstate);
         free(pngimage);
+		free(outputname);
         fatal("png decoder error %u: %s", pngerror, lodepng_error_text(pngerror));
     }
 
@@ -81,6 +82,7 @@ void image_load_png(const char *filename, t_image *img, bool isquiet)
         free(pngbuff);
         lodepng_state_cleanup(&pngstate);
         free(pngimage);
+		free(outputname);
         fatal("png image is not a valid indexed palette mode (mode %d)'", pngstate.info_raw.colortype);
     }
 	// 2) image size not a multiple of 8 pixels
@@ -89,6 +91,7 @@ void image_load_png(const char *filename, t_image *img, bool isquiet)
         free(pngbuff);
         lodepng_state_cleanup(&pngstate);
         free(pngimage);
+		free(outputname);
         fatal("png image size %dx%d is not a multiple of 8 pixels", pngwidth,pngheight);
 	}
 
@@ -117,6 +120,7 @@ void image_load_png(const char *filename, t_image *img, bool isquiet)
     {
         free(pngbuff);
         free(pngimage);
+		free(outputname);
         fatal("can't allocate enough memory for the image");
     }
 
@@ -131,12 +135,24 @@ void image_load_png(const char *filename, t_image *img, bool isquiet)
 	// clean up memory before leaving png loding
 	free(pngbuff);
     free(pngimage);
+	free(outputname);
 }
 
 //-------------------------------------------------------------------------------------------------
-void image_load_bmp(const char *filename, bool isquiet) 
+void image_load_bmp(const char *filename, t_image *img, bool isquiet) 
 {
+	char *outputname;
 
+	// prepare file extension
+	outputname=(char *) malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
+	if(outputname==NULL)
+	{
+		fatal("can't allocate memory for bmp filename");
+	}
+	sprintf(outputname,"%s.bmp",filename);
+
+	// clean up memory before leaving png loding
+	free(outputname);
 }
 
 //-------------------------------------------------------------------------------------------------
