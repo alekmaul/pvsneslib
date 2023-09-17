@@ -34,10 +34,9 @@ char errormessage_arg[256];				    								// error message if argument is not c
 void argument_set_default_values(void) 
 {
 	if (!gfx4snes_args.tilesize) gfx4snes_args.tilesize=8;
-	if (!gfx4snes_args.tilereduction) gfx4snes_args.tilereduction=1;
 	if (!gfx4snes_args.mapscreenmode) gfx4snes_args.mapscreenmode=1;
 	if (!gfx4snes_args.paletteoutput) gfx4snes_args.paletteoutput=-1;
-	if (!gfx4snes_args.palettecolors) gfx4snes_args.palettecolors=256;
+	if (!gfx4snes_args.palettecolors) gfx4snes_args.palettecolors=16;
 	if (!gfx4snes_args.palettesave) gfx4snes_args.palettesave=1;
 	if (!gfx4snes_args.tilewidth) gfx4snes_args.tilewidth=8;
 	if (!gfx4snes_args.tileheight) gfx4snes_args.tileheight=8;
