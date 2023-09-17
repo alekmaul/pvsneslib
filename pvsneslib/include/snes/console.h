@@ -161,6 +161,20 @@ void consoleCopySram(u8 *source, u16 size);
 */
 void consoleLoadSram(u8 *dest, u16 size);
 
+/*! \brief Send data to SRAM with offset
+    \param source the source to copy from
+    \param size the size in bytes of the data to copy.
+    \param offset the offset in bytes where the data should be copied
+*/
+void consoleCopySramWithOffset(u8 *source, u16 size, u16 offset);
+
+/*! \brief Load data from SRAM with offset
+    \param dest the destination to load into
+    \param size the size in bytes of the data to copy.
+    \param offset the offset from which the data should be loaded
+*/
+void consoleLoadSramWithOffset(u8 *dest, u16 size, u16 offset);
+
 int sprintf(char *buf, const char *fmt, ...);
 
 /*! \fn  consoleRegionIsOK()
