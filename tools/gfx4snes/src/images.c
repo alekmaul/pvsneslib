@@ -142,14 +142,35 @@ void image_load_png(const char *filename, t_image *img, bool isquiet)
 void image_load_bmp(const char *filename, t_image *img, bool isquiet) 
 {
 	char *outputname;
+	unsigned char *bmpbuff = NULL;											// bmp image buffer
+	unsigned char *bmpimage = NULL;											// bmp decoded image buffer
+	BMPState bmpstate;														// bmp settings
+	unsigned int bmpwidth, bmpheight;										// bmp image width & height
+	size_t bmpsize;															// bmp image buffer size
+	unsigned int bmperror;													// error management
 
 	// prepare file extension
-	outputname=(char *) malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
+	outputname=(char *) malloc(strlen(filename)+4);							// 4 to be sure to have enough for extension
 	if(outputname==NULL)
 	{
 		fatal("can't allocate memory for bmp filename");
 	}
 	sprintf(outputname,"%s.bmp",filename);
+
+	// load the png file and try to decode it
+    bmperror = bmp_load_file(&bmpbuff, &bmpsize, outputname);
+    if (!bmperror)
+    {
+        bmperror = bmp_decode(&bmpimage, &bmpstate, &bmpwidth, &bmpheight, bmpbuff, bmpsize);
+    }
+    if (bmperror)
+    {
+        free(bmpbuff);
+        free(bmpimage);
+		free(outputname);
+        fatal("bmp decoder error %u: %s", bmperror, bmp_error_text(bmperror));
+    }
+
 
 	// clean up memory before leaving png loding
 	free(outputname);
@@ -167,7 +188,7 @@ void image_load(const char *filename, const char *filetype, t_image *img, bool i
 	else 
 	{
 		if (!isquiet) info("load bmp [%s.bmp] file...",filename);
-		image_load_bmp(filename,isquiet);
+		image_load_bmp(filename, img, isquiet);
 	}
 }
 

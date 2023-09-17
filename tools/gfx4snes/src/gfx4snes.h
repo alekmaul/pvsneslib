@@ -34,7 +34,7 @@ typedef struct
     int tilesize;																// size tile, 8x8 16x16 32x32 64x64
     int tilewidth;
     int tileheight;
-    int tilereduction;	        												// 0 = no tile reduction (warning !)
+    int notilereduction;	        								    		// 1 = no tile reduction (warning !)
     int tilelzpacked;                     										// 1 = compress file with LZSS algorithm
     int tilepacked;                     										// 1 = compress file with packed pixel format
     int tileoffset;                                                             // tile offset (0..2047)

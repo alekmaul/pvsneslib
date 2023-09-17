@@ -48,7 +48,7 @@ static cmdp_command_st gfx4snes_command = {
 			{'c', "map-collision", "generate collision map", CMDP_TYPE_INT4, &gfx4snes_args.mapcollision},
 			{'f', "map-offset", "generate the whole picture with an offset for tile number {0..2047}", CMDP_TYPE_INT4, &gfx4snes_args.tileoffset},
 			{'m', "map-output", "include map for output", CMDP_TYPE_BOOL, &gfx4snes_args.mapoutput},
-			{'R', "map-noreduction", "no tile reduction (not advised)", CMDP_TYPE_BOOL, &gfx4snes_args.tilereduction},
+			{'R', "map-noreduction", "no tile reduction (not advised)", CMDP_TYPE_BOOL, &gfx4snes_args.notilereduction},
 			{'M', "map-mode", "convert the whole picture for mode 1,5,6 or 7 format {[1],5,6,7}", CMDP_TYPE_INT4, &gfx4snes_args.mapscreenmode},
             {0, 0, "Palettes options:\n", CMDP_TYPE_NONE, NULL,NULL},
 			{'a', "pal-rearrange", "rearrange palette and preserve palette numbers in tilemap", CMDP_TYPE_BOOL, &gfx4snes_args.paletterearrange},
@@ -152,10 +152,10 @@ int main(int argc, const char **argv)
 	// convert tiles to a snes format
 	tiles_snes=tiles_convertsnes (snesimage.buffer, snesimage.header.width, snesimage.header.height, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, &nbtilesx, &nbtiles, 8, gfx4snes_args.quietmode);
 
-	// convert map to a snes format if needed
+	// convert map to a snes format if needed and /!\ optimize tiles in tiles_snes
 	if (gfx4snes_args.mapoutput)
 	{
-		map_snes=map_convertsnes (tiles_snes, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, blksx, blksy, gfx4snes_args.palettecolors, gfx4snes_args.paletteentry , gfx4snes_args.tilereduction, gfx4snes_args.tileblank, gfx4snes_args.quietmode);
+		map_snes=map_convertsnes (tiles_snes, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, blksx, blksy, gfx4snes_args.palettecolors, gfx4snes_args.paletteentry , gfx4snes_args.notilereduction, gfx4snes_args.tileblank, gfx4snes_args.quietmode);
 	}
 
 	// save map if needed
