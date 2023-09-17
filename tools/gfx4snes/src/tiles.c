@@ -237,7 +237,8 @@ void tiles_save (const char *filename, unsigned char *tiles,int nbtiles, int nbc
 	}
 
 	// add graphics to file
-    fwrite(buftolzout, bufsize, 1, fp);
+    for (t=0;t<bufsize;t++)
+        WRITEFILEBYTE(buftolzout[t],fp);
 
 	// close file and leave
 	fclose(fp);
