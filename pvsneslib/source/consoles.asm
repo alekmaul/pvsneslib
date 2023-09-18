@@ -246,6 +246,123 @@ consoleLoadSram:
     plp
     rtl
 
+;---------------------------------------------------------------------------
+; void consoleCopySramWithOffset(u8 * source, u16 size, u16 offset);
+consoleCopySramWithOffset:
+    php
+    phb
+
+    sep #$20
+    lda #$0
+    pha
+    plb ; change bank address to 0
+
+    rep #$20
+    phy
+    phx
+
+    ; Let tcc__r2 point to the source
+    lda     10,s
+    sta     tcc__r2
+    lda     12,s
+    sta     tcc__r2h
+
+    ldy #$0
+
+    sep #$20
+    lda #BANK_SRAM
+    pha
+    plb ; change bank address to sram bank
+
+    rep #$20
+    lda 14,s   ; size
+    tax        ; transfer save data size to X
+    ldy #$0
+
+-:  sep #$20
+    lda     [tcc__r2],y
+    rep #$20
+    phy
+    pha                 ; for offset
+
+    tya
+    clc
+    adc     20,s
+    tay
+
+    pla
+    sep #$20
+    sta     0,y
+    rep #$20
+    ply
+    iny     ; increase counter
+    dex     ; decrease size left
+    beq +
+    bra -
+
++:  plx
+    ply
+    plb
+    plp
+    rtl
+
+;---------------------------------------------------------------------------
+; void consoleLoadSramWithOffset(u8 * source, u16 size, u16 offset);
+consoleLoadSramWithOffset:
+    php
+    phb
+
+    sep #$20
+    lda #$0
+    pha ;(8)
+    plb ; change bank address to 0
+
+    rep #$20
+    phy
+    phx
+
+    ; Let tcc__r2 point to the source
+    lda     10,s
+    sta     tcc__r2
+    lda     12,s
+    sta     tcc__r2h
+
+    ldy #$0
+
+    sep #$20
+    lda #BANK_SRAM
+    pha
+    plb ; change bank address to sram bank
+
+    rep #$20
+    lda 14,s   ; size
+    tax
+    ldy #$0
+
+
+-:  rep #$20
+    phy                 ;save  y index
+    tya
+    clc
+    adc     18,s        ;add offset to y index
+    tay
+    sep #$20
+    lda     0,y         ;load from offset
+    ply                 ;restore y index
+    sta     [tcc__r2],y
+    iny
+    dex
+    beq +
+    bra -
+
++:  plx
+    ply
+    plb
+    plp
+    rtl
+
+
+
 .ENDS
 
 .SECTION ".consoles3_text" SUPERFREE
