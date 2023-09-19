@@ -29,10 +29,14 @@ If you work on Linux, please ignore this step but on Windows, you will need a to
 You can download it from [here](https://www.msys2.org/#installation). Just follow the instructions from step `1` to `5`.
 
 When `MSYS2` is installed, we want first to be sure that all is updated.
+Then, we have to install the `make` tool to compile all samples available.
 
-In the `MSYS2 UCRT64` terminal, update it:
+In the `MSYS2 UCRT64` terminal, run:
 
-- Run `pacman -Suuy` to update the rest of the packages (allowing downgrades). You **MUST** restart MSYS2.
+- `pacman -Suuy` to update the rest of the packages (allowing downgrades)
+- `pacman -S make` to install the `make` command
+
+You **MUST** restart MSYS2.
 
 Please remember that:
 
