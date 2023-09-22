@@ -50,6 +50,10 @@ unsigned char *tiles_convertsnes (unsigned char *imgbuf, int imgwidth, int imghe
     int i, j, line;
     int x, y;
 
+    // go out before doing a / 0 computation
+    if ((newwidth / blksizex)==0) {
+        fatal("new width (%d) can't be use with requested size (%d)",newwidth,blksizex);        
+    }
     // get number of full image block rows in the new buffer
     rows = ((*sizex) * (*sizey)) / (newwidth / blksizex); // rows = num_blocks / new_xsize
 

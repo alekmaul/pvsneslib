@@ -107,117 +107,125 @@ void palette_convert_snes(t_RGB_color *palette, int *palettesnes, bool isrounded
 }
 
 //-------------------------------------------------------------------------------------------------
-#if 0
-int RearrangePalette(unsigned char *buffer, int *palette,
-                     int num_tiles, int colors)
+// imgbuf = image buffer
+// nbtiles = number of tiles to write to file
+// palettesnes = RGB555 converted palette
+// nbcolors = number of colors of the palette buffer
+// isquiet = 0 if we want some messages in console
+void palette_rearrange_snes(unsigned char *imgbuf, int *palettesnes, int nbtiles, int nbcolors, bool isquiet)
 {
-    int final[8];
-    int num_final;
-    int *combos; // holds sorted list of colors in combo of each tile
-    int *num;    // holds number of colors in each combo
-    int *list;   // for sorting combos
-    int n;
-
-    int new_palette[256];
-    int color_table[256];
-
-    int index, last_index;
-    int test, test2;
-    int num_miss;
-    int data;
-    int i, ii;
+    unsigned int *combos;                                                    // holds sorted list of colors in combo of each tile
+    unsigned int *num;                                                       // holds number of colors in each combo
+    unsigned int *list;                                                      // for sorting combos
+    unsigned int final[8], num_final;
+    unsigned int new_palette[256], color_table[256];
+    unsigned int index, last_index;
+    unsigned int test, test2;
+    unsigned int num_miss;
+    unsigned int data, colortabinc;
+    unsigned int n, i, ii;
 
     // get memory
-    num = malloc(num_tiles * sizeof(int));
+    num = (unsigned int *) malloc(nbtiles * sizeof(int));
     if (num == NULL)
     {
-        printf("\ngfx2snes: error 'Not enough memory to do rearrangement calculations'\n");
-        return 0;
+        fatal("can't allocate enough memory for the number of colors in rearrange_snes");
     }
 
-    combos = malloc(num_tiles * 16 * sizeof(int));
+    combos = (unsigned int *) malloc(nbtiles * 16 * sizeof(int));
     if (combos == NULL)
     {
-        printf("\ngfx2snes: error 'Not enough memory to do rearrangement calculations'\n");
         free(num);
-        return 0;
+        fatal("can't allocate enough memory for the list of colors in rearrange_snes");
     }
 
-    list = malloc(num_tiles * sizeof(int));
+    list = (unsigned int *) malloc(nbtiles * sizeof(int));
     if (list == NULL)
     {
-        printf("\ngfx2snes: error 'Not enough memory to do rearrangement calculations'\n");
         free(combos);
         free(num);
-        return 0;
+        fatal("can't allocate enough memory for the list of combos in rearrange_snes");
     }
 
     // clear 'color combo' lists
-    memset(combos, 0, num_tiles * 16 * sizeof(int));
+    memset(combos, 0, nbtiles * 16 * sizeof(int));
+    if (!isquiet) info("prepare palette rearrangement for %d tiles and %d colors...", nbtiles,nbcolors);
 
     // start each list having one color... color zero
-    for (i = 0; i < num_tiles; i++)
+    for (i = 0; i < nbtiles; i++)
+    {
         num[i] = 1;
+    }
 
     // if two colors have the same RGB values...
     // replace all instances of the redundant color with the first color
     for (i = 0; i < 256; i++)
+    {
         for (ii = i + 1; ii < 256; ii++)
-            if (palette[i] == palette[ii])
+            if (palettesnes[i] == palettesnes[ii])
             {
-                for (index = 0; index < num_tiles * 8 * 8; index++)
-                    if (buffer[index] == ii)
-                        buffer[index] = i;
+                for (index = 0; index < nbtiles * 8 * 8; index++)
+                    if (imgbuf[index] == ii)
+                        imgbuf[index] = i;
             }
+    }
 
     // now, build up the 'color combo' list...
-    for (index = 0; index < num_tiles; index++)
+    colortabinc=nbcolors==4 ? 4 : 16;
+    for (index = 0; index < nbtiles; index++)
+    {
         for (i = 0; i < 64; i++)
         {
-            data = buffer[index * 64 + i];
+            data = imgbuf[index * 64 + i];
 
             // is this color already in the list?
             for (ii = 0; ii < num[index]; ii++)
+            {
                 if (combos[index * colortabinc + ii] == data)
                     break;
+            }
 
             // if not add it to the list
             if (ii == num[index])
             {
-                if (num[index] == colors) // combo is full
+                if (num[index] == nbcolors) // combo is full
                 {
-                    printf("\ngfx2snes: error 'Detected more colors in one 8x8 tile than is allowed'\n");
                     free(list);
                     free(combos);
                     free(num);
-                    return 0;
+                    fatal("detected more colors in one 8x8 tile than is allowed");
                 }
-
                 combos[index * colortabinc + ii] = data;
                 num[index]++;
             }
         }
+    }
 
     // now sort combos in order of number of colors (greatest to least)
-    // here's some more horrid code... I know this is all messy and
-    // slow, but hey... I just don't care right now.
+    // here's some more horrid code... I know this is all messy and slow, but hey... I just don't care right now.
     n = 0;
-    for (ii = colors; ii > 0; ii--)
-        for (i = 0; i < num_tiles; i++)
+    for (ii = nbcolors; ii > 0; ii--)
+    {
+        for (i = 0; i < nbtiles; i++)
+        {
             if (num[i] == ii)
                 list[n++] = i;
+        }
+    }
 
     // ok, now try to combine the combos
     last_index = -1;
     for (num_final = 0; num_final < 9; num_final++)
     {
         // start looking for next 'non-combined' combo in the list
-        for (index = last_index + 1; index < num_tiles; index++)
+        for (index = last_index + 1; index < nbtiles; index++)
+        {
             if (num[list[index]] > 0)
                 break;
+        }
 
         // if none... we're done
-        if (index == num_tiles)
+        if (index == nbtiles)
             break;
 
         // test = combo # of new 'final combo'
@@ -228,19 +236,17 @@ int RearrangePalette(unsigned char *buffer, int *palette,
         if (num_final == 8)
         {
             // we already have 8 palettes... can't add more
-            printf("\ngfx2snes: error 'not enough colors/palettes to represent the picture'\n");
             free(list);
             free(combos);
             free(num);
-            return 0;
+            fatal("not enough colors/palettes to represent the picture");
         }
 
         // if one exists, then add to final and start combining
         final[num_final] = test;
-        for (n = index + 1; n < num_tiles; n++)
+        for (n = index + 1; n < nbtiles; n++)
         {
             // n = index into sorted list of combos
-
             // test  = combo # of new 'final combo'
             // test2 = combo we're going to try to combine with the 'final combo'
             test2 = list[n];
@@ -255,16 +261,17 @@ int RearrangePalette(unsigned char *buffer, int *palette,
             {
                 // ii = index into the 'attempting to combine' combo
                 //  i = index into the 'final combo'
-
                 // check for non-matched colors
                 for (i = test * colortabinc; i < test * colortabinc + num[test] + num_miss; i++)
+                {
                     if (combos[ii] == combos[i])
                         break;
+                }
 
                 // is there a miss?
                 if (i == test * colortabinc + num[test] + num_miss)
                 {
-                    if (num[test] + num_miss == colors)
+                    if (num[test] + num_miss == nbcolors)
                     {
                         // we can't add anymore colors
                         // this combine has failed
@@ -293,13 +300,11 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 
     } // build up 8 palettes...
 
-    // Yeah! ... if we made it here it worked!
-    //(assuming my code is right)
-    if (quietmode == 0)
-        printf("\ngfx2snes: 'Rearrangement possible!! Accomplished in %d palettes...'", num_final);
+    // Yeah! ... if we made it here it worked! (assuming my code is right)
+    if (!isquiet) info("rearrangement possible!! Accomplished in %d palettes...", num_final);
 
     // convert the image
-    for (i = 0; i < num_tiles; i++)
+    for (i = 0; i < nbtiles; i++)
     {
         // reset conversion table
         memset(color_table, 0, 256 * sizeof(int));
@@ -324,11 +329,11 @@ int RearrangePalette(unsigned char *buffer, int *palette,
 
         // convert the block
         for (ii = 64 * i; ii < 64 * (i + 1); ii++)
-            buffer[ii] = (unsigned char)color_table[buffer[ii]];
+            imgbuf[ii] = (unsigned char) color_table[imgbuf[ii]];
     }
 
     // clear conversion table, and default palette entries to the original palette
-    memcpy(new_palette, palette, 256 * sizeof(int));
+    memcpy(new_palette, palettesnes, 256 * sizeof(int));
 
     // make the palette conversion
     for (i = 0; i < num_final; i++)
@@ -336,21 +341,18 @@ int RearrangePalette(unsigned char *buffer, int *palette,
         for (ii = 0; ii < num[final[i]]; ii++)
         {
             index = combos[final[i] * colortabinc + ii];
-            new_palette[i * colortabinc + ii] = palette[index];
+            new_palette[i * colortabinc + ii] = palettesnes[index];
         }
     }
 
     // save back the palette
-    memcpy(palette, new_palette, 256 * sizeof(int));
+    memcpy(palettesnes, new_palette, 256 * sizeof(int));
 
     // free up mem from the combo lists
     free(list);
     free(combos);
     free(num);
-
-    return -1;
-} // end of RearrangePalette()
-#endif
+} 
 
 //-------------------------------------------------------------------------------------------------
 // filename = bitmap file name (png or bmp)

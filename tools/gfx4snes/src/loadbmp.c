@@ -36,11 +36,15 @@
 //  the documentation of all the error codes.
 const char* bmp_error_text(unsigned code)
 {
-  switch(code)
-  {
+    switch(code)
+    {
     		case 0: return "no error, everything went ok";
     		case 1: return "nothing done yet"; 						// the Encoder/Decoder has done nothing yet, error checking makes no sense yet
-
+    		case 25: return "only BI_RLE8 compression method is supported";
+    		case 38: return "the palette is not 16 or 256 colors"; 
+			case 78: return "failed to open file for reading"; /*file doesn't exist or couldn't be opened for reading*/
+    		case 83: return "memory allocation failed";
+#if 0
 
     case 10: return "end of input memory reached without huffman end code"; /*while huffman decoding*/
     case 11: return "error in code tree made it jump outside of huffman tree"; /*while huffman decoding*/
@@ -60,7 +64,6 @@ const char* bmp_error_text(unsigned code)
     case 22: return "end of out buffer memory reached while inflating";
     case 23: return "end of in buffer memory reached while inflating";
     case 24: return "invalid FCHECK in zlib header";
-    		case 25: return "only BI_RLE8 compression method is supported";
     case 26: return "FDICT encountered in zlib header while it's not used for PNG";
     case 27: return "PNG file is smaller than a PNG header";
     /*Checks the magic file header, the first 8 bytes of the PNG file*/
@@ -74,7 +77,6 @@ const char* bmp_error_text(unsigned code)
     case 35: return "chunk length of a chunk is too large or the chunk too small";
     case 36: return "illegal PNG filter type encountered";
     case 37: return "illegal bit depth for this color type given";
-    		case 38: return "the palette is not 16 or 256 colors"; 
     case 39: return "more palette alpha values given in tRNS chunk than there are colors in the palette";
     case 40: return "tRNS chunk has wrong size for greyscale image";
     case 41: return "tRNS chunk has wrong size for RGB image";
@@ -116,12 +118,10 @@ const char* bmp_error_text(unsigned code)
     case 75: return "no null termination char found while decoding text chunk";
     case 76: return "iTXt chunk too short to contain required bytes";
     case 77: return "integer overflow in buffer size";
-			case 78: return "failed to open file for reading"; /*file doesn't exist or couldn't be opened for reading*/
 	case 79: return "failed to open file for writing";
     case 80: return "tried creating a tree of 0 symbols";
     case 81: return "lazy matching at pos 0 is impossible";
     case 82: return "color conversion to palette requested while a color isn't in palette";
-    		case 83: return "memory allocation failed";
     case 84: return "given image too small to contain all pixels to be encoded";
     case 86: return "impossible offset in lz77 encoding (internal bug)";
     case 87: return "must provide custom zlib function pointer if LODEPNG_COMPILE_ZLIB is not defined";
@@ -134,155 +134,224 @@ const char* bmp_error_text(unsigned code)
     case 93: return "zero width or height is invalid";
     case 94: return "header chunk must have a size of 13 bytes";
 
-
-
-
-  }
-  return "unknown error code";
+#endif
+    }
+    return "unknown error code";
 }
 
 // returns negative value on error. This should be pure C compatible, so no fstat. 
 static long bmp_filesize(const char* filename)
 {
-  FILE* file;
-  long size;
-  file = fopen(filename, "rb");
-  if(!file) return -1;
+    FILE* file;
+    long size;
+    file = fopen(filename, "rb");
+    if(!file) return -1;
 
-  if(fseek(file, 0, SEEK_END) != 0)
-  {
-    fclose(file);
-    return -1;
-  }
+    if(fseek(file, 0, SEEK_END) != 0)
+    {
+      fclose(file);
+      return -1;
+    } 
 
-  size = ftell(file);
+    size = ftell(file);
   
-  // It may give LONG_MAX as directory size, this is invalid for us. 
-  if(size == LONG_MAX) size = -1;
+    // It may give LONG_MAX as directory size, this is invalid for us. 
+    if(size == LONG_MAX) size = -1;
 
-  fclose(file);
-  return size;
+    fclose(file);
+    return size;
 }
 
 // load file into buffer that already has the correct allocated size. Returns error code.
 static unsigned bmp_buffer_file(unsigned char* out, size_t size, const char* filename)
 {
-  FILE* file;
-  size_t readsize;
-  file = fopen(filename, "rb");
-  if(!file) return 78;
+    FILE* file;
+    size_t readsize;
+    file = fopen(filename, "rb");
+    if(!file) return 78;
 
-  readsize = fread(out, 1, size, file);
-  fclose(file);
+    readsize = fread(out, 1, size, file);
+    fclose(file);
 
-  if (readsize != size) return 78;
-  return 0;
+    if (readsize != size) return 78;
+    return 0;
 }
 
 // load file into buffer and allocate the correct size. Returns error code.
 unsigned bmp_load_file(unsigned char** out, size_t* outsize, const char* filename)
 {
-  long size = bmp_filesize(filename);
+    long size = bmp_filesize(filename);
 
-  if (size < 0) return 78;
-  *outsize = (size_t)size;
+    if (size < 0) return 78;
+    *outsize = (size_t)size;
 
-  *out = (unsigned char*) malloc((size_t)size);
-  if(!(*out) && size > 0) return 83; 						// the above malloc failed
+    *out = (unsigned char*) malloc((size_t)size);
+    if(!(*out) && size > 0) return 83; 						// the above malloc failed
 
-  return bmp_buffer_file(*out, (size_t)size, filename);
+    return bmp_buffer_file(*out, (size_t)size, filename);
 }
 
+void BMP_BI_RLE8_Load(unsigned char** image,
+                      const bmp_header *const bmphead, const bmp_info_header *const bmpinfohead,
+                      const unsigned char *inbuf)
+{
+    // BI_RLE8 decompress according to:
+    // https://technet.microsoft.com/ru-ru/dd183383
+    unsigned long line, i, count;
+    // offset in image buffer where current line starts
+    unsigned int pos;
+    unsigned char ch, ch2;
+
+    // start from bottom line
+    line = bmpinfohead->biHeight;
+    pos = (line - 1) * bmpinfohead->biWidth;
+
+    count = 0;
+    // read all image bytes
+    while (count < bmpinfohead->biSizeImage)
+    {
+        ch = *inbuf++;
+        ++count;
+        if (ch)
+        {
+            // repeat byte
+            ch2 = *inbuf++;
+            ++count;
+            for (i = 0; i < ch; ++i)
+                *image[pos++] = ch2;
+            continue;
+        }
+
+        // escape char
+        ch = *inbuf++;
+        ++count;
+        if (ch == 0)
+        {
+            // End of line.
+
+            // go one line up
+            --line;
+            // start of this line.
+            pos = (line - 1) * bmpinfohead->biWidth;
+        }
+        else if (ch == 1)
+        {
+            // End of bitmap.
+            break;
+        }
+        else if (ch == 2)
+        {
+            // Delta.
+            // The two bytes following the escape contain unsigned values
+            // indicating the horizontal and vertical offsets of the next pixel
+            // from the current position.
+
+            ch = *inbuf++;
+            ++count;
+            // go right in the buffer
+            pos += ch;
+
+            ch = *inbuf++;
+            ++count;
+            // go given lines up
+            line -= ch;
+            pos -= bmpinfohead->biWidth * ch;
+        }
+        else
+        {
+            // Absolute mode.
+            // The second byte represents the number of bytes that follow,
+            // each of which contains the color index of a single pixel.
+            ch = *inbuf++;
+            ++count;
+            for (i = 0; i < ch; ++i)
+            {
+                *image[pos++] = *inbuf++;
+                ++count;
+            }
+            if (i % 2)
+            {
+                // Each run must be aligned on a word boundary.
+                // Read and throw away the placeholder.
+                ch2 = *inbuf++;
+                ++count;
+            }
+        }
+    }
+} 
+
+//-------------------------------------------------------------------------------------------------
 // Converts BMP data in memory to raw pixel data.
 unsigned bmp_decode(unsigned char** out, BMPState* state, unsigned* w, unsigned* h, const unsigned char* in, size_t insize)
 {
     bmp_header bmphead;
     bmp_info_header bmpinfohead;
-	unsigned state_error=0;
-	unsigned currentseek;
+    unsigned state_error=0;
+    unsigned currentseek;
+    size_t index,iwidth,iheight;
+    size_t i;
 
-	// get header
-	memcpy(&bmpinfohead,in, sizeof(bmpinfohead));
+    *out = 0;
 
-	// not a valid BMP file: only 16, 256 colors
+    // get header and info header
+    memcpy(&bmphead,in, sizeof(bmphead));
+    memcpy(&bmpinfohead,in+sizeof(bmphead), sizeof(bmpinfohead));
+
+    // not a valid BMP file: only 16, 256 colors
     if (bmpinfohead.biBitCount != 4 || bmpinfohead.biBitCount != 8 )
     {
-		state_error=38;
+		    state_error=38;
     }
-	// not a valid BMP file: compressed and not BI_RLE8 supported
+    // not a valid BMP file: compressed and not BI_RLE8 supported
     else if (bmpinfohead.biCompression != 0 && bmpinfohead.biCompression != BI_RLE8)
     {
-		state_error=25;
+		    state_error=25;
     }
-	// hearder seems valid
-	else {
-		// goto palette
-		currentseek=sizeof(bmp_header) + bmpinfohead.biSize;
+	  // hearder seems valid
+	  else {
+        // store the compression information
+        state->info_bmp.compression_method=(bmpinfohead.biCompression == BI_RLE8);
+		  
+        // goto palette
+		    currentseek=sizeof(bmp_header) + bmpinfohead.biSize;
 
-/*
-     fseek(fp, sizeof(bmp_header) + bmpinfohead.biSize, 0);
-	
-	// initially clear the palette if there are less then 256 colors in the file
-    memset(image->palette, 0, (size_t)(256 * sizeof(RGB_color)));
+        // read the palette information
+        for (index = 0; index < bmpinfohead.biBitCount; index++)
+        {
+            state->info_bmp.palette[index].blue=*(in+(index<<2)+currentseek);
+            state->info_bmp.palette[index].green=*(in+(index<<2)+currentseek+1);
+            state->info_bmp.palette[index].red=*(in+(index<<2)+currentseek+2);
+            // 4th byte is not used and always 0
+        }
 
-    // read the palette information
-    for (index = 0; index < 256; index++)
-    {
-        image->palette[index].blue = getc(fp) >> 2;
-        image->palette[index].green = getc(fp) >> 2;
-        image->palette[index].red = getc(fp) >> 2;
-        // data=getc(fp);
-        getc(fp);
-    }
+        // seek to image data
+        currentseek=bmphead.bfOffBits;
 
-    header = &image->header;
-    header->width = bmpinfohead.biWidth;
-    header->height = bmpinfohead.biHeight;
-*/
-
-	}
-
-	return state_error;
-#if 0
-  *out = 0;
-  decodeGeneric(out, w, h, state, in, insize);
-  if(state->error) return state->error;
-  if(!state->decoder.color_convert || lodepng_color_mode_equal(&state->info_raw, &state->info_png.color))
-  {
-    /*same color type, no copying or converting of data needed*/
-    /*store the info_png color settings on the info_raw so that the info_raw still reflects what colortype
-    the raw image has to the end user*/
-    if(!state->decoder.color_convert)
-    {
-      state->error = lodepng_color_mode_copy(&state->info_raw, &state->info_png.color);
-      if(state->error) return state->error;
-    }
-  }
-  else
-  {
-    /*color conversion needed; sort of copy of the data*/
-    unsigned char* data = *out;
-    size_t outsize;
-
-    /*TODO: check if this works according to the statement in the documentation: "The converter can convert
-    from greyscale input color type, to 8-bit greyscale or greyscale with alpha"*/
-    if(!(state->info_raw.colortype == LCT_RGB || state->info_raw.colortype == LCT_RGBA)
-       && !(state->info_raw.bitdepth == 8))
-    {
-      return 56; /*unsupported color mode conversion*/
+        // read the bitmaps size and try to allocate memory
+        *w = iwidth=bmpinfohead.biWidth;
+        *h = iheight=bmpinfohead.biHeight;
+        *out=(unsigned char *) malloc(iwidth*iheight);
+        if (*out == NULL)
+        {
+            state_error=83;
+        }
+        else {
+            // read the uncompressed or compressed bitmap
+            if (bmpinfohead.biCompression == 0)
+            {
+                for (index = (iheight - 1) * iwidth; index >= 0; index -= iwidth)
+                    for (i = 0; i < iwidth; i++)
+                        *out[index + i] = *(in+(index*iwidth)+currentseek+i);
+            }
+            else if (bmpinfohead.biCompression == 1)
+            {
+                // BI_RLE8
+                BMP_BI_RLE8_Load(out, &bmphead, &bmpinfohead, in+currentseek);
+            }
+        }
     }
 
-    outsize = lodepng_get_raw_size(*w, *h, &state->info_raw);
-    *out = (unsigned char*)lodepng_malloc(outsize);
-    if(!(*out))
-    {
-      state->error = 83; /*alloc fail*/
-    }
-    else state->error = lodepng_convert(*out, data, &state->info_raw,
-                                        &state->info_png.color, *w, *h);
-    lodepng_free(data);
-  }
-  return state->error;
-#endif  
+    // go back with error code or not
+    return state_error;
 }
 

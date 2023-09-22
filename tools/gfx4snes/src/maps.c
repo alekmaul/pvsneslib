@@ -44,11 +44,12 @@
 // nbblocky = number of blocks in height for the image buffer
 // blksizey = size in pixels of image blocks height
 // nbcolors = number of colors of the palette buffer
+// gaphicmode = snes mode. Specific transformation for mode 5 and 6
 // offsetpal = palette entry (0..7)
 // istilereduction = 1 if we want tile reduction (i hope often ;) )
 // isblanktile = 1 if we want the 1st tile to be blank
 // isquiet = 0 if we want some messages in console
-unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksizex, int blksizey, int nbblockx, int nbblocky, int nbcolors, int offsetpal, bool isnoreduction, bool isblanktile, bool isquiet)
+unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksizex, int blksizey, int nbblockx, int nbblocky, int nbcolors, int offsetpal, int graphicmode, bool isnoreduction, bool isblanktile, bool isquiet)
 {
     unsigned short *map;                                                            
     unsigned short tilevalue;
@@ -56,6 +57,17 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
     unsigned char blanktile[128];
     unsigned int paletteno;
     unsigned int i, x, y;
+
+    // if mode 5 or 6, reduce number of tiles in x
+    if ((graphicmode==5) || (graphicmode==6)) 
+    {
+        nbblockx>>=1;
+        blksizex = 16;
+        if (!isquiet) info("will use specific mode 5 & 6 values %d block for x, with tile size %dx%d...",nbblockx,16,blksizey);
+    }
+
+    // size of a tile block (64 bytes for a 8x8 block)
+    sizetile = blksizex*blksizey;
 
     // allocate map
       // get memory for the new buffer
@@ -69,9 +81,6 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
     memset(map, 0, nbblockx * nbblocky * sizeof(unsigned short));
     if (!isquiet) info("managed a map of %d tiles width and %d tiles height (of %dx%d pixels)...",nbblockx,nbblocky,blksizex,blksizey);
 
-    // size of a tile block (64 bytes for a 8x8 block)
-    sizetile = blksizex*blksizey;
-
     // add the palette number to tiles
     if (!isquiet) info("add palette entry #%d to tiles in map...",offsetpal);
     currenttile = 0;
@@ -83,37 +92,46 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
             paletteno = (nbcolors != 4) ? (imgbuf[currenttile * sizetile] >> 4) & 0x07 : (imgbuf[currenttile * sizetile] >> 2) & 0x07;
             tilevalue = ((paletteno + offsetpal) << 10);
 
-            // put tile number in map
-            if (nbblockx == 64 && nbblocky == 32) // 64x32 screen
+            if ((graphicmode==5) || (graphicmode==6))  
             {
-                if (x < 32)
-                    map[y * 32 + x] = tilevalue;
-                else
-                    map[(y + 32) * 32 + x - 32] = tilevalue;
+                map[y * nbblockx + x] = tilevalue;
             }
-            else if (nbblockx == 32 && nbblocky == 64)  // 32x64 screen
-            {
-                map[y * 32 + x] = tilevalue;
-            }
-            else if (nbblockx == 64 && nbblocky == 64) // 64x64 screen
-            {
-                if (y < 32)
+            else {
+                // put tile number in map
+                if (nbblockx == 64 && nbblocky == 32) // 64x32 screen
+                {
+                    //printf("61x32 here!\n"); fflush(stdout);
                     if (x < 32)
                         map[y * 32 + x] = tilevalue;
                     else
                         map[(y + 32) * 32 + x - 32] = tilevalue;
-                else if (x < 32)
-                    map[(y + 64 - 32) * 32 + x] = tilevalue;
-                else
-                    map[(y + 96 - 32) * 32 + x - 32] = tilevalue;
-            }
-            else    // 32x32 or 128x128 screen
-            {
-                map[y * nbblockx + x] = tilevalue;
+                }
+                else if (nbblockx == 32 && nbblocky == 64)  // 32x64 screen
+                {
+                    map[y * 32 + x] = tilevalue;
+                }
+                else if (nbblockx == 64 && nbblocky == 64) // 64x64 screen
+                {
+                    if (y < 32)
+                        if (x < 32)
+                            map[y * 32 + x] = tilevalue;
+                        else
+                            map[(y + 32) * 32 + x - 32] = tilevalue;
+                    else if (x < 32)
+                        map[(y + 64 - 32) * 32 + x] = tilevalue;
+                    else
+                        map[(y + 96 - 32) * 32 + x - 32] = tilevalue;
+                }
+                else    // 32x32 or 128x128 screen
+                {
+                    //printf("32x32 here!\n"); fflush(stdout);
+                    map[y * nbblockx + x] = tilevalue;
+                }
             }
 
             // goto the next tile
             currenttile++;
+            if ((graphicmode==5) || (graphicmode==6))  x++;
         }
     }
 
@@ -192,9 +210,6 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
                     // is it a new tile?
                     if (i == newnbtiles)
                     {
-
-                        //info("add new tile #%d",i);
-
                         // yes -> add it
                         memcpy(&imgbuf[newnbtiles * sizetile], &imgbuf[currenttile * sizetile], sizetile);
                         tilevalue = newnbtiles + blanktileabsent;
@@ -202,32 +217,20 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
                     }
                     else
                     { 
-                        //info("use tile #%d",i);
                         // no -> find what tile number it is
                         tilevalue = i + blanktileabsent;
                     }
                 }
             }
 
-            // put tile number in map
-            if (nbblockx == 64 && nbblocky == 32) // 64x32 screen
+            if ((graphicmode==5) || (graphicmode==6))  
             {
-                if (x < 32)
-                {
-                    map[y * 32 + x] += tilevalue;
-                }
-                else
-                {
-                    map[(y + 32) * 32 + x - 32] += tilevalue;
-                }
+                //map[y * (nbblockx>>1) + (x>>1)] += (tilevalue<<1);
+                map[y * nbblockx + x] += (tilevalue<<1);
             }
-            else if (nbblockx == 32 && nbblocky == 64) // 32x64 screen
-            {
-                map[y * 32 + x] += tilevalue;
-            }
-            else if (nbblockx == 64 && nbblocky == 64) // 64x64 screen
-            {
-                if (y < 32)
+            else {
+                // put tile number in map
+                if (nbblockx == 64 && nbblocky == 32) // 64x32 screen
                 {
                     if (x < 32)
                     {
@@ -238,34 +241,53 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
                         map[(y + 32) * 32 + x - 32] += tilevalue;
                     }
                 }
-                else
+                else if (nbblockx == 32 && nbblocky == 64) // 32x64 screen
                 {
-                    if (x < 32)
+                    map[y * 32 + x] += tilevalue;
+                }
+                else if (nbblockx == 64 && nbblocky == 64) // 64x64 screen
+                {
+                    if (y < 32)
                     {
-                        map[(y + 64 - 32) * 32 + x] += tilevalue;
+                        if (x < 32)
+                        {
+                            map[y * 32 + x] += tilevalue;
+                        }
+                        else
+                        {
+                            map[(y + 32) * 32 + x - 32] += tilevalue;
+                        }
                     }
                     else
                     {
-                        map[(y + 96 - 32) * 32 + x - 32] += tilevalue;
+                        if (x < 32)
+                        {
+                            map[(y + 64 - 32) * 32 + x] += tilevalue;
+                        }
+                        else
+                        {
+                            map[(y + 96 - 32) * 32 + x - 32] += tilevalue;
+                        }
                     }
                 }
-            }
-            else // 32x32 or 128x128 screen
-            {
-                map[y * nbblockx + x] += tilevalue;
+                else // 32x32 or 128x128 screen
+                {
+                    map[y * nbblockx + x] += tilevalue;
+                }
             }
 
             // goto the next tile
             currenttile++;
+            //if ((graphicmode==5) || (graphicmode==6))  x++;
         }
     }
 
-    // also return the number of new tiles
+    // also return the number of new tiles (if mode  or ), must be *2because tiles are 16*X
     if (!isquiet) {
         if (!isnoreduction) info("%d tiles (ratio %.0f%%) processed",newnbtiles,100.0-(100.0*newnbtiles/(*nbtiles)));
         else info("%d tiles processed",newnbtiles);
     }
-    *nbtiles = newnbtiles;
+    *nbtiles = ((graphicmode==5) || (graphicmode==6)) ? newnbtiles<<1 : newnbtiles;
 
     return map;
 } 

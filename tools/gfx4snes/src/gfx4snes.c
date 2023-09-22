@@ -79,21 +79,6 @@ static cmdp_command_st gfx4snes_command = {
 	printf("\n                   where # is the 1st tile corresponding to a sprite (0 to 255)");
 	printf("\n-m32p             Generate tile map organized in pages of 32x32 (good for scrolling)");
 */
-struct argparse argparseexe;													// options passed in command line
-
-superfamiconv -v --in-image snes.png --out-palette snes.palette --out-tiles snes.tiles --out-map snes.map --out-tiles-image tiles.png
-Loaded image from "snes.png" (256x224px, indexed color)
-Mapping optimized palette (16x16 entries)
-Setting color zero to #505050
-Created palette with 24 colors [16,8]
-Created optimized tileset with 156 entries (discarded 740 redudant tiles)
-Mapping 896 8x8px tiles from image
-Saved native palette data to "snes.palette"
-Saved native tile data to "snes.tiles"
-Saved native map data to "snes.map"
-Saved tileset image to "tiles.png"
-
-
 #endif
 
 cmdp_ctx gfx4snes_ctx = {0};																		// contect for command line options
@@ -102,6 +87,7 @@ t_gfx4snes_args gfx4snes_args={0};																	// generic struct for all arg
 int palette_snes[256];					                        									// palette in snes format (5bits RGB)
 unsigned short *map_snes=NULL;																		// map in snes format (16 bits table)
 unsigned char *tiles_snes=NULL;																		// tiles in snes format
+unsigned char *tiles_snes_nomap=NULL;																// tiles in snes format when no map generated
 
 //-------------------------------------------------------------------------------------------------
 void display_version(void)
@@ -115,6 +101,7 @@ void display_version(void)
 //-------------------------------------------------------------------------------------------------
 int main(int argc, const char **argv) 
 {
+	int parseret;
 	clock_t startimgconv, endimgconv;																// start and finished time for conversion
 	int nbtiles,nbtilesx;																			// number of tiles to save (nbtilesx is useless with map output)
 	int blksx,blksy;
@@ -126,13 +113,18 @@ int main(int argc, const char **argv)
 	if (argc <= 1) 
 	{
         cmdp_help(&gfx4snes_command);
-        //cmdp_fprint_options_doc(stdout, gfx4snes_command.options);
         return(EXIT_FAILURE );
     }
 
 	// get command line options (argument_callback is called by default)
     cmdp_set_default_context(&gfx4snes_ctx);
-	cmdp_run(argc - 1,(char **) (argv + 1), &gfx4snes_command, &gfx4snes_ctx);
+	parseret=cmdp_run(argc - 1,(char **) (argv + 1), &gfx4snes_command, &gfx4snes_ctx);
+
+	// go out if error
+	if (parseret) 
+	{
+		exit(EXIT_FAILURE);
+	}
 
 	// specific arguments for version number and leave tool
 	if (gfx4snes_args.dispversion) 
@@ -149,19 +141,35 @@ int main(int argc, const char **argv)
 	// processes image file
 	blksx=nbtilesx=snesimage.header.width/gfx4snes_args.tilewidth; blksy=nbtiles=snesimage.header.height/gfx4snes_args.tileheight;
 
-	// convert tiles to a snes format
-	tiles_snes=tiles_convertsnes (snesimage.buffer, snesimage.header.width, snesimage.header.height, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, &nbtilesx, &nbtiles, 8, gfx4snes_args.quietmode);
-
-	// convert map to a snes format if needed and /!\ optimize tiles in tiles_snes
+	// if we generate a map
 	if (gfx4snes_args.mapoutput)
 	{
-		map_snes=map_convertsnes (tiles_snes, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, blksx, blksy, gfx4snes_args.palettecolors, gfx4snes_args.paletteentry , gfx4snes_args.notilereduction, gfx4snes_args.tileblank, gfx4snes_args.quietmode);
-	}
+		// convert tiles to a snes format (8x8)
+		tiles_snes=tiles_convertsnes (snesimage.buffer, snesimage.header.width, snesimage.header.height, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, &nbtilesx, &nbtiles, 8, gfx4snes_args.quietmode);
 
-	// save map if needed
-	if (gfx4snes_args.mapoutput)
-	{
+		// convert map to a snes format if needed and /!\ optimize tiles in tiles_snes
+		map_snes=map_convertsnes (tiles_snes, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, blksx, blksy, gfx4snes_args.palettecolors, gfx4snes_args.paletteentry , gfx4snes_args.mapscreenmode, gfx4snes_args.notilereduction, gfx4snes_args.tileblank, gfx4snes_args.quietmode);
+	
+		// save now the map
 		map_save (gfx4snes_args.filebase, map_snes,gfx4snes_args.mapscreenmode, blksx, blksy, gfx4snes_args.tileoffset,gfx4snes_args.quietmode);
+	}
+	// no map, only tiles (for sprites certainly)
+	else {
+		// first conversion in SNES image block format
+		tiles_snes_nomap=tiles_convertsnes (snesimage.buffer, snesimage.header.width, snesimage.header.height, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, &blksx, &blksy, 16*8, gfx4snes_args.quietmode);
+
+		// now re-arrange into a list of 8x8 blocks for easy conversion
+		blksx *= gfx4snes_args.tilewidth/8;
+		blksy *= gfx4snes_args.tileheight/8;
+
+		// second  conversion in SNES image block format
+		temp=ArrangeBlocks(buffer, xsize*8, ysize*8, 8, &xsize, &ysize, 8, 0);
+
+
+		tiles_snes=tiles_convertsnes (tiles_snes_nomap, blksx*8, blksy*8, 8, 8, &blksx, &blksy, 8, gfx4snes_args.quietmode);
+		free(tiles_snes_nomap);
+		
+		nbtiles=blksx*blksy;
 	}
 
 	// save tiles
@@ -180,6 +188,7 @@ int main(int argc, const char **argv)
 	{
 		palette_save (gfx4snes_args.filebase,(int *) &palette_snes,gfx4snes_args.paletteoutput , gfx4snes_args.quietmode);
 	}
+
 	// free memory used for image processing
 	if (map_snes != NULL) free(map_snes);
 	if (tiles_snes != NULL) free(tiles_snes);

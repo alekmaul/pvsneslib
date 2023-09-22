@@ -14,13 +14,13 @@
    BI_CMYKRLE4 = 0x000D
  } Compression;
 
-typedef struct bmp_header_typ /**** BMP file header structure ****/
+typedef struct bmp_header_typ                 // BMP file header structure 
 {
-    unsigned short bfType;      /* Magic number for file */
-    unsigned int bfSize;        /* Size of file */
-    unsigned short bfReserved1; /* Reserved */
-    unsigned short bfReserved2; /* ... */
-    unsigned int bfOffBits;     /* Offset to bitmap data */
+    unsigned short bfType;                    // Magic number for file 
+    unsigned int bfSize;                      // Size of file 
+    unsigned short bfReserved1;               // Reserved 
+    unsigned short bfReserved2;               // ... 
+    unsigned int bfOffBits;                   // Offset to bitmap data 
 } bmp_header;
 
 #define BF_TYPE 0x4D42 /* "MB" */
@@ -56,7 +56,7 @@ typedef struct BMPInfo_typ
 /*The settings, state and information for extended encoding and decoding.*/
 typedef struct BMPState_typ
 {
-  BMPInfo info_png;                         // info of the PNG image obtained after decoding
+  BMPInfo info_bmp;                         // info of the BMP image obtained after decoding
 } BMPState;
 
 extern const char* bmp_error_text(unsigned code);
