@@ -1,0 +1,24 @@
+ifeq ($(strip $(PVSNESLIB_HOME)),)
+$(error "Please create an environment variable PVSNESLIB_HOME with path to its folder and restart application. (you can do it on windows with <setx PVSNESLIB_HOME "/c/snesdev">)")
+endif
+
+include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
+
+export SUPGFXCONV=./superfamiconv
+.PHONY: bitmaps all
+
+#---------------------------------------------------------------------------------
+# ROMNAME is used in snes_rules file
+export ROMNAME := Mode5
+
+all: bitmaps $(ROMNAME).sfc
+
+clean: cleanBuildRes cleanRom cleanGfx
+
+#---------------------------------------------------------------------------------
+pvsneslib.pic: pvsneslib.png
+	@echo convert bitmap ... $(notdir $@)
+#	$(GFXCONV) -pc16 -n -gs16 -pe0 -fbmp -m -fpng $<
+	/f/DropboxSvnClient/snesdev/pvsneslib/tools/gfx4snes/gfx4snes -i $< -m -u 16 -M 5
+
+bitmaps : pvsneslib.pic
