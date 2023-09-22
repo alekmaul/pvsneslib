@@ -163,9 +163,6 @@ int main(int argc, const char **argv)
 		blksy *= gfx4snes_args.tileheight/8;
 
 		// second  conversion in SNES image block format
-		temp=ArrangeBlocks(buffer, xsize*8, ysize*8, 8, &xsize, &ysize, 8, 0);
-
-
 		tiles_snes=tiles_convertsnes (tiles_snes_nomap, blksx*8, blksy*8, 8, 8, &blksx, &blksy, 8, gfx4snes_args.quietmode);
 		free(tiles_snes_nomap);
 		
