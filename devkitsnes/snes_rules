@@ -40,6 +40,7 @@ export AS	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/wla-65816
 export LD	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/wlalink
 
 export GFXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/gfx2snes
+export GFX4CONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/gfx4snes
 export SMCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/smconv
 export BRCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snesbrr
 export TXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/bin2txt
