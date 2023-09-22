@@ -132,6 +132,9 @@ int main(int argc, const char **argv)
 		display_version();
 	}
 
+	// begin process
+	info("(%s) version %s",GFX4SNESVERSION,GFX4SNESDATE);
+
 	// load image file
 	image_load(gfx4snes_args.filebase, gfx4snes_args.filetype, &snesimage, gfx4snes_args.quietmode);
 	

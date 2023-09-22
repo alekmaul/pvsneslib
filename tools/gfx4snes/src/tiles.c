@@ -229,7 +229,7 @@ void tiles_save (const char *filename, unsigned char *tiles,int nbtiles, int nbc
 	}
 
 	// try to open file for write
-	if (!isquiet) info("saving tiles file [%s]...",outputname);
+	if (!isquiet) info("saving %d tiles in file [%s]...",nbtiles,outputname);
 	fp = fopen(outputname,"wb");
 	if(fp==NULL)
 	{

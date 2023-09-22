@@ -147,6 +147,7 @@ void image_load_bmp(const char *filename, t_image *img, bool isquiet)
 	BMPState bmpstate;														// bmp settings
 	unsigned int bmpwidth, bmpheight;										// bmp image width & height
 	size_t bmpsize;															// bmp image buffer size
+	int i,j;
 	unsigned int bmperror;													// error management
 
 	// prepare file extension
@@ -171,8 +172,43 @@ void image_load_bmp(const char *filename, t_image *img, bool isquiet)
         fatal("bmp decoder error %u: %s", bmperror, bmp_error_text(bmperror));
     }
 
+	// here, we can process image
+	// get the palette (and init if not 256 colors)
+	if (!isquiet) info("process image (%dx%dpx, %dcolors)", bmpwidth, bmpheight, bmpstate.info_bmp.palettesize);
+    for (i = 0; i < bmpstate.info_bmp.palettesize; i++)
+    {
+        img->palette[i].red = bmpstate.info_bmp.palette[i].red >> 2;				// >>2 to have a 5bits colors
+        img->palette[i].green = bmpstate.info_bmp.palette[i].green >> 2;
+        img->palette[i].blue = bmpstate.info_bmp.palette[i].blue >> 2;
+    }
+	for (;i<256;i++)
+	{
+        img->palette[i].red =  img->palette[i].green = img->palette[i].blue = 0;
+	}
+
+	// get the image
+	img->header.width = bmpwidth;
+    img->header.height = bmpheight;
+    img->buffer = (unsigned char *) malloc( (size_t) (bmpheight + 64) * bmpwidth ); // (bmpheight + 64) * bmpwidth); // allocate memory for the picture + 64 empty lines
+    if (img->buffer == NULL)
+    {
+        free(bmpbuff);
+        free(bmpimage);
+		free(outputname);
+        fatal("can't allocate enough memory for the image");
+    }
+
+	for (j = 0; j < img->header.height; j++)
+    {
+        for (i = 0; i < img->header.width; i++)
+        {
+            img->buffer[i + (img->header.width * j)] = bmpimage[i + (img->header.width * j)];
+        }
+    }
 
 	// clean up memory before leaving png loding
+	free(bmpbuff);
+    free(bmpimage);
 	free(outputname);
 }
 

@@ -373,7 +373,7 @@ void palette_save (const char *filename, int *palette,int nbcolors, bool isquiet
 	}
 	sprintf(outputname,"%s.pal",filename);
 
-	if (!isquiet) info("saving palette file [%s]...",outputname);
+	if (!isquiet) info("saving %d colors palette in file [%s]...",nbcolors, outputname);
 
 	// try to open file for write
 	fp = fopen(outputname,"wb");
