@@ -41,6 +41,7 @@ const char* bmp_error_text(unsigned code)
     		case 0: return "no error, everything went ok";
     		case 1: return "nothing done yet"; 						// the Encoder/Decoder has done nothing yet, error checking makes no sense yet
     		case 25: return "only BI_RLE8 compression method is supported";
+            case 28: return "incorrect PBMP signature, it's no BMP or corrupted";
     		case 38: return "the palette is not 16 or 256 colors"; 
 			case 78: return "failed to open file for reading"; /*file doesn't exist or couldn't be opened for reading*/
     		case 83: return "memory allocation failed";
@@ -282,23 +283,33 @@ void BMP_BI_RLE8_Load(unsigned char** image,
 
 //-------------------------------------------------------------------------------------------------
 // Converts BMP data in memory to raw pixel data.
-unsigned bmp_decode(unsigned char** out, BMPState* state, unsigned* w, unsigned* h, const unsigned char* in, size_t insize)
+unsigned bmp_decode(unsigned char** out, BMPState* state, unsigned int *w, unsigned int *h, const unsigned char* in, size_t insize)
 {
     bmp_header bmphead;
     bmp_info_header bmpinfohead;
-    unsigned state_error=0;
-    unsigned currentseek;
-    size_t index,iwidth,iheight;
-    size_t i;
+    unsigned int state_error=0;
+    unsigned int currentseek;
+    int i,index;
+    unsigned int iwidth,iheight;
+    unsigned char pix4bits;
 
+//char *pp;
+
+    // prepare output
     *out = 0;
 
     // get header and info header
     memcpy(&bmphead,in, sizeof(bmphead));
-    memcpy(&bmpinfohead,in+sizeof(bmphead), sizeof(bmpinfohead));
+    currentseek = sizeof(bmphead);
+    memcpy(&bmpinfohead,in+currentseek, sizeof(bmpinfohead));
 
     // not a valid BMP file: only 16, 256 colors
-    if (bmpinfohead.biBitCount != 4 || bmpinfohead.biBitCount != 8 )
+    if (bmphead.bfType != BF_TYPE )
+    {
+		    state_error=28;
+    }
+    // not a valid BMP file: only 16, 256 colors
+    else if (bmpinfohead.biBitCount != 4 && bmpinfohead.biBitCount != 8 )
     {
 		    state_error=38;
     }
@@ -313,10 +324,11 @@ unsigned bmp_decode(unsigned char** out, BMPState* state, unsigned* w, unsigned*
         state->info_bmp.compression_method=(bmpinfohead.biCompression == BI_RLE8);
 		  
         // goto palette
-		    currentseek=sizeof(bmp_header) + bmpinfohead.biSize;
+	    currentseek=sizeof(bmp_header) + bmpinfohead.biSize;
 
         // read the palette information
-        for (index = 0; index < bmpinfohead.biBitCount; index++)
+        state->info_bmp.palettesize=1<<(bmpinfohead.biBitCount);
+        for (index = 0; index < state->info_bmp.palettesize; index++)
         {
             state->info_bmp.palette[index].blue=*(in+(index<<2)+currentseek);
             state->info_bmp.palette[index].green=*(in+(index<<2)+currentseek+1);
@@ -335,13 +347,34 @@ unsigned bmp_decode(unsigned char** out, BMPState* state, unsigned* w, unsigned*
         {
             state_error=83;
         }
-        else {
+        else 
+        {
             // read the uncompressed or compressed bitmap
             if (bmpinfohead.biCompression == 0)
             {
                 for (index = (iheight - 1) * iwidth; index >= 0; index -= iwidth)
-                    for (i = 0; i < iwidth; i++)
-                        *out[index + i] = *(in+(index*iwidth)+currentseek+i);
+                {
+                    if (bmpinfohead.biBitCount==4) // 16 colors mode, 1 byte = 2 pixels
+                    {
+                        for (i = 0; i < iwidth; )
+                        {
+                            pix4bits=*(in+currentseek+(i>>1));
+                            *(*out+index + i) = (pix4bits>>4) & 0x0F;
+                            i++;
+                            *(*out+index + i) = pix4bits & 0x0F;
+                            i++;
+                        }
+                        currentseek+=iwidth>>1;
+                    }
+                    else                            // 26 colors mode, 1 byte ) 1 pixel
+                    {
+                        for (i = 0; i < iwidth; i++)
+                        {
+                            *(*out+index + i) = *(in+currentseek+i);
+                        }
+                        currentseek+=iwidth;
+                    }
+                }
             }
             else if (bmpinfohead.biCompression == 1)
             {

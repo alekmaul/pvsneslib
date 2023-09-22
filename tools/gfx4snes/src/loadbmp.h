@@ -1,6 +1,9 @@
 #ifndef _GFX4SNES_LOADBMP_H
 #define _GFX4SNES_LOADBMP_H
 
+#pragma pack(push)
+#pragma pack(1) // for bmp header to avoid data alignment
+
  typedef  enum
  {
    BI_RGB = 0x0000,
@@ -49,8 +52,9 @@ typedef struct BMPcolor_typ
 
 typedef struct BMPInfo_typ
 {
-    unsigned compression_method;    // compression method of the original file. Always 0 or BI_RLE8.
-    BMPcolor palette[256];          // a maximum of 256 colors
+    unsigned compression_method;                                    // compression method of the original file. Always 0 or BI_RLE8.
+    BMPcolor palette[256];                                          // a maximum of 256 colors
+    unsigned int palettesize;                                       // palette size in number of colors 
 } BMPInfo;
 
 /*The settings, state and information for extended encoding and decoding.*/
@@ -58,9 +62,10 @@ typedef struct BMPState_typ
 {
   BMPInfo info_bmp;                         // info of the BMP image obtained after decoding
 } BMPState;
+#pragma pack(pop)
 
 extern const char* bmp_error_text(unsigned code);
 extern unsigned bmp_load_file(unsigned char** out, size_t* outsize, const char* filename);
-extern unsigned bmp_decode(unsigned char** out, BMPState* state, unsigned* w, unsigned* h, const unsigned char* in, size_t insize);
+extern unsigned bmp_decode(unsigned char** out, BMPState* state, unsigned int *w, unsigned int *h, const unsigned char* in, size_t insize);
 
 #endif
