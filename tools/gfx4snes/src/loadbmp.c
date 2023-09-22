@@ -293,8 +293,6 @@ unsigned bmp_decode(unsigned char** out, BMPState* state, unsigned int *w, unsig
     unsigned int iwidth,iheight;
     unsigned char pix4bits;
 
-//char *pp;
-
     // prepare output
     *out = 0;
 
@@ -366,7 +364,7 @@ unsigned bmp_decode(unsigned char** out, BMPState* state, unsigned int *w, unsig
                         }
                         currentseek+=iwidth>>1;
                     }
-                    else                            // 26 colors mode, 1 byte ) 1 pixel
+                    else                            // 256 colors mode, 1 byte = 1 pixel
                     {
                         for (i = 0; i < iwidth; i++)
                         {
