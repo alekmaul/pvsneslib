@@ -25,6 +25,8 @@ where filename is a 256 color PNG or BMP file
 - `-s (8|16|32|64)` Size of image blocks in pixels [8]  
 - `-k` Output in packed pixel format
 - `-z` Output in lz77 compressed pixel format
+- `-W` Width  of image blocks in pixels [8] (do not use with -s option)
+- `-H` Height of image blocks in pixels [8] (do not use with -s option) 
   
 ### Map options
 - `-c` Generate collision map
@@ -39,7 +41,7 @@ where filename is a 256 color PNG or BMP file
 - `-e (0..15)` The palette entry to add to map tiles (0 to 15)  
 - `-o (0..256)` The number of colors to output (0 to 256) to filename.pal  
 - `-p` Include palette for output  
-- `-u (4|16|128|256)` The number of colors to use [256]  
+- `-u (4|16|128|256)` The number of colors to use [16]  
   
 ### File options
 - `-i <filename>` the file to convert   
