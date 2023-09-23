@@ -54,7 +54,7 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
     unsigned short *map;                                                            
     unsigned short tilevalue;
     unsigned int currenttile, sizetile,newnbtiles,blanktileabsent;
-    unsigned char blanktile[128],colortile;
+    unsigned char blanktile[128];
     unsigned int paletteno;
     unsigned int i, x, y;
 
