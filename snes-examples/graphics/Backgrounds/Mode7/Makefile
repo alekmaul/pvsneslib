@@ -17,6 +17,6 @@ clean: cleanBuildRes cleanRom cleanGfx
 #---------------------------------------------------------------------------------
 mode7bg.pc7	: mode7bg.bmp
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -n -fbmp -m7 $<
+	$(GFX4CONV) -p -m -M 7 -t bmp -i $<
 
 bitmaps : mode7bg.pc7

@@ -17,11 +17,13 @@ clean: cleanBuildRes cleanRom cleanGfx
 #---------------------------------------------------------------------------------
 ground.pc7	: ground.png
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -n -fpng -m7 $<
+#	$(GFXCONV) -n -fpng -m7 $<
+	$(GFX4CONV) -p -m -M 7 -i $<
 
 sky.pic	: sky.png
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -pc16 -po16 -n -gs8 -fpng -m $<
+#	$(GFXCONV) -pc16 -po16 -n -gs8 -fpng -m $<
+	$(GFX4CONV) -s 8 -o 16 -u 16 -m -p -i $<
 	
 bitmaps : ground.pc7 sky.pic
 
