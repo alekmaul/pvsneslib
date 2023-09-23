@@ -82,7 +82,7 @@ cmdp_action_t argument_callback(cmdp_process_param_st *params)
 
 	// Tiles options -----------------------------------------------
 	// check size of image block parameter (default is 8)
-	if ( (gfx4snes_args.tilesize!=8) && (gfx4snes_args.tilesize!=16) && (gfx4snes_args.tilesize!=32) && (gfx4snes_args.tilesize!=32) )
+	if ( (gfx4snes_args.tilesize!=8) && (gfx4snes_args.tilesize!=16) && (gfx4snes_args.tilesize!=32) && (gfx4snes_args.tilesize!=64) )
 	{
 		fatal("incorrect size for image block [%d]\nconversion terminated.", gfx4snes_args.tilesize); // exit gfx4snes at this point
 	}
