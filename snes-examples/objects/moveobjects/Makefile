@@ -17,6 +17,6 @@ clean: cleanBuildRes cleanRom cleanGfx
 #---------------------------------------------------------------------------------
 sprites.pic: sprites.bmp
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -gs32 -pc16 -po16 -n $<
+	$(GFX4CONV) -s 32 -o 16 -u 16 -p -t bmp -i $<
 
 bitmaps : sprites.pic
