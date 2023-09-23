@@ -32,6 +32,8 @@ where filename is a 256 color PNG or BMP file
 - `-c` Generate collision map
 - `-f (0..2047)` Generate the whole picture with an offset for tile number {0..2047}
 - `-m` Include map for output  
+- `-g` Include high priority bit in map
+- `-y` Generate map in pages of 32x32 blocks (good for scrolling)
 - `-R` No tile reduction (not advised)  
 - `-M (1|5|6|7)` Convert the whole picture for mode 1, 5, 6 or 7 format [1]
   

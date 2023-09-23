@@ -48,6 +48,8 @@ static cmdp_command_st gfx4snes_command = {
 			{'c', "map-collision", "generate collision map", CMDP_TYPE_INT4, &gfx4snes_args.mapcollision},
 			{'f', "map-offset", "generate the whole picture with an offset for tile number {0..2047}", CMDP_TYPE_INT4, &gfx4snes_args.tileoffset},
 			{'m', "map-output", "include map for output", CMDP_TYPE_BOOL, &gfx4snes_args.mapoutput},
+			{'g', "map-highpriority", "include high priority bit in map", CMDP_TYPE_BOOL, &gfx4snes_args.maphighpriority},
+			{'y', "map-32x32", "generate map in pages of 32x32 (good for scrolling)", CMDP_TYPE_BOOL, &gfx4snes_args.map32pages},
 			{'R', "map-noreduction", "no tile reduction (not advised)", CMDP_TYPE_BOOL, &gfx4snes_args.notilereduction},
 			{'M', "map-mode", "convert the whole picture for mode 1,5,6 or 7 format {[1],5,6,7}", CMDP_TYPE_INT4, &gfx4snes_args.mapscreenmode},
             {0, 0, "Palettes options:\n", CMDP_TYPE_NONE, NULL,NULL},
@@ -67,19 +69,6 @@ static cmdp_command_st gfx4snes_command = {
         },
     .fn_process = argument_callback,
 };
-
-#if 0
-/*
-	still need to add to be like gfx2snes 
-
-
-	printf("\n\n--- Map options ---");
-	printf("\n-mp               Convert the whole picture with high priority");
-	printf("\n-ms#              Generate collision map only with sprites table");
-	printf("\n                   where # is the 1st tile corresponding to a sprite (0 to 255)");
-	printf("\n-m32p             Generate tile map organized in pages of 32x32 (good for scrolling)");
-*/
-#endif
 
 cmdp_ctx gfx4snes_ctx = {0};																		// contect for command line options
 t_gfx4snes_args gfx4snes_args={0};																	// generic struct for all arguments
@@ -153,10 +142,10 @@ int main(int argc, const char **argv)
 		tiles_snes=tiles_convertsnes (snesimage.buffer, snesimage.header.width, snesimage.header.height, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, &nbtilesx, &nbtiles, 8, gfx4snes_args.quietmode);
 
 		// convert map to a snes format if needed and /!\ optimize tiles in tiles_snes
-		map_snes=map_convertsnes (tiles_snes, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, blksx, blksy, gfx4snes_args.palettecolors, gfx4snes_args.paletteentry , gfx4snes_args.mapscreenmode, gfx4snes_args.notilereduction, gfx4snes_args.tileblank, gfx4snes_args.quietmode);
+		map_snes=map_convertsnes (tiles_snes, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, blksx, blksy, gfx4snes_args.palettecolors, gfx4snes_args.paletteentry , gfx4snes_args.mapscreenmode, gfx4snes_args.notilereduction, gfx4snes_args.tileblank, gfx4snes_args.map32pages, gfx4snes_args.quietmode);
 
 		// save now the map
-		map_save (gfx4snes_args.filebase, map_snes,gfx4snes_args.mapscreenmode, blksx, blksy, gfx4snes_args.tileoffset,gfx4snes_args.quietmode);
+		map_save (gfx4snes_args.filebase, map_snes,gfx4snes_args.mapscreenmode, blksx, blksy, gfx4snes_args.tileoffset,gfx4snes_args.maphighpriority, gfx4snes_args.quietmode);
 	}
 	// no map, only tiles (for sprites certainly)
 	else {

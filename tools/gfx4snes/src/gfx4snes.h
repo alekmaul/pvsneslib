@@ -41,6 +41,8 @@ typedef struct
     int mapscreenmode;															// screen mode for map generation (1 or 7)
     int mapcollision;                                                           // 1 = generate map collision
     int mapoutput;				    											// 1 = save the map
+    int maphighpriority;                                                        // 1 = b13 of high priority on
+    int map32pages;                                                             // 1 = tile map pages of 32x32 (for scrolling)
 
     int paletteoutput;	            											// -1= not managed, number of color for palette output 
     int paletteentry;		        											// value of palette entry (0 to 15)

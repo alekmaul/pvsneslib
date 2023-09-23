@@ -49,7 +49,7 @@
 // istilereduction = 1 if we want tile reduction (i hope often ;) )
 // isblanktile = 1 if we want the 1st tile to be blank
 // isquiet = 0 if we want some messages in console
-unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksizex, int blksizey, int nbblockx, int nbblocky, int nbcolors, int offsetpal, int graphicmode, bool isnoreduction, bool isblanktile, bool isquiet)
+unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksizex, int blksizey, int nbblockx, int nbblocky, int nbcolors, int offsetpal, int graphicmode, bool isnoreduction, bool isblanktile, bool is32size, bool isquiet)
 {
     unsigned short *map;                                                            
     unsigned short tilevalue;
@@ -80,6 +80,7 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
     // clear map
     //memset(map, 0, nbblockx * nbblocky * sizeof(unsigned short));
     if (!isquiet) info("managed a map of %dx%d tiles of %dx%d pixels...",nbblockx,nbblocky,blksizex,blksizey);
+    if ( !isquiet && is32size) info("rearrange map for 32x32 scrolling...");
 
     // add the palette number to tiles
     if (!isquiet) info("add palette entry #%d to tiles in map...",offsetpal);
@@ -121,6 +122,14 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
                         map[(y + 64 - 32) * 32 + x] = tilevalue;
                     else
                         map[(y + 96 - 32) * 32 + x - 32] = tilevalue;
+                }
+                else if (is32size == 1)
+                {
+                    // create pages of 32x32
+                    int x_mult = (x) / 32;
+                    int new_x = x - x_mult * 32;
+                    int idx = x_mult * 1024 + y * 32 + new_x;
+                    map[idx] = tilevalue;
                 }
                 else    // 32x32 or 128x128 screen
                 {
@@ -258,6 +267,14 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
                         }
                     }
                 }
+                else if (is32size == 1)
+                {
+                    // create pages of 32x32
+                    int x_mult = (x) / 32;
+                    int new_x = x - x_mult * 32;
+                    int idx = x_mult * 1024 + y * 32 + new_x;
+                    map[idx] += tilevalue;
+                }
                 else // 32x32 or 128x128 screen
                 {
                     map[y * nbblockx + x] += tilevalue;
@@ -286,7 +303,7 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
 // nbtilex,nbtiley = number of tiles to save (width and height)
 // tileoffset = value of the offset for tiles (usefull is graphics does not start at 0)
 // isquiet = 0 if we want some messages in console
-void map_save (const char *filename, unsigned short *map,int snesmode, int nbtilex, int nbtiley, int tileoffset,bool isquiet)
+void map_save (const char *filename, unsigned short *map,int snesmode, int nbtilex, int nbtiley, int tileoffset,int priority, bool isquiet)
 {
 	char *outputname;
 	FILE *fp;
@@ -303,7 +320,10 @@ void map_save (const char *filename, unsigned short *map,int snesmode, int nbtil
 	else
         sprintf(outputname,"%s.map",filename);
 
-	if (!isquiet) info("saving map file [%s] of (%dx%d) tiles with offset %d...",outputname,nbtilex,nbtiley,tileoffset);
+	if (!isquiet) {
+        if (priority) info("saving map file [%s] of (%dx%d) tiles with offset %d and high priority...",outputname,nbtilex,nbtiley,tileoffset);
+        else info("saving map file [%s] of (%dx%d) tiles with offset %d...",outputname,nbtilex,nbtiley,tileoffset);
+    }
 
 	// try to open file for write
 	fp = fopen(outputname,"wb");
@@ -330,7 +350,7 @@ void map_save (const char *filename, unsigned short *map,int snesmode, int nbtil
 		}
 		else 
 		{
-			WRITEFILEWORD(map[i]+tileoffset,fp);
+			WRITEFILEWORD(map[i]+tileoffset+(priority<<13),fp);
 		}
 	}
 
