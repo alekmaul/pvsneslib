@@ -28,11 +28,11 @@ clean: cleanBuildRes cleanRom cleanGfx cleanAudio
 #---------------------------------------------------------------------------------
 mario_sprite.pic: mario_sprite.bmp
 	@echo convert sprites ... $(notdir $@)
-	$(GFXCONV) -gs16 -pc16 -po16 -n $<
+	$(GFX4CONV) -s 16 -o 16 -u 16 -p -t bmp -i $<
 
 tiles.pic: tiles.png
 	@echo convert map tileset... $(notdir $@)
-	$(GFXCONV) -gs8 -pc16 -po16 -m -fpng -n $<
+	$(GFX4CONV) -s 8 -o 16 -u 16 -p -m -i $<
 
 map_1_1.m16: map_1_1.tmj tiles.pic
 	@echo convert map tiled ... $(notdir $@)
@@ -40,6 +40,6 @@ map_1_1.m16: map_1_1.tmj tiles.pic
 
 mariofont.pic: mariofont.bmp
 	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFXCONV) -pc16 -n -gs8 -po2 -pe1 -mR! -m $<
+	$(GFX4CONV) -s 8 -o 2 -u 16 -e 1 -p -t bmp -m -R -i $<
 	
 bitmaps : tiles.pic mariofont.pic map_1_1.m16 mario_sprite.pic

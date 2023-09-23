@@ -14,5 +14,9 @@ all: bitmaps $(ROMNAME).sfc
 
 clean: cleanBuildRes cleanRom cleanGfx
 
+pvsneslib.pic: pvsneslib.png
+	@echo convert bmp ... $(notdir $@)
+	$(GFX4CONV) -s 8 -o 16 -u 16 -e 0 -p -m -i $<
+
 bitmaps : pvsneslib.pic
 
