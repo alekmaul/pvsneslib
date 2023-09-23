@@ -26,7 +26,10 @@ int main(void)
     consoleInit();
 
     // Initialize text console with our font
-    consoleInitText(0, 0, &snesfont);
+    consoleSetTextVramBGAdr(0x6800);
+    consoleSetTextVramAdr(0x3000);
+    consoleSetTextOffset(0x0100);
+    consoleInitText(0, 16 * 2, &snesfont, &palette);
 
     // Read tiles to VRAM
     bgInitTileSet(1, &patterns, &palette, 1, (&patterns_end - &patterns), 16 * 2, BG_16COLORS, 0x4000);
