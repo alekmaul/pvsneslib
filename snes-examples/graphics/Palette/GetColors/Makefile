@@ -17,10 +17,12 @@ clean: cleanBuildRes cleanRom cleanGfx
 #---------------------------------------------------------------------------------
 ortf.pic: ortf.png
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -pc16 -n -gs8 -pe1 -fpng -m -gb $<
+#	$(GFXCONV) -pc16 -n -gs8 -pe1 -fpng -m -gb $<
+	$(GFX4CONV) -s 8 -o 16 -u 16 -e 1 -m -p -i $<
 
 pvsneslibfont.pic: pvsneslibfont.bmp
 	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFXCONV) -pc16 -n -gs8 -po2 -pe1 -mR! -m! -p! $<
+#	$(GFXCONV) -pc16 -n -gs8 -po2 -pe1 -mR! -m! -p! $<
+	$(GFX4CONV) -s 8 -o 2 -u 16 -e 1 -t bmp -i $<
 
 bitmaps : ortf.pic pvsneslibfont.pic
