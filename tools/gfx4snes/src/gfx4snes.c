@@ -143,6 +143,8 @@ int main(int argc, const char **argv)
 
 	// processes image file
 	blksx=nbtilesx=snesimage.header.width/gfx4snes_args.tilewidth; blksy=nbtiles=snesimage.header.height/gfx4snes_args.tileheight;
+	if (snesimage.header.width%gfx4snes_args.tilewidth) { blksx++; nbtilesx++; }
+	if (snesimage.header.height%gfx4snes_args.tileheight) { blksy++; nbtiles++; }
 
 	// if we generate a map
 	if (gfx4snes_args.mapoutput)
@@ -152,7 +154,7 @@ int main(int argc, const char **argv)
 
 		// convert map to a snes format if needed and /!\ optimize tiles in tiles_snes
 		map_snes=map_convertsnes (tiles_snes, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, blksx, blksy, gfx4snes_args.palettecolors, gfx4snes_args.paletteentry , gfx4snes_args.mapscreenmode, gfx4snes_args.notilereduction, gfx4snes_args.tileblank, gfx4snes_args.quietmode);
-	
+
 		// save now the map
 		map_save (gfx4snes_args.filebase, map_snes,gfx4snes_args.mapscreenmode, blksx, blksy, gfx4snes_args.tileoffset,gfx4snes_args.quietmode);
 	}
