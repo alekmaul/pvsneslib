@@ -335,7 +335,7 @@ void map_save (const char *filename, unsigned short *map,int snesmode, int nbtil
 	}
 
 	// Little warning for more than one bank
-	if ( (nbtilex*nbtiley*2) >=32768)
+	if ( (nbtilex*nbtiley*2) >32768)
 	{
 		warning("map is too big for 1 32KB bank (%d)",nbtilex*nbtiley*2);
 	}
