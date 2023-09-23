@@ -90,12 +90,12 @@ For a more accurate editing, I suggest you to display a grid (8×8 pixels) in yo
  
 ![font1](http://www.portabledev.com/wp-content/uploads/2018/02/pvsneslibfont_1.png)
 
-One more thing to know about this layout, it must be compiled with the "non optimized" **-mR!** flag of gfx2snes (to avoid lost of characters).  
+One more thing to know about this layout, it must be compiled with the "non optimized" **-R** flag of gfx4snes (to avoid lost of characters).  
 
 ```
 pvsneslibfont.pic: pvsneslibfont.bmp
 	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFXCONV) -pc16 -n -s8 -o2 -e1 -mR! -m $<
+	$(GFX4CONV) -u 16 -s 8 -o 2 -e 1 -R -m -t bmp -i $<
 ```
 
 ## Input
