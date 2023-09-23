@@ -41,7 +41,7 @@ In all modes and for all BGs, color 0 in any palette is considered transparent.
 ## Background sizes
 ## Background in VRAM
 ## Backgrounds with PVSnesLib
-## Converting with gfx2snes
+## Converting with gfx4snes
 ## Init the background
 ## Displaying the background
 

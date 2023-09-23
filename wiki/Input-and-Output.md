@@ -22,7 +22,7 @@ To init display system, just call **consoleInitText(0,0, &snesfont)**
 where :  
   * the first parameter is the background that will handle the text (0..2)
   * the second one is the palette number (0..16)
-  * the last one is the address of graphics for font converted with gfx2snes
+  * the last one is the address of graphics for font converted with gfx4snes
 
 ``` 
 .. Somewhere where you initialized variables ...
