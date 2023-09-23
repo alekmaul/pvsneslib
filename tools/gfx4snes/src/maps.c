@@ -54,7 +54,7 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
     unsigned short *map;                                                            
     unsigned short tilevalue;
     unsigned int currenttile, sizetile,newnbtiles,blanktileabsent;
-    unsigned char blanktile[128];
+    unsigned char blanktile[128],colortile;
     unsigned int paletteno;
     unsigned int i, x, y;
 
@@ -78,12 +78,13 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
     }
   
     // clear map
-    memset(map, 0, nbblockx * nbblocky * sizeof(unsigned short));
-    if (!isquiet) info("managed a map of %d tiles width and %d tiles height (of %dx%d pixels)...",nbblockx,nbblocky,blksizex,blksizey);
+    //memset(map, 0, nbblockx * nbblocky * sizeof(unsigned short));
+    if (!isquiet) info("managed a map of %dx%d tiles of %dx%d pixels...",nbblockx,nbblocky,blksizex,blksizey);
 
     // add the palette number to tiles
     if (!isquiet) info("add palette entry #%d to tiles in map...",offsetpal);
     currenttile = 0;
+
     for (y = 0; y < nbblocky; y++)
     {
         for (x = 0; x < nbblockx; x++)
@@ -100,7 +101,6 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
                 // put tile number in map
                 if (nbblockx == 64 && nbblocky == 32) // 64x32 screen
                 {
-                    //printf("61x32 here!\n"); fflush(stdout);
                     if (x < 32)
                         map[y * 32 + x] = tilevalue;
                     else
@@ -124,7 +124,6 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
                 }
                 else    // 32x32 or 128x128 screen
                 {
-                    //printf("32x32 here!\n"); fflush(stdout);
                     map[y * nbblockx + x] = tilevalue;
                 }
             }
@@ -132,17 +131,6 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
             // goto the next tile
             currenttile++;
             if ((graphicmode==5) || (graphicmode==6))  x++;
-        }
-    }
-
-    // truncate the colors if necessary
-    if (nbcolors != 256)
-    {
-        tilevalue = nbcolors - 1; // color truncation mask
-
-        for (i = 0; i < blksizex * blksizey * sizetile; i++)
-        {
-            imgbuf[i] = imgbuf[i] & tilevalue;
         }
     }
 
@@ -172,6 +160,7 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
         if (isnoreduction) info("check whole bitmap (%dx%d blocks) for tile map with no optimization!...",nbblockx,nbblocky);
         else info("check whole bitmap for tile map (%dx%d blocks) with tile reduction...",nbblockx,nbblocky);
     }
+
     for (y = 0; y < nbblocky; y++)
     {
         for (x = 0; x < nbblockx; x++)
@@ -225,7 +214,6 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
 
             if ((graphicmode==5) || (graphicmode==6))  
             {
-                //map[y * (nbblockx>>1) + (x>>1)] += (tilevalue<<1);
                 map[y * nbblockx + x] += (tilevalue<<1);
             }
             else {
@@ -278,7 +266,6 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
 
             // goto the next tile
             currenttile++;
-            //if ((graphicmode==5) || (graphicmode==6))  x++;
         }
     }
 
@@ -316,7 +303,7 @@ void map_save (const char *filename, unsigned short *map,int snesmode, int nbtil
 	else
         sprintf(outputname,"%s.map",filename);
 
-	if (!isquiet) info("saving map file [%s]...",outputname);
+	if (!isquiet) info("saving map file [%s] of (%dx%d) tiles with offset %d...",outputname,nbtilex,nbtiley,tileoffset);
 
 	// try to open file for write
 	fp = fopen(outputname,"wb");
@@ -333,6 +320,7 @@ void map_save (const char *filename, unsigned short *map,int snesmode, int nbtil
 		warning("map is too big for 1 32KB bank (%d)",nbtilex*nbtiley*2);
 	}
 
+
 	// write data ...
 	for(i=0;i<nbtilex*nbtiley;i++)
 	{
@@ -345,6 +333,7 @@ void map_save (const char *filename, unsigned short *map,int snesmode, int nbtil
 			WRITEFILEWORD(map[i]+tileoffset,fp);
 		}
 	}
+
 
 	// close file and leave
 	fclose(fp);
