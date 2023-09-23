@@ -18,7 +18,7 @@ clean: cleanBuildRes cleanRom cleanGfx
 #---------------------------------------------------------------------------------
 tiles.pic: tiles.png
 	@echo convert map tileset... $(notdir $@)
-	$(GFXCONV) -gs8 -pc16 -po16 -m -fpng -n $<
+	$(GFX4CONV) -s 8 -o 16 -u 16 -p -m -i $<
 
 mapzelda.m16: mapzelda.tmj tiles.pic
 	@echo convert map tiled ... $(notdir $@)
@@ -26,6 +26,6 @@ mapzelda.m16: mapzelda.tmj tiles.pic
 
 link.pic: link.png
 	@echo convert sprite bitmap ... $(notdir $@)
-	$(GFXCONV) -gs16 -pc16 -po16 -fpng -n $<
+	$(GFX4CONV) -s 16 -o 16 -u 16 -p -i $<
 
 bitmaps : mapzelda.m16 link.pic tiles.pic
