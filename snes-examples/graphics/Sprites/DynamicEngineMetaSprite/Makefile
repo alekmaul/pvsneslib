@@ -16,14 +16,14 @@ clean: cleanBuildRes cleanRom cleanGfx
 
 sprite32.pic: sprite32.png
 	@echo convert map sprites as 32px  ... $(notdir $@)
-	$(GFXCONV) -po16 -gs32 -pc16 -pe0 -fpng -n $<
+	$(GFX4CONV) -s 32 -o 16 -u 16 -i $<
 
 sprite16.pic: sprite16.png
 	@echo convert map sprites as 16px  ... $(notdir $@)
-	$(GFXCONV) -po16 -gs16 -pc16 -pe0 -fpng -n $<
+	$(GFX4CONV) -s 16 -o 16 -u 16 -i $<
 
 pvsneslib.pic: pvsneslib.png
 	@echo convert bitmap ... $(notdir $<)
-	$(GFXCONV) -pr -pc16 -n -gs8 -pe0 -fpng -m $<
+	$(GFX4CONV) -s 8 -o 16 -u 16 -m -i $<
 
 bitmaps : pvsneslib.pic sprite32.pic sprite16.pic
