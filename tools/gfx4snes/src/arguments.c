@@ -38,8 +38,6 @@ void argument_set_default_values(void)
 	if (!gfx4snes_args.paletteoutput) gfx4snes_args.paletteoutput=-1;
 	if (!gfx4snes_args.palettecolors) gfx4snes_args.palettecolors=16;
 	if (!gfx4snes_args.palettesave) gfx4snes_args.palettesave=1;
-	if (!gfx4snes_args.tilewidth) gfx4snes_args.tilewidth=8; 
-	if (!gfx4snes_args.tileheight) gfx4snes_args.tileheight=8; 
 }
 //-------------------------------------------------------------------------------------------------
 cmdp_action_t argument_callback(cmdp_process_param_st *params)
@@ -89,6 +87,8 @@ cmdp_action_t argument_callback(cmdp_process_param_st *params)
 		fatal("incorrect size for image block [%d]\nconversion terminated.", gfx4snes_args.tilesize); // exit gfx4snes at this point
 	}
 	// if tile width or height are not like size, reinit them
+	if (!gfx4snes_args.tilewidth) gfx4snes_args.tilewidth=gfx4snes_args.tilesize; 
+	if (!gfx4snes_args.tileheight) gfx4snes_args.tileheight=gfx4snes_args.tilesize; 
 	if (gfx4snes_args.tilewidth != gfx4snes_args.tilesize) {
 		warning("tile width (%d) and size (%d) inconsistent, change size...",gfx4snes_args.tilewidth,gfx4snes_args.tilesize);
 		gfx4snes_args.tilesize=gfx4snes_args.tilewidth;
