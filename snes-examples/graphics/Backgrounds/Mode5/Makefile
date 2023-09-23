@@ -4,7 +4,6 @@ endif
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
-export SUPGFXCONV=./superfamiconv
 .PHONY: bitmaps all
 
 #---------------------------------------------------------------------------------

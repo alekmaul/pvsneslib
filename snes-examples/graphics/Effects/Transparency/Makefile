@@ -16,11 +16,11 @@ clean: cleanBuildRes cleanRom cleanGfx
 
 #---------------------------------------------------------------------------------
 backgrounds.pic: backgrounds.bmp
-	$(GFXCONV) -n -pr -pc16 -gs8 -pe1 -fbmp -m $<
 	@echo convert bitmap ... $(notdir $@)
+	$(GFX4CONV) -a -s 8 -u 16 -e 1 -p -m -t bmp -i $<
 
 clouds.pic: clouds.bmp
-	$(GFXCONV) -n -pc4 -gs8 -pe0 -po2 -fbmp -m $<
 	@echo convert bitmap ... $(notdir $@)
+	$(GFX4CONV) -s 8 -o 2 -u 4 -p -m -t bmp -i $<
 
 bitmaps : backgrounds.pic clouds.pic
