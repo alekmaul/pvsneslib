@@ -57,8 +57,12 @@ void image_load_png(const char *filename, t_image *img, bool isquiet)
     // optionally customize the state
     lodepng_state_init(&pngstate);
 
-    // no conversion of color (to keep palette mode)
-    pngstate.decoder.color_convert = 0;
+    // no conversion of color (to keep palette mode) but 
+    //pngstate.decoder.color_convert = 0;
+
+	// always in 8 bits and palette mode
+    pngstate.info_raw.bitdepth=8;
+	pngstate.info_raw.colortype=LCT_PALETTE;
 
 	// load the png file and try to decode it
     pngerror = lodepng_load_file(&pngbuff, &pngsize, outputname);
