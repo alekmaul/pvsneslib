@@ -115,21 +115,21 @@ void palette_convert_snes(t_RGB_color *palette, int *palettesnes, bool isrounded
 void palette_rearrange_snes(unsigned char *imgbuf, int *palettesnes, int nbtiles, int nbcolors, bool isquiet)
 {
     unsigned int *combos;                                                    // holds sorted list of colors in combo of each tile
-    unsigned int *num;                                                       // holds number of colors in each combo
+    signed int *num;                                                       // holds number of colors in each combo
     unsigned int *list;                                                      // for sorting combos
     unsigned int final[8], num_final;
     unsigned int new_palette[256], color_table[256];
     unsigned int index, last_index;
     unsigned int test, test2;
-    unsigned int num_miss;
+    signed int num_miss;
     unsigned int data, colortabinc;
     unsigned int n, i, ii;
 
     // get memory
-    num = (unsigned int *) malloc(nbtiles * sizeof(int));
+    num = (signed int *) malloc(nbtiles * sizeof(int));
     if (num == NULL)
     {
-        fatal("can't allocate enough memory for the number of colors in rearrange_snes");
+        fatal("can't allocate enough memory for the number of tiles in rearrange_snes");
     }
 
     combos = (unsigned int *) malloc(nbtiles * 16 * sizeof(int));
@@ -165,8 +165,10 @@ void palette_rearrange_snes(unsigned char *imgbuf, int *palettesnes, int nbtiles
             if (palettesnes[i] == palettesnes[ii])
             {
                 for (index = 0; index < nbtiles * 8 * 8; index++)
+                {
                     if (imgbuf[index] == ii)
                         imgbuf[index] = i;
+                }
             }
     }
 
@@ -202,7 +204,7 @@ void palette_rearrange_snes(unsigned char *imgbuf, int *palettesnes, int nbtiles
     }
 
     // now sort combos in order of number of colors (greatest to least)
-    // here's some more horrid code... I know this is all messy and slow, but hey... I just don't care right now.
+    // here's some more horrible code... I know this is all messy and slow, but hey... I just don't care right now.
     n = 0;
     for (ii = nbcolors; ii > 0; ii--)
     {
@@ -217,6 +219,8 @@ void palette_rearrange_snes(unsigned char *imgbuf, int *palettesnes, int nbtiles
     last_index = -1;
     for (num_final = 0; num_final < 9; num_final++)
     {
+        if (!isquiet) info("rearrange palette #%d...", num_final);
+        
         // start looking for next 'non-combined' combo in the list
         for (index = last_index + 1; index < nbtiles; index++)
         {
@@ -301,7 +305,7 @@ void palette_rearrange_snes(unsigned char *imgbuf, int *palettesnes, int nbtiles
     } // build up 8 palettes...
 
     // Yeah! ... if we made it here it worked! (assuming my code is right)
-    if (!isquiet) info("rearrangement possible!! Accomplished in %d palettes...", num_final);
+    if (!isquiet) info("rearrangement possible! Accomplished in %d palettes...", num_final);
 
     // convert the image
     for (i = 0; i < nbtiles; i++)
