@@ -39,7 +39,6 @@ typedef struct
     int tilepacked;                     										// 1 = compress file with packed pixel format
     int tileoffset;                                                             // tile offset (0..2047)
     int mapscreenmode;															// screen mode for map generation (1 or 7)
-    int mapcollision;                                                           // 1 = generate map collision
     int mapoutput;				    											// 1 = save the map
     int maphighpriority;                                                        // 1 = b13 of high priority on
     int map32pages;                                                             // 1 = tile map pages of 32x32 (for scrolling)

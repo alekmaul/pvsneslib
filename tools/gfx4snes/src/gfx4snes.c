@@ -45,7 +45,6 @@ static cmdp_command_st gfx4snes_command = {
 			{'W', "tile-width", "width of image block in pixels", CMDP_TYPE_INT4, &gfx4snes_args.tilewidth},
 			{'H', "tile-height", "height of image block in pixels", CMDP_TYPE_INT4, &gfx4snes_args.tileheight},
             {0, 0, "Maps options:\n", CMDP_TYPE_NONE, NULL,NULL},
-			{'c', "map-collision", "generate collision map", CMDP_TYPE_INT4, &gfx4snes_args.mapcollision},
 			{'f', "map-offset", "generate the whole picture with an offset for tile number {0..2047}", CMDP_TYPE_INT4, &gfx4snes_args.tileoffset},
 			{'m', "map-output", "include map for output", CMDP_TYPE_BOOL, &gfx4snes_args.mapoutput},
 			{'g', "map-highpriority", "include high priority bit in map", CMDP_TYPE_BOOL, &gfx4snes_args.maphighpriority},
@@ -140,6 +139,12 @@ int main(int argc, const char **argv)
 	{
 		// convert tiles to a snes format (8x8)
 		tiles_snes=tiles_convertsnes (snesimage.buffer, snesimage.header.width, snesimage.header.height, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, &nbtilesx, &nbtiles, 8, gfx4snes_args.quietmode);
+
+		// if we want to make palettes before, just do it !
+		if (gfx4snes_args.paletterearrange) 
+		{
+			palette_rearrange_snes(snesimage.buffer, (int *) &palette_snes, nbtiles, gfx4snes_args.palettecolors, gfx4snes_args.quietmode);
+		}
 
 		// convert map to a snes format if needed and /!\ optimize tiles in tiles_snes
 		map_snes=map_convertsnes (tiles_snes, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, blksx, blksy, gfx4snes_args.palettecolors, gfx4snes_args.paletteentry , gfx4snes_args.mapscreenmode, gfx4snes_args.notilereduction, gfx4snes_args.tileblank, gfx4snes_args.map32pages, gfx4snes_args.quietmode);

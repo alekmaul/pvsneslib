@@ -29,7 +29,6 @@ where filename is a 256 color PNG or BMP file
 - `-H` Height of image blocks in pixels [8] (do not use with -s option) 
   
 ### Map options
-- `-c` Generate collision map
 - `-f (0..2047)` Generate the whole picture with an offset for tile number {0..2047}
 - `-m` Include map for output  
 - `-g` Include high priority bit in map
