@@ -310,7 +310,7 @@ void map_save (const char *filename, unsigned short *map,int snesmode, int nbtil
 	int i;
 
 	// remove extension and put the ".map/mp7" to filename
-	outputname=(char *) malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
+	outputname=(char *) malloc(FILENAME_MAX); //malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
 	if(outputname==NULL)
 	{
 		fatal("can't allocate memory for map filename");

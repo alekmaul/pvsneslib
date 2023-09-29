@@ -47,7 +47,7 @@ void image_load_png(const char *filename, t_image *img, bool isquiet)
 	char *outputname;
 
 	// prepare file extension
-	outputname=(char *) malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
+	outputname=(char *) malloc(FILENAME_MAX); //malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
 	if(outputname==NULL)
 	{
 		fatal("can't allocate memory for png filename");
@@ -155,7 +155,7 @@ void image_load_bmp(const char *filename, t_image *img, bool isquiet)
 	unsigned int bmperror;													// error management
 
 	// prepare file extension
-	outputname=(char *) malloc(strlen(filename)+4);							// 4 to be sure to have enough for extension
+	outputname=(char *) malloc(FILENAME_MAX); //malloc(strlen(filename)+4);							// 4 to be sure to have enough for extension
 	if(outputname==NULL)
 	{
 		fatal("can't allocate memory for bmp filename");

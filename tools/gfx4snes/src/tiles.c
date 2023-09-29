@@ -129,7 +129,7 @@ void tiles_save (const char *filename, unsigned char *tiles,int nbtiles, int nbc
     int bufsize,bufsizeout;
 
 	// remove extension and put the ".map/mp7" to filename
-	outputname=(char *) malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
+	outputname=(char *) malloc(FILENAME_MAX); //malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
 	if(outputname==NULL)
 	{
 		fatal("can't allocate memory for tiles filename");
@@ -264,7 +264,7 @@ void tiles_savepacked (const char *filename, unsigned char *tiles,int tilesnumbe
 	int i;
 
 	// remove extension and put the ".map/mp7" to filename
-	outputname=(char *) malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
+	outputname=(char *) malloc(FILENAME_MAX); //malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
 	if(outputname==NULL)
 	{
 		fatal("can't allocate memory for packed tiles filename");

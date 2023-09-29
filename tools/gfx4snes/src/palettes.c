@@ -370,7 +370,7 @@ void palette_save (const char *filename, int *palette,int nbcolors, bool isquiet
 	int i;
 
 	// remove extension and put the ".pal" to filename
-	outputname=(char *) malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
+	outputname=(char *) malloc(FILENAME_MAX); //malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
 	if(outputname==NULL)
 	{
 		fatal("can't allocate memory for palette filename");
