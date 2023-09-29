@@ -1,6 +1,8 @@
 #ifndef _GFX4SNES_LOADBMP_H
 #define _GFX4SNES_LOADBMP_H
 
+#include <string.h> /*for size_t*/
+
 #pragma pack(push)
 #pragma pack(1) // for bmp header to avoid data alignment
 

@@ -26,11 +26,13 @@
   BMP BI_RLE8 compression support by Andrey Beletsky
 	
 ***************************************************************************/
-#include <stdlib.h>
+#include "loadbmp.h"
+
+#include <limits.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-#include "loadbmp.h"
 
 // This returns the description of a numerical error code in English. This is also
 //  the documentation of all the error codes.
