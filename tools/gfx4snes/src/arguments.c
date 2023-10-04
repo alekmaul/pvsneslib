@@ -108,7 +108,7 @@ cmdp_action_t argument_callback(cmdp_process_param_st *params)
 	}
 
 	// check map mode (default is 1)
-	if ( (gfx4snes_args.mapscreenmode!=1) && (gfx4snes_args.mapscreenmode!=5) && (gfx4snes_args.mapscreenmode!=6) && (gfx4snes_args.mapscreenmode!=7) )
+	if ( (gfx4snes_args.mapscreenmode!=1) && (gfx4snes_args.mapscreenmode!=5) && (gfx4snes_args.mapscreenmode!=6) && (gfx4snes_args.mapscreenmode!=7) && (gfx4snes_args.mapscreenmode!=9) )
 	{
 		fatal("incorrect value for map mode format [%d]\nconversion terminated.", gfx4snes_args.mapscreenmode); // exit gfx4snes at this point
 	}
@@ -139,7 +139,7 @@ cmdp_action_t argument_callback(cmdp_process_param_st *params)
 			gfx4snes_args.paletteoutput=nbcols;
 	}
 	// check palette entry (default is 0)
-	if ( (gfx4snes_args.paletteentry<0) || (gfx4snes_args.paletteentry>2047) )
+	if ( (gfx4snes_args.paletteentry<0) || (gfx4snes_args.paletteentry>7) )
 	{
 		fatal("incorrect value for palette entry [%d]\nconversion terminated.", gfx4snes_args.paletteentry); // exit gfx4snes at this point
 	}

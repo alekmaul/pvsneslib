@@ -54,7 +54,7 @@ static cmdp_command_st gfx4snes_command = {
             {0, 0, "Palettes options:\n", CMDP_TYPE_NONE, NULL,NULL},
 			{'a', "pal-rearrange", "rearrange palette and preserve palette numbers in tilemap", CMDP_TYPE_BOOL, &gfx4snes_args.paletterearrange},
 			{'d', "pal-rounded", "palette rounding (to a maximum value of 63)", CMDP_TYPE_BOOL, &gfx4snes_args.paletteround},
-			{'e', "pal-entry", "palette entry to add to map tiles {0..15}", CMDP_TYPE_INT4, &gfx4snes_args.paletteentry},
+			{'e', "pal-entry", "palette entry to add to map tiles {0..7}", CMDP_TYPE_INT4, &gfx4snes_args.paletteentry},
 			{'o', "pal-col-output", "number of colors to output to filename.pal {0..256}", CMDP_TYPE_INT4, &gfx4snes_args.paletteoutput},
 			{'p', "pal-output", "include palette for output", CMDP_TYPE_BOOL, &gfx4snes_args.palettesave},
 			{'u', "pal-col-use", "number of colors to use {4,16,128,[256]}", CMDP_TYPE_INT4, &gfx4snes_args.palettecolors},

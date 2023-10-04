@@ -65,7 +65,11 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
         blksizex = 16;
         if (!isquiet) info("will use specific mode 5 & 6 values %d block for x, with tile size %dx%d...",nbblockx,16,blksizey);
     }
-
+    // if mode 9, just put an infomation message 
+    if (graphicmode==9) 
+    {
+        if (!isquiet) info("will use specific mode without constrainst for %dx%d blocks with tile size %dx%d...",nbblockx,nbblocky,blksizex,blksizey);
+    }
     // size of a tile block (64 bytes for a 8x8 block)
     sizetile = blksizex*blksizey;
 
@@ -77,15 +81,13 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
         fatal("can't allocate enough memory for the buffer in map_convertsnes");
     }
   
-    // clear map
-    //memset(map, 0, nbblockx * nbblocky * sizeof(unsigned short));
+    // some information
     if (!isquiet) info("managed a map of %dx%d tiles of %dx%d pixels...",nbblockx,nbblocky,blksizex,blksizey);
     if ( !isquiet && is32size) info("rearrange map for 32x32 scrolling...");
 
     // add the palette number to tiles
     if (!isquiet) info("add palette entry #%d to tiles in map...",offsetpal);
     currenttile = 0;
-
     for (y = 0; y < nbblocky; y++)
     {
         for (x = 0; x < nbblockx; x++)
@@ -93,7 +95,8 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
             // get the palette number (0-7 for both 4 & 16 color mode)
             paletteno = (nbcolors != 4) ? (imgbuf[currenttile * sizetile] >> 4) & 0x07 : (imgbuf[currenttile * sizetile] >> 2) & 0x07;
             tilevalue = ((paletteno + offsetpal) << 10);
-
+            if ((tilevalue>>10)>=8) warning ("out of bounds palette %d for tile %d",currenttile,paletteno);
+            
             if ((graphicmode==5) || (graphicmode==6))  
             {
                 map[y * nbblockx + x] = tilevalue;
@@ -122,6 +125,10 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
                         map[(y + 64 - 32) * 32 + x] = tilevalue;
                     else
                         map[(y + 96 - 32) * 32 + x - 32] = tilevalue;
+                }
+                else if (graphicmode==9)
+                {
+                    map[y * nbblockx + x] = tilevalue;
                 }
                 else if (is32size == 1)
                 {
@@ -275,7 +282,7 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
                     int idx = x_mult * 1024 + y * 32 + new_x;
                     map[idx] += tilevalue;
                 }
-                else // 32x32 or 128x128 screen
+                else // 32x32 or 128x128 screen or with no constrainst
                 {
                     map[y * nbblockx + x] += tilevalue;
                 }
