@@ -31,7 +31,8 @@ _"attribute" property value **0002** or **0004** will need to be managed in your
 
 ## Export map in jSON format
 
-To export your map in a format usable with PVSnesLib, you need to click on the first tab named **tiled.tmx**, to be on the map file and not on the tiles part of the map.
+To export your map in a format usable with PVSnesLib, you need to click on the first tab named **tiled.tmx**, to be on the map file and not on the tiles part of the map. You also need to use menu **Map**, option **Map properties...** to have the correct properties.
+Select **CSV** as **Tile Leyer Format**.
 
 <img width="300" src="https://user-images.githubusercontent.com/2528347/199171995-261bc3d5-94c2-4404-999a-d3d889b4df09.png">
 
