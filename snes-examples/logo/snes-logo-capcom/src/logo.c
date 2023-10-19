@@ -305,6 +305,17 @@ void initCapcomLogo() {
     */
     REG_CGADSUB = 0b10111111;
 
+    /*  Color Math Sub Screen Backdrop Color (W)
+        This 8bit port allows to manipulate some (or all) bits
+        of a 15bit RGB value. 
+        Examples:
+        - Black: write E0h (R,G,B=0)
+        - Cyan: write 20h (R=0) and DFh (G,B=1Fh)
+            7    Apply Blue  (0=No change, 1=Apply Intensity as Blue)
+            6    Apply Green (0=No change, 1=Apply Intensity as Green)
+            5    Apply Red   (0=No change, 1=Apply Intensity as Red)
+            4-0  Intensity   (0..31)
+    */
     REG_COLDATA = appliedColor | colorIntensity;
 
     // Load logo on BG1
@@ -340,6 +351,46 @@ void initCapcomLogo() {
     bgSetDisable(BG3);
 }
 
+/*!\brief Fade in with REG_COLDATA.
+    \return 1 when fade in is complete or 0 otherwise.
+*/
+u8 colorMathFadeIn() {
+    if (colorIntensity == 0) {
+        return 1;
+    }
+
+    if (colorIntensity > 0 && intensityState == 4) {
+        colorIntensity -= 1;
+        REG_COLDATA = appliedColor | colorIntensity;
+        intensityState = 0;
+
+    } else {
+        intensityState += 1;
+    }
+
+    return 0;
+}
+
+/*!\brief Fade out with REG_COLDATA.
+    \return 1 when fade out is complete or 0 otherwise.
+*/
+u8 colorMathFadeOut() {
+    if (colorIntensity == 31) {
+        return 1;
+    }
+
+    if (colorIntensity < 31 && intensityState == 3) {
+        colorIntensity += 1;
+        REG_COLDATA = appliedColor | colorIntensity;
+        intensityState = 0;
+
+    } else {
+        intensityState += 1;
+    }
+
+    return 0;
+}
+
 /*!\brief Update the Capcom logo animation.
     \return 1 when the logo animation is complete, 0 otherwise.
 */
@@ -369,34 +420,18 @@ u8 updateCapcomLogo() {
             break;
     }
 
-    // Fade in
-    if (colorIntensity >= 0 && intensityState == 4) {
-        /*  Color Math Sub Screen Backdrop Color (W)
-            This 8bit port allows to manipulate some (or all) bits
-            of a 15bit RGB value. 
-            Examples:
-            - Black: write E0h (R,G,B=0)
-            - Cyan: write 20h (R=0) and DFh (G,B=1Fh)
-            7    Apply Blue  (0=No change, 1=Apply Intensity as Blue)
-            6    Apply Green (0=No change, 1=Apply Intensity as Green)
-            5    Apply Red   (0=No change, 1=Apply Intensity as Red)
-            4-0  Intensity   (0..31)
-        */
-        REG_COLDATA = appliedColor | colorIntensity;
-        colorIntensity -= 1;
-        intensityState = 0;
+    if (framesCounter < 200) {
+        colorMathFadeIn();
 
-    } else {
-        intensityState += 1;
-    }
-
-    if (framesCounter == 200) {
+    } else if (framesCounter == 200) {
         spcStop();
 
     } else if (framesCounter == 201) {
         // Note: process spcStop() properly.
         spcProcess();
-        return 1;
+
+    } else if (framesCounter > 201) {
+        return colorMathFadeOut();
 
     } else {
         spcProcess();
