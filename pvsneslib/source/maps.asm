@@ -229,7 +229,7 @@ mapLoad:
     sta.l $2183
 
     lda #$0                                 ; 230805 to point to correct bank for x dma value
-    pha                                     
+    pha
     plb
 
     lda 16,s                                ; get metatiles definition  bank address (11+1+2+2)
@@ -255,7 +255,7 @@ mapLoad:
     lda #$7e                                ; safely use of 7E as it is explicit declared
     sta.l $2183                             ; bank address of destination
 
-	lda	20,s	
+	lda	20,s
     sta.l $4304                             ; bank address of source (15+1+2+2)
 
     ldx	#$8000						        ; type of DMA
@@ -953,6 +953,7 @@ mapGetMetaTile:
     rep #$20
     lda 0,x
     plb
+    and #$03FF
     plx
 
     sta.w tcc__r0
@@ -1003,6 +1004,7 @@ mapGetMetaTilesProp:
     rep #$20
     lda 0,x
     plb
+    and #$03FF
     plx
 
     asl a                                   ; property is a 16bit arrays
