@@ -17,7 +17,7 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 #---------------------------------------------------------------------------------
 # ROMNAME is used in snes_rules file
-export ROMNAME := logo
+export ROMNAME := LogoPVSnesLib
 
 # to build musics, define SMCONVFLAGS with parameters you want
 SMCONVFLAGS	:= -s -o $(SOUNDBANK) -V -b 5
