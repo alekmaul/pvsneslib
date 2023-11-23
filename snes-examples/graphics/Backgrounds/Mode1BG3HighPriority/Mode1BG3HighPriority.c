@@ -3,7 +3,7 @@
 
     Mode1BG3HighPriority
         example of how to use the BG3 for hud as the high priority background
-        (use of BG3_MODE1_PRORITY_HIGH mode)
+        (use of BG3_MODE1_PRIORITY_HIGH mode)
     -- odelot
 
  Backgrounds inspired in SoR2
@@ -52,8 +52,8 @@ int main(void)
     dmaCopyVram(&BG1_map, 0x0000 + 1024, 2048);
     dmaCopyVram(&BG3_map, 0x0000 + 2048, 2048);
 
-    // IMPORTANT - use mode1 with BG3_MODE1_PRORITY_HIGH otherwise your HUD will not have the highest priority
-    setMode(BG_MODE1, BG3_MODE1_PRORITY_HIGH);
+    // IMPORTANT - use mode1 with BG3_MODE1_PRIORITY_HIGH otherwise your HUD will not have the highest priority
+    setMode(BG_MODE1, BG3_MODE1_PRIORITY_HIGH);
 
     setScreenOn();
 

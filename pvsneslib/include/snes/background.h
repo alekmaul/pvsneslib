@@ -80,7 +80,7 @@
 #define BG_4COLORS 4
 #define BG_16COLORS 16
 #define BG_256COLORS 256
-#define BG3_MODE1_PRORITY_HIGH (1 << 3)
+#define BG3_MODE1_PRIORITY_HIGH (1 << 3)
 
 /** \def REG_BGMODE
     \brief BG Mode and BG Character Size (W)

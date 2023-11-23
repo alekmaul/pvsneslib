@@ -237,8 +237,8 @@ int main(void)
     WaitForVBlank();
     dmaCopyVram(&BG3_map, 0x1000, 2048);
 
-    // IMPORTANT - use mode1 with BG3_MODE1_PRORITY_HIGH otherwise your HUD will not have the highest priority
-    setMode(BG_MODE1, BG3_MODE1_PRORITY_HIGH);
+    // IMPORTANT - use mode1 with BG3_MODE1_PRIORITY_HIGH otherwise your HUD will not have the highest priority
+    setMode(BG_MODE1, BG3_MODE1_PRIORITY_HIGH);
 
     // initialize sprite
 

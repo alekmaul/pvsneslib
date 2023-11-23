@@ -333,7 +333,7 @@ void initCapcomLogo() {
     spcProcess();
     WaitForVBlank();
     
-    setMode(BG_MODE1, BG3_MODE1_PRORITY_HIGH);
+    setMode(BG_MODE1, BG3_MODE1_PRIORITY_HIGH);
     bgSetEnable(BG0);
     bgSetDisable(BG1);
     bgSetEnable(BG2);
