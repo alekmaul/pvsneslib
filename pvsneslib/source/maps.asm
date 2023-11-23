@@ -953,6 +953,7 @@ mapGetMetaTile:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                              ; to have only tile number (no flipx/y)
     plx
 
     sta.w tcc__r0
@@ -1003,6 +1004,7 @@ mapGetMetaTilesProp:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                              ; to have only tile number (no flipx/y)   
     plx
 
     asl a                                   ; property is a 16bit arrays
