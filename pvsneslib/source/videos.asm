@@ -654,6 +654,7 @@ setMode7Rot:
     clc
     adc.b tcc__r1
     adc #64
+    and #$00ff                          ; to avoid jumping outside the table
     sta tcc__r0
     lda #:m7sincos
     sta tcc__r0h
