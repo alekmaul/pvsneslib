@@ -120,6 +120,18 @@ void objInitGravity(u16 objgravity, u16 objfriction);
     \param initfct  The address of the function when we init the type of object
     \param updfct   The address of the function when we update the type of object (need to be called once per frame)
     \param reffct   The address of the function when we refresh sprites of object (need to be called once per frame)
+
+    init function must have 5 unsigned short (u16) parameters: xp, yp, type, minx, maxx 
+        where
+        - xp,yp are default coordinates values for x and y
+        - type is the type oobjects
+        - minx, miny and minimal and maximal values for objects in x axis
+    update function must have 1 parameter:idx
+        where
+        - idx is the id of the object in the object list
+    refresh function must have 1 parameter:idx
+        where
+        - idx is the id of the object in the object list
 */
 void objInitFunctions(u8 objtype, void *initfct, void *updfct, void *reffct);
 
