@@ -48,13 +48,12 @@
 .DEFINE T_SPIKE				$0004
 .DEFINE T_PLATE				$0008
 .DEFINE T_SLOPES            $0020
-
-;                                               $0020  Type Slope 1x1 Up ◢ (action will be climb on it) for tile  
-;                                               $0021  Type Slope 1x1 Down ◣ (action will be descend on it) for tile 
-;                                               $0022  Type Slope 2x1 lower half Up ◢ (action will be climb on it) for tile
-;                                               $0023  Type Slope 2x1 lower half Down ◣ (action will be descend on it) for tile
-;                                               $0024  Type Slope 2x1 upper half Up ◢ (action will be climb on it) for tile
-;                                               $0025  Type Slope 2x1 upper half Down ◣ (action will be descend on it) for tile 
+;                           $0020             Type Slope 1x1 Up ◢ (action will be climb on it) for tile  
+;                           $0021             Type Slope 1x1 Down ◣ (action will be descend on it) for tile 
+;                           $0022  Type Slope 2x1 lower half Up ◢ (action will be climb on it) for tile
+;                           $0023  Type Slope 2x1 lower half Down ◣ (action will be descend on it) for tile
+;                           $0024  Type Slope 2x1 upper half Up ◢ (action will be climb on it) for tile
+;                           $0025  Type Slope 2x1 upper half Down ◣ (action will be descend on it) for tile 
 
 .DEFINE ACT_CLIMB			$2000
 .DEFINE ACT_DIE				$4000
@@ -2202,19 +2201,19 @@ _oicuxyend:
 .16bit
 
 _lutcol: ; x - height lut for normal slopes
-    .db $00,$01,$02,$03,$04,$05,$06,$07;0020
-    .db $07,$06,$05,$04,$03,$02,$01,$00;0021
-    .db $04,$04,$05,$05,$06,$06,$07,$07;0022
-    .db $07,$07,$06,$06,$05,$05,$04,$04;0023
-    .db $00,$00,$01,$01,$02,$02,$03,$03;0024
-    .db $03,$03,$02,$02,$01,$01,$00,$00;0025
+    .db $00,$01,$02,$03,$04,$05,$06,$07     ; 0020
+    .db $07,$06,$05,$04,$03,$02,$01,$00     ; 0021
+    .db $04,$04,$05,$05,$06,$06,$07,$07     ; 0022
+    .db $07,$07,$06,$06,$05,$05,$04,$04     ; 0023
+    .db $00,$00,$01,$01,$02,$02,$03,$03     ; 0024
+    .db $03,$03,$02,$02,$01,$01,$00,$00     ; 0025
 _lutcolInv:; x - height lut for h-flipped slopes
-    .db $07,$06,$05,$04,$03,$02,$01,$00;0020
-    .db $00,$01,$02,$03,$04,$05,$06,$07;0021
-    .db $07,$07,$06,$06,$05,$05,$04,$04;0022
-    .db $04,$04,$05,$05,$06,$06,$07,$07;0024
-    .db $03,$03,$02,$02,$01,$01,$00,$00;0023
-    .db $00,$00,$01,$01,$02,$02,$03,$03;0025
+    .db $07,$06,$05,$04,$03,$02,$01,$00     ; 0020
+    .db $00,$01,$02,$03,$04,$05,$06,$07     ; 0021
+    .db $07,$07,$06,$06,$05,$05,$04,$04     ; 0022
+    .db $04,$04,$05,$05,$06,$06,$07,$07     ; 0024
+    .db $03,$03,$02,$02,$01,$01,$00,$00     ; 0023
+    .db $00,$00,$01,$01,$02,$02,$03,$03     ; 0025
 
 ;note: objtmp1                              ; tileCount
 ;note: objtmp2                              ; object handle
@@ -2409,8 +2408,8 @@ _lutcolInv:; x - height lut for h-flipped slopes
 .ENDM
 
 ;---------------------------------------------------------------------------------
-; void objCollidMapSlopes(u16 objhandle)
-objCollidMapSlopes:
+; void objCollidMapWithSlopes(u16 objhandle)
+objCollidMapWithSlopes:
     php
 	phb
 	phx
