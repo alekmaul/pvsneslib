@@ -175,8 +175,6 @@ void consoleCopySramWithOffset(u8 *source, u16 size, u16 offset);
 */
 void consoleLoadSramWithOffset(u8 *dest, u16 size, u16 offset);
 
-int sprintf(char *buf, const char *fmt, ...);
-
 /*! \fn  consoleRegionIsOK()
     \brief Check compatibility between console (NTSC/PAL) and cartridge (country)
     \return 1 if cartridge and console are from the same region, 2 if not
@@ -184,5 +182,7 @@ int sprintf(char *buf, const char *fmt, ...);
     Check if console (PAL / NSTC) is the same as cartrdige region code
 */
 u16 consoleRegionIsOK(void);
+
+int sprintf(char *buf, const char *fmt, ...);
 
 #endif
