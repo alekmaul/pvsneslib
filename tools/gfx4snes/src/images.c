@@ -34,6 +34,54 @@
 
 t_image snesimage={0};														// current image converted
 
+#if 0
+// Un-bitpacks a source image into an 8-bit-per-pixel destination buffer
+// Acceptable range is 1-8 bits per pixel
+static void image_bitunpack(const vector<uint8_t> & src_image_data, vector<uint8_t> & unpacked_image_data, uint8_t bitdepth) {
+
+    int pixels_per_byte = (8 / bitdepth);
+
+    // Loop through all pixels in source image buffer
+    for (const uint8_t & it_src: src_image_data) {
+
+        // Unpack grouped pixel data
+        uint8_t packed_bits = it_src;
+        for (int b = 0; b < pixels_per_byte; b++) {
+            unpacked_image_data.push_back(packed_bits >> (8 - bitdepth)); // Save extracted pixel bits
+            packed_bits <<= bitdepth;                                     // Shift out the extracted bits
+        }
+    }
+}
+
+
+// Converts indexed image with bit depths 1- 8 bpp to indexed 8 bits per pixel
+// Replaces incoming image buffer with unpacked image buffer if successful
+bool image_indexed_ensure_8bpp(vector<uint8_t> & src_image_data, int width, int height, int bitdepth, int colortype) {
+
+    vector<uint8_t> unpacked_image_data;
+
+    if (colortype != LCT_PALETTE) {
+        printf("png2asset: Error: keep_palette_order only works with indexed png images (pngtype: %d, bits:%d)\n",
+               colortype, bitdepth);
+        return false;
+    }
+    else if ((bitdepth < 1) || (bitdepth > 8)) {
+        printf("png2asset: Error: Indexed mode PNG requires between 1 - 8 bits per pixel (pngtype: %d, bits:%d)\n",
+                colortype, bitdepth);
+        return false;
+    }
+
+    image_bitunpack(src_image_data, unpacked_image_data, bitdepth);
+
+    // Replace source image pixel data with unpacked pixels
+    src_image_data.clear();
+    for (const uint8_t & it_unpacked: unpacked_image_data)
+        src_image_data.push_back(it_unpacked);
+
+    return true;
+}
+
+#endif
 //-------------------------------------------------------------------------------------------------
 void image_load_png(const char *filename, t_image *img, bool isquiet) 
 {
@@ -54,15 +102,16 @@ void image_load_png(const char *filename, t_image *img, bool isquiet)
 	}
 	sprintf(outputname,"%s.png",filename);
 
+#if 1
     // optionally customize the state
     lodepng_state_init(&pngstate);
 
-    // no conversion of color (to keep palette mode) but 
-    //pngstate.decoder.color_convert = 0;
+    // no conversion of color (to keep palette mode)  
+    pngstate.decoder.color_convert = 0;
 
 	// always in 8 bits and palette mode
-    pngstate.info_raw.bitdepth=8;
 	pngstate.info_raw.colortype=LCT_PALETTE;
+    pngstate.info_raw.bitdepth=8;
 
 	// load the png file and try to decode it
     pngerror = lodepng_load_file(&pngbuff, &pngsize, outputname);
@@ -70,6 +119,35 @@ void image_load_png(const char *filename, t_image *img, bool isquiet)
     {
         pngerror = lodepng_decode(&pngimage, &pngwidth, &pngheight, &pngstate, pngbuff, pngsize);
     }
+#else
+	// load the png file and try to decode it
+    pngerror = lodepng_load_file(&pngbuff, &pngsize, outputname);
+    if (!pngerror)
+    {
+		//Calling with keep_palette_order means
+		//-The image should be png indexed (1-8 bits per pixel)
+		//-For CGB: Each 4 colors define a gbc palette, the first color is the transparent one
+		//-Each rectangle with dimension(tile_w, tile_h) in the image has colors from one of those palettes only
+		pngstate.info_raw.colortype = LCT_PALETTE;
+		pngstate.info_raw.bitdepth = 8;
+
+		// * Do *NOT* turn color_convert ON here.
+		// When source PNG is indexed with bit depth was less than 8 bits per pixel then
+		// color_convert may mangle the packed indexed values. Instead manually unpack them.
+		//
+		// This is necessary since some PNG encoders will use the minimum possible number of bits.
+		//   For example 2 colors in the palette -> 1bpp -> 8 pixels per byte in the decoded image.
+		//     Also see below about requirement to use palette from source image
+		pngstate.decoder.color_convert = false;
+        pngerror = lodepng_decode(&pngimage, &pngwidth, &pngheight, &pngstate, pngbuff, pngsize);
+
+		//unsigned error = lodepng::decode(image.data, image.w, image.h, state, buffer);
+		// Unpack the image if needed. Also checks and errors on incompatible palette type if needed
+		if (! image_indexed_ensure_8bpp(&pngimage, &pngwidth, &pngheight,, (int)pngstate.info_png.color.bitdepth, (int)pngstate.info_png.color.colortype)) {
+			return 1;
+		}
+	}
+#endif
     if (pngerror)
     {
         free(pngbuff);
