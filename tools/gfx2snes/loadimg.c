@@ -442,27 +442,62 @@ int TGA_Load(char *filename, pcx_picture_ptr image)
 int PNG_Load(char *filename, pcx_picture_ptr image)
 {
     unsigned error, index, i, sz, bpp;
-    unsigned char *pngimage;
+    unsigned char *pngimage = 0;
     unsigned char *png = 0;
     size_t pngsize;
     LodePNGState state;
-    size_t width, height; // , wal,hal;
+    LodePNGColorStats colorstats;
+    unsigned int width, height; // , wal,hal;
     pcx_header *header;
 
-    /*optionally customize the state*/
-    lodepng_state_init(&state);
-
-    // no conversion of color (to keep palette mode)
-    state.decoder.color_convert = 0;
-
+    // load PNG and decode it in RGBA format
     error = lodepng_load_file(&png, &pngsize, filename);
-    if (!error)
-    {
-        error = lodepng_decode(&pngimage, &width, &height, &state, png, pngsize);
+    if(error) {
+        printf("\ngfx2snes: error 'Load error %u: %s'\n", error, lodepng_error_text(error));
+        free(png);
+        return 0;
     }
+    lodepng_state_init(&state);
+    state.info_raw.colortype = LCT_RGBA;
+    state.info_raw.bitdepth=8;
+    lodepng_decode(&pngimage, &width, &height, &state, png, pngsize);
+    if(error) {
+        printf("\ngfx2snes: error 'Decode error %u: %s'\n", error, lodepng_error_text(error));
+        free(png);
+        lodepng_state_cleanup(&state);
+        free(pngimage);
+        return 0;
+    }
+    
+    // compute palette
+    lodepng_color_stats_init(&colorstats);
+    error = lodepng_compute_color_stats(&colorstats, pngimage, width, height, &state.info_raw);
+    free(pngimage);
+    pngimage = 0;
+    if(error) {
+        printf("\ngfx2snes: error 'Compute color stats error %u: %s'\n", error, lodepng_error_text(error));
+        free(png);
+        lodepng_state_cleanup(&state);
+        return 0;
+    }
+    lodepng_state_init(&state);
+    state.info_raw.colortype = LCT_PALETTE;
+    state.info_raw.bitdepth=8;
+    for(int palette_entry=0; palette_entry<colorstats.numcolors; ++palette_entry) {
+        error = lodepng_palette_add(&state.info_raw, colorstats.palette[palette_entry * 4], colorstats.palette[palette_entry * 4 + 1], colorstats.palette[palette_entry * 4 + 2], colorstats.palette[palette_entry * 4 + 3]);
+        if(error) {
+            printf("\ngfx2snes: error 'Cannot add color to palette error %u: %s'\n", error, lodepng_error_text(error));
+            free(png);
+            lodepng_state_cleanup(&state);
+            return 0;
+        }
+    }
+
+    // decode PNG in palette 8bpp / 256 colors format
+    error = lodepng_decode(&pngimage, &width, &height, &state, png, pngsize);
     if (error)
     {
-        printf("\ngfx2snes: error 'Decoder error %u: %s'\n", error, lodepng_error_text(error));
+        printf("\ngfx2snes: error 'Decoder with palette error %u: %s'\n", error, lodepng_error_text(error));
         free(png);
         lodepng_state_cleanup(&state);
         free(pngimage);
@@ -470,7 +505,6 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
     }
 
     bpp = state.info_raw.bitdepth;
-    // 130521 TOTO if ( (bpp  != 4) && (bpp != 8)) {
     if (bpp != 8)
     {
         printf("\ngfx2snes: error 'File [%s] is not a valid bbp value (%d bpp)'", filename, bpp);
@@ -490,12 +524,12 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
     }
 
     // read the palette information
-    sz = state.info_png.color.palettesize;
+    sz = state.info_raw.palettesize;
     for (index = 0; index < sz; index++)
     {
-        image->palette[index].red = state.info_png.color.palette[(index * 4) + 0] >> 2;
-        image->palette[index].green = state.info_png.color.palette[(index * 4) + 1] >> 2;
-        image->palette[index].blue = state.info_png.color.palette[(index * 4) + 2] >> 2;
+        image->palette[index].red = state.info_raw.palette[(index * 4) + 0] >> 2;
+        image->palette[index].green = state.info_raw.palette[(index * 4) + 1] >> 2;
+        image->palette[index].blue = state.info_raw.palette[(index * 4) + 2] >> 2;
     }
 
     // get png information
@@ -514,44 +548,6 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
     // initially clear the memory (to make those extra lines be blank)
     memset(image->buffer, 0, (size_t)(header->height + 64) * header->width);
 
-    // 4 bpps conversion
-    /*130521 TOTO
-        if (bpp==4) {
-
-            for (index = 0; index < header->height; index++) {
-                for(i=0;i<header->width;i++)
-                    image->buffer[index+i] = pngimage[i +index*header->height];
-            }
-          // get buffer size
-                *size = (wAligned / 2) * hAligned;
-                // and alloc
-                result = malloc(*size);
-
-                srcPix = 0;
-                for (i = 0; i < h; i++)
-                {
-                    unsigned char *dst = &result[i * (wAligned / 2)];
-
-                    memset(dst, 0, wAligned / 2);
-
-                    for (j = 0; j < w; j++)
-                    {
-                            unsigned char v;
-
-                            if (srcPix & 1) v = (out[srcPix / 2] >> 4) & 0xF;
-                            else v =  (out[srcPix / 2] >> 0) & 0xF;
-                            srcPix++;
-
-                            if (j & 1) dst[j / 2] = (dst[j / 2] & 0x0F) | (v << 4);
-                            else dst[j / 2] = (dst[j / 2] & 0xF0) | (v << 0);
-                    }
-                }
-                for(;i < hAligned; i++)
-                    memset(&result[i * (wAligned / 2)], 0, wAligned / 2);
-        }
-        // 8 bpps conversion
-        else {
-    */
     for (index = 0; index < header->height; index++)
     {
         for (i = 0; i < header->width; i++)
@@ -559,7 +555,6 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
             image->buffer[i + (header->width * index)] = pngimage[i + (header->width * index)];
         }
     }
-    //}
 
     free(png);
 
