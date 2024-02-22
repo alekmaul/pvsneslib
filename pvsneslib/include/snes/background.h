@@ -360,6 +360,8 @@ void bgInitMapTileSet7(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 tileS
      - c: Starting character (tile) number
      - h: horizontal flip
      - v: vertical flip
+     - p: palette number
+     - o: priority bit
 
 */
 void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address);
