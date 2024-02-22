@@ -349,6 +349,18 @@ void bgInitMapTileSet7(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 tileS
     \param mapSize	size of map
     \param sizeMode	used for correct tile mapping (SC_32x32, SC_64x32, SC_32x64, SC_64x64)
     \param address	address of map
+
+    Map entry is a 32x32 array of unsigned short (16 bits) in SNES format :
+    
+    High     | Low
+    -------- | --------
+    vhopppcc | cccccccc
+    
+    Legend:
+     - c: Starting character (tile) number
+     - h: horizontal flip
+     - v: vertical flip
+
 */
 void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address);
 
