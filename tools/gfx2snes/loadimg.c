@@ -439,6 +439,18 @@ int TGA_Load(char *filename, pcx_picture_ptr image)
     return -1;
 } // end TGA_Load
 
+int compare_rgba_color_by_alpha(const void *p, const void *q) {
+    const unsigned char alphaP = *(((const unsigned char *)p)+3);
+    const unsigned char alphaQ = *(((const unsigned char *)q)+3);
+    if (alphaP < alphaQ) {
+        return -1;
+    } else if (alphaP > alphaQ) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 int PNG_Load(char *filename, pcx_picture_ptr image)
 {
     unsigned error, index, i, sz, bpp;
@@ -519,6 +531,9 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
                 return 0;
             }
         }
+
+        //transparent color must comes first
+        qsort(state.info_raw.palette, state.info_raw.palettesize, 4, compare_rgba_color_by_alpha);
 
         // decode PNG in palette 8bpp / 256 colors format
         error = lodepng_decode(&pngimage, &width, &height, &state, png, pngsize);
