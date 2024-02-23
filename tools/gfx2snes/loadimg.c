@@ -450,58 +450,87 @@ int PNG_Load(char *filename, pcx_picture_ptr image)
     unsigned int width, height; // , wal,hal;
     pcx_header *header;
 
-    // load PNG and decode it in RGBA format
+    // load PNG
     error = lodepng_load_file(&png, &pngsize, filename);
     if(error) {
         printf("\ngfx2snes: error 'Load error %u: %s'\n", error, lodepng_error_text(error));
         free(png);
         return 0;
     }
-    lodepng_state_init(&state);
-    state.info_raw.colortype = LCT_RGBA;
-    state.info_raw.bitdepth=8;
-    lodepng_decode(&pngimage, &width, &height, &state, png, pngsize);
-    if(error) {
-        printf("\ngfx2snes: error 'Decode error %u: %s'\n", error, lodepng_error_text(error));
-        free(png);
-        lodepng_state_cleanup(&state);
-        free(pngimage);
-        return 0;
-    }
     
-    // compute palette
-    lodepng_color_stats_init(&colorstats);
-    error = lodepng_compute_color_stats(&colorstats, pngimage, width, height, &state.info_raw);
-    free(pngimage);
-    pngimage = 0;
+    // inpect to find if png has palette
+    lodepng_state_init(&state);
+    error = lodepng_inspect(&width, &height, &state, png, pngsize);
     if(error) {
-        printf("\ngfx2snes: error 'Compute color stats error %u: %s'\n", error, lodepng_error_text(error));
+        printf("\ngfx2snes: error 'Inspect error %u: %s'\n", error, lodepng_error_text(error));
         free(png);
         lodepng_state_cleanup(&state);
         return 0;
     }
-    lodepng_state_init(&state);
-    state.info_raw.colortype = LCT_PALETTE;
-    state.info_raw.bitdepth=8;
-    for(int palette_entry=0; palette_entry<colorstats.numcolors; ++palette_entry) {
-        error = lodepng_palette_add(&state.info_raw, colorstats.palette[palette_entry * 4], colorstats.palette[palette_entry * 4 + 1], colorstats.palette[palette_entry * 4 + 2], colorstats.palette[palette_entry * 4 + 3]);
+
+    if(state.info_png.color.colortype == LCT_PALETTE && state.info_png.color.bitdepth == 8) {
+        printf("\ngfx2snes: png has palette, it will be used without conversion");
+        lodepng_state_init(&state);
+        state.decoder.color_convert = 0;
+        error = lodepng_decode(&pngimage, &width, &height, &state, png, pngsize);
         if(error) {
-            printf("\ngfx2snes: error 'Cannot add color to palette error %u: %s'\n", error, lodepng_error_text(error));
+            printf("\ngfx2snes: error 'Decoder with existing palette error %u: %s'\n", error, lodepng_error_text(error));
+            free(png);
+            lodepng_state_cleanup(&state);
+            free(pngimage);
+            return 0;
+        }
+    } else {
+        printf("\ngfx2snes: png does not have palette, it will converted to 256 colors");
+
+        // decode png in RGBA format
+        lodepng_state_init(&state);
+        state.info_raw.colortype = LCT_RGBA;
+        state.info_raw.bitdepth=8;
+        lodepng_decode(&pngimage, &width, &height, &state, png, pngsize);
+        if(error) {
+            printf("\ngfx2snes: error 'Decode error %u: %s'\n", error, lodepng_error_text(error));
+            free(png);
+            lodepng_state_cleanup(&state);
+            free(pngimage);
+            return 0;
+        }
+        
+        // compute palette
+        lodepng_color_stats_init(&colorstats);
+        error = lodepng_compute_color_stats(&colorstats, pngimage, width, height, &state.info_raw);
+        free(pngimage);
+        pngimage = 0;
+        if(error) {
+            printf("\ngfx2snes: error 'Compute color stats error %u: %s'\n", error, lodepng_error_text(error));
             free(png);
             lodepng_state_cleanup(&state);
             return 0;
         }
-    }
+        lodepng_state_init(&state);
+        state.info_raw.colortype = LCT_PALETTE;
+        state.info_raw.bitdepth=8;
+        for(int palette_entry=0; palette_entry<colorstats.numcolors; ++palette_entry) {
+            error = lodepng_palette_add(&state.info_raw, colorstats.palette[palette_entry * 4], colorstats.palette[palette_entry * 4 + 1], colorstats.palette[palette_entry * 4 + 2], colorstats.palette[palette_entry * 4 + 3]);
+            if(error) {
+                printf("\ngfx2snes: error 'Cannot add color to palette error %u: %s'\n", error, lodepng_error_text(error));
+                free(png);
+                lodepng_state_cleanup(&state);
+                return 0;
+            }
+        }
 
-    // decode PNG in palette 8bpp / 256 colors format
-    error = lodepng_decode(&pngimage, &width, &height, &state, png, pngsize);
-    if (error)
-    {
-        printf("\ngfx2snes: error 'Decoder with palette error %u: %s'\n", error, lodepng_error_text(error));
-        free(png);
-        lodepng_state_cleanup(&state);
-        free(pngimage);
-        return 0;
+        // decode PNG in palette 8bpp / 256 colors format
+        error = lodepng_decode(&pngimage, &width, &height, &state, png, pngsize);
+        if (error)
+        {
+            printf("\ngfx2snes: error 'Decoder with created palette error %u: %s'\n", error, lodepng_error_text(error));
+            free(png);
+            lodepng_state_cleanup(&state);
+            free(pngimage);
+            return 0;
+        }
+
     }
 
     bpp = state.info_raw.bitdepth;
