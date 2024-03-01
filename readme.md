@@ -15,7 +15,7 @@ First, you need to know that PVSnesLib uses the C language (assembly is possible
 Here are good entry points to know how Super Nintendo works:
 
 - [**SFC Development Wiki**](https://wiki.superfamicom.org/)
-- [**SNESdev Wiki**](https://snes.nesdev.org/wiki/Main_Page/)
+- [**SNESdev Wiki**](https://snes.nesdev.org/wiki/SNESdev_Wiki)
 - [**Super NES Programming**](https://en.wikibooks.org/wiki/Super_NES_Programming/)
 
 # Installation #
