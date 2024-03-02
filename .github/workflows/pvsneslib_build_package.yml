@@ -50,9 +50,8 @@ jobs:
           install: >-
             mingw-w64-ucrt-x86_64-toolchain
             mingw-w64-ucrt-x86_64-cmake
-            mingw-w64-ucrt-x86_64-doxygen
             mingw-w64-ucrt-x86_64-pcre2
-            mingw-w64-ucrt-x86_64-pcre2_8
+            mingw-w64-ucrt-x86_64-doxygen
             base-devel
             git
             zip
