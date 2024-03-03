@@ -18,11 +18,12 @@ You've got two ways to display text on screen :
 The first thing to use the display system is to init the console with the background that will handle the text, and of course, the font to use.  
 We will see later how to customize the font. PVSneslib is shipped with a default font named pvsneslibfont.bmp. Just take a look at it to know how characters are.   
 
-To init display system, just call **consoleInitText(0,0, &snesfont)**
+To init display system, just call **consoleInitText(0,0, &snesfont, &snespalfont)**
 where :  
   * the first parameter is the background that will handle the text (0..2)
   * the second one is the palette number (0..16)
-  * the last one is the address of graphics for font converted with gfx4snes
+  * the third one is the address of graphics for font converted with gfx4snes
+  * the last one is the address of palette for font converted with gfx4snes
 
 ``` 
 .. Somewhere where you initialized variables ...
@@ -36,8 +37,25 @@ extern char snesfont;
     consoleInit();
     
     // Initialize text console with our font
-    consoleInitText(0, 0, &snesfont);
+    consoleInitText(0, 0, &snesfont,&snespalfont);
 ``` 
+
+You can also change the text graphics and map VRAM address by using the functions:
+```
+    consoleSetTextVramBGAdr(background graphic address);
+    consoleSetTextVramAdr(background map address);
+    consoleSetTextOffset(offset of text in background map address);
+```
+
+here is the **hello_world** example of new vram entries:
+
+```
+    // Initialize text console with our font
+    consoleSetTextVramBGAdr(0x6800);
+    consoleSetTextVramAdr(0x3000);
+    consoleSetTextOffset(0x0100);
+    consoleInitText(0, 16 * 2, &tilfont, &palfont);
+```
 
 ### Put text on screen
   
@@ -123,6 +141,7 @@ pad0 = padsCurrent(0);
 ```
 
 To test is a specific button is pressed, just use the corresponding name :  
+```
   KEY_A      for pad A button.  
   KEY_B      for pad B button.  
   KEY_X      for pad X button.  
@@ -135,6 +154,7 @@ To test is a specific button is pressed, just use the corresponding name :
   KEY_UP     for pad UP button.  
   KEY_R      for Right shoulder button.  
   KEY_L      for Left shoulder button.  
+```
 
 so, you can use **if (pad0 & KEY_A)** to know if button A is pressed or **if (pad0 & (KEY_A | KEY_X))** to know if button A **or** button X are pressed. Notice that we used the **|** operator to add different buttons, not the **&** operator, this is because **|** is like the adding operation.  
 
