@@ -35,6 +35,6 @@ clean: cleanBuildRes cleanRom cleanGfx cleanGfxLogo cleanAudio
 
 logo.pic: res/logo.bmp
 	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFX4CONV) -s 8 -o 16 -u 16 -p -e 1 -m -t bmp -i $<
+	$(GFXCONV) -s 8 -o 16 -u 16 -p -e 1 -m -t bmp -i $<
 
 logo : logo.pic

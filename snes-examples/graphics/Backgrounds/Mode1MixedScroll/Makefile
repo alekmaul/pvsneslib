@@ -17,6 +17,6 @@ clean: cleanBuildRes cleanRom cleanGfx
 #---------------------------------------------------------------------------------
 shader.pic: shader.bmp
 	@echo convert bitmap ... $(notdir $@)
-	$(GFX4CONV) -s 8 -o 16 -u 16 -e 1 -p -m -t bmp -i $<
+	$(GFXCONV) -s 8 -o 16 -u 16 -e 1 -p -m -t bmp -i $<
 
 bitmaps : shader.pic pvsneslib.pic

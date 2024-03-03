@@ -20,6 +20,6 @@ clean: cleanBuildRes cleanRom cleanGfx cleanGfxBackground
 
 background.pic: res/background.png
 	@echo convert bitmap ... $(notdir $@)
-	$(GFX4CONV) -s 8 -o 16 -u 16 -p -m -i $<
+	$(GFXCONV) -s 8 -o 16 -u 16 -p -m -i $<
 
 bitmaps : background.pic

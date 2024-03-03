@@ -17,14 +17,14 @@ clean: cleanBuildRes cleanRom cleanGfx
 #---------------------------------------------------------------------------------
 BG1.pic: BG1.bmp
 	@echo convert bitmap ... $(notdir $@)
-	$(GFX4CONV) -s 8 -o 16 -u 16 -e 2 -p -t bmp -m -i $<
+	$(GFXCONV) -s 8 -o 16 -u 16 -e 2 -p -t bmp -m -i $<
 
 BG2.pic: BG2.bmp
 	@echo convert bitmap ... $(notdir $<)
-	$(GFX4CONV) -s 8 -o 16 -u 16 -e 4 -p -t bmp -m -i $<
+	$(GFXCONV) -s 8 -o 16 -u 16 -e 4 -p -t bmp -m -i $<
 
 BG3.pic: BG3.bmp
 	@echo convert bitmap ... $(notdir $@)	
-	$(GFX4CONV) -s 8 -o 4 -u 16 -e 0 -p -t bmp -m -i $<
+	$(GFXCONV) -s 8 -o 4 -u 16 -e 0 -p -t bmp -m -i $<
 
 bitmaps : BG1.pic BG2.pic BG3.pic

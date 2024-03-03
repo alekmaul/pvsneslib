@@ -17,6 +17,6 @@ clean: cleanBuildRes cleanRom cleanGfx
 #---------------------------------------------------------------------------------
 back.pic: back.png
 	@echo convert bitmap ... $(notdir $@)
-	$(GFX4CONV) -s 8 -o 32 -u 16 -p -m -i $<
+	$(GFXCONV) -s 8 -o 32 -u 16 -p -m -i $<
 
 bitmaps : back.pic

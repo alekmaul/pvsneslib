@@ -113,7 +113,7 @@ One more thing to know about this layout, it must be compiled with the "non opti
 ```
 pvsneslibfont.pic: pvsneslibfont.bmp
 	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFX4CONV) -u 16 -s 8 -o 2 -e 1 -R -m -t bmp -i $<
+	$(GFXCONV) -u 16 -s 8 -o 2 -e 1 -R -m -t bmp -i $<
 ```
 
 ## Input

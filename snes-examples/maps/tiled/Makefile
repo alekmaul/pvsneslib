@@ -17,7 +17,7 @@ clean: cleanBuildRes cleanRom cleanGfx
 #---------------------------------------------------------------------------------
 tileslevel1.pic: tileslevel1.png
 	@echo convert map tileset ... $(notdir $@)
-	$(GFX4CONV) -s 8 -o 48 -u 16 -p -m -i $<
+	$(GFXCONV) -s 8 -o 48 -u 16 -p -m -i $<
 
 BG1.m16: maplevel01.tmj tileslevel1.pic
 	@echo convert map tiled ... $(notdir $@)

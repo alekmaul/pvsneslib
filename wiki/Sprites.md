@@ -109,7 +109,7 @@ Here is an example of a makefile instruction to convert a sprite of 16 pix width
 #---------------------------------------------------------------------------------
 sprites.pic: sprites.bmp
 	@echo convert bitmap ... $(notdir $@)
-	$(GFX4CONV) -s 16 -o 16 -u 16 -t bmp -i $<
+	$(GFXCONV) -s 16 -o 16 -u 16 -t bmp -i $<
 ```
 
   gs16 because we have 16 pix width   
