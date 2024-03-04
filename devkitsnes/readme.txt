@@ -31,7 +31,7 @@ SPECIAL THANKS
 
 CHANGE LOG
 ----------------------
-VERSION 4.1.1 (mmm,dd,2023)
+VERSION V4.1.1 (March,04,2024)
 - See github changelog of the release
 
 VERSION 4.1 (August,20,2023)
