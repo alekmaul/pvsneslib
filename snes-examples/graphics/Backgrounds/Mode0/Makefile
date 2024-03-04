@@ -1,5 +1,5 @@
 ifeq ($(strip $(PVSNESLIB_HOME)),)
-$(error "Please create an environment variable PVSNESLIB_HOME with path to its folder and restart application. (you can do it on windows with <setx PVSNESLIB_HOME "/c/snesdev">)")
+$(error "Please create an environment variable PVSNESLIB_HOME by following this guide: https://github.com/alekmaul/pvsneslib/wiki/Installation")
 endif
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
@@ -17,18 +17,18 @@ clean: cleanBuildRes cleanRom cleanGfx
 #---------------------------------------------------------------------------------
 bg0.pic: bg0.bmp
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -pc4 -n -gs8 -pe0 -po4 -fbmp -m $<
+	$(GFXCONV) -s 8 -o 4 -u 4 -e 0 -p -t bmp -m -i $<
 
 bg1.pic: bg1.bmp
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -pc4 -n -gs8 -pe0 -po4 -fbmp -m $<
+	$(GFXCONV) -s 8 -o 4 -u 4 -e 0 -p -t bmp -m -i $<
 
 bg2.pic: bg2.bmp
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -pc4 -n -gs8 -pe0 -po4 -fbmp -m $<
+	$(GFXCONV) -s 8 -o 4 -u 4 -e 0 -p -t bmp -m -i $<
 
 bg3.pic: bg3.bmp
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -pr -pc4 -n -gs8 -pe0 -fbmp -m $<
+	$(GFXCONV) -s 8 -o 8 -u 4 -e 0 -p -t bmp -m -i $<
 
 bitmaps : bg0.pic bg1.pic bg2.pic bg3.pic

@@ -32,7 +32,7 @@ int main(void)
     bgInitMapSet(2, &Mapsc, (&Mapsc_end - &Mapsc), SC_32x32, 0x2400);
 
     // Now Put in 16 color mode and put cloud on top of screen
-    setMode(BG_MODE1, BG3_MODE1_PRORITY_HIGH);
+    setMode(BG_MODE1, BG3_MODE1_PRIORITY_HIGH);
     bgSetDisable(1);
     setScreenOn();
 

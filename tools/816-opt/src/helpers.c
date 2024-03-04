@@ -239,24 +239,34 @@ char *replaceStr(char *str, char *orig, char *rep)
  */
 char *splitStr(char *str, char *sep, size_t pos)
 {
-    if (strlen(sep) == 1)
+    size_t sepLen = strlen(sep);
+    size_t strLen = strlen(str);
+
+    if (sepLen == 1)
     {
-        char tmp[sizeof(str)];
+        char *tokenStart = str;
+        char *tokenEnd = strstr(str, sep);
 
-        strcpy(tmp, str);
-        char *token;
-        char *saveptr;
-        // token       = strtok(tmp, sep);
-        token = strtok_r(tmp, sep, &saveptr);
-
-        // Loop through the string to extract all
-        // other tokens until the given position.
-        for (size_t i = 0; i < pos; i++)
+        // Loop through the string to find all separators and tokens.
+        for (size_t i = 0; i < pos && tokenEnd; i++)
         {
-            token = strtok_r(NULL, sep, &saveptr);
+            tokenStart = tokenEnd + sepLen;
+            tokenEnd = strstr(tokenStart, sep);
         }
 
-        return token;
+        // If there's a token at the desired position.
+        if (tokenStart)
+        {
+            size_t tokenLen = tokenEnd ? tokenEnd - tokenStart : str + strLen - tokenStart;
+            
+            char *token = (char *)malloc(tokenLen + 1);
+            if (token)
+            {
+                strncpy(token, tokenStart, tokenLen);
+                token[tokenLen] = '\0';
+                return token;
+            }
+        }
     }
 
     return NULL;

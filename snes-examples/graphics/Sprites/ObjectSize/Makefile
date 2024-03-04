@@ -1,5 +1,5 @@
 ifeq ($(strip $(PVSNESLIB_HOME)),)
-$(error "Please create an environment variable PVSNESLIB_HOME with path to its folder and restart application. (you can do it on windows with <setx PVSNESLIB_HOME "/c/snesdev">)")
+$(error "Please create an environment variable PVSNESLIB_HOME by following this guide: https://github.com/alekmaul/pvsneslib/wiki/Installation")
 endif
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
@@ -17,22 +17,22 @@ clean: cleanBuildRes cleanRom cleanGfx
 #---------------------------------------------------------------------------------
 sprite8.pic: sprite8.bmp
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -gs8 -pc16 -po16 -n $<
+	$(GFXCONV) -s 8 -o 16 -u 16 -t bmp -i $<
 
 sprite16.pic: sprite16.bmp
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -gs16 -pc16 -po16 -n $<
+	$(GFXCONV) -s 16 -o 16 -u 16 -t bmp -i $<
 	
 sprite32.pic: sprite32.bmp
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -gs32 -pc16 -po16 -n $<
+	$(GFXCONV) -s 32 -o 16 -u 16 -t bmp -i $<
 	
 sprite64.pic: sprite64.bmp
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -gs64 -pc16 -po16 -n $<
+	$(GFXCONV) -s 64 -o 16 -u 16 -t bmp -i $<
 	
 pvsneslibfont.pic: pvsneslibfont.bmp
 	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFXCONV) -n -gs8 -po2 -pc16 -pe1 -mR! -m! $<
+	$(GFXCONV) -s 8 -o 2 -u 16 -e 1 -t bmp -i $<
 
 bitmaps : pvsneslibfont.pic sprite8.pic sprite16.pic sprite32.pic sprite64.pic

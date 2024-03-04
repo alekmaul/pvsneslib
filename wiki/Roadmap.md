@@ -3,10 +3,7 @@ Feel free to help us by implementing any of this functionalities !
 # High priority:
 
 - upgrade to the latest version of tcc
-- Review of constify tools :- [High priority:](#high-priority)
-- [Medium priority:](#medium-priority)
-- [Low priority:](#low-priority)
-
+- Review of constify tools :
 	- '\_\_tcc_' should become 'tcc_'
 	- manage const declared like : const myArray[5*6] = ...;
 	- add a function to remove comments in C source file (// ou /* */)
@@ -21,7 +18,6 @@ Feel free to help us by implementing any of this functionalities !
 
 - have only one credit list in readme.md, automatically injected in snes.h. Remove credit from wiki page
 - replace .obj files by .lib with wla dx
-- Finish to implement mode 5, 6 by adapting gfx2snes to have compatible pictures (see [here](https://github.com/alekmaul/pvsneslib/issues/14))
 - replace tasm.exe part (spc700) by the wla dx version to provide a unix alternative
 - integrate docker image
 - add some chipsets support (sa1, dsp, superfx, ...)

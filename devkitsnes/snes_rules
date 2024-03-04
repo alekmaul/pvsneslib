@@ -1,5 +1,7 @@
-# folder containing sources :
-SRC := src
+# folder containing sources is src if it's not already defined:
+ifeq ($(origin SRC), undefined)
+    SRC := src
+endif
 
 LIBDIRSOBJS := $(PVSNESLIB_HOME)/pvsneslib/lib
 
@@ -37,7 +39,9 @@ export CC	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/816-tcc
 export AS	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/wla-65816
 export LD	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/wlalink
 
-export GFXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/gfx2snes
+export GFXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/gfx4snes
+# gfx2snes is just here for old compatibity issues
+export GFX2CONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/gfx2snes
 export SMCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/smconv
 export BRCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snesbrr
 export TXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/bin2txt
@@ -133,7 +137,7 @@ endif
 #---------------------------------------------------------------------------------
 %.pic: %.bmp
 	@echo convert bitmap ... $(notdir $<)
-	$(GFXCONV) -pr -pc16 -n -gs8 -pe0 -fbmp -m $<
+	$(GFXCONV) -s 8 -o 16 -u 16 -e 0 -p -m -t bmp -i $<
 
 #---------------------------------------------------------------------------------
 %.brr: %.wav

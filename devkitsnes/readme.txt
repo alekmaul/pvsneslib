@@ -1,4 +1,4 @@
- DevkitSnes 4.1
+ DevkitSnes 4.1.1
 
  Programming Compiler and Tools for Snes
 
@@ -31,6 +31,9 @@ SPECIAL THANKS
 
 CHANGE LOG
 ----------------------
+VERSION 4.1.1 (mmm,dd,2023)
+- See github changelog of the release
+
 VERSION 4.1 (August,20,2023)
 - See github changelog of the release
 

@@ -46,11 +46,11 @@
 //// M A I N   V A R I A B L E S ////////////////////////////////////////////////
 typedef struct
 {
-    int x;     // x coordinate in pixels.
-    int y;     // y coordinate in pixels.
-    int class; // class of object (0=main character, 1..63 other classes)
-    int minx;  // horizontal or vertical min x coordinate in pixels.
-    int maxx;  // horizontal or vertical max x coordinate in pixels.
+    int x;    // x coordinate in pixels.
+    int y;    // y coordinate in pixels.
+    int type; // type of object (0=main character, 1..63 other types)
+    int minx; // horizontal or vertical min x coordinate in pixels.
+    int maxx; // horizontal or vertical max x coordinate in pixels.
 } pvsneslib_object_t;
 
 int quietmode = 0;     // 0 = not quiet, 1 = i can't say anything :P
@@ -60,16 +60,18 @@ char filebase[256];    // input filename
 char filebasetil[256]; // input filename for tiles (map filename)
 char filemapname[260]; // output filename for map & objects
 
-int *data;                               // data from Tiled layer
-cute_tiled_layer_t *layer;               // layers from Tiled  map
-cute_tiled_tileset_t *tset;              // tileset from Tiled
-cute_tiled_object_t *objm;               // objects from Tiled layer objects
-cute_tiled_map_t *map;                   // map from Tiled
-cute_tiled_tile_descriptor_t *tile;      // tiles from Tiled tiles attributes
-cute_tiled_property_t *propm;            // properties from Tiled tiles properties
-unsigned short tileprop[N_METATILES][3]; // to store tiles properties in correct order with index 0:attribute, 1:priority and 2:palette
-pvsneslib_object_t objsnes[N_OBJECTS];   // to store objects in correct order
-unsigned short tilesetmap[N_METATILES];  // to have map for each tile (optimization purpose)
+int *data;                          // data from Tiled layer
+cute_tiled_layer_t *layer;          // layers from Tiled  map
+cute_tiled_tileset_t *tset;         // tileset from Tiled
+cute_tiled_object_t *objm;          // objects from Tiled layer objects
+cute_tiled_map_t *map;              // map from Tiled
+cute_tiled_tile_descriptor_t *tile; // tiles from Tiled tiles attributes
+cute_tiled_property_t *propm;       // properties from Tiled tiles properties
+unsigned short tileprop
+    [N_METATILES]
+    [3];                                // to store tiles properties in correct order with index 0:attribute, 1:priority and 2:palette
+pvsneslib_object_t objsnes[N_OBJECTS];  // to store objects in correct order
+unsigned short tilesetmap[N_METATILES]; // to have map for each tile (optimization purpose)
 
 //// F U N C T I O N S //////////////////////////////////////////////////////////
 
@@ -79,6 +81,48 @@ void PutWord(int data, FILE *fp)
     putc(LOW_BYTE(data), fp);
     putc(HI_BYTE(data), fp);
 } // end of PutWord
+
+// Structure representing a software version number.
+typedef struct
+{
+    int major; // Major version number.
+    int minor; // Minor version number.
+} Version;
+
+// Convert a floating point version number to its major and minor components.
+void floatToVersion(float version, Version *v)
+{
+
+    // Convert the floating point version to an integer representation by multiplying by 100.
+    // This allows us to handle two decimal places. Additionally, add 0.5 to round to the nearest integer
+    // to account for potential floating point inaccuracies.
+    int fullVersion = (int)(version * 100 + 0.5);
+
+    // The major version is obtained by dividing the integer representation by 100.
+    v->major = fullVersion / 100;
+
+    // The minor version is obtained by taking the remainder when divided by 100.
+    v->minor = fullVersion % 100;
+}
+
+// Compare two Version structures to determine their order.
+int compareVersions(Version v1, Version v2)
+{
+    // Compare the major version numbers first.
+    if (v1.major < v2.major)
+        return -1;
+    if (v1.major > v2.major)
+        return 1;
+
+    // If major version numbers are equal, compare the minor version numbers.
+    if (v1.minor < v2.minor)
+        return -1;
+    if (v1.minor > v2.minor)
+        return 1;
+
+    // Both major and minor version numbers are equal.
+    return 0;
+}
 
 //////////////////////////////////////////////////////////////////////////////
 void PrintOptions(char *str)
@@ -157,9 +201,9 @@ void WriteMap(void)
             tilesnes = (tileattr - 1) & 0x03FF; // keep on the low 16bits of tile number
 
             if (tileattr & CUTE_TILED_FLIPPED_HORIZONTALLY_FLAG) // Flipx attribute
-                printf("tmx2snes: warning ! 'flipx attribute is not supported'\n");
+                tilesnes |= (1 << 14);
             if (tileattr & CUTE_TILED_FLIPPED_VERTICALLY_FLAG) // Flipy attribute
-                printf("tmx2snes: warning ! 'flipy attribute is not supported'\n");
+                tilesnes |= (1 << 15);
 
             PutWord(tilesnes, fpo);
         }
@@ -194,7 +238,9 @@ void WriteTileset(void)
 
     if (tset->tilecount > N_METATILES)
     {
-        printf("tmx2snes: error 'too much tiles in tileset (%d tiles, %d max expected)'\n", tset->tilecount, N_METATILES);
+        printf("tmx2snes: error 'too much tiles in tileset (%d tiles, %d max expected)'\n",
+               tset->tilecount,
+               N_METATILES);
         fclose(fpo);
         exit(1);
     }
@@ -294,7 +340,9 @@ void WriteEntities(void)
     objm = layer->objects;
     if (layer->object_count > N_OBJECTS)
     {
-        printf("tmx2snes: error 'too much entities in map (%d entities, %d max expected)'\n", layer->object_count, N_OBJECTS);
+        printf("tmx2snes: error 'too much entities in map (%d entities, %d max expected)'\n",
+               layer->object_count,
+               N_OBJECTS);
         exit(1);
     }
 
@@ -309,7 +357,8 @@ void WriteEntities(void)
         while (objm)
         {
             // put object in reverse order
-            objsnes[objidx].class = atoi(objm->type.ptr); //(unsigned short) strtol(objm->class.ptr,&pend,10);
+            objsnes[objidx].type = atoi(
+                objm->type.ptr); //(unsigned short) strtol(objm->type.ptr,&pend,10);
             objsnes[objidx].x = (int)(objm->x);
             objsnes[objidx].y = (int)(objm->y);
             for (i = 0; i < objm->property_count; i++)
@@ -342,7 +391,7 @@ void WriteEntities(void)
     {
         PutWord(objsnes[i].x, fpo);
         PutWord(objsnes[i].y, fpo);
-        PutWord(objsnes[i].class, fpo);
+        PutWord(objsnes[i].type, fpo);
         PutWord(objsnes[i].minx, fpo);
         PutWord(objsnes[i].maxx, fpo);
     }
@@ -479,17 +528,37 @@ int main(int argc, char **argv)
     // close the input file
     fclose(fpi);
 
-    // test some attributes of Tiled map
-    float currentExportSupportedVersion = 1.9;
-    if (map->version != currentExportSupportedVersion)
-    {
-        printf("tmx2snes: error 'the export version you used (%.1f) is not yet supported. The tool supports only the %.1f version.'\n", map->version, currentExportSupportedVersion);
+    /*
+    // Setting the minimum supported version.
+    Version minExportSupportedVersion = {1, 9};
+    // Setting the maximum supported version.
+    Version maxExportSupportedVersion = {1, 10};
+
+    // Convert the map's version (which is a float) to a Version struct for easy comparison.
+    Version mapVersion;
+    floatToVersion(map->version, &mapVersion);
+
+    // Check if the map's version is outside of the supported range.
+    if (compareVersions(mapVersion, minExportSupportedVersion) < 0  // If map version is less than minimum supported version
+        || compareVersions(mapVersion, maxExportSupportedVersion) > 0) { // Or if map version is greater than maximum supported version
+
+        printf("tmx2snes: error 'the export version you used (%d.%d) is not supported. The "
+               "tool supports only the versions from %d.%d to %d.%d.'\n",
+               mapVersion.major,
+               mapVersion.minor,
+               minExportSupportedVersion.major,
+               minExportSupportedVersion.minor,
+               maxExportSupportedVersion.major,
+               maxExportSupportedVersion.minor);
+
         return 1;
     }
+    */
 
     if ((map->width * map->height) > 16384)
     {
-        printf("tmx2snes: error 'map is too big (max 32K)! (%dK)'\n", (map->width * map->height * 2) / 1024);
+        printf("tmx2snes: error 'map is too big (max 32K)! (%dK)'\n",
+               (map->width * map->height * 2) / 1024);
         return 1;
     }
     if (map->height > 256)
@@ -499,7 +568,9 @@ int main(int argc, char **argv)
     }
     if ((map->tilewidth != 8) || (map->tileheight != 8))
     {
-        printf("tmx2snes: error 'tile width or height are not 8px! (%d %d)\n", map->tilewidth, map->tileheight);
+        printf("tmx2snes: error 'tile width or height are not 8px! (%d %d)\n",
+               map->tilewidth,
+               map->tileheight);
         return 1;
     }
 
@@ -514,8 +585,11 @@ int main(int argc, char **argv)
     }
 
     // Print what the user has selected
-    printf("\n<layername>.m16 file for map, used by pvsneslib 'mapLoad' function as 1st argument (only 1 layer)\n");
-    printf("%s.b16 file for tile attributes, used by pvsneslib 'mapLoad' function  as 3rd argument\n", filebase);
+    printf("\n<layername>.m16 file for map, used by pvsneslib 'mapLoad' function as 1st argument "
+           "(only 1 layer)\n");
+    printf(
+        "%s.b16 file for tile attributes, used by pvsneslib 'mapLoad' function  as 3rd argument\n",
+        filebase);
     printf("%s.o16 file for objects, used by pvsneslib 'objLoadObjects' as argument\n\n", filebase);
 
     // loop over the map's layers and write them to disk
@@ -542,8 +616,8 @@ int main(int argc, char **argv)
         {
             // write .m16 and .t16 files ...
             WriteMap();
-			WriteMapTileset();
-		}
+            WriteMapTileset();
+        }
 
         layer = layer->next;
     }

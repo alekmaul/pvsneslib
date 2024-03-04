@@ -55,9 +55,6 @@
  - \ref pad.h "Keypad"
  - \ref console.h "Console and Debug Printing"
 
-\section network_api Network (with Retrolink hardwaqre) API
- - \ref network.h "Network (retrolink hardware) management"
-
  \section engine_api Engine API functions
  - \ref object.h "Objects management"
  - \ref map.h "map management"
@@ -96,15 +93,18 @@
     \example graphics/Backgrounds/Mode1Png/Mode1.c
     \example graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c
     \example graphics/Backgrounds/Mode3/Mode3.c
+    \example graphics/Backgrounds/Mode5/Mode5.c
     \example graphics/Backgrounds/Mode7/Mode7.c
     \example graphics/Backgrounds/Mode7Perspective/Mode7Perspective.c
 
     <!-- effects -->
+    \example graphics/Effects/Fading/Fading.c
     \example graphics/Effects/GradientColors/GradientColors.c
     \example graphics/Effects/HDMAGradient/HDMAGradient.c
     \example graphics/Effects/MosaicShading/MosaicShading.c
-    \example graphics/Effects/Transparency/Transparency.c
     \example graphics/Effects/ParallaxScrolling/ParallaxScrolling.c
+    \example graphics/Effects/Transparency/Transparency.c
+    \example graphics/Effects/TransparentWindow/src/main.c
     \example graphics/Effects/Waves/Waves.c
     \example graphics/Effects/Window/Window.c
 
@@ -154,7 +154,8 @@
     \example random/random.c
 
     <!-- sram -->
-    \example sram/sram.c
+    \example sram/sramoffset/sramoffset.c
+    \example sram/sramsimple/sram.c
 
     <!-- scoring -->
     \example scoring/scoring.c

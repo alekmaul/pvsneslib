@@ -1,6 +1,6 @@
 # A library to code in C or ASM for the Nintendo SNES #
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/license/mit/) [![Discord](https://img.shields.io/badge/chat-on%20discord-blue.svg)](https://discord.com/channels/@me)
 
-[PVSneslib V4.1.0 (August,20,2023) ](http://www.portabledev.com/jeux/supernes/pvsneslib/)
 
 **PVSnesLib** (**P**rogrammer **V**aluable **Snes** **Lib**rary) is an open and free library to develop programs for the Nintendo SNES using the C programming language.
 
@@ -15,13 +15,17 @@ First, you need to know that PVSnesLib uses the C language (assembly is possible
 Here are good entry points to know how Super Nintendo works:
 
 - [**SFC Development Wiki**](https://wiki.superfamicom.org/)
-- [**SNESdev Wiki**](https://snes.nesdev.org/wiki/Main_Page/)
+- [**SNESdev Wiki**](https://snes.nesdev.org/wiki/SNESdev_Wiki)
 - [**Super NES Programming**](https://en.wikibooks.org/wiki/Super_NES_Programming/)
 
-# Installation #
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.1.0/pvsneslib_410_64b_windows_release.zip"><img src="https://img.shields.io/badge/release-windows-green?style=flat&logo=github" alt="PVSNESLIB Windows Release"></a>
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.1.0/pvsneslib_410_64b_linux_release.zip"><img src="https://img.shields.io/badge/release-linux-orange?style=flat&logo=github" alt="PVSNESLIB Linux Release"></a>
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.1.0/pvsneslib_410_64b_darwin_release.zip"><img src="https://img.shields.io/badge/release-macos-blue?style=flat&logo=github" alt="PVSNESLIB MacOS Release"></a>
+# Current release #
+[![Current Release](https://img.shields.io/github/v/release/alekmaul/pvsneslib?label=Current%20Release)](https://github.com/alekmaul/pvsneslib/releases/latest)
+![Downloads](https://img.shields.io/github/downloads/alekmaul/pvsneslib/total?label=Total%20Downloads)
+
+
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.1.0/pvsneslib_410_64b_windows_release.zip"><img src="https://img.shields.io/badge/Windows-97C40F?style=for-the-badge&logo=windows&logoColor=white" alt="PVSnesLib Windows Release"></a> 
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.1.0/pvsneslib_410_64b_linux_release.zip"><img src="https://img.shields.io/badge/Linux-F48041?style=for-the-badge&logo=linux&logoColor=white" alt="PVSnesLib Linux Release"></a>
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.1.0/pvsneslib_410_64b_darwin_release.zip"><img src="https://img.shields.io/badge/mac%20os-0E7FC0?style=for-the-badge&logo=apple&logoColor=white" alt="PVSnesLib MacOS Release"></a>
 
 To install the library, please download the latest [release](https://github.com/alekmaul/pvsneslib/releases/latest) or with the link below and follow instructions on the [Wiki pages](https://github.com/alekmaul/pvsneslib/wiki).
 

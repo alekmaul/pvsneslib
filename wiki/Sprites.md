@@ -97,19 +97,19 @@ If a fifth sprite was desired, the pattern would repeat and it would be located 
 Similarly, when using 16x16 sprites, there will be 8 sprites interleaved, and the ninth sprite will have to start after them at offset 1024.  Finally, 64x64 sprites have only two sprites interleaved.  
 
 
-## Converting with gfx2snes
+## Converting with gfx4snes
 
-You can use **gfx2snes**, shipped with **devkitsnes** to convert your bitmap files into a correct format for PVSnesLib. Remember that the size must be a multiple of 8 pixels 8x8, 16x16, 32x32, and so on ... The table above gave you the correct size you can use for your sprites at a specific moment of your homebrew.  
+You can use **gfx4snes**, shipped with **devkitsnes** to convert your bitmap files into a correct format for PVSnesLib. Remember that the size must be a multiple of 8 pixels 8x8, 16x16, 32x32, and so on ... The table above gave you the correct size you can use for your sprites at a specific moment of your homebrew.  
 
 As you can see above, the sprite graphics are arranged vertically to avoid problem during conversion.  
 
-Here is an example of a makefile instruction to convert a sprite of 16 pix width / height with **gfx2snes**.  
+Here is an example of a makefile instruction to convert a sprite of 16 pix width / height with **gfx4snes**.  
 
 ```
 #---------------------------------------------------------------------------------
 sprites.pic: sprites.bmp
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -gs16 -pc16 -po16 -n $<
+	$(GFXCONV) -s 16 -o 16 -u 16 -t bmp -i $<
 ```
 
   gs16 because we have 16 pix width   

@@ -1,5 +1,5 @@
 ifeq ($(strip $(PVSNESLIB_HOME)),)
-$(error "Please create an environment variable PVSNESLIB_HOME with path to its folder and restart application. (you can do it on windows with <setx PVSNESLIB_HOME "/c/snesdev">)")
+$(error "Please create an environment variable PVSNESLIB_HOME by following this guide: https://github.com/alekmaul/pvsneslib/wiki/Installation")
 endif
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
@@ -17,9 +17,9 @@ clean: cleanBuildRes cleanRom cleanGfx
 #---------------------------------------------------------------------------------
 tileslevel1.pic: tileslevel1.png
 	@echo convert map tileset ... $(notdir $@)
-	$(GFXCONV) -gs8 -pc16 -po48 -m -fpng -n $<
+	$(GFXCONV) -s 8 -o 48 -u 16 -p -m -i $<
 
-BG1.m16: maplevel01.json tileslevel1.pic
+BG1.m16: maplevel01.tmj tileslevel1.pic
 	@echo convert map tiled ... $(notdir $@)
 	$(TMXCONV) $< tileslevel1.map
 

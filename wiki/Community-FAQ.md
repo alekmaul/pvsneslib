@@ -136,8 +136,8 @@ To limit numbers between values like 0 and 50, you have to do `(rand() % 50)`. B
 
 - bin2txt : convert binary file to text file to include it directly in your project. It is used to include the file generated (with TASM tool) for spc700 CPU (audio) directly in PVSneslib source code.
 
-- gfx2snes : transform all kinds of graphics to resources in Super Nintendo format. This is a central tool used by PVSnesLib to load sprites, maps or palettes.
-Remember that we have a lot of constraints on SNES and each parameter of the tool is important ! Parameters are divided in 3 groups : **g** for Graphics, **m** for Map, **p** for Palette.
+- gfx4snes : transform all kinds of graphics to resources in Super Nintendo format. This is a central tool used by PVSnesLib to load sprites, maps or palettes.
+Remember that we have a lot of constraints on SNES and each parameter of the tool is important ! Parameters are divided in 3 groups : Graphics, Map, Palette.
 
 - smconv : to convert music or sounds to bank of sounds readable on Super Nintendo and its sound processor SPC700
 
@@ -200,7 +200,7 @@ As you saw in the [sprite tutorial](https://github.com/alekmaul/pvsneslib/wiki/S
 
 ![Graphics gale remove unused colors](https://user-images.githubusercontent.com/48180545/56434583-7317b380-62d5-11e9-9670-497e43cb22b2.png)
 
-In this case, the transparency color is Magenta (RGB : 255 0 255). In the same menu, use "save palette" and open it in a text editor (this .pal file is not the same that .pal file generated with gfx2snes tool).
+In this case, the transparency color is Magenta (RGB : 255 0 255). In the same menu, use "save palette" and open it in a text editor (this .pal file is not the same that .pal file generated with gfx4snes tool).
 Find the line which contains your transparency color and move it to the first line of colors. Be careful, the first lines are essential information for the tool:
 
 ![Move transparency color](https://user-images.githubusercontent.com/48180545/56434582-7317b380-62d5-11e9-80cb-c934547af546.png)
@@ -360,8 +360,8 @@ Instead, you need to declare an array with a fixed size, u16 myHudBuffer[160] in
 
 ### How to create maps with 16x16 tiles ?
 
-It is not possible to load maps with 16x16 tiles with the existing version of gfx2snes. You need to use 8x8 tiles or update the tool !
-The "-gs" parameter (for "graphic size") in gfx2snes is only applied to sprites.
+It is not possible to load maps with 16x16 tiles with the existing version of gfx4snes. You need to use 8x8 tiles or update the tool !
+The "-s" parameter (for "graphic Size") in gfx4snes is only applied to sprites.
 
 
 ### Backgrounds begin at x = 0 and y = 1

@@ -50,11 +50,11 @@
          "name":"Entities",
          "objects":[
                 {
-                 "class":"0",
                  "height":16,
                  "id":1,
                  "name":"Mario",
                  "rotation":0,
+                 "type":"0",
                  "visible":true,
                  "width":16,
                  "x":32,
@@ -70,7 +70,7 @@
  "nextobjectid":2,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.9.2",
+ "tiledversion":"1.10.2",
  "tileheight":8,
  "tilesets":[
         {
@@ -1001,6 +1001,6 @@
         }],
  "tilewidth":8,
  "type":"map",
- "version":"1.9",
+ "version":"1.10",
  "width":300
 }

@@ -1,7 +1,7 @@
 ;---------------------------------------------------------------------------------
 ;
-;	Copyright (C) 2012-2021
-;		Alekmaul
+;	Copyright (C) 2012-2024
+;		Alekmaul, Nub1604
 ;
 ;	This software is provided 'as-is', without any express or implied
 ;	warranty.  In no event will the authors be held liable for any
@@ -19,6 +19,8 @@
 ;		must not be misrepresented as being the original software.
 ;	3.	This notice may not be removed or altered from any source
 ;		distribution.
+;
+;   Special thanks to Nub1604 for the slope management
 ;
 ;---------------------------------------------------------------------------------
 
@@ -45,6 +47,13 @@
 .DEFINE T_FIRES				$0002
 .DEFINE T_SPIKE				$0004
 .DEFINE T_PLATE				$0008
+.DEFINE T_SLOPES            $0020
+;                           $0020             Type Slope 1x1 Up ◢ (action will be climb on it) for tile  
+;                           $0021             Type Slope 1x1 Down ◣ (action will be descend on it) for tile 
+;                           $0022  Type Slope 2x1 lower half Up ◢ (action will be climb on it) for tile
+;                           $0023  Type Slope 2x1 lower half Down ◣ (action will be descend on it) for tile
+;                           $0024  Type Slope 2x1 upper half Up ◢ (action will be climb on it) for tile
+;                           $0025  Type Slope 2x1 upper half Down ◣ (action will be descend on it) for tile 
 
 .DEFINE ACT_CLIMB			$2000
 .DEFINE ACT_DIE				$4000
@@ -989,6 +998,7 @@ _oicm1:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
 	asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1008,6 +1018,7 @@ _oicm2:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1144,6 +1155,7 @@ _oicmtstyn:												   ; ----------------------------------------------------
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1162,6 +1174,7 @@ _oicmtstyn1:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1276,6 +1289,7 @@ _oicmtstx13:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1375,6 +1389,7 @@ _oicmtstxnc:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1500,6 +1515,7 @@ _oicm1d1:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
 	asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1519,6 +1535,7 @@ _oicm1d2:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1645,6 +1662,7 @@ _oicm1dtstyn:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1663,6 +1681,7 @@ _oicm1dtstyn1:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1759,6 +1778,7 @@ _oicm1dtstx13:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -1851,6 +1871,7 @@ _oicm1dtstxnc:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                                          ; to have only tile number (no flipx/y)
     asl a                                               ; to have a 16 bit value for 8 pix
     tax
     lda	metatilesprop, x
@@ -2171,4 +2192,666 @@ _oicuxyend:
     plp
     rtl
 
+.ENDS
+
+.SECTION ".objects6_text" superfree
+
+.accu 16
+.index 16
+.16bit
+
+_lutcol: ; x - height lut for normal slopes
+    .db $00,$01,$02,$03,$04,$05,$06,$07     ; 0020
+    .db $07,$06,$05,$04,$03,$02,$01,$00     ; 0021
+    .db $04,$04,$05,$05,$06,$06,$07,$07     ; 0022
+    .db $07,$07,$06,$06,$05,$05,$04,$04     ; 0023
+    .db $00,$00,$01,$01,$02,$02,$03,$03     ; 0024
+    .db $03,$03,$02,$02,$01,$01,$00,$00     ; 0025
+_lutcolInv:; x - height lut for h-flipped slopes
+    .db $07,$06,$05,$04,$03,$02,$01,$00     ; 0020
+    .db $00,$01,$02,$03,$04,$05,$06,$07     ; 0021
+    .db $07,$07,$06,$06,$05,$05,$04,$04     ; 0022
+    .db $04,$04,$05,$05,$06,$06,$07,$07     ; 0024
+    .db $03,$03,$02,$02,$01,$01,$00,$00     ; 0023
+    .db $00,$00,$01,$01,$02,$02,$03,$03     ; 0025
+
+;note: objtmp1                              ; tileCount
+;note: objtmp2                              ; object handle
+;note: objtmp3                              ; tileprop
+;note: objtmp4                              ; enable slope /
+;note: tcc__r0 $00                          ; centerX
+;note: tcc__r1 $02                          ; tile difference
+;note: tcc__r2 $04                          ; centerX relative to tile
+;note: tcc__r3 $06                          ; bottom spot
+;note: tcc__r4 $08                          ; tileFlipState
+;note: tcc__r5 $0A                          ; slope correction value
+
+;---------------------------------------------------------------------------------
+; Macro definition for slope management
+
+.MACRO OE_SETVELOCYTY
+    lda objbuffers.1.yvel,x
+    clc
+    adc #GRAVITY
+    cmp #MAX_Y_VELOCITY+1
+    bmi \1                                  ; add velocity regarding if we do not reach the maximum
+    lda #MAX_Y_VELOCITY
+.ENDM
+
+.MACRO OE_GETTILEPROP                       ; arg1 == 1 store flipstate, Accumulator must contain value from mapadrrowlut
+    clc
+    adc maptile_L1d                         ; get direct rom
+    tax
+    phb                                     ; push current bank to stack
+    sep #$20                                ; 8bit mode
+    lda maptile_L1b.b                       ; load rom bank address from maptile definitions
+    pha                                     ; push rom bank address to stack
+    plb                                     ; set net bank address
+    rep #$20                                ; 16 bit mode
+    lda 0,x                                 ; get maptile
+    plb                                     ; restore bank
+    .if \1 == 1
+        pha
+        and #$C000                          ; store flip state
+        sta $08
+        pla
+    .endif
+    and #$03FF                              ; to have only tile number (no flipx/y)
+	asl a                                   ; to have a 16 bit value for 8 pix
+    tax                                     ; maptile to x
+    lda	metatilesprop, x                    ; get tile type solid, empty...
+.ENDM
+
+.MACRO OE_GETYOFFSETLUT                     ; A must contain some y coordinate
+    bpl + 						            ; if y<0, put it to 0 *FIX 221130 *
+	lda #0000
++   lsr a
+    lsr a
+    and	#$FFFE                              ; mask to wordsize
+.ENDM
+
+.MACRO OE_SETCENTERXNEW
+    OE_SETCENTERXOLD
+
+    lda objbuffers.1.xvel,x
+    bpl +
+    lda objbuffers.1.xvel+1,x
+    ora #$FF00
+    bra ++
++   lda objbuffers.1.xvel+1,x
+    and #$00ff
+    bne ++
+    inc a                                   ; fix pushback when walking right
+++  clc
+    adc	$00                                 ; new hor center position
+    sta $00                                 ; store centerX
+.ENDM
+
+.MACRO OE_SETCENTERXOLD
+    lda objbuffers.1.width,x                ;load width
+    lsr a                                   ;half width to calc bottom tile on middle bottom position
+    clc
+    adc objbuffers.1.xpos+1,x
+    clc
+    adc	objbuffers.1.xofs,x                 ; new Left position
+
+    sta $00                                 ; store centerX
+.ENDM
+
+
+.MACRO OE_CPTETILENUM                       ; arg 1 == 1 reduce 1 check, arg 2 width or height
+    pha
+    and	#$0007                              ; compute the number of tiles to test
+    clc
+    adc \2                                  ; add width or height for right or bottom side
+    dec a                                   ;
+    lsr a                                   ;
+    lsr a                                   ;
+    lsr a                                   ;
+    inc a                                   ;
+
+    .if \1 == 1
+    sec                                     ; if slope enabled reduce one horizonmtal check
+    sbc objtmp4
+    bpl +
+    lda #$0000
+    +:
+    .endif
+
+    sta	objtmp1                             ; store tilecount for testing to objtmp1
+    pla                                     ; compute the offset line for y
+    lsr a
+    lsr a
+    and	#$FFFE
+.ENDM
+
+.MACRO OE_SETYPOS                           ; arg == 1 bottom else 0 top
+    lda objbuffers.1.yvel+1,x               ; load vel y to a   ;; calc new position
+    .if \1 == 1                             ; arg == 1 bottom else top
+        and #$00ff
+    .else
+        ora #$ff00
+    .endif
+    clc
+    adc objbuffers.1.ypos+1,x               ;add pos to a
+    clc                                     ; clear carry        \
+    adc objbuffers.1.yofs,x                 ; add offset y to a   |  for avoid rounding errors
+
+    .if \1 == 1                             ; arg == 1 bottom else 0 top
+    clc                                     ; clear carry         |
+    adc objbuffers.1.height,x               ; add heigth to a    /
+    inc a                                   ; a +=1
+    .else
+        clc
+        adc #8
+    .endif
+
+    and #$fff8                              ; mask to blocksize
+    sec                                     ; set carry                 \
+    sbc objbuffers.1.yofs,x                 ; subtract  offset y from a  |  for avoid rounding errors
+
+    .if \1 == 1                             ; arg == 1 bottom else 0 top
+        sec                                 ; set carry                  |
+        sbc objbuffers.1.height,x           ; subtract  height y from a /
+    .endif
+    sta objbuffers.1.ypos+1,x
+    stz objbuffers.1.yvel,x
+.ENDM
+
+.MACRO OE_ADDX                              ; arg == 1 right else 0 left
+    lda objbuffers.1.xvel+1,x               ; load vel y to a   ;; calc new position
+    .if \1 == 1                             ; arg == 1 right else 0 left
+        and #$00ff
+    .else
+        ora #$ff00
+    .endif
+    clc
+    adc objbuffers.1.xpos+1,x               ;add pos to a
+    clc                                     ; clear carry        \
+    adc objbuffers.1.xofs,x                 ; add offset y to a   |  for avoid rounding errors
+
+    .if \1 == 1                             ; arg == 1 right else 0 left
+    clc                                     ; clear carry         |
+    adc objbuffers.1.width,x                ; add width to a    /
+    .endif
+.ENDM
+
+
+.MACRO OE_SETXPOS                           ; arg == 1 right else 0 left
+    OE_ADDX \1
+    .if \1 == 1
+    inc a                                   ; a +=1
+    .else
+        clc
+        adc #8
+    .endif
+
+    and #$fff8                              ; mask to blocksize
+    sec                                     ; set carry                 \
+    sbc objbuffers.1.xofs,x                 ; subtract  offset y from a  |  for avoid rounding errors
+
+    .if \1 == 1                             ; arg == 1 bottom else 0 top
+        sec                                 ; set carry                  |
+        sbc objbuffers.1.width,x            ; subtract  width x from a /
+    .endif
+    sta objbuffers.1.xpos+1,x
+    stz objbuffers.1.xvel,x
+.ENDM
+
+.MACRO OE_SETOBJHANDLE_STK                  ; arg 1 = stackaddress
+	lda \1,s					            ; grad the index of object (5+1+2+2)
+    xba
+    lsr a
+    lsr a
+	tax                                     ; transfer obj index to X
+    sta objtmp2
+.ENDM
+
+;---------------------------------------------------------------------------------
+; void objCollidMapWithSlopes(u16 objhandle)
+objCollidMapWithSlopes:
+    php
+	phb
+	phx
+    phy
+	sep #$20
+	lda #$7e
+	pha
+	plb
+    rep #$20                         ; A 16 bits
+    stz  $0A
+
+    OE_SETOBJHANDLE_STK 10
+    stz objtmp4                             ; disable slope logic -> 0
+
+_oicmsPrecheck
+    ldx objtmp2                             ; load objecthandle
+    lda objbuffers.1.yvel,x                 ; yvel
+	bpl	_oicmsCheckSlopes1                  ; branch positive Y check >=0 -> if object is falling
+	jmp _oicmsCheckXvelNotZero              ; continue without slopes
+
+_oicmsCheckSlopes1                          ; calculate Middlebottom
+    stz objtmp1                             ; zero out objtmp1 for
+    OE_SETCENTERXOLD                        ; set center x
+    lda objbuffers.1.ypos+1,x               ; load y pos
+    clc
+    adc objbuffers.1.yofs,x                 ; add y offs
+    clc
+    adc objbuffers.1.height,x               ; add height
+    sta $06                                 ; store bottom spot
+    dec a                                   ; one pixel up
+
+    OE_GETYOFFSETLUT
+    sta $02                                 ; presave tile difference
+    tay                                     ; transfer it to y
+
+_oicmsCheckSlopes11
+    lda $00                                 ; load centerX
+    lsr a
+    lsr a
+    and	#$FFFE
+    clc
+    adc.w mapadrrowlut, y
+    tay
+    OE_GETTILEPROP 0
+    sta objtmp3
+
+_oicmsCheckSlopes12
+    and #T_SLOPES                           ; check if its slope
+    beq ++                                  ; if not next try
+
+    ldx objtmp2                             ; load object handle
+    lda objtmp1
+    bne +                                   ; if 0 check if new Y pos is on same tile
+    lda objbuffers.1.yvel+1,x               ; load  handle
+    and #$00ff
+    clc
+    adc  $06                                ; add bottom spot
+    dec a
+    OE_GETYOFFSETLUT
+    tay
+    cmp  $02                                ; --\ if new Y Tile == old Y Tile
+    beq _oicmsEnableResolveSlope            ;    |  leave check
+    lda objbuffers.1.yvel+1,x               ;    |
+    and #$FF07                              ;    |
+    stz objbuffers.1.yvel+1,x               ;   /   otherwise zero yvel out
+
++   bra _oicmsEnableResolveSlope            ; enable resolve slopes
+
+++  lda objtmp1                             ; load tilecount
+    bne _oicmsCheckXvelNotZero              ; tilecount is not 0
+
+    lda objbuffers.1.yvel+1,x
+    and #$00ff
+    clc
+    adc $06                                 ; add bottomspot
+    dec a
+    OE_GETYOFFSETLUT
+    tay
+
+    inc objtmp1
+    brl _oicmsCheckSlopes11
+
+_oicmsEnableResolveSlope:                   ; enable slope resolve
+    inc objtmp4                             ;
+
+_oicmsCheckXvelNotZero:                     ; check xvel != 0
+	ldx objtmp2                             ; load objecthandle
+	lda objbuffers.1.xvel,x                 ; if xvel>=0 -> moving right
+	bne +
+    brl _oicmsCheckYvelDirection            ; branch 0
++   bpl	_oicmsXRightReduceFriction                         ; xvel > 0 moving right
+    jmp _oicmsXLeftReduceFriction
+
+_oicmsXRightReduceFriction:                 ; moving right
+    sec
+    sbc objfriction                         ; reduce xvel by friction
+    bpl _oicmststx12                        ; xvel still > 0 ?
+    stz objbuffers.1.xvel,x                 ;
+    jmp _oicmsCheckYvelDirection
+
+_oicmststx12:                               ; resolve
+    sta objbuffers.1.xvel,x                 ; store new xvel with reduced objfriction
+	lda objbuffers.1.ypos+1,x               ; load y position
+	clc
+	adc objbuffers.1.yofs,x                 ; add y offset
+	bpl + 							        ; if y<0, put it to 0 *FIX 20221201 */
+	lda #0000
+
++	OE_CPTETILENUM 1 objbuffers.1.height,x
+    bne +
+    jmp _oicmsCheckYvelDirection;
+
++   tay                                     ; tile number to Y register
+    ;Brain: CheckRight
+    OE_ADDX 1
+    lsr a
+    lsr a
+    and	#$fffe
+    clc
+    adc.w mapadrrowlut, y
+
+_oicmsXResolveColRight:                     ; Apply Collision Right
+    tay
+    OE_GETTILEPROP 0
+
+    ldx objtmp2                             ; load objecthandle
+    sta objbuffers.1.tilebprop,x
+    lda objbuffers.1.tilebprop,x
+    beq _oicmsXSelectNextTile
+    and #$ff00								; keep only the high values for collision
+    beq _oicmsXSelectNextTile
+
+    OE_SETXPOS 1                            ; arg == 1 resolve right collision
+    brl _oicmsCheckYvelDirection
+
+_oicmsXSelectNextTile:
+    tya                                     ; go through all y available
+    clc
+    adc.l maprowsize
+    dec	objtmp1
+    bne _oicmsXResolveColRight
+    brl _oicmsCheckYvelDirection
+
+_oicmsXLeftReduceFriction:                  ; moving left (xvel<0)
+    clc
+    adc objfriction
+    bmi _oicmststxna
+    stz objbuffers.1.xvel,x                 ; currently it is not ok to go left
+    brl _oicmsCheckYvelDirection
+
+_oicmststxna:
+    sta objbuffers.1.xvel,x
+    lda objbuffers.1.ypos+1,x
+    clc
+    adc objbuffers.1.yofs,x
+	bpl + 									; if y<0, put it to 0 *FIX 20221201 */
+	lda #0000
+
++   OE_CPTETILENUM 1 objbuffers.1.height,x;
+    ;Brain: CheckLeft
+    tay
+
+    OE_ADDX 0
+    bpl _oicmststxnb                        ; if negative, don't bother to test, will change screen
+    jmp _oicmsCheckYvelDirection
+
+_oicmststxnb:
+    lsr a
+    lsr a
+    and	#$fffe
+    clc
+    adc.w mapadrrowlut, y
+
+_oicmststxnc:                               ; Apply Collision Left
+    tay
+    OE_GETTILEPROP 0
+    ldx objtmp2                             ; load objecthandle
+    sta objbuffers.1.tilebprop,x
+    lda objbuffers.1.tilebprop,x
+    beq _oicmststxnd
+
+    and #$ff00								; keep only the high values for collision
+    beq _oicmststxnd
+    OE_SETXPOS 0                            ; arg == 0 resolve left collision
+
+    brl _oicmsCheckYvelDirection
+
+_oicmststxnd:
+    tya
+    clc
+    adc.l maprowsize
+    dec	objtmp1
+    bne _oicmststxnc				        ; go through all y available
+    brl _oicmsCheckYvelDirection
+
+_oicmsResolveSlope1:
+    lda objbuffers.1.yvel+1,x
+    and #$00ff
+    clc
+    adc $06                                 ; add bottom spot
+    dec a
+    sta objtmp4
+
+    OE_GETYOFFSETLUT
+    tay                                     ; transfer it to y
+    OE_SETCENTERXNEW                        ; calculate
+    lsr a
+    lsr a
+    and	#$FFFE
+    clc
+    adc.w mapadrrowlut, y
+    tay
+    OE_GETTILEPROP 1                        ; arg1 == 1 store tile flipstate
+    sta objtmp3
+    cmp #$0030
+    bcs _oicmsPrepYvelDown
+    cmp #$0020
+    bcc _oicmsPrepYvelDown
+
+_oicmsResolveSlope2:
+    lda $00                                 ; load centerX
+    and #$0007
+    sta $04                                 ; store centerX relative to tile
+
+    lda objtmp3                             ; load tileprop index
+    sec
+    sbc #T_SLOPES                           ; set index of _lutcol 0-5
+    asl a                                   ; \
+    asl a                                   ;  | offseting for _lutcol address
+    asl a                                   ; /
+    adc $04                                 ; offsets to tileperfect
+    tax                                     ; transfer index _lutcol + tileoffset to x register
+
+    lda $08                                 ; load flip state
+    sep #$20                                ; set to 8 bit
+    xba                                     ; swap High to Low
+    and #$40                                ; Check if tile is horizontaly flipped
+    beq +
+    lda.l _lutcol,x                         ; get Slope y value on x pixel not flipped
+    bra ++
++   lda.l _lutcolInv,x                      ; get Slope y value on x pixel flipped
+++  sta $0A                                 ; store slope correction value
+
+_oicmsResolveSlope3:
+    ldx objtmp2
+    lda objtmp4                             ; posY
+
+    and #$07
+    cmp $0A                                 ; compare to correction value
+    rep #$20
+    bcs +
+    brl _oicms61
+
+ +  lda objtmp3
+    sta objbuffers.1.tilestand,x                           ; store the tile we are standing on
+
+    lda objtmp4
+    and #$fff8
+    sec                                     ; set carry                 \
+    sbc objbuffers.1.yofs,x                 ; subtract  offset y from a  |  for avoid rounding errors
+    sec                                     ; set carry                  |
+    sbc objbuffers.1.height,x               ; subtract  height y from a /
+    sep #$20
+    clc
+    adc $0A                                 ; slope correction value
+    rep #$20
+    inc a
+
+    sta objbuffers.1.ypos+1,x
+    stz objbuffers.1.yvel,x
+    ;jmp	_oicmsend
+    brl _oicmsend
+
+_oicmsCheckYvelDirection:
+    ldx objtmp2                             ; restore object index to
+    lda objtmp4                             ; if slope resolve is set
+    beq +
+    brl _oicmsResolveSlope1
+ +  lda objbuffers.1.yvel,x
+    bpl	_oicms11                            ; yvel > 0 moving down
+    jmp _oicmststyn                         ; yvel moving up
+
+_oicmsPrepYvelDown:
+    rep #$20
+    ldx objtmp2
+    stz objtmp4
+    lda objbuffers.1.yvel,x
+
+_oicms11:
+    xba
+    and	#$00FF
+    clc
+    adc	objbuffers.1.ypos+1,x               ; add y pos
+    clc
+    adc objbuffers.1.yofs,x                 ; add y offs
+    clc
+    adc objbuffers.1.height,x               ; add                         ; a contains y velocity so enw ypos
+	bpl + 						            ; if y<0, put it to 0 *FIX 221130 *
+	lda #0000
+
++   lsr a
+    lsr a
+    and	#$FFFE                              ; only even numbers
+    tay                                     ; transfer it to y
+
+    lda objbuffers.1.xpos+1,x               ; load x pos
+    clc
+    adc	objbuffers.1.xofs,x                 ; add offset (left edge of object)
+    OE_CPTETILENUM 0 objbuffers.1.width,x
+    clc
+    adc.w mapadrrowlut, y                   ; add row
+
+    tay
+    OE_GETTILEPROP 0
+    sta objtmp3
+    bra _oicms21                            ; goto tile type check
+
+_oicms2:
+    tya
+    OE_GETTILEPROP 0
+    sta objtmp3
+
+_oicms21:
+    ldx objtmp2
+    sta objbuffers.1.tilesprop,x
+    lda objbuffers.1.tilesprop,x
+    cmp #T_LADDER							; if ladder, well avoid doing stuffs
+	beq _oicms3
+	cmp #T_PLATE							; if on a plate, do same thing
+	beq _oicms3
+
+    cmp #T_FIRES                            ; if fire, player is burning
+    bne _oicms22
+    lda #ACT_BURN							; player is now dying, no more checking
+    sta objbuffers.1.action
+    jmp  _oicmsend
+
+_oicms22:
+    cmp #T_SPIKE                            ; if spike, player is dying too
+	bne _oicms23
+	lda #ACT_DIE
+	sta objbuffers.1.action
+	jmp  _oicmsend
+
+_oicms23:                                   ; check tile collision
+    and #$ff00					            ; keep only the high values for collision
+    beq _oicms4                             ; if no collision
+
+_oicms3:                                    ; positioning on  bottom collision
+    lda objtmp3
+    sta objbuffers.1.tilestand,x            ; store the tile we are standing on
+    OE_SETYPOS 1                            ;
+    jmp	_oicmsend
+
+_oicms4:                                    ; increment Y-Register for next tile check on x-axis
+    rep #$20                                ; continue to test the tiles on x
+    iny                                     ; y +=1
+    iny                                     ; y +=1
+    dec	objtmp1                             ; tilecount on x to check -= 1
+    beq _oicms5
+    brl _oicms2
+
+_oicms5:
+    ldx objtmp2                             ; not standing on anything or ladder, now falling if not climbing
+	stz objbuffers.1.tilestand,x
+
+    lda objbuffers.1.tilesprop,x            ; need again to verify if not tile standing
+    beq _oicms61
+    lda objbuffers.1.action,x               ; if not climbing, well doing like if falling
+    and #ACT_CLIMB
+    beq _oicms61
+    brl  _oicmsend
+
+_oicms61:
+    OE_SETVELOCYTY _oicms6
+
+_oicms6:
+    sta objbuffers.1.yvel,x
+	brl _oicmsend
+
+_oicmststyn:					            ; yvel<0, object is moving upwards----------------------------
+    stz objbuffers.1.tilestand,x            ;  zero out "tilestand"
+    xba
+    ora	#$FF00
+    clc
+    adc	objbuffers.1.ypos+1,x
+    clc
+    adc objbuffers.1.yofs,x
+	bpl +     					            ; if y < 0, put it to 0  *FIX 221126*
+
+	lda #0000
++   lsr a
+    lsr a
+	and	#$FFFE
+	tay
+
+    lda objbuffers.1.xpos+1,x
+    clc
+    adc	objbuffers.1.xofs,x
+
+    OE_CPTETILENUM 0 objbuffers.1.width
+
+    clc
+    adc.w mapadrrowlut, y
+    tay
+
+    OE_GETTILEPROP 0
+    bra	_oicmststyn2		                ; speedup, saves some cycles
+
+_oicmststyn1:
+    tya
+    OE_GETTILEPROP 0
+
+_oicmststyn2:
+    ldx objtmp2
+    sta objbuffers.1.tilesprop,x
+    lda objbuffers.1.tilesprop,x
+    cmp #T_LADDER							; if ladder, well avoid doing stuffs
+    beq _oicmststyn4
+
+    and #$ff00								; keep only the high values for collision
+    beq _oicmststyn3
+
+    OE_SETYPOS 0 ;arg 0 == top correction
+    bra _oicmststyn4
+
+_oicmststyn3:                               ; continue to test next tile on x axis
+    iny                                     ; increase Y Register for next
+    iny
+    dec	objtmp1                             ; decrease tilecount
+    bne _oicmststyn1                        ; if tilecount not 0 jump to _oicmststyn1 for next collision test
+
+_oicmststyn4:                               ; not standing on anything, now falling by adding gravity
+    ldx objtmp2                             ; load objecthandle
+    OE_SETVELOCYTY _oicmststyn5
+_oicmststyn5:
+    sta objbuffers.1.yvel,x
+
+_oicmsend:
+	ply
+	plx
+	plb
+	plp
+	rtl
 .ENDS

@@ -8,7 +8,7 @@ Created initially for the 20th birthday of the Nintendo SNES, it has been evolve
 
 PVSneslib content is split in 3 parts
 * The library itself.
-* The tools and compiler (compatible on Windows and Linux operating systems but for **32 bits only**)
+* The tools and compiler (compatible on Windows, Linux and MacOS operating systems)
 * The examples (sprites, sound, graphics, debug, ...)
 
 You can download the complete archive in [release section](https://github.com/alekmaul/pvsneslib/releases) then check the Wiki sections to get installation instructions and basics tutorials.

@@ -2,8 +2,8 @@
 
     object.h -- definitions for SNES objects
 
-    Copyright (C) 2012-2021
-        Alekmaul
+    Copyright (C) 2012-2024
+        Alekmaul, Nub1604
 
     This software is provided 'as-is', without any express or implied
     warranty.  In no event will the authors be held liable for any
@@ -23,6 +23,8 @@
 
     3.	This notice may not be removed or altered from any source
     distribution.
+
+    Special thanks to Nub1604 for the slope management
 
 ---------------------------------------------------------------------------------*/
 /*! \file object.h
@@ -91,16 +93,20 @@ extern t_objs objbuffers[OB_MAX]; /*!< \brief current object buffer with all obj
 #define T_FIRES 	0x0002  /*!< \brief Type Fire (action will be burn) for tile  */
 #define T_SPIKE 	0x0004  /*!< \brief Type Spike (action will be die) for tile  */
 #define T_PLATE 	0x0008  /*!< \brief Type Plate (action will be jump through and land) for tile  */
-#define T_SLOPEU	0x0010  /*!< \brief Type Slope Up (action will be climb on it) for tile  */
-#define T_SLOPED	0x0012  /*!< \brief Type Slope Down (action will be descend on it) for tile  */
+#define T_SLOPEU1	0x0020  /*!< \brief Type Slope 1x1 Up ◢ (action will be climb on it) for tile  */
+#define T_SLOPED1	0x0021  /*!< \brief Type Slope 1x1 Down ◣ (action will be descend on it) for tile */
+#define T_SLOPELU2	0x0022  /*!< \brief Type Slope 2x1 lower half Up ◢ (action will be climb on it) for tile */
+#define T_SLOPELD2	0x0023  /*!< \brief Type Slope 2x1 lower half Down ◣ (action will be descend on it) for tile */
+#define T_SLOPEUU2	0x0024  /*!< \brief Type Slope 2x1 upper half Up ◢ (action will be climb on it) for tile */
+#define T_SLOPEUD2	0x0025  /*!< \brief Type Slope 2x1 upper half Down ◣ (action will be descend on it) for tile  */
 
-#define ACT_STAND 0x0000 /*!< \brief Action type STAND for object */
-#define ACT_WALK 0x0001  /*!< \brief Action type WALK for object */
-#define ACT_JUMP 0x0002  /*!< \brief Action type JUMP for object */
-#define ACT_FALL 0x0004  /*!< \brief Action type FALL for object */
-#define ACT_CLIMB 0x0008 /*!< \brief Action type CLIMB for object */
-#define ACT_DIE 0x0010   /*!< \brief Action type DIE for object */
-#define ACT_BURN 0x0020  /*!< \brief Action type BURN for object */
+#define ACT_STAND   0x0000  /*!< \brief Action type STAND for object */
+#define ACT_WALK    0x0001  /*!< \brief Action type WALK for object */
+#define ACT_JUMP    0x0002  /*!< \brief Action type JUMP for object */
+#define ACT_FALL    0x0004  /*!< \brief Action type FALL for object */
+#define ACT_CLIMB   0x0008  /*!< \brief Action type CLIMB for object */
+#define ACT_DIE     0x0010  /*!< \brief Action type DIE for object */
+#define ACT_BURN    0x0020  /*!< \brief Action type BURN for object */
 
 /*! \fn objInitEngine(void)
     \brief Initialize object engine, need to be called once
@@ -114,26 +120,33 @@ void objInitEngine(void);
 */
 void objInitGravity(u16 objgravity, u16 objfriction);
 
-/*! \fn objInitFunctions(u8 objtype, void *initfct,void *updfct)
+/*! \fn objInitFunctions(u8 objtype, void *initfct, void *updfct, void *reffct);
     \brief Initialize the object type functions (initialize, update)
     \param objtype  The type of object depending of the game
     \param initfct  The address of the function when we init the type of object
     \param updfct   The address of the function when we update the type of object (need to be called once per frame)
     \param reffct   The address of the function when we refresh sprites of object (need to be called once per frame)
+    \brief init function must have 5 unsigned short (u16) parameters
+    \brief    - xp,yp are default coordinates values for x and y
+    \brief    - type is the type oobjects
+    \brief    - minx, miny are minimal and maximal values for objects in x axis
+    \brief update function must have 1 parameter
+    \brief    - idx is the id of the object in the object list
+    \brief refresh function must have 1 parameter
+    \brief    - idx is the id of the object in the object list
 */
 void objInitFunctions(u8 objtype, void *initfct, void *updfct, void *reffct);
 
 /*! \fn objLoadObjects(u8 *sourceO)
     \brief Load all objects for a specific table in memory
+    \param sourceO table of objects
     \brief Call, after loading, each init function of the type of objects for each object
     \brief The table has an entry with x,y,type,minx,maxx for each object
-    \brief where:
-    \brief x,y are coordinates of object,
-    \brief type if the type of the object (maximum 32 types)
-    \brief minx,maxx are the coordinates of minimum & maxinmum possible on x
+    \brief    - x,y are coordinates of object,
+    \brief    - type if the type of the object (maximum 32 types)
+    \brief    - minx,maxx are the coordinates of minimum & maxinmum possible on x
     \brief the last four parameters are useful to do some actions where minimum or maximum is reached
     \brief The table needs to finish with FFFF to indicate that no more objects are availables
-    \param sourceO table of objects
 */
 void objLoadObjects(u8 *sourceO);
 
@@ -178,17 +191,26 @@ void objRefreshAll(void);
 
 /*! \fn objCollidMap(u16 objhandle)
     \brief check if an object collides the map
+    \param objhandle handle of the object
     \brief update tilestand, tileabove with tiles on map regarding object attributes
     \brief update xvel, yvel with velocity regarding tiles on map
-    \param objhandle handle of the object
 */
 void objCollidMap(u16 objhandle);
 
+/*! \fn objCollidMapWithSlopes(u16 objhandle)
+    \brief check if an object collides the map with map slopes management
+    \param objhandle handle of the object
+    \brief update tilestand, tileabove with tiles on map regarding object attributes
+    \brief update xvel, yvel with velocity regarding tiles on map
+    \brief the map can contain slopes, check the constants ($20..$25) the add them to your map
+*/
+void objCollidMapWithSlopes(u16 objhandle);
+
 /*! \fn objCollidMap1D(u16 objhandle)
     \brief check if an object collides the map
+    \param objhandle handle of the object
     \brief update tilestand, tileabove with tiles on map regarding object attributes
     \brief update xvel, yvel with no gravity regarding tiles on map
-    \param objhandle handle of the object
 */
 void objCollidMap1D(u16 objhandle);
 
@@ -202,8 +224,8 @@ u16 objCollidObj(u16 objhandle1, u16 objhandle2);
 
 /*! \fn objUpdateXY(u16 objhandle)
     \brief Update X & Y coordinates of object regarding its own velocitys
-    \brief It uses xvel and yvel to do such computation
     \param objhandle handle of the object
+    \brief It uses xvel and yvel to do such computation
 */
 void objUpdateXY(u16 objhandle);
 

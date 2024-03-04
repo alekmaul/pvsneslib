@@ -1,5 +1,5 @@
 ifeq ($(strip $(PVSNESLIB_HOME)),)
-$(error "Please create an environment variable PVSNESLIB_HOME with path to its folder and restart application. (you can do it on windows with <setx PVSNESLIB_HOME "/c/snesdev">)")
+$(error "Please create an environment variable PVSNESLIB_HOME by following this guide: https://github.com/alekmaul/pvsneslib/wiki/Installation")
 endif
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
@@ -17,10 +17,10 @@ clean: cleanBuildRes cleanRom cleanGfx
 #---------------------------------------------------------------------------------
 ortf.pic: ortf.png
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -pc16 -n -gs8 -pe1 -fpng -m -gb $<
+	$(GFXCONV) -s 8 -o 16 -u 16 -e 1 -m -p -i $<
 
 pvsneslibfont.pic: pvsneslibfont.bmp
 	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFXCONV) -pc16 -n -gs8 -po2 -pe1 -mR! -m! -p! $<
+	$(GFXCONV) -s 8 -o 2 -u 16 -e 1 -t bmp -i $<
 
 bitmaps : ortf.pic pvsneslibfont.pic

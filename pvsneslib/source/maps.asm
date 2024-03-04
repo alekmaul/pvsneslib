@@ -98,6 +98,8 @@ mapendloop              DW                  ; The ending position of the draw lo
 mapupdbuf               DB                  ; State of buffer update (vert / horiz / all)
 mapdirty                DB                  ; 1 if map is not correct and need update
 
+maptmpvalue             DW                  ; TO store a temporary value (used for tile flipping for example)
+
 .ends
 
 .SECTION ".maps0_text" SUPERFREE
@@ -368,9 +370,16 @@ _mapDAS1:
     lda 0,x
     plb
 
+    pha
+    and #$03FF                              ; seperate tileaddress
     asl a
     tax
-    lda.w metatiles.topleft,x               ; get tile value from map
+    lda.l metatiles.topleft,x               ; get tile value from map
+    sta.w maptmpvalue
+    pla                                     ; get attributes
+    and #$C000                              ; HV mirror flags
+    ora maptmpvalue                         ; add tile value
+
     sta.w bg_L1, y                          ; put in buffer for display
     plx
 
@@ -471,10 +480,16 @@ _phb1:
     lda 0,x
     plb
 
+    pha
+    and #$03FF                              ; seperate tileaddress
     asl a
     tax
+    lda.l metatiles.topleft,x               ; get tile value from map
+    sta.w maptmpvalue
+    pla                                     ; get attributes
+    and #$C000                              ; HV mirror flags
+    ora maptmpvalue                         ; add tile value
 
-    lda.l metatiles.topleft, x
     sta bg_L1, y
 
     plx
@@ -527,9 +542,16 @@ _pvb1:
     lda 0,x
     plb
 
-    asl a                             ; because 8 bits
+    pha
+    and #$03FF                              ; seperate tileaddress
+    asl a                                   ; because of 8 bits
     tax
-    lda.l metatiles.topleft, X
+    lda.l metatiles.topleft,x               ; get tile value from map
+    sta.w maptmpvalue
+    pla                                     ; get attributes
+    and #$C000                              ; HV mirror flags
+    ora maptmpvalue                         ; add tile value
+
     sta bgvertleftbuf_L1, Y
 
     pla
@@ -931,7 +953,63 @@ mapGetMetaTile:
     rep #$20
     lda 0,x
     plb
+    and #$03FF                              ; to have only tile number (no flipx/y)
     plx
+
+    sta.w tcc__r0
+
+    ply
+    plx
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".maps2_text" SUPERFREE
+
+;---------------------------------------------------------------------------------
+; u16 mapGetMetaTilesProp(u16 xpos, u16 ypos)
+mapGetMetaTilesProp:
+    php
+
+    phx
+    phy
+
+    rep #$30
+    lda  11,s                               ; get y (7+2+2)
+    lsr
+    lsr
+    and #$FFFE                              ; y in tile coordinates
+    tax
+
+    lda 9,s                                 ; get x (5+2+2)
+    lsr
+    lsr
+    and #$FFFE                              ; x in tile coordinates
+    clc
+    adc mapadrrowlut,x
+    tax                                     ; x is row value
+
+    phx
+    lda maptile_L1d                         ; get direct rom value
+    clc
+    adc 1,s
+    tax
+
+    phb
+    sep #$20
+    lda maptile_L1b.b
+    pha
+    plb
+    rep #$20
+    lda 0,x
+    plb
+    and #$03FF                              ; to have only tile number (no flipx/y)   
+    plx
+
+    asl a                                   ; property is a 16bit arrays
+    tax
+    lda	metatilesprop, x                    ; get tile property
 
     sta.w tcc__r0
 

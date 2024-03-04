@@ -89,7 +89,7 @@ bgSetScroll:
     sta REG_BGxHOFS,y
     rep #$20 
 
-    lda 11,s                     ; x scrolling offset
+    lda 11,s                     ; y scrolling offset
     sep #$20
     sta REG_BGyHOFS,y
     rep #$20
@@ -354,6 +354,7 @@ bgSetMapPtr:
 
 ;---------------------------------------------------------------------------
 ;void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)
+;5 6-9 10-13 14 15-16 17-18 19-20 21-22
 bgInitTileSet:
     php
     
@@ -609,6 +610,15 @@ bgInitMapSet:
 bgInitTileSetData:
     php
     
+    sep #$20
+    lda #0
+    pha
+    jsl setBrightness           ; Force VBlank Interrupt (value 0)
+    rep #$20
+    tsa
+    clc
+    adc #1
+    tas
     wai
 
     rep #$20
@@ -616,9 +626,9 @@ bgInitTileSetData:
     pha
     lda 14,s                    ; get address (12+2)
     pha
-    lda 14,s                    ; get tileSource bank address (10+4)
+    lda 12,s                    ; get tileSource bank address (8+4)
     pha
-    lda 18,s                    ; get tileSource data address (12+6)
+    lda 12,s                    ; get tileSource data address (6+6)
     pha
     jsl dmaCopyVram
     tsa
@@ -638,7 +648,7 @@ bgInitTileSetData:
     lda 7,s                     ; get bgNumber (5+2)
     pha
     rep #$20
-    jsl bgSetMapPtr
+    jsl bgSetGfxPtr
     tsa
     clc
     adc #3

@@ -1,5 +1,5 @@
 ifeq ($(strip $(PVSNESLIB_HOME)),)
-$(error "Please create an environment variable PVSNESLIB_HOME with path to its folder and restart application. (you can do it on windows with <setx PVSNESLIB_HOME "/c/snesdev">)")
+$(error "Please create an environment variable PVSNESLIB_HOME by following this guide: https://github.com/alekmaul/pvsneslib/wiki/Installation")
 endif
 
 # BEFORE including snes_rules :
@@ -17,7 +17,7 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 #---------------------------------------------------------------------------------
 # ROMNAME is used in snes_rules file
-export ROMNAME := logo
+export ROMNAME := LogoPVSnesLib
 
 # to build musics, define SMCONVFLAGS with parameters you want
 SMCONVFLAGS	:= -s -o $(SOUNDBANK) -V -b 5
@@ -35,6 +35,6 @@ clean: cleanBuildRes cleanRom cleanGfx cleanGfxLogo cleanAudio
 
 logo.pic: res/logo.bmp
 	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFXCONV) -pc16 -n -gs8 -pe1 -fbmp  $<
+	$(GFXCONV) -s 8 -o 32 -u 16 -p -e 1 -m -R -t bmp -i $<
 
 logo : logo.pic

@@ -83,11 +83,20 @@ void mapVblank(void);
 void mapUpdateCamera(u16 xpos, u16 ypos);
 
 /*!	\fn mapGetMetaTile(u16 xpos, u16 ypos)
-    \brief Get metatile property from current map
+    \brief Get metatile value from current map
+    \param xpos	x coordinate of metatile
+    \param ypos	x coordinate of metatile
+    \return tile value
+*/
+u16 mapGetMetaTile(u16 xpos, u16 ypos);
+
+/*!	\fn mapGetMetaTilesProp(u16 xpos, u16 ypos)
+    \brief Get metatile property from current map (solid, lad, fire, etc...)
     \param xpos	x coordinate of metatile
     \param ypos	x coordinate of metatile
     \return tile properties
 */
-u16 mapGetMetaTile(u16 xpos, u16 ypos);
+u16 mapGetMetaTilesProp(u16 xpos, u16 ypos);
+
 
 #endif
