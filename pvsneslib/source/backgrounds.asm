@@ -1,7 +1,7 @@
 ;---------------------------------------------------------------------------------
 ;
 ;   Copyright (C) 2013-2021
-;       Alekmaul 
+;       Alekmaul
 ;
 ;   This software is provided 'as-is', without any express or implied
 ;   warranty.  In no event will the authors be held liable for any
@@ -49,7 +49,8 @@
 
 .EQU SC_32x32              (0 << 0)
 
-.RAMSECTION ".reg_bkgrd7e" BANK $7E 
+.BASE $00
+.RAMSECTION ".reg_bkgrd7e" BANK $7E SLOT RAMSLOT_0
 
 bg0gfxaddr      DSB 2
 bg1gfxaddr      DSB 2
@@ -60,6 +61,18 @@ bkgrd_val1      DSB 2                         ; save value #1
 
 .ENDS
 
+.ifdef FASTROM
+.ifdef HIROM
+.BASE $C0
+.else
+.BASE $80
+.endif
+.else
+.ifdef HIROM
+.BASE $40
+.endif
+.endif
+
 .SECTION ".backgrounds0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
@@ -67,12 +80,12 @@ bkgrd_val1      DSB 2                         ; save value #1
 bgSetScroll:
     php
     phb
-    
+
     sep #$20
     lda #$0
     pha
     plb ; change bank address to 0
-    
+
     lda 6,s                      ; bgNumber
     rep #$20
     and #$0003                   ; do not exceed bg
@@ -84,26 +97,26 @@ bgSetScroll:
     sep #$20
     sta REG_BGxHOFS,y
     rep #$20
-    xba 
+    xba
     sep #$20
     sta REG_BGxHOFS,y
-    rep #$20 
+    rep #$20
 
     lda 11,s                     ; y scrolling offset
     sep #$20
     sta REG_BGyHOFS,y
     rep #$20
-    xba 
+    xba
     sep #$20
     sta REG_BGyHOFS, y
     rep #$20
 
     ply
-    
+
     plb
     plp
     rtl
-    
+
 .ENDS
 
 .SECTION ".backgrounds1_text" SUPERFREE
@@ -115,7 +128,7 @@ bgSetEnable:
 
     sep #$20
     lda 5,s
-    
+
     rep #$20
     and #$00ff
     sep #$20
@@ -125,15 +138,15 @@ bgSetEnable:
     beq +
 -   asl a
     dey
-    bne -               
-    
+    bne -
+
 +   sta bkgrd_val1      ; videoMode |= (1 << bgNumber);
     lda videoMode
     ora bkgrd_val1
     sta videoMode
-    
+
     sta.l REG_TM        ; REG_TM = videoMode;
-    
+
     plp
     rtl
 
@@ -144,7 +157,7 @@ bgSetDisable:
 
     sep #$20
     lda 5,s
-    
+
     rep #$20
     and #$00ff
     sta bkgrd_val1
@@ -154,16 +167,16 @@ bgSetDisable:
     beq +
 -   asl a
     dey
-    bne -               
-    
+    bne -
+
 +   eor #$FF
     sta bkgrd_val1      ; videoMode &= ~(1 << bgNumber);
     lda videoMode
     and bkgrd_val1
     sta videoMode
-    
+
     sta.l REG_TM        ; REG_TM = videoMode;
-    
+
     plp
     rtl
 
@@ -178,7 +191,7 @@ bgSetEnableSub:
 
     sep #$20
     lda 5,s
-    
+
     rep #$20
     and #$00ff
     sta bkgrd_val1
@@ -188,15 +201,15 @@ bgSetEnableSub:
     beq +
 -   asl a
     dey
-    bne -               
-    
+    bne -
+
 +   sta bkgrd_val1      ; videoModeSub |= (1 << bgNumber);
     lda videoModeSub
     ora bkgrd_val1
     sta videoModeSub
-    
+
     sta.l REG_TS        ; REG_TS = videoModeSub;
-    
+
     plp
     rtl
 
@@ -207,7 +220,7 @@ bgSetDisableSub:
 
     sep #$20
     lda 5,s
-    
+
     rep #$20
     and #$00ff
     sta bkgrd_val1
@@ -217,19 +230,19 @@ bgSetDisableSub:
     beq +
 -   asl a
     dey
-    bne -               
-    
+    bne -
+
 +   eor #$FF
     sta bkgrd_val1      ; videoModeSub &= ~(1 << bgNumber);
     lda videoModeSub
     and bkgrd_val1
     sta videoModeSub
-    
+
     sta.l REG_TS        ; REG_TS = videoModeSub;
-    
+
     plp
     rtl
-    
+
 
 .ENDS
 
@@ -255,7 +268,7 @@ bgSetWindowsRegions:
 
     lda #$11
     sta.l REG_TMW
-    
+
     plp
     rtl
 
@@ -268,7 +281,7 @@ bgSetWindowsRegions:
 bgSetGfxPtr:
     php
     phx
-    
+
     sep #$20
     lda 7,s                 ; get bgNumber
     rep #$20
@@ -277,10 +290,10 @@ bgSetGfxPtr:
     tax
     lda 8,s
     sta bg0gfxaddr,x        ; store address
-    
+
     txa                     ; Change address regarde background number
     cmp #4
-    bcs +                   ; if bg>=2 
+    bcs +                   ; if bg>=2
     lda bg0gfxaddr          ; REG_BG12NBA = (bgState[1].gfxaddr >> 8 ) | (bgState[0].gfxaddr >> 12);
     ldx #12
 -   ror a
@@ -319,12 +332,12 @@ _bSGP1:
 bgSetMapPtr:
     php
     phx
-    
+
     sep #$20                    ; mapadr = ((address >> 8) & 0xfc) | (mapSize & 0x03);
     lda 10,s                    ; get mapsize
     and #$0003
     sta bkgrd_val1
-    
+
     rep #$20
     lda 8,s                     ; get address
     ldx #8
@@ -335,7 +348,7 @@ bgSetMapPtr:
     sep #$20
     ora bkgrd_val1
     sta bkgrd_val1
-    
+
     lda 7,s
     rep #$20
     and #$0003
@@ -343,11 +356,11 @@ bgSetMapPtr:
     sep #$20
     lda bkgrd_val1
     sta.l BG1SC_ADDR,x
-    
+
     plx
     plp
     rtl
-    
+
 .ENDS
 
 .SECTION ".backgrounds5_text" SUPERFREE
@@ -357,7 +370,7 @@ bgSetMapPtr:
 ;5 6-9 10-13 14 15-16 17-18 19-20 21-22
 bgInitTileSet:
     php
-    
+
     ; If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
     rep #$20
     lda 19,s                    ; get colorMode
@@ -394,7 +407,7 @@ bgInitTileSet:
     dex
     bne -
 +   sta bkgrd_val1
-    
+
 _bITS1:
     sep #$20
     lda #0
@@ -407,7 +420,7 @@ _bITS1:
     tas
     wai
 
-    lda 15,s                    ; get tilesize 
+    lda 15,s                    ; get tilesize
     pha
     lda 23,s                    ; get address (21+2)
     pha
@@ -420,8 +433,8 @@ _bITS1:
     clc
     adc #8
     tas
-    
-    lda 17,s                    ; get paletteSize 
+
+    lda 17,s                    ; get paletteSize
     pha
     lda bkgrd_val1
     pha
@@ -435,7 +448,7 @@ _bITS1:
     adc #8
     tas
 
-    lda 21,s                    ; get address 
+    lda 21,s                    ; get address
     pha
     sep #$20
     lda 7,s                     ; get bgNumber (5+2)
@@ -459,7 +472,7 @@ _bITS1:
 ;5 6-9 10-13 14 15-16 17-18 19-20
 bgInitTileSetLz:
     php
-    
+
     ; If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
     rep #$20
     lda 17,s                    ; get colorMode
@@ -496,7 +509,7 @@ bgInitTileSetLz:
     dex
     bne -
 +   sta bkgrd_val1
-    
+
 _bITS1:
     sep #$20
     lda #0
@@ -509,7 +522,7 @@ _bITS1:
     tas
     wai
 
-    lda 19,s                    ; get address 
+    lda 19,s                    ; get address
     pha
     lda 10,s                     ; get tileSource bank address (8+2)
     pha
@@ -520,8 +533,8 @@ _bITS1:
     clc
     adc #6
     tas
-    
-    lda 15,s                    ; get paletteSize 
+
+    lda 15,s                    ; get paletteSize
     pha
     lda bkgrd_val1
     pha
@@ -535,7 +548,7 @@ _bITS1:
     adc #8
     tas
 
-    lda 19,s                    ; get address 
+    lda 19,s                    ; get address
     pha
     sep #$20
     lda 7,s                     ; get bgNumber (5+2)
@@ -559,11 +572,11 @@ _bITS1:
 ; 5 6-9 10-11 12 13-14
 bgInitMapSet:
     php
-    
+
     wai
 
     rep #$20
-    lda 10,s                    ; get mapSize 
+    lda 10,s                    ; get mapSize
     pha
     lda 15,s                    ; get address (13+2)
     pha
@@ -581,7 +594,7 @@ bgInitMapSet:
     lda 5,s
     cmp #$ff
     beq +                       ; do only if number is not 0xFF
-    
+
     lda 12,s                    ; get sizeMode
     pha
     rep #$20
@@ -609,7 +622,7 @@ bgInitMapSet:
 ; 5 6-9 10-11 12-13
 bgInitTileSetData:
     php
-    
+
     sep #$20
     lda #0
     pha
@@ -622,7 +635,7 @@ bgInitTileSetData:
     wai
 
     rep #$20
-    lda 10,s                    ; get tileSize 
+    lda 10,s                    ; get tileSize
     pha
     lda 14,s                    ; get address (12+2)
     pha
@@ -635,14 +648,14 @@ bgInitTileSetData:
     clc
     adc #8
     tas
-    
+
     sep #$20
     lda 5,s
     cmp #$ff
     beq +                       ; do only if number is not 0xFF
-    
+
     rep #$20
-    lda 12,s                    ; get address 
+    lda 12,s                    ; get address
     pha
     sep #$20
     lda 7,s                     ; get bgNumber (5+2)
@@ -666,7 +679,7 @@ bgInitTileSetData:
 ; 5-8 9-12 13-16 17-18 19-20
 bgInitMapTileSet7:
     php
-    
+
     sep #$20
     lda #0
     pha
@@ -697,7 +710,7 @@ bgInitMapTileSet7:
     clc
     adc #11
     tas
-    
+
     sep #$20
     lda #SC_32x32
     pha
@@ -713,7 +726,7 @@ bgInitMapTileSet7:
     clc
     adc #4
     tas
-    
+
     lda  #$1900                 ;   dmaCopyVram7(tileSource, address, tileSize, VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1,0x1900);
     pha
     sep #$20
@@ -733,7 +746,7 @@ bgInitMapTileSet7:
     clc
     adc #11
     tas
-    
+
     lda #256*2                  ; dmaCopyCGram(tilePalette, 0, 256*2);
     pha
     lda #0
@@ -747,7 +760,7 @@ bgInitMapTileSet7:
     clc
     adc #8
     tas
-    
+
     lda 19,s                    ; get address
     pha
     sep #$20

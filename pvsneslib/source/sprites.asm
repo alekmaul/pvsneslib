@@ -46,7 +46,8 @@ oamgraphics						DSB 4                         ; 8..11 pointer to graphic file
 dummy							DSB 4						  ; 12..15 to by align to 16 bytes
 .ENDST
 
-.RAMSECTION ".reg_oams7e" BANK $7E
+.BASE $00
+.RAMSECTION ".reg_oams7e" BANK $7E SLOT RAMSLOT_0
 
 sprit_val0			            DB                            ; save value #0
 sprit_val1			            DB                            ; save value #1
@@ -78,6 +79,18 @@ spr1addrgfx						DW							  ; graphic address for small sprites (default is $100
 sprbyte4                        DB
 
 .ENDS
+
+.ifdef FASTROM
+.ifdef HIROM
+.BASE $C0
+.else
+.BASE $80
+.endif
+.else
+.ifdef HIROM
+.BASE $40
+.endif
+.endif
 
 .SECTION ".sprites0_text" SUPERFREE
 
@@ -855,7 +868,7 @@ lkup8oamS:  ; lookup table for 8x8 sprites in VRAM (128 sprites max $0000->$1000
 	.word $0A00,$0A20,$0A40,$0A60,$0A80,$0AA0,$0AC0,$0AE0,$0B00,$0B20,$0B40,$0B60,$0B80,$0BA0,$0BC0,$0BE0
 	.word $0C00,$0C20,$0C40,$0C60,$0C80,$0CA0,$0CC0,$0CE0,$0D00,$0D20,$0D40,$0D60,$0D80,$0DA0,$0DC0,$0DE0
 	.word $0E00,$0E20,$0E40,$0E60,$0E80,$0EA0,$0EC0,$0EE0,$0F00,$0F20,$0F40,$0F60,$0F80,$0FA0,$0FC0,$0FE0
-lkup8idT:  ; lookup table for 8x8 sprites ID identification 
+lkup8idT:  ; lookup table for 8x8 sprites ID identification
 	.word $0100,$0101,$0102,$0103,$0104,$0105,$0106,$0107,$0108,$0109,$010A,$010B,$010C,$010D,$010E,$010F
 	.word $0110,$0111,$0112,$0113,$0114,$0115,$0116,$0117,$0118,$0119,$011A,$011B,$011C,$011D,$011E,$011F
 	.word $0120,$0121,$0122,$0123,$0124,$0125,$0126,$0127,$0128,$0129,$012A,$012B,$012C,$012D,$012E,$012F
@@ -1308,7 +1321,7 @@ oamDynamic32Draw:
 	lda	10,s                     							  ; get id
 	asl a													  ; to be on correct index (16 bytes per oam)
 	asl a
-	asl a													  
+	asl a
 	asl a
 
 	tay
@@ -1429,7 +1442,7 @@ _o32DRep3:
 	clc
 	adc #$0004
 	sta.w oamnumberperframe
-	
+
 	ply
 	plx
 
@@ -1458,7 +1471,7 @@ oamDynamic16Draw:
 	lda	10,s                     							  ; get id
 	asl a													  ; to be on correct index (16 bytes per oam)
 	asl a
-	asl a													  
+	asl a
 	asl a
 
 	tay
@@ -1606,7 +1619,7 @@ _o16DRep2p:
 	clc
 	adc #$0004
 	sta.w oamnumberperframe
-	
+
 	ply
 	plx
 
@@ -1635,7 +1648,7 @@ oamDynamic8Draw:
 	lda	10,s                     							  ; get id
 	asl a													  ; to be on correct index (16 bytes per oam)
 	asl a
-	asl a													  
+	asl a
 	asl a
 
 	tay
@@ -1912,9 +1925,9 @@ oamSort:
 
 ;	lda #TABLE_SIZE - 1  ; Initialize high index
 ;  	ldx #0  ; Initialize low index
-  
+
   	jsr quicksort  											  ; Perform quicksort
-  
+
 	plx
 	plb
 	plp
@@ -1925,67 +1938,67 @@ quicksort:													  ; Quicksort algorithm
 	pha 													  ; Save registers
 	phx
   	phy
-  
+
 ;  LDX #VAR1_OFFSET  ; Sort based on VAR1
-  
+
 ;  LDA HIGH_IDX  ; Load high index
 ;  STA TEMP_HIGH
-  
+
 ;  LDA LOW_IDX  ; Load low index
 ;  STA TEMP_LOW
-  
+
 ;  LDX TEMP_LOW  ; Load low index into X
-  
+
 ;  INX  ; Increment low index
-  
+
 ;  LDA TABLE, X  ; Load pivot element
 ;  STA PIVOT
-  
+
   ; Partition the table
 partition_loop:
 ;  LDA TABLE, X  ; Load element for comparison
 ;  CMP PIVOT
-  
+
   BCC increment_low_index  ; If element is less than pivot, increment low index
-  
+
   ; Swap elements
 ;  LDA TABLE, X
 ;  STA TABLE, TEMP_HIGH
 ;  LDA TABLE, TEMP_LOW
 ;  STA TABLE, X
-  
+
 ;  DEC TEMP_HIGH  ; Decrement high index
 ;  DEY  ; Decrement Y
-  
+
   ; Check if all elements have been partitioned
 ;  CPX TEMP_HIGH
 ;  BCC partition_loop  ; If not, continue partitioning
-  
+
   ; Swap pivot element into its correct position
 ;  LDA TABLE, X
 ;  STA TABLE, TEMP_HIGH
 ;  LDA PIVOT
 ;  STA TABLE, X
-  
+
   ; Recursive calls to quicksort
 ;  LDA TEMP_LOW
 ;  CMP LOW_IDX
 ;  BCC skip_left
 ;  STA HIGH_IDX
 ;  JSR quicksort
-  
+
 skip_left:
 ;  LDA TEMP_HIGH
 ;  CMP HIGH_IDX
 ;  BCC skip_right
 ;  STA LOW_IDX
 ;  JSR quicksort
-  
+
 skip_right:
 	ply
 	plx
 	pla
-  
+
 	rts  ; Return from subroutine
 
 

@@ -38,13 +38,22 @@ tcc__regs_irq dsb 48
 
 .ENDS
 
-.SECTION "glob.data" SUPERFREE KEEP
+.BANK 0                                 ; Defines the ROM bank and the slot it is inserted in memory.
+
+.ifdef FASTROM
+.BASE $80
+.endif
+
+.DEFINE ORG_0 0
+.ifdef HIROM
+.REDEFINE ORG_0 $8000
+.endif
+
+.SECTION "glob.data" SEMIFREE ORG ORG_0 KEEP
 
 .ENDS
 
-.BANK 0                                 ; Defines the ROM bank and the slot it is inserted in memory.
-.ORG 0                                  ; .ORG 0 is really $8000, because the slot starts at $8000
-.SECTION "EmptyVectors" SEMIFREE
+.SECTION "EmptyVectors" SEMIFREE ORG ORG_0
 
 EmptyHandler:
        rti
@@ -57,8 +66,7 @@ EmptyNMI:
 .EMPTYFILL $00                         ; fill unused areas with $00, opcode for BRK.
                                        ; BRK will crash the snes if executed.
 
-.BANK 0
-.SECTION "Snes_Init" SEMIFREE
+.SECTION "Snes_Init" SEMIFREE ORG ORG_0
 tcc__snesinit:
 	rep #$10	; X/Y 16 bit
         sep     #$20    ; A is 8 bit
@@ -188,16 +196,31 @@ tcc__snesinit:
 	ldx.w #$4202
 -	stz 0,x
 	inx
-	cpx.w #$420e
+.ifdef FASTROM
+	cpx.w #$420d
 	bne -
 
+    sep #$20    ; A 16 bit
+    lda #$01
+    sta $420d   ; FastROM enabled
+.else
+	cpx.w #$420e
+	bne -
+.endif
         ;cli             ; Enable interrupts
         rts
+
 .ENDS
 
-
 ; Needed to satisfy interrupt definition in "Header.inc".
+.SECTION ".vblank" SEMIFREE ORG ORG_0
+
 VBlank:
+.ifdef FASTROM
+  jml FVBlank
+
+FVBlank:
+.endif
   rep #$30
   phb
   phd
@@ -222,19 +245,24 @@ VBlank:
   plb
   RTI
 
-.BANK 0
-.SECTION ".start"
+.ENDS
+
+.SECTION ".start" SEMIFREE ORG ORG_0
 
 .accu 16
 .index 16
 .16bit
-
 
 tcc__start:
     ; Initialize the SNES.
     sei             ; Disabled interrupts
     clc             ; clear carry to switch to native mode
     xce             ; Xchange carry & emulation bit. native mode
+.ifdef FASTROM
+    jml fast_start
+
+fast_start:
+.endif
     rep     #$18    ; Binary mode (decimal mode off), X/Y 16 bit
     ldx     #$1FFF  ; set stack to $1FFF
     txs

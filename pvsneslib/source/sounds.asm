@@ -22,12 +22,24 @@
 ;
 ;---------------------------------------------------------------------------------
 
+.BASE $00
 .RAMSECTION ".reg_sounds" BANK 0 SLOT 1
 
 snds_val1       DSB 2                         ; save value #1
 
 .ENDS
 
+.ifdef FASTROM
+.ifdef HIROM
+.BASE $C0
+.else
+.BASE $80
+.endif
+.else
+.ifdef HIROM
+.BASE $40
+.endif
+.endif
 
 .SECTION ".sound0_text" SUPERFREE
 

@@ -1,7 +1,7 @@
 ;---------------------------------------------------------------------------------
 ;
 ;	Copyright (C) 2013-2020
-;		Alekmaul 
+;		Alekmaul
 ;
 ;	This software is provided 'as-is', without any express or implied
 ;	warranty.  In no event will the authors be held liable for any
@@ -31,6 +31,7 @@
 .equ	REG_JOY1L		$4218
 .equ	REG_JOY2L		$421A
 
+.BASE $00
 .RAMSECTION ".reg_pads" BANK 0 SLOT 1
 
 pad_keys		dsb 10                        ; 5 pads , 16 bits reg
@@ -90,6 +91,18 @@ scope_sinceshot	dsb 2
 
 .ENDS
 
+.ifdef FASTROM
+.ifdef HIROM
+.BASE $C0
+.else
+.BASE $80
+.endif
+.else
+.ifdef HIROM
+.BASE $40
+.endif
+.endif
+
 .SECTION ".pads0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------------
@@ -98,18 +111,18 @@ scanPads:
 	php
 	phb
 	phy
-	
+
 	sep	#$20                                   ; change bank address to 0
 	lda.b	#$0
 	pha
 	plb
-	
+
 	rep	#$20                                   ; copy joy states #1&2
 	ldy	pad_keys
 	sty	pad_keysold
 	ldy	pad_keys+2
 	sty	pad_keysold+2
-	
+
 -:	lda	REG_HVBJOY                             ; wait until joypads are ready
 	lsr
 	bcs -
@@ -147,23 +160,23 @@ padsClear:
 	php
 	phb
 	phx
-	
+
 	sep	#$20                                   ; change bank address to 0
 	lda.b	#$0
 	pha
 	plb
-    
+
     rep #$20
     lda 8,s                                    ; get value
     pha
     plx
-    
+
     sep	#$20
     lda #$0
     sta pad_keys,x
     sta pad_keysold,x
 	sta pad_keysrepeat,x
-    
+
 	plx
 	plb
 	plp
@@ -179,25 +192,25 @@ padsDown:
 	php
 	phb
 	phx
-	
+
 	sep	#$20                                   ; change bank address to 0
 	lda.b	#$0
 	pha
 	plb
-    
+
     rep #$20
     lda 8,s                                    ; get value
     pha
     plx
-    
+
     lda pad_keysold,x
     eor #$FFFF
     sta.w tcc__r0
-    
+
     lda pad_keys,x
     and.w tcc__r0
     sta.w tcc__r0
-    
+
   	plx
 	plb
 	plp
@@ -214,26 +227,26 @@ padsUp:
 	php
 	phb
 	phx
-	
+
 	sep	#$20                                   ; change bank address to 0
 	lda.b	#$0
 	pha
 	plb
-    
+
     rep #$20
     lda 8,s                                    ; get value
     pha
     plx
-    
+
     lda pad_keys,x
     eor #$FFFF
     sta.w tcc__r0
-    
+
     lda pad_keys,x
     eor.w pad_keysold,x
     and.w tcc__r0
     sta.w tcc__r0
-    
+
   	plx
 	plb
 	plp
@@ -251,7 +264,7 @@ detectMPlay5:
 	php
 	phb
 	phx
-	
+
 	sep		#$20                                ; change bank address to 0
 	lda.b	#$0
 	pha
@@ -259,7 +272,7 @@ detectMPlay5:
 
 	stz snes_mplay5							; currently no Multiplay5 connected
 	stz mp5read
-	
+
 	ldx #$8
 	lda.b #1
 	sta.w REG_JOYA								; strobe on
@@ -272,16 +285,16 @@ checkmplay5ston:
     dex
 	beq +
 	asl
-	sta mp5read 													
+	sta mp5read
   	bra checkmplay5ston
-+	sta mp5read 													
-	
++	sta mp5read
+
 	stz.w REG_JOYA								; strobe off
 
 	lda mp5read 								; if not $FF, no mp5 connected
 	cmp #$FF
 	bne nomplay5
-	
+
 	ldx #$8
 	stz mp5read
 
@@ -293,9 +306,9 @@ checkmplay5stoff:
     dex
 	beq +
 	asl
-	sta mp5read 													
+	sta mp5read
   	bra checkmplay5stoff
-+	sta mp5read 													
++	sta mp5read
 
 	lda mp5read 								; if $FF, no mp5 connected
 	cmp #$FF
@@ -325,7 +338,7 @@ scanMPlay5:
 	lda.b	#$0
 	pha
 	plb
-	
+
 	rep	#$20                                    ; copy joy states #1->5
 	ldy	pad_keys
 	sty	pad_keysold
@@ -337,28 +350,28 @@ scanMPlay5:
 	sty	pad_keysold+6
 	ldy	pad_keys+8
 	sty	pad_keysold+8
-	
+
 -:	lda	REG_HVBJOY                             ; wait until joypads are ready
 	lsr
 	bcs -
 
-	sep #$20	
+	sep #$20
     lda.b #$80                                 ; enable iobit to read data
 	sta.w REG_WRIO
-  
+
 	lda.b #$1
 	sta.w REG_JOYA							   ; do stobe on/off
-    stz.w REG_JOYA		
+    stz.w REG_JOYA
 
 	rep #$20
  	ldy #16
 getpad1data:									; get all 16 bits pad1 data serialy
     lda.w REG_JOYA
     lsr a										; put bit0 into carry
-    rol.w pad_keys								; pad 1 data 
+    rol.w pad_keys								; pad 1 data
     dey
-  	bne getpad1data	
- 	
+  	bne getpad1data
+
 	ldy #16
 getpad23data:									; get all 16 bits pad2&3 data serialy
 	lda.w REG_JOYB
@@ -367,11 +380,11 @@ getpad23data:									; get all 16 bits pad2&3 data serialy
     lsr a										; put bit1 into carry
     rol.w pad_keys+4							; pad 3 data
     dey
-  	bne getpad23data	
-    
+  	bne getpad23data
+
 	sep #$20
 	stz.w REG_WRIO								; to allow read for other pads
-	
+
 	rep #$20
 	ldy #16
 getpad45data:									; get all 16 bits pad2&3 data serialy
@@ -381,30 +394,30 @@ getpad45data:									; get all 16 bits pad2&3 data serialy
     lsr a										; put bit1 into carry
     rol.w pad_keys+8							; pad 5 data
     dey
-  	bne getpad45data	
+  	bne getpad45data
 
 	lda	pad_keys
 	eor	pad_keysold                            ; compute 'down' state from bits that
 	and	pad_keys                               ; have changed from 0 to 1
 	sta	pad_keysrepeat                         ;
 	lda	pad_keys+2
-	eor	pad_keysold+2   
-	and	pad_keys+2      
+	eor	pad_keysold+2
+	and	pad_keys+2
 	sta	pad_keysrepeat+2
 	lda	pad_keys+4
 	eor	pad_keysold+4
-	and	pad_keys+4   
+	and	pad_keys+4
 	sta	pad_keysrepeat+4
 	lda	pad_keys+6
 	eor	pad_keysold+6
-	and	pad_keys+6   
+	and	pad_keys+6
 	sta	pad_keysrepeat+6
 	lda	pad_keys+8
 	eor	pad_keysold+8
-	and	pad_keys+8   
+	and	pad_keys+8
 	sta	pad_keysrepeat+8
 
-	sep #$20	
+	sep #$20
     lda.b #$80                                  ; enable iobit for next frame
 	sta.w REG_WRIO
 
@@ -412,7 +425,7 @@ getpad45data:									; get all 16 bits pad2&3 data serialy
 	plb
 	plp
 	rtl
-	
+
 .ENDS
 
 .SECTION ".padsscop_text" SUPERFREE
@@ -420,27 +433,27 @@ getpad45data:									; get all 16 bits pad2&3 data serialy
 ;---------------------------------------------------------------------------------
 ;    Nintendo SHVC Scope BIOS version 1.00
 ;    Quickly disassembled and commented by Revenant on 31 Jan 2013
-;   
+;
 ;    This assembly uses xkas v14 syntax. It probably also assembles with bass, if there's
 ;    any such thing as good fortune in the universe.
 ;
 ;    How to use the SHVC Super Scope BIOS:
 ;    (all variables are two bytes)
-;   
+;
 ;    1: Set "HoldDelay" and "RepDelay" for the button hold delay and repeat rate
-;   
+;
 ;    2:  "jsr GetScope" or "jsl GetScopeLong" once per frame
-;   
+;
 ;    3:  Read one of the following to get the scope input bits (see definitions below):
 ;        - ScopeDown (for any flags that are currently true)
 ;        - ScopeNow (for any flags that have become true this frame)
 ;        - ScopeHeld (for any flags that have been true for a certain length of time)
 ;        - ScopeLast (for any flags that were true on the previous frame)
-;   
+;
 ;    3a: If the bits read from ScopeNow indicate a valid shot, or if the Cursor button
 ;        is being pressed, then read "ShotH"/"ShotV" to adjust for aim, or read
 ;        "ShotHRaw"/"ShotVRaw" for "pure" coordinates
-;   
+;
 ;    3c: at some point, set "CenterH"/"CenterV" equal to "ShotHRaw"/"ShotVRaw"
 ;        so that the aim-adjusted coordinates are "correct"
 ;---------------------------------------------------------------------------------
@@ -470,7 +483,7 @@ GetScope:
 	sta	scope_shoth+1
 	sta	scope_shothraw+1
 
-	lda	REG_OPVCT                              ; Get the vertical scanline location (bits 0-7) 
+	lda	REG_OPVCT                              ; Get the vertical scanline location (bits 0-7)
 	sta	scope_shotv
 	sta	scope_shotvraw
 
@@ -478,7 +491,7 @@ GetScope:
 	and.b #$01
 	sta	scope_shotv+1
 	sta	scope_shotvraw+1
-    
+
 	rep	#$20
 	lda	scope_centerh                          ; Factor in the horizontal offset factor
 	clc

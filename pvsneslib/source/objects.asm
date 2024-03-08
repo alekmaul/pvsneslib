@@ -48,12 +48,12 @@
 .DEFINE T_SPIKE				$0004
 .DEFINE T_PLATE				$0008
 .DEFINE T_SLOPES            $0020
-;                           $0020             Type Slope 1x1 Up ◢ (action will be climb on it) for tile  
-;                           $0021             Type Slope 1x1 Down ◣ (action will be descend on it) for tile 
+;                           $0020             Type Slope 1x1 Up ◢ (action will be climb on it) for tile
+;                           $0021             Type Slope 1x1 Down ◣ (action will be descend on it) for tile
 ;                           $0022  Type Slope 2x1 lower half Up ◢ (action will be climb on it) for tile
 ;                           $0023  Type Slope 2x1 lower half Down ◣ (action will be descend on it) for tile
 ;                           $0024  Type Slope 2x1 upper half Up ◢ (action will be climb on it) for tile
-;                           $0025  Type Slope 2x1 upper half Down ◣ (action will be descend on it) for tile 
+;                           $0025  Type Slope 2x1 upper half Down ◣ (action will be descend on it) for tile
 
 .DEFINE ACT_CLIMB			$2000
 .DEFINE ACT_DIE				$4000
@@ -112,7 +112,8 @@ objnotused      DSB 7                       ; OB_SIZE-56-1 for future use
 
 .ENDST
 
-.RAMSECTION ".reg_objects7e" bank $7E
+.BASE $00
+.RAMSECTION ".reg_objects7e" BANK $7E SLOT RAMSLOT_0
 
 objbuffers      INSTANCEOF t_objs OB_MAX    ; object struct in memory
 objactives      DSW OB_TYPE_MAX				; active object list
@@ -147,6 +148,18 @@ objtmp3	DW
 objtmp4	DW
 
 .ENDS
+
+.ifdef FASTROM
+.ifdef HIROM
+.BASE $C0
+.else
+.BASE $80
+.endif
+.else
+.ifdef HIROM
+.BASE $40
+.endif
+.endif
 
 .SECTION ".objects0_text" superfree
 

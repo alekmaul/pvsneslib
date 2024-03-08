@@ -22,13 +22,25 @@
 ;
 ;---------------------------------------------------------------------------------
 
-.SECTION ".interrupts0_text" SUPERFREE
+.ifdef FASTROM
+.ifdef HIROM
+.BASE $C0
+.else
+.BASE $80
+.endif
+.else
+.ifdef HIROM
+.BASE $40
+.endif
+.endif
+
+.SECTION  ".interrupts0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 WaitForVBlank:
 	wai
 	rtl
-	
+
 ; old version still here for memory purpose
 ;	pha
 ;	php
@@ -58,8 +70,8 @@ WaitNVBlank:
 -   wai
     dea
     bne -
-	
+
     plp
 	rtl
-	
+
 .ENDS

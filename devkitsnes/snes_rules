@@ -3,8 +3,6 @@ ifeq ($(origin SRC), undefined)
     SRC := src
 endif
 
-LIBDIRSOBJS := $(PVSNESLIB_HOME)/pvsneslib/lib
-
 # to avoid some bugs if the PVSNESLIB_HOME is not well defined, we let a small check here
 ifeq ($(findstring \,$(PVSNESLIB_HOME)),\)
 $(error "PVSNESLIB_HOME environment variable is not defined correctly: the path must be in Unix style (on Windows operating system too!). For example, use /c/snesdev instead of c:\snesdev")
@@ -16,6 +14,32 @@ $(info The debug mode is enabled)
 else
 DEBUG = 0
 $(info The debug mode is NOT enabled, you can do it by executing "export PVSNESLIB_DEBUG=1")
+endif
+
+ifeq ($(HIROM),1)
+HIROM = 1
+$(info HiROM compilation is enabled)
+ifeq ($(FASTROM),1)
+LIBDIRSOBJS := $(PVSNESLIB_HOME)/pvsneslib/lib/HiROM_FastROM
+else
+LIBDIRSOBJS := $(PVSNESLIB_HOME)/pvsneslib/lib/HiROM_SlowROM
+endif
+else
+HIROM = 0
+$(info LoROM compilation is enabled)
+ifeq ($(FASTROM),1)
+LIBDIRSOBJS := $(PVSNESLIB_HOME)/pvsneslib/lib/LoROM_FastROM
+else
+LIBDIRSOBJS := $(PVSNESLIB_HOME)/pvsneslib/lib/LoROM_SlowROM
+endif
+endif
+
+ifeq ($(FASTROM),1)
+FASTROM = 1
+$(info FastROM compilation is enabled)
+else
+FASTROM = 0
+$(info SlowROM compilation is enabled)
 endif
 
 #---------------------------------------------------------------------------------
@@ -85,7 +109,20 @@ export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 #---------------------------------------------------------------------------------
 %.ps: %.c
 	@echo Compiling to .ps ... $(notdir $<)
+ifeq ($(HIROM),1)
+ifeq ($(FASTROM),1)
+	$(CC) $(CFLAGS) -Wall -c $< -H -F -o $@
+else
+	$(CC) $(CFLAGS) -Wall -c $< -H -o $@
+endif
+else
+ifeq ($(FASTROM),1)
+	$(CC) $(CFLAGS) -Wall -c $< -F -o $@
+else
 	$(CC) $(CFLAGS) -Wall -c $< -o $@
+endif
+endif
+
 ifeq ($(DEBUG),1)
 	cp $@ $@.01.dbg
 endif

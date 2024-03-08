@@ -38,7 +38,8 @@
 .DEFINE TXT_VRAMBGADR   $0800
 .DEFINE TXT_VRAMOFFSET   $0000
 
-.RAMSECTION ".reg_cons7e" BANK $7E
+.BASE $00
+.RAMSECTION ".reg_cons7e" BANK $7E SLOT RAMSLOT_0
 
 snes_vblank_count       DW                                  ; to count number of vblank
 
@@ -63,6 +64,18 @@ scr_txt_font_map        DSW $800                            ; text to display on
 snes_rand_seed1:        DSB 2
 snes_rand_seed2:        DSB 2
 .ENDS
+
+.ifdef FASTROM
+.ifdef HIROM
+.BASE $C0
+.else
+.BASE $80
+.endif
+.else
+.ifdef HIROM
+.BASE $40
+.endif
+.endif
 
 .SECTION ".consoles0_text" SUPERFREE
 
