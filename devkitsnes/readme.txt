@@ -29,6 +29,9 @@ SPECIAL THANKS
 
 CHANGE LOG
 ----------------------
+VERSION V4.2.1 (March,04,2024)
+- See github changelog of the release
+
 VERSION V4.2.0 (March,04,2024)
 - See github changelog of the release
 
