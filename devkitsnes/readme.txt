@@ -1,6 +1,4 @@
- DevkitSnes 4.1.1
-
- Programming Compiler and Tools for Snes
+Programming Compiler and Tools for Snes
 
 INTRODUCTION
 ----------------------
