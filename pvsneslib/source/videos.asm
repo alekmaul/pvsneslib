@@ -70,8 +70,8 @@
 .EQU MOSAIC_IN      2
 .EQU MOSAIC_OUT     1
 
-
-.RAMSECTION ".reg_video7e" BANK $7E
+.BASE $00
+.RAMSECTION ".reg_video7e" BANK $7E SLOT RAMSLOT_0
 
 videoMode           DSB 1
 videoModeSub        DSB 1
@@ -81,7 +81,7 @@ iloc                DSB 1
 
 .ENDS
 
-.RAMSECTION ".reg_video7e_matrix" BANK $7E
+.RAMSECTION ".reg_video7e_matrix" BANK $7E SLOT RAMSLOT_0
 
 m7ma                DSB 2
 m7mb                DSB 2
@@ -101,6 +101,7 @@ m7_md               DSB (225-64)*3              ; 483 bytes
 
 .ENDS
 
+.BASE BASE_0
 .SECTION ".videos0_text" SUPERFREE
 
 .ACCU 16
@@ -124,7 +125,7 @@ setFadeEffect:
 
     ldx.b   #$0
 -:
-    wai 
+    wai
     txa
     sta.l   REG_INIDISP
     inx
@@ -141,7 +142,7 @@ setFadeEffect:
 _fadeouteffect:
     ldx.b   #$F
 -:
-    wai 
+    wai
     txa
     sta.l   REG_INIDISP
     dex
@@ -1003,7 +1004,7 @@ setMode7Scale:
 
     rep #$20                ; get xscale
     lda 5,s
-    
+
     sep #$20                ; REG_M7A = xscale;
     sta.l REG_M7A
     rep #$20
@@ -1013,7 +1014,7 @@ setMode7Scale:
 
     rep #$20                ; get yscale
     lda 7,s
-    
+
     sep #$20                ; REG_M7D = yscale;
     sta.l REG_M7D
     rep #$20

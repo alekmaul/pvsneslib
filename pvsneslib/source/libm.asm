@@ -4,6 +4,7 @@
 .index 8
 .8bit
 
+.BASE $00
 .RAMSECTION ".fp_libm" BANK 0 SLOT 1 PRIORITY 2
 tcc__SIGN      dsb  1
 tcc__f1 dsb 0
@@ -19,7 +20,18 @@ tcc__E DSB  4
 
 ;.define OVLOC $3f5
 
-.SECTION ".libm" SUPERFREE
+.ifdef FASTROM
+.BASE $80
+.endif
+
+.BANK 0
+
+.DEFINE ORG_0 0
+.ifdef HIROM
+.REDEFINE ORG_0 $8000
+.endif
+
+.SECTION ".libm" SEMIFREE ORG ORG_0
 
 .accu 16
 .index 16
@@ -124,7 +136,7 @@ _lltof_discard_low:
 .accu 8
 .index 8
 
-_lltof_discard_high:	
+_lltof_discard_high:
 	; discard highest byte
 	tya
 	sec
@@ -139,7 +151,7 @@ _lltof_discard_high:
 	xba
 	sta.b tcc__M1
 	sep #$20
-	
+
 	rts
 
 
@@ -238,23 +250,23 @@ tcc__llfloat:    ldy.w  #$8E + 16    ;INIT EXP1 TO 14 + 16,
 	lda.b tcc__r9
 	xba
 	sta.b tcc__M1 + 1
-	
+
 ++	sep #$30
 	sty.b tcc__X1
 	jsr _norm
 	rep #$30
-	rtl	
+	rtl
 
 .accu 16
 .index 16
-	
+
 tcc__float:
 	sep #$30
 	stz.b tcc__M1 + 2	; value loaded is 16 bits, clear low byte of
 				; 24 bit mantissa
 	jsr float
 	rep #$30
-	rtl	
+	rtl
 
 tcc__ufloat:
 	sep #$30
@@ -269,7 +281,7 @@ tcc__ufloat:
 	jsr _norm1
 	rep #$30
 	rtl
-	
+
 tcc__fcmp:
 	sep #$30
 	jsr fsub

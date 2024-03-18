@@ -22,13 +22,14 @@
 ;
 ;---------------------------------------------------------------------------------
 
-.SECTION ".interrupts0_text" SUPERFREE
+.BASE BASE_0
+.SECTION  ".interrupts0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 WaitForVBlank:
 	wai
 	rtl
-	
+
 ; old version still here for memory purpose
 ;	pha
 ;	php
@@ -58,8 +59,8 @@ WaitNVBlank:
 -   wai
     dea
     bne -
-	
+
     plp
 	rtl
-	
+
 .ENDS

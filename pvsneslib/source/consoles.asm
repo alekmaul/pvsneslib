@@ -38,7 +38,8 @@
 .DEFINE TXT_VRAMBGADR   $0800
 .DEFINE TXT_VRAMOFFSET   $0000
 
-.RAMSECTION ".reg_cons7e" BANK $7E
+.BASE $00
+.RAMSECTION ".reg_cons7e" BANK $7E SLOT RAMSLOT_0
 
 snes_vblank_count       DW                                  ; to count number of vblank
 
@@ -64,6 +65,7 @@ snes_rand_seed1:        DSB 2
 snes_rand_seed2:        DSB 2
 .ENDS
 
+.BASE BASE_0
 .SECTION ".consoles0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
