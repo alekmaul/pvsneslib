@@ -20,18 +20,37 @@
 ;	3.	This notice may not be removed or altered from any source
 ;		distribution.
 ;
-;   ==LoRom==                   ; We'll get to HiRom some other time.
 ;---------------------------------------------------------------------------------
+
+.include "comp_defs.asm"        ; Contains definitions for HiROM and FastROM
+
+.ifdef HIROM                    ;   ==HiRom==
+
+.MEMORYMAP                      ; Begin describing the system architecture.
+  SLOTSIZE $10000               ; The slot is $10000 bytes in size. More details on slots later.
+  DEFAULTSLOT 0                 ; There's only 1 slot in SNES, there are more in other consoles.
+  SLOT 0 $0000                  ; Defines Slot 0's starting address.
+  SLOT 1 $0 $2000               ; Used for low RAM allocation
+  SLOT 2 $2000 $E000            ; Used for RAM allocation
+  SLOT 3 $0 $10000              ; Used for global RAM allocation
+  SLOT 4 $6000                  ; Used for SRAM storage.
+.ENDME                          ; End MemoryMap definition
+
+.ROMBANKSIZE $10000             ; Every ROM bank is 64 KBytes in size
+
+.else                           ;   ==LoRom==
 
 .MEMORYMAP                      ; Begin describing the system architecture.
   SLOTSIZE $8000                ; The slot is $8000 bytes in size. More details on slots later.
   DEFAULTSLOT 0                 ; There's only 1 slot in SNES, there are more in other consoles.
   SLOT 0 $8000                  ; Defines Slot 0's starting address.
-  SLOT 1 $0 $2000
-  SLOT 2 $2000 $E000
-  SLOT 3 $0 $10000
+  SLOT 1 $0 $2000               ; Used for low RAM allocation
+  SLOT 2 $2000 $E000            ; Used for RAM allocation
+  SLOT 3 $0 $10000              ; Used for global RAM allocation and data storage
 .ENDME                          ; End MemoryMap definition
 
 .ROMBANKSIZE $8000              ; Every ROM bank is 32 KBytes in size
-.ROMBANKS 8                     ; 2 Mbits - Tell WLA we want to use 8 ROM Banks
 
+.endif
+
+.ROMBANKS 2                     ; Tell WLA we want to use 2 ROM Banks

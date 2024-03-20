@@ -1,7 +1,7 @@
 ;---------------------------------------------------------------------------------
 ;
 ;   Copyright (C) 2013-2021
-;       Alekmaul 
+;       Alekmaul
 ;
 ;   This software is provided 'as-is', without any express or implied
 ;   warranty.  In no event will the authors be held liable for any
@@ -25,12 +25,13 @@
 .EQU REG_RDNMI              $4210
 .EQU REG_HDMAEN             $420C
 
-.RAMSECTION ".reg_dma7e" BANK $7E 
+.BASE $00
+.RAMSECTION  ".reg_dma7e" BANK $7E SLOT RAMSLOT_0
 
 HDMATable16                 DSB 224*3+1                   ; enough lines for big hdma features
 
 hdma_val1                   DSB 2                         ; save value #1
- 
+
 hdmacirc_x                  DW
 hdmacirc_y                  DW
 hdmacirc_ysav               DW
@@ -44,7 +45,8 @@ hdmacirc_err                DW
 .index 16
 .16bit
 
-.SECTION ".dmas0_text" SUPERFREE
+.BASE BASE_0
+.SECTION  ".dmas0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void dmaCopyCGram(u8 * source, u16 address, u16 size);
@@ -53,7 +55,7 @@ dmaCopyCGram:
 
 ;   jsr.w   _wait_nmid
     rep #$20
-    
+
     lda 11,s                                                  ; numBytes
     sta.l   $4305
     lda 5,s                                                   ; src (lower 16 bits)
@@ -69,7 +71,7 @@ dmaCopyCGram:
     sta.l   $4301
     lda #1
     sta.l   $420b
-    
+
     plp
     rtl
 
@@ -84,12 +86,12 @@ dmaCopyVram:
 
 ;   jsr.w   _wait_nmid
     rep #$20
-    lda 9,s 
+    lda 9,s
     sta.l   $2116           ; address for VRAM write(or read)
 
     lda 11,s
     sta.l   $4305           ; number of bytes to be copied
-    lda 5,s 
+    lda 5,s
     sta.l   $4302           ; data offset in memory
 
     sep #$20                ; 8bit A
@@ -119,13 +121,13 @@ dmaCopySpr32Vram:
 
 ;   jsr.w   _wait_nmid
     rep #$20
-    lda 9,s 
+    lda 9,s
     sta.l   $2116           ; address for VRAM write(or read)
 
 ;   lda 11,s
     lda #$80
     sta.l   $4305           ; number of bytes to be copied
-    lda 5,s 
+    lda 5,s
     sta.l   $4302           ; data offset in memory
 
     sep #$20                ; 8bit A
@@ -160,10 +162,10 @@ dmaCopySpr32Vram:
     rep #$20
     clc
     lda #$200
-    adc 9,s 
+    adc 9,s
     sta.l   $2116           ; address for VRAM write(or read)
     lda #$400
-    adc 5,s 
+    adc 5,s
     sta.l   $4302           ; data offset in memory
     lda #$80
     sta.l   $4305           ; number of bytes to be copied
@@ -175,10 +177,10 @@ dmaCopySpr32Vram:
     rep #$20
     clc
     lda #$300
-    adc 9,s 
+    adc 9,s
     sta.l   $2116           ; address for VRAM write(or read)
     lda #$600
-    adc 5,s 
+    adc 5,s
     sta.l   $4302           ; data offset in memory
     lda #$80
     sta.l   $4305           ; number of bytes to be copied
@@ -200,13 +202,13 @@ dmaCopySpr16Vram:
 
 ;   jsr.w   _wait_nmid
     rep #$20
-    lda 9,s 
+    lda 9,s
     sta.l   $2116           ; address for VRAM write(or read)
 
 ;   lda 11,s
     lda #$40
     sta.l   $4305           ; number of bytes to be copied
-    lda 5,s 
+    lda 5,s
     sta.l   $4302           ; data offset in memory
 
     sep #$20                ; 8bit A
@@ -226,10 +228,10 @@ dmaCopySpr16Vram:
     rep #$20
     clc
     lda #$100
-    adc 9,s 
+    adc 9,s
     sta.l   $2116           ; address for VRAM write(or read)
     lda #$200
-    adc 5,s 
+    adc 5,s
     sta.l   $4302           ; data offset in memory
     lda #$40
     sta.l   $4305           ; number of bytes to be copied
@@ -251,12 +253,12 @@ dmaFillVram:
 
 ;   jsr.w   _wait_nmid
     rep #$20
-    lda 9,s 
+    lda 9,s
     sta.l   $2116           ; address for VRAM write(or read)
 
     lda 11,s
     sta.l   $4305           ; number of bytes to be copied
-    lda 5,s 
+    lda 5,s
     sta.l   $4302           ; data offset in memory
 
     sep #$20                ; 8bit A
@@ -288,7 +290,7 @@ dmaClearVram:
     lda #$80
     sta.l   $2115         ;Set VRAM port to word access
 
-    rep #$20 
+    rep #$20
     lda #$1809
     sta.l   $4300         ;Set DMA mode to fixed source, WORD to $2118/9
     lda #$0000
@@ -349,8 +351,8 @@ dmaCopyOAram:
     lda #0
     sta.l   $4300
     lda #$04
-    sta.l   $4301       ; DMA channel 0 Bus B addr $2104 (OAM write) 
-    
+    sta.l   $4301       ; DMA channel 0 Bus B addr $2104 (OAM write)
+
     lda #1
     sta.l   $420b
 
@@ -373,9 +375,9 @@ dmaCopyVram7:
     sta.l   $2115           ; block size transfer ($2115)
 
     rep #$20
-    lda 9,s                 ; address in VRam for read or write ($2116) 
+    lda 9,s                 ; address in VRam for read or write ($2116)
     sta.l   $2116
-    
+
     lda 11,s                ; numBytes
     sta.l   $4305
     lda 5,s                 ; src (lower 16 bits)
@@ -384,19 +386,19 @@ dmaCopyVram7:
     lda 14,s
     and #$00ff
     sep #$20
-    sta.l   $4300           ; (dmacontrol & 255) 
-    
+    sta.l   $4300           ; (dmacontrol & 255)
+
     rep #$20
     lda 14,s
     xba
     and #$00ff
     sep #$20
     sta.l   $4301           ; (dmacontrol>>8)
-    
+
     sep #$20
     lda 7,s                 ; src bank
     sta.l   $4304
-    
+
     lda #1
     sta.l   $420b
 
@@ -412,28 +414,28 @@ dmaCopyVram7:
 setModeHdmaGradient:
     php
     phx
-    
+
     ;   jsr.w   _wait_nmid
     ldx #$0000
-    
+
     sep #$20
     lda 8,s
     and #$f                 ;  maxLevels & 15
     sta hdma_val1
-    
+
 _sMHG1:
     sep #$20
     lda #14                 ; because we have 224 lines and 16 steps 224/16 -> 14
     sta HDMATable16,x
-    
+
     rep #$20                ; mL  - (i / (32/(mL+1)));
     phx
-    lda.w #32                        
-    tax     
-    sep #$20                
+    lda.w #32
+    tax
+    sep #$20
     lda hdma_val1
     rep #$20
-    ina 
+    ina
     jsl tcc__div            ; 1) 32/(mL+1) -> x=32, a=mL+1
     plx
     lda.b tcc__r9
@@ -450,10 +452,10 @@ _sMHG1:
     txa
     cmp #32
     bne _sMHG1
-    
+
     lda #0                  ; finish the dma table with 0
     sta HDMATable16,x
-    
+
     sta.l   $4330           ; 0x00 Meaning write once
     sta.l   $4331           ; 0x00  Screen display register  -> so we control brightness
 
@@ -464,10 +466,10 @@ _sMHG1:
     sep #$20
     lda #:HDMATable16       ; src bank
     sta.l   $4334
-    
+
     lda #8                  ; Enable HDMA channel 3
     sta.l   REG_HDMAEN
-    
+
     plx
     plp
     rtl
@@ -511,7 +513,7 @@ _Lvl1Bright:
     .db $03,$01
     .db $03,$00
     .db $00
- 
+
 setModeHdmaShadeUpDown:
     php
 
@@ -527,10 +529,10 @@ setModeHdmaShadeUpDown:
     sep #$20
     lda #:_Lvl1Bright       ; src bank
     sta.l   $4334
-    
+
     lda #8                  ; Enable HDMA channel 3
     sta.l   REG_HDMAEN
-    
+
     plp
     rtl
 
@@ -551,7 +553,7 @@ setModeHdmaShading:
     sep #$20
     lda 5,s                     ; mode=0, we stop shading
     beq +
-    
+
     sep #$20
     lda #0
     sta.l   $4300           ; 0x00 Meaning write once
@@ -601,33 +603,33 @@ setModeHdmaShading:
 
 _bgscridx:
     .db $0D,$0F,$11                      ; for horizontal scrolling registers 210d, 210f & 2111 (bg0..2)
-    
+
 //---------------------------------------------------------------------------------
 ; void setParallaxScrolling(u8 bgrnd)
 setParallaxScrolling:
     php
     phx
-    
+
     sep #$20
     lda #$02                            ; direct mode
     sta.l $4330                         ; 1 register, write twice (mode 2)
-    
+
     lda 7,s                             ; get background number  (5+2)
     rep #$20
     and #$00ff
     tax
     sep #$20
-    lda.l _bgscridx,x                   ; bgx_scroll_x horizontal scroll 
+    lda.l _bgscridx,x                   ; bgx_scroll_x horizontal scroll
     sta.l $4331                         ; destination
-    
+
     lda #:HDMATable16                   ; src bank
     sta.l $4334
 
-    rep #$20                        
+    rep #$20
     lda #HDMATable16.w                  ; Address of HDMA table, get high and low byte
     sta.l $4332                         ; 4332 = Low-Byte of table, 4333 = High-Byte of table
-    
-    sep #$20                            
+
+    sep #$20
     lda #8                              ; Enable HDMA channel 3
     sta.l REG_HDMAEN
 
@@ -646,20 +648,20 @@ setModeHdmaReset:
     lda 5,s
     sta.l REG_HDMAEN
 
-    plp                                        
+    plp
     rtl
 
 ; void setModeHdmaWindowReset(u8 channels)
 setModeHdmaWindowReset:
     php
-    
+
     sep #$20
     lda 5,s
     sta.l REG_HDMAEN
     lda #$00
     sta.l REG_TMW
 
-    plp                                        
+    plp
     rtl
 
 .ENDS
@@ -694,7 +696,7 @@ setModeHdmaColor:
 
     plp
     rtl
-    
+
 ;.ENDS
 
 ;.SECTION ".dmas14_text" SUPERFREE
@@ -711,7 +713,7 @@ setModeHdmaWaves:
     pha
     plb
 
-    rep #$20                            
+    rep #$20
     ldx #0
 
 _smhw01:
@@ -722,7 +724,7 @@ _smhw01:
     txa
     cmp #34
     bne _smhw01
-    
+
     sep #$20
     lda #$0
     pha
@@ -744,7 +746,7 @@ _smhw01:
     sta $4364                                                 ; address
     lda #$7e
     sta.l $4367                                               ; indirect address bank
-    
+
     lda #$40                                                  ; channel 6
     sta.l   REG_HDMAEN
 
@@ -756,7 +758,7 @@ _smhw01:
 ; void setModeHdmaWavesMove(void)
 setModeHdmaWavesMove:
     php
-    phb 
+    phb
 
     sep #$20
     lda #$7e
@@ -764,13 +766,13 @@ setModeHdmaWavesMove:
     plb
 
     rep #$20
-    lda snes_vblank_count                                     ; only does this every 4th frame  
+    lda snes_vblank_count                                     ; only does this every 4th frame
     and #$0003
     bne _smhwm0
 
     lda HDMATable16
     sta hdma_val1
-    
+
     lda HDMATable16+2
     sta HDMATable16
     lda HDMATable16+4
@@ -801,13 +803,13 @@ setModeHdmaWavesMove:
     sta HDMATable16+26
     lda HDMATable16+30
     sta HDMATable16+28
-    
+
     lda hdma_val1
     sta HDMATable16+30
 _smhwm0:
-    plb 
+    plb
     plp
-    rtl 
+    rtl
 
 waveHTable:                                                   ; indirect table for wave effect
     .byte 8
@@ -869,24 +871,24 @@ waveHTable:                                                   ; indirect table f
     .byte 0
 
 _waveTable:
-    .word $00               ; | 
-    .word $03               ; | 
-    .word $06               ; | 
-    .word $07               ; | 
-    .word $08               ; | 
-    .word $07               ; | 
-    .word $06               ; | 
-    .word $03               ; | 
-    .word $00               ; | 
-    .word -$03              ; | 
-    .word -$06              ; | 
-    .word -$07              ; | 
-    .word -$08              ; | 
-    .word -$07              ; | 
-    .word -$06              ; | 
-    .word -$03              ; | 
-    .word $00               ;/  
-    
+    .word $00               ; |
+    .word $03               ; |
+    .word $06               ; |
+    .word $07               ; |
+    .word $08               ; |
+    .word $07               ; |
+    .word $06               ; |
+    .word $03               ; |
+    .word $00               ; |
+    .word -$03              ; |
+    .word -$06              ; |
+    .word -$07              ; |
+    .word -$08              ; |
+    .word -$07              ; |
+    .word -$06              ; |
+    .word -$03              ; |
+    .word $00               ;/
+
 .ENDS
 
 .SECTION ".dmas14_text" SUPERFREE
@@ -913,30 +915,30 @@ setModeHdmaWindow:
     lda 9,s                                                   ; got all the flags to mask effect (inside, outside on BG1..2)
     sta REG_W12SEL
     bra ++
-+:  
++:
     lda 9,s                                                   ; got all the flags to mask effect (inside, outside on BG3..4)
     sta REG_W34SEL
 
-++: lda 9,s                                                   ; todo : find a way to manage easily objects -> currently, it works only for BG1 
+++: lda 9,s                                                   ; todo : find a way to manage easily objects -> currently, it works only for BG1
     sta REG_WOBJSEL
-    
+
     stz $4340                                                 ; 1 register, write once
     lda #$26                                                  ; 2126  Window 1 Left Position (X1)
     sta $4341                                                 ; destination
     lda 12,s                                                  ; bank address of left  table
-    sta $4344 
-    
+    sta $4344
+
     stz $4350                                                 ; 1 register, write once
     lda #$27                                                  ; 2127 Window 1 Right Position (X2)
-    sta $4351 
+    sta $4351
     lda 16,s                                                  ; bank address of right table
-    sta $4354 
+    sta $4354
 
     rep #$20
     lda 10,s                                                  ; low address of left table
     sta $4342                                                 ; low address of right table
-    lda 14,s                                                
-    sta $4352 
+    lda 14,s
+    sta $4352
 
     sep #$20
     lda #$30                                                  ; channel 4 & 5       00110000
@@ -945,7 +947,7 @@ setModeHdmaWindow:
     plx
     plb
     plp
-    rtl 
+    rtl
 
 .ENDS
 
@@ -962,13 +964,13 @@ calc_circle_hdma:
     lda #$7E
     pha
     plb
-    
+
     rep #$20
     lda 12,s                                                  ; get radius
-    bne + 
+    bne +
     brl _cchend                                               ; radius =0, go out
 +:  sta hdmacirc_x                                            ; x = rc
-    
+
     stz hdmacirc_y                                            ; y = 0
     stz hdmacirc_err                                          ; error=0 (16 bits)
 
@@ -983,7 +985,7 @@ calc_circle_hdma:
     sta tcc__r0h
     lda 20,s
     sta tcc__r1h
-    
+
     rep #$20
     lda 10,s                                                      ; 1st, store nb skipped lines -> get y0
     sec
@@ -1055,7 +1057,7 @@ _cchiterskip1:
     sta hdmacirc_ysav
 
 _cchloop:
-    rep #$20                                                  ; pixel (x0-y,y0-x) x->rc..0 y=0..n 
+    rep #$20                                                  ; pixel (x0-y,y0-x) x->rc..0 y=0..n
     lda 10,s                                                  ;  get y0
     sec
     sbc hdmacirc_x                                            ; y0-x
@@ -1081,7 +1083,7 @@ _cchloop:
     sta [tcc__r1], y
     phy
     tya
-    
+
 
 
     rep #$20
@@ -1093,7 +1095,7 @@ _cchloop:
     ina
     sta hdmacirc_err
     inc hdmacirc_y          ; y++
-    
+
     sec
     sbc hdmacirc_x          ; error - x
     dea
@@ -1146,7 +1148,7 @@ _cchskip1:
 ;   sbc hdmacirc_tmp
 ;   sep #$20
 ;   sta [tcc__r1], y
-    
+
 ;   rep #$20
 ;   lda hdmacirc_err        ; error += 1 + 2*y
 ;   clc
@@ -1156,7 +1158,7 @@ _cchskip1:
 ;   ina
 ;   sta hdmacirc_err
 ;   inc hdmacirc_y          ; y++
-    
+
 ;   sec
 ;   sbc hdmacirc_x          ; error - x
 ;   dea
@@ -1193,12 +1195,12 @@ _cchend:
     sta [tcc__r0], y
     lda #$0
     sta [tcc__r1], y
-    iny 
+    iny
     lda #0
     sta [tcc__r0], y
     sta [tcc__r1], y
     rep #$20
-    lda hdmacirc_ysav                                         ; 
+    lda hdmacirc_ysav                                         ;
     ora #$80                                                  ; need to put bit 7
     sta hdmacirc_ysav
     lda #$2
