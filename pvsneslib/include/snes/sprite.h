@@ -2,7 +2,7 @@
 
     sprite.h -- definitions for SNES sprites
 
-    Copyright (C) 2012-2017
+    Copyright (C) 2012-2024
         Alekmaul
 
     This software is provided 'as-is', without any express or implied
@@ -290,15 +290,42 @@ void oamVramQueueUpdate(void);
 */
 void oamDynamic32Draw(u16 id);
 
+/*!\brief Add a 32x32 sprite on screen.<br>oambuffer[id] needs to be populate before.
+    !\brief    Sprite is never refresh (VRAM must be update before)
+    !\brief    oamframeid is the VRAM entry number for sprite (eg.4 for VRAM offset 0x0040, 15 for 0x0CC...)
+    !\brief    WARNING: as the sprite engine begin at VRAM address 0x0000, you need to take care of High bit 
+    !\brief      if you want to use a VRAM entry number more than 0x00FF
+    \param id the oam number to be used [0 - 127]
+*/
+void oamFix32Draw(u16 id);
+
 /*!\brief Add a 16x16 sprite on screen.<br>oambuffer[id] needs to be populate before.
     \param id the oam number to be used  [0 - 127]
 */
 void oamDynamic16Draw(u16 id);
 
+/*!\brief Add a 16x16 sprite on screen.<br>oambuffer[id] needs to be populate before.
+    !\brief    Sprite is never refresh (VRAM must be update before)
+    !\brief    oamframeid is the VRAM entry number for sprite (eg.4 for VRAM offset 0x0040, 15 for 0x0CC...)
+    !\brief    WARNING: as the sprite engine begin at VRAM address 0x0000, you need to take care of High bit 
+    !\brief      if you want to use a VRAM entry number more than 0x00FF
+    \param id the oam number to be used  [0 - 127]
+*/
+void oamFix16Draw(u16 id);
+
 /*!\brief Add a 8x8 sprite on screen.<br>oambuffer[id] needs to be populate before.
     \param id the oam number to be used [0 - 127]
 */
 void oamDynamic8Draw(u16 id);
+
+/*!\brief Add a 8x8 sprite on screen.<br>oambuffer[id] needs to be populate before.
+    !\brief    Sprite is never refresh (VRAM must be update before)
+    !\brief    oamframeid is the VRAM entry number for sprite (eg.4 for VRAM offset 0x0040, 15 for 0x0CC...)
+    !\brief    WARNING: as the sprite engine begin at VRAM address 0x0000, you need to take care of High bit 
+    !\brief      if you want to use a VRAM entry number more than 0x00FF
+    \param id the oam number to be used [0 - 127]
+*/
+void oamFix8Draw(u16 id);
 
 /*!\brief Add a Meta sprite on screen (can be composed of 8x8,16x16 or 32x32 sprites).<br>oambuffer[id] needs to be populate before.
     \param id the oam number to be used [0 - 127].
