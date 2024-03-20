@@ -1,7 +1,7 @@
 ;---------------------------------------------------------------------------------
 ;
 ;	Copyright (C) 2014-2022
-;		Alekmaul 
+;		Alekmaul
 ;
 ;	This software is provided 'as-is', without any express or implied
 ;	warranty.  In no event will the authors be held liable for any
@@ -30,7 +30,8 @@
 .EQU REG_VMDATALREAD			$2139	; VRAM Data Read Low			1B/R
 .EQU REG_VMDATAHREAD			$213A	; VRAM Data Read High			1B/R
 
-.RAMSECTION ".reg_lzss7e" BANK $7e
+.BASE $00
+.RAMSECTION  ".reg_lzss7e" BANK $7E SLOT RAMSLOT_0
 
 m0					DW
 m4					DW
@@ -39,6 +40,7 @@ m6					DW
 
 .ENDS
 
+.BASE BASE_0
 .SECTION ".lz77_text" superfree
 
 .accu 16
@@ -56,7 +58,7 @@ m6					DW
 
 ;---------------------------------------------------------------------------
 ; void LzssDecodeVram(u8 * source, u16 address);
-; 10-13 14-15 
+; 10-13 14-15
 LzssDecodeVram:
 	php
 	phb
@@ -75,7 +77,7 @@ LzssDecodeVram:
 	sep #$20
 	lda 12,s
 	sta tcc__r0h
-	
+
 	rep #$20
 	lda 14,s
 	asl a													  ; because adr is x2
@@ -83,13 +85,13 @@ LzssDecodeVram:
 
 	sep #$20
 	lda	#$00                        						  ; setup VRAM access (increment on readlow)
-	sta.l REG_VMAIN                      
+	sta.l REG_VMAIN
 
 	ldy	#0                                         		      ; y = 0 (source index)
 	lda	[tcc__r0]                         				      ; test compression type
-	and	#$F0                                   			  
-	cmp	#$10                                     		      ; 1x = LZ77          
-	beq	@LZ77source                    
+	and	#$F0
+	cmp	#$10                                     		      ; 1x = LZ77
+	beq	@LZ77source
 
 @ddv_exit:
 	ply
@@ -101,24 +103,24 @@ LzssDecodeVram:
 
 @LZ77source:												  ;=========================================================================
 	iny                                                       ; x = byte 1,2 (data length)
-	rep	#$20                                     
+	rep	#$20
 	lda	[tcc__r0], y
-	tax                                                         
-	sep	#$20                                     
+	tax
+	sep	#$20
 	iny
 	iny
 	iny
 
 @LZ77_DecompressLoop:
 	lda	[tcc__r0], y                                     	 ; m5 = cflags
-	iny                                               
-	sta	m5                                         
+	iny
+	sta	m5
 	lda	#8                                         			 ; m6 = bit counter
-	sta	m6                                         
+	sta	m6
 
 @next_bit:
 	asl	m5                                        			 ; test bit
-	bcs @lz_byte                            
+	bcs @lz_byte
 
 @raw_byte:
 	rep #$20                                                 ; setup vram address (to target)
@@ -126,12 +128,12 @@ LzssDecodeVram:
 	inc m0
 	lsr
 	sta.l REG_VMADDL
-	sep #$20                                     
+	sep #$20
 	lda	[tcc__r0], y										 ; copy one byte
 	iny
 	bcs	+                                                    ; write A to vram (carry = H/L)
 
-	sta.l	REG_VMDATAL                
+	sta.l	REG_VMDATAL
 	bra ++                                         ;
 +:
 	sta.l	REG_VMDATAH                              ;
@@ -151,7 +153,7 @@ LzssDecodeVram:
 
 	phy                                                       ; preserve y
 	sep	#$20                                     ; y = target - disp - 1
-	pha                                                       ;             
+	pha                                                       ;
 	and	#$0F                                     ;
 	xba                                                        ;
 	rep #$20                                     ;
@@ -220,7 +222,7 @@ LzssDecodeVram:
 	pha
 	plb
 	lda.l REG_VMDATAHREAD
-	stx REG_VMADDL  
+	stx REG_VMADDL
 	plb
 	bcc @copy_writeL
 

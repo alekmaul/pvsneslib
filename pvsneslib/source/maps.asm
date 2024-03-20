@@ -46,6 +46,7 @@
 topleft                 DSW MAP_MAXMTILES*4 ; a metatile is 4 8x8 pixels max
 .ENDST
 
+.BASE $00
 .RAMSECTION ".reg_maps" BANK 0 SLOT 1
 
 dispxofs_L1             DW                  ; X scroll offset of layer 1
@@ -57,7 +58,7 @@ bgrightvramlocr_L1      DW                  ; VRAM word address to store the hor
 
 .ENDS
 
-.RAMSECTION ".reg_maps7e" BANK $7E
+.RAMSECTION ".reg_maps7e" BANK $7E SLOT RAMSLOT_0
 
 metatiles INSTANCEOF metatiles_t            ; entry for each metatile definition
 
@@ -102,6 +103,7 @@ maptmpvalue             DW                  ; TO store a temporary value (used f
 
 .ends
 
+.BASE BASE_0
 .SECTION ".maps0_text" SUPERFREE
 
 .accu 16
@@ -229,7 +231,7 @@ mapLoad:
     sta.l $2183
 
     lda #$0                                 ; 230805 to point to correct bank for x dma value
-    pha                                     
+    pha
     plb
 
     lda 16,s                                ; get metatiles definition  bank address (11+1+2+2)
@@ -255,7 +257,7 @@ mapLoad:
     lda #$7e                                ; safely use of 7E as it is explicit declared
     sta.l $2183                             ; bank address of destination
 
-	lda	20,s	
+	lda	20,s
     sta.l $4304                             ; bank address of source (15+1+2+2)
 
     ldx	#$8000						        ; type of DMA
@@ -1004,7 +1006,7 @@ mapGetMetaTilesProp:
     rep #$20
     lda 0,x
     plb
-    and #$03FF                              ; to have only tile number (no flipx/y)   
+    and #$03FF                              ; to have only tile number (no flipx/y)
     plx
 
     asl a                                   ; property is a 16bit arrays
