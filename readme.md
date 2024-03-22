@@ -97,8 +97,9 @@ Sydney Hunter by [CollectorVision](https://collectorvision.com/store/shop/snes/s
 - [**Shiru**](http://shiru.untergrund.net/) for snesbmp idea & sound tools.
 - [**Mukunda**](http://snes.mukunda.com/) for smconv tool.
 - **RedBug** for constify tcc bug fix and tips for Linux and Docker.
-- [**Mills32**](https://github.com/mills32) for his mode7 3D example.
+- [**Mills32**](https://github.com/mills32/) for his mode7 3D example.
 - [**N_Arno**](https://github.com/nArnoSNES/) for his help on Linux version.
+- [**DigiDwrf**](https://github.com/DigiDwrf/) for hirom / fastrom support.
 
 And, of course, all the [**discord community**](https://discord.gg/DzEFnhB) !
 
