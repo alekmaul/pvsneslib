@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-    Copyright (C) 2012-2021
+    Copyright (C) 2012-2024
 
     This software is provided 'as-is', without any express or implied
     warranty.  In no event will the authors be held liable for any
@@ -75,6 +75,7 @@
  - <a href="http://code.google.com/p/neo-myth-menu/">Neoflash Menu google code. </a>
  - <a href="http://www.devkitpro.org/">Devkitpro team for pvsneslib structure (lib, makefile, examples, and so on ...). </a>
  - <a href="https://github.com/undisbeliever/castle_platformer">undisbeliever for his great platform code example on github. </a>
+ - <a href="https://github.com/DigiDwrf">digidwrf for fastrom / hirom support. </a>
 */
 
 // adding the example page.
@@ -160,9 +161,10 @@
     <!-- scoring -->
     \example scoring/scoring.c
 
-    <!-- region test & console type -->
+    <!-- region test, console type and rom type -->
     \example testregion/testregion.c
     \example typeconsole/src/pal_ntsc.c
+    \example memory_mapping/src/memory_mapping.c
 
 */
 
