@@ -6,8 +6,8 @@ export TOPDIR := $(CURDIR)
 
 # create version number which will be used everywhere
 export PVSNESLIB_MAJOR := 4
-export PVSNESLIB_MINOR := 2
-export PVSNESLIB_PATCH := 1
+export PVSNESLIB_MINOR := 3
+export PVSNESLIB_PATCH := 0
 export PVSNESLIB_VERSION := $(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
 
 # Directory with docs config and output (via doxygen)
@@ -42,7 +42,7 @@ clean:
 	@if [ "$(KEEP_LIB)" -eq 0 ]; then \
 		rm -rf $(PVSDOCSDIR)/html; \
 		rm -f pvsneslib_version.txt; \
-		rm -f lib/*ROM/*; \
+		rm -rf lib; \
 		fi
 
 # Check if Doxygen is installed
