@@ -100,6 +100,11 @@ SFILES := $(SFILES) $(wildcard $(SRC)/*.asm)
 SFILES := $(SFILES) $(wildcard $(SRC)/*/*.asm)
 SFILES := $(SFILES) $(wildcard $(SRC)/*/*/*.asm)
 
+DBGFILES = $(wildcard *.dbg)
+DBGFILES+= $(wildcard $(SRC)/*.dbg)
+DBGFILES+= $(wildcard $(SRC)/*/*.dbg)
+DBGFILES+= $(wildcard $(SRC)/*/*/*.dbg)
+
 export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 
 # The first rule available in makefile become the default one
@@ -189,7 +194,7 @@ $(SOUNDBANK).asm : $(AUDIOFILES)
 
 cleanBuildRes: cleanDebug
 	@echo clean build resources
-	@rm -f $(OFILES) linkfile
+	@rm -f $(OFILES) $(DBGFILES) linkfile
 
 cleanRom:
 	@echo clean rom
