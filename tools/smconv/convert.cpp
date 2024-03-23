@@ -12,6 +12,11 @@
 #include "it2spc.h"
 
 // DEFINES
+#define ERRORRED(STRING) "\x1B[31m" STRING "\033[0m"
+#define ERRORPINK(STRING) "\x1B[35m" STRING "\033[0m"
+#define ERRORBRIGHT(STRING) "\x1B[97m" STRING "\033[0m"
+
+
 #define SMCONVVERSION __BUILD_VERSION
 #define SMCONVDATE __BUILD_DATE
 
@@ -37,14 +42,14 @@ const char USAGE[] = {
     "\n-v                Show version"
     "\n\nTips:"
     "\nTypical options to create soundbank for project:"
-    "\n  smconv -s -o build/soundbank -h input1.it input2.it"
+    "\n  smconv -s -o build/soundbank input1.it input2.it"
     "\n\nAnd for IT->SPC:"
     "\n  smconv input.it"
     "\n\nUse -V to view how much RAM the modules will use.\n"};
 
 const char VERSION[] = {
     "smconv (" SMCONVDATE ") version " SMCONVVERSION ""
-    "\nCopyright (c) 2012-2021 Alekmaul "
+    "\nCopyright (c) 2012-2024 Alekmaul "
     "\nBased on SNESMOD (C) 2009 Mukunda Johnson (www.mukunda.com)\n"};
 
 std::string PATH;
@@ -73,24 +78,24 @@ int main(int argc, char *argv[])
     if (argc < 2)
     {
         printf(USAGE);
-        exit(1);
+        exit (EXIT_FAILURE); 
     }
 
     if (od.output.empty())
     {
-        printf("\nsmconv: error 'Missing output file'\n");
-        exit(1);
+        printf ("%s: " ERRORRED("fatal error") ": missing output file\n", ERRORBRIGHT("smconv"));
+        exit (EXIT_FAILURE);  
     }
 
     if (od.files.empty())
     {
-        printf("\nsmconv: error 'Missing input file'\n");
-        return 0;
+        printf ("%s: " ERRORRED("fatal error") ": missing input file\n", ERRORBRIGHT("smconv"));
+        exit (EXIT_FAILURE); 
     }
 
     if (VERBOSE)
     {
-        printf("\nsmconv: 'Loading modules...'");
+        printf ("%s: Loading modules...\n", ERRORBRIGHT("smconv"));
         fflush(stdout);
     }
 
@@ -98,11 +103,12 @@ int main(int argc, char *argv[])
 
     if (VERBOSE)
     {
-        printf("\nsmconv: 'Starting conversion...'");
+        printf ("%s: Starting conversion...\n", ERRORBRIGHT("smconv"));
         fflush(stdout);
     }
 
     IT2SPC::Bank result(bank, od.hirom, od.check_effect_size);
+
 
     // export products
     if (od.spc_mode)
