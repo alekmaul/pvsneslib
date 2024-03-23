@@ -26,9 +26,13 @@ SPECIAL THANKS
   n_Arno for his help on Linux version (https://github.com/nArnoSNES/)
   kobenairb for python & docker optimizations
   jeffythedragonslayer for code cleaning and new functions
+  DigiDwrf for hirom / fastrom support
 
 CHANGE LOG
 ----------------------
+VERSION V4.3.0 (March,24,2024)
+- See github changelog of the release
+
 VERSION V4.2.1 (March,04,2024)
 - See github changelog of the release
 
