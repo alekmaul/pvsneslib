@@ -1,6 +1,12 @@
 #include "itloader.h"
 #include "io.h"
 
+// IT file format found here : https://fileformats.fandom.com/wiki/Impulse_tracker
+
+#define ERRORRED(STRING) "\x1B[31m" STRING "\033[0m"
+#define ERRORPINK(STRING) "\x1B[35m" STRING "\033[0m"
+#define ERRORBRIGHT(STRING) "\x1B[97m" STRING "\033[0m"
+
 namespace ITLoader {
 
 	template<typename T> static void deletePtrVector( std::vector<T*> &vecs ) {
@@ -299,6 +305,7 @@ namespace ITLoader {
 				}
 			}
 		} else {
+			printf ("%s: " ERRORRED("error") ": unsupported compressed samples\n", ERRORBRIGHT("smconv"));
 			// TODO : accept compressed samples.
 		}
 	}
@@ -389,10 +396,7 @@ namespace ITLoader {
 				// check compression code (1 = PCM)
 				if( file.Read16() != 1 )
 				{
-					//if( verbose )
-					//	printf( "Unsupported WAV format.\n" );
-					//return LOADWAV_UNKNOWN_COMP;
-					printf("\nsmconv: error 'Unsupported WAV format'\n" );
+					printf ("%s: " ERRORRED("fatal error") ": Unsupported WAV format\n", ERRORBRIGHT("smconv"));
 					return;
 				}
 
@@ -410,9 +414,7 @@ namespace ITLoader {
 				bit_depth = file.Read16();
 				if( bit_depth != 8 && bit_depth != 16 )
 				{
-					//if( verbose )
-					//	printf( "Unsupported bit-depth.\n" );
-					printf("\nsmconv: error 'Unsupported WAV bit depth'\n");
+					printf ("%s: " ERRORRED("fatal error") ": Unsupported WAV bit depth\n", ERRORBRIGHT("smconv")); 	
 					return;// LOADWAV_UNSUPPORTED_BD;
 				}
 
@@ -442,7 +444,7 @@ namespace ITLoader {
 
 				if( !hasformat )
 				{
-					printf("\nsmconv: error 'CORRUPT WAV FILE...'\n");
+					printf ("%s: " ERRORRED("fatal error") ": CORRUPT WAV FILE...\n", ERRORBRIGHT("smconv")); //printf("\nsmconv: error 'CORRUPT WAV FILE...'\n");
 					return;// LOADWAV_CORRUPT;
 				}
 
