@@ -1,8 +1,8 @@
 ** to do **
 
-There are two main types of SNES cartridges, the SNES community refers to them as LoROM and HiROM cartridges. Both have different memory mapping. 
-
 ## HiRom and LoRom
+
+There are two main types of SNES cartridges, the SNES community refers to them as LoROM and HiROM cartridges. Both have different memory mapping. 
 
 In LoROM mode, the ROM is always mapped in the upper half of each bank, thus 32 Kilobytes per chunk.  
 
@@ -73,10 +73,10 @@ That's all, the source code is exactly the same as a LoRow/SlowRom source code.
 You can see FastRom  and HiRom support in **no$snes** emulator with **F10** key:  
 ![fasthi_1](https://github.com/alekmaul/pvsneslib/assets/2528347/c2ace721-19dc-4a1f-a958-0f17c58ef7d2)
 
-And also with menu **Windows/Cart Profile**:
+And also with menu **Windows/Cart Profile**:  
 ![fasthi_2](https://github.com/alekmaul/pvsneslib/assets/2528347/779a6226-4ef1-4577-9bf1-1b3c9b91d976)
 
-You can see FastRom  and HiRom support in **mesen** with menu **Tools/LogWIndows**:
+You can see FastRom  and HiRom support in **mesen** with menu **Tools/LogWIndows**:  
 ![fasthi_3](https://github.com/alekmaul/pvsneslib/assets/2528347/5442900e-4a13-40de-b8f8-31311662d405)
 
 Some parts of this article are from https://en.wikibooks.org/wiki/Super_NES_Programming/SNES_memory_map#LoROM.
