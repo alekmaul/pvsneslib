@@ -24,6 +24,16 @@ Banks $80 - $FF can also be used for faster memory access. Many portions of memo
 
 LoROM basically means that the address line A15 is ignored by the cartridge, so the cartridge doesn't distinguish between $0000-$7FFF and $8000-$FFFF in any bank. Smaller ROMs use this model to prevent wasted space in banks $00–$3F.
 
+### FastRom
+ 
+SNES games are designed to run under SlowROM (2.68 MHz) to FastROM (3.58 MHz). FastROM allows the SNES CPU read data and opcodes from the ROM 33.58% faster compared to SlowROM.  
+
+Depending on the game, FastROM will make the game run about 10%-33% faster compared to the original SlowROM version. 
+
+This depends on how frequent the game accesses the ROM chip, since the other componenets such as WRAM @ 2.68 MHz, PPU @ 3.58 MHz, DMA @ 2.68 MHz and SRAM @ 2.68 MHz will stay at the same speed.  
+
+## HiRom and LoRom with PVSneslib
+
 PVSneslib is shipped with a full set of lib binaries with 4 different configurations:
 - LoROM - SlowROM (already present by default)  
 - LoROM - FastROM (all sections with .BASE $80)  
@@ -33,13 +43,29 @@ PVSneslib is shipped with a full set of lib binaries with 4 different configurat
 Notice that BANKS $7E and $7F are for RAM use, so HiROM - SlowROM won't be able to use that banks for storing ROM.  
 TCC compiler was changed to have some small functions that inyect .BASE directives before **.SECTIONS** and **.RAMSECTIONS**  
 
-TO use HiRom, you must specify it inside your makefile
+To use HiRom, you must specify it inside your makefile
 ```bash
 export HIROM=1
 ```
- 
-### FastRom
- 
-.   
 
-Some part of this article is from https://en.wikibooks.org/wiki/Super_NES_Programming/SNES_memory_map#LoROM.
+To use FastRom, you must specify it inside your makefile
+```bash
+export FASTROM=1
+```
+
+# memory_mapping example to help you with coding
+
+In this example, all the source code are in the **src** directory. It consists of only one file **memory_mapping.c**.
+
+We declared that we are using Fast and Hi rom in **Makefile**, just before including **snes_rules**:
+```bash
+# Tell the compiler to export a Mode 21 (HiROM) memory mapped ROM
+HIROM=1
+# Tell the compiler to use FastROM. $4206 reg is enabled on start and reset, nmi and vectors jumps with an ofset of $80 banks
+FASTROM=1
+
+include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
+```
+That's all, the source code is exactly the same as a LoRow/SlowRom source code.
+
+Some parts of this article are from https://en.wikibooks.org/wiki/Super_NES_Programming/SNES_memory_map#LoROM.
