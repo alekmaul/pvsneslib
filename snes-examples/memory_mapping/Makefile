@@ -4,7 +4,7 @@ endif
 
 # Tell the compiler to export a Mode 21 (HiROM) memory mapped ROM
 HIROM=1
-# Tell the compiler to use FastROM. $4206 reg is enabled on start and reset, nmi and vectors jumps with an ofset of $80 banks
+# Tell the compiler to use FastROM. $420D reg is enabled on start and reset, nmi and vectors jumps with an ofset of $80 banks
 FASTROM=1
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
