@@ -24,7 +24,7 @@ Banks $80 - $FF can also be used for faster memory access. Many portions of memo
 
 LoROM basically means that the address line A15 is ignored by the cartridge, so the cartridge doesn't distinguish between $0000-$7FFF and $8000-$FFFF in any bank. Smaller ROMs use this model to prevent wasted space in banks $00–$3F.
 
-### FastRom
+## FastRom
  
 SNES games are designed to run under SlowROM (2.68 MHz) to FastROM (3.58 MHz). FastROM allows the SNES CPU read data and opcodes from the ROM 33.58% faster compared to SlowROM.  
 
@@ -61,11 +61,22 @@ We declared that we are using Fast and Hi rom in **Makefile**, just before inclu
 ```bash
 # Tell the compiler to export a Mode 21 (HiROM) memory mapped ROM
 HIROM=1
-# Tell the compiler to use FastROM. $4206 reg is enabled on start and reset, nmi and vectors jumps with an ofset of $80 banks
+# Tell the compiler to use FastROM. 
+# $4206 reg is enabled on start and reset, nmi and vectors jumps with an ofset of $80 banks
 FASTROM=1
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 ```
-That's all, the source code is exactly the same as a LoRow/SlowRom source code.
+That's all, the source code is exactly the same as a LoRow/SlowRom source code.  
+
+
+You can see FastRom  and HiRom support in **no$snes** emulator with **F10** key:  
+![fasthi_1](https://github.com/alekmaul/pvsneslib/assets/2528347/c2ace721-19dc-4a1f-a958-0f17c58ef7d2)
+
+And also with menu **Windows/Cart Profile**:
+![fasthi_2](https://github.com/alekmaul/pvsneslib/assets/2528347/779a6226-4ef1-4577-9bf1-1b3c9b91d976)
+
+You can see FastRom  and HiRom support in **mesen** with menu **Tools/LogWIndows**:
+![fasthi_3](https://github.com/alekmaul/pvsneslib/assets/2528347/5442900e-4a13-40de-b8f8-31311662d405)
 
 Some parts of this article are from https://en.wikibooks.org/wiki/Super_NES_Programming/SNES_memory_map#LoROM.
