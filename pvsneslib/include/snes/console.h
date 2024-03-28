@@ -45,7 +45,7 @@
 extern u8 scr_txt_font_map[0x800]; /*!< \brief tilemap used for text display */
 extern u8 scr_txt_dirty;           /*!< \brief flag to redraw text during vblank */
 
-extern u16 snes_vblank_count; /*!< \brief Number of VBL since consoleInit called */
+extern u32 snes_vblank_count; /*!< \brief Number of VBL since consoleInit called */
 extern u8 snes_50hz;          /*!< \brief 1 if on a PAL/50Hz SNES */
 extern u8 snes_fps;           /*!< \brief 50 if PAL console (50 Hz) or 60 if NTSC console (60Hz) */
 

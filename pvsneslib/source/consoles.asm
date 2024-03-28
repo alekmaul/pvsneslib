@@ -41,8 +41,6 @@
 .BASE $00
 .RAMSECTION ".reg_cons7e" BANK $7E SLOT RAMSLOT_0
 
-snes_vblank_count       DW                                  ; to count number of vblank
-
 snes_50hz               DB                                  ; 1 if PAL console (50 Hz) instead of NTSC (60Hz)
 snes_fps                DB                                  ; 50 if PAL console (50 Hz) or 60 if NTSC console (60Hz)
 
@@ -418,11 +416,7 @@ cvbloam:
 
     stz scr_txt_dirty                                         ; no more transfer of text
 
-    ; Count frame number
-+   rep #$20
-    inc.w snes_vblank_count
-
-    plb
++:  plb
     plp
     rtl
 

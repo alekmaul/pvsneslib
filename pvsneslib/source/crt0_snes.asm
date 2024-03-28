@@ -26,9 +26,12 @@ tcc__f3h dsb 2
 move_insn dsb 4	                        ; 3 bytes mvn + 1 byte rts
 move_backwards_insn dsb 4               ; 3 bytes mvp + 1 byte rts
 nmi_handler dsb 4
-
+ 
 tcc__registers_irq dsb 0
 tcc__regs_irq dsb 48
+
+snes_vblank_count       dsb 4           ; 4 bytes to count number of vblank
+
 .ENDS
 
 ; sections "globram.data" and "glob.data" can stay here in the file
@@ -231,7 +234,15 @@ FVBlank:
   pea $7e7e
   plb
   plb
-  lda.w #tcc__registers_irq
+  rep #$20
+
+  ; Count frame number
+  lda.w #$1
+  inc.w snes_vblank_count
+  bne +
+  inc.w snes_vblank_count+2
+
++:  lda.w #tcc__registers_irq
   tad
   lda.l nmi_handler
   sta.b tcc__r10
@@ -326,6 +337,9 @@ fast_start:
 
     stz.b tcc__r0
     stz.b tcc__r1
+
+    stz.w snes_vblank_count
+    stz.w snes_vblank_count+2
 
     jsr.l main
 
