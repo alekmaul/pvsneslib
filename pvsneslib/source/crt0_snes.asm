@@ -30,7 +30,10 @@ nmi_handler dsb 4
 tcc__registers_irq dsb 0
 tcc__regs_irq dsb 48
 
-snes_vblank_count       dsb 4           ; 4 bytes to count number of vblank
+snes_vblank_count       dsb 2           ; 2 bytes to count number of vblank
+snes_vblank_count_svg   dsb 2           ; same thing for saving purpose
+snes_frame_count        dsb 2           ; 2 bytes for frame counter inside loop
+snes_frame_count_svg    dsb 2           ; same thing for saving purpose        
 
 .ENDS
 
@@ -237,12 +240,9 @@ FVBlank:
   rep #$20
 
   ; Count frame number
-  lda.w #$1
   inc.w snes_vblank_count
-  bne +
-  inc.w snes_vblank_count+2
 
-+:  lda.w #tcc__registers_irq
+  lda.w #tcc__registers_irq
   tad
   lda.l nmi_handler
   sta.b tcc__r10
@@ -339,7 +339,9 @@ fast_start:
     stz.b tcc__r1
 
     stz.w snes_vblank_count
-    stz.w snes_vblank_count+2
+    stz.w snes_vblank_count_svg
+    stz.w snes_frame_count
+    stz.w snes_frame_count_svg
 
     jsr.l main
 

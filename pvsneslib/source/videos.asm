@@ -1093,3 +1093,48 @@ getPaletteColor:
     rtl
 
 .ENDS
+
+.SECTION ".videos9_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+; unsigned short getFPScounter(void)
+getFPScounter:
+    php
+    phb
+
+    sep #$20
+    lda #$0                                             ; bank 0 for counters
+    pha
+    plb
+
+    rep #$20
+    lda snes_vblank_count
+    cmp snes_vblank_count_svg                           ; is svg < current counter, exit (normaly, never occurs)
+    bcc _gfctr1
+    sec
+    sbc.l snes_vblank_count_svg                         ; check if we reach fps (50 or 60)        
+    sbc.l snes_fps    
+    bcc _gfctr
+
+    lda snes_vblank_count                               ; save vblank count
+    sta snes_vblank_count_svg
+    
+    lda snes_frame_count_svg                            ; init again frame counter
+    cmp #99                                             ; no more than 99 fps (don't be mad ;) )
+    bcc +
+    lda #99
+    
++:  sta snes_frame_count
+    stz snes_frame_count_svg
+_gfctr:
+    inc.w snes_frame_count_svg                          ; increment current frame counter
+
+_gfctr1:
+    lda snes_frame_count                                ; return current value
+    sta.w tcc__r0
+
+    plb
+    plp
+    rtl
+
+.ENDS

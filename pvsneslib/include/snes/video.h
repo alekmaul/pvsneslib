@@ -310,6 +310,8 @@ The overflow flags are set (regardless of OBJ enable/disable in 212Ch), at follo
 extern u8 videoMode;    /*!< \brief Current value of REG_TM */
 extern u8 videoModeSub; /*!< \brief Current value of REG_TS */
 
+extern u16 snes_frame_count; /*!< \brief Number of frame per second (need a call to videoGetFrames() once a frame)*/
+
 /*! \fn  setBrightness(u8 level)
     \brief sets the screens brightness.
     \param level	15 = full brightness, 0= black
@@ -446,5 +448,11 @@ void setMode7Angle(u8 angle);
     \param yscale : scaling for y 
 */
 void setMode7Scale(u16 xscale, u16 yscale);
+
+/*! \fn  getFPScounter(void)
+    \brief Return number of frames per second.
+    \return unsigned short of the current frame per second counter
+*/
+unsigned short getFPScounter(void);
 
 #endif // SNES_VIDEO_INCLUDE
