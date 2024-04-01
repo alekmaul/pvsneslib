@@ -383,6 +383,12 @@ consoleVblank:
     beq +
     jsl scanMPlay5
     bra cvbloam
++   lda snes_mouse
+    beq +
+    jsl mouseRead
+    lda mouseConnect
+    and mouseConnect + 1    ; If both ports have a mouse plugged, it will skip pad controller reading
+    bne cvbloam
 +   jsl scanPads
 
 cvbloam:

@@ -91,6 +91,31 @@ scope_sinceshot	dsb 2
 
 .ENDS
 
+;---------------------------------------------------------------------------------
+;		Mouse Driver Routine (Ver 1 .00)
+;---------------------------------------------------------------------------------
+
+.RAMSECTION ".reg_mouse" BANK 0 SLOT 1
+
+snes_mouse			db					; for lib use. Tells the system to initialize mouse usage
+mouseConnect    dsb 2       ; Mouse connection ports (D0=4016, D0=4017)
+
+mouseSpeedSet   dsb 2       ; Mouse speed setting
+mouse_sp        dsb 2       ; Mouse speed
+
+mouseButton     dsb 2       ; Mouse button trigger
+mousePressed    dsb 2       ; Mouse button turbo
+
+mouse_y         dsb 2       ; Mouse Y direction
+mouse_x         dsb 2       ; Mouse X direction
+
+mouse_sb        dsb 2       ; Previous switch status
+
+connect_st      dsb 2
+
+.ENDS
+
+
 .BASE BASE_0
 .SECTION ".pads0_text" SUPERFREE
 
@@ -119,7 +144,9 @@ scanPads:
 	lda	REG_JOY1L                              ; read joypad register #1
 	bit	#$0F                                   ; catch non-joypad input
 	beq	+                                      ; (bits 0-3 should be zero)
-	lda.b	#$0
+	sep	#$20
+	lda	#$0
+	rep	#$20
 +:	sta	pad_keys                               ; store 'current' state
 	eor	pad_keysold                            ; compute 'down' state from bits that
 	and	pad_keys                               ; have changed from 0 to 1
@@ -128,7 +155,9 @@ scanPads:
 	lda	REG_JOY2L                              ; read joypad register #2
 	bit	#$0F                                   ; catch non-joypad input
 	beq	+                                      ; (bits 0-3 should be zero)
-	lda.b	#$0
+	sep	#$20
+	lda	#$0
+	rep	#$20
 +:	sta	pad_keys+2                             ; store 'current' state
 	eor	pad_keysold+2                          ; compute 'down' state from bits that
 	and	pad_keys+2                             ; have changed from 0 to 1
@@ -582,5 +611,216 @@ NoScope:
 
 	plp                                        ; return from input check
 	rts
+
+.ENDS
+
+;---------------------------------------------------------------------------------
+
+;* mouse_read
+
+;---------------------------------------------------------------------------------
+
+;*          If this routine is called every frame, then the mouse status will be set
+;*          to the appropriate registers.
+;* INPUT
+;*          None (Mouse key read automatically)
+;* OUTPUT
+;*          Connection status (mouse_con)   D0=1 Mouse connected to Joyl
+;*                                          D1=1 Mouse connected to Joy2
+;*          Switch (mousePressed,1)         D0=left switch turbo
+;*                                          D1=right switch turbo
+;*          Switch (mouseButton,1)          D0=left switch trigger
+;*                                          D1=right switch trigger
+;*          Mouse movement (ball) value
+;*                (mouse_x)                 D7=0 Positive turn, D7=1 Negative turn
+;*                                          D6-D0 X movement value
+;*                (mouse_y)                 D7=0 Positive turn, D7=1 Negative turn
+;*                                          D6-D0 X movement value
+
+;---------------------------------------------------------------------------------
+
+.SECTION ".mouse_text" SUPERFREE
+
+;---------------------------------------------------------------------------------
+; void mouseRead(void)
+mouseRead:
+    php
+		sep     #$30
+		phb
+		phx
+		phy
+
+    lda     #$00						 ; Set Data Bank to 0
+    pha
+    plb
+
+_10:
+    lda			REG_HVBJOY
+    and			#$01
+    bne     _10					     ; Automatic read ok?
+
+    ldx     #$01
+    lda     REG_JOY2L            ; Joy2
+    jsr     mouse_data
+
+    lda     connect_st+1
+    beq     _20
+
+    jsr     speed_change
+    stz     connect_st+1
+
+    bra    _30
+
+_20:
+    dex
+    lda     REG_JOY1L           ; Joy1
+
+    jsr     mouse_data
+
+    lda     connect_st
+    beq     _30
+
+    jsr     speed_change
+    stz     connect_st
+
+_30:
+		ply
+		plx
+		plb
+		plp
+    rtl
+
+mouse_data:
+
+    sta     tcc__r0           ; (421A / 4218 saved to reg0)
+    and.b   #$0F
+    cmp.b   #$01              ; Is the mouse connected?
+    beq     _m10
+
+    stz     mouseConnect,x    ; No connection.
+
+    stz     mouseButton,x
+		stz     mousePressed,x
+    stz     mouse_x,x
+    stz     mouse_y,x
+
+    rts
+_m10:
+    lda     mouseConnect,x    ; When mouse is connected, speed will change.
+    bne     _m20              ; Previous connection status
+                              ; (mouse.com judged by lower 1 bit)
+    lda     #$01              ; Connection check flag on
+    sta     mouseConnect,x
+    sta     connect_st,x
+    rts
+_m20:
+    rep			#$10
+    ldy     #16               ; Read 16 bit data.
+    sep			#$10
+_m30:
+    lda     REG_JOYA,x
+
+    lsr     a
+    rol     mouse_x,x
+    rol     mouse_y,x
+    dey
+    bne     _m30
+
+    stz     mousePressed,x
+
+    rol     tcc__r0
+    rol     mousePressed,x
+    rol     tcc__r0
+    rol     mousePressed,x        ; Switch turbo
+
+    lda     mousePressed,x
+    eor     mouse_sb,x        ; Get switch trigger
+    bne     _m40
+
+    stz     mouseButton,x
+
+    rts
+_m40:
+    lda     mousePressed,x
+    sta     mouseButton,x
+    sta     mouse_sb,x
+
+    rts
+
+;---------------------------------------------------------------------------------
+; void MouseSpeedChange(u8 port)
+MouseSpeedChange:
+    php
+		sep     #$30
+		phb
+		phx
+    phy
+
+    lda     #$00						 ; Set Data Bank to 0
+    pha
+    plb
+
+    lda     8,s 						; Set port
+		tax
+
+		jsr     speed_change
+
+    ply
+    plx
+    plb
+    plp
+    rtl
+
+speed_change:
+    php
+		sep     #$30
+
+    lda     mouseConnect,x
+    beq     _s25
+
+    lda     #$10
+    sta     tcc__r0h
+_s10:
+    lda     #$01
+    sta     REG_JOYA
+    lda     REG_JOYA,x      ; Speed change (1 step)
+    stz     REG_JOYA
+
+    lda     #$01            ; Read speed data.
+    sta     REG_JOYA        ; Shift register clear.
+    lda     #$00
+    sta     REG_JOYA
+
+    sta     mouse_sp,x      ; Speed register clear.
+
+    ldy     #10             ; Shift register read has no meaning
+_s20:
+    lda     REG_JOYA,x
+    dey
+    bne     _s20
+
+    lda     REG_JOYA,x      ; Read speed
+
+    lsr     a
+    rol     mouse_sp,x
+
+    lda     REG_JOYA, x
+
+    lsr     a
+    rol     mouse_sp,x
+    lda     mouse_sp,x
+
+    cmp     mouseSpeedSet,x     ; Set speed or not?
+
+    beq     _s30
+
+    dec     tcc__r0h            ; For error check
+    bne     _s10
+_s25:
+    lda     #$80                ; Speed change error.
+    sta     mouse_sp,x
+_s30:
+    plp
+    rts
 
 .ENDS
