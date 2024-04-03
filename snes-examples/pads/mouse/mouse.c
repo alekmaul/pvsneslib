@@ -40,14 +40,14 @@ bool speedset[2] = {true};
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    snes_mouse = true; // Let's tell the system we're using mouse bios
+    // Initialize SNES
+    consoleInit();
+
+    snes_mouse = true; // Let's tell the system we're using mouse bios (after init)
 
     // we set mouse speed, or it will just output a random speed. We can change it later manually
     mouseSpeedSet[0] = slow;
     mouseSpeedSet[1] = slow;
-
-    // Initialize SNES
-    consoleInit();
 
     // Init cursors sprite
     oamInitGfxSet(&cursorsprite, (&cursorsprite_end - &cursorsprite), &cursorpal, 48 * 2, 0, 0x0000, OBJ_SIZE16_L32);

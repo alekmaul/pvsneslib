@@ -444,9 +444,12 @@ consoleInit:
     lda.w #0                                                  ; Begin counting vblank
     sta.w snes_vblank_count
 
+    sta.w mouseConnect                                        ; Mouse init
+
     sep #$20
     sta scr_txt_dirty                                         ; Nothing to print on screen
     sta snes_mplay5                                           ; For Pad function
+    sta snes_mouse                                            ; Set mouse usage disabled by default
 
     phb
     pha

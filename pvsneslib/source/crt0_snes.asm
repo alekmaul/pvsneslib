@@ -343,9 +343,6 @@ fast_start:
     stz.w snes_frame_count
     stz.w snes_frame_count_svg
 
-    stz.b snes_mouse    ; set mouse usage disabled by default
-    stz.w mouseConnect;
-
     jsr.l main
 
     ; write exit code to $fffd
