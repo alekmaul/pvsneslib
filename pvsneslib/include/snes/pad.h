@@ -64,6 +64,16 @@ extern u16 pad_keysold[2];
 extern u16 pad_keysrepeat[2];
 
 extern u8 snes_mplay5; /*!< \brief 1 if MultiPlay5 connected */
+extern u8 snes_mouse; /*!< \brief 1 if Mouse is going to be used */
+
+extern u8 mouseConnect[2];        /*! \brief 1 if Mouse present */
+extern u8 mouseButton[2];         /*! \brief 1 if button is pressed, stays for a bit and then it gets released (Click mode). */
+extern u8 mousePressed[2];        /*! \brief 1 if button is pressed, stays until is unpressed (Turbo mode). */
+extern u8 mouse_x[2], mouse_y[2]; /*! \brief Mouse acceleration. daaaaaaa, d = direction (0: up/left, 1: down/right), a = acceleration. */
+extern u8 mouseSpeedSet[2];          /*! \brief Mouse speed setting. 0: slow, 1: normal, 2: fast */
+
+#define mouse_L 0x01 /*! \brief SNES Mouse Left button mask.*/
+#define mouse_R 0x02 /*! \brief SNES Mouse Right button mask.*/
 
 /*! \def REG_JOYxLH
 
@@ -109,7 +119,7 @@ extern u8 snes_mplay5; /*!< \brief 1 if MultiPlay5 connected */
 #define REG_JOYxLH(a) (((vuint16 *)0x4218)[(a)])
 
 /*!	\fn scanPads()
-    \brief Wait for pad ready and read pad values in .
+    \brief Wait for pad ready and read pad values in.
 */
 void scanPads(void);
 
@@ -147,8 +157,19 @@ void padsClear(u16 value);
 void detectMPlay5(void);
 
 /*!	\fn scanMPlay5()
-    \brief Wait for multiplayer5 pads ready and read pad values in .
+    \brief Wait for multiplayer5 pads ready and read pad values in.
 */
 void scanMPlay5(void);
+
+/*!	\fn mouseRead(void)
+    \brief Wait for mouse ready and read mouse values in.
+*/
+void mouseRead(void);
+
+/*!	\fn MouseSpeedChange(u8 port)
+    \brief Set mouse hardware speed (populate mouseSpeed[] first).
+    \param port Specify wich port to use (0-1)
+*/
+void MouseSpeedChange(u8 port);
 
 #endif // SNES_PADS_INCLUDE
