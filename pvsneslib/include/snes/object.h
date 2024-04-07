@@ -38,7 +38,7 @@
 
 #include <snes/snestypes.h>
 
-#define OB_MAX              96 /*!< total number of objects in the game */
+#define OB_MAX              64 /*!< total number of objects in the game */
 
 #define OB_TYPE_MAX		    64	/*!< total number of type of objects in the game */
 
