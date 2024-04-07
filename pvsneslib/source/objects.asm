@@ -27,8 +27,8 @@
 .DEFINE OB_NULL			    $FFFF		    ; null value for linked table
 .DEFINE OB_ID_NULL	        $0000		    ; null value for obj id
 
-.DEFINE OB_MAX				64		        ; total number of objects in the game
-.DEFINE OB_TYPE_MAX		    48		        ; total number of type of objects in the game
+.DEFINE OB_MAX				96		        ; total number of objects in the game
+.DEFINE OB_TYPE_MAX		    64		        ; total number of type of objects in the game
 
 .DEFINE OB_SIZE				64		        ; 64 bytes for each object
 
@@ -687,7 +687,7 @@ objUpdateAll:
 	pha
 	plb
 
-;    stz objneedrefresh                                  ; no global refresh needed
+    stz objneedrefresh                                  ; no global refresh needed
 
 	rep #$20
 	ldx #$0000
@@ -732,17 +732,6 @@ _oiual3y:                                               ; check now y coordinate
     bcs _oiual32                                        ; but y is greater than map min
 
 _oiual3y1:
-;    sep #$20                                            ; check if it was previously on screen to refresh all the objects
-;    lda objbuffers.1.onscreen,x
-;    beq _oiual3y11                                      ; no ? no need to refresh
-;    stz objbuffers.1.onscreen,x
-;    lda objneedrefresh                                  ; if we have noticed a global refresh previously, don't do it again
-;    bne _oiual3y11
-;    lda #1
-;    sta objneedrefresh
-;    jsr objOamRefreshAll                                ; do a global refresh of sprites
-
-_oiual3y11:
     jmp _oial4
 
 _oiual32:                                               ; *** now we test if we are really on screen ***
