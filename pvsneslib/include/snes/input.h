@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-    Pads registers
+    Input registers
 
     Copyright (C) 2012-2013
         Alekmaul
@@ -27,12 +27,12 @@
 
 ---------------------------------------------------------------------------------*/
 
-/*! \file pad.h
-    \brief pad support.
+/*! \file input.h
+    \brief input support.
 */
 
-#ifndef SNES_PADS_INCLUDE
-#define SNES_PADS_INCLUDE
+#ifndef SNES_INPUT_INCLUDE
+#define SNES_INPUT_INCLUDE
 
 #include <snes/snestypes.h>
 #include <snes/interrupt.h>
@@ -59,21 +59,50 @@ typedef enum KEYPAD_BITS
     KEY_Y = BIT(14),      //!< pad Y button.
 } KEYPAD_BITS;
 
+/*! \file
+    \brief common values for SuperScope input.
+*/
+//! enum values for the SuperScope buttons and flags.
+typedef enum SUPERSCOPE_BITS
+{
+    SSC_FIRE = BIT(15),     //!< superscope FIRE button.
+    SSC_CURSOR = BIT(14),   //!< superscope CURSOR button.
+    SSC_PAUSE = BIT(12),    //!< superscope PAUSE button.
+    SSC_TURBO = BIT(13),    //!< superscope TURBO flag.
+    SSC_OFFSCREEN = BIT(9), //!< superscope OFFSCREEN flag.
+    SSC_NOISE = BIT(8),     //!< superscope NOISE flag.
+} SUPERSCOPE_BITS;
+
 extern u16 pad_keys[2];
 extern u16 pad_keysold[2];
 extern u16 pad_keysrepeat[2];
 
-extern u8 snes_mplay5; /*!< \brief 1 if MultiPlay5 connected */
-extern u8 snes_mouse; /*!< \brief 1 if Mouse is going to be used */
+extern u8 snes_mplay5;  /*! \brief 1 if MultiPlay5 is connected */
+extern u8 snes_mouse;   /*! \brief 1 if Mouse is going to be used */
+extern u8 snes_sscope;  /*! \brief 1 if SuperScope is connected */
 
 extern u8 mouseConnect[2];        /*! \brief 1 if Mouse present */
 extern u8 mouseButton[2];         /*! \brief 1 if button is pressed, stays for a bit and then it gets released (Click mode). */
 extern u8 mousePressed[2];        /*! \brief 1 if button is pressed, stays until is unpressed (Turbo mode). */
 extern u8 mouse_x[2], mouse_y[2]; /*! \brief Mouse acceleration. daaaaaaa, d = direction (0: up/left, 1: down/right), a = acceleration. */
-extern u8 mouseSpeedSet[2];          /*! \brief Mouse speed setting. 0: slow, 1: normal, 2: fast */
+extern u8 mouseSpeedSet[2];       /*! \brief Mouse speed setting. 0: slow, 1: normal, 2: fast */
 
 #define mouse_L 0x01 /*! \brief SNES Mouse Left button mask.*/
 #define mouse_R 0x02 /*! \brief SNES Mouse Right button mask.*/
+
+extern u16 scope_holddelay; /*! \brief Hold delay. */
+extern u16 scope_repdelay;  /*! \brief Repeat rate. */
+extern u16 scope_shothraw;  /*! \brief Horizontal shot position, not adjusted. */
+extern u16 scope_shotvraw;  /*! \brief Vertical shot position, not adjusted. */
+extern u16 scope_shoth;     /*! \brief Horizontal shot position, adjusted for aim. */
+extern u16 scope_shotv;     /*! \brief Vertical shot position, adjusted for aim. */
+extern u16 scope_centerh;   /*! \brief 0x0000 is the center of the screen, positive values go to bottom right. */
+extern u16 scope_centerv;   /*! \brief 0x0000 is the center of the screen, positive values go to bottom right. */
+extern u16 scope_down;      /*! \brief flags that are currently true.*/
+extern u16 scope_now;       /*! \brief flags that have become true this frame.*/
+extern u16 scope_held;      /*! \brief flagsthat have been true for a certain length of time.*/
+extern u16 scope_last;      /*! \brief flags that were true on the previous frame.*/
+extern u16 scope_sinceshot; /*! \brief Number of frames elapsed since last shot was fired.*/
 
 /*! \def REG_JOYxLH
 
@@ -161,15 +190,54 @@ void detectMPlay5(void);
 */
 void scanMPlay5(void);
 
+/*!	\fn detectMouse(void)
+    \brief Check if Mouse is connected and populate snes_mouse (0 or 1 for connected)
+*/
+void detectMouse(void);
+
 /*!	\fn mouseRead(void)
     \brief Wait for mouse ready and read mouse values in.
 */
 void mouseRead(void);
 
-/*!	\fn MouseSpeedChange(u8 port)
+/*!	\fn mouseSpeedChange(u8 port)
     \brief Set mouse hardware speed (populate mouseSpeed[] first).
     \param port Specify wich port to use (0-1)
 */
-void MouseSpeedChange(u8 port);
+void mouseSpeedChange(u8 port);
+
+/*!	\fn detectSuperScope(void)
+    \brief Detects if SuperScope is connected on Port 1 (second controller port on console) and populate snes_sscope (0 or 1 for connected)
+*/
+void detectSuperScope(void);
+
+/*!	\fn scanScope(void)
+    \brief  Nintendo SHVC Scope BIOS version 1.00
+     Quickly disassembled and commented by Revenant on 31 Jan 2013
+
+     This assembly uses xkas v14 syntax. It probably also assembles with bass, if there's
+     any such thing as good fortune in the universe.
+
+     How to use the SHVC Super Scope BIOS:
+     (all variables are two bytes)
+
+     1: Set "HoldDelay" and "RepDelay" for the button hold delay and repeat rate
+
+     2:  "jsr GetScope" or "jsl GetScopeLong" once per frame
+
+     3:  Read one of the following to get the scope input bits (see definitions below):
+         - ScopeDown (for any flags that are currently true)
+         - ScopeNow (for any flags that have become true this frame)
+         - ScopeHeld (for any flags that have been true for a certain length of time)
+         - ScopeLast (for any flags that were true on the previous frame)
+
+     3a: If the bits read from ScopeNow indicate a valid shot, or if the Cursor button
+         is being pressed, then read "ShotH"/"ShotV" to adjust for aim, or read
+         "ShotHRaw"/"ShotVRaw" for "pure" coordinates
+ 
+     3c: at some point, set "CenterH"/"CenterV" equal to "ShotHRaw"/"ShotVRaw"
+         so that the aim-adjusted coordinates are "correct"
+*/
+void scanScope(void);
 
 #endif // SNES_PADS_INCLUDE

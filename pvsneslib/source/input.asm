@@ -26,21 +26,24 @@
 .equ	REG_JOYA		$4016
 .equ	REG_JOYB		$4017
 .equ	REG_WRIO		$4201
-.equ	REG_HVBJOY		$4212
+.equ	REG_HVBJOY	$4212
 
 .equ	REG_JOY1L		$4218
 .equ	REG_JOY2L		$421A
 
+.equ	REG_OPHCT		$213C ; Horizontal scanline location
+
 .BASE $00
 .RAMSECTION ".reg_pads" BANK 0 SLOT 1
 
-pad_keys		dsb 10                        ; 5 pads , 16 bits reg
-pad_keysold		dsb 10                        ; 5 pads , 16 bits reg
-pad_keysrepeat	dsb 10                        ; 5 pads , 16 bits reg
+pad_keys				dsb 10					; 5 pads , 16 bits reg
+pad_keysold			dsb 10					; 5 pads , 16 bits reg
+pad_keysrepeat	dsb 10					; 5 pads , 16 bits reg
 
-snes_mplay5		db							  ; 1 if MultiPlayer5 connected
-mp5read			db							  ; for multiplayer5 plug test
+snes_mplay5			db							; 1 if MultiPlayer5 is connected
+mp5read					db							; for multiplayer5 plug test
 
+snes_sscope			db							; 1 if SuperScope is connected
 
 ; Port 2 input pressed, held, and pressed last frame (2 bytes each)
 ; These are for the BIOS use only. Use the Super Scope input vars below instead.
@@ -62,7 +65,7 @@ scope_tohold	dsb 2
 ; 0x0200 - offscreen
 ; 0x0100 - noise
 scope_down		dsb 2
-scope_now		dsb 2
+scope_now		  dsb 2
 scope_held		dsb 2
 scope_last		dsb 2
 
@@ -184,15 +187,15 @@ padsClear:
 	pha
 	plb
 
-    rep #$20
-    lda 8,s                                    ; get value
-    pha
-    plx
+	rep #$20
+	lda 8,s                                    ; get value
+	pha
+	plx
 
-    sep	#$20
-    lda #$0
-    sta pad_keys,x
-    sta pad_keysold,x
+	sep	#$20
+	lda #$0
+	sta pad_keys,x
+	sta pad_keysold,x
 	sta pad_keysrepeat,x
 
 	plx
@@ -216,20 +219,20 @@ padsDown:
 	pha
 	plb
 
-    rep #$20
-    lda 8,s                                    ; get value
-    pha
-    plx
+		rep #$20
+		lda 8,s                                    ; get value
+		pha
+		plx
 
-    lda pad_keysold,x
-    eor #$FFFF
-    sta.w tcc__r0
+		lda pad_keysold,x
+		eor #$FFFF
+		sta.w tcc__r0
 
-    lda pad_keys,x
-    and.w tcc__r0
-    sta.w tcc__r0
+		lda pad_keys,x
+		and.w tcc__r0
+		sta.w tcc__r0
 
-  	plx
+		plx
 	plb
 	plp
 	rtl
@@ -251,21 +254,21 @@ padsUp:
 	pha
 	plb
 
-    rep #$20
-    lda 8,s                                    ; get value
-    pha
-    plx
+		rep #$20
+		lda 8,s                                    ; get value
+		pha
+		plx
 
-    lda pad_keys,x
-    eor #$FFFF
-    sta.w tcc__r0
+		lda pad_keys,x
+		eor #$FFFF
+		sta.w tcc__r0
 
-    lda pad_keys,x
-    eor.w pad_keysold,x
-    and.w tcc__r0
-    sta.w tcc__r0
+		lda pad_keys,x
+		eor.w pad_keysold,x
+		and.w tcc__r0
+		sta.w tcc__r0
 
-  	plx
+		plx
 	plb
 	plp
 	rtl
@@ -318,10 +321,10 @@ checkmplay5ston:
 
 checkmplay5stoff:
 	lda REG_JOYB								; read 8 times bit1 and store values
-    lsr											; bit1->0
+		lsr											; bit1->0
 	and #$1										; only this bit
 	ora mp5read 								; add current value and store it
-    dex
+		dex
 	beq +
 	asl
 	sta mp5read
@@ -374,7 +377,7 @@ scanMPlay5:
 	bcs -
 
 	sep #$20
-    lda.b #$80                                 ; enable iobit to read data
+		lda.b #$80                                 ; enable iobit to read data
 	sta.w REG_WRIO
 
 	lda.b #$1
@@ -384,11 +387,11 @@ scanMPlay5:
 	rep #$20
  	ldy #16
 getpad1data:									; get all 16 bits pad1 data serialy
-    lda.w REG_JOYA
-    lsr a										; put bit0 into carry
-    rol.w pad_keys								; pad 1 data
-    dey
-  	bne getpad1data
+		lda.w REG_JOYA
+		lsr a										; put bit0 into carry
+		rol.w pad_keys								; pad 1 data
+		dey
+		bne getpad1data
 
 	ldy #16
 getpad23data:									; get all 16 bits pad2&3 data serialy
@@ -407,12 +410,12 @@ getpad23data:									; get all 16 bits pad2&3 data serialy
 	ldy #16
 getpad45data:									; get all 16 bits pad2&3 data serialy
 	lda.w REG_JOYB
-    lsr a										; put bit1 into carry
-    rol.w pad_keys+6							; pad 4 data
-    lsr a										; put bit1 into carry
-    rol.w pad_keys+8							; pad 5 data
-    dey
-  	bne getpad45data
+		lsr a										; put bit1 into carry
+		rol.w pad_keys+6							; pad 4 data
+		lsr a										; put bit1 into carry
+		rol.w pad_keys+8							; pad 5 data
+		dey
+		bne getpad45data
 
 	lda	pad_keys
 	eor	pad_keysold                            ; compute 'down' state from bits that
@@ -436,7 +439,7 @@ getpad45data:									; get all 16 bits pad2&3 data serialy
 	sta	pad_keysrepeat+8
 
 	sep #$20
-    lda.b #$80                                  ; enable iobit for next frame
+		lda.b #$80                                  ; enable iobit for next frame
 	sta.w REG_WRIO
 
 	ply
@@ -587,7 +590,7 @@ GetButtons:
 	lda	scope_port2down
 	sta	scope_held
 
-    lda	scope_repdelay                         ; set the remaining delay to the repeat value
+	lda	scope_repdelay                         ; set the remaining delay to the repeat value
 	sta	scope_tohold
 	bra	NotHeld
 
@@ -608,9 +611,40 @@ NoScope:
 	stz	scope_down
 	stz	scope_now
 	stz	scope_held
+	stz snes_sscope														 ; and lib flag
 
 	plp                                        ; return from input check
 	rts
+
+;---------------------------------------------------------------------------------
+; detectSuperScope(void)
+detectSuperScope:
+	php
+	phb
+
+	sep		#$20
+	lda 	#$0                                ; change bank address to 0
+	pha
+	plb
+
+-:	lda	REG_HVBJOY
+	and.b #$01
+	bne	-
+
+	rep	#$20
+	lda	REG_JOY2L                            ; Get joypad 2 input and check if the controller in port 2 is a Super Scope.
+	and.w	#$0CFF                             ; For a 16-bit auto joypad read, bits 0-7 should be always 1
+	cmp.w	#$00FF                             ; and bits 10-11 should be always 0.
+  bne +
+
+  sep	#$20
+	lda	#$01
+	sta snes_sscope
+
++:
+	plb
+	plp
+	rtl
 
 .ENDS
 
@@ -644,183 +678,224 @@ NoScope:
 ;---------------------------------------------------------------------------------
 ; void mouseRead(void)
 mouseRead:
-    php
-		sep     #$30
-		phb
-		phx
-		phy
+	php
+	sep     #$30
+	phb
+	phx
+	phy
 
-    lda     #$00						 ; Set Data Bank to 0
-    pha
-    plb
+	lda     #$00						 ; Set Data Bank to 0
+	pha
+	plb
 
 _10:
-    lda			REG_HVBJOY
-    and			#$01
-    bne     _10					     ; Automatic read ok?
+	lda			REG_HVBJOY
+	and			#$01
+	bne     _10					     ; Automatic read ok?
 
-    ldx     #$01
-    lda     REG_JOY2L            ; Joy2
-    jsr     mouse_data
+	ldx     #$01
+	lda     REG_JOY2L            ; Joy2
+	jsr     mouse_data
 
-    lda     connect_st+1
-    beq     _20
+	lda     connect_st+1
+	beq     _20
 
-    jsr     speed_change
-    stz     connect_st+1
+	jsr     speed_change
+	stz     connect_st+1
 
-    bra    _30
+	bra    _30
 
 _20:
-    dex
-    lda     REG_JOY1L           ; Joy1
+	dex
+	lda     REG_JOY1L           ; Joy1
 
-    jsr     mouse_data
+	jsr     mouse_data
 
-    lda     connect_st
-    beq     _30
+	lda     connect_st
+	beq     _30
 
-    jsr     speed_change
-    stz     connect_st
+	jsr     speed_change
+	stz     connect_st
 
 _30:
-		ply
-		plx
-		plb
-		plp
-    rtl
+	ply
+	plx
+	plb
+	plp
+	rtl
 
 mouse_data:
 
-    sta     tcc__r0           ; (421A / 4218 saved to reg0)
-    and.b   #$0F
-    cmp.b   #$01              ; Is the mouse connected?
-    beq     _m10
+	sta     tcc__r0           ; (421A / 4218 saved to reg0)
+	and.b   #$0F
+	cmp.b   #$01              ; Is the mouse connected?
+	beq     _m10
 
-    stz     mouseConnect,x    ; No connection.
+	stz     mouseConnect,x    ; No connection.
 
-    stz     mouseButton,x
-		stz     mousePressed,x
-    stz     mouse_x,x
-    stz     mouse_y,x
+	stz     mouseButton,x
+	stz     mousePressed,x
+	stz     mouse_x,x
+	stz     mouse_y,x
 
-    rts
+	stz     snes_mouse
+
+	rts
+
 _m10:
-    lda     mouseConnect,x    ; When mouse is connected, speed will change.
-    bne     _m20              ; Previous connection status
+	lda     mouseConnect,x    ; When mouse is connected, speed will change.
+	bne     _m20              ; Previous connection status
                               ; (mouse.com judged by lower 1 bit)
-    lda     #$01              ; Connection check flag on
-    sta     mouseConnect,x
-    sta     connect_st,x
-    rts
+	lda     #$01              ; Connection check flag on
+	sta     mouseConnect,x
+	sta     connect_st,x
+	rts
+
 _m20:
-    rep			#$10
-    ldy     #16               ; Read 16 bit data.
-    sep			#$10
+	rep			#$10
+	ldy     #16               ; Read 16 bit data.
+	sep			#$10
+
 _m30:
-    lda     REG_JOYA,x
+	lda     REG_JOYA,x
 
-    lsr     a
-    rol     mouse_x,x
-    rol     mouse_y,x
-    dey
-    bne     _m30
+	lsr     a
+	rol     mouse_x,x
+	rol     mouse_y,x
+	dey
+	bne     _m30
 
-    stz     mousePressed,x
+	stz     mousePressed,x
 
-    rol     tcc__r0
-    rol     mousePressed,x
-    rol     tcc__r0
-    rol     mousePressed,x        ; Switch turbo
+	rol     tcc__r0
+	rol     mousePressed,x
+	rol     tcc__r0
+	rol     mousePressed,x        ; Switch turbo
 
-    lda     mousePressed,x
-    eor     mouse_sb,x        ; Get switch trigger
-    bne     _m40
+	lda     mousePressed,x
+	eor     mouse_sb,x        ; Get switch trigger
+	bne     _m40
 
-    stz     mouseButton,x
+	stz     mouseButton,x
 
-    rts
+	rts
+
 _m40:
-    lda     mousePressed,x
-    sta     mouseButton,x
-    sta     mouse_sb,x
+	lda     mousePressed,x
+	sta     mouseButton,x
+	sta     mouse_sb,x
 
-    rts
+	rts
 
 ;---------------------------------------------------------------------------------
-; void MouseSpeedChange(u8 port)
-MouseSpeedChange:
-    php
-		sep     #$30
-		phb
-		phx
-    phy
+; void mouseSpeedChange(u8 port)
+mouseSpeedChange:
+	php
+	sep     #$30
+	phb
+	phx
+	phy
 
-    lda     #$00						 ; Set Data Bank to 0
-    pha
-    plb
+	lda     #$00						 ; Set Data Bank to 0
+	pha
+	plb
 
-    lda     8,s 						; Set port
-		tax
+	lda     8,s 						; Set port
+	tax
 
-		jsr     speed_change
+	jsr     speed_change
 
-    ply
-    plx
-    plb
-    plp
-    rtl
+	ply
+	plx
+	plb
+	plp
+	rtl
 
 speed_change:
-    php
-		sep     #$30
+	php
+	sep     #$30
 
-    lda     mouseConnect,x
-    beq     _s25
+	lda     mouseConnect,x
+	beq     _s25
 
-    lda     #$10
-    sta     tcc__r0h
+	lda     #$10
+	sta     tcc__r0h
+
 _s10:
-    lda     #$01
-    sta     REG_JOYA
-    lda     REG_JOYA,x      ; Speed change (1 step)
-    stz     REG_JOYA
+	lda     #$01
+	sta     REG_JOYA
+	lda     REG_JOYA,x      ; Speed change (1 step)
+	stz     REG_JOYA
 
-    lda     #$01            ; Read speed data.
-    sta     REG_JOYA        ; Shift register clear.
-    lda     #$00
-    sta     REG_JOYA
+	lda     #$01            ; Read speed data.
+	sta     REG_JOYA        ; Shift register clear.
+	lda     #$00
+	sta     REG_JOYA
 
-    sta     mouse_sp,x      ; Speed register clear.
+	sta     mouse_sp,x      ; Speed register clear.
 
-    ldy     #10             ; Shift register read has no meaning
+	ldy     #10             ; Shift register read has no meaning
+
 _s20:
-    lda     REG_JOYA,x
-    dey
-    bne     _s20
+	lda     REG_JOYA,x
+	dey
+	bne     _s20
 
-    lda     REG_JOYA,x      ; Read speed
+	lda     REG_JOYA,x      ; Read speed
 
-    lsr     a
-    rol     mouse_sp,x
+	lsr     a
+	rol     mouse_sp,x
 
-    lda     REG_JOYA, x
+	lda     REG_JOYA, x
 
-    lsr     a
-    rol     mouse_sp,x
-    lda     mouse_sp,x
+	lsr     a
+	rol     mouse_sp,x
+	lda     mouse_sp,x
 
-    cmp     mouseSpeedSet,x     ; Set speed or not?
+	cmp     mouseSpeedSet,x     ; Set speed or not?
 
-    beq     _s30
+	beq     _s30
 
-    dec     tcc__r0h            ; For error check
-    bne     _s10
+	dec     tcc__r0h            ; For error check
+	bne     _s10
+
 _s25:
-    lda     #$80                ; Speed change error.
-    sta     mouse_sp,x
+	lda     #$80                ; Speed change error.
+	sta     mouse_sp,x
+
 _s30:
-    plp
-    rts
+	plp
+	rts
+
+;---------------------------------------------------------------------------------
+; detectMouse(void)
+detectMouse:
+	php
+	phb
+
+	sep     #$20
+	lda     #$0               ; change bank address to 0
+	pha
+	plb
+
+-:	lda	  REG_HVBJOY
+	and.b   #$01
+	bne	-
+
+	rep     #$20
+	lda	    REG_JOY1L
+	ora     REG_JOY2L
+	and.w   #$000F
+	cmp.w   #$0001              ; Is the mouse connected on any port?
+	bne +
+
+	sep     #$20
+	lda     #$01
+	sta     snes_mouse
+
++:
+	plb
+	plp
+	rtl
 
 .ENDS

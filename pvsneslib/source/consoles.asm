@@ -390,6 +390,9 @@ consoleVblank:
     and mouseConnect + 1    ; If both ports have a mouse plugged, it will skip pad controller reading
     bne cvbloam
 +   jsl scanPads
+    lda snes_sscope
+    beq cvbloam
+    jsl scanScope
 
 cvbloam:
     ; Put oam to screen if needed
@@ -450,6 +453,7 @@ consoleInit:
     sta scr_txt_dirty                                         ; Nothing to print on screen
     sta snes_mplay5                                           ; For Pad function
     sta snes_mouse                                            ; Set mouse usage disabled by default
+    sta snes_sscope                                           ; Set superscope usage disabled by default
 
     phb
     pha
