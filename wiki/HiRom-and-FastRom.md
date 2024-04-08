@@ -45,13 +45,26 @@ TCC compiler was changed to have some small functions that inyect .BASE directiv
 
 To use HiRom, you must specify it inside your makefile
 ```bash
-export HIROM=1
+HIROM=1
 ```
 
 To use FastRom, you must specify it inside your makefile
 ```bash
-export FASTROM=1
+FASTROM=1
 ```
+
+If you are allocating a RAM variable inside an assembly file, you will need to reset the **.base** to **0** before the **.ramsection** or else the memory will be allocated to the wrong bank.
+
+For example, without the **.base 0**, the memory could be erroniously allocated to bank **$be** if **.base** is **$40** (SlowRom HiRom) or **$13e** if **.base** is **$c0** (FastRom HiRom).
+
+```bash
+.base 0
+.ramsection "asm_vars" BANK $7e SLOT 2
+   asm_variable:    dw
+.ends
+```
+
+You will need to restore **.base** to **$80/$40/$c0** (depending on the mapping) if you add code or data after the **.ramsection**. 
 
 # memory_mapping example to help you with coding
 
