@@ -118,9 +118,9 @@ pvsneslibfont.pic: pvsneslibfont.bmp
 
 ## Input
 
- _PVSneslib_ is able to manage the **SNES joypad**, the **mouse" and the "**SuperScope**.  
+ _PVSneslib_ is able to manage the **SNES joypad**, the **mouse** and the **SuperScope**.  
 
-### Joypad
+### Joypad  
 
 ```
     __--L--_________________--R--__           Button Colors:
@@ -220,7 +220,7 @@ else
     p1_mouse_y += mouse_y[0] & 0x7F;
 ```
 
-And that's most of it. You can look inside the example file **(input** folder) to have an idea of how you can program Mouse games.  
+And that's most of it. You can look inside the example file (**snes-examples/input** folder) to have an idea of how you can program Mouse games.  
 
 
 ### SuperScope  
@@ -264,6 +264,6 @@ typedef enum SUPERSCOPE_BITS
 } SUPERSCOPE_BITS;
 ```
 
-And that's most of it. You can look inside the example file **(input** folder) to have an idea of how you can program Super Scope games.  
+And that's most of it. You can look inside the example file (**snes-examples/input** folder)  to have an idea of how you can program Super Scope games.  
 
 
