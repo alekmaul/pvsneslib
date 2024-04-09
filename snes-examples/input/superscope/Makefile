@@ -24,8 +24,8 @@ sprites.pic: sprites.png
 	@echo convert sprites bitmap ... $(notdir $@)
 	$(GFXCONV) -s 32 -u 16 -o 48 -t png -i $<
 
-calibration_target.pic: calibration_target.png
+aim_adjust_target.pic: aim_adjust_target.png
 	@echo convert BG map ... $(notdir $@)
 	$(GFXCONV) -s 8 -u 16 -o 16 -t png -m -i $<
 
-bitmaps : pvsneslibfont.pic sprites.pic calibration_target.pic
+bitmaps : pvsneslibfont.pic sprites.pic aim_adjust_target.pic

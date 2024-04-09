@@ -1,7 +1,8 @@
 #ifndef SUPERSCOPE_H
 #define SUPERSCOPE_H
 
-#define max_rate 10 // To put some limit to turbo mode, so we're gonna fire every 10 frames
+#define normal_fire_rate 10 // To put some limit to turbo mode, so we're gonna fire every 10 frames
+#define slow_fire_rate 20 // To put some limit to turbo mode, so we're gonna fire every 20 frames
 
 #define max_bullets 32
 #define max_targets 64
@@ -10,6 +11,8 @@ bool sscope_disconnected = false; // if SuperScope is disconnected during gamepl
 bool pause_adjust = false;        // If we pause during game, will lead us to calibration screen, but we will be able to continue our game
 
 // Let's declare some usefull variables to animate our fantastic blue bullets :D
+u8 ready_to_fire = 0;
+u8 cool_down = 0;
 u8 bullet_id = 0;    // bullet id, we're going to use a maximum of 32 bullets, and then they reset to 0
 u8 bullet_num = 0;   // bullet number, this will help us to draw multiple bullets on screen at the same time
 u8 shot_bullets = 0; // the number of bullets we have shot and need to be drawn on screen. Every time a bullet dissapears, this number will decrease by one.

@@ -16,15 +16,15 @@
     sprites_palette:
     .incbin "sprites.pal"
 
-    cali_target_tileset:
-    .incbin "calibration_target.pic"
+    aim_target_tileset:
+    .incbin "aim_adjust_target.pic"
 
-    cali_target_tileset_end:
+    aim_target_tileset_end:
 
-    cali_target_map:
-    .incbin "calibration_target.map"
+    aim_target_map:
+    .incbin "aim_adjust_target.map"
 
-    cali_target_palette:
-    .incbin "calibration_target.pal"
+    aim_target_palette:
+    .incbin "aim_adjust_target.pal"
 
 .ends
