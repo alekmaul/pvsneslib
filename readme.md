@@ -99,7 +99,8 @@ Sydney Hunter by [CollectorVision](https://collectorvision.com/store/shop/snes/s
 - **RedBug** for constify tcc bug fix and tips for Linux and Docker.
 - [**Mills32**](https://github.com/mills32/) for his mode7 3D example.
 - [**N_Arno**](https://github.com/nArnoSNES/) for his help on Linux version.
-- [**DigiDwrf**](https://github.com/DigiDwrf/) for hirom / fastrom support.
+- [**DigiDwrf**](https://github.com/DigiDwrf/) for hirom / fastrom support and also mouse & superscope support.
+- [**undisbeliever**](https://github.com/undisbeliever/castle_platformer/) for map engine example.
 
 And, of course, all the [**discord community**](https://discord.gg/DzEFnhB) !
 

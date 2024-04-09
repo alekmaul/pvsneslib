@@ -75,7 +75,7 @@
  - <a href="http://code.google.com/p/neo-myth-menu/">Neoflash Menu google code. </a>
  - <a href="http://www.devkitpro.org/">Devkitpro team for pvsneslib structure (lib, makefile, examples, and so on ...). </a>
  - <a href="https://github.com/undisbeliever/castle_platformer">undisbeliever for his great platform code example on github. </a>
- - <a href="https://github.com/DigiDwrf">digidwrf for fastrom / hirom support. </a>
+ - <a href="https://github.com/DigiDwrf">digidwrf for fastrom / hirom support, mouse and superscope support. </a>
 */
 
 // adding the example page.
@@ -120,7 +120,7 @@
     <!-- palettes -->
     \example graphics/Palette/GetColors/GetColors.c
 
-    <!-- keypad -->
+    <!-- inputs -->
     \example input/controller/controller.c
     \example input/mouse/mouse.c
     \example input/multiplay5/multiplay5.c
