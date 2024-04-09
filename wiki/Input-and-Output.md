@@ -118,7 +118,10 @@ pvsneslibfont.pic: pvsneslibfont.bmp
 
 ## Input
 
-Currently, the only input managed with _PVSneslib_ is the **SNES joypad**.  
+ _PVSneslib_ is able to manage the **SNES joypad**, the **mouse" and the "**SuperScope**.  
+
+### Joypad
+
 ```
     __--L--_________________--R--__           Button Colors:
    /    _                          \   PAL and Japan    North America
@@ -172,3 +175,13 @@ At least, the pad is refresh during VBL (thanks to VBlank function), so it is no
        consoleDrawText(12,10,"A PRESSED");
      }
 ```
+
+### Mouse  
+
+** WORK IN PROGRESS **  
+
+
+### SuperScope  
+
+** WORK IN PROGRESS **  
+
