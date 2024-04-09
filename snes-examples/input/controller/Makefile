@@ -8,7 +8,7 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 #---------------------------------------------------------------------------------
 # ROMNAME is used in snes_rules file
-export ROMNAME := input
+export ROMNAME := controller
 
 all: bitmaps $(ROMNAME).sfc
 

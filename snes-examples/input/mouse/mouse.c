@@ -43,11 +43,11 @@ int main(void)
     // Initialize SNES
     consoleInit();
 
-    snes_mouse = true; // Let's tell the system we're using mouse bios (after init)
-
     // we set mouse speed, or it will just output a random speed. We can change it later manually
     mouseSpeedSet[0] = slow;
     mouseSpeedSet[1] = slow;
+
+    detectMouse(); // Let's check if a mouse is plugged in any port on boot
 
     // Init cursors sprite
     oamInitGfxSet(&cursorsprite, (&cursorsprite_end - &cursorsprite), &cursorpal, 48 * 2, 0, 0x0000, OBJ_SIZE16_L32);
@@ -103,6 +103,9 @@ int main(void)
 
     while (1)
     {
+        if (snes_mouse == false)
+        detectMouse(); // Let's check if a mouse is plugged in any port
+
         odd++;
         // Optimize Draw text by printing new text just once
         if (mouseConnect[0] != mc_mem[0])
@@ -305,19 +308,19 @@ int main(void)
                     {
                         mouseSpeedSet[0] = slow;
                         speedset[0] = true;
-                        MouseSpeedChange(0); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
+                        mouseSpeedChange(0); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
                     }
                     if ((p1_mouse_x > 0x6C) && (p1_mouse_x < 0x94))
                     {
                         mouseSpeedSet[0] = normal;
                         speedset[0] = true;
-                        MouseSpeedChange(0); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
+                        mouseSpeedChange(0); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
                     }
                     if ((p1_mouse_x > 0x9C) && (p1_mouse_x < 0xBC))
                     {
                         mouseSpeedSet[0] = fast;
                         speedset[0] = true;
-                        MouseSpeedChange(0); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
+                        mouseSpeedChange(0); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
                     }
                 }
             }
@@ -366,20 +369,19 @@ int main(void)
                     {
                         mouseSpeedSet[1] = slow;
                         speedset[1] = true;
-                        MouseSpeedChange(1); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
+                        mouseSpeedChange(1); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
                     }
                     if ((p2_mouse_x > 0x6C) && (p2_mouse_x < 0x94))
                     {
                         mouseSpeedSet[1] = normal;
                         speedset[1] = true;
-                        MouseSpeedChange(1); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
+                        mouseSpeedChange(1); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
                     }
                     if ((p2_mouse_x > 0x9C) && (p2_mouse_x < 0xBC))
                     {
                         mouseSpeedSet[1] = fast;
                         speedset[1] = true;
-                        consoleMesenBreakpoint();
-                        MouseSpeedChange(1); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
+                        mouseSpeedChange(1); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
                     }
                 }
             }

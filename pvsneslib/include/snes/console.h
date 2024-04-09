@@ -36,8 +36,8 @@
 
 #include <snes/background.h>
 #include <snes/dma.h>
+#include <snes/input.h>
 #include <snes/interrupt.h>
-#include <snes/pad.h>
 #include <snes/sprite.h>
 #include <snes/sound.h>
 #include <snes/video.h>
