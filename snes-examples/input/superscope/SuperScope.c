@@ -16,7 +16,7 @@
 extern char tilfont, palfont;
 
 extern unsigned char sprites_map, sprites_map_end, sprites_palette;                                      // Sprites
-extern unsigned char cali_target_tileset, cali_target_tileset_end, cali_target_map, cali_target_palette; // BG
+extern unsigned char aim_target_tileset, aim_target_tileset_end, aim_target_map, aim_target_palette; // BG
 
 void hideSprites()
 {
@@ -75,7 +75,7 @@ int main(void)
     consoleInitText(1, 16 * 2, &tilfont, &palfont);
 
     // Init background
-    bgInitTileSet(0, &cali_target_tileset, &cali_target_palette, 0, (&cali_target_tileset_end - &cali_target_tileset), 16 * 2, BG_16COLORS, 0x3000);
+    bgInitTileSet(0, &aim_target_tileset, &aim_target_palette, 0, (&aim_target_tileset_end - &aim_target_tileset), 16 * 2, BG_16COLORS, 0x3000);
     bgSetGfxPtr(1, 0x3800);
     bgSetMapPtr(1, 0x2000, SC_32x32);
 
@@ -98,7 +98,7 @@ int main(void)
     bgSetScroll(1, 0, -1);
 
 START_OVER:
-    bgInitMapSet(0, &cali_target_map, 0x700, SC_32x32, 0x2800);
+    bgInitMapSet(0, &aim_target_map, 0x700, SC_32x32, 0x2800);
 
     // Draw a wonderful text :P
     consoleDrawText(8, 1, "SUPERSCOPE Test");
@@ -132,7 +132,7 @@ START_OVER:
         WaitNVBlank(60); // Hold on for one second
 
 ADJUST_AIM:
-    consoleDrawText(1, 24, "                              ");
+    consoleDrawText(9, 24, "              ");
     consoleDrawText(3, 25, "  Shoot center of screen  ");
     consoleDrawText(3, 26, "       to adjust aim      ");
 
@@ -180,13 +180,10 @@ ADJUST_AIM:
         WaitForVBlank();
     }
 
-    // Offsets may vary if your code is different, so you can play with this numbers until you find them suitable for your program.
-    u8 h_offset = 0x8A;
-    u8 v_offset = 0x74;
-
-    // Start aim adjust process: it stores scope's raw values relative to the center of screen, so shot matches superscope's physical aim.
-    scope_centerh = scope_shothraw - h_offset;
-    scope_centerv = scope_shotvraw - v_offset;
+    // Start aim adjust process: it stores scope's raw values relative to the center of screen, so shot matches superscope's physical aim
+    // We also move our scope's center to the center of screen
+    scope_centerh = 0x80 - scope_shothraw;
+    scope_centerv = 0x70 - scope_shotvraw;
 
     if (pause_adjust)
         consoleDrawText(1, 3, "                             ");
@@ -233,22 +230,15 @@ ADJUST_AIM:
         WaitForVBlank();
     }
 
-    oamSetXY(0, scope_shoth - 0x12, scope_shotv - 0x0C); // Draw spot in the center if the aim was on the center during aim adjustment, this means our aim is good.
+    // To finish aim adjust we store coords relative to the center of screen
+    oamSetXY(0, scope_shoth - 0x08, scope_shotv - 0x08); // Draw spot aligned with our aim if the aim was on the center on first shot, this means our aim is adjusted.
 
     WaitNVBlank(60); // Hold on for one second
 
-    s8 shot_diff_x = scope_shoth - scope_shothraw; // difference between raw horizontal value and adjusted shot.
-    s8 shot_diff_y = scope_shotv - scope_shotvraw;  // difference between raw vertical value and adjusted shot.
-
-    if ((shot_diff_x + shot_diff_y) == 0) // no difference between adjusted shot coords and raw coords, this means we have a perfect aim adjustment
-        consoleDrawText(12, 24, "PERFECT!");
-    else if ((shot_diff_x > -4) && (shot_diff_x < 4) && (shot_diff_y > -4) && (shot_diff_y < 4)) // Aim in range (8px x 8px)
-        consoleDrawText(14, 24, "Nice.");                                                        // inside 8x8 range, displays a good message
-    else
-        consoleDrawText(2, 24, "You can do better. Try again?"); // More than 8x8, we think is too much
+    consoleDrawText(9, 24, "Are you ready?");
     if (pause_adjust)
     {
-        consoleDrawText(4, 25, "Press PAUSE to return");
+        consoleDrawText(5, 25, "Press PAUSE to return");
         consoleDrawText(3, 26, "Press CURSOR to adjust aim");
     }
     else
@@ -336,8 +326,8 @@ ADJUST_AIM:
     }
 
     // We also have to setup Fire rate
-    scope_holddelay = max_rate; // How much time we need to consider a button has been held
-    scope_repdelay = max_rate;  // Fire rate
+    scope_holddelay = 60; // We wait a secont until we want to consider that the button has been held
+    scope_repdelay = slow_fire_rate;  // Fire rate
 
     setFadeEffect(FADE_OUT);
 
@@ -365,7 +355,7 @@ CONTINUE_GAME:
     consoleDrawText(8, 1, "               ");
     consoleDrawText(1, 3, "                             ");
     consoleDrawText(8, 4, "                ");
-    consoleDrawText(1, 24, "                              ");
+    consoleDrawText(9, 24, "              ");
     consoleDrawText(4, 25, "                         ");
     consoleDrawText(3, 26, "                          ");
 
@@ -373,7 +363,7 @@ CONTINUE_GAME:
     setPaletteColor(17, 0x0000); // and black for texts
 
     WaitForVBlank();
-    dmaFillVram(&cali_target_map, 0x2800, 0x700); // Wipe screen
+    dmaFillVram(&aim_target_map, 0x2800, 0x700); // Wipe screen
     oamInitGfxAttr(0x0000, OBJ_SIZE32_L64);       // Set to bigger sprites
 
     setScreenOn();
@@ -421,14 +411,33 @@ CONTINUE_GAME:
 
             if (enable_fire)
             {
-                if (scope_held & SSC_FIRE)
+                if (scope_held & SSC_FIRE) // We're using scope_held to swap from a normal fire rate to a slower firerate
+                    if (cool_down < 2)
+                        cool_down++;
+
+                if ((scope_down & SSC_FIRE) == 0)
+                    cool_down = 0;
+
+                if (((scope_held & SSC_FIRE) && (cool_down == 2)) || ((scope_down & SSC_FIRE) && (ready_to_fire == normal_fire_rate)))
                 {
                     bullet_id++;
                     if (bullet_id == 32)
                         bullet_id = 0;
 
-                    bullet_x[bullet_id] = scope_shoth - 0x1A;
-                    bullet_y[bullet_id] = scope_shotv - 0x14;
+                    if (scope_shoth < 0x110)
+                    {
+                        bullet_x[bullet_id] = scope_shoth - 0x10;
+                        if (scope_shotv < 0xE0)
+                            bullet_y[bullet_id] = scope_shotv - 0x10;
+                        else
+                            bullet_y[bullet_id] = 0xE0;
+                    }
+                    else
+                    {
+                        bullet_x[bullet_id] = 0x110;
+                        bullet_y[bullet_id] = 0xE0;
+                    }
+
                     bullet_frame[bullet_id] = 0;
                     bullet_draw[bullet_id] = 0;
 
@@ -440,7 +449,16 @@ CONTINUE_GAME:
                     difuse_y[bullet_id] = ((rand() & 0xF0) >> 4) - 8;
 
                     shot_bullets++; // incease shot bullets by one
+                    ready_to_fire = 0;
                 }
+
+                if (cool_down < 2)
+                {
+                    if (ready_to_fire < normal_fire_rate)
+                        ready_to_fire++; // This will prevent lag if we shoot too fast
+                }
+                else
+                    ready_to_fire = 0;
 
                 for (bullet_num = 0; bullet_num < shot_bullets; bullet_num++)
                 {
@@ -495,7 +513,7 @@ CONTINUE_GAME:
                         consoleDrawText(13, 13, "     ");
                         consoleDrawText(10, 14, "            ");
 
-                        setPalette(&cali_target_palette, 0, 2); // Restore blue BACK
+                        setPalette(&aim_target_palette, 0, 2); // Restore blue BACK
                         setPaletteColor(17, 0x7FFF);            // Restore white text
 
                         hideSprites();
@@ -596,7 +614,7 @@ CONTINUE_GAME:
                         setFadeEffect(FADE_OUT);
 
                         resetGame();
-                        setPalette(&cali_target_palette, 0, 2); // Restore blue BACK
+                        setPalette(&aim_target_palette, 0, 2); // Restore blue BACK
                         setPaletteColor(17, 0x7FFF);            // Restore white text
                         goto START_OVER;
                     }
