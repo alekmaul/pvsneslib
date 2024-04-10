@@ -1008,7 +1008,14 @@ namespace IT2SPC
                 "\n",
                 size);
 
-        if (size <= 32768)
+        int banksize;
+        
+        if (HiROM)
+            banksize = 65536;
+        else
+            banksize = 32768;
+
+        if (size <= banksize)
         {
             fprintf(f,
                     ".BANK %i\n"
@@ -1035,7 +1042,7 @@ namespace IT2SPC
         }
         else
         {
-            u32 lastbank = size / 32768;
+            u32 lastbank = size / banksize;
             for (u32 j = 0; j <= lastbank; j++)
             {
                 fprintf(f,
@@ -1057,12 +1064,22 @@ namespace IT2SPC
                 // if( ffo != std::string::npos )
                 // foo = foo.substr( ffo + 1 );
 
-                if (j == 0)
-                    fprintf(f, ".incbin \"%s\" read $8000\n", foo.c_str());
-                else if (j == lastbank)
-                    fprintf(f, ".incbin \"%s\" skip $%x\n", foo.c_str(), j * 0x8000);
-                else
-                    fprintf(f, ".incbin \"%s\" skip $%x read $8000\n", foo.c_str(), j * 0x8000);
+                if (HiROM) {
+                    if (j == 0)
+                        fprintf(f, ".incbin \"%s\" read $10000\n", foo.c_str());
+                    else if (j == lastbank)
+                        fprintf(f, ".incbin \"%s\" skip $%x\n", foo.c_str(), j * 0x10000);
+                    else
+                        fprintf(f, ".incbin \"%s\" skip $%x read $10000\n", foo.c_str(), j * 0x10000);
+                }
+                else {
+                    if (j == 0)
+                        fprintf(f, ".incbin \"%s\" read $8000\n", foo.c_str());
+                    else if (j == lastbank)
+                        fprintf(f, ".incbin \"%s\" skip $%x\n", foo.c_str(), j * 0x8000);
+                    else
+                        fprintf(f, ".incbin \"%s\" skip $%x read $8000\n", foo.c_str(), j * 0x8000);
+                }
 
                 fprintf(f, ".ENDS\n\n");
             }
