@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.1.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -148,12 +148,16 @@ $(document).ready(function(){initNavTree('map_8h_source.html',''); initResizable
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
 <div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">   91</a></span>&#160;u16 <a class="code" href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">mapGetMetaTile</a>(u16 xpos, u16 ypos);</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="amap_8h_html_a0d7b8c3ece013b244c417f761ad150ac"><div class="ttname"><a href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">mapGetMetaTile</a></div><div class="ttdeci">u16 mapGetMetaTile(u16 xpos, u16 ypos)</div><div class="ttdoc">Get metatile property from current map.</div></div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="map_8h.html#a82cbe383dfcdf5a9e95acf97609f2c1f">   99</a></span>&#160;u16 <a class="code" href="map_8h.html#a82cbe383dfcdf5a9e95acf97609f2c1f">mapGetMetaTilesProp</a>(u16 xpos, u16 ypos);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="amap_8h_html_a0d7b8c3ece013b244c417f761ad150ac"><div class="ttname"><a href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">mapGetMetaTile</a></div><div class="ttdeci">u16 mapGetMetaTile(u16 xpos, u16 ypos)</div><div class="ttdoc">Get metatile value from current map.</div></div>
 <div class="ttc" id="amap_8h_html_a15e3d01a91c5650e4de9a6e6be131d34"><div class="ttname"><a href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a></div><div class="ttdeci">void mapVblank(void)</div><div class="ttdoc">Display map regarding current buffer (must be done once per frame, near Vblank)</div></div>
 <div class="ttc" id="amap_8h_html_a332bfe570835ef05934b712fd9701c88"><div class="ttname"><a href="map_8h.html#a332bfe570835ef05934b712fd9701c88">mapUpdate</a></div><div class="ttdeci">void mapUpdate(void)</div><div class="ttdoc">Update map regarding current camera position (must be done once per frame)</div></div>
 <div class="ttc" id="amap_8h_html_a467103f88f118d5ff5a7aeed5cb8a1d5"><div class="ttname"><a href="map_8h.html#a467103f88f118d5ff5a7aeed5cb8a1d5">bg_L1</a></div><div class="ttdeci">u16 bg_L1[32 *32]</div><div class="ttdoc">The buffer to use when updating the whole display on layer 1.</div></div>
 <div class="ttc" id="amap_8h_html_a79f8bb14ed9f0ee9d7031db7f02733be"><div class="ttname"><a href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a></div><div class="ttdeci">u16 y_pos</div><div class="ttdoc">Current value of camera in x &amp; y coordinates.</div><div class="ttdef"><b>Definition:</b> map.h:57</div></div>
+<div class="ttc" id="amap_8h_html_a82cbe383dfcdf5a9e95acf97609f2c1f"><div class="ttname"><a href="map_8h.html#a82cbe383dfcdf5a9e95acf97609f2c1f">mapGetMetaTilesProp</a></div><div class="ttdeci">u16 mapGetMetaTilesProp(u16 xpos, u16 ypos)</div><div class="ttdoc">Get metatile property from current map (solid, lad, fire, etc...)</div></div>
 <div class="ttc" id="amap_8h_html_aa113f9698adeb4ddea559d2cdaf82d96"><div class="ttname"><a href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">mapLoad</a></div><div class="ttdeci">void mapLoad(u8 *layer1map, u8 *layertiles, u8 *tilesprop)</div><div class="ttdoc">Load map definition into memory.</div></div>
 <div class="ttc" id="amap_8h_html_ab13b1b784e3f0f177501c469853c894e"><div class="ttname"><a href="map_8h.html#ab13b1b784e3f0f177501c469853c894e">mapupdbuf</a></div><div class="ttdeci">u8 mapupdbuf</div><div class="ttdoc">State of buffer update (vert / horiz / all)</div></div>
 <div class="ttc" id="amap_8h_html_ab8720c97e886ceabda97c6beff2e5864"><div class="ttname"><a href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">mapUpdateCamera</a></div><div class="ttdeci">void mapUpdateCamera(u16 xpos, u16 ypos)</div><div class="ttdoc">Update map camera (must be done once per frame)</div></div>
@@ -164,7 +168,7 @@ $(document).ready(function(){initNavTree('map_8h_source.html',''); initResizable
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="map_8h.html">map.h</a></li>
-    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 12 2024       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.1.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -194,12 +194,12 @@ $(document).ready(function(){initNavTree('objects_2moveobjects_2moveobjects_8c-e
 <div class="line">    yp = *snesoy;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Get current #0 pad</span></div>
-<div class="line">    pad0 = <a name="a12"></a><a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
+<div class="line">    pad0 = <a name="a12"></a><a class="code" href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Kill current object with pad if A pressed (just need to populate objtokill variable)</span></div>
 <div class="line">    <span class="keywordflow">switch</span> (pad0)</div>
 <div class="line">    {</div>
-<div class="line">    <span class="keywordflow">case</span> <a name="a13"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>:</div>
+<div class="line">    <span class="keywordflow">case</span> <a name="a13"></a><a class="code" href="input_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>:</div>
 <div class="line">        <a name="a14"></a><a class="code" href="object_8h.html#adbc29a5fc1d8493c4a23d739727aaef3">objtokill</a> = 1;</div>
 <div class="line">        <a class="code" href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a>(<span class="stringliteral">&quot;killing me %04x\n&quot;</span>, (u16)idx);</div>
 <div class="line">        <span class="keywordflow">break</span>;</div>
@@ -262,19 +262,19 @@ $(document).ready(function(){initNavTree('objects_2moveobjects_2moveobjects_8c-e
 <div class="line">    <a name="a22"></a><a class="code" href="object_8h.html#ad010f8c119dbd982acd9ddd859f2acec">objInitEngine</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init function for state machine</span></div>
-<div class="line">    objInitFunctions(0, &amp;testInit, &amp;testUpdate, NULL);</div>
+<div class="line">    <a name="a23"></a><a class="code" href="object_8h.html#a7e95928105307a3b96b1b79a096917e1">objInitFunctions</a>(0, &amp;testInit, &amp;testUpdate, NULL);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Load all objects into memory</span></div>
 <div class="line">    numspr = 0;</div>
-<div class="line">    <a name="a23"></a><a class="code" href="object_8h.html#aeda7828a0cb93ff1985ac0237ac5871b">objLoadObjects</a>((<span class="keywordtype">char</span> *)&amp;tabobjects);</div>
+<div class="line">    <a name="a24"></a><a class="code" href="object_8h.html#aeda7828a0cb93ff1985ac0237ac5871b">objLoadObjects</a>((<span class="keywordtype">char</span> *)&amp;tabobjects);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Need to init map , even if not present to allow update functions to work</span></div>
-<div class="line">    x_pos=0; <a name="a24"></a><a class="code" href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a>=0;</div>
+<div class="line">    x_pos=0; <a name="a25"></a><a class="code" href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a>=0;</div>
 <div class="line">    </div>
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
-<div class="line">        <a name="a25"></a><a class="code" href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a>();</div>
-<div class="line">        <a name="a26"></a><a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
+<div class="line">        <a name="a26"></a><a class="code" href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a>();</div>
+<div class="line">        <a name="a27"></a><a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
@@ -282,12 +282,13 @@ $(document).ready(function(){initNavTree('objects_2moveobjects_2moveobjects_8c-e
 <div class="ttc" id="aconsole_8h_html_a0615d3903c2ad6faaed1443bd44c8ae2"><div class="ttname"><a href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a></div><div class="ttdeci">u16 rand(void)</div><div class="ttdoc">return a randomized number</div></div>
 <div class="ttc" id="aconsole_8h_html_a3a226cebe7d59aac755e03e1061ff727"><div class="ttname"><a href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a></div><div class="ttdeci">void consoleNocashMessage(char *fmt,...)</div><div class="ttdoc">Send a message to the no$sns debug window.</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
+<div class="ttc" id="ainput_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> input.h:161</div></div>
+<div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition:</b> input.h:48</div></div>
 <div class="ttc" id="ainterrupt_8h_html_abd33830487e4764e5ec22ec98b749f4b"><div class="ttname"><a href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt</div></div>
 <div class="ttc" id="amap_8h_html_a79f8bb14ed9f0ee9d7031db7f02733be"><div class="ttname"><a href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a></div><div class="ttdeci">u16 y_pos</div><div class="ttdoc">Current value of camera in x &amp; y coordinates.</div><div class="ttdef"><b>Definition:</b> map.h:57</div></div>
-<div class="ttc" id="anetwork_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> network.h:122</div></div>
-<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition:</b> network.h:48</div></div>
 <div class="ttc" id="aobject_8h_html_a70a85e34d3b6008e897c1e8a7d6232c1"><div class="ttname"><a href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a></div><div class="ttdeci">t_objs objbuffers[OB_MAX]</div><div class="ttdoc">current object buffer with all objects</div></div>
 <div class="ttc" id="aobject_8h_html_a79ff81c8642b2398a03519c279c2f132"><div class="ttname"><a href="object_8h.html#a79ff81c8642b2398a03519c279c2f132">objNew</a></div><div class="ttdeci">u16 objNew(u8 objtype, u16 x, u16 y)</div><div class="ttdoc">Initialize a new object in game, objgetid will has the id of the object.</div></div>
+<div class="ttc" id="aobject_8h_html_a7e95928105307a3b96b1b79a096917e1"><div class="ttname"><a href="object_8h.html#a7e95928105307a3b96b1b79a096917e1">objInitFunctions</a></div><div class="ttdeci">void objInitFunctions(u8 objtype, void *initfct, void *updfct, void *reffct)</div><div class="ttdoc">Initialize the object type functions (initialize, update)</div></div>
 <div class="ttc" id="aobject_8h_html_a9e81915d1e68d22798a93bb27eb74188"><div class="ttname"><a href="object_8h.html#a9e81915d1e68d22798a93bb27eb74188">objptr</a></div><div class="ttdeci">u16 objptr</div><div class="ttdoc">pointer to current object</div></div>
 <div class="ttc" id="aobject_8h_html_aa3240dfaeaa1b670114283de49dc6526"><div class="ttname"><a href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a></div><div class="ttdeci">void objUpdateAll(void)</div><div class="ttdoc">call update function for all objects currently active (if they are in &quot;virtual screen&quot; coordinates).</div></div>
 <div class="ttc" id="aobject_8h_html_aba30a57977f35e1632eb81b5ae39321f"><div class="ttname"><a href="object_8h.html#aba30a57977f35e1632eb81b5ae39321f">objGetPointer</a></div><div class="ttdeci">void objGetPointer(u16 objhandle)</div><div class="ttdoc">get the pointer to an object from its handle (need to do -1 to have offset after),...</div></div>
@@ -300,10 +301,10 @@ $(document).ready(function(){initNavTree('objects_2moveobjects_2moveobjects_8c-e
 <div class="ttc" id="asprite_8h_html_a449cd6f7c4fc8ca09a632e0c58cdb365"><div class="ttname"><a href="sprite_8h.html#a449cd6f7c4fc8ca09a632e0c58cdb365">OBJ_SIZE32_L64</a></div><div class="ttdeci">#define OBJ_SIZE32_L64</div><div class="ttdoc">default OAM size 32x32 (SM) and 64x64 (LG) pix for OBJSEL register</div><div class="ttdef"><b>Definition:</b> sprite.h:44</div></div>
 <div class="ttc" id="asprite_8h_html_a46e0be47f8fc865a7f43c1b0b126e59a"><div class="ttname"><a href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a></div><div class="ttdeci">void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize)</div><div class="ttdoc">Initializes a sprites Gfx and Loads the GFX into VRAM.</div></div>
 <div class="ttc" id="asprite_8h_html_abb854a7fa3bbfe4c2e331bfce9e374a7"><div class="ttname"><a href="sprite_8h.html#abb854a7fa3bbfe4c2e331bfce9e374a7">oamSet</a></div><div class="ttdeci">void oamSet(u16 id, u16 xspr, u16 yspr, u8 priority, u8 hflip, u8 vflip, u16 gfxoffset, u8 paletteoffset)</div><div class="ttdoc">sets an oam entry to the supplied values</div></div>
-<div class="ttc" id="astructt__objs_html"><div class="ttname"><a href="structt__objs.html">t_objs</a></div><div class="ttdoc">object definition (64 bytes)</div><div class="ttdef"><b>Definition:</b> object.h:45</div></div>
-<div class="ttc" id="astructt__objs_html_a7d8d754f7264eebc304486e94750c5ce"><div class="ttname"><a href="structt__objs.html#a7d8d754f7264eebc304486e94750c5ce">t_objs::xpos</a></div><div class="ttdeci">u8 xpos[3]</div><div class="ttdef"><b>Definition:</b> object.h:56</div></div>
-<div class="ttc" id="astructt__objs_html_ae463092ffd317392c6fac318d37d1cdd"><div class="ttname"><a href="structt__objs.html#ae463092ffd317392c6fac318d37d1cdd">t_objs::sprnum</a></div><div class="ttdeci">u16 sprnum</div><div class="ttdef"><b>Definition:</b> object.h:50</div></div>
-<div class="ttc" id="astructt__objs_html_af033b263019aea8c1fb4fd095dde7997"><div class="ttname"><a href="structt__objs.html#af033b263019aea8c1fb4fd095dde7997">t_objs::ypos</a></div><div class="ttdeci">u8 ypos[3]</div><div class="ttdef"><b>Definition:</b> object.h:57</div></div>
+<div class="ttc" id="astructt__objs_html"><div class="ttname"><a href="structt__objs.html">t_objs</a></div><div class="ttdoc">object definition (64 bytes)</div><div class="ttdef"><b>Definition:</b> object.h:49</div></div>
+<div class="ttc" id="astructt__objs_html_a7d8d754f7264eebc304486e94750c5ce"><div class="ttname"><a href="structt__objs.html#a7d8d754f7264eebc304486e94750c5ce">t_objs::xpos</a></div><div class="ttdeci">u8 xpos[3]</div><div class="ttdef"><b>Definition:</b> object.h:60</div></div>
+<div class="ttc" id="astructt__objs_html_ae463092ffd317392c6fac318d37d1cdd"><div class="ttname"><a href="structt__objs.html#ae463092ffd317392c6fac318d37d1cdd">t_objs::sprnum</a></div><div class="ttdeci">u16 sprnum</div><div class="ttdef"><b>Definition:</b> object.h:54</div></div>
+<div class="ttc" id="astructt__objs_html_af033b263019aea8c1fb4fd095dde7997"><div class="ttname"><a href="structt__objs.html#af033b263019aea8c1fb4fd095dde7997">t_objs::ypos</a></div><div class="ttdeci">u8 ypos[3]</div><div class="ttdef"><b>Definition:</b> object.h:61</div></div>
 <div class="ttc" id="avideo_8h_html_abc7d4ef8ebc22f5b710927909bb3f144"><div class="ttname"><a href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a></div><div class="ttdeci">void setScreenOn(void)</div><div class="ttdoc">Put screen On.</div></div>
 <div class="ttc" id="avideo_8h_html_afd9e46ae627d055dd8c98a4b0ebb73b1"><div class="ttname"><a href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a></div><div class="ttdeci">void setMode(u8 mode, u8 size)</div><div class="ttdoc">Set the SNES hardware to operate in new display mode.</div></div>
 </div><!-- fragment --> </div><!-- contents -->
@@ -311,7 +312,7 @@ $(document).ready(function(){initNavTree('objects_2moveobjects_2moveobjects_8c-e
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 12 2024       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

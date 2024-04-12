@@ -30,8 +30,8 @@ var structt__objs =
     [ "xmin", "structt__objs.html#afe1bb9b465b03a6ce06be3563a3a7b7a", null ],
     [ "xofs", "structt__objs.html#ad5a67be825dd45b98f19bda952a856f5", null ],
     [ "xpos", "structt__objs.html#a7d8d754f7264eebc304486e94750c5ce", null ],
-    [ "xvel", "structt__objs.html#ae7d9e737a340022fb479b10115082c64", null ],
+    [ "xvel", "structt__objs.html#a3805bf290808a8490f0e866e58843e48", null ],
     [ "yofs", "structt__objs.html#a63dd6f946d11f7e39d35ce9050c1e168", null ],
     [ "ypos", "structt__objs.html#af033b263019aea8c1fb4fd095dde7997", null ],
-    [ "yvel", "structt__objs.html#a7aa31dcb802be971b0f425a01e6b843e", null ]
+    [ "yvel", "structt__objs.html#a401ea031f21458eb788a7c3150b5a3f0", null ]
 ];

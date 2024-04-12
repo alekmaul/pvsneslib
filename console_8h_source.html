@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.1.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -125,8 +125,8 @@ $(document).ready(function(){initNavTree('console_8h_source.html',''); initResiz
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="background_8h.html">snes/background.h</a>&gt;</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="dma_8h.html">snes/dma.h</a>&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="interrupt_8h.html">snes/interrupt.h</a>&gt;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="pad_8h.html">snes/pad.h</a>&gt;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="input_8h.html">snes/input.h</a>&gt;</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="interrupt_8h.html">snes/interrupt.h</a>&gt;</span></div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="sprite_8h.html">snes/sprite.h</a>&gt;</span></div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="sound_8h.html">snes/sound.h</a>&gt;</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="video_8h.html">snes/video.h</a>&gt;</span></div>
@@ -166,19 +166,24 @@ $(document).ready(function(){initNavTree('console_8h_source.html',''); initResiz
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
 <div class="line"><a name="l00162"></a><span class="lineno"><a class="line" href="console_8h.html#abe1fabedc24a3adef79f32e02c3bc2d5">  162</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#abe1fabedc24a3adef79f32e02c3bc2d5">consoleLoadSram</a>(u8 *dest, u16 size);</div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="keywordtype">int</span> sprintf(<span class="keywordtype">char</span> *buf, <span class="keyword">const</span> <span class="keywordtype">char</span> *fmt, ...);</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
-<div class="line"><a name="l00172"></a><span class="lineno"><a class="line" href="console_8h.html#ad9f96595d599dca8d09df3da5200a8a8">  172</a></span>&#160;u16 <a class="code" href="console_8h.html#ad9f96595d599dca8d09df3da5200a8a8">consoleRegionIsOK</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno"><a class="line" href="console_8h.html#a46f2e0184bbdeaad57a7fc2f9bb8c0c6">  169</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#a46f2e0184bbdeaad57a7fc2f9bb8c0c6">consoleCopySramWithOffset</a>(u8 *source, u16 size, u16 offset);</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
+<div class="line"><a name="l00176"></a><span class="lineno"><a class="line" href="console_8h.html#ae0dffef580d764d61fe92d2bbb937f1e">  176</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="console_8h.html#ae0dffef580d764d61fe92d2bbb937f1e">consoleLoadSramWithOffset</a>(u8 *dest, u16 size, u16 offset);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
+<div class="line"><a name="l00184"></a><span class="lineno"><a class="line" href="console_8h.html#ad9f96595d599dca8d09df3da5200a8a8">  184</a></span>&#160;u16 <a class="code" href="console_8h.html#ad9f96595d599dca8d09df3da5200a8a8">consoleRegionIsOK</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="keywordtype">int</span> sprintf(<span class="keywordtype">char</span> *buf, <span class="keyword">const</span> <span class="keywordtype">char</span> *fmt, ...);</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="abackground_8h_html"><div class="ttname"><a href="background_8h.html">background.h</a></div><div class="ttdoc">snes background defines and functionality.</div></div>
 <div class="ttc" id="aconsole_8h_html_a0615d3903c2ad6faaed1443bd44c8ae2"><div class="ttname"><a href="console_8h.html#a0615d3903c2ad6faaed1443bd44c8ae2">rand</a></div><div class="ttdeci">u16 rand(void)</div><div class="ttdoc">return a randomized number</div></div>
 <div class="ttc" id="aconsole_8h_html_a2f267aa4dde2e613c3d2bc961104b531"><div class="ttname"><a href="console_8h.html#a2f267aa4dde2e613c3d2bc961104b531">snes_fps</a></div><div class="ttdeci">u8 snes_fps</div><div class="ttdoc">50 if PAL console (50 Hz) or 60 if NTSC console (60Hz)</div></div>
 <div class="ttc" id="aconsole_8h_html_a344184ac8dda28ea0170c153c854aa16"><div class="ttname"><a href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">consoleSetTextVramAdr</a></div><div class="ttdeci">void consoleSetTextVramAdr(u16 vramfont)</div><div class="ttdoc">Change text graphics address (4K aligned)</div></div>
 <div class="ttc" id="aconsole_8h_html_a3a226cebe7d59aac755e03e1061ff727"><div class="ttname"><a href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a></div><div class="ttdeci">void consoleNocashMessage(char *fmt,...)</div><div class="ttdoc">Send a message to the no$sns debug window.</div></div>
+<div class="ttc" id="aconsole_8h_html_a46f2e0184bbdeaad57a7fc2f9bb8c0c6"><div class="ttname"><a href="console_8h.html#a46f2e0184bbdeaad57a7fc2f9bb8c0c6">consoleCopySramWithOffset</a></div><div class="ttdeci">void consoleCopySramWithOffset(u8 *source, u16 size, u16 offset)</div><div class="ttdoc">Send data to SRAM with offset.</div></div>
 <div class="ttc" id="aconsole_8h_html_a514ade13c61cd2f237bd100d78d5e11d"><div class="ttname"><a href="console_8h.html#a514ade13c61cd2f237bd100d78d5e11d">consoleDrawTextMapCenter</a></div><div class="ttdeci">void consoleDrawTextMapCenter(u16 y, u16 *map, u8 attributes, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen, centered it (2 colors tiles mode)</div></div>
 <div class="ttc" id="aconsole_8h_html_a5413265662e30a0ded3fee6d3c4781f9"><div class="ttname"><a href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a></div><div class="ttdeci">void consoleInitText(u8 palnum, u8 palsize, u8 *tilfont, u8 *palfont)</div><div class="ttdoc">Initialize the Text System.</div></div>
-<div class="ttc" id="aconsole_8h_html_a5e14b74b621c822db9af978d0ad31d1a"><div class="ttname"><a href="console_8h.html#a5e14b74b621c822db9af978d0ad31d1a">snes_vblank_count</a></div><div class="ttdeci">u16 snes_vblank_count</div><div class="ttdoc">Number of VBL since consoleInit called.</div></div>
+<div class="ttc" id="aconsole_8h_html_a5e14b74b621c822db9af978d0ad31d1a"><div class="ttname"><a href="console_8h.html#a5e14b74b621c822db9af978d0ad31d1a">snes_vblank_count</a></div><div class="ttdeci">u16 snes_vblank_count</div><div class="ttdoc">Number of VBL since consoleInit called (16 bits longs so reset each 18 minutes in NTSC)</div></div>
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
 <div class="ttc" id="aconsole_8h_html_a73c5f483e71c951f267ad0375084242f"><div class="ttname"><a href="console_8h.html#a73c5f483e71c951f267ad0375084242f">scr_txt_dirty</a></div><div class="ttdeci">u8 scr_txt_dirty</div><div class="ttdoc">flag to redraw text during vblank</div></div>
 <div class="ttc" id="aconsole_8h_html_a7e52d15b5a1befa42f5758de19dfb70c"><div class="ttname"><a href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a></div><div class="ttdeci">void consoleDrawText(u16 x, u16 y, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen (tiles mode)</div></div>
@@ -192,10 +197,11 @@ $(document).ready(function(){initNavTree('console_8h_source.html',''); initResiz
 <div class="ttc" id="aconsole_8h_html_ac3c55f6e16ff70d19c046404b9aa8a9b"><div class="ttname"><a href="console_8h.html#ac3c55f6e16ff70d19c046404b9aa8a9b">consoleCopySram</a></div><div class="ttdeci">void consoleCopySram(u8 *source, u16 size)</div><div class="ttdoc">Send data to SRAM.</div></div>
 <div class="ttc" id="aconsole_8h_html_ad3897ef4ed73fa003953d4a979ed50b0"><div class="ttname"><a href="console_8h.html#ad3897ef4ed73fa003953d4a979ed50b0">scr_txt_font_map</a></div><div class="ttdeci">u8 scr_txt_font_map[0x800]</div><div class="ttdoc">tilemap used for text display</div></div>
 <div class="ttc" id="aconsole_8h_html_ad9f96595d599dca8d09df3da5200a8a8"><div class="ttname"><a href="console_8h.html#ad9f96595d599dca8d09df3da5200a8a8">consoleRegionIsOK</a></div><div class="ttdeci">u16 consoleRegionIsOK(void)</div><div class="ttdoc">Check compatibility between console (NTSC/PAL) and cartridge (country)</div></div>
+<div class="ttc" id="aconsole_8h_html_ae0dffef580d764d61fe92d2bbb937f1e"><div class="ttname"><a href="console_8h.html#ae0dffef580d764d61fe92d2bbb937f1e">consoleLoadSramWithOffset</a></div><div class="ttdeci">void consoleLoadSramWithOffset(u8 *dest, u16 size, u16 offset)</div><div class="ttdoc">Load data from SRAM with offset.</div></div>
 <div class="ttc" id="aconsole_8h_html_aef3bf9522613bca02b4a00ea910d492f"><div class="ttname"><a href="console_8h.html#aef3bf9522613bca02b4a00ea910d492f">snes_50hz</a></div><div class="ttdeci">u8 snes_50hz</div><div class="ttdoc">1 if on a PAL/50Hz SNES</div></div>
 <div class="ttc" id="adma_8h_html"><div class="ttname"><a href="dma_8h.html">dma.h</a></div><div class="ttdoc">Wrapper functions for direct memory access hardware.</div></div>
+<div class="ttc" id="ainput_8h_html"><div class="ttname"><a href="input_8h.html">input.h</a></div><div class="ttdoc">input support.</div></div>
 <div class="ttc" id="ainterrupt_8h_html"><div class="ttname"><a href="interrupt_8h.html">interrupt.h</a></div><div class="ttdoc">snes interrupt support.</div></div>
-<div class="ttc" id="apad_8h_html"><div class="ttname"><a href="pad_8h.html">pad.h</a></div><div class="ttdoc">pad support.</div></div>
 <div class="ttc" id="asnestypes_8h_html"><div class="ttname"><a href="snestypes_8h.html">snestypes.h</a></div><div class="ttdoc">Custom types used by libsnes.</div></div>
 <div class="ttc" id="asound_8h_html"><div class="ttname"><a href="sound_8h.html">sound.h</a></div><div class="ttdoc">snes sound support.</div></div>
 <div class="ttc" id="asprite_8h_html"><div class="ttname"><a href="sprite_8h.html">sprite.h</a></div><div class="ttdoc">snes sprites functionality.</div></div>
@@ -206,7 +212,7 @@ $(document).ready(function(){initNavTree('console_8h_source.html',''); initResiz
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="console_8h.html">console.h</a></li>
-    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 12 2024       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

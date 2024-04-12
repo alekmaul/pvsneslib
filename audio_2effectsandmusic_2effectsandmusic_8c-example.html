@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.1.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -165,8 +165,8 @@ $(document).ready(function(){initNavTree('audio_2effectsandmusic_2effectsandmusi
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// Refresh pad values and test key a (without repeating sound if still pressed)</span></div>
-<div class="line">        <a name="a16"></a><a class="code" href="network_8h.html#a42632e79292dc47a567aab4dc3e4407d">scanPads</a>();</div>
-<div class="line">        <span class="keywordflow">if</span> (<a name="a17"></a><a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) &amp; <a name="a18"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>)</div>
+<div class="line">        <a name="a16"></a><a class="code" href="input_8h.html#a42632e79292dc47a567aab4dc3e4407d">scanPads</a>();</div>
+<div class="line">        <span class="keywordflow">if</span> (<a name="a17"></a><a class="code" href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) &amp; <a name="a18"></a><a class="code" href="input_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>)</div>
 <div class="line">        {</div>
 <div class="line">            <span class="keywordflow">if</span> (keyapressed == 0)</div>
 <div class="line">            {</div>
@@ -177,7 +177,7 @@ $(document).ready(function(){initNavTree('audio_2effectsandmusic_2effectsandmusi
 <div class="line">        }</div>
 <div class="line">        <span class="keywordflow">else</span></div>
 <div class="line">            keyapressed = 0;</div>
-<div class="line">        <span class="keywordflow">if</span> (<a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) &amp; <a name="a20"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a">KEY_B</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (<a class="code" href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) &amp; <a name="a20"></a><a class="code" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a">KEY_B</a>)</div>
 <div class="line">        {</div>
 <div class="line">            <span class="keywordflow">if</span> (keybpressed == 0)</div>
 <div class="line">            {</div>
@@ -194,7 +194,7 @@ $(document).ready(function(){initNavTree('audio_2effectsandmusic_2effectsandmusi
 <div class="line">        }</div>
 <div class="line">        <span class="keywordflow">else</span></div>
 <div class="line">            keybpressed = 0;</div>
-<div class="line">        <span class="keywordflow">if</span> (<a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) &amp; <a name="a22"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497">KEY_X</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (<a class="code" href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) &amp; <a name="a22"></a><a class="code" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497">KEY_X</a>)</div>
 <div class="line">        {</div>
 <div class="line">            <span class="keywordflow">if</span> (keyxpressed == 0)</div>
 <div class="line">            {</div>
@@ -205,7 +205,7 @@ $(document).ready(function(){initNavTree('audio_2effectsandmusic_2effectsandmusi
 <div class="line">        }</div>
 <div class="line">        <span class="keywordflow">else</span></div>
 <div class="line">            keyxpressed = 0;        </div>
-<div class="line">        <span class="keywordflow">if</span> (<a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) &amp; <a name="a23"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (<a class="code" href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) &amp; <a name="a23"></a><a class="code" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
 <div class="line">        {</div>
 <div class="line">            <span class="keywordflow">if</span> (keylpressed == 0)</div>
 <div class="line">            {</div>
@@ -226,7 +226,7 @@ $(document).ready(function(){initNavTree('audio_2effectsandmusic_2effectsandmusi
 <div class="line">        <span class="keywordflow">else</span></div>
 <div class="line">            keylpressed = 0;</div>
 <div class="line"> </div>
-<div class="line">        <span class="keywordflow">if</span> (<a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) &amp; <a name="a24"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (<a class="code" href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) &amp; <a name="a24"></a><a class="code" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
 <div class="line">        {</div>
 <div class="line">            <span class="keywordflow">if</span> (keyrpressed == 0)</div>
 <div class="line">            {</div>
@@ -263,14 +263,14 @@ $(document).ready(function(){initNavTree('audio_2effectsandmusic_2effectsandmusi
 <div class="ttc" id="aconsole_8h_html_a7e52d15b5a1befa42f5758de19dfb70c"><div class="ttname"><a href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a></div><div class="ttdeci">void consoleDrawText(u16 x, u16 y, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen (tiles mode)</div></div>
 <div class="ttc" id="aconsole_8h_html_aaddd205f7bb20885a420f26e28214cfb"><div class="ttname"><a href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a></div><div class="ttdeci">void consoleSetTextOffset(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
 <div class="ttc" id="aconsole_8h_html_ab2c949172b9690e58ffb9b3294a36b38"><div class="ttname"><a href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">consoleSetTextVramBGAdr</a></div><div class="ttdeci">void consoleSetTextVramBGAdr(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
+<div class="ttc" id="ainput_8h_html_a42632e79292dc47a567aab4dc3e4407d"><div class="ttname"><a href="input_8h.html#a42632e79292dc47a567aab4dc3e4407d">scanPads</a></div><div class="ttdeci">void scanPads(void)</div><div class="ttdoc">Wait for pad ready and read pad values in.</div></div>
+<div class="ttc" id="ainput_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> input.h:161</div></div>
+<div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a">KEY_B</a></div><div class="ttdeci">@ KEY_B</div><div class="ttdoc">pad B button.</div><div class="ttdef"><b>Definition:</b> input.h:49</div></div>
+<div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497">KEY_X</a></div><div class="ttdeci">@ KEY_X</div><div class="ttdoc">pad X button.</div><div class="ttdef"><b>Definition:</b> input.h:58</div></div>
+<div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a></div><div class="ttdeci">@ KEY_LEFT</div><div class="ttdoc">pad LEFT button.</div><div class="ttdef"><b>Definition:</b> input.h:53</div></div>
+<div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a></div><div class="ttdeci">@ KEY_RIGHT</div><div class="ttdoc">pad RIGHT button.</div><div class="ttdef"><b>Definition:</b> input.h:52</div></div>
+<div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition:</b> input.h:48</div></div>
 <div class="ttc" id="ainterrupt_8h_html_abd33830487e4764e5ec22ec98b749f4b"><div class="ttname"><a href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt</div></div>
-<div class="ttc" id="anetwork_8h_html_a42632e79292dc47a567aab4dc3e4407d"><div class="ttname"><a href="network_8h.html#a42632e79292dc47a567aab4dc3e4407d">scanPads</a></div><div class="ttdeci">void scanPads(void)</div><div class="ttdoc">Wait for pad ready and read pad values in .</div></div>
-<div class="ttc" id="anetwork_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> network.h:122</div></div>
-<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a">KEY_B</a></div><div class="ttdeci">@ KEY_B</div><div class="ttdoc">pad B button.</div><div class="ttdef"><b>Definition:</b> network.h:49</div></div>
-<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497">KEY_X</a></div><div class="ttdeci">@ KEY_X</div><div class="ttdoc">pad X button.</div><div class="ttdef"><b>Definition:</b> network.h:58</div></div>
-<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a></div><div class="ttdeci">@ KEY_LEFT</div><div class="ttdoc">pad LEFT button.</div><div class="ttdef"><b>Definition:</b> network.h:53</div></div>
-<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a></div><div class="ttdeci">@ KEY_RIGHT</div><div class="ttdoc">pad RIGHT button.</div><div class="ttdef"><b>Definition:</b> network.h:52</div></div>
-<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition:</b> network.h:48</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
 <div class="ttc" id="asound_8h_html_a313e30fb1962df9fb469f2fedd4d91e4"><div class="ttname"><a href="sound_8h.html#a313e30fb1962df9fb469f2fedd4d91e4">spcLoad</a></div><div class="ttdeci">void spcLoad(u16 musIndex)</div><div class="ttdoc">load module into sm-spc. this function may take some time to execute</div></div>
 <div class="ttc" id="asound_8h_html_a57d9e744cfa33d55d543b172df59d518"><div class="ttname"><a href="sound_8h.html#a57d9e744cfa33d55d543b172df59d518">spcLoadEffect</a></div><div class="ttdeci">void spcLoadEffect(u16 sfxIndex)</div><div class="ttdoc">load sound effect into sm-spc. this function may take some time to execute</div></div>
@@ -287,7 +287,7 @@ $(document).ready(function(){initNavTree('audio_2effectsandmusic_2effectsandmusi
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 12 2024       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

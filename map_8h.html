@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.1.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -166,8 +166,11 @@ Macros</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a0d7b8c3ece013b244c417f761ad150ac"><td class="memItemLeft" align="right" valign="top">u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">mapGetMetaTile</a> (u16 xpos, u16 ypos)</td></tr>
-<tr class="memdesc:a0d7b8c3ece013b244c417f761ad150ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get metatile property from current map.  <a href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">More...</a><br /></td></tr>
+<tr class="memdesc:a0d7b8c3ece013b244c417f761ad150ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get metatile value from current map.  <a href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">More...</a><br /></td></tr>
 <tr class="separator:a0d7b8c3ece013b244c417f761ad150ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82cbe383dfcdf5a9e95acf97609f2c1f"><td class="memItemLeft" align="right" valign="top">u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="map_8h.html#a82cbe383dfcdf5a9e95acf97609f2c1f">mapGetMetaTilesProp</a> (u16 xpos, u16 ypos)</td></tr>
+<tr class="memdesc:a82cbe383dfcdf5a9e95acf97609f2c1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get metatile property from current map (solid, lad, fire, etc...)  <a href="map_8h.html#a82cbe383dfcdf5a9e95acf97609f2c1f">More...</a><br /></td></tr>
+<tr class="separator:a82cbe383dfcdf5a9e95acf97609f2c1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa113f9698adeb4ddea559d2cdaf82d96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">mapLoad</a> (u8 *layer1map, u8 *layertiles, u8 *tilesprop)</td></tr>
 <tr class="memdesc:aa113f9698adeb4ddea559d2cdaf82d96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load map definition into memory.  <a href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">More...</a><br /></td></tr>
 <tr class="separator:aa113f9698adeb4ddea559d2cdaf82d96"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -230,7 +233,45 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="map_8
       </table>
 </div><div class="memdoc">
 
-<p>Get metatile property from current map. </p>
+<p>Get metatile value from current map. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xpos</td><td>x coordinate of metatile </td></tr>
+    <tr><td class="paramname">ypos</td><td>x coordinate of metatile </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>tile value </dd></dl>
+
+</div>
+</div>
+<a id="a82cbe383dfcdf5a9e95acf97609f2c1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82cbe383dfcdf5a9e95acf97609f2c1f">&#9670;&nbsp;</a></span>mapGetMetaTilesProp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">mapGetMetaTilesProp </td>
+          <td>(</td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>xpos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>ypos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get metatile property from current map (solid, lad, fire, etc...) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xpos</td><td>x coordinate of metatile </td></tr>
@@ -283,7 +324,7 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="map_8
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a55">games/likemario/LikeMario.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a11">maps/mapscroll/mapscroll.c</a>, <a class="el" href="maps_2tiled_2tiled_8c-example.html#a6">maps/tiled/tiled.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a10">objects/mapandobjects/mapandobjects.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a10">objects/nogravityobject/nogravityobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a56">games/likemario/LikeMario.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a11">maps/mapscroll/mapscroll.c</a>, <a class="el" href="maps_2tiled_2tiled_8c-example.html#a6">maps/tiled/tiled.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a11">objects/mapandobjects/mapandobjects.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a11">objects/nogravityobject/nogravityobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -322,7 +363,7 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="map_8
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a38">games/likemario/LikeMario.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a12">maps/mapscroll/mapscroll.c</a>, <a class="el" href="maps_2tiled_2tiled_8c-example.html#a11">maps/tiled/tiled.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a12">objects/nogravityobject/nogravityobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a38">games/likemario/LikeMario.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a12">maps/mapscroll/mapscroll.c</a>, <a class="el" href="maps_2tiled_2tiled_8c-example.html#a11">maps/tiled/tiled.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a13">objects/nogravityobject/nogravityobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -333,7 +374,7 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="map_8
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="map_8h.html">map.h</a></li>
-    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 12 2024       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

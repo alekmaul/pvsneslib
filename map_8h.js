@@ -14,6 +14,7 @@ var map_8h =
     [ "T_SOLID", "map_8h.html#af873aaa17834669d0f263af08c2912c3", null ],
     [ "T_SPIKE", "map_8h.html#a87a89f657f33f4eab646bb7f6ad21fa3", null ],
     [ "mapGetMetaTile", "map_8h.html#a0d7b8c3ece013b244c417f761ad150ac", null ],
+    [ "mapGetMetaTilesProp", "map_8h.html#a82cbe383dfcdf5a9e95acf97609f2c1f", null ],
     [ "mapLoad", "map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96", null ],
     [ "mapUpdate", "map_8h.html#a332bfe570835ef05934b712fd9701c88", null ],
     [ "mapUpdateCamera", "map_8h.html#ab8720c97e886ceabda97c6beff2e5864", null ],

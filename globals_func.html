@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.1.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -136,6 +136,9 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <li>consoleCopySram()
 : <a class="el" href="console_8h.html#ac3c55f6e16ff70d19c046404b9aa8a9b">console.h</a>
 </li>
+<li>consoleCopySramWithOffset()
+: <a class="el" href="console_8h.html#a46f2e0184bbdeaad57a7fc2f9bb8c0c6">console.h</a>
+</li>
 <li>consoleDrawText()
 : <a class="el" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">console.h</a>
 </li>
@@ -153,6 +156,9 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 </li>
 <li>consoleLoadSram()
 : <a class="el" href="console_8h.html#abe1fabedc24a3adef79f32e02c3bc2d5">console.h</a>
+</li>
+<li>consoleLoadSramWithOffset()
+: <a class="el" href="console_8h.html#ae0dffef580d764d61fe92d2bbb937f1e">console.h</a>
 </li>
 <li>consoleMesenBreakpoint()
 : <a class="el" href="console_8h.html#a8620fbe47bc2afe99a59c67fae3b7b23">console.h</a>
@@ -182,8 +188,14 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 
 
 <h3><a id="index_d"></a>- d -</h3><ul>
+<li>detectMouse()
+: <a class="el" href="input_8h.html#af6e6f4605f1e3cd05af75878dce1bfe1">input.h</a>
+</li>
 <li>detectMPlay5()
-: <a class="el" href="network_8h.html#abd31fc41ec07d41a5ea5349d5483e0ba">network.h</a>
+: <a class="el" href="input_8h.html#abd31fc41ec07d41a5ea5349d5483e0ba">input.h</a>
+</li>
+<li>detectSuperScope()
+: <a class="el" href="input_8h.html#ae62699862842e0cb1c7b8d3b3431582a">input.h</a>
 </li>
 <li>dmaClearVram()
 : <a class="el" href="dma_8h.html#a72b64de8d06ad5bae1995fb1baf1a458">dma.h</a>
@@ -213,6 +225,9 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 
 
 <h3><a id="index_g"></a>- g -</h3><ul>
+<li>getFPScounter()
+: <a class="el" href="video_8h.html#a73861f0742d53e6f44385a673504c83c">video.h</a>
+</li>
 <li>getPalette()
 : <a class="el" href="video_8h.html#a4edcd61c70a2e22ed69a93ced9da9126">video.h</a>
 </li>
@@ -233,6 +248,9 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <li>mapGetMetaTile()
 : <a class="el" href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">map.h</a>
 </li>
+<li>mapGetMetaTilesProp()
+: <a class="el" href="map_8h.html#a82cbe383dfcdf5a9e95acf97609f2c1f">map.h</a>
+</li>
 <li>mapLoad()
 : <a class="el" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">map.h</a>
 </li>
@@ -244,6 +262,12 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 </li>
 <li>mapVblank()
 : <a class="el" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">map.h</a>
+</li>
+<li>mouseRead()
+: <a class="el" href="input_8h.html#ae8d7c6f3dd84694de003f68899a4bdbc">input.h</a>
+</li>
+<li>mouseSpeedChange()
+: <a class="el" href="input_8h.html#a165044ce54c23df0a790bcc6ebeee706">input.h</a>
 </li>
 </ul>
 
@@ -263,6 +287,15 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 </li>
 <li>oamDynamicMetaDraw()
 : <a class="el" href="sprite_8h.html#a8022631fa4757d5d9ea5ad5ae042d07e">sprite.h</a>
+</li>
+<li>oamFix16Draw()
+: <a class="el" href="sprite_8h.html#abf24934a4d1ee3758b8bd5a3af530d79">sprite.h</a>
+</li>
+<li>oamFix32Draw()
+: <a class="el" href="sprite_8h.html#a105c551d7b0e5df6ce0cabc80a114280">sprite.h</a>
+</li>
+<li>oamFix8Draw()
+: <a class="el" href="sprite_8h.html#ae06d194342dfaf479347c8541fcd35d5">sprite.h</a>
 </li>
 <li>oamFlip()
 : <a class="el" href="sprite_8h.html#af206f6568efabd13b1d65db1c2d4e24a">sprite.h</a>
@@ -315,6 +348,9 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <li>objCollidMap1D()
 : <a class="el" href="object_8h.html#ad1afd89929dc692a0171a258cedab7e4">object.h</a>
 </li>
+<li>objCollidMapWithSlopes()
+: <a class="el" href="object_8h.html#a68434a3ca36eb3788dd4649266da1853">object.h</a>
+</li>
 <li>objCollidObj()
 : <a class="el" href="object_8h.html#adc88e10acad45614f14d47e4af413b33">object.h</a>
 </li>
@@ -323,6 +359,9 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 </li>
 <li>objInitEngine()
 : <a class="el" href="object_8h.html#ad010f8c119dbd982acd9ddd859f2acec">object.h</a>
+</li>
+<li>objInitFunctions()
+: <a class="el" href="object_8h.html#a7e95928105307a3b96b1b79a096917e1">object.h</a>
 </li>
 <li>objKill()
 : <a class="el" href="object_8h.html#ac18665728789dcf67622ed0fd4b73291">object.h</a>
@@ -350,13 +389,13 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 
 <h3><a id="index_p"></a>- p -</h3><ul>
 <li>padsClear()
-: <a class="el" href="network_8h.html#a283ec438fdbb3b6068afd2e50bc9211d">network.h</a>
+: <a class="el" href="input_8h.html#a283ec438fdbb3b6068afd2e50bc9211d">input.h</a>
 </li>
 <li>padsDown()
-: <a class="el" href="network_8h.html#a66237b0d7609c6f62d2234ef50abbd78">network.h</a>
+: <a class="el" href="input_8h.html#a66237b0d7609c6f62d2234ef50abbd78">input.h</a>
 </li>
 <li>padsUp()
-: <a class="el" href="network_8h.html#a51de6b359e19a3a0279d42afc7fe6165">network.h</a>
+: <a class="el" href="input_8h.html#a51de6b359e19a3a0279d42afc7fe6165">input.h</a>
 </li>
 <li>pixSetMode()
 : <a class="el" href="pixel_8h.html#a3343c49cdbe30c204e8bda550a492b88">pixel.h</a>
@@ -376,10 +415,13 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 
 <h3><a id="index_s"></a>- s -</h3><ul>
 <li>scanMPlay5()
-: <a class="el" href="network_8h.html#a6c6e694e00ac17bc50940125a917ab6b">network.h</a>
+: <a class="el" href="input_8h.html#a6c6e694e00ac17bc50940125a917ab6b">input.h</a>
 </li>
 <li>scanPads()
-: <a class="el" href="network_8h.html#a42632e79292dc47a567aab4dc3e4407d">network.h</a>
+: <a class="el" href="input_8h.html#a42632e79292dc47a567aab4dc3e4407d">input.h</a>
+</li>
+<li>scanScope()
+: <a class="el" href="input_8h.html#a72ab39cf95cf0d46d60e4d6835581ba6">input.h</a>
 </li>
 <li>scoreAdd()
 : <a class="el" href="scores_8h.html#a95d4103529817bc4d7efbaa7098ae2e5">scores.h</a>
@@ -532,7 +574,7 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 12 2024       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

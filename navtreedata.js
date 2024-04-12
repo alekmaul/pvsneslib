@@ -32,7 +32,6 @@ var NAVTREE =
       [ "Memory", "index.html#memory_api", null ],
       [ "System", "index.html#system_api", null ],
       [ "User Input/output", "index.html#user_io_api", null ],
-      [ "Network (with Retrolink hardwaqre) API", "index.html#network_api", null ],
       [ "Engine API functions", "index.html#engine_api", null ],
       [ "Miscellaneous functions", "index.html#misc_api", null ],
       [ "Useful links", "index.html#external_links", null ],
@@ -65,8 +64,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"network_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a",
-"video_8h.html#a44845006a2852ac2fa78c07bd1553d52"
+"input_8h.html#ae62699862842e0cb1c7b8d3b3431582a",
+"video_8h.html#a142364f4707bee3366835d7d22494911"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -45,9 +45,9 @@ var video_8h =
       [ "VRAM_ADRTR_10B", "video_8h.html#a5623bfd6fefb79d4f21d260b7e333523abe5c38b32a13a2867e46de5995aed60d", null ],
       [ "VRAM_ADRSTINC_1", "video_8h.html#a5623bfd6fefb79d4f21d260b7e333523acfee058cf30c9aacc05573725e3775d8", null ],
       [ "VRAM_ADRSTINC_32", "video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a5adddf918b1602129ea6fe279f9d0a70", null ],
-      [ "VRAM_ADRSTINC_128", "video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460", null ],
-      [ "VRAM_ADRSTINC_128", "video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460", null ]
+      [ "VRAM_ADRSTINC_128", "video_8h.html#a5623bfd6fefb79d4f21d260b7e333523aa533a55efdfa322714a967a57c982857", null ]
     ] ],
+    [ "getFPScounter", "video_8h.html#a73861f0742d53e6f44385a673504c83c", null ],
     [ "getPalette", "video_8h.html#a4edcd61c70a2e22ed69a93ced9da9126", null ],
     [ "getPaletteColor", "video_8h.html#acbf8deabd274fb30b9448036296efb8d", null ],
     [ "setBrightness", "video_8h.html#a4c257abebd75e4653441e8afe672bb5e", null ],
@@ -65,6 +65,7 @@ var video_8h =
     [ "setMosaicEffect", "video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44", null ],
     [ "setScreenOff", "video_8h.html#aaeaea299a3cfb90fa5232b842f7f7cd0", null ],
     [ "setScreenOn", "video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144", null ],
+    [ "snes_frame_count", "video_8h.html#ab250fa2e5edfba747b7079a49508d92b", null ],
     [ "videoMode", "video_8h.html#a156a14f040a0569d1c1b59c94669aa6f", null ],
     [ "videoModeSub", "video_8h.html#a4da52999afa3808bd6e797c9fbf584aa", null ]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['videocontrol_623',['VideoControl',['../video_8h.html#a5623bfd6fefb79d4f21d260b7e333523',1,'video.h']]]
+  ['superscope_5fbits_702',['SUPERSCOPE_BITS',['../input_8h.html#a85bf0e48e8e4ded8d7724b95380a565b',1,'input.h']]]
 ];

@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.1.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -139,6 +139,10 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a912cfae6ccf6375f3c2831d65646c76b">ACT_WALK</a>&#160;&#160;&#160;0x0001</td></tr>
 <tr class="memdesc:a912cfae6ccf6375f3c2831d65646c76b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Action type WALK for object. <br /></td></tr>
 <tr class="separator:a912cfae6ccf6375f3c2831d65646c76b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa938dfd9f79aa4f392525e37dfc097ac"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#aa938dfd9f79aa4f392525e37dfc097ac">OB_MAX</a>&#160;&#160;&#160;64</td></tr>
+<tr class="separator:aa938dfd9f79aa4f392525e37dfc097ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a581c7decbbc7e3358c880dc77aff92c0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a581c7decbbc7e3358c880dc77aff92c0">OB_TYPE_MAX</a>&#160;&#160;&#160;64</td></tr>
+<tr class="separator:a581c7decbbc7e3358c880dc77aff92c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64b628522c7aaec4fd687d8cd3c15797"><td class="memItemLeft" align="right" valign="top"><a id="a64b628522c7aaec4fd687d8cd3c15797"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a64b628522c7aaec4fd687d8cd3c15797">T_EMPTY</a>&#160;&#160;&#160;0x0000</td></tr>
 <tr class="memdesc:a64b628522c7aaec4fd687d8cd3c15797"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type Empty (action will be fall) for tile <br  />
@@ -159,16 +163,32 @@ Macros</h2></td></tr>
 <tr class="memdesc:ad36b80734e14117314d2ec683f552969"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type Plate (action will be jump through and land) for tile <br  />
  <br /></td></tr>
 <tr class="separator:ad36b80734e14117314d2ec683f552969"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a699c59e479d10cfa343a2f0ed4a35a47"><td class="memItemLeft" align="right" valign="top"><a id="a699c59e479d10cfa343a2f0ed4a35a47"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a699c59e479d10cfa343a2f0ed4a35a47">T_SLOPED</a>&#160;&#160;&#160;0x0012</td></tr>
-<tr class="memdesc:a699c59e479d10cfa343a2f0ed4a35a47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type Slope Down (action will be descend on it) for tile <br  />
+<tr class="memitem:a5704d7b185a18668f4aea3c71a0415b1"><td class="memItemLeft" align="right" valign="top"><a id="a5704d7b185a18668f4aea3c71a0415b1"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a5704d7b185a18668f4aea3c71a0415b1">T_SLOPED1</a>&#160;&#160;&#160;0x0021</td></tr>
+<tr class="memdesc:a5704d7b185a18668f4aea3c71a0415b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type Slope 1x1 Down ◣ (action will be descend on it) for tile. <br /></td></tr>
+<tr class="separator:a5704d7b185a18668f4aea3c71a0415b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac81f5707084136f68205fdadcfda52a7"><td class="memItemLeft" align="right" valign="top"><a id="ac81f5707084136f68205fdadcfda52a7"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#ac81f5707084136f68205fdadcfda52a7">T_SLOPELD2</a>&#160;&#160;&#160;0x0023</td></tr>
+<tr class="memdesc:ac81f5707084136f68205fdadcfda52a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type Slope 2x1 lower half Down ◣ (action will be descend on it) for tile. <br /></td></tr>
+<tr class="separator:ac81f5707084136f68205fdadcfda52a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9079bd5db5c4cbacb3e5f9092a0e9cbe"><td class="memItemLeft" align="right" valign="top"><a id="a9079bd5db5c4cbacb3e5f9092a0e9cbe"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a9079bd5db5c4cbacb3e5f9092a0e9cbe">T_SLOPELU2</a>&#160;&#160;&#160;0x0022</td></tr>
+<tr class="memdesc:a9079bd5db5c4cbacb3e5f9092a0e9cbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type Slope 2x1 lower half Up ◢ (action will be climb on it) for tile. <br /></td></tr>
+<tr class="separator:a9079bd5db5c4cbacb3e5f9092a0e9cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a008d4ae062a79ec7335e08db7760cbe9"><td class="memItemLeft" align="right" valign="top"><a id="a008d4ae062a79ec7335e08db7760cbe9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a008d4ae062a79ec7335e08db7760cbe9">T_SLOPEU1</a>&#160;&#160;&#160;0x0020</td></tr>
+<tr class="memdesc:a008d4ae062a79ec7335e08db7760cbe9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type Slope 1x1 Up ◢ (action will be climb on it) for tile <br  />
  <br /></td></tr>
-<tr class="separator:a699c59e479d10cfa343a2f0ed4a35a47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d3e1a88a76543f4ea5568da3635c613"><td class="memItemLeft" align="right" valign="top"><a id="a3d3e1a88a76543f4ea5568da3635c613"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a3d3e1a88a76543f4ea5568da3635c613">T_SLOPEU</a>&#160;&#160;&#160;0x0010</td></tr>
-<tr class="memdesc:a3d3e1a88a76543f4ea5568da3635c613"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type Slope Up (action will be climb on it) for tile <br  />
+<tr class="separator:a008d4ae062a79ec7335e08db7760cbe9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0824c3b9bd01205245b0c57e256e852"><td class="memItemLeft" align="right" valign="top"><a id="ac0824c3b9bd01205245b0c57e256e852"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#ac0824c3b9bd01205245b0c57e256e852">T_SLOPEUD2</a>&#160;&#160;&#160;0x0025</td></tr>
+<tr class="memdesc:ac0824c3b9bd01205245b0c57e256e852"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type Slope 2x1 upper half Down ◣ (action will be descend on it) for tile <br  />
  <br /></td></tr>
-<tr class="separator:a3d3e1a88a76543f4ea5568da3635c613"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ac0824c3b9bd01205245b0c57e256e852"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c3b4ebcd473f6900208f5ee9eb3f465"><td class="memItemLeft" align="right" valign="top"><a id="a6c3b4ebcd473f6900208f5ee9eb3f465"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a6c3b4ebcd473f6900208f5ee9eb3f465">T_SLOPEUU2</a>&#160;&#160;&#160;0x0024</td></tr>
+<tr class="memdesc:a6c3b4ebcd473f6900208f5ee9eb3f465"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type Slope 2x1 upper half Up ◢ (action will be climb on it) for tile. <br /></td></tr>
+<tr class="separator:a6c3b4ebcd473f6900208f5ee9eb3f465"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af873aaa17834669d0f263af08c2912c3"><td class="memItemLeft" align="right" valign="top"><a id="af873aaa17834669d0f263af08c2912c3"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#af873aaa17834669d0f263af08c2912c3">T_SOLID</a>&#160;&#160;&#160;0xFF00</td></tr>
 <tr class="memdesc:af873aaa17834669d0f263af08c2912c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type Solid (action is walk only) for tile <br  />
@@ -188,6 +208,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ad1afd89929dc692a0171a258cedab7e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#ad1afd89929dc692a0171a258cedab7e4">objCollidMap1D</a> (u16 objhandle)</td></tr>
 <tr class="memdesc:ad1afd89929dc692a0171a258cedab7e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if an object collides the map  <a href="object_8h.html#ad1afd89929dc692a0171a258cedab7e4">More...</a><br /></td></tr>
 <tr class="separator:ad1afd89929dc692a0171a258cedab7e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68434a3ca36eb3788dd4649266da1853"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a68434a3ca36eb3788dd4649266da1853">objCollidMapWithSlopes</a> (u16 objhandle)</td></tr>
+<tr class="memdesc:a68434a3ca36eb3788dd4649266da1853"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if an object collides the map with map slopes management  <a href="object_8h.html#a68434a3ca36eb3788dd4649266da1853">More...</a><br /></td></tr>
+<tr class="separator:a68434a3ca36eb3788dd4649266da1853"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc88e10acad45614f14d47e4af413b33"><td class="memItemLeft" align="right" valign="top">u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#adc88e10acad45614f14d47e4af413b33">objCollidObj</a> (u16 objhandle1, u16 objhandle2)</td></tr>
 <tr class="memdesc:adc88e10acad45614f14d47e4af413b33"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if two objects are colliding  <a href="object_8h.html#adc88e10acad45614f14d47e4af413b33">More...</a><br /></td></tr>
 <tr class="separator:adc88e10acad45614f14d47e4af413b33"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -198,6 +221,9 @@ Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#ad010f8c119dbd982acd9ddd859f2acec">objInitEngine</a> (void)</td></tr>
 <tr class="memdesc:ad010f8c119dbd982acd9ddd859f2acec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize object engine, need to be called once. <br /></td></tr>
 <tr class="separator:ad010f8c119dbd982acd9ddd859f2acec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e95928105307a3b96b1b79a096917e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a7e95928105307a3b96b1b79a096917e1">objInitFunctions</a> (u8 objtype, void *initfct, void *updfct, void *reffct)</td></tr>
+<tr class="memdesc:a7e95928105307a3b96b1b79a096917e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the object type functions (initialize, update)  <a href="object_8h.html#a7e95928105307a3b96b1b79a096917e1">More...</a><br /></td></tr>
+<tr class="separator:a7e95928105307a3b96b1b79a096917e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac18665728789dcf67622ed0fd4b73291"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#ac18665728789dcf67622ed0fd4b73291">objKill</a> (u16 objhandle)</td></tr>
 <tr class="memdesc:ac18665728789dcf67622ed0fd4b73291"><td class="mdescLeft">&#160;</td><td class="mdescRight">kill an object from the game  <a href="object_8h.html#ac18665728789dcf67622ed0fd4b73291">More...</a><br /></td></tr>
 <tr class="separator:ac18665728789dcf67622ed0fd4b73291"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,7 +250,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="obje
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a70a85e34d3b6008e897c1e8a7d6232c1"><td class="memItemLeft" align="right" valign="top"><a id="a70a85e34d3b6008e897c1e8a7d6232c1"></a>
-<a class="el" href="structt__objs.html">t_objs</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a> [OB_MAX]</td></tr>
+<a class="el" href="structt__objs.html">t_objs</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a> [<a class="el" href="object_8h.html#aa938dfd9f79aa4f392525e37dfc097ac">OB_MAX</a>]</td></tr>
 <tr class="memdesc:a70a85e34d3b6008e897c1e8a7d6232c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">current object buffer with all objects <br /></td></tr>
 <tr class="separator:a70a85e34d3b6008e897c1e8a7d6232c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4b2cf3a008d2011baf65b7ed74eaf65"><td class="memItemLeft" align="right" valign="top"><a id="ad4b2cf3a008d2011baf65b7ed74eaf65"></a>
@@ -244,7 +270,38 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object
 <div class="textblock"><p>snes object engine functionality. </p>
 <p>64 maximum of objects managed by engine</p>
 <p>32 type of objects maximum by engine </p>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="aa938dfd9f79aa4f392525e37dfc097ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa938dfd9f79aa4f392525e37dfc097ac">&#9670;&nbsp;</a></span>OB_MAX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OB_MAX&#160;&#160;&#160;64</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>total number of objects in the game </p>
+
+</div>
+</div>
+<a id="a581c7decbbc7e3358c880dc77aff92c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a581c7decbbc7e3358c880dc77aff92c0">&#9670;&nbsp;</a></span>OB_TYPE_MAX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OB_TYPE_MAX&#160;&#160;&#160;64</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>total number of type of objects in the game </p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="a7b24f15ef5ef84efb8f31ddb7ba22c99"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7b24f15ef5ef84efb8f31ddb7ba22c99">&#9670;&nbsp;</a></span>objCollidMap()</h2>
 
@@ -262,13 +319,14 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object
 </div><div class="memdoc">
 
 <p>check if an object collides the map </p>
-<p>update tilestand, tileabove with tiles on map regarding object attributes</p>
-<p>update xvel, yvel with velocity regarding tiles on map </p><dl class="params"><dt>Parameters</dt><dd>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">objhandle</td><td>handle of the object </td></tr>
+    <tr><td class="paramname">objhandle</td><td>handle of the object</td></tr>
   </table>
   </dd>
 </dl>
+<p>update tilestand, tileabove with tiles on map regarding object attributes</p>
+<p>update xvel, yvel with velocity regarding tiles on map </p>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a32">games/likemario/LikeMario.c</a>.</dd>
 </dl>
 
@@ -291,13 +349,43 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object
 </div><div class="memdoc">
 
 <p>check if an object collides the map </p>
-<p>update tilestand, tileabove with tiles on map regarding object attributes</p>
-<p>update xvel, yvel with no gravity regarding tiles on map </p><dl class="params"><dt>Parameters</dt><dd>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">objhandle</td><td>handle of the object </td></tr>
+    <tr><td class="paramname">objhandle</td><td>handle of the object</td></tr>
   </table>
   </dd>
 </dl>
+<p>update tilestand, tileabove with tiles on map regarding object attributes</p>
+<p>update xvel, yvel with no gravity regarding tiles on map </p>
+
+</div>
+</div>
+<a id="a68434a3ca36eb3788dd4649266da1853"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68434a3ca36eb3788dd4649266da1853">&#9670;&nbsp;</a></span>objCollidMapWithSlopes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">objCollidMapWithSlopes </td>
+          <td>(</td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>objhandle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>check if an object collides the map with map slopes management </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">objhandle</td><td>handle of the object</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>update tilestand, tileabove with tiles on map regarding object attributes</p>
+<p>update xvel, yvel with velocity regarding tiles on map</p>
+<p>the map can contain slopes, check the constants ($20..$25) the add them to your map </p>
 
 </div>
 </div>
@@ -367,6 +455,73 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object
 
 </div>
 </div>
+<a id="a7e95928105307a3b96b1b79a096917e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e95928105307a3b96b1b79a096917e1">&#9670;&nbsp;</a></span>objInitFunctions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">objInitFunctions </td>
+          <td>(</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>objtype</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>initfct</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>updfct</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>reffct</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize the object type functions (initialize, update) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">objtype</td><td>The type of object depending of the game </td></tr>
+    <tr><td class="paramname">initfct</td><td>The address of the function when we init the type of object </td></tr>
+    <tr><td class="paramname">updfct</td><td>The address of the function when we update the type of object (need to be called once per frame) </td></tr>
+    <tr><td class="paramname">reffct</td><td>The address of the function when we refresh sprites of object (need to be called once per frame)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>init function must have 5 unsigned short (u16) parameters</p>
+<ul>
+<li>xp,yp are default coordinates values for x and y</li>
+<li>type is the type oobjects</li>
+<li>minx, miny are minimal and maximal values for objects in x axis</li>
+</ul>
+<p>update function must have 1 parameter</p>
+<ul>
+<li>idx is the id of the object in the object list</li>
+</ul>
+<p>refresh function must have 1 parameter</p>
+<ul>
+<li>idx is the id of the object in the object list </li>
+</ul>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a54">games/likemario/LikeMario.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a9">objects/mapandobjects/mapandobjects.c</a>, <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a23">objects/moveobjects/moveobjects.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a9">objects/nogravityobject/nogravityobjects.c</a>.</dd>
+</dl>
+
+</div>
+</div>
 <a id="ac18665728789dcf67622ed0fd4b73291"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac18665728789dcf67622ed0fd4b73291">&#9670;&nbsp;</a></span>objKill()</h2>
 
@@ -410,20 +565,22 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object
 </div><div class="memdoc">
 
 <p>Load all objects for a specific table in memory. </p>
-<p>Call, after loading, each init function of the type of objects for each object</p>
-<p>The table has an entry with x,y,type,minx,maxx for each object</p>
-<p>where:</p>
-<p>x,y are coordinates of object,</p>
-<p>type if the type of the object (maximum 32 types)</p>
-<p>minx,maxx are the coordinates of minimum &amp; maxinmum possible on x</p>
-<p>the last four parameters are useful to do some actions where minimum or maximum is reached</p>
-<p>The table needs to finish with FFFF to indicate that no more objects are availables </p><dl class="params"><dt>Parameters</dt><dd>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">sourceO</td><td>table of objects </td></tr>
+    <tr><td class="paramname">sourceO</td><td>table of objects</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a54">games/likemario/LikeMario.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a9">objects/mapandobjects/mapandobjects.c</a>, <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a23">objects/moveobjects/moveobjects.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a9">objects/nogravityobject/nogravityobjects.c</a>.</dd>
+<p>Call, after loading, each init function of the type of objects for each object</p>
+<p>The table has an entry with x,y,type,minx,maxx for each object</p>
+<ul>
+<li>x,y are coordinates of object,</li>
+<li>type if the type of the object (maximum 32 types)</li>
+<li>minx,maxx are the coordinates of minimum &amp; maxinmum possible on x</li>
+</ul>
+<p>the last four parameters are useful to do some actions where minimum or maximum is reached</p>
+<p>The table needs to finish with FFFF to indicate that no more objects are availables </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a55">games/likemario/LikeMario.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a10">objects/mapandobjects/mapandobjects.c</a>, <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a24">objects/moveobjects/moveobjects.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a10">objects/nogravityobject/nogravityobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -515,7 +672,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object
 
 <p>call update function for all objects currently active (if they are in "virtual screen" coordinates). </p>
 <p>"virtual screen" coordinates are -64&lt;x&lt;320 and -64&lt;y&lt;288. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a64">games/likemario/LikeMario.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a13">objects/mapandobjects/mapandobjects.c</a>, <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a25">objects/moveobjects/moveobjects.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a14">objects/nogravityobject/nogravityobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a65">games/likemario/LikeMario.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a14">objects/mapandobjects/mapandobjects.c</a>, <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a26">objects/moveobjects/moveobjects.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a15">objects/nogravityobject/nogravityobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -537,12 +694,13 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object
 </div><div class="memdoc">
 
 <p>Update X &amp; Y coordinates of object regarding its own velocitys. </p>
-<p>It uses xvel and yvel to do such computation </p><dl class="params"><dt>Parameters</dt><dd>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">objhandle</td><td>handle of the object </td></tr>
+    <tr><td class="paramname">objhandle</td><td>handle of the object</td></tr>
   </table>
   </dd>
 </dl>
+<p>It uses xvel and yvel to do such computation </p>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a33">games/likemario/LikeMario.c</a>.</dd>
 </dl>
 
@@ -554,7 +712,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="object_8h.html">object.h</a></li>
-    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 12 2024       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

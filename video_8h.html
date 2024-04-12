@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.1.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -255,8 +255,7 @@ Enumerations</h2></td></tr>
 , <a class="el" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523acfee058cf30c9aacc05573725e3775d8">VRAM_ADRSTINC_1</a> = (0 &lt;&lt; 0)
 , <br />
 &#160;&#160;<a class="el" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a5adddf918b1602129ea6fe279f9d0a70">VRAM_ADRSTINC_32</a> = (1 &lt;&lt; 0)
-, <a class="el" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460">VRAM_ADRSTINC_128</a> = (2 &lt;&lt; 0)
-, <a class="el" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460">VRAM_ADRSTINC_128</a> = (2 &lt;&lt; 0)
+, <a class="el" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523aa533a55efdfa322714a967a57c982857">VRAM_ADRSTINC_128</a> = (2 &lt;&lt; 0)
 <br />
  }</td></tr>
 <tr class="memdesc:a5623bfd6fefb79d4f21d260b7e333523"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit defines for the video control registers.  <a href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523">More...</a><br /></td></tr>
@@ -264,6 +263,9 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a73861f0742d53e6f44385a673504c83c"><td class="memItemLeft" align="right" valign="top">unsigned short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a73861f0742d53e6f44385a673504c83c">getFPScounter</a> (void)</td></tr>
+<tr class="memdesc:a73861f0742d53e6f44385a673504c83c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return number of frames per second.  <a href="video_8h.html#a73861f0742d53e6f44385a673504c83c">More...</a><br /></td></tr>
+<tr class="separator:a73861f0742d53e6f44385a673504c83c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4edcd61c70a2e22ed69a93ced9da9126"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a4edcd61c70a2e22ed69a93ced9da9126">getPalette</a> (u8 paletteEntry, u8 paletteSize, u16 *paletteColors)</td></tr>
 <tr class="memdesc:a4edcd61c70a2e22ed69a93ced9da9126"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a palette from CGRAM.  <a href="video_8h.html#a4edcd61c70a2e22ed69a93ced9da9126">More...</a><br /></td></tr>
 <tr class="separator:a4edcd61c70a2e22ed69a93ced9da9126"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -320,6 +322,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vide
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:ab250fa2e5edfba747b7079a49508d92b"><td class="memItemLeft" align="right" valign="top"><a id="ab250fa2e5edfba747b7079a49508d92b"></a>
+u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#ab250fa2e5edfba747b7079a49508d92b">snes_frame_count</a></td></tr>
+<tr class="memdesc:ab250fa2e5edfba747b7079a49508d92b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of frame per second (need a call to videoGetFrames() once a frame) <br /></td></tr>
+<tr class="separator:ab250fa2e5edfba747b7079a49508d92b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a156a14f040a0569d1c1b59c94669aa6f"><td class="memItemLeft" align="right" valign="top"><a id="a156a14f040a0569d1c1b59c94669aa6f"></a>
 u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a156a14f040a0569d1c1b59c94669aa6f">videoMode</a></td></tr>
 <tr class="memdesc:a156a14f040a0569d1c1b59c94669aa6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current value of REG_TM. <br /></td></tr>
@@ -501,7 +507,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a21">games/likemario/LikeMario.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a6">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a3">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a5">objects/mapandobjects/mapandobjects.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a3">objects/nogravityobject/nogravityobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a21">games/likemario/LikeMario.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a6">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a3">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a42">input/superscope/superscope.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a5">objects/mapandobjects/mapandobjects.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a3">objects/nogravityobject/nogravityobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -534,8 +540,8 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_
 <b>Value:</b><div class="fragment"><div class="line">    <a class="code" href="video_8h.html#a47b1bf21d0ed441344efcaf573350c46">REG_CGADD</a> = paletteEntry;                       \</div>
 <div class="line">    *<a class="code" href="video_8h.html#afe3cc8b2ea5f41a791be1b3a3cf04cb2">CGRAM_PALETTE</a> = (paletteColor)&amp;0xFF;           \</div>
 <div class="line">    *<a class="code" href="video_8h.html#afe3cc8b2ea5f41a791be1b3a3cf04cb2">CGRAM_PALETTE</a> = (paletteColor) &gt;&gt; 8;</div>
-<div class="ttc" id="avideo_8h_html_a47b1bf21d0ed441344efcaf573350c46"><div class="ttname"><a href="video_8h.html#a47b1bf21d0ed441344efcaf573350c46">REG_CGADD</a></div><div class="ttdeci">#define REG_CGADD</div><div class="ttdoc">Palette CGRAM Address (Color Generator Memory) (W) Color index (0..255). This is a WORD-address (2-by...</div><div class="ttdef"><b>Definition:</b> video.h:174</div></div>
-<div class="ttc" id="avideo_8h_html_afe3cc8b2ea5f41a791be1b3a3cf04cb2"><div class="ttname"><a href="video_8h.html#afe3cc8b2ea5f41a791be1b3a3cf04cb2">CGRAM_PALETTE</a></div><div class="ttdeci">#define CGRAM_PALETTE</div><div class="ttdoc">Palette CGRAM Data Write (W) 1st Access: Lower 8 bits (even address) 2nd Access: Upper 7 bits (odd ad...</div><div class="ttdef"><b>Definition:</b> video.h:206</div></div>
+<div class="ttc" id="avideo_8h_html_a47b1bf21d0ed441344efcaf573350c46"><div class="ttname"><a href="video_8h.html#a47b1bf21d0ed441344efcaf573350c46">REG_CGADD</a></div><div class="ttdeci">#define REG_CGADD</div><div class="ttdoc">Palette CGRAM Address (Color Generator Memory) (W) Color index (0..255). This is a WORD-address (2-by...</div><div class="ttdef"><b>Definition:</b> video.h:173</div></div>
+<div class="ttc" id="avideo_8h_html_afe3cc8b2ea5f41a791be1b3a3cf04cb2"><div class="ttname"><a href="video_8h.html#afe3cc8b2ea5f41a791be1b3a3cf04cb2">CGRAM_PALETTE</a></div><div class="ttdeci">#define CGRAM_PALETTE</div><div class="ttdoc">Palette CGRAM Data Write (W) 1st Access: Lower 8 bits (even address) 2nd Access: Upper 7 bits (odd ad...</div><div class="ttdef"><b>Definition:</b> video.h:205</div></div>
 </div><!-- fragment -->
 <p>Change a color palette in CGRAM. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -545,7 +551,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="audio_2music_2_music_8c-example.html#a17">audio/music/Music.c</a>, <a class="el" href="audio_2music_greater_than32k_2music_greater_than32k_8c-example.html#a17">audio/musicGreaterThan32k/musicGreaterThan32k.c</a>, and <a class="el" href="audio_2tada_2_tada_8c-example.html#a19">audio/tada/Tada.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="audio_2music_2_music_8c-example.html#a17">audio/music/Music.c</a>, <a class="el" href="audio_2music_greater_than32k_2music_greater_than32k_8c-example.html#a17">audio/musicGreaterThan32k/musicGreaterThan32k.c</a>, <a class="el" href="audio_2tada_2_tada_8c-example.html#a19">audio/tada/Tada.c</a>, and <a class="el" href="input_2superscope_2superscope_8c-example.html#a36">input/superscope/superscope.c</a>.</dd>
 </dl>
 
 </div>
@@ -581,15 +587,34 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_
 </td></tr>
 <tr><td class="fieldname"><a id="a5623bfd6fefb79d4f21d260b7e333523a5adddf918b1602129ea6fe279f9d0a70"></a>VRAM_ADRSTINC_32&#160;</td><td class="fielddoc"><p>Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460"></a>VRAM_ADRSTINC_128&#160;</td><td class="fielddoc"><p>Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128) </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460"></a>VRAM_ADRSTINC_128&#160;</td><td class="fielddoc"><p>Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128) </p>
+<tr><td class="fieldname"><a id="a5623bfd6fefb79d4f21d260b7e333523aa533a55efdfa322714a967a57c982857"></a>VRAM_ADRSTINC_128&#160;</td><td class="fielddoc"><p>Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128) </p>
 </td></tr>
 </table>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a73861f0742d53e6f44385a673504c83c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73861f0742d53e6f44385a673504c83c">&#9670;&nbsp;</a></span>getFPScounter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">getFPScounter </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return number of frames per second. </p>
+<dl class="section return"><dt>Returns</dt><dd>unsigned short of the current frame per second counter </dd></dl>
+
+</div>
+</div>
 <a id="a4edcd61c70a2e22ed69a93ced9da9126"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4edcd61c70a2e22ed69a93ced9da9126">&#9670;&nbsp;</a></span>getPalette()</h2>
 
@@ -668,7 +693,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_palette_2_get_colors_2_get_colors_8c-example.html#a7">graphics/Palette/GetColors/GetColors.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_palette_2_get_colors_2_get_colors_8c-example.html#a10">graphics/Palette/GetColors/GetColors.c</a>.</dd>
 </dl>
 
 </div>
@@ -730,8 +755,8 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_
 <p>Do addition or other color effects. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">colorMathA</td><td>value for color math A register </td></tr>
-    <tr><td class="paramname">colorMathB</td><td>value for color math B register </td></tr>
+    <tr><td class="paramname">colorMathA</td><td>value for color math A register (REG_CGWSEL) </td></tr>
+    <tr><td class="paramname">colorMathB</td><td>value for color math B register (REG_CGADSUB) </td></tr>
   </table>
   </dd>
 </dl>
@@ -800,7 +825,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_effects_2_mosaic_shading_2_mosaic_shading_8c-example.html#a7">graphics/Effects/MosaicShading/MosaicShading.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_effects_2_fading_2_fading_8c-example.html#a9">graphics/Effects/Fading/Fading.c</a>, <a class="el" href="graphics_2_effects_2_mosaic_shading_2_mosaic_shading_8c-example.html#a7">graphics/Effects/MosaicShading/MosaicShading.c</a>, and <a class="el" href="input_2superscope_2superscope_8c-example.html#a26">input/superscope/superscope.c</a>.</dd>
 </dl>
 
 </div>
@@ -838,6 +863,8 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_
     <tr><td class="paramname">framesNumber</td><td>the number of frames </td></tr>
   </table>
   </dd>
+</dl>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_effects_2_fading_2_fading_8c-example.html#a7">graphics/Effects/Fading/Fading.c</a>.</dd>
 </dl>
 
 </div>
@@ -877,7 +904,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_
   </dd>
 </dl>
 <p>Mode BG1 BG2 BG3 BG4 0 4-color 4-color 4-color 4-color ;Normal 1 16-color 16-color 4-color - ;Normal 2 16-color 16-color (o.p.t) - ;Offset-per-tile 3 256-color 16-color - - ;Normal 4 256-color 4-color (o.p.t) - ;Offset-per-tile 5 16-color 4-color - - ;512-pix-hires 6 16-color - (o.p.t) - ;512-pix plus Offs-p-t 7 256-color EXTBG - - ;Rotation/Scaling </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="audio_2effects_2effects_8c-example.html#a9">audio/effects/effects.c</a>, <a class="el" href="audio_2effectsandmusic_2effectsandmusic_8c-example.html#a10">audio/effectsandmusic/effectsandmusic.c</a>, <a class="el" href="audio_2music_2_music_8c-example.html#a10">audio/music/Music.c</a>, <a class="el" href="audio_2music_greater_than32k_2music_greater_than32k_8c-example.html#a10">audio/musicGreaterThan32k/musicGreaterThan32k.c</a>, <a class="el" href="audio_2tada_2_tada_8c-example.html#a10">audio/tada/Tada.c</a>, <a class="el" href="breakpoints_2src_2breakpoints_8c-example.html#a8">breakpoints/src/breakpoints.c</a>, <a class="el" href="debug_2debug_8c-example.html#a2">debug/debug.c</a>, <a class="el" href="games_2breakout_2breakout_8c-example.html#a13">games/breakout/breakout.c</a>, <a class="el" href="games_2likemario_2_like_mario_8c-example.html#a56">games/likemario/LikeMario.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode0_2_mode0_8c-example.html#a3">graphics/Backgrounds/Mode0/Mode0.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_2_mode1_8c-example.html#a3">graphics/Backgrounds/Mode1/Mode1.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_b_g3_high_priority_2_mode1_b_g3_high_priority_8c-example.html#a5">graphics/Backgrounds/Mode1BG3HighPriority/Mode1BG3HighPriority.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a13">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_l_z77_2_mode1_l_z77_8c-example.html#a3">graphics/Backgrounds/Mode1LZ77/Mode1LZ77.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_mixed_scroll_2_mode1_mixed_scroll_8c-example.html#a3">graphics/Backgrounds/Mode1MixedScroll/Mode1MixedScroll.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_png_2_mode1_8c-example.html#a3">graphics/Backgrounds/Mode1Png/Mode1.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_scroll_2_mode1_scroll_8c-example.html#a9">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode3_2_mode3_8c-example.html#a5">graphics/Backgrounds/Mode3/Mode3.c</a>, <a class="el" href="graphics_2_effects_2_gradient_colors_2_gradient_colors_8c-example.html#a3">graphics/Effects/GradientColors/GradientColors.c</a>, <a class="el" href="graphics_2_effects_2_h_d_m_a_gradient_2_h_d_m_a_gradient_8c-example.html#a4">graphics/Effects/HDMAGradient/HDMAGradient.c</a>, <a class="el" href="graphics_2_effects_2_mosaic_shading_2_mosaic_shading_8c-example.html#a3">graphics/Effects/MosaicShading/MosaicShading.c</a>, <a class="el" href="graphics_2_effects_2_parallax_scrolling_2_parallax_scrolling_8c-example.html#a3">graphics/Effects/ParallaxScrolling/ParallaxScrolling.c</a>, <a class="el" href="graphics_2_effects_2_transparency_2_transparency_8c-example.html#a3">graphics/Effects/Transparency/Transparency.c</a>, <a class="el" href="graphics_2_effects_2_waves_2_waves_8c-example.html#a3">graphics/Effects/Waves/Waves.c</a>, <a class="el" href="graphics_2_effects_2_window_2_window_8c-example.html#a3">graphics/Effects/Window/Window.c</a>, <a class="el" href="graphics_2_palette_2_get_colors_2_get_colors_8c-example.html#a4">graphics/Palette/GetColors/GetColors.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a6">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a7">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a4">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a11">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a20">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a5">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="hello_world_2src_2hello_world_8c-example.html#a7">hello_world/src/hello_world.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a3">maps/mapscroll/mapscroll.c</a>, <a class="el" href="maps_2tiled_2tiled_8c-example.html#a3">maps/tiled/tiled.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a3">objects/mapandobjects/mapandobjects.c</a>, <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a19">objects/moveobjects/moveobjects.c</a>, <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a4">objects/nogravityobject/nogravityobjects.c</a>, <a class="el" href="pads_2input_2input_8c-example.html#a8">pads/input/input.c</a>, <a class="el" href="pads_2multiplay5_2multiplay5_8c-example.html#a10">pads/multiplay5/multiplay5.c</a>, <a class="el" href="random_2random_8c-example.html#a8">random/random.c</a>, <a class="el" href="scoring_2scoring_8c-example.html#a11">scoring/scoring.c</a>, <a class="el" href="sram_2sram_8c-example.html#a8">sram/sram.c</a>, <a class="el" href="testregion_2testregion_8c-example.html#a8">testregion/testregion.c</a>, <a class="el" href="timer_2timer_8c-example.html#a8">timer/timer.c</a>, and <a class="el" href="typeconsole_2src_2pal_ntsc_8c-example.html#a7">typeconsole/src/pal_ntsc.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="audio_2effects_2effects_8c-example.html#a9">audio/effects/effects.c</a>, <a class="el" href="audio_2effectsandmusic_2effectsandmusic_8c-example.html#a10">audio/effectsandmusic/effectsandmusic.c</a>, <a class="el" href="audio_2music_2_music_8c-example.html#a10">audio/music/Music.c</a>, <a class="el" href="audio_2music_greater_than32k_2music_greater_than32k_8c-example.html#a10">audio/musicGreaterThan32k/musicGreaterThan32k.c</a>, <a class="el" href="audio_2tada_2_tada_8c-example.html#a10">audio/tada/Tada.c</a>, <a class="el" href="breakpoints_2src_2breakpoints_8c-example.html#a8">breakpoints/src/breakpoints.c</a>, <a class="el" href="debug_2debug_8c-example.html#a2">debug/debug.c</a>, <a class="el" href="games_2breakout_2breakout_8c-example.html#a13">games/breakout/breakout.c</a>, <a class="el" href="games_2likemario_2_like_mario_8c-example.html#a57">games/likemario/LikeMario.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode0_2_mode0_8c-example.html#a3">graphics/Backgrounds/Mode0/Mode0.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_2_mode1_8c-example.html#a3">graphics/Backgrounds/Mode1/Mode1.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_b_g3_high_priority_2_mode1_b_g3_high_priority_8c-example.html#a5">graphics/Backgrounds/Mode1BG3HighPriority/Mode1BG3HighPriority.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a13">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_l_z77_2_mode1_l_z77_8c-example.html#a3">graphics/Backgrounds/Mode1LZ77/Mode1LZ77.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_mixed_scroll_2_mode1_mixed_scroll_8c-example.html#a3">graphics/Backgrounds/Mode1MixedScroll/Mode1MixedScroll.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_png_2_mode1_8c-example.html#a3">graphics/Backgrounds/Mode1Png/Mode1.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_scroll_2_mode1_scroll_8c-example.html#a9">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode3_2_mode3_8c-example.html#a5">graphics/Backgrounds/Mode3/Mode3.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode5_2_mode5_8c-example.html#a3">graphics/Backgrounds/Mode5/Mode5.c</a>, <a class="el" href="graphics_2_effects_2_fading_2_fading_8c-example.html#a3">graphics/Effects/Fading/Fading.c</a>, <a class="el" href="graphics_2_effects_2_gradient_colors_2_gradient_colors_8c-example.html#a3">graphics/Effects/GradientColors/GradientColors.c</a>, <a class="el" href="graphics_2_effects_2_h_d_m_a_gradient_2_h_d_m_a_gradient_8c-example.html#a4">graphics/Effects/HDMAGradient/HDMAGradient.c</a>, <a class="el" href="graphics_2_effects_2_mosaic_shading_2_mosaic_shading_8c-example.html#a3">graphics/Effects/MosaicShading/MosaicShading.c</a>, <a class="el" href="graphics_2_effects_2_parallax_scrolling_2_parallax_scrolling_8c-example.html#a3">graphics/Effects/ParallaxScrolling/ParallaxScrolling.c</a>, <a class="el" href="graphics_2_effects_2_transparency_2_transparency_8c-example.html#a3">graphics/Effects/Transparency/Transparency.c</a>, <a class="el" href="graphics_2_effects_2_transparent_window_2src_2main_8c-example.html#a3">graphics/Effects/TransparentWindow/src/main.c</a>, <a class="el" href="graphics_2_effects_2_waves_2_waves_8c-example.html#a3">graphics/Effects/Waves/Waves.c</a>, <a class="el" href="graphics_2_effects_2_window_2_window_8c-example.html#a3">graphics/Effects/Window/Window.c</a>, <a class="el" href="graphics_2_palette_2_get_colors_2_get_colors_8c-example.html#a7">graphics/Palette/GetColors/GetColors.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a6">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a7">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a4">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a11">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a20">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a5">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="hello_world_2src_2hello_world_8c-example.html#a7">hello_world/src/hello_world.c</a>, <a class="el" href="input_2controller_2controller_8c-example.html#a8">input/controller/controller.c</a>, <a class="el" href="input_2mouse_2mouse_8c-example.html#a16">input/mouse/mouse.c</a>, <a class="el" href="input_2multiplay5_2multiplay5_8c-example.html#a9">input/multiplay5/multiplay5.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a14">input/superscope/superscope.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a3">maps/mapscroll/mapscroll.c</a>, <a class="el" href="maps_2tiled_2tiled_8c-example.html#a3">maps/tiled/tiled.c</a>, <a class="el" href="memory_mapping_2src_2memory_mapping_8c-example.html#a7">memory_mapping/src/memory_mapping.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a3">objects/mapandobjects/mapandobjects.c</a>, <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a19">objects/moveobjects/moveobjects.c</a>, <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a4">objects/nogravityobject/nogravityobjects.c</a>, <a class="el" href="random_2random_8c-example.html#a8">random/random.c</a>, <a class="el" href="scoring_2scoring_8c-example.html#a11">scoring/scoring.c</a>, <a class="el" href="sram_2sramoffset_2sramoffset_8c-example.html#a10">sram/sramoffset/sramoffset.c</a>, <a class="el" href="sram_2sramsimple_2sram_8c-example.html#a8">sram/sramsimple/sram.c</a>, <a class="el" href="testregion_2testregion_8c-example.html#a8">testregion/testregion.c</a>, <a class="el" href="timer_2timer_8c-example.html#a8">timer/timer.c</a>, and <a class="el" href="typeconsole_2src_2pal_ntsc_8c-example.html#a7">typeconsole/src/pal_ntsc.c</a>.</dd>
 </dl>
 
 </div>
@@ -1098,7 +1125,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="video_8h.html">video.h</a></li>
-    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 12 2024       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

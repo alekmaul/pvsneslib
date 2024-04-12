@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.1.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -133,148 +133,150 @@ $(document).ready(function(){initNavTree('video_8h_source.html',''); initResizab
 <div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523abe5c38b32a13a2867e46de5995aed60d">   46</a></span>&#160;    <a class="code" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523abe5c38b32a13a2867e46de5995aed60d">VRAM_ADRTR_10B</a> = (3 &lt;&lt; 2),    </div>
 <div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523acfee058cf30c9aacc05573725e3775d8">   47</a></span>&#160;    <a class="code" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523acfee058cf30c9aacc05573725e3775d8">VRAM_ADRSTINC_1</a> = (0 &lt;&lt; 0),   </div>
 <div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a5adddf918b1602129ea6fe279f9d0a70">   48</a></span>&#160;    <a class="code" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a5adddf918b1602129ea6fe279f9d0a70">VRAM_ADRSTINC_32</a> = (1 &lt;&lt; 0),  </div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460">   49</a></span>&#160;    <a class="code" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460">VRAM_ADRSTINC_128</a> = (2 &lt;&lt; 0), </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460">VRAM_ADRSTINC_128</a> = (3 &lt;&lt; 0), </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;} <a class="code" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523">VideoControl</a>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#define FADE_IN 2</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#define FADE_OUT 1</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#define MOSAIC_IN 2</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#define MOSAIC_OUT 1</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#define MOSAIC_BG1 (1 &lt;&lt; 0)</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#define MOSAIC_BG2 (1 &lt;&lt; 1)</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#define MOSAIC_BG3 (1 &lt;&lt; 2)</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#define MOSAIC_BG4 (1 &lt;&lt; 3)</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="video_8h.html#afbe2b768602914630a49573d20359eb1">   62</a></span>&#160;<span class="preprocessor">#define CM_DIRCOLOR (1 &lt;&lt; 0) </span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#define CM_SUBBGOBJ_ENABLE (1 &lt;&lt; 1)</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#define CM_ALWAYS_ENABLE (0 &lt;&lt; 4)</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#define CM_MATWIN_ENABLE (1 &lt;&lt; 4)</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#define CM_NOMATWIN_ENABLE (2 &lt;&lt; 4)</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">#define CM_NEVER_ENABLE (3 &lt;&lt; 4)</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#define CM_SCBLK_ALWAYS_ENABLE (0 &lt;&lt; 6)</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#define CM_SCBLK_MATWIN_ENABLE (1 &lt;&lt; 6)</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">#define CM_SCBLK_NOMATWIN_ENABLE (2 &lt;&lt; 6)</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#define CM_SCBLK_NEVER_ENABLE (3 &lt;&lt; 6)</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#define CM_SUB_MAINSUB (1 &lt;&lt; 7)</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#define CM_DIV2_DIVIDE (1 &lt;&lt; 6)</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#define CM_MSCR_BACK (1 &lt;&lt; 5)</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#define CM_MSCR_PAL47 (1 &lt;&lt; 4)</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#define CM_MSCR_BG4 (1 &lt;&lt; 3)</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#define CM_MSCR_BG3 (1 &lt;&lt; 2)</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#define CM_MSCR_BG2 (1 &lt;&lt; 1)</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#define CM_MSCR_BG1 (1 &lt;&lt; 0)</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#define CM_APPLY_BLUE (1 &lt;&lt; 7)</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">#define CM_APPLY_GREEN (1 &lt;&lt; 6)</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">#define CM_APPLY_RED (1 &lt;&lt; 5)</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="video_8h.html#a53bf3fddfc3db6007e1307d93a4b4efb">   86</a></span>&#160;<span class="preprocessor">#define M7_HFLIP (1 &lt;&lt; 0)    </span></div>
-<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="video_8h.html#ada7f40c68deddd4f58d8703af158318d">   87</a></span>&#160;<span class="preprocessor">#define M7_VFLIP (1 &lt;&lt; 1)    </span></div>
-<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="video_8h.html#a156adf50dbe992aa3dab774c37c8f52c">   88</a></span>&#160;<span class="preprocessor">#define M7_WRAP (1 &lt;&lt; 6)     </span></div>
-<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="video_8h.html#a67dc02ed9e8789089ca9aafbca6b10a6">   89</a></span>&#160;<span class="preprocessor">#define M7_OUTTRANS (2 &lt;&lt; 6) </span></div>
-<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="video_8h.html#a2a7c7ad9daf88f746c861372d8e64bac">   90</a></span>&#160;<span class="preprocessor">#define M7_OUTTILE (3 &lt;&lt; 6)  </span></div>
-<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="video_8h.html#a142364f4707bee3366835d7d22494911">   92</a></span>&#160;<span class="preprocessor">#define PPU_50HZ (1 &lt;&lt; 4) </span></div>
-<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="video_8h.html#abec6eb1bc9f87a1143464c7418c96388">  111</a></span>&#160;<span class="preprocessor">#define REG_INIDISP (*(vuint8 *)0x2100)</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="video_8h.html#a09d7fb089889aaa434f7c88ebccb5190">  140</a></span>&#160;<span class="preprocessor">#define REG_VMAIN (*(vuint8 *)0x2115)</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
-<div class="line"><a name="l00156"></a><span class="lineno"><a class="line" href="video_8h.html#a962038681293a309df2c26f1e9a7d7e9">  156</a></span>&#160;<span class="preprocessor">#define REG_VMADDLH (*(vuint16 *)0x2116)</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="comment">    Writing to 2118h or 2119h does simply modify the LSB or MSB of the currently addressed VRAM</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="comment">    word (with optional Address Translation applied). Depending on the Increment Mode the address</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment">    does (or doesn&#39;t) get automatically incremented after the write.</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno"><a class="line" href="video_8h.html#a1c64488065746dab4b05ad917c276841">  163</a></span>&#160;<span class="preprocessor">#define REG_VMDATAL (*(vuint8 *)0x2118)   </span></div>
-<div class="line"><a name="l00164"></a><span class="lineno"><a class="line" href="video_8h.html#aa8cd1d05c2abc19978d533f927f2e738">  164</a></span>&#160;<span class="preprocessor">#define REG_VMDATAH (*(vuint8 *)0x2119)   </span></div>
-<div class="line"><a name="l00165"></a><span class="lineno"><a class="line" href="video_8h.html#a2e1221b6655ab3ef51d4e0e465990e92">  165</a></span>&#160;<span class="preprocessor">#define REG_VMDATALH (*(vuint16 *)0x2118) </span></div>
-<div class="line"><a name="l00174"></a><span class="lineno"><a class="line" href="video_8h.html#a47b1bf21d0ed441344efcaf573350c46">  174</a></span>&#160;<span class="preprocessor">#define REG_CGADD (*(vuint8 *)0x2121)</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
-<div class="line"><a name="l00206"></a><span class="lineno"><a class="line" href="video_8h.html#afe3cc8b2ea5f41a791be1b3a3cf04cb2">  206</a></span>&#160;<span class="preprocessor">#define CGRAM_PALETTE ((u8 *)0x2122)</span></div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160; </div>
-<div class="line"><a name="l00216"></a><span class="lineno"><a class="line" href="video_8h.html#a31783a38f8bf7129cd0186641e598fe4">  216</a></span>&#160;<span class="preprocessor">#define REG_CGWSEL (*(vuint8 *)0x2130)</span></div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160; </div>
-<div class="line"><a name="l00230"></a><span class="lineno"><a class="line" href="video_8h.html#a4de43c070a90869390fca11731a2692e">  230</a></span>&#160;<span class="preprocessor">#define REG_CGADSUB (*(vuint8 *)0x2131)</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160; </div>
-<div class="line"><a name="l00241"></a><span class="lineno"><a class="line" href="video_8h.html#a40b0af5f9d5abe1a520205d5a99c86ab">  241</a></span>&#160;<span class="preprocessor">#define REG_COLDATA (*(vuint8 *)0x2132)</span></div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160; </div>
-<div class="line"><a name="l00256"></a><span class="lineno"><a class="line" href="video_8h.html#a68fd672e1ea4124fbb5a895c2bc551e7">  256</a></span>&#160;<span class="preprocessor">#define REG_M7SEL (*(vuint8 *)0x211A)</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="comment">/* 1st Write: Lower 8bit  ;\1st/2nd write mechanism uses &quot;M7_old&quot;</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="comment">  2nd Write: Upper 8bit  ;/</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00261"></a><span class="lineno"><a class="line" href="video_8h.html#a19771159f16c9467e0c0e039e5f88a87">  261</a></span>&#160;<span class="preprocessor">#define REG_M7A (*(vuint8 *)0x211B)    </span></div>
-<div class="line"><a name="l00262"></a><span class="lineno"><a class="line" href="video_8h.html#acba1baa2a4883fa838cc3c0df3ef581e">  262</a></span>&#160;<span class="preprocessor">#define REG_M7B (*(vuint8 *)0x211C)    </span></div>
-<div class="line"><a name="l00263"></a><span class="lineno"><a class="line" href="video_8h.html#ad689e6afbfd11537255885b989f0e9b0">  263</a></span>&#160;<span class="preprocessor">#define REG_M7C (*(vuint8 *)0x211D)    </span></div>
-<div class="line"><a name="l00264"></a><span class="lineno"><a class="line" href="video_8h.html#afe5d4d5ae1ad38d6409984087fa4888b">  264</a></span>&#160;<span class="preprocessor">#define REG_M7D (*(vuint8 *)0x211E)    </span></div>
-<div class="line"><a name="l00265"></a><span class="lineno"><a class="line" href="video_8h.html#a149770d8a7300cb577f99ff1198978bc">  265</a></span>&#160;<span class="preprocessor">#define REG_M7HOFS (*(vuint8 *)0x210D) </span></div>
-<div class="line"><a name="l00266"></a><span class="lineno"><a class="line" href="video_8h.html#a485cdf5dd265cf6d9a808550365da845">  266</a></span>&#160;<span class="preprocessor">#define REG_M7VOFS (*(vuint8 *)0x210E) </span></div>
-<div class="line"><a name="l00267"></a><span class="lineno"><a class="line" href="video_8h.html#a4545542b6058c4dfa9b60e85d398fbc0">  267</a></span>&#160;<span class="preprocessor">#define REG_M7X (*(vuint8 *)0x211F)    </span></div>
-<div class="line"><a name="l00268"></a><span class="lineno"><a class="line" href="video_8h.html#a78d50292f8ff3b205a5cf8c81f72060d">  268</a></span>&#160;<span class="preprocessor">#define REG_M7Y (*(vuint8 *)0x2120)    </span></div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="comment">/* After writing to 211Bh or 211Ch, the result can be read immediately from 2134h-2136h (the 21xxh Ports</span></div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<span class="comment">  are rapidly clocked by the PPU, there&#39;s no delay needed when reading via &quot;MOV A,[211Ch]&quot; or via</span></div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="comment">  &quot;MOV A,[1Ch]&quot; (with D=2100h), both works even when the CPU runs at 3.5MHz).</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00274"></a><span class="lineno"><a class="line" href="video_8h.html#a78c534175ab6daa45014ae0042bc0bd9">  274</a></span>&#160;<span class="preprocessor">#define REG_MPYL (*(vuint8 *)0x2134)   </span></div>
-<div class="line"><a name="l00275"></a><span class="lineno"><a class="line" href="video_8h.html#a901555f2a7b0b860781c51d0b9e4eaf2">  275</a></span>&#160;<span class="preprocessor">#define REG_MPYM (*(vuint8 *)0x2135)   </span></div>
-<div class="line"><a name="l00276"></a><span class="lineno"><a class="line" href="video_8h.html#aef9f3266b8197a72f0e871c2cc70264b">  276</a></span>&#160;<span class="preprocessor">#define REG_MPYH (*(vuint8 *)0x2136)   </span></div>
-<div class="line"><a name="l00277"></a><span class="lineno"><a class="line" href="video_8h.html#aa31a9a2df80d490fd67a67f9a3d27215">  277</a></span>&#160;<span class="preprocessor">#define REG_MPYMH (*(vuint16 *)0x2135) </span></div>
-<div class="line"><a name="l00291"></a><span class="lineno"><a class="line" href="video_8h.html#a4e8398519a24701e4d3041e4f02edc00">  291</a></span>&#160;<span class="preprocessor">#define REG_STAT77 (*(vuint8 *)0x213E)</span></div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160; </div>
-<div class="line"><a name="l00301"></a><span class="lineno"><a class="line" href="video_8h.html#a4d49034fd405fed8f5f42df44fa2b3a8">  301</a></span>&#160;<span class="preprocessor">#define REG_STAT78 (*(vuint8 *)0x213F)</span></div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160; </div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="comment">// macro creates a 15 bit color from 3x5 bit components</span></div>
-<div class="line"><a name="l00305"></a><span class="lineno"><a class="line" href="video_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">  305</a></span>&#160;<span class="comment"></span><span class="preprocessor">#define RGB8(r, g, b) (((r) &gt;&gt; 3) | (((g) &gt;&gt; 3) &lt;&lt; 5) | (((b) &gt;&gt; 3) &lt;&lt; 10))</span></div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="preprocessor">#define RGB5(r, g, b) ((r) | ((g) &lt;&lt; 5) | ((b) &lt;&lt; 10))</span></div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160; </div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;<span class="preprocessor">#define SCREEN_HEIGHT 224 </span></div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="preprocessor">#define SCREEN_WIDTH 256  </span></div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="video_8h.html#a156a14f040a0569d1c1b59c94669aa6f">videoMode</a>;    </div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="video_8h.html#a4da52999afa3808bd6e797c9fbf584aa">videoModeSub</a>; </div>
-<div class="line"><a name="l00318"></a><span class="lineno"><a class="line" href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">  318</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">setBrightness</a>(u8 level);</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160; </div>
-<div class="line"><a name="l00335"></a><span class="lineno"><a class="line" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">  335</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(u8 mode, u8 size);</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160; </div>
-<div class="line"><a name="l00340"></a><span class="lineno"><a class="line" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">  340</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160; </div>
-<div class="line"><a name="l00345"></a><span class="lineno"><a class="line" href="video_8h.html#aaeaea299a3cfb90fa5232b842f7f7cd0">  345</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#aaeaea299a3cfb90fa5232b842f7f7cd0">setScreenOff</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160; </div>
-<div class="line"><a name="l00351"></a><span class="lineno"><a class="line" href="video_8h.html#ac34bd13a8556c8ac8e1eeeded15f7632">  351</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#ac34bd13a8556c8ac8e1eeeded15f7632">setFadeEffect</a>(u8 mode);</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160; </div>
-<div class="line"><a name="l00358"></a><span class="lineno"><a class="line" href="video_8h.html#ad58e188357569ae06c08b2fc33ed5aa2">  358</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#ad58e188357569ae06c08b2fc33ed5aa2">setFadeEffectEx</a>(u8 mode, u8 framesNumber);</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160; </div>
-<div class="line"><a name="l00365"></a><span class="lineno"><a class="line" href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">  365</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">setMosaicEffect</a>(u8 mode, u8 bgNumbers);</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160; </div>
-<div class="line"><a name="l00372"></a><span class="lineno"><a class="line" href="video_8h.html#a87d6cb8ec2433c908666a0a7f2306cb4">  372</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a87d6cb8ec2433c908666a0a7f2306cb4">setColorEffect</a>(u8 colorMathA, u8 colorMathB);</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160; </div>
-<div class="line"><a name="l00379"></a><span class="lineno"><a class="line" href="video_8h.html#aedc79f1675778d0573d181fe22a0902d">  379</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#aedc79f1675778d0573d181fe22a0902d">setColorIntensity</a>(u8 colorApply, u8 intensity);</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160; </div>
-<div class="line"><a name="l00387"></a><span class="lineno"><a class="line" href="video_8h.html#ae29ed0390bca0390d3fdf55362a3663b">  387</a></span>&#160;<span class="preprocessor">#define setPalette(palette, paletteEntry, paletteSize) dmaCopyCGram(palette, paletteEntry, paletteSize)</span></div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160; </div>
-<div class="line"><a name="l00394"></a><span class="lineno"><a class="line" href="video_8h.html#a549263481ac687a7e1d6f6cd5bd85d29">  394</a></span>&#160;<span class="preprocessor">#define setPaletteColor(paletteEntry, paletteColor) \</span></div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;<span class="preprocessor">    REG_CGADD = paletteEntry;                       \</span></div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;<span class="preprocessor">    *CGRAM_PALETTE = (paletteColor)&amp;0xFF;           \</span></div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;<span class="preprocessor">    *CGRAM_PALETTE = (paletteColor) &gt;&gt; 8;</span></div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160; </div>
-<div class="line"><a name="l00405"></a><span class="lineno"><a class="line" href="video_8h.html#a4edcd61c70a2e22ed69a93ced9da9126">  405</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a4edcd61c70a2e22ed69a93ced9da9126">getPalette</a>(u8 paletteEntry, u8 paletteSize, u16 *paletteColors);</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160; </div>
-<div class="line"><a name="l00412"></a><span class="lineno"><a class="line" href="video_8h.html#acbf8deabd274fb30b9448036296efb8d">  412</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#acbf8deabd274fb30b9448036296efb8d">getPaletteColor</a>(u8 paletteEntry, u16 *paletteColor);</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160; </div>
-<div class="line"><a name="l00418"></a><span class="lineno"><a class="line" href="video_8h.html#af7e722fd2eba5682bc0eafa9d5a9c51a">  418</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#af7e722fd2eba5682bc0eafa9d5a9c51a">setMode7</a>(u8 mode);</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160; </div>
-<div class="line"><a name="l00424"></a><span class="lineno"><a class="line" href="video_8h.html#a4d332cdc88b26fc9ec2cdd4f6710ce8c">  424</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a4d332cdc88b26fc9ec2cdd4f6710ce8c">setMode7Rot</a>(u8 angle);</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160; </div>
-<div class="line"><a name="l00430"></a><span class="lineno"><a class="line" href="video_8h.html#a44845006a2852ac2fa78c07bd1553d52">  430</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a44845006a2852ac2fa78c07bd1553d52">setMode7MoveForwardBack</a>(u8 z8);</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160; </div>
-<div class="line"><a name="l00436"></a><span class="lineno"><a class="line" href="video_8h.html#ade2a8e199ad857a17e402333123b1f43">  436</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#ade2a8e199ad857a17e402333123b1f43">setMode7MoveLeftRight</a>(u8 z8);</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160; </div>
-<div class="line"><a name="l00442"></a><span class="lineno"><a class="line" href="video_8h.html#ac4b1645f376fa266f0e614a1d7903a31">  442</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#ac4b1645f376fa266f0e614a1d7903a31">setMode7Angle</a>(u8 angle);</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160; </div>
-<div class="line"><a name="l00449"></a><span class="lineno"><a class="line" href="video_8h.html#a79a6e89e2d541b67229f6033ebc861ce">  449</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a79a6e89e2d541b67229f6033ebc861ce">setMode7Scale</a>(u16 xscale, u16 yscale);</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160; </div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// SNES_VIDEO_INCLUDE</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523aa533a55efdfa322714a967a57c982857">VRAM_ADRSTINC_128</a> = (2 &lt;&lt; 0) </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523aa533a55efdfa322714a967a57c982857">   50</a></span>&#160;} <a class="code" href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523">VideoControl</a>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#define FADE_IN 2</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#define FADE_OUT 1</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#define MOSAIC_IN 2</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#define MOSAIC_OUT 1</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#define MOSAIC_BG1 (1 &lt;&lt; 0)</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#define MOSAIC_BG2 (1 &lt;&lt; 1)</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#define MOSAIC_BG3 (1 &lt;&lt; 2)</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#define MOSAIC_BG4 (1 &lt;&lt; 3)</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="video_8h.html#afbe2b768602914630a49573d20359eb1">   61</a></span>&#160;<span class="preprocessor">#define CM_DIRCOLOR (1 &lt;&lt; 0) </span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#define CM_SUBBGOBJ_ENABLE (1 &lt;&lt; 1)</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#define CM_ALWAYS_ENABLE (0 &lt;&lt; 4)</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#define CM_MATWIN_ENABLE (1 &lt;&lt; 4)</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#define CM_NOMATWIN_ENABLE (2 &lt;&lt; 4)</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#define CM_NEVER_ENABLE (3 &lt;&lt; 4)</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">#define CM_SCBLK_ALWAYS_ENABLE (0 &lt;&lt; 6)</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#define CM_SCBLK_MATWIN_ENABLE (1 &lt;&lt; 6)</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#define CM_SCBLK_NOMATWIN_ENABLE (2 &lt;&lt; 6)</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">#define CM_SCBLK_NEVER_ENABLE (3 &lt;&lt; 6)</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#define CM_SUB_MAINSUB (1 &lt;&lt; 7)</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#define CM_DIV2_DIVIDE (1 &lt;&lt; 6)</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#define CM_MSCR_BACK (1 &lt;&lt; 5)</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#define CM_MSCR_PAL47 (1 &lt;&lt; 4)</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#define CM_MSCR_BG4 (1 &lt;&lt; 3)</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#define CM_MSCR_BG3 (1 &lt;&lt; 2)</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#define CM_MSCR_BG2 (1 &lt;&lt; 1)</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#define CM_MSCR_BG1 (1 &lt;&lt; 0)</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">#define CM_APPLY_BLUE (1 &lt;&lt; 7)</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#define CM_APPLY_GREEN (1 &lt;&lt; 6)</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">#define CM_APPLY_RED (1 &lt;&lt; 5)</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="video_8h.html#a53bf3fddfc3db6007e1307d93a4b4efb">   85</a></span>&#160;<span class="preprocessor">#define M7_HFLIP (1 &lt;&lt; 0)    </span></div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="video_8h.html#ada7f40c68deddd4f58d8703af158318d">   86</a></span>&#160;<span class="preprocessor">#define M7_VFLIP (1 &lt;&lt; 1)    </span></div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="video_8h.html#a156adf50dbe992aa3dab774c37c8f52c">   87</a></span>&#160;<span class="preprocessor">#define M7_WRAP (1 &lt;&lt; 6)     </span></div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="video_8h.html#a67dc02ed9e8789089ca9aafbca6b10a6">   88</a></span>&#160;<span class="preprocessor">#define M7_OUTTRANS (2 &lt;&lt; 6) </span></div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="video_8h.html#a2a7c7ad9daf88f746c861372d8e64bac">   89</a></span>&#160;<span class="preprocessor">#define M7_OUTTILE (3 &lt;&lt; 6)  </span></div>
+<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="video_8h.html#a142364f4707bee3366835d7d22494911">   91</a></span>&#160;<span class="preprocessor">#define PPU_50HZ (1 &lt;&lt; 4) </span></div>
+<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="video_8h.html#abec6eb1bc9f87a1143464c7418c96388">  110</a></span>&#160;<span class="preprocessor">#define REG_INIDISP (*(vuint8 *)0x2100)</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00139"></a><span class="lineno"><a class="line" href="video_8h.html#a09d7fb089889aaa434f7c88ebccb5190">  139</a></span>&#160;<span class="preprocessor">#define REG_VMAIN (*(vuint8 *)0x2115)</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00155"></a><span class="lineno"><a class="line" href="video_8h.html#a962038681293a309df2c26f1e9a7d7e9">  155</a></span>&#160;<span class="preprocessor">#define REG_VMADDLH (*(vuint16 *)0x2116)</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment">    Writing to 2118h or 2119h does simply modify the LSB or MSB of the currently addressed VRAM</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="comment">    word (with optional Address Translation applied). Depending on the Increment Mode the address</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="comment">    does (or doesn&#39;t) get automatically incremented after the write.</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno"><a class="line" href="video_8h.html#a1c64488065746dab4b05ad917c276841">  162</a></span>&#160;<span class="preprocessor">#define REG_VMDATAL (*(vuint8 *)0x2118)   </span></div>
+<div class="line"><a name="l00163"></a><span class="lineno"><a class="line" href="video_8h.html#aa8cd1d05c2abc19978d533f927f2e738">  163</a></span>&#160;<span class="preprocessor">#define REG_VMDATAH (*(vuint8 *)0x2119)   </span></div>
+<div class="line"><a name="l00164"></a><span class="lineno"><a class="line" href="video_8h.html#a2e1221b6655ab3ef51d4e0e465990e92">  164</a></span>&#160;<span class="preprocessor">#define REG_VMDATALH (*(vuint16 *)0x2118) </span></div>
+<div class="line"><a name="l00173"></a><span class="lineno"><a class="line" href="video_8h.html#a47b1bf21d0ed441344efcaf573350c46">  173</a></span>&#160;<span class="preprocessor">#define REG_CGADD (*(vuint8 *)0x2121)</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00205"></a><span class="lineno"><a class="line" href="video_8h.html#afe3cc8b2ea5f41a791be1b3a3cf04cb2">  205</a></span>&#160;<span class="preprocessor">#define CGRAM_PALETTE ((u8 *)0x2122)</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160; </div>
+<div class="line"><a name="l00215"></a><span class="lineno"><a class="line" href="video_8h.html#a31783a38f8bf7129cd0186641e598fe4">  215</a></span>&#160;<span class="preprocessor">#define REG_CGWSEL (*(vuint8 *)0x2130)</span></div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160; </div>
+<div class="line"><a name="l00229"></a><span class="lineno"><a class="line" href="video_8h.html#a4de43c070a90869390fca11731a2692e">  229</a></span>&#160;<span class="preprocessor">#define REG_CGADSUB (*(vuint8 *)0x2131)</span></div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
+<div class="line"><a name="l00240"></a><span class="lineno"><a class="line" href="video_8h.html#a40b0af5f9d5abe1a520205d5a99c86ab">  240</a></span>&#160;<span class="preprocessor">#define REG_COLDATA (*(vuint8 *)0x2132)</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160; </div>
+<div class="line"><a name="l00255"></a><span class="lineno"><a class="line" href="video_8h.html#a68fd672e1ea4124fbb5a895c2bc551e7">  255</a></span>&#160;<span class="preprocessor">#define REG_M7SEL (*(vuint8 *)0x211A)</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="comment">/* 1st Write: Lower 8bit  ;\1st/2nd write mechanism uses &quot;M7_old&quot;</span></div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="comment">  2nd Write: Upper 8bit  ;/</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno"><a class="line" href="video_8h.html#a19771159f16c9467e0c0e039e5f88a87">  260</a></span>&#160;<span class="preprocessor">#define REG_M7A (*(vuint8 *)0x211B)    </span></div>
+<div class="line"><a name="l00261"></a><span class="lineno"><a class="line" href="video_8h.html#acba1baa2a4883fa838cc3c0df3ef581e">  261</a></span>&#160;<span class="preprocessor">#define REG_M7B (*(vuint8 *)0x211C)    </span></div>
+<div class="line"><a name="l00262"></a><span class="lineno"><a class="line" href="video_8h.html#ad689e6afbfd11537255885b989f0e9b0">  262</a></span>&#160;<span class="preprocessor">#define REG_M7C (*(vuint8 *)0x211D)    </span></div>
+<div class="line"><a name="l00263"></a><span class="lineno"><a class="line" href="video_8h.html#afe5d4d5ae1ad38d6409984087fa4888b">  263</a></span>&#160;<span class="preprocessor">#define REG_M7D (*(vuint8 *)0x211E)    </span></div>
+<div class="line"><a name="l00264"></a><span class="lineno"><a class="line" href="video_8h.html#a149770d8a7300cb577f99ff1198978bc">  264</a></span>&#160;<span class="preprocessor">#define REG_M7HOFS (*(vuint8 *)0x210D) </span></div>
+<div class="line"><a name="l00265"></a><span class="lineno"><a class="line" href="video_8h.html#a485cdf5dd265cf6d9a808550365da845">  265</a></span>&#160;<span class="preprocessor">#define REG_M7VOFS (*(vuint8 *)0x210E) </span></div>
+<div class="line"><a name="l00266"></a><span class="lineno"><a class="line" href="video_8h.html#a4545542b6058c4dfa9b60e85d398fbc0">  266</a></span>&#160;<span class="preprocessor">#define REG_M7X (*(vuint8 *)0x211F)    </span></div>
+<div class="line"><a name="l00267"></a><span class="lineno"><a class="line" href="video_8h.html#a78d50292f8ff3b205a5cf8c81f72060d">  267</a></span>&#160;<span class="preprocessor">#define REG_M7Y (*(vuint8 *)0x2120)    </span></div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="comment">/* After writing to 211Bh or 211Ch, the result can be read immediately from 2134h-2136h (the 21xxh Ports</span></div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="comment">  are rapidly clocked by the PPU, there&#39;s no delay needed when reading via &quot;MOV A,[211Ch]&quot; or via</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<span class="comment">  &quot;MOV A,[1Ch]&quot; (with D=2100h), both works even when the CPU runs at 3.5MHz).</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00273"></a><span class="lineno"><a class="line" href="video_8h.html#a78c534175ab6daa45014ae0042bc0bd9">  273</a></span>&#160;<span class="preprocessor">#define REG_MPYL (*(vuint8 *)0x2134)   </span></div>
+<div class="line"><a name="l00274"></a><span class="lineno"><a class="line" href="video_8h.html#a901555f2a7b0b860781c51d0b9e4eaf2">  274</a></span>&#160;<span class="preprocessor">#define REG_MPYM (*(vuint8 *)0x2135)   </span></div>
+<div class="line"><a name="l00275"></a><span class="lineno"><a class="line" href="video_8h.html#aef9f3266b8197a72f0e871c2cc70264b">  275</a></span>&#160;<span class="preprocessor">#define REG_MPYH (*(vuint8 *)0x2136)   </span></div>
+<div class="line"><a name="l00276"></a><span class="lineno"><a class="line" href="video_8h.html#aa31a9a2df80d490fd67a67f9a3d27215">  276</a></span>&#160;<span class="preprocessor">#define REG_MPYMH (*(vuint16 *)0x2135) </span></div>
+<div class="line"><a name="l00290"></a><span class="lineno"><a class="line" href="video_8h.html#a4e8398519a24701e4d3041e4f02edc00">  290</a></span>&#160;<span class="preprocessor">#define REG_STAT77 (*(vuint8 *)0x213E)</span></div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160; </div>
+<div class="line"><a name="l00300"></a><span class="lineno"><a class="line" href="video_8h.html#a4d49034fd405fed8f5f42df44fa2b3a8">  300</a></span>&#160;<span class="preprocessor">#define REG_STAT78 (*(vuint8 *)0x213F)</span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160; </div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;<span class="comment">// macro creates a 15 bit color from 3x5 bit components</span></div>
+<div class="line"><a name="l00304"></a><span class="lineno"><a class="line" href="video_8h.html#a7d2ed0f10b2b74123a544327bbfd7564">  304</a></span>&#160;<span class="comment"></span><span class="preprocessor">#define RGB8(r, g, b) (((r) &gt;&gt; 3) | (((g) &gt;&gt; 3) &lt;&lt; 5) | (((b) &gt;&gt; 3) &lt;&lt; 10))</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="preprocessor">#define RGB5(r, g, b) ((r) | ((g) &lt;&lt; 5) | ((b) &lt;&lt; 10))</span></div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160; </div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="preprocessor">#define SCREEN_HEIGHT 224 </span></div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;<span class="preprocessor">#define SCREEN_WIDTH 256  </span></div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="video_8h.html#a156a14f040a0569d1c1b59c94669aa6f">videoMode</a>;    </div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="keyword">extern</span> u8 <a class="code" href="video_8h.html#a4da52999afa3808bd6e797c9fbf584aa">videoModeSub</a>; </div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="keyword">extern</span> u16 <a class="code" href="video_8h.html#ab250fa2e5edfba747b7079a49508d92b">snes_frame_count</a>; </div>
+<div class="line"><a name="l00319"></a><span class="lineno"><a class="line" href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">  319</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">setBrightness</a>(u8 level);</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160; </div>
+<div class="line"><a name="l00336"></a><span class="lineno"><a class="line" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">  336</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(u8 mode, u8 size);</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160; </div>
+<div class="line"><a name="l00341"></a><span class="lineno"><a class="line" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">  341</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160; </div>
+<div class="line"><a name="l00346"></a><span class="lineno"><a class="line" href="video_8h.html#aaeaea299a3cfb90fa5232b842f7f7cd0">  346</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#aaeaea299a3cfb90fa5232b842f7f7cd0">setScreenOff</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160; </div>
+<div class="line"><a name="l00352"></a><span class="lineno"><a class="line" href="video_8h.html#ac34bd13a8556c8ac8e1eeeded15f7632">  352</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#ac34bd13a8556c8ac8e1eeeded15f7632">setFadeEffect</a>(u8 mode);</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160; </div>
+<div class="line"><a name="l00359"></a><span class="lineno"><a class="line" href="video_8h.html#ad58e188357569ae06c08b2fc33ed5aa2">  359</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#ad58e188357569ae06c08b2fc33ed5aa2">setFadeEffectEx</a>(u8 mode, u8 framesNumber);</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160; </div>
+<div class="line"><a name="l00366"></a><span class="lineno"><a class="line" href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">  366</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">setMosaicEffect</a>(u8 mode, u8 bgNumbers);</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160; </div>
+<div class="line"><a name="l00373"></a><span class="lineno"><a class="line" href="video_8h.html#a87d6cb8ec2433c908666a0a7f2306cb4">  373</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a87d6cb8ec2433c908666a0a7f2306cb4">setColorEffect</a>(u8 colorMathA, u8 colorMathB);</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160; </div>
+<div class="line"><a name="l00380"></a><span class="lineno"><a class="line" href="video_8h.html#aedc79f1675778d0573d181fe22a0902d">  380</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#aedc79f1675778d0573d181fe22a0902d">setColorIntensity</a>(u8 colorApply, u8 intensity);</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160; </div>
+<div class="line"><a name="l00388"></a><span class="lineno"><a class="line" href="video_8h.html#ae29ed0390bca0390d3fdf55362a3663b">  388</a></span>&#160;<span class="preprocessor">#define setPalette(palette, paletteEntry, paletteSize) dmaCopyCGram(palette, paletteEntry, paletteSize)</span></div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160; </div>
+<div class="line"><a name="l00395"></a><span class="lineno"><a class="line" href="video_8h.html#a549263481ac687a7e1d6f6cd5bd85d29">  395</a></span>&#160;<span class="preprocessor">#define setPaletteColor(paletteEntry, paletteColor) \</span></div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;<span class="preprocessor">    REG_CGADD = paletteEntry;                       \</span></div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;<span class="preprocessor">    *CGRAM_PALETTE = (paletteColor)&amp;0xFF;           \</span></div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;<span class="preprocessor">    *CGRAM_PALETTE = (paletteColor) &gt;&gt; 8;</span></div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160; </div>
+<div class="line"><a name="l00406"></a><span class="lineno"><a class="line" href="video_8h.html#a4edcd61c70a2e22ed69a93ced9da9126">  406</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a4edcd61c70a2e22ed69a93ced9da9126">getPalette</a>(u8 paletteEntry, u8 paletteSize, u16 *paletteColors);</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160; </div>
+<div class="line"><a name="l00413"></a><span class="lineno"><a class="line" href="video_8h.html#acbf8deabd274fb30b9448036296efb8d">  413</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#acbf8deabd274fb30b9448036296efb8d">getPaletteColor</a>(u8 paletteEntry, u16 *paletteColor);</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160; </div>
+<div class="line"><a name="l00419"></a><span class="lineno"><a class="line" href="video_8h.html#af7e722fd2eba5682bc0eafa9d5a9c51a">  419</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#af7e722fd2eba5682bc0eafa9d5a9c51a">setMode7</a>(u8 mode);</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160; </div>
+<div class="line"><a name="l00425"></a><span class="lineno"><a class="line" href="video_8h.html#a4d332cdc88b26fc9ec2cdd4f6710ce8c">  425</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a4d332cdc88b26fc9ec2cdd4f6710ce8c">setMode7Rot</a>(u8 angle);</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160; </div>
+<div class="line"><a name="l00431"></a><span class="lineno"><a class="line" href="video_8h.html#a44845006a2852ac2fa78c07bd1553d52">  431</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a44845006a2852ac2fa78c07bd1553d52">setMode7MoveForwardBack</a>(u8 z8);</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160; </div>
+<div class="line"><a name="l00437"></a><span class="lineno"><a class="line" href="video_8h.html#ade2a8e199ad857a17e402333123b1f43">  437</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#ade2a8e199ad857a17e402333123b1f43">setMode7MoveLeftRight</a>(u8 z8);</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160; </div>
+<div class="line"><a name="l00443"></a><span class="lineno"><a class="line" href="video_8h.html#ac4b1645f376fa266f0e614a1d7903a31">  443</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#ac4b1645f376fa266f0e614a1d7903a31">setMode7Angle</a>(u8 angle);</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160; </div>
+<div class="line"><a name="l00450"></a><span class="lineno"><a class="line" href="video_8h.html#a79a6e89e2d541b67229f6033ebc861ce">  450</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8h.html#a79a6e89e2d541b67229f6033ebc861ce">setMode7Scale</a>(u16 xscale, u16 yscale);</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160; </div>
+<div class="line"><a name="l00456"></a><span class="lineno"><a class="line" href="video_8h.html#a73861f0742d53e6f44385a673504c83c">  456</a></span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <a class="code" href="video_8h.html#a73861f0742d53e6f44385a673504c83c">getFPScounter</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160; </div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// SNES_VIDEO_INCLUDE</span></div>
 <div class="ttc" id="asnestypes_8h_html"><div class="ttname"><a href="snestypes_8h.html">snestypes.h</a></div><div class="ttdoc">Custom types used by libsnes.</div></div>
 <div class="ttc" id="asnestypes_8h_html_a3a8ea58898cb58fc96013383d39f482c"><div class="ttname"><a href="snestypes_8h.html#a3a8ea58898cb58fc96013383d39f482c">BIT</a></div><div class="ttdeci">#define BIT(n)</div><div class="ttdoc">bit field</div><div class="ttdef"><b>Definition:</b> snestypes.h:34</div></div>
 <div class="ttc" id="avideo_8h_html_a156a14f040a0569d1c1b59c94669aa6f"><div class="ttname"><a href="video_8h.html#a156a14f040a0569d1c1b59c94669aa6f">videoMode</a></div><div class="ttdeci">u8 videoMode</div><div class="ttdoc">Current value of REG_TM.</div></div>
@@ -285,18 +287,20 @@ $(document).ready(function(){initNavTree('video_8h_source.html',''); initResizab
 <div class="ttc" id="avideo_8h_html_a4edcd61c70a2e22ed69a93ced9da9126"><div class="ttname"><a href="video_8h.html#a4edcd61c70a2e22ed69a93ced9da9126">getPalette</a></div><div class="ttdeci">void getPalette(u8 paletteEntry, u8 paletteSize, u16 *paletteColors)</div><div class="ttdoc">Get a palette from CGRAM.</div></div>
 <div class="ttc" id="avideo_8h_html_a5623bfd6fefb79d4f21d260b7e333523"><div class="ttname"><a href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523">VideoControl</a></div><div class="ttdeci">VideoControl</div><div class="ttdoc">Bit defines for the video control registers.</div><div class="ttdef"><b>Definition:</b> video.h:38</div></div>
 <div class="ttc" id="avideo_8h_html_a5623bfd6fefb79d4f21d260b7e333523a186a04aac97f57626841934e087e19e5"><div class="ttname"><a href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a186a04aac97f57626841934e087e19e5">VRAM_ADRTR_9B</a></div><div class="ttdeci">@ VRAM_ADRTR_9B</div><div class="ttdoc">Address Translation (0..3 = 0bit/None, 8bit, 9bit, 10bit)</div><div class="ttdef"><b>Definition:</b> video.h:45</div></div>
-<div class="ttc" id="avideo_8h_html_a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460"><div class="ttname"><a href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a18d7f075e98fabe05beadc1e996cb460">VRAM_ADRSTINC_128</a></div><div class="ttdeci">@ VRAM_ADRSTINC_128</div><div class="ttdoc">Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128)</div><div class="ttdef"><b>Definition:</b> video.h:49</div></div>
 <div class="ttc" id="avideo_8h_html_a5623bfd6fefb79d4f21d260b7e333523a241f6a2b06bbaa6eec82a145c866e313"><div class="ttname"><a href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a241f6a2b06bbaa6eec82a145c866e313">VRAM_INCLOW</a></div><div class="ttdeci">@ VRAM_INCLOW</div><div class="ttdoc">Increment VRAM Address after accessing High/Low byte (0=Low, 1=High)</div><div class="ttdef"><b>Definition:</b> video.h:41</div></div>
 <div class="ttc" id="avideo_8h_html_a5623bfd6fefb79d4f21d260b7e333523a4f0d59c3d210f1962ae7080189338a04"><div class="ttname"><a href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a4f0d59c3d210f1962ae7080189338a04">VRAM_ADRTR_8B</a></div><div class="ttdeci">@ VRAM_ADRTR_8B</div><div class="ttdoc">Address Translation (0..3 = 0bit/None, 8bit, 9bit, 10bit)</div><div class="ttdef"><b>Definition:</b> video.h:44</div></div>
 <div class="ttc" id="avideo_8h_html_a5623bfd6fefb79d4f21d260b7e333523a5adddf918b1602129ea6fe279f9d0a70"><div class="ttname"><a href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523a5adddf918b1602129ea6fe279f9d0a70">VRAM_ADRSTINC_32</a></div><div class="ttdeci">@ VRAM_ADRSTINC_32</div><div class="ttdoc">Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128)</div><div class="ttdef"><b>Definition:</b> video.h:48</div></div>
+<div class="ttc" id="avideo_8h_html_a5623bfd6fefb79d4f21d260b7e333523aa533a55efdfa322714a967a57c982857"><div class="ttname"><a href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523aa533a55efdfa322714a967a57c982857">VRAM_ADRSTINC_128</a></div><div class="ttdeci">@ VRAM_ADRSTINC_128</div><div class="ttdoc">Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128)</div><div class="ttdef"><b>Definition:</b> video.h:49</div></div>
 <div class="ttc" id="avideo_8h_html_a5623bfd6fefb79d4f21d260b7e333523abe5c38b32a13a2867e46de5995aed60d"><div class="ttname"><a href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523abe5c38b32a13a2867e46de5995aed60d">VRAM_ADRTR_10B</a></div><div class="ttdeci">@ VRAM_ADRTR_10B</div><div class="ttdoc">Address Translation (0..3 = 0bit/None, 8bit, 9bit, 10bit)</div><div class="ttdef"><b>Definition:</b> video.h:46</div></div>
 <div class="ttc" id="avideo_8h_html_a5623bfd6fefb79d4f21d260b7e333523acbbc69e337e06fc13a5f572284c5ddfe"><div class="ttname"><a href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523acbbc69e337e06fc13a5f572284c5ddfe">VRAM_ADRTR_0B</a></div><div class="ttdeci">@ VRAM_ADRTR_0B</div><div class="ttdoc">Address Translation (0..3 = 0bit/None, 8bit, 9bit, 10bit)</div><div class="ttdef"><b>Definition:</b> video.h:43</div></div>
 <div class="ttc" id="avideo_8h_html_a5623bfd6fefb79d4f21d260b7e333523acef8d68eaf1d65e1bcf2ac9ee730c7d2"><div class="ttname"><a href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523acef8d68eaf1d65e1bcf2ac9ee730c7d2">DSP_FORCEVBL</a></div><div class="ttdeci">@ DSP_FORCEVBL</div><div class="ttdoc">Forced Blanking (0=Normal, 1=Screen Black)</div><div class="ttdef"><b>Definition:</b> video.h:39</div></div>
 <div class="ttc" id="avideo_8h_html_a5623bfd6fefb79d4f21d260b7e333523acfee058cf30c9aacc05573725e3775d8"><div class="ttname"><a href="video_8h.html#a5623bfd6fefb79d4f21d260b7e333523acfee058cf30c9aacc05573725e3775d8">VRAM_ADRSTINC_1</a></div><div class="ttdeci">@ VRAM_ADRSTINC_1</div><div class="ttdoc">Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128)</div><div class="ttdef"><b>Definition:</b> video.h:47</div></div>
+<div class="ttc" id="avideo_8h_html_a73861f0742d53e6f44385a673504c83c"><div class="ttname"><a href="video_8h.html#a73861f0742d53e6f44385a673504c83c">getFPScounter</a></div><div class="ttdeci">unsigned short getFPScounter(void)</div><div class="ttdoc">Return number of frames per second.</div></div>
 <div class="ttc" id="avideo_8h_html_a79a6e89e2d541b67229f6033ebc861ce"><div class="ttname"><a href="video_8h.html#a79a6e89e2d541b67229f6033ebc861ce">setMode7Scale</a></div><div class="ttdeci">void setMode7Scale(u16 xscale, u16 yscale)</div><div class="ttdoc">Change scaling effect of screen in mode 7.</div></div>
 <div class="ttc" id="avideo_8h_html_a87d6cb8ec2433c908666a0a7f2306cb4"><div class="ttname"><a href="video_8h.html#a87d6cb8ec2433c908666a0a7f2306cb4">setColorEffect</a></div><div class="ttdeci">void setColorEffect(u8 colorMathA, u8 colorMathB)</div><div class="ttdoc">Do addition or other color effects.</div></div>
 <div class="ttc" id="avideo_8h_html_aa14785c4eb1ce08cc02eb98d26c98c44"><div class="ttname"><a href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">setMosaicEffect</a></div><div class="ttdeci">void setMosaicEffect(u8 mode, u8 bgNumbers)</div><div class="ttdoc">Do a mosaic in or out effect.</div></div>
 <div class="ttc" id="avideo_8h_html_aaeaea299a3cfb90fa5232b842f7f7cd0"><div class="ttname"><a href="video_8h.html#aaeaea299a3cfb90fa5232b842f7f7cd0">setScreenOff</a></div><div class="ttdeci">void setScreenOff(void)</div><div class="ttdoc">Put screen Off.</div></div>
+<div class="ttc" id="avideo_8h_html_ab250fa2e5edfba747b7079a49508d92b"><div class="ttname"><a href="video_8h.html#ab250fa2e5edfba747b7079a49508d92b">snes_frame_count</a></div><div class="ttdeci">u16 snes_frame_count</div><div class="ttdoc">Number of frame per second (need a call to videoGetFrames() once a frame)</div></div>
 <div class="ttc" id="avideo_8h_html_abc7d4ef8ebc22f5b710927909bb3f144"><div class="ttname"><a href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a></div><div class="ttdeci">void setScreenOn(void)</div><div class="ttdoc">Put screen On.</div></div>
 <div class="ttc" id="avideo_8h_html_ac34bd13a8556c8ac8e1eeeded15f7632"><div class="ttname"><a href="video_8h.html#ac34bd13a8556c8ac8e1eeeded15f7632">setFadeEffect</a></div><div class="ttdeci">void setFadeEffect(u8 mode)</div><div class="ttdoc">Do a fadein or fadeout effect.</div></div>
 <div class="ttc" id="avideo_8h_html_ac4b1645f376fa266f0e614a1d7903a31"><div class="ttname"><a href="video_8h.html#ac4b1645f376fa266f0e614a1d7903a31">setMode7Angle</a></div><div class="ttdeci">void setMode7Angle(u8 angle)</div><div class="ttdoc">Change angle view in mode 7 without changing matrix.</div></div>
@@ -312,7 +316,7 @@ $(document).ready(function(){initNavTree('video_8h_source.html',''); initResizab
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="video_8h.html">video.h</a></li>
-    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 12 2024       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

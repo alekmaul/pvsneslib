@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.1.0</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -167,8 +167,8 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line">    <span class="comment">// grab the coordinates &amp; velocity pointers</span></div>
 <div class="line">    marioox = (u16 *)&amp;(marioobj-&gt;<a name="a10"></a><a class="code" href="structt__objs.html#a7d8d754f7264eebc304486e94750c5ce">xpos</a> + 1);</div>
 <div class="line">    mariooy = (u16 *)&amp;(marioobj-&gt;<a name="a11"></a><a class="code" href="structt__objs.html#af033b263019aea8c1fb4fd095dde7997">ypos</a> + 1);</div>
-<div class="line">    marioxv = (<span class="keywordtype">short</span> *)&amp;(marioobj-&gt;<a name="a12"></a><a class="code" href="structt__objs.html#ae7d9e737a340022fb479b10115082c64">xvel</a>);</div>
-<div class="line">    marioyv = (<span class="keywordtype">short</span> *)&amp;(marioobj-&gt;<a name="a13"></a><a class="code" href="structt__objs.html#a7aa31dcb802be971b0f425a01e6b843e">yvel</a>);</div>
+<div class="line">    marioxv = (<span class="keywordtype">short</span> *)&amp;(marioobj-&gt;<a name="a12"></a><a class="code" href="structt__objs.html#a3805bf290808a8490f0e866e58843e48">xvel</a>);</div>
+<div class="line">    marioyv = (<span class="keywordtype">short</span> *)&amp;(marioobj-&gt;<a name="a13"></a><a class="code" href="structt__objs.html#a401ea031f21458eb788a7c3150b5a3f0">yvel</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// update some variables for mario</span></div>
 <div class="line">    mariofidx = 0;</div>
@@ -240,13 +240,13 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line"><span class="keywordtype">void</span> marioupdate(u8 idx)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// Get pad value, no move for the moment</span></div>
-<div class="line">    pad0 = <a name="a23"></a><a class="code" href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
+<div class="line">    pad0 = <a name="a23"></a><a class="code" href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// check only the keys for the game</span></div>
-<div class="line">    <span class="keywordflow">if</span> (pad0 &amp; (<a name="a24"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a> | <a name="a25"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a> | <a name="a26"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>))</div>
+<div class="line">    <span class="keywordflow">if</span> (pad0 &amp; (<a name="a24"></a><a class="code" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a> | <a name="a25"></a><a class="code" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a> | <a name="a26"></a><a class="code" href="input_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>))</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// go to the left</span></div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a class="code" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a>)</div>
 <div class="line">        {</div>
 <div class="line">            <span class="comment">// update anim (sprites 2-3)</span></div>
 <div class="line">            <span class="keywordflow">if</span> ((marioflp &gt; 3) || (marioflp &lt; 2))</div>
@@ -262,7 +262,7 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line">                *marioxv = (-MARIO_MAXACCEL);</div>
 <div class="line">        }</div>
 <div class="line">        <span class="comment">// go to the right</span></div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a class="code" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a>)</div>
 <div class="line">        {</div>
 <div class="line">            <span class="comment">// update anim (sprites 2-3)</span></div>
 <div class="line">            <span class="keywordflow">if</span> ((marioflp &gt; 3) || (marioflp &lt; 2))</div>
@@ -278,14 +278,14 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line">                *marioxv = (MARIO_MAXACCEL);</div>
 <div class="line">        }</div>
 <div class="line">        <span class="comment">// jump</span></div>
-<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>)</div>
+<div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a class="code" href="input_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>)</div>
 <div class="line">        {</div>
 <div class="line">            <span class="comment">// we can jump only if we are on ground</span></div>
 <div class="line">            <span class="keywordflow">if</span> ((marioobj-&gt;<a name="a28"></a><a class="code" href="structt__objs.html#aeef697f0fac50641778967745a612f29">tilestand</a> != 0))</div>
 <div class="line">            {</div>
 <div class="line">                marioobj-&gt;<a class="code" href="structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d">action</a> = <a name="a29"></a><a class="code" href="map_8h.html#a4617d14626ea66580d7996705d0a5bce">ACT_JUMP</a>;</div>
 <div class="line">                <span class="comment">// if key up, jump 2x more</span></div>
-<div class="line">                <span class="keywordflow">if</span> (pad0 &amp; <a name="a30"></a><a class="code" href="network_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a>)</div>
+<div class="line">                <span class="keywordflow">if</span> (pad0 &amp; <a name="a30"></a><a class="code" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a>)</div>
 <div class="line">                    *marioyv = -(MARIO_HIJUMPING);</div>
 <div class="line">                <span class="keywordflow">else</span></div>
 <div class="line">                    *marioyv = -(MARIO_JUMPING);</div>
@@ -364,47 +364,47 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line">    <a name="a53"></a><a class="code" href="object_8h.html#ad010f8c119dbd982acd9ddd859f2acec">objInitEngine</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init function for state machine</span></div>
-<div class="line">    objInitFunctions(0, &amp;marioinit, &amp;marioupdate, NULL);</div>
+<div class="line">    <a name="a54"></a><a class="code" href="object_8h.html#a7e95928105307a3b96b1b79a096917e1">objInitFunctions</a>(0, &amp;marioinit, &amp;marioupdate, NULL);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Load all objects into memory</span></div>
-<div class="line">    <a name="a54"></a><a class="code" href="object_8h.html#aeda7828a0cb93ff1985ac0237ac5871b">objLoadObjects</a>((<span class="keywordtype">char</span> *)&amp;objmario);</div>
+<div class="line">    <a name="a55"></a><a class="code" href="object_8h.html#aeda7828a0cb93ff1985ac0237ac5871b">objLoadObjects</a>((<span class="keywordtype">char</span> *)&amp;objmario);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Load map in memory and update it regarding current location of the sprite</span></div>
-<div class="line">    <a name="a55"></a><a class="code" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">mapLoad</a>((u8 *)&amp;mapmario, (u8 *)&amp;tilesetdef, (u8 *)&amp;tilesetatt);</div>
+<div class="line">    <a name="a56"></a><a class="code" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">mapLoad</a>((u8 *)&amp;mapmario, (u8 *)&amp;tilesetdef, (u8 *)&amp;tilesetatt);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode and disable BG3</span></div>
-<div class="line">    <a name="a56"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE1, 0);</div>
-<div class="line">    <a name="a57"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
+<div class="line">    <a name="a57"></a><a class="code" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE1, 0);</div>
+<div class="line">    <a name="a58"></a><a class="code" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Put some text</span></div>
-<div class="line">    <a name="a58"></a><a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(6, 16, <span class="stringliteral">&quot;MARIOx00  WORLD TIME&quot;</span>);</div>
+<div class="line">    <a name="a59"></a><a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(6, 16, <span class="stringliteral">&quot;MARIOx00  WORLD TIME&quot;</span>);</div>
 <div class="line">    <a class="code" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(6, 17, <span class="stringliteral">&quot; 00000 ox00 1-1  000&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Put screen on</span></div>
-<div class="line">    <a name="a59"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
+<div class="line">    <a name="a60"></a><a class="code" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Play file from the beginning</span></div>
-<div class="line">    <a name="a60"></a><a class="code" href="sound_8h.html#aebf91de1df5e4fa83454a84bb0e60918">spcPlay</a>(0);</div>
-<div class="line">    <a name="a61"></a><a class="code" href="sound_8h.html#ae2c8dfab62ceecf5c302c95f5453a752">spcSetModuleVolume</a>(100);</div>
+<div class="line">    <a name="a61"></a><a class="code" href="sound_8h.html#aebf91de1df5e4fa83454a84bb0e60918">spcPlay</a>(0);</div>
+<div class="line">    <a name="a62"></a><a class="code" href="sound_8h.html#ae2c8dfab62ceecf5c302c95f5453a752">spcSetModuleVolume</a>(100);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Wait VBL &#39;and update sprites too ;-) )</span></div>
-<div class="line">    <a name="a62"></a><a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
+<div class="line">    <a name="a63"></a><a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Wait for nothing :P</span></div>
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// Update the map regarding the camera</span></div>
-<div class="line">        <a name="a63"></a><a class="code" href="map_8h.html#a332bfe570835ef05934b712fd9701c88">mapUpdate</a>();</div>
+<div class="line">        <a name="a64"></a><a class="code" href="map_8h.html#a332bfe570835ef05934b712fd9701c88">mapUpdate</a>();</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Update all the available objects</span></div>
-<div class="line">        <a name="a64"></a><a class="code" href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a>();</div>
+<div class="line">        <a name="a65"></a><a class="code" href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a>();</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// prepare next frame and wait vblank</span></div>
-<div class="line">        <a name="a65"></a><a class="code" href="sprite_8h.html#ac9eb3b2751e5b744470cd16453ff3261">oamInitDynamicSpriteEndFrame</a>();</div>
-<div class="line">        <a name="a66"></a><a class="code" href="sound_8h.html#acab7d87110bac6baa9d74ab314772c98">spcProcess</a>();</div>
+<div class="line">        <a name="a66"></a><a class="code" href="sprite_8h.html#ac9eb3b2751e5b744470cd16453ff3261">oamInitDynamicSpriteEndFrame</a>();</div>
+<div class="line">        <a name="a67"></a><a class="code" href="sound_8h.html#acab7d87110bac6baa9d74ab314772c98">spcProcess</a>();</div>
 <div class="line">        <a class="code" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">        <a name="a67"></a><a class="code" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a>();</div>
-<div class="line">        <a name="a68"></a><a class="code" href="sprite_8h.html#a4f830004646995018000dae0f898d221">oamVramQueueUpdate</a>();</div>
+<div class="line">        <a name="a68"></a><a class="code" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a>();</div>
+<div class="line">        <a name="a69"></a><a class="code" href="sprite_8h.html#a4f830004646995018000dae0f898d221">oamVramQueueUpdate</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
@@ -418,6 +418,11 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="ttc" id="aconsole_8h_html_a6047713bb5a73afd3cd1d77e336bcdad"><div class="ttname"><a href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">consoleInit</a></div><div class="ttdeci">void consoleInit(void)</div><div class="ttdoc">Initialize console.</div></div>
 <div class="ttc" id="aconsole_8h_html_a7e52d15b5a1befa42f5758de19dfb70c"><div class="ttname"><a href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a></div><div class="ttdeci">void consoleDrawText(u16 x, u16 y, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen (tiles mode)</div></div>
 <div class="ttc" id="aconsole_8h_html_ab2c949172b9690e58ffb9b3294a36b38"><div class="ttname"><a href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">consoleSetTextVramBGAdr</a></div><div class="ttdeci">void consoleSetTextVramBGAdr(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
+<div class="ttc" id="ainput_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> input.h:161</div></div>
+<div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a></div><div class="ttdeci">@ KEY_UP</div><div class="ttdoc">pad UP button.</div><div class="ttdef"><b>Definition:</b> input.h:55</div></div>
+<div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a></div><div class="ttdeci">@ KEY_LEFT</div><div class="ttdoc">pad LEFT button.</div><div class="ttdef"><b>Definition:</b> input.h:53</div></div>
+<div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a></div><div class="ttdeci">@ KEY_RIGHT</div><div class="ttdoc">pad RIGHT button.</div><div class="ttdef"><b>Definition:</b> input.h:52</div></div>
+<div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition:</b> input.h:48</div></div>
 <div class="ttc" id="ainterrupt_8h_html_abd33830487e4764e5ec22ec98b749f4b"><div class="ttname"><a href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Wait for vblank interrupt</div></div>
 <div class="ttc" id="amap_8h_html_a15e3d01a91c5650e4de9a6e6be131d34"><div class="ttname"><a href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a></div><div class="ttdeci">void mapVblank(void)</div><div class="ttdoc">Display map regarding current buffer (must be done once per frame, near Vblank)</div></div>
 <div class="ttc" id="amap_8h_html_a227eedee0994ff2eac6ed2b691d9bcb3"><div class="ttname"><a href="map_8h.html#a227eedee0994ff2eac6ed2b691d9bcb3">ACT_STAND</a></div><div class="ttdeci">#define ACT_STAND</div><div class="ttdoc">Action type STAND for object.</div><div class="ttdef"><b>Definition:</b> map.h:45</div></div>
@@ -428,15 +433,11 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="ttc" id="amap_8h_html_a912cfae6ccf6375f3c2831d65646c76b"><div class="ttname"><a href="map_8h.html#a912cfae6ccf6375f3c2831d65646c76b">ACT_WALK</a></div><div class="ttdeci">#define ACT_WALK</div><div class="ttdoc">Action type WALK for object.</div><div class="ttdef"><b>Definition:</b> map.h:46</div></div>
 <div class="ttc" id="amap_8h_html_aa113f9698adeb4ddea559d2cdaf82d96"><div class="ttname"><a href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">mapLoad</a></div><div class="ttdeci">void mapLoad(u8 *layer1map, u8 *layertiles, u8 *tilesprop)</div><div class="ttdoc">Load map definition into memory.</div></div>
 <div class="ttc" id="amap_8h_html_ab8720c97e886ceabda97c6beff2e5864"><div class="ttname"><a href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">mapUpdateCamera</a></div><div class="ttdeci">void mapUpdateCamera(u16 xpos, u16 ypos)</div><div class="ttdoc">Update map camera (must be done once per frame)</div></div>
-<div class="ttc" id="anetwork_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="network_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition:</b> network.h:122</div></div>
-<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a></div><div class="ttdeci">@ KEY_UP</div><div class="ttdoc">pad UP button.</div><div class="ttdef"><b>Definition:</b> network.h:55</div></div>
-<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a></div><div class="ttdeci">@ KEY_LEFT</div><div class="ttdoc">pad LEFT button.</div><div class="ttdef"><b>Definition:</b> network.h:53</div></div>
-<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072a6504370d9c6391e1a9da6a1a529b089d">KEY_RIGHT</a></div><div class="ttdeci">@ KEY_RIGHT</div><div class="ttdoc">pad RIGHT button.</div><div class="ttdef"><b>Definition:</b> network.h:52</div></div>
-<div class="ttc" id="anetwork_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="network_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition:</b> network.h:48</div></div>
 <div class="ttc" id="aobject_8h_html_a1567925f4b8a87ce6f09aa10980df652"><div class="ttname"><a href="object_8h.html#a1567925f4b8a87ce6f09aa10980df652">objUpdateXY</a></div><div class="ttdeci">void objUpdateXY(u16 objhandle)</div><div class="ttdoc">Update X &amp; Y coordinates of object regarding its own velocitys.</div></div>
 <div class="ttc" id="aobject_8h_html_a70a85e34d3b6008e897c1e8a7d6232c1"><div class="ttname"><a href="object_8h.html#a70a85e34d3b6008e897c1e8a7d6232c1">objbuffers</a></div><div class="ttdeci">t_objs objbuffers[OB_MAX]</div><div class="ttdoc">current object buffer with all objects</div></div>
 <div class="ttc" id="aobject_8h_html_a79ff81c8642b2398a03519c279c2f132"><div class="ttname"><a href="object_8h.html#a79ff81c8642b2398a03519c279c2f132">objNew</a></div><div class="ttdeci">u16 objNew(u8 objtype, u16 x, u16 y)</div><div class="ttdoc">Initialize a new object in game, objgetid will has the id of the object.</div></div>
 <div class="ttc" id="aobject_8h_html_a7b24f15ef5ef84efb8f31ddb7ba22c99"><div class="ttname"><a href="object_8h.html#a7b24f15ef5ef84efb8f31ddb7ba22c99">objCollidMap</a></div><div class="ttdeci">void objCollidMap(u16 objhandle)</div><div class="ttdoc">check if an object collides the map</div></div>
+<div class="ttc" id="aobject_8h_html_a7e95928105307a3b96b1b79a096917e1"><div class="ttname"><a href="object_8h.html#a7e95928105307a3b96b1b79a096917e1">objInitFunctions</a></div><div class="ttdeci">void objInitFunctions(u8 objtype, void *initfct, void *updfct, void *reffct)</div><div class="ttdoc">Initialize the object type functions (initialize, update)</div></div>
 <div class="ttc" id="aobject_8h_html_a9e81915d1e68d22798a93bb27eb74188"><div class="ttname"><a href="object_8h.html#a9e81915d1e68d22798a93bb27eb74188">objptr</a></div><div class="ttdeci">u16 objptr</div><div class="ttdoc">pointer to current object</div></div>
 <div class="ttc" id="aobject_8h_html_aa3240dfaeaa1b670114283de49dc6526"><div class="ttname"><a href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a></div><div class="ttdeci">void objUpdateAll(void)</div><div class="ttdoc">call update function for all objects currently active (if they are in &quot;virtual screen&quot; coordinates).</div></div>
 <div class="ttc" id="aobject_8h_html_aba30a57977f35e1632eb81b5ae39321f"><div class="ttname"><a href="object_8h.html#aba30a57977f35e1632eb81b5ae39321f">objGetPointer</a></div><div class="ttdeci">void objGetPointer(u16 objhandle)</div><div class="ttdoc">get the pointer to an object from its handle (need to do -1 to have offset after),...</div></div>
@@ -460,15 +461,15 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="ttc" id="asprite_8h_html_adc3b431ee9b6bc613e5e4e6734dbfc08"><div class="ttname"><a href="sprite_8h.html#adc3b431ee9b6bc613e5e4e6734dbfc08">oamInitDynamicSprite</a></div><div class="ttdeci">void oamInitDynamicSprite(u16 gfxsp0adr, u16 gfxsp1adr, u16 oamsp0init, u16 oamsp1init, u8 oamsize)</div><div class="ttdoc">initialize the dynamic sprite engine with each sprite size entries</div></div>
 <div class="ttc" id="asprite_8h_html_aebd07ed4460088c9f3b1aca4ddbbcda8"><div class="ttname"><a href="sprite_8h.html#aebd07ed4460088c9f3b1aca4ddbbcda8">oamDynamic16Draw</a></div><div class="ttdeci">void oamDynamic16Draw(u16 id)</div><div class="ttdoc">Add a 16x16 sprite on screen. oambuffer[id] needs to be populate before.</div></div>
 <div class="ttc" id="astructbrrsamples_html"><div class="ttname"><a href="structbrrsamples.html">brrsamples</a></div><div class="ttdoc">brr sample sound header(8 bytes)</div><div class="ttdef"><b>Definition:</b> sound.h:51</div></div>
-<div class="ttc" id="astructt__objs_html"><div class="ttname"><a href="structt__objs.html">t_objs</a></div><div class="ttdoc">object definition (64 bytes)</div><div class="ttdef"><b>Definition:</b> object.h:45</div></div>
-<div class="ttc" id="astructt__objs_html_a3bf3757f174f93270ff558d1351a7872"><div class="ttname"><a href="structt__objs.html#a3bf3757f174f93270ff558d1351a7872">t_objs::height</a></div><div class="ttdeci">u16 height</div><div class="ttdef"><b>Definition:</b> object.h:61</div></div>
-<div class="ttc" id="astructt__objs_html_a44853e98e10b36f63d1d0d23ff37ecd0"><div class="ttname"><a href="structt__objs.html#a44853e98e10b36f63d1d0d23ff37ecd0">t_objs::width</a></div><div class="ttdeci">u16 width</div><div class="ttdef"><b>Definition:</b> object.h:60</div></div>
-<div class="ttc" id="astructt__objs_html_a7aa31dcb802be971b0f425a01e6b843e"><div class="ttname"><a href="structt__objs.html#a7aa31dcb802be971b0f425a01e6b843e">t_objs::yvel</a></div><div class="ttdeci">u16 yvel</div><div class="ttdef"><b>Definition:</b> object.h:65</div></div>
-<div class="ttc" id="astructt__objs_html_a7d8d754f7264eebc304486e94750c5ce"><div class="ttname"><a href="structt__objs.html#a7d8d754f7264eebc304486e94750c5ce">t_objs::xpos</a></div><div class="ttdeci">u8 xpos[3]</div><div class="ttdef"><b>Definition:</b> object.h:56</div></div>
-<div class="ttc" id="astructt__objs_html_ae7d9e737a340022fb479b10115082c64"><div class="ttname"><a href="structt__objs.html#ae7d9e737a340022fb479b10115082c64">t_objs::xvel</a></div><div class="ttdeci">u16 xvel</div><div class="ttdef"><b>Definition:</b> object.h:64</div></div>
-<div class="ttc" id="astructt__objs_html_aeef697f0fac50641778967745a612f29"><div class="ttname"><a href="structt__objs.html#aeef697f0fac50641778967745a612f29">t_objs::tilestand</a></div><div class="ttdeci">u16 tilestand</div><div class="ttdef"><b>Definition:</b> object.h:66</div></div>
-<div class="ttc" id="astructt__objs_html_af033b263019aea8c1fb4fd095dde7997"><div class="ttname"><a href="structt__objs.html#af033b263019aea8c1fb4fd095dde7997">t_objs::ypos</a></div><div class="ttdeci">u8 ypos[3]</div><div class="ttdef"><b>Definition:</b> object.h:57</div></div>
-<div class="ttc" id="astructt__objs_html_af4bfdc0bbd947feb9ea45fd95f735a9d"><div class="ttname"><a href="structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d">t_objs::action</a></div><div class="ttdeci">u16 action</div><div class="ttdef"><b>Definition:</b> object.h:70</div></div>
+<div class="ttc" id="astructt__objs_html"><div class="ttname"><a href="structt__objs.html">t_objs</a></div><div class="ttdoc">object definition (64 bytes)</div><div class="ttdef"><b>Definition:</b> object.h:49</div></div>
+<div class="ttc" id="astructt__objs_html_a3805bf290808a8490f0e866e58843e48"><div class="ttname"><a href="structt__objs.html#a3805bf290808a8490f0e866e58843e48">t_objs::xvel</a></div><div class="ttdeci">s16 xvel</div><div class="ttdef"><b>Definition:</b> object.h:68</div></div>
+<div class="ttc" id="astructt__objs_html_a3bf3757f174f93270ff558d1351a7872"><div class="ttname"><a href="structt__objs.html#a3bf3757f174f93270ff558d1351a7872">t_objs::height</a></div><div class="ttdeci">u16 height</div><div class="ttdef"><b>Definition:</b> object.h:65</div></div>
+<div class="ttc" id="astructt__objs_html_a401ea031f21458eb788a7c3150b5a3f0"><div class="ttname"><a href="structt__objs.html#a401ea031f21458eb788a7c3150b5a3f0">t_objs::yvel</a></div><div class="ttdeci">s16 yvel</div><div class="ttdef"><b>Definition:</b> object.h:69</div></div>
+<div class="ttc" id="astructt__objs_html_a44853e98e10b36f63d1d0d23ff37ecd0"><div class="ttname"><a href="structt__objs.html#a44853e98e10b36f63d1d0d23ff37ecd0">t_objs::width</a></div><div class="ttdeci">u16 width</div><div class="ttdef"><b>Definition:</b> object.h:64</div></div>
+<div class="ttc" id="astructt__objs_html_a7d8d754f7264eebc304486e94750c5ce"><div class="ttname"><a href="structt__objs.html#a7d8d754f7264eebc304486e94750c5ce">t_objs::xpos</a></div><div class="ttdeci">u8 xpos[3]</div><div class="ttdef"><b>Definition:</b> object.h:60</div></div>
+<div class="ttc" id="astructt__objs_html_aeef697f0fac50641778967745a612f29"><div class="ttname"><a href="structt__objs.html#aeef697f0fac50641778967745a612f29">t_objs::tilestand</a></div><div class="ttdeci">u16 tilestand</div><div class="ttdef"><b>Definition:</b> object.h:70</div></div>
+<div class="ttc" id="astructt__objs_html_af033b263019aea8c1fb4fd095dde7997"><div class="ttname"><a href="structt__objs.html#af033b263019aea8c1fb4fd095dde7997">t_objs::ypos</a></div><div class="ttdeci">u8 ypos[3]</div><div class="ttdef"><b>Definition:</b> object.h:61</div></div>
+<div class="ttc" id="astructt__objs_html_af4bfdc0bbd947feb9ea45fd95f735a9d"><div class="ttname"><a href="structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d">t_objs::action</a></div><div class="ttdeci">u16 action</div><div class="ttdef"><b>Definition:</b> object.h:74</div></div>
 <div class="ttc" id="astructt__sprites_html_a0928afd4ac9d8c3c5cceefa44c3a520a"><div class="ttname"><a href="structt__sprites.html#a0928afd4ac9d8c3c5cceefa44c3a520a">t_sprites::oamframeid</a></div><div class="ttdeci">u16 oamframeid</div><div class="ttdoc">4 frame index in graphic file of the sprite</div><div class="ttdef"><b>Definition:</b> sprite.h:62</div></div>
 <div class="ttc" id="astructt__sprites_html_a562c9dae7fe86f4faa5a9b2651567004"><div class="ttname"><a href="structt__sprites.html#a562c9dae7fe86f4faa5a9b2651567004">t_sprites::oamx</a></div><div class="ttdeci">s16 oamx</div><div class="ttdoc">0 x position on the screen</div><div class="ttdef"><b>Definition:</b> sprite.h:60</div></div>
 <div class="ttc" id="astructt__sprites_html_a5e3bc84cd8412db107dd282ccb5a5738"><div class="ttname"><a href="structt__sprites.html#a5e3bc84cd8412db107dd282ccb5a5738">t_sprites::oamgraphics</a></div><div class="ttdeci">u8 * oamgraphics</div><div class="ttdoc">8..11 pointer to graphic file</div><div class="ttdef"><b>Definition:</b> sprite.h:65</div></div>
@@ -476,14 +477,14 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="ttc" id="astructt__sprites_html_ac0fb1ea59809017c11430630430e864d"><div class="ttname"><a href="structt__sprites.html#ac0fb1ea59809017c11430630430e864d">t_sprites::oamattribute</a></div><div class="ttdeci">u8 oamattribute</div><div class="ttdoc">6 sprite attribute value (vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette n...</div><div class="ttdef"><b>Definition:</b> sprite.h:63</div></div>
 <div class="ttc" id="astructt__sprites_html_ac4e74ac3a1b9ad5b2f756c512f608cb8"><div class="ttname"><a href="structt__sprites.html#ac4e74ac3a1b9ad5b2f756c512f608cb8">t_sprites::oamrefresh</a></div><div class="ttdeci">u8 oamrefresh</div><div class="ttdoc">7 =1 if we need to load graphics from graphic file</div><div class="ttdef"><b>Definition:</b> sprite.h:64</div></div>
 <div class="ttc" id="avideo_8h_html_abc7d4ef8ebc22f5b710927909bb3f144"><div class="ttname"><a href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a></div><div class="ttdeci">void setScreenOn(void)</div><div class="ttdoc">Put screen On.</div></div>
-<div class="ttc" id="avideo_8h_html_ae29ed0390bca0390d3fdf55362a3663b"><div class="ttname"><a href="video_8h.html#ae29ed0390bca0390d3fdf55362a3663b">setPalette</a></div><div class="ttdeci">#define setPalette(palette, paletteEntry, paletteSize)</div><div class="ttdoc">Change a palette in CGRAM.</div><div class="ttdef"><b>Definition:</b> video.h:387</div></div>
+<div class="ttc" id="avideo_8h_html_ae29ed0390bca0390d3fdf55362a3663b"><div class="ttname"><a href="video_8h.html#ae29ed0390bca0390d3fdf55362a3663b">setPalette</a></div><div class="ttdeci">#define setPalette(palette, paletteEntry, paletteSize)</div><div class="ttdoc">Change a palette in CGRAM.</div><div class="ttdef"><b>Definition:</b> video.h:388</div></div>
 <div class="ttc" id="avideo_8h_html_afd9e46ae627d055dd8c98a4b0ebb73b1"><div class="ttname"><a href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a></div><div class="ttdeci">void setMode(u8 mode, u8 size)</div><div class="ttdoc">Set the SNES hardware to operate in new display mode.</div></div>
 </div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Aug 20 2023       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 12 2024       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.1 </li>
 </div>
 </body>
 </html>

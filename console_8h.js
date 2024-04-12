@@ -1,12 +1,14 @@
 var console_8h =
 [
     [ "consoleCopySram", "console_8h.html#ac3c55f6e16ff70d19c046404b9aa8a9b", null ],
+    [ "consoleCopySramWithOffset", "console_8h.html#a46f2e0184bbdeaad57a7fc2f9bb8c0c6", null ],
     [ "consoleDrawText", "console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c", null ],
     [ "consoleDrawTextMap", "console_8h.html#ab062e25ee448ec8a56aa73107c33491f", null ],
     [ "consoleDrawTextMapCenter", "console_8h.html#a514ade13c61cd2f237bd100d78d5e11d", null ],
     [ "consoleInit", "console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad", null ],
     [ "consoleInitText", "console_8h.html#a5413265662e30a0ded3fee6d3c4781f9", null ],
     [ "consoleLoadSram", "console_8h.html#abe1fabedc24a3adef79f32e02c3bc2d5", null ],
+    [ "consoleLoadSramWithOffset", "console_8h.html#ae0dffef580d764d61fe92d2bbb937f1e", null ],
     [ "consoleMesenBreakpoint", "console_8h.html#a8620fbe47bc2afe99a59c67fae3b7b23", null ],
     [ "consoleNocashMessage", "console_8h.html#a3a226cebe7d59aac755e03e1061ff727", null ],
     [ "consoleRegionIsOK", "console_8h.html#ad9f96595d599dca8d09df3da5200a8a8", null ],
