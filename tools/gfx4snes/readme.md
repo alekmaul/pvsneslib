@@ -11,7 +11,7 @@
                                           
 ```
 A graphic converter for Super Nintendo development  
-Developed by ALekmaul and distributed under the terms of the [MIT license](./LICENSE).
+Developed by Alekmaul and distributed under the terms of the [MIT license](./LICENSE).
 
 ## Usage
 ```
