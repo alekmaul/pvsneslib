@@ -703,12 +703,9 @@ _10:
 	jsr     speed_change
 	stz     connect_st+1
 
-	bra    _30
-
 _20:
 	dex
 	lda     REG_JOY1L           ; Joy1
-
 	jsr     mouse_data
 
 	lda     connect_st
@@ -718,6 +715,13 @@ _20:
 	stz     connect_st
 
 _30:
+
+	lda     mouseConnect
+	ora     mouseConnect+1
+	bne     +
+	stz     snes_mouse           ; Disable mouse flag if no mouse connected
+
++:
 	ply
 	plx
 	plb
@@ -737,8 +741,6 @@ mouse_data:
 	stz     mousePressed,x
 	stz     mouse_x,x
 	stz     mouse_y,x
-
-	stz     snes_mouse
 
 	rts
 
