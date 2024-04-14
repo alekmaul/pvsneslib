@@ -43,12 +43,6 @@ int main(void)
     // Initialize SNES
     consoleInit();
 
-    // we set mouse speed, or it will just output a random speed. We can change it later manually
-    mouseSpeedSet[0] = slow;
-    mouseSpeedSet[1] = slow;
-
-    detectMouse(); // Let's check if a mouse is plugged in any port on boot
-
     // Init cursors sprite
     oamInitGfxSet(&cursorsprite, (&cursorsprite_end - &cursorsprite), &cursorpal, 48 * 2, 0, 0x0000, OBJ_SIZE16_L32);
 
@@ -61,7 +55,12 @@ int main(void)
     // Draw a wonderful text :P
     consoleDrawText(11, 1, "MOUSE TEST");
 
-    WaitForVBlank(); // Let's make sure we read mouse for the first time
+    // we set mouse speed, or it will just output a random speed. We can change it later manually
+    mouseSpeedSet[0] = slow;
+    mouseSpeedSet[1] = slow;
+
+    detectMouse(); // Let's check if a mouse is plugged in any port on boot, be sure nmi interrupt was called at least once (in this case, previous oamInitGfxSet() function was enough)
+    WaitForVBlank(); // Let's make sure we read mouse for the first time after detectMouse()
 
     if (mouseConnect[0] == false)
         consoleDrawText(3, 5, "NO MOUSE PLUGGED ON PORT 0");
@@ -71,7 +70,7 @@ int main(void)
         dmaCopyVram(&buttonsmap + 0xA0, 0x61A8, 0x0A); // SLOW button pressed
         dmaCopyVram(&buttonsmap + 0x4A, 0x618D, 0x16); // released buttons
         dmaCopyVram(&buttonsmap + 0x8A, 0x61AD, 0x16); // released buttons
-        consoleDrawText(4, 5, "MOUSE PLUGGED ON PORT 0");
+        consoleDrawText(5, 5, "MOUSE PLUGGED ON PORT 0");
     }
 
     if (mouseConnect[1] == false)
@@ -82,7 +81,7 @@ int main(void)
         dmaCopyVram(&buttonsmap + 0xA0, 0x6328, 0x0A); // SLOW button pressed
         dmaCopyVram(&buttonsmap + 0x4A, 0x630D, 0x16); // released buttons
         dmaCopyVram(&buttonsmap + 0x8A, 0x632D, 0x16); // released buttons
-        consoleDrawText(4, 17, "MOUSE PLUGGED ON PORT 1");
+        consoleDrawText(5, 17, "MOUSE PLUGGED ON PORT 1");
     }
 
     // Init background
