@@ -455,4 +455,9 @@ void setMode7Scale(u16 xscale, u16 yscale);
 */
 unsigned short getFPScounter(void);
 
+/*! \fn  showFPScounter(void)
+    \brief Show on current text BG, at location 1,1 the number of frames per second.
+*/
+void showFPScounter(void);
+
 #endif // SNES_VIDEO_INCLUDE

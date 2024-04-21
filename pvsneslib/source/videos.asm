@@ -1138,3 +1138,60 @@ _gfctr1:
     rtl
 
 .ENDS
+
+.SECTION ".videos91_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+; void showFPScounter(void)
+showFPScounter:
+    php
+    phb
+
+    jsl getFPScounter                                   ; compute fps
+
+    sep #$20
+
+    lda.l snes_frame_count
+    sta.l $4204
+    lda.l snes_frame_count+1                            ; Write $fps to dividend
+    sta.l $4205
+    LDA #10                                             ; Write 10 to divisor
+    sta.l $4206
+    nop                                                 ; Wait 16 machine cycles
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+
+    lda #$80	                                        ; VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1  set address in VRam for read or write ($2116) + block size transfer ($2115)
+    sta.l $2115
+    rep #$20
+    lda.l txt_vram_bg
+    clc 
+    adc #(1*32+1)                                       ; will put at location 1,1 on character vram BG
+    sta.l $2116
+
+    sep #$20
+    lda.l $4214                                         ; A = result low byte ($4215 result high byte)
+    clc
+    adc #$10                                            ; to have number 0 of graphic
+	sta.l $2118
+    lda #$1
+	sta.l $2119
+
+    lda.l $4216                                         ; A = remainder low byte ($4216 remainder high byte)
+    clc
+    adc #$10                                            ; to have number 0 of graphic
+	sta.l $2118
+    lda #$1
+	sta.l $2119
+
+    plb
+    plp
+    rtl
+
+.ENDS
+
