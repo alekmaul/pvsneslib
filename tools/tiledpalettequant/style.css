@@ -1,0 +1,27 @@
+img {
+  image-rendering: pixelated;
+}
+
+canvas {
+  image-rendering: pixelated;
+}
+
+h2 {
+  font-size: 14px;
+  margin: 0 0 8px 0;
+  padding: 0;
+}
+
+body {
+  font-family: Open Sans, sans-serif;
+  font-size: 14px;
+  color: black;
+  background: #ededed;
+  display: flex;
+  display: -webkit-flex;
+  align-items: center;
+  -webkit-align-items: center;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+}
+
