@@ -18,9 +18,6 @@ int main(void)
     unsigned short pad0, pad1 = 0;
     unsigned char gradient = 15;
 
-    // Initialize SNES
-    consoleInit();
-
     // Read tiles to VRAM in 2 phases because we are more than 32k
     bgInitTileSet(0, &patterns, &palette, 0, 0x8000, 256 * 2, BG_256COLORS, 0x1000);
     dmaCopyVram(&patterns1, 0x5000, 0x6000);

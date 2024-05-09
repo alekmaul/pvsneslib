@@ -15,6 +15,7 @@ extern char sprite64, sprite64_end, palsprite64, palsprite64_end;
 
 u16 selectedItem;
 bool keyPressed;
+unsigned short pad0;
 
 #define ADRBG1 0x2000
 
@@ -103,11 +104,6 @@ void changeObjSize()
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    unsigned short pad0;
-
-    // Initialize SNES
-    consoleInit();
-
     // Initialize text console with our font
     consoleSetTextVramBGAdr(0x6800);
     consoleSetTextVramAdr(0x3000);

@@ -19,9 +19,6 @@ int main(void)
     // Initialize sound engine (take some time)
     spcBoot();
 
-    // Initialize SNES
-    consoleInit();
-
     // Initialize text console with our font
     consoleSetTextVramBGAdr(0x6800);
     consoleSetTextVramAdr(0x3000);

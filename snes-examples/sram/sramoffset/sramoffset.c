@@ -13,6 +13,9 @@
 
 extern char snesfont, snespal;
 char sz[16];
+
+unsigned short pad0;
+
 typedef struct
 {
     s16 posX, posY;
@@ -67,11 +70,6 @@ void LoadSlot2()
 
 int main(void)
 {
-    unsigned short pad0;
-
-    // Initialize SNES
-    consoleInit();
-
     // Initialize text console with our font
     consoleSetTextVramBGAdr(0x6800);
     consoleSetTextVramAdr(0x3000);

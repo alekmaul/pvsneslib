@@ -15,9 +15,6 @@ extern char map, map_end;
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    // Initialize SNES
-    consoleInit();
-
     // Read tiles to VRAM in 2 phases because we are more than 32k
     bgInitTileSet(0, &patterns, &palette, 0, 0x8000, 256 * 2, BG_256COLORS, 0x0000);
     WaitForVBlank();

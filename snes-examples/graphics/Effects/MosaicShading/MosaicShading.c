@@ -15,9 +15,6 @@ extern char map, map_end;
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    // Initialize console
-    consoleInit();
-
     // Copy tiles to VRAM
     bgInitTileSet(0, &patterns, &palette, 0, (&patterns_end - &patterns), (&palette_end - &palette), BG_16COLORS, 0x4000);
 

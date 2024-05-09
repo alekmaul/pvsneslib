@@ -408,9 +408,6 @@ void setMode7_HdmaPerspective(void)
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    // Initialize SNES
-    consoleInit();
-
     // copy a mode 7 map and tiles (1024x1024 - VRAM 0000), to fake a ground
     bgInitMapTileSet7(&patterns, &map, &palette, (&patterns_end - &patterns), 0x0000);
 

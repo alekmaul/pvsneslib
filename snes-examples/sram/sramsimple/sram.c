@@ -12,15 +12,12 @@ extern char snesfont, snespal;
 
 unsigned short valToSave = 0xCAFE, valToLoad;
 
+unsigned short pad0;
+char sz[16];
+
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    unsigned short pad0;
-    char sz[16];
-
-    // Initialize SNES
-    consoleInit();
-
     // Initialize text console with our font
     consoleSetTextVramBGAdr(0x6800);
     consoleSetTextVramAdr(0x3000);

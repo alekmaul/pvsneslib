@@ -14,15 +14,12 @@ extern char palpvsneslib, palpvsneslib_end, palshader, palshader_end;
 extern char mappvsneslib, mappvsneslib_end;
 extern char mapshader, mapshader_end;
 
+short scrX = 0, scrY = 0;
+unsigned short pad0, move;
+
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    short scrX = 0, scrY = 0;
-    unsigned short pad0, move;
-
-    // Initialize SNES
-    consoleInit();
-
     // Copy tiles to VRAM
     bgInitTileSet(1, &patpvsneslib, &palpvsneslib, 0, (&patpvsneslib_end - &patpvsneslib), 16 * 2, BG_16COLORS, 0x5000);
     bgInitTileSet(0, &patshader, &palshader, 1, (&patshader_end - &patshader), 16 * 2, BG_16COLORS, 0x4000);

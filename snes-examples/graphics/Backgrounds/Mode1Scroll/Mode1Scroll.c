@@ -20,9 +20,6 @@ int main(void)
     u16 scrX = 0, scrY = 0;
     u16 pad0, move;
 
-    // Initialize SNES
-    consoleInit();
-
     // Initialize text console with our font
     consoleSetTextVramBGAdr(0x6800);
     consoleSetTextVramAdr(0x3000);

@@ -30,8 +30,6 @@ extern char backgroundMap, backgroundMap_end;
 #define PAL7 7
 
 int main(void) {
-    consoleInit();
-
     bgInitTileSet(BG1, 
         &backgroundPic, 
         &backgroundPalette, 

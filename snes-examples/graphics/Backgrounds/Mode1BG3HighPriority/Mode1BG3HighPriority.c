@@ -26,10 +26,6 @@ extern char BG3_map, BG3_map_end;
 //---------------------------------------------------------------------------------
 int main(void)
 {
-
-    // Initialize SNES
-    consoleInit();
-
     // initializing background map tiles
 
     // BG0 point to vram address 0x0000 and with one pages of 32 tiles (32x32)

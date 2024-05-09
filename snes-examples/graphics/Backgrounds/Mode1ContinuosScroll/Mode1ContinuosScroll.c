@@ -209,9 +209,6 @@ void myconsoleVblank()
 int main(void)
 {
 
-    // Initialize SNES
-    consoleInit();
-
     // initializing background map tiles
 
     // BG0 point to vram address 0x0000 and with two pages of 32 tiles (64x32)

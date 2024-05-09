@@ -18,7 +18,6 @@ int main(void)
 {
     // Initialize SNES
     consoleMesenBreakpoint();
-    consoleInit();
 
     // Initialize text console with our font
     consoleMesenBreakpoint();

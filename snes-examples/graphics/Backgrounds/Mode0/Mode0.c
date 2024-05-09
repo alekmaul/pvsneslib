@@ -18,9 +18,6 @@ short sxbg1 = 0, sxbg2 = 0, sxbg3 = 0, flip = 0;
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    // Initialize SNES
-    consoleInit();
-
     // Copy tiles to VRAM, begin with adr=0x2000 for first BG
     // ALso, always use specific mode0 palette entry (ppp)
     // BG1 w/bits ppp=0 is entries 0-3

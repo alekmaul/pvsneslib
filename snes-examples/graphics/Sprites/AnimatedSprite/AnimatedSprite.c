@@ -49,18 +49,16 @@ enum
 };
 
 const char sprTiles[9] =
-    {
-        0, 2, 4, 6, 8, 10, 12, 14, 32}; // Remember that sprites are interleave with 128 pix width,
+{
+        0, 2, 4, 6, 8, 10, 12, 14, 32
+}; // Remember that sprites are interleave with 128 pix width,
+
+unsigned short pad0, i;
+Monster monster = {100, 100};
 
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    unsigned short pad0, i;
-    Monster monster = {100, 100};
-
-    // Initialize SNES
-    consoleInit();
-
     // Init Sprites gfx and palette with default size of 16x16
     oamInitGfxSet(&gfxpsrite, (&gfxpsrite_end - &gfxpsrite), &palsprite, (&palsprite_end - &palsprite), 0, 0x0000, OBJ_SIZE16_L32);
 

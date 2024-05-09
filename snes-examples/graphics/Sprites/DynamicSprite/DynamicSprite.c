@@ -70,9 +70,6 @@ void addSprite(u8 *pgfx, u16 adrspr)
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    // Initialize SNES
-    consoleInit();
-
     // Put current handler to our function
     spr_queue = 0xff;
     spr_mutex = 0;

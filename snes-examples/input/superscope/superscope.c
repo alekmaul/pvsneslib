@@ -66,8 +66,6 @@ void resetGame()
 // Main program
 int main(void)
 {
-    consoleInit(); // Initialize SNES
-
     // Initialize text console with our font
     consoleSetTextVramBGAdr(0x2000);
     consoleSetTextVramAdr(0x3800);

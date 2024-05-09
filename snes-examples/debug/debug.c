@@ -11,9 +11,6 @@
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    // Initialize SNES
-    consoleInit();
-
     // Draw a wonderful text :P
     consoleNocashMessage("JUST COUNT VBL\r");
 
