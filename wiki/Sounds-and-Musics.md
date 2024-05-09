@@ -1,4 +1,4 @@
-PVSneslib uses IT files to play musics, it also uses a specific IT file for sound effects.  
+PVSneslib uses Impulse Tracker (IT) files to play musics, it also uses a specific IT file for sound effects.  
 
 ## Tools to create IT files
 
@@ -61,3 +61,107 @@ however, I may have to make additional adjustments depending on how the loop poi
 
 One of these songs is the most visibly affected by this problem, and that's because SNESMod doesn't virtually allocate channels.  
 You have to modify the patterns so that the note off commands go where the note would originally play, and the new note is put on another channel.  
+
+## Adding music to your game  
+
+To add music capabilty to your game, you must begin your main file with the boot initialization of the SPC700 processor.  
+This **spcBoot** function will copy the Impulse Tracker emulator to SPC700.  
+You will find all audio examples in **snes-examples/audio**, shipped with PVSneslib release.  
+
+```bash
+#include <snes.h>
+
+//---------------------------------------------------------------------------------
+int main(void)
+{
+    // Initialize sound engine (take some time)
+    spcBoot();
+```
+
+### Compiling musics and initialize the banks used by musics  
+
+To add musics to your game, you must compile them to allow the driver to play them in the game.  
+**smconv** is the tool shipped with PVSneslib to do the job.  
+
+```bash
+Put your IT files in a res subdirectory of your game, and add them to your makefile.
+# list in AUDIOFILES all your .it files in the right order. It will build to generate soundbank file
+AUDIOFILES := res/whatislove.it
+# then define the path to generate soundbank data. The name can be different but do not forget to update your include in .c file !
+export SOUNDBANK := res/soundbank
+```
+
+Add the correct parameters to your makefile conditions.
+
+```bash
+# to build musics, define SMCONVFLAGS with parameters you want
+SMCONVFLAGS	:= -s -o $(SOUNDBANK) -V -b 5
+musics: $(SOUNDBANK).obj
+
+all: musics  $(ROMNAME).sfc
+```
+
+We must initialize the sound banks containing the musics, in reverse order if you have more that one 32K bank.  
+
+```bash
+// soundbank that are declared in soundbank.asm
+extern char SOUNDBANK__0, SOUNDBANK__1;
+```
+
+Later in your code, after the sound engine initialization, you must declare the sounbanks, in **reverse order**!
+
+```bash
+    // Set soundbank available in soundbank.asm. Yes, in reverse order !
+    spcSetBank(&SOUNDBANK__1);
+    spcSetBank(&SOUNDBANK__0);
+```
+
+Check soundbank.asm file to know exactly how many banks you have.
+
+```bash
+.BANK 5
+.SECTION "SOUNDBANK0" ; need dedicated bank(s)
+
+SOUNDBANK__0:
+.incbin "res/soundbank.bnk" read $8000
+.ENDS
+
+.BANK 6
+.SECTION "SOUNDBANK1" ; need dedicated bank(s)
+
+SOUNDBANK__1:
+.incbin "res/soundbank.bnk" skip $8000
+.ENDS
+```
+
+### Playing musics  
+
+To play a  music file, you must first load the music file and then play it. You must pay attention that it will take some time to load it.  
+It is because the SNES cpu will send the music to the audio CPU.
+
+```bash
+    // Load music
+    spcLoad(MOD_POLLEN8);
+```
+
+You play the file with a parameter, allowing you to begin the music when you want. 0 must be use to play it from the beginning.  
+
+```bash
+    // Play file from the beginning
+    spcPlay(0);
+```
+Use **spcStop()** to stop music.  
+
+In your main loop, you must add a function named **spcProcess** just before waiting VBlank to allow the driver to process the music, without this instruction, it will not play music!
+
+```bash
+        // Update music / sfx stream and wait vbl
+        spcProcess();
+        WaitForVBlank();
+```
+
+## Adding sound effects to your game with some brr files  
+
+
+## Adding sound effects to your game with one IT file  
+
