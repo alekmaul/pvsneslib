@@ -221,6 +221,10 @@ tcc__snesinit:
 ; Needed to satisfy interrupt definition in "Header.inc".
 .SECTION ".vblank" SEMIFREE ORG ORG_0
 
+.accu 16
+.index 16
+.16bit
+
 VBlank:
 .ifdef FASTROM
   jml FVBlank
@@ -237,6 +241,45 @@ FVBlank:
   pea $7e7e
   plb
   plb
+
+  ; Refresh pad values
+  sep #$20
+  lda snes_mplay5
+  beq +
+  jsl scanMPlay5
+  bra cvbloam
++   
+  lda snes_mouse
+  beq +
+  jsl mouseRead
+  lda mouseConnect
+  and mouseConnect + 1    ; If both ports have a mouse plugged, it will skip pad controller reading
+  bne cvbloam
++   
+  jsl scanPads
+  lda snes_sscope
+  beq cvbloam
+  jsl scanScope
+
+cvbloam:
+  ; Put oam to screen if needed
+  rep #$20                     ; A 16 bits
+  lda.w #$0000
+  sta.l $2102                  ; OAM address
+  lda.w #$0400
+  sta.l $4370                  ; DMA type CPU -> PPU, auto inc, $2104 (OAM write)
+  lda.w #$0220
+  sta.l $4375                  ; DMA size (220 = 128*4+32
+
+  lda #oamMemory.w
+  sta.l $4372                  ; DMA address = oam memory
+  sep #$20
+  lda	#:oamMemory
+  sta.l $4374                  ; DMA address bank = oam memory
+
+  lda.b #$80					 ; DMA channel 7 1xxx xxxx
+  sta.l $420b 
+
   rep #$20
 
   ; Count frame number
@@ -342,6 +385,8 @@ fast_start:
     stz.w snes_vblank_count_svg
     stz.w snes_frame_count
     stz.w snes_frame_count_svg
+
+    jsl consoleInit
 
     jsr.l main
 

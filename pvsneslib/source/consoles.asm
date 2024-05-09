@@ -1,6 +1,6 @@
 ;---------------------------------------------------------------------------------
 ;
-;   Copyright (C) 2013-2023
+;   Copyright (C) 2013-2024
 ;       Alekmaul
 ;
 ;   This software is provided 'as-is', without any express or implied
@@ -22,21 +22,21 @@
 ;
 ;---------------------------------------------------------------------------------
 
-.EQU REG_CGADD          $2121
-.EQU CGRAM_PALETTE      $2122
+.EQU REG_CGADD              $2121
+.EQU CGRAM_PALETTE          $2122
 
-.EQU REG_STAT78         $213F
-.EQU REG_DEBUG          $21FC
+.EQU REG_STAT78             $213F
+.EQU REG_DEBUG              $21FC
 
-.EQU BANK_SRAM          $70
-.EQU PPU_50HZ           (1<<4)
+.EQU BANK_SRAM              $70
+.EQU PPU_50HZ               (1<<4)
 
-.EQU INT_VBLENABLE     (1<<7)
-.EQU INT_JOYPAD_ENABLE (1)
+.EQU INT_VBLENABLE          (1<<7)
+.EQU INT_JOYPAD_ENABLE      (1)
 
-.DEFINE TXT_VRAMADR     $0800
-.DEFINE TXT_VRAMBGADR   $0800
-.DEFINE TXT_VRAMOFFSET   $0000
+.DEFINE TXT_VRAMADR         $3000
+.DEFINE TXT_VRAMBGADR       $6800
+.DEFINE TXT_VRAMOFFSET      $0100
 
 .BASE $00
 .RAMSECTION ".reg_cons7e" BANK $7E SLOT RAMSLOT_0
@@ -377,26 +377,6 @@ consoleVblank:
     lda #$7e
     pha
     plb
-
-    ; Refresh pad values
-    lda snes_mplay5
-    beq +
-    jsl scanMPlay5
-    bra cvbloam
-+   lda snes_mouse
-    beq +
-    jsl mouseRead
-    lda mouseConnect
-    and mouseConnect + 1    ; If both ports have a mouse plugged, it will skip pad controller reading
-    bne cvbloam
-+   jsl scanPads
-    lda snes_sscope
-    beq cvbloam
-    jsl scanScope
-
-cvbloam:
-    ; Put oam to screen if needed
-    jsl oamUpdate
 
     ; if buffer need to be update, do it !
     lda scr_txt_dirty
