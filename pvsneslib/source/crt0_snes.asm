@@ -242,26 +242,7 @@ FVBlank:
   plb
   plb
 
-  ; Refresh pad values
-  sep #$20
-  lda snes_mplay5
-  beq +
-  jsl scanMPlay5
-  bra cvbloam
-+   
-  lda snes_mouse
-  beq +
-  jsl mouseRead
-  lda mouseConnect
-  and mouseConnect + 1    ; If both ports have a mouse plugged, it will skip pad controller reading
-  bne cvbloam
-+   
-  jsl scanPads
-  lda snes_sscope
-  beq cvbloam
-  jsl scanScope
 
-cvbloam:
   ; Put oam to screen if needed
   rep #$20                     ; A 16 bits
   lda.w #$0000
@@ -292,6 +273,30 @@ cvbloam:
   lda.l nmi_handler + 2
   sta.b tcc__r10h
   jsl tcc__jsl_r10
+
+
+  ; Refresh pad values
+  sep #$20
+  lda snes_mplay5
+  beq +
+  jsl scanMPlay5
+  bra @EndScanPads
++
+  lda snes_mouse
+  beq +
+  jsl mouseRead
+  lda mouseConnect
+  and mouseConnect + 1    ; If both ports have a mouse plugged, it will skip pad controller reading
+  bne @EndScanPads
++
+  jsl scanPads
+  lda snes_sscope
+  beq @EndScanPads
+  jsl scanScope
+@EndScanPads:
+
+  rep #$30
+
   pla
   ply
   plx
