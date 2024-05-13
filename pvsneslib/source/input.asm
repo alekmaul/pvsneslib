@@ -134,15 +134,16 @@ scanPads:
 	pha
 	plb
 
-	rep	#$20                                   ; copy joy states #1&2
-	ldy	pad_keys
+	ldy	pad_keys                               ; copy joy states #1&2
 	sty	pad_keysold
 	ldy	pad_keys+2
 	sty	pad_keysold+2
 
--:	lda	REG_HVBJOY                             ; wait until joypads are ready
-	lsr
-	bcs -
+	lda	#1                                     ; wait until joypads are ready
+-:	bit	REG_HVBJOY
+	bne	-
+
+	rep	#$20
 
 	lda	REG_JOY1L                              ; read joypad register #1
 	bit	#$0F                                   ; catch non-joypad input
@@ -370,11 +371,12 @@ scanMPlay5:
 	ldy	pad_keys+8
 	sty	pad_keysold+8
 
--:	lda	REG_HVBJOY                             ; wait until joypads are ready
-	lsr
-	bcs -
-
 	sep #$20
+
+	lda	#1                                     ; wait until joypads are ready
+-:	bit	REG_HVBJOY
+	bne	-
+
 		lda.b #$80                                 ; enable iobit to read data
 	sta.w REG_WRIO
 
