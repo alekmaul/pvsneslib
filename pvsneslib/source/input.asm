@@ -147,10 +147,9 @@ scanPads:
 	lda	REG_JOY1L                              ; read joypad register #1
 	bit	#$0F                                   ; catch non-joypad input
 	beq	+                                      ; (bits 0-3 should be zero)
-	sep	#$20
-	lda	#$0
-	rep	#$20
-+:	sta	pad_keys                               ; store 'current' state
+		lda.w	#$0
++
+	sta	pad_keys                               ; store 'current' state
 	eor	pad_keysold                            ; compute 'down' state from bits that
 	and	pad_keys                               ; have changed from 0 to 1
 	sta	pad_keysrepeat                         ;
@@ -158,10 +157,9 @@ scanPads:
 	lda	REG_JOY2L                              ; read joypad register #2
 	bit	#$0F                                   ; catch non-joypad input
 	beq	+                                      ; (bits 0-3 should be zero)
-	sep	#$20
-	lda	#$0
-	rep	#$20
-+:	sta	pad_keys+2                             ; store 'current' state
+		lda.w	#$0
++
+	sta	pad_keys+2                             ; store 'current' state
 	eor	pad_keysold+2                          ; compute 'down' state from bits that
 	and	pad_keys+2                             ; have changed from 0 to 1
 	sta	pad_keysrepeat+2                       ;
