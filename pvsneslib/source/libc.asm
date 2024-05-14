@@ -483,3 +483,4 @@ exitl4:
 .include "sounds.asm"
 .include "sprites.asm"
 .include "videos.asm"
+.include "vblank.asm"
