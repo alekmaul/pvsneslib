@@ -506,7 +506,7 @@ _m40:
 
 
 ; Needed to satisfy interrupt definition in "Header.inc".
-.SECTION ".vblank" SEMIFREE ORG ORG_0
+.SECTION ".vblank" SEMIFREE ORG ORG_0 BANK 0
 
 .accu 16
 .index 16
