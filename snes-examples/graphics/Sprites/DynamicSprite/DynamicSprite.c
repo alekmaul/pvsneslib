@@ -30,9 +30,6 @@ void myconsoleVblank(void)
     u8 *pgfx;
     u16 padrgfx;
 
-    // Refresh pad values
-    scanPads();
-
     // if tile sprite queued
     if (spr_queue != 0xff)
     {

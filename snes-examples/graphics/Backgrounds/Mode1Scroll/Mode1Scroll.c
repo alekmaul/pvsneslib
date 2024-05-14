@@ -47,9 +47,6 @@ int main(void)
         // no move currently
         move = 0;
 
-        // Refresh pad values
-        scanPads();
-
         // Get current #0 pad
         pad0 = padsCurrent(0);
 

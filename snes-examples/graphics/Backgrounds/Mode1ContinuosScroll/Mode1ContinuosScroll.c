@@ -277,7 +277,6 @@ int main(void)
     // Wait for nothing :P
     while (1)
     {
-        scanPads();
         pad0 = padsCurrent(0);
         // update character pos
         updatePos(&player1, pad0);

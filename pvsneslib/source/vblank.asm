@@ -40,7 +40,7 @@ snes_frame_count_svg    dsb 2           ; same thing for saving purpose
 
 ;---------------------------------------------------------------------------------
 ; void scanPads(void)
-scanPads:
+scanPads_:
 	php
 	phb
 	phy
@@ -92,7 +92,7 @@ scanPads:
 
 ;---------------------------------------------------------------------------------
 ; void scanMPlay5(void)
-scanMPlay5:
+scanMPlay5_:
 	php
 	phb
 	phy
@@ -222,7 +222,7 @@ getpad45data:									; get all 16 bits pad2&3 data serialy
 ;        so that the aim-adjusted coordinates are "correct"
 ;---------------------------------------------------------------------------------
 ; void scanScope(void)
-scanScope:
+scanScope_:
 	phb
 	phk
 	plb
@@ -390,7 +390,7 @@ NoScope:
 
 ;---------------------------------------------------------------------------------
 ; void mouseRead(void)
-mouseRead:
+mouseRead_:
 	php
 	sep     #$30
 	phb
@@ -566,20 +566,20 @@ FVBlank:
   sep #$20
   lda snes_mplay5
   beq +
-  jsl scanMPlay5
+  jsl scanMPlay5_
   bra @EndScanPads
 +
   lda snes_mouse
   beq +
-  jsl mouseRead
+  jsl mouseRead_
   lda mouseConnect
   and mouseConnect + 1    ; If both ports have a mouse plugged, it will skip pad controller reading
   bne @EndScanPads
 +
-  jsl scanPads
+  jsl scanPads_
   lda snes_sscope
   beq @EndScanPads
-  jsl scanScope
+  jsl scanScope_
 @EndScanPads:
 
   rep #$30

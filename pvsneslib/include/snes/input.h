@@ -147,11 +147,6 @@ extern u16 scope_sinceshot; /*! \brief Number of frames elapsed since last shot 
 */
 #define REG_JOYxLH(a) (((vuint16 *)0x4218)[(a)])
 
-/*!	\fn scanPads()
-    \brief Wait for pad ready and read pad values in.
-*/
-void scanPads(void);
-
 /*!	\fn  padsCurrent(value)
     \brief Return current value of selected pad
     \param value Address of the pad to use (0 or 1 to 4 if multiplayer 5 connected)
@@ -185,20 +180,10 @@ void padsClear(u16 value);
 */
 void detectMPlay5(void);
 
-/*!	\fn scanMPlay5()
-    \brief Wait for multiplayer5 pads ready and read pad values in.
-*/
-void scanMPlay5(void);
-
 /*!	\fn detectMouse(void)
     \brief Check if Mouse is connected and populate snes_mouse (0 or 1 for connected)
 */
 void detectMouse(void);
-
-/*!	\fn mouseRead(void)
-    \brief Wait for mouse ready and read mouse values in.
-*/
-void mouseRead(void);
 
 /*!	\fn mouseSpeedChange(u8 port)
     \brief Set mouse hardware speed (populate mouseSpeed[] first).
@@ -210,34 +195,5 @@ void mouseSpeedChange(u8 port);
     \brief Detects if SuperScope is connected on Port 1 (second controller port on console) and populate snes_sscope (0 or 1 for connected)
 */
 void detectSuperScope(void);
-
-/*!	\fn scanScope(void)
-    \brief  Nintendo SHVC Scope BIOS version 1.00
-     Quickly disassembled and commented by Revenant on 31 Jan 2013
-
-     This assembly uses xkas v14 syntax. It probably also assembles with bass, if there's
-     any such thing as good fortune in the universe.
-
-     How to use the SHVC Super Scope BIOS:
-     (all variables are two bytes)
-
-     1: Set "HoldDelay" and "RepDelay" for the button hold delay and repeat rate
-
-     2:  "jsr GetScope" or "jsl GetScopeLong" once per frame
-
-     3:  Read one of the following to get the scope input bits (see definitions below):
-         - ScopeDown (for any flags that are currently true)
-         - ScopeNow (for any flags that have become true this frame)
-         - ScopeHeld (for any flags that have been true for a certain length of time)
-         - ScopeLast (for any flags that were true on the previous frame)
-
-     3a: If the bits read from ScopeNow indicate a valid shot, or if the Cursor button
-         is being pressed, then read "ShotH"/"ShotV" to adjust for aim, or read
-         "ShotHRaw"/"ShotVRaw" for "pure" coordinates
- 
-     3c: at some point, set "CenterH"/"CenterV" equal to "ShotHRaw"/"ShotVRaw"
-         so that the aim-adjusted coordinates are "correct"
-*/
-void scanScope(void);
 
 #endif // SNES_PADS_INCLUDE
