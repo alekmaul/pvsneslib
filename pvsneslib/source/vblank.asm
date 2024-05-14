@@ -38,18 +38,15 @@ snes_frame_count_svg    dsb 2           ; same thing for saving purpose
 .BASE BASE_0
 .SECTION ".pads0_text" SUPERFREE
 
-;---------------------------------------------------------------------------------
-; void scanPads(void)
+;; Scan and read the joypads
+;;
+;; REQUIRES: Auto-Joypad enabled.
+;;
+;; ACCU 8
+;; INDEX 16
+;; DB = 0
+;; D = tcc__registers_irq (NOT ZERO)
 scanPads_:
-	php
-	phb
-	phy
-
-	sep	#$20                                   ; change bank address to 0
-	lda.b	#$0
-	pha
-	plb
-
 	ldy	pad_keys                               ; copy joy states #1&2
 	sty	pad_keysold
 	ldy	pad_keys+2
@@ -81,27 +78,23 @@ scanPads_:
 	and	pad_keys+2                             ; have changed from 0 to 1
 	sta	pad_keysrepeat+2                       ;
 
-	ply
-	plb
-	plp
+	sep	#$20
 	rtl
 .ENDS
 
 
 .SECTION ".padsm51_text" SUPERFREE
 
-;---------------------------------------------------------------------------------
-; void scanMPlay5(void)
+
+;; Scan and read the multiplayer5 pads
+;;
+;; REQUIRES: Auto-Joypad enabled.
+;;
+;; ACCU 8
+;; INDEX 16
+;; DB = 0
+;; D = tcc__registers_irq (NOT ZERO)
 scanMPlay5_:
-	php
-	phb
-	phy
-
-	sep		#$20                                ; change bank address to 0
-	lda.b	#$0
-	pha
-	plb
-
 	rep	#$20                                    ; copy joy states #1->5
 	ldy	pad_keys
 	sty	pad_keysold
@@ -185,14 +178,11 @@ getpad45data:									; get all 16 bits pad2&3 data serialy
 		lda.b #$80                                  ; enable iobit for next frame
 	sta.w REG_WRIO
 
-	ply
-	plb
-	plp
 	rtl
-
 .ENDS
 
-.SECTION ".padsscop_text" SUPERFREE
+
+.SECTION ".padsscop_text" SEMIFREE ORG ORG_0 BANK 0
 
 ;---------------------------------------------------------------------------------
 ;    Nintendo SHVC Scope BIOS version 1.00
@@ -221,16 +211,7 @@ getpad45data:									; get all 16 bits pad2&3 data serialy
 ;    3c: at some point, set "CenterH"/"CenterV" equal to "ShotHRaw"/"ShotVRaw"
 ;        so that the aim-adjusted coordinates are "correct"
 ;---------------------------------------------------------------------------------
-; void scanScope(void)
-scanScope_:
-	phb
-	phk
-	plb
-	jsr   GetScope
-	plb
-	rtl
-
-GetScope:
+GetScope_:
 	php
 	sep	#$20
 
@@ -386,20 +367,19 @@ NoScope:
 
 ;---------------------------------------------------------------------------------
 
+
 .SECTION ".mouse_text" SUPERFREE
 
-;---------------------------------------------------------------------------------
-; void mouseRead(void)
+;; Read the mouse values
+;;
+;; REQUIRES: Auto-Joypad enabled.
+;;
+;; ACCU 8
+;; INDEX 16
+;; DB = 0
+;; D = tcc__registers_irq (NOT ZERO)
 mouseRead_:
-	php
 	sep     #$30
-	phb
-	phx
-	phy
-
-	lda     #$00						 ; Set Data Bank to 0
-	pha
-	plb
 
 _10:
 	lda			REG_HVBJOY
@@ -435,12 +415,12 @@ _30:
 	stz     snes_mouse           ; Disable mouse flag if no mouse connected
 
 +:
-	ply
-	plx
-	plb
-	plp
+	rep     #$10
 	rtl
 
+
+.accu 8
+.index 8
 mouse_data:
 
 	sta     tcc__r0           ; (421A / 4218 saved to reg0)
@@ -564,6 +544,13 @@ FVBlank:
 
   ; Refresh pad values
   sep #$20
+
+  ; Set Data Bank to access joypad registers and lowram
+  lda.b #0
+  pha
+  plb
+; DB = 0
+
   lda snes_mplay5
   beq +
   jsl scanMPlay5_
@@ -579,7 +566,7 @@ FVBlank:
   jsl scanPads_
   lda snes_sscope
   beq @EndScanPads
-  jsl scanScope_
+  jsr GetScope_
 @EndScanPads:
 
   rep #$30
