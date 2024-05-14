@@ -23,6 +23,18 @@
 ;---------------------------------------------------------------------------------
 
 
+.RAMSECTION ".registers" BANK 0 SLOT 1 PRIORITY 1
+
+nmi_handler dsb 4
+
+snes_vblank_count       dsb 2           ; 2 bytes to count number of vblank
+snes_vblank_count_svg   dsb 2           ; same thing for saving purpose
+snes_frame_count        dsb 2           ; 2 bytes for frame counter inside loop
+snes_frame_count_svg    dsb 2           ; same thing for saving purpose
+
+.ENDS
+
+
 .BASE BASE_0
 .SECTION ".pads0_text" SUPERFREE
 
@@ -491,3 +503,137 @@ _m40:
 	rts
 
 .ENDS
+
+
+; Needed to satisfy interrupt definition in "Header.inc".
+.SECTION ".vblank" SEMIFREE ORG ORG_0
+
+.accu 16
+.index 16
+.16bit
+
+VBlank:
+.ifdef FASTROM
+  jml FVBlank
+
+FVBlank:
+.endif
+  rep #$30
+  phb
+  phd
+  phx
+  phy
+  pha
+  ; set data bank register to bss section
+  pea $7e7e
+  plb
+  plb
+
+
+  ; Put oam to screen if needed
+  rep #$20                     ; A 16 bits
+  lda.w #$0000
+  sta.l $2102                  ; OAM address
+  lda.w #$0400
+  sta.l $4370                  ; DMA type CPU -> PPU, auto inc, $2104 (OAM write)
+  lda.w #$0220
+  sta.l $4375                  ; DMA size (220 = 128*4+32
+
+  lda #oamMemory.w
+  sta.l $4372                  ; DMA address = oam memory
+  sep #$20
+  lda	#:oamMemory
+  sta.l $4374                  ; DMA address bank = oam memory
+
+  lda.b #$80					 ; DMA channel 7 1xxx xxxx
+  sta.l $420b 
+
+  rep #$20
+
+  ; Count frame number
+  inc.w snes_vblank_count
+
+  lda.w #tcc__registers_irq
+  tad
+  lda.l nmi_handler
+  sta.b tcc__r10
+  lda.l nmi_handler + 2
+  sta.b tcc__r10h
+  jsl tcc__jsl_r10
+
+
+  ; Refresh pad values
+  sep #$20
+  lda snes_mplay5
+  beq +
+  jsl scanMPlay5
+  bra @EndScanPads
++
+  lda snes_mouse
+  beq +
+  jsl mouseRead
+  lda mouseConnect
+  and mouseConnect + 1    ; If both ports have a mouse plugged, it will skip pad controller reading
+  bne @EndScanPads
++
+  jsl scanPads
+  lda snes_sscope
+  beq @EndScanPads
+  jsl scanScope
+@EndScanPads:
+
+  rep #$30
+
+  pla
+  ply
+  plx
+  pld
+  plb
+  RTI
+
+.ENDS
+
+
+.BASE BASE_0
+.SECTION  ".waitforvblank_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+WaitForVBlank:
+	wai
+	rtl
+
+; old version still here for memory purpose
+;	pha
+;	php
+;	sep	#$20
+;-:
+;	lda.l	REG_RDNMI
+;	bmi	-
+;-:
+;	lda.l	REG_RDNMI
+;	bpl	-
+;	plp
+;	pla
+;	rtl
+
+.ENDS
+
+
+.SECTION ".waitnvblank_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+; void WaitNVBlank(u16 ntime)
+WaitNVBlank:
+    php
+
+    sep #$20
+    lda 5,s
+-   wai
+    dea
+    bne -
+
+    plp
+	rtl
+
+.ENDS
+

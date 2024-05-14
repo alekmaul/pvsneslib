@@ -474,7 +474,6 @@ exitl4:
 .include "consoles.asm"
 .include "dmas.asm"
 .include "input.asm"
-.include "interrupts.asm"
 .include "lzsss.asm"
 .include "maps.asm"
 .include "objects.asm"
