@@ -41,6 +41,7 @@ snes_frame_count_svg    dsb 2           ; same thing for saving purpose
 ;; Scan and read the joypads
 ;;
 ;; REQUIRES: Auto-Joypad enabled.
+;; REQUIRES: REG_WRIO bit 7 set BEFORE Vblank starts if a Multitap/Mp5 is connected.
 ;;
 ;; ACCU 8
 ;; INDEX 16
@@ -86,97 +87,118 @@ scanPads_:
 .SECTION ".padsm51_text" SUPERFREE
 
 
-;; Scan and read the multiplayer5 pads
+;; Scan and read the last 3 controllers on a Multitap or MP5 connected to Port 2.
 ;;
-;; REQUIRES: Auto-Joypad enabled.
+;; NOTE: Does not read pads 0 & 1.  Use `ScanPads` to read pads 0 & 1.
+;;
+;; REQUIRES: Joypad Auto-Read enabled.
+;; REQUIRES: REG_WRIO bit 7 set BEFORE Vblank starts.
 ;;
 ;; ACCU 8
 ;; INDEX 16
 ;; DB = 0
 ;; D = tcc__registers_irq (NOT ZERO)
 scanMPlay5_:
-	rep	#$20                                    ; copy joy states #1->5
-	ldy	pad_keys
-	sty	pad_keysold
-	ldy	pad_keys+2
-	sty	pad_keysold+2
-	ldy	pad_keys+4
-	sty	pad_keysold+4
-	ldy	pad_keys+6
-	sty	pad_keysold+6
-	ldy	pad_keys+8
-	sty	pad_keysold+8
+	; Using the multitap reading protocol from the SNES Development Wiki
+	; https://snes.nesdev.org/wiki/Multitap
+
+.function __pad_n(array, index) (array + index * 2)
+
+	; Save old pad state
+	; pads 0 & 1 are read by ScanPads.
+	ldy.w  __pad_n(pad_keys, 2)
+	sty.w  __pad_n(pad_keysold, 2)
+
+	ldy.w  __pad_n(pad_keys, 3)
+	sty.w  __pad_n(pad_keysold, 3)
+
+	ldy.w  __pad_n(pad_keys, 4)
+	sty.w  __pad_n(pad_keysold, 4)
+
 
 	sep #$20
+.ACCU 8
 
-	lda	#1                                     ; wait until joypads are ready
--:	bit	REG_HVBJOY
-	bne	-
+	; Wait until Joypad Auto-Read has finished
+	lda.b  #1
+-
+		bit.w  REG_HVBJOY
+		bne    -
 
-		lda.b #$80                                 ; enable iobit to read data
-	sta.w REG_WRIO
+	; Pads 3 & 4 must be manually read using the REG_JOYB register.
+	;
+	; The strobe/latch pin does not need to be toggled.
+	; All 4 controllers on the mutlitap share the latch pin.
 
-	lda.b #$1
-	sta.w REG_JOYA							   ; do stobe on/off
-    stz.w REG_JOYA
+	; Switch multitap to the second pair of controllers
+	stz.w  REG_WRIO
 
-	rep #$20
- 	ldy #16
-getpad1data:									; get all 16 bits pad1 data serialy
-		lda.w REG_JOYA
-		lsr a										; put bit0 into carry
-		rol.w pad_keys								; pad 1 data
-		dey
-		bne getpad1data
+    ; Initialise pad_keys to 1 so a `rol` outputs carry set after 8 `rol` instructions
+	; A = 1
+	sta.w  __pad_n(pad_keys, 4)
+	sta.w  __pad_n(pad_keys, 4) + 1
 
-	ldy #16
-getpad23data:									; get all 16 bits pad2&3 data serialy
-	lda.w REG_JOYB
-    lsr a										; put bit1 into carry
-    rol.w pad_keys+2							; pad 2 data
-    lsr a										; put bit1 into carry
-    rol.w pad_keys+4							; pad 3 data
-    dey
-  	bne getpad23data
+	; Read high byte of pads 3/4
+	-
+		lda.w  REG_JOYB
+		lsr
+		rol.w  __pad_n(pad_keys, 3) + 1
+		lsr
+		rol.w  __pad_n(pad_keys, 4) + 1
+		bcc    -
+
+	; Read low byte of pads 3/4
+	-
+		lda.w  REG_JOYB
+		lsr
+		rol.w  __pad_n(pad_keys, 3)
+		lsr
+		rol.w  __pad_n(pad_keys, 4)
+		bcc    -
+
+	rep    #$30
+.ACCU 16
+.INDEX 16
+
+	; Pads 0 & 1 are read by ScanPads.
+
+	; Read & process pad 2 from Auto-Joy
+	lda.w  REG_JOY4L
+	bit.w  #$0f
+	beq    +
+		; Not a standard controller
+		lda.w  #0
+	+
+	sta.w  __pad_n(pad_keys, 2)
+	eor.w  __pad_n(pad_keysold, 2)
+	and.w  __pad_n(pad_keys, 2)
+	sta.w  __pad_n(pad_keysrepeat, 2)
+
+	; Process pads 3 & 4
+	.REPEAT 2 INDEX _I
+		.REDEFINE @p = 3 + _I
+		.ASSERT @p < 5
+
+		lda.w  __pad_n(pad_keys, @p)
+		bit.w  #$0f
+		beq    +
+			; Not a standard controller
+			lda.w  #0
+			sta.w  __pad_n(pad_keys, @p)
+		+
+		eor.w  __pad_n(pad_keysold, @p)
+		and.w  __pad_n(pad_keys, @p)
+		sta.w  __pad_n(pad_keysrepeat, @p)
+	.ENDR
+
 
 	sep #$20
-	stz.w REG_WRIO								; to allow read for other pads
+.ACCU 8
 
-	rep #$20
-	ldy #16
-getpad45data:									; get all 16 bits pad2&3 data serialy
-	lda.w REG_JOYB
-		lsr a										; put bit1 into carry
-		rol.w pad_keys+6							; pad 4 data
-		lsr a										; put bit1 into carry
-		rol.w pad_keys+8							; pad 5 data
-		dey
-		bne getpad45data
-
-	lda	pad_keys
-	eor	pad_keysold                            ; compute 'down' state from bits that
-	and	pad_keys                               ; have changed from 0 to 1
-	sta	pad_keysrepeat                         ;
-	lda	pad_keys+2
-	eor	pad_keysold+2
-	and	pad_keys+2
-	sta	pad_keysrepeat+2
-	lda	pad_keys+4
-	eor	pad_keysold+4
-	and	pad_keys+4
-	sta	pad_keysrepeat+4
-	lda	pad_keys+6
-	eor	pad_keysold+6
-	and	pad_keys+6
-	sta	pad_keysrepeat+6
-	lda	pad_keys+8
-	eor	pad_keysold+8
-	and	pad_keys+8
-	sta	pad_keysrepeat+8
-
-	sep #$20
-		lda.b #$80                                  ; enable iobit for next frame
-	sta.w REG_WRIO
+	; Switch multitap back to the first pair of controllers
+	; Ensures Auto-Joy will read pads 2/3 on the next VBlank.
+	lda.b  #$80
+	sta.w  REG_WRIO
 
 	rtl
 .ENDS
@@ -554,6 +576,7 @@ FVBlank:
   lda snes_mplay5
   beq +
   jsl scanMPlay5_
+  jsl scanPads_
   bra @EndScanPads
 +
   lda snes_mouse

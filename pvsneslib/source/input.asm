@@ -30,6 +30,7 @@
 
 .equ	REG_JOY1L		$4218
 .equ	REG_JOY2L		$421A
+.equ	REG_JOY4L		$421E
 
 .equ	REG_OPHCT		$213C ; Horizontal scanline location
 

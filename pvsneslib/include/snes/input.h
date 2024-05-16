@@ -177,6 +177,9 @@ void padsClear(u16 value);
 
 /*!	\fn detectMPlay5(void)
     \brief Check if MultiPlayer5 is connected and populate snes_mplay5 (0 or 1 for connected)
+
+    \b CAUTION: REG_WRIO ($4201) must not be written to while MultiPlayer5 is active.
+    (Bit 7 of REG_WRIO must be set when Auto Joy reads the controllers, shortly after the VBlank Period starts.)
 */
 void detectMPlay5(void);
 
