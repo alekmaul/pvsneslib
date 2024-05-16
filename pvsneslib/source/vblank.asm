@@ -48,7 +48,7 @@ snes_frame_count_svg    dsb 2           ; same thing for saving purpose
 ;; INDEX 16
 ;; DB = 0
 ;; D = tcc__registers_irq (NOT ZERO)
-_scanPads:
+.MACRO _ScanPads
 	ldy	pad_keys                               ; copy joy states #1&2
 	sty	pad_keysold
 	ldy	pad_keys+2
@@ -81,7 +81,7 @@ _scanPads:
 	sta	pad_keysrepeat+2                       ;
 
 	sep	#$20
-	rtl
+.ENDM
 
 
 ;---------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ _scanPads:
 ;; INDEX 16
 ;; DB = 0
 ;; D = tcc__registers_irq (NOT ZERO)
-_scanMPlay5:
+.MACRO _ScanMPlay5
 	; Using the multitap reading protocol from the SNES Development Wiki
 	; https://snes.nesdev.org/wiki/Multitap
 
@@ -199,8 +199,7 @@ _scanMPlay5:
 	; Ensures Auto-Joy will read pads 2/3 on the next VBlank.
 	lda.b  #$80
 	sta.w  REG_WRIO
-
-	rtl
+.ENDM
 
 
 
@@ -561,32 +560,38 @@ FVBlank:
   jsl tcc__jsl_r10
 
 
-  ; Refresh pad values
-  sep #$20
+	; Refresh pad values
+	sep    #$20
 
-  ; Set Data Bank to access joypad registers and lowram
-  lda.b #0
-  pha
-  plb
+	; Set Data Bank to access joypad registers and lowram
+	lda.b  #0
+	pha
+	plb
 ; DB = 0
 
-  lda snes_mplay5
-  beq +
-  jsl _scanMPlay5
-  jsl _scanPads
-  bra @EndScanPads
-+
-  lda snes_mouse
-  beq +
-  jsl _mouseRead
-  lda mouseConnect
-  and mouseConnect + 1    ; If both ports have a mouse plugged, it will skip pad controller reading
-  bne @EndScanPads
-+
-  jsl _scanPads
-  lda snes_sscope
-  beq @EndScanPads
-  jsr _GetScope
+
+	lda    snes_mplay5
+	bne    @ScanMp5
+
+	lda    snes_mouse
+	beq    +
+		jsl    _mouseRead
+
+		; If both ports have a mouse plugged, it will skip pad controller reading
+		lda mouseConnect
+		and mouseConnect + 1
+		bne @EndScanPads
+    +
+
+	lda    snes_sscope
+	beq    +
+		jsr    _GetScope
+		bra    @EndScanPads
+	+
+
+@ScanPads:
+	_ScanPads
+
 @EndScanPads:
 
   rep #$30
@@ -597,6 +602,12 @@ FVBlank:
   pld
   plb
   RTI
+
+
+
+@ScanMp5:
+	_ScanMPlay5
+	jmp    @ScanPads
 
 .ENDS
 
