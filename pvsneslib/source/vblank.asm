@@ -35,8 +35,9 @@ snes_frame_count_svg    dsb 2           ; same thing for saving purpose
 .ENDS
 
 
-.BASE BASE_0
-.SECTION ".pads0_text" SUPERFREE
+; Needed to satisfy interrupt definition in "Header.inc".
+.SECTION ".vblank_isr" SEMIFREE ORG ORG_0 BANK 0
+
 
 ;; Scan and read the joypads
 ;;
@@ -47,7 +48,7 @@ snes_frame_count_svg    dsb 2           ; same thing for saving purpose
 ;; INDEX 16
 ;; DB = 0
 ;; D = tcc__registers_irq (NOT ZERO)
-scanPads_:
+_scanPads:
 	ldy	pad_keys                               ; copy joy states #1&2
 	sty	pad_keysold
 	ldy	pad_keys+2
@@ -81,10 +82,9 @@ scanPads_:
 
 	sep	#$20
 	rtl
-.ENDS
 
 
-.SECTION ".padsm51_text" SUPERFREE
+;---------------------------------------------------------------------------------
 
 
 ;; Scan and read the last 3 controllers on a Multitap or MP5 connected to Port 2.
@@ -98,7 +98,7 @@ scanPads_:
 ;; INDEX 16
 ;; DB = 0
 ;; D = tcc__registers_irq (NOT ZERO)
-scanMPlay5_:
+_scanMPlay5:
 	; Using the multitap reading protocol from the SNES Development Wiki
 	; https://snes.nesdev.org/wiki/Multitap
 
@@ -201,10 +201,8 @@ scanMPlay5_:
 	sta.w  REG_WRIO
 
 	rtl
-.ENDS
 
 
-.SECTION ".padsscop_text" SEMIFREE ORG ORG_0 BANK 0
 
 ;---------------------------------------------------------------------------------
 ;    Nintendo SHVC Scope BIOS version 1.00
@@ -233,13 +231,13 @@ scanMPlay5_:
 ;    3c: at some point, set "CenterH"/"CenterV" equal to "ShotHRaw"/"ShotVRaw"
 ;        so that the aim-adjusted coordinates are "correct"
 ;---------------------------------------------------------------------------------
-GetScope_:
+_GetScope:
 	php
 	sep	#$20
 
 	lda	REG_STAT78                             ; Has the PPU counter been latched?
 	and.b	#$40                               ; If not, don't get the scanline location
-	beq	NoShot
+	beq	@NoShot
 
 	lda	REG_OPHCT                              ; Get the horizontal scanline location (bits 0-7)
 	sta	scope_shoth
@@ -271,13 +269,13 @@ GetScope_:
 	sta	scope_shotv
 
 	stz	scope_sinceshot                        ; update number of frames since last shot
-	bra	GetInput                               ; (what happens if 65536 frames elapse between shots?)
+	bra	@GetInput                              ; (what happens if 65536 frames elapse between shots?)
 
-NoShot:
+@NoShot:
 	inc	scope_sinceshot
 
 ; Wait for valid joypad input
-GetInput:
+@GetInput:
 	sep	#$20
 
 -:	lda	REG_HVBJOY
@@ -296,10 +294,10 @@ GetInput:
 	lda	scope_port2down                        ; Check if the controller in port 2 is a Super Scope.
 	and.w	#$0CFF                             ; For a 16-bit auto joypad read, bits 0-7 should be always 1
 	cmp.w	#$00FF                             ; and bits 10-11 should be always 0.
-	bne	NoScope
+	bne	@NoScope
 
 	lda	scope_sinceshot                        ; has a shot already happened this frame?
-	beq	GetButtons                             ; If so, then only pay attention to the pause button bit
+	beq	@GetButtons                            ; If so, then only pay attention to the pause button bit
 
 	lda	scope_port2down                        ; Check which already-held buttons are still held
 	and	scope_last
@@ -316,7 +314,7 @@ GetInput:
 	plp                                        ; return from input check
 	rts
 
-GetButtons:
+@GetButtons:
 	lda	scope_port2down                        ; Get button status when NOT paused
 	sta	scope_down
 	eor	scope_last
@@ -325,33 +323,33 @@ GetButtons:
 	sta	scope_held
 
 	lda	scope_port2down                        ; if no bits are set on port 2, don't check for "held buttons".
-	beq	NotHolding
+	beq	@NotHolding
 
 	cmp	scope_last                             ; else if the bits aren't the same as last frame, don't check either.
-	bne	NotHolding
+	bne	@NotHolding
 
 	dec	scope_tohold                           ; if a certain number of frames have elapsed with the same buttons
-	bne	NotHeld                                ; held down, consider them "officially held".
+	bne	@NotHeld                               ; held down, consider them "officially held".
 
 	lda	scope_port2down
 	sta	scope_held
 
 	lda	scope_repdelay                         ; set the remaining delay to the repeat value
 	sta	scope_tohold
-	bra	NotHeld
+	bra	@NotHeld
 
-NotHolding:
+@NotHolding:
 	lda	scope_holddelay                        ; set the remaining delay to the normal value
 	sta	scope_tohold
 
-NotHeld:
+@NotHeld:
 	lda	scope_port2down
 	sta	scope_last
 
 	plp                                        ; return from input check
 	rts
 
-NoScope:
+@NoScope:
 	stz	scope_port2down                        ; If no scope is connected, zero out all inputs
 	stz	scope_port2now
 	stz	scope_down
@@ -362,7 +360,7 @@ NoScope:
 	plp                                        ; return from input check
 	rts
 
-.ENDS
+
 
 ;---------------------------------------------------------------------------------
 
@@ -390,8 +388,6 @@ NoScope:
 ;---------------------------------------------------------------------------------
 
 
-.SECTION ".mouse_text" SUPERFREE
-
 ;; Read the mouse values
 ;;
 ;; REQUIRES: Auto-Joypad enabled.
@@ -400,36 +396,36 @@ NoScope:
 ;; INDEX 16
 ;; DB = 0
 ;; D = tcc__registers_irq (NOT ZERO)
-mouseRead_:
+_mouseRead:
 	sep     #$30
 
-_10:
+@_10:
 	lda			REG_HVBJOY
 	and			#$01
-	bne     _10					     ; Automatic read ok?
+	bne     @_10					     ; Automatic read ok?
 
 	ldx     #$01
 	lda     REG_JOY2L            ; Joy2
-	jsr     mouse_data
+	jsr     _mouse_data
 
 	lda     connect_st+1
-	beq     _20
+	beq     @_20
 
 	jsr     speed_change
 	stz     connect_st+1
 
-_20:
+@_20:
 	dex
 	lda     REG_JOY1L           ; Joy1
-	jsr     mouse_data
+	jsr     _mouse_data
 
 	lda     connect_st
-	beq     _30
+	beq     @_30
 
 	jsr     speed_change
 	stz     connect_st
 
-_30:
+@_30:
 
 	lda     mouseConnect
 	ora     mouseConnect+1
@@ -443,12 +439,12 @@ _30:
 
 .accu 8
 .index 8
-mouse_data:
+_mouse_data:
 
 	sta     tcc__r0           ; (421A / 4218 saved to reg0)
 	and.b   #$0F
 	cmp.b   #$01              ; Is the mouse connected?
-	beq     _m10
+	beq     @_m10
 
 	stz     mouseConnect,x    ; No connection.
 
@@ -459,28 +455,28 @@ mouse_data:
 
 	rts
 
-_m10:
+@_m10:
 	lda     mouseConnect,x    ; When mouse is connected, speed will change.
-	bne     _m20              ; Previous connection status
+	bne     @_m20             ; Previous connection status
                               ; (mouse.com judged by lower 1 bit)
 	lda     #$01              ; Connection check flag on
 	sta     mouseConnect,x
 	sta     connect_st,x
 	rts
 
-_m20:
+@_m20:
 	rep			#$10
 	ldy     #16               ; Read 16 bit data.
 	sep			#$10
 
-_m30:
+@_m30:
 	lda     REG_JOYA,x
 
 	lsr     a
 	rol     mouse_x,x
 	rol     mouse_y,x
 	dey
-	bne     _m30
+	bne     @_m30
 
 	stz     mousePressed,x
 
@@ -491,29 +487,30 @@ _m30:
 
 	lda     mousePressed,x
 	eor     mouse_sb,x        ; Get switch trigger
-	bne     _m40
+	bne     @_m40
 
 	stz     mouseButton,x
 
 	rts
 
-_m40:
+@_m40:
 	lda     mousePressed,x
 	sta     mouseButton,x
 	sta     mouse_sb,x
 
 	rts
 
-.ENDS
 
 
-; Needed to satisfy interrupt definition in "Header.inc".
-.SECTION ".vblank" SEMIFREE ORG ORG_0 BANK 0
+;---------------------------------------------------------------------------------
 
 .accu 16
 .index 16
 .16bit
 
+
+;; Vertical Blank Interrupt Service Routine (NMI ISR)
+;;
 VBlank:
 .ifdef FASTROM
   jml FVBlank
@@ -575,21 +572,21 @@ FVBlank:
 
   lda snes_mplay5
   beq +
-  jsl scanMPlay5_
-  jsl scanPads_
+  jsl _scanMPlay5
+  jsl _scanPads
   bra @EndScanPads
 +
   lda snes_mouse
   beq +
-  jsl mouseRead_
+  jsl _mouseRead
   lda mouseConnect
   and mouseConnect + 1    ; If both ports have a mouse plugged, it will skip pad controller reading
   bne @EndScanPads
 +
-  jsl scanPads_
+  jsl _scanPads
   lda snes_sscope
   beq @EndScanPads
-  jsr GetScope_
+  jsr _GetScope
 @EndScanPads:
 
   rep #$30
@@ -602,6 +599,9 @@ FVBlank:
   RTI
 
 .ENDS
+
+;---------------------------------------------------------------------------
+
 
 
 .BASE BASE_0
