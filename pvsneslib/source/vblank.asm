@@ -44,6 +44,9 @@ snes_frame_count_svg    dsb 2           ; same thing for saving purpose
 ;; REQUIRES: Auto-Joypad enabled.
 ;; REQUIRES: REG_WRIO bit 7 set BEFORE Vblank starts if a Multitap/Mp5 is connected.
 ;;
+;; REQUIRES: Auto-Joypad has finished reading the controllers.
+;;           (This macro DOES NOT contain a REG_HVBJOY test/spinloop.)
+;;
 ;; ACCU 8
 ;; INDEX 16
 ;; DB = 0
@@ -54,9 +57,8 @@ snes_frame_count_svg    dsb 2           ; same thing for saving purpose
 	ldy	pad_keys+2
 	sty	pad_keysold+2
 
-	lda	#1                                     ; wait until joypads are ready
--:	bit	REG_HVBJOY
-	bne	-
+	; The code assumes Joypad Auto-Read is not active.
+	; This is enforced by a REG_HVBJOY spinloop in the VBlank ISR.
 
 	rep	#$20
 
@@ -94,6 +96,9 @@ snes_frame_count_svg    dsb 2           ; same thing for saving purpose
 ;; REQUIRES: Joypad Auto-Read enabled.
 ;; REQUIRES: REG_WRIO bit 7 set BEFORE Vblank starts.
 ;;
+;; REQUIRES: Auto-Joypad has finished reading the controllers.
+;;           (This macro DOES NOT contain a REG_HVBJOY test/spinloop.)
+;;
 ;; ACCU 8
 ;; INDEX 16
 ;; DB = 0
@@ -119,11 +124,9 @@ snes_frame_count_svg    dsb 2           ; same thing for saving purpose
 	sep #$20
 .ACCU 8
 
-	; Wait until Joypad Auto-Read has finished
-	lda.b  #1
--
-		bit.w  REG_HVBJOY
-		bne    -
+	; The code assumes Joypad Auto-Read is not active.
+	; This is enforced by a REG_HVBJOY spinloop in the VBlank ISR.
+
 
 	; Pads 3 & 4 must be manually read using the REG_JOYB register.
 	;
@@ -230,6 +233,17 @@ snes_frame_count_svg    dsb 2           ; same thing for saving purpose
 ;    3c: at some point, set "CenterH"/"CenterV" equal to "ShotHRaw"/"ShotVRaw"
 ;        so that the aim-adjusted coordinates are "correct"
 ;---------------------------------------------------------------------------------
+
+;; Read the SuperScope from controller port 2 and PPU counter.
+;;
+;; REQUIRES: Auto-Joypad enabled.
+;; REQUIRES: Auto-Joypad has finished reading the controllers.
+;;           (This subroutine DOES NOT contain a REG_HVBJOY test/spinloop.)
+;;
+;; DB = 0
+;; D = tcc__registers_irq (NOT ZERO)
+.ACCU 8
+.INDEX 16
 _GetScope:
 	php
 	sep	#$20
@@ -275,11 +289,8 @@ _GetScope:
 
 ; Wait for valid joypad input
 @GetInput:
-	sep	#$20
-
--:	lda	REG_HVBJOY
-	and.b #$01
-	bne	-
+	; The code assumes Joypad Auto-Read is not active.
+	; This is enforced by a REG_HVBJOY spinloop in the VBlank ISR.
 
 	rep	#$20
 	lda	REG_JOY2L                              ; Get joypad 2 input
@@ -390,18 +401,18 @@ _GetScope:
 ;; Read the mouse values
 ;;
 ;; REQUIRES: Auto-Joypad enabled.
+;; REQUIRES: Auto-Joypad has finished reading the controllers.
+;;           (This subroutine DOES NOT contain a REG_HVBJOY test/spinloop.)
 ;;
-;; ACCU 8
-;; INDEX 16
 ;; DB = 0
 ;; D = tcc__registers_irq (NOT ZERO)
+.ACCU 8
+.INDEX 16
 _mouseRead:
 	sep     #$30
 
-@_10:
-	lda			REG_HVBJOY
-	and			#$01
-	bne     @_10					     ; Automatic read ok?
+	; The code assumes Joypad Auto-Read is not active.
+	; This is enforced by a REG_HVBJOY spinloop in the VBlank ISR.
 
 	ldx     #$01
 	lda     REG_JOY2L            ; Joy2
@@ -568,6 +579,13 @@ FVBlank:
 	pha
 	plb
 ; DB = 0
+
+	; Wait until the Joypad Auto-Read has finished.
+	; (done here so HVBJOY is only tested in one spot)
+	lda.b  #1
+	-
+		bit.w  REG_HVBJOY
+		bne    -
 
 
 	lda    snes_mplay5
