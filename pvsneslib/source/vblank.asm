@@ -574,13 +574,14 @@ FVBlank:
 	plb
 // DB = $7e
 
-  lda.w #tcc__registers_irq
-  tad
-  lda.l nmi_handler
-  sta.b tcc__r10
-  lda.l nmi_handler + 2
-  sta.b tcc__r10h
-  jsl tcc__jsl_r10
+	; Change Direct Page Register to prevent the `nmi_handler` call
+	; from clobbering tcc imaginary registers.
+	lda.w  #tcc__registers_irq
+	tad
+// D = tcc__registers_irq
+
+	jsl    __JumpTo_nmi_handler
+
 
 	; This marks the end of the Vertical Blanking Period critical code
 
@@ -660,6 +661,17 @@ FVBlank:
 @ScanMp5:
 	_ScanMPlay5
 	jmp    @ScanPads
+
+
+;; Long jump to `nmi_handler`
+;;
+;; ACCU 16
+;; INDEX 16
+;; DB = $7e
+;; D = tcc__registers_irq
+__JumpTo_nmi_handler:
+	; The `JML [addr]` instruction will always read the new program counter from Bank 0
+	jml    [nmi_handler]
 
 .ENDS
 
