@@ -297,6 +297,8 @@ fast_start:
     stz.b tcc__r0
     stz.b tcc__r1
 
+    stz.w lag_frame_counter
+
     stz.w snes_vblank_count
     stz.w snes_vblank_count_svg
     stz.w snes_frame_count

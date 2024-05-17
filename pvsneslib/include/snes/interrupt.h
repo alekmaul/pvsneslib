@@ -52,6 +52,21 @@
  */
 extern u8 vblank_flag;
 
+/**
+ * \brief Lag-frame counter.
+ *
+ * This variable is incremented on every VBlank Interrupt that occurs during a lag-frame.
+ *
+ * \b CAUTION: The lag frame counter cannot tell the difference between a lag-frame and
+ * force-blank setup loading graphics to the PPU.
+ *
+ * \c lag_frame_counter can be modified.  This is useful in development builds to measure the
+ * amount of lag in a level by resetting \c lag_frame_counter on level load and printing
+ * \c lag_frame_counter on a pause screen or at the end of the level.
+ */
+extern u16 lag_frame_counter;
+
+
 extern void *nmi_handler;
 
 /** \brief VBlank NMI Enable  (0=Disable, 1=Enable) (Initially disabled on reset) */

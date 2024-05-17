@@ -29,6 +29,8 @@ vblank_flag dsb 1
 
 nmi_handler dsb 4
 
+lag_frame_counter       dsb 2  ; Number of lag frames encountered (can be externally modified)
+
 snes_vblank_count       dsb 2           ; 2 bytes to count number of vblank
 snes_vblank_count_svg   dsb 2           ; same thing for saving purpose
 snes_frame_count        dsb 2           ; 2 bytes for frame counter inside loop
@@ -600,7 +602,14 @@ FVBlank:
 		; The VBlank interrupt occurred in a lag frame
 		; Do not read inputs.
 
-		jmp     @EndReadInputs
+		ldx.w  lag_frame_counter
+		inx
+		bne    +
+			dex
+		+
+		stx.w  lag_frame_counter
+
+		jmp    @EndReadInputs
 
 	@ReadInputs:
 		; Not in a lag frame
