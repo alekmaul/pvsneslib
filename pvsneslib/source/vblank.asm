@@ -533,31 +533,39 @@ FVBlank:
   phx
   phy
   pha
-  ; set data bank register to bss section
-  pea $7e7e
-  plb
-  plb
 
+	pea    $7e80
+	plb
+// DB = $80
 
-  ; Put oam to screen if needed
-  rep #$20                     ; A 16 bits
-  lda.w #$0000
-  sta.l $2102                  ; OAM address
-  lda.w #$0400
-  sta.l $4370                  ; DMA type CPU -> PPU, auto inc, $2104 (OAM write)
-  lda.w #$0220
-  sta.l $4375                  ; DMA size (220 = 128*4+32
+	; Using 16 bit A so the `stz $2102` below clears a 16-bit register.
+	sep    #$10
+.ACCU 16
+.INDEX 8
 
-  lda #oamMemory.w
-  sta.l $4372                  ; DMA address = oam memory
-  sep #$20
-  lda	#:oamMemory
-  sta.l $4374                  ; DMA address bank = oam memory
+		; Transfer oamMemory to OAM
+		stz.w  $2102            ; OAM address (word register)
 
-  lda.b #$80					 ; DMA channel 7 1xxx xxxx
-  sta.l $420b 
+		lda.w  #$0400
+		sta.w  $4370            ; DMA type CPU -> PPU, auto inc, $2104 (OAM write)
 
-  rep #$20
+		lda.w  #$0220
+		sta.w  $4375            ; DMA size (0x220 = 128*4+32)
+
+		lda.w  #oamMemory.w
+		sta.w  $4372            ; DMA address = oam memory
+
+		ldx.b  #:oamMemory
+		stx.w  $4374            ; DMA address bank = oam memory
+
+		ldx.b  #$80
+		stx.w  $420b            ; DMA channel 7 1xxx xxxx
+
+	rep #$30
+.ACCU 16
+.INDEX 16
+	plb
+// DB = $7e
 
   ; Count frame number
   inc.w snes_vblank_count
