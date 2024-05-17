@@ -23,7 +23,9 @@
 ;---------------------------------------------------------------------------------
 
 
-.RAMSECTION ".registers" BANK 0 SLOT 1 PRIORITY 1
+.RAMSECTION ".vblank_bss" BANK 0 SLOT 1 PRIORITY 1
+
+vblank_flag dsb 1
 
 nmi_handler dsb 4
 
@@ -543,6 +545,8 @@ FVBlank:
 .ACCU 16
 .INDEX 8
 
+	ldx.w  vblank_flag
+	beq    +
 		; Transfer oamMemory to OAM
 		stz.w  $2102            ; OAM address (word register)
 
@@ -560,15 +564,13 @@ FVBlank:
 
 		ldx.b  #$80
 		stx.w  $420b            ; DMA channel 7 1xxx xxxx
+	+
 
 	rep #$30
 .ACCU 16
 .INDEX 16
 	plb
 // DB = $7e
-
-  ; Count frame number
-  inc.w snes_vblank_count
 
   lda.w #tcc__registers_irq
   tad
@@ -578,6 +580,11 @@ FVBlank:
   sta.b tcc__r10h
   jsl tcc__jsl_r10
 
+	; This marks the end of the Vertical Blanking Period critical code
+
+
+	; Count frame number
+	inc.w  snes_vblank_count
 
 	; Refresh pad values
 	sep    #$20
@@ -586,39 +593,49 @@ FVBlank:
 	lda.b  #0
 	pha
 	plb
-; DB = 0
+	; DB = 0
 
-	; Wait until the Joypad Auto-Read has finished.
-	; (done here so HVBJOY is only tested in one spot)
-	lda.b  #1
-	-
-		bit.w  REG_HVBJOY
-		bne    -
+	lda.w  vblank_flag
+	bne    @ReadInputs
+		; The VBlank interrupt occurred in a lag frame
+		; Do not read inputs.
 
+		jmp     @EndReadInputs
 
-	lda    snes_mplay5
-	bne    @ScanMp5
+	@ReadInputs:
+		; Not in a lag frame
+		; Read inputs
 
-	lda    snes_mouse
-	beq    +
-		jsl    _mouseRead
+		stz.w  vblank_flag
 
-		; If both ports have a mouse plugged, it will skip pad controller reading
-		lda mouseConnect
-		and mouseConnect + 1
-		bne @EndScanPads
-    +
+		; Wait until the Joypad Auto-Read has finished.
+		; (done here so HVBJOY is only tested in one spot)
+		lda.b  #1
+		-
+			bit.w  REG_HVBJOY
+			bne    -
 
-	lda    snes_sscope
-	beq    +
-		jsr    _GetScope
-		bra    @EndScanPads
-	+
+		lda    snes_mplay5
+		bne    @ScanMp5
 
-@ScanPads:
-	_ScanPads
+		lda    snes_mouse
+		beq    +
+			jsl    _mouseRead
 
-@EndScanPads:
+			; If both ports have a mouse plugged, it will skip pad controller reading
+			lda.w  mouseConnect
+			and.w  mouseConnect + 1
+			bne    @EndReadInputs
+		+
+		lda    snes_sscope
+		beq    +
+			jsr    _GetScope
+			bra    @EndReadInputs
+		+
+	@ScanPads:
+		_ScanPads
+
+@EndReadInputs:
 
   rep #$30
 
@@ -646,22 +663,24 @@ FVBlank:
 
 ;---------------------------------------------------------------------------
 WaitForVBlank:
-	wai
-	rtl
+	php
+	sep    #$20
 
-; old version still here for memory purpose
-;	pha
-;	php
-;	sep	#$20
-;-:
-;	lda.l	REG_RDNMI
-;	bmi	-
-;-:
-;	lda.l	REG_RDNMI
-;	bpl	-
-;	plp
-;	pla
-;	rtl
+	; TODO: is this required?
+	pha
+.ACCU 8
+
+	lda    #1
+	sta.w  vblank_flag
+
+	-
+		wai
+		lda.w  vblank_flag
+		bne    -
+
+	pla
+	plp
+	rtl
 
 .ENDS
 
@@ -671,15 +690,19 @@ WaitForVBlank:
 ;---------------------------------------------------------------------------
 ; void WaitNVBlank(u16 ntime)
 WaitNVBlank:
-    php
+	php
 
-    sep #$20
-    lda 5,s
--   wai
-    dea
-    bne -
+	sep #$20
 
-    plp
+	lda 5,s
+	-
+		pha
+		jsl     WaitForVBlank
+		pla
+		dea
+		bne     -
+
+	plp
 	rtl
 
 .ENDS

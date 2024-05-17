@@ -36,6 +36,22 @@
 
 #include <snes/snestypes.h>
 
+/**
+ * \brief VBlank ISR flag.
+ *
+ * Used to detect lag-frames in the VBlank ISR.
+ *
+ * This variable is set to a truthy (non-zero) value in WaitForVBlank()
+ * and cleared in the NMI ISR after the call to nmi_handler.
+ *
+ * vblank_flag can be used in a custom nmi_handler to detect lag frames.  Within nmi_handler:
+ *  - If vblank_flag is truthy (non-zero), the nmi_handler was called at the end of the frame.
+ *  - If vblank_flag is 0, the nmi_handler was called in the middle of a lag frame.
+ *
+ * \b CAUTION: This variable SHOULD NOT be changed outside of WaitForVBlank()
+ */
+extern u8 vblank_flag;
+
 extern void *nmi_handler;
 
 /** \brief VBlank NMI Enable  (0=Disable, 1=Enable) (Initially disabled on reset) */

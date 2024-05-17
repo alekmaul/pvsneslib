@@ -235,6 +235,10 @@ fast_start:
 
     jsr tcc__snesinit
 
+    sep #$20
+
+    stz.w vblank_flag
+
     rep #$30	; all registers 16-bit
 
     ; direct page points to register set
