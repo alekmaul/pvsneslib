@@ -259,8 +259,8 @@ function onLoad() {
         // Try to get as squared as possible
         //
         const numTiles = tiles.length;
-        const numRows = Math.sqrt(numTiles) | 0;
-        const numCols = Math.ceil(numTiles / numRows) | 0;
+        const numRows = Math.ceil((numTiles*tileWidth)/256) | 0; // Math.sqrt(numTiles) | 0;
+        const numCols = 256/tileWidth; // Math.ceil(numTiles / numRows) | 0;
         extractedTilesWidth = numCols * tileWidth;
         extractedTilesHeight = numRows * tileHeight;
         const canvas = document.createElement("canvas");
