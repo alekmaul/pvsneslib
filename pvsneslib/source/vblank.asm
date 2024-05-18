@@ -544,9 +544,17 @@ FVBlank:
 	phy
 	pha
 
+	; Direct Page and DB are unknown.  Set them here.
+
+	; Using a different Direct Page Register value to prevent the `nmi_handler` call
+	; from clobbering tcc imaginary registers.
+	lda.w  #tcc__registers_irq
+	tad
+; D = tcc__registers_irq
+
 	pea    $7e80
 	plb
-// DB = $80
+; DB = $80
 
 	; Using 16 bit A so the `stz $2102` below clears a 16-bit register.
 	sep    #$10
@@ -578,13 +586,7 @@ FVBlank:
 .ACCU 16
 .INDEX 16
 	plb
-// DB = $7e
-
-	; Change Direct Page Register to prevent the `nmi_handler` call
-	; from clobbering tcc imaginary registers.
-	lda.w  #tcc__registers_irq
-	tad
-// D = tcc__registers_irq
+; DB = $7e
 
 	jsl    __JumpTo_nmi_handler
 
