@@ -73,9 +73,9 @@ typedef enum SUPERSCOPE_BITS
     SSC_NOISE = BIT(8),     //!< superscope NOISE flag.
 } SUPERSCOPE_BITS;
 
-extern u16 pad_keys[2];
-extern u16 pad_keysold[2];
-extern u16 pad_keysrepeat[2];
+extern u16 pad_keys[5];
+extern u16 pad_keysold[5];
+extern u16 pad_keysrepeat[5];
 
 extern u8 snes_mplay5;  /*! \brief 1 if MultiPlay5 is connected */
 extern u8 snes_mouse;   /*! \brief 1 if Mouse is going to be used */
