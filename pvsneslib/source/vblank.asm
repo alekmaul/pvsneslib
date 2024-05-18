@@ -23,8 +23,9 @@
 ;---------------------------------------------------------------------------------
 
 
+; Using lowram segment (Work-RAM address $0000-$1FFF) for VBlank variables so they can be accessed with a DB of $00.
 .BASE $00
-.RAMSECTION ".vblank_bss" BANK 0 SLOT 1 PRIORITY 1
+.RAMSECTION ".vblank_lowram" BANK 0 SLOT 1 PRIORITY 1
 
 vblank_flag             dsb 1
 
