@@ -23,6 +23,7 @@
 ;---------------------------------------------------------------------------------
 
 
+.BASE $00
 .RAMSECTION ".vblank_bss" BANK 0 SLOT 1 PRIORITY 1
 
 vblank_flag dsb 1
@@ -39,8 +40,9 @@ snes_frame_count_svg    dsb 2           ; same thing for saving purpose
 .ENDS
 
 
-; Needed to satisfy interrupt definition in "Header.inc".
-.SECTION ".vblank_isr" SEMIFREE ORG ORG_0 BANK 0
+; Needed to ensure VBlank ISR is in bank zero so the 65816 can access it when a NMI interrupt occurs.
+.BASE BASE_0
+.SECTION ".vblank_isr" SEMIFREE ORGA $8000 BASE BASE_0 BANK 0
 
 
 ;; Scan and read the joypads
