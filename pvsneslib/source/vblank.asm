@@ -26,16 +26,16 @@
 .BASE $00
 .RAMSECTION ".vblank_bss" BANK 0 SLOT 1 PRIORITY 1
 
-vblank_flag dsb 1
+vblank_flag             dsb 1
 
-nmi_handler dsb 4
+nmi_handler             dsb 4
 
 lag_frame_counter       dsb 2  ; Number of lag frames encountered (can be externally modified)
 
-snes_vblank_count       dsb 2           ; 2 bytes to count number of vblank
-snes_vblank_count_svg   dsb 2           ; same thing for saving purpose
-snes_frame_count        dsb 2           ; 2 bytes for frame counter inside loop
-snes_frame_count_svg    dsb 2           ; same thing for saving purpose
+snes_vblank_count       dsb 2  ; 2 bytes to count number of vblank
+snes_vblank_count_svg   dsb 2  ; same thing for saving purpose
+snes_frame_count        dsb 2  ; 2 bytes for frame counter inside loop
+snes_frame_count_svg    dsb 2  ; same thing for saving purpose
 
 .ENDS
 
@@ -533,12 +533,16 @@ VBlank:
 
 FVBlank:
 .endif
-  rep #$30
-  phb
-  phd
-  phx
-  phy
-  pha
+
+	rep    #$30
+
+	; Push CPU registers to the stack.
+	; A/X/Y must be saved in 16-bit mode (**before** switching to an 8 bit index)
+	phb
+	phd
+	phx
+	phy
+	pha
 
 	pea    $7e80
 	plb
@@ -649,14 +653,16 @@ FVBlank:
 
 @EndReadInputs:
 
-  rep #$30
+	; Restore CPU registers
+	rep #$30
 
-  pla
-  ply
-  plx
-  pld
-  plb
-  RTI
+	pla
+	ply
+	plx
+	pld
+	plb
+
+	rti
 
 
 
