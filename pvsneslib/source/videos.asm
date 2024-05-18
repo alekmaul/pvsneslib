@@ -1147,25 +1147,42 @@ showFPScounter:
     php
     phb
 
-    jsl getFPScounter                                   ; compute fps
-
     sep #$20
+    lda #$0                                             ; bank 0 for counters
+    pha
+    plb
 
+    rep #$20
+    lda snes_vblank_count
+    cmp snes_vblank_count_svg                           ; is svg < current counter, exit to display (normaly, never occurs)
+    bcc _sfctr1
+    sec
+    sbc.l snes_vblank_count_svg                         ; check if we reach fps (50 or 60)        
+    sbc.l snes_fps    
+    bcc _sfctr
+
+    lda snes_vblank_count                               ; save vblank count
+    sta snes_vblank_count_svg
+    
+    lda snes_frame_count_svg                            ; init again frame counter
+    cmp #99                                             ; no more than 99 fps (don't be mad ;) )
+    bcc +
+    lda #99
+    
++:  sta snes_frame_count
+    stz snes_frame_count_svg
+_sfctr:
+    inc.w snes_frame_count_svg                          ; increment current frame counter
+
+_sfctr1:
+    sep #$20
     lda.l snes_frame_count
     sta.l $4204
     lda.l snes_frame_count+1                            ; Write $fps to dividend
     sta.l $4205
-    LDA #10                                             ; Write 10 to divisor
-    sta.l $4206
-    nop                                                 ; Wait 16 machine cycles
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-
+    LDA #10                                             ; Write 10 to divisor (to have fps/10 for 1st char)
+    sta.l $4206                                         ; Wait 16 machine cycles after (done by code)
+ 
     lda #$80	                                        ; VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1  set address in VRam for read or write ($2116) + block size transfer ($2115)
     sta.l $2115
     rep #$20
@@ -1178,16 +1195,21 @@ showFPScounter:
     lda.l $4214                                         ; A = result low byte ($4215 result high byte)
     clc
     adc #$10                                            ; to have number 0 of graphic
-	sta.l $2118
-    lda #$1
-	sta.l $2119
+	rep #$20
+    and #$00FF
+    clc 
+    adc txt_vram_offset                                 ; add text offset and put 16 bit value to VRAM
+    sta.l $2118
 
-    lda.l $4216                                         ; A = remainder low byte ($4216 remainder high byte)
+    sep #$20
+    lda.l $4216                                         ; A = remainder low byte ($4216 remainder high byte) (so fps mod 10)
     clc
     adc #$10                                            ; to have number 0 of graphic
-	sta.l $2118
-    lda #$1
-	sta.l $2119
+	rep #$20
+    and #$00FF
+    clc 
+    adc txt_vram_offset
+	sta.l $2118                                         ; add text offset and put 16 bit value to VRAM
 
     plb
     plp
