@@ -534,7 +534,7 @@ VBlank:
 FVBlank:
 .endif
 
-	rep    #$30
+	rep    #$38                 ; 16 bit A, 16 bit I, decimal mode disabled
 
 	; Push CPU registers to the stack.
 	; A/X/Y must be saved in 16-bit mode (**before** switching to an 8 bit index)
