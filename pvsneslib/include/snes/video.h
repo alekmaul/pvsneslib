@@ -337,6 +337,8 @@ void setMode(u8 mode, u8 size);
 
 /*! \fn  setScreenOn(void)
     \brief Put screen On.
+
+    Calls WaitForVBlank() before enabling the screen to flush VBlank buffers/queues and minimise glitches.
 */
 void setScreenOn(void);
 

@@ -282,9 +282,14 @@ setScreenOn:
     php
 
     sep #$20
-    lda #$f
-    wai
 
+    ; Calling WaitForVBlank to:
+    ;  * Flush any unsent VBlank ISR/routine buffers/queues (fixes an uninitialized OAM glitch).
+    ;  * Ensure the input/pad state is up-to-date when `setScreenOn()` returns.
+    ;  * Prevent screen tearing and a single frame glitch that occurs when the screen is enabled mid-frame.
+    jsl WaitForVBlank
+
+    lda   #$f
     sta.l REG_INIDISP
 
     plp
