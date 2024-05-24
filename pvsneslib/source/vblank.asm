@@ -428,7 +428,7 @@ _MouseRead:
 	lda     connect_st+1
 	beq     @_20
 
-	jsr     speed_change
+	jsr     mouseSpeedChange@speed_change
 	stz     connect_st+1
 
 @_20:
@@ -439,7 +439,7 @@ _MouseRead:
 	lda     connect_st
 	beq     @_30
 
-	jsr     speed_change
+	jsr     mouseSpeedChange@speed_change
 	stz     connect_st
 
 @_30:

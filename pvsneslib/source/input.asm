@@ -355,7 +355,8 @@ detectSuperScope:
 
 ;---------------------------------------------------------------------------------
 
-.SECTION ".mousespeedchange_text" SUPERFREE
+; Must be in bank 0, used by _MouseRead in the VBlank ISR.
+.SECTION ".mousespeedchange_text" SEMIFREE BANK 0
 
 ;---------------------------------------------------------------------------------
 ; void mouseSpeedChange(u8 port)
@@ -373,7 +374,7 @@ mouseSpeedChange:
 	lda     8,s 						; Set port
 	tax
 
-	jsr     speed_change
+	jsr     @speed_change
 
 	ply
 	plx
@@ -381,7 +382,13 @@ mouseSpeedChange:
 	plp
 	rtl
 
-speed_change:
+
+; Called by _MouseRead in the Vblank ISR
+; X = 0 or 1
+; DB = 0
+.ACCU 8
+.INDEX 8
+@speed_change:
 	php
 	sep     #$30
 
