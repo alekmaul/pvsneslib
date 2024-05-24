@@ -451,7 +451,7 @@ _MouseRead:
 
 +:
 	rep     #$10
-	rtl
+	rts
 
 
 ;; Read the mouse values from a single controller port.
@@ -646,7 +646,7 @@ FVBlank:
 
 		lda    snes_mouse
 		beq    +
-			jsl    _MouseRead
+			jsr    _MouseRead
 
 			; If both ports have a mouse plugged, it will skip pad controller reading
 			lda.w  mouseConnect
