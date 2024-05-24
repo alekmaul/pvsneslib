@@ -330,30 +330,6 @@ detectSuperScope:
 
 .ENDS
 
-;---------------------------------------------------------------------------------
-
-;* mouse_read
-
-;---------------------------------------------------------------------------------
-
-;*          If this routine is called every frame, then the mouse status will be set
-;*          to the appropriate registers.
-;* INPUT
-;*          None (Mouse key read automatically)
-;* OUTPUT
-;*          Connection status (mouse_con)   D0=1 Mouse connected to Joyl
-;*                                          D1=1 Mouse connected to Joy2
-;*          Switch (mousePressed,1)         D0=left switch turbo
-;*                                          D1=right switch turbo
-;*          Switch (mouseButton,1)          D0=left switch trigger
-;*                                          D1=right switch trigger
-;*          Mouse movement (ball) value
-;*                (mouse_x)                 D7=0 Positive turn, D7=1 Negative turn
-;*                                          D6-D0 X movement value
-;*                (mouse_y)                 D7=0 Positive turn, D7=1 Negative turn
-;*                                          D6-D0 X movement value
-
-;---------------------------------------------------------------------------------
 
 ; Must be in bank 0, used by _MouseRead in the VBlank ISR.
 .SECTION ".mousespeedchange_text" SEMIFREE BANK 0
