@@ -125,7 +125,8 @@ setFadeEffect:
 
     ldx.b   #$0
 -:
-    wai
+    jsl     WaitForVBlank
+    ; A,X,Y unchanged
     txa
     sta.l   REG_INIDISP
     inx
@@ -142,7 +143,8 @@ setFadeEffect:
 _fadeouteffect:
     ldx.b   #$F
 -:
-    wai
+    jsl     WaitForVBlank
+    ; A,X,Y unchanged
     txa
     sta.l   REG_INIDISP
     dex
@@ -176,7 +178,9 @@ setFadeEffectEx:
     ldx.b   #$0
 -:
     lda.b 10,s
---  wai
+--
+    jsl   WaitForVBlank
+    ; A,X,Y unchanged
     dea
     bne --
 
@@ -197,7 +201,9 @@ _sfeex1:
     ldx.b   #$F
 -:
     lda.b 10,s
---  wai
+--
+    jsl   WaitForVBlank
+    ; A,X,Y unchanged
     dea
     bne --
 
@@ -231,9 +237,9 @@ setMosaicEffect:
     lda #$00
     ldx.w   #$0
 -:
-    wai
-    wai
-    wai
+    jsl WaitForThreeVBlanks
+    ; A,X,Y unchanged
+
     ora 8,s                         ; Enable effect for BG in parameters
     sta.l   REG_MOSAIC
     clc
@@ -254,9 +260,9 @@ _mosaicouteffect:
     lda #$F0
     ldx.w   #$0
 
--:  wai
-    wai
-    wai
+-:
+    jsl WaitForThreeVBlanks
+    ; A,X,Y unchanged
 
     ora 8,s                         ; Enable effect for BG in parameters
     sta.l   REG_MOSAIC

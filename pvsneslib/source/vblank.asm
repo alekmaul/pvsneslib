@@ -693,26 +693,54 @@ __JumpTo_nmi_handler:
 .BASE BASE_0
 .SECTION  ".waitforvblank_text" SUPERFREE
 
-;---------------------------------------------------------------------------
+; WaitForVBlank(void);
+;
+; KEEP: A, X, Y (documented in interrupt.h)
+; A unknown
+; I unknown
+; DB unknown
+; D unknown
 WaitForVBlank:
 	php
 	sep    #$20
-
-	; TODO: is this required?
-	pha
 .ACCU 8
 
+	pha
+
+	; MUST NOT modify X, Y or high-byte of A
+	; This behaviour is documented in interrupt.h and used by `video.asm`.
+
 	lda    #1
-	sta.w  vblank_flag
+	sta.l  vblank_flag
 
 	-
 		wai
-		lda.w  vblank_flag
+		lda.l  vblank_flag
 		bne    -
 
 	pla
 	plp
 	rtl
+
+.ENDS
+
+
+.SECTION  ".waitforthreevblanks_text" SUPERFREE
+
+; WaitForVBlankTiles3(void);
+;
+; Used by `setMosaicEffect`.
+;
+; KEEP: A, X, Y
+; A unknown
+; I unknown
+; DB unknown
+; D unknown
+WaitForThreeVBlanks:
+	; MUST NOT modify X, Y or A
+	jsl    WaitForVBlank
+	jsl    WaitForVBlank
+	jml    WaitForVBlank
 
 .ENDS
 

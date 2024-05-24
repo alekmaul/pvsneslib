@@ -185,6 +185,8 @@ The H/V-IRQ flag in Bit7 of TIMEUP, Port 4211h gets set when the V-Counter gets 
  *      Wait for vblank interrupt<br>
  *
  *      Waits for a vertical blank interrupt<br>
+ *
+ * <b>Assembly note</b>: This function will not modify the A/X/Y registers and can be called with an 8 or 16 bit <tt>.ACCU</tt>/<tt>.INDEX</tt>.
 */
 void WaitForVBlank(void);
 
