@@ -381,7 +381,7 @@ _GetScope:
 
 ;---------------------------------------------------------------------------------
 
-;* mouse_read
+;* mouse read
 
 ;---------------------------------------------------------------------------------
 
@@ -415,7 +415,7 @@ _GetScope:
 ;; D = tcc__registers_irq (NOT ZERO)
 .ACCU 8
 .INDEX 16
-_mouseRead:
+_MouseRead:
 	sep     #$30
 
 	; The code assumes Joypad Auto-Read is not active.
@@ -423,7 +423,7 @@ _mouseRead:
 
 	ldx     #$01
 	lda     REG_JOY2L            ; Joy2
-	jsr     _mouse_data
+	jsr     _MouseData
 
 	lda     connect_st+1
 	beq     @_20
@@ -434,7 +434,7 @@ _mouseRead:
 @_20:
 	dex
 	lda     REG_JOY1L           ; Joy1
-	jsr     _mouse_data
+	jsr     _MouseData
 
 	lda     connect_st
 	beq     @_30
@@ -454,9 +454,16 @@ _mouseRead:
 	rtl
 
 
+;; Read the mouse values from a single controller port.
+;;
+;; IN: A = REG_JOY1L or REG_JOY2L
+;; IN: X = 0 or 1
+;;
+;; DB = 0
+;; D = tcc__registers_irq (NOT ZERO)
 .accu 8
 .index 8
-_mouse_data:
+_MouseData:
 
 	sta     tcc__r0           ; (421A / 4218 saved to reg0)
 	and.b   #$0F
@@ -639,7 +646,7 @@ FVBlank:
 
 		lda    snes_mouse
 		beq    +
-			jsl    _mouseRead
+			jsl    _MouseRead
 
 			; If both ports have a mouse plugged, it will skip pad controller reading
 			lda.w  mouseConnect
