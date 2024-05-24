@@ -1198,7 +1198,7 @@ _sfctr1:
 	rep #$20
     and #$00FF
     clc 
-    adc txt_vram_offset                                 ; add text offset and put 16 bit value to VRAM
+    adc.l txt_vram_offset                                 ; add text offset and put 16 bit value to VRAM
     sta.l $2118
 
     sep #$20
@@ -1208,7 +1208,7 @@ _sfctr1:
 	rep #$20
     and #$00FF
     clc 
-    adc txt_vram_offset
+    adc.l txt_vram_offset
 	sta.l $2118                                         ; add text offset and put 16 bit value to VRAM
 
     plb
