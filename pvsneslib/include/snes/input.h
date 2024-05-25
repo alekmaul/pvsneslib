@@ -27,9 +27,12 @@
 
 ---------------------------------------------------------------------------------*/
 
-/*! \file input.h
-    \brief input support.
-*/
+/*!
+ * \file input.h
+ * \brief input support.
+ *
+ * The inputs are automatically read by the \ref VBlank-ISR on non-lag frames.
+ */
 
 #ifndef SNES_INPUT_INCLUDE
 #define SNES_INPUT_INCLUDE
@@ -37,7 +40,7 @@
 #include <snes/snestypes.h>
 #include <snes/interrupt.h>
 
-/*! \file
+/*!
     \brief common values for pad input.
 
     common values that can be used to test auto pad.
@@ -59,7 +62,7 @@ typedef enum KEYPAD_BITS
     KEY_Y = BIT(14),      //!< pad Y button.
 } KEYPAD_BITS;
 
-/*! \file
+/*!
     \brief common values for SuperScope input.
 */
 //! enum values for the SuperScope buttons and flags.

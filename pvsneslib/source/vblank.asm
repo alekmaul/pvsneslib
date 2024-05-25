@@ -564,6 +564,10 @@ FVBlank:
 	plb
 ; DB = $80
 
+
+	; Whenever this ISR is modified, the `VBlank ISR` section in `interrupt.h` MUST ALSO be updated.
+
+
 	; Using 16 bit A so the `stz $2102` below clears a 16-bit register.
 	sep    #$10
 .ACCU 16

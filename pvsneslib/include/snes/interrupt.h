@@ -27,9 +27,39 @@
 
 ---------------------------------------------------------------------------------*/
 
-/*! \file interrupt.h
-    \brief snes interrupt support.
-*/
+/*!
+ * \file interrupt.h
+ * \brief snes interrupt support.
+ *
+ * <h2>VBlank ISR \anchor VBlank-ISR</h2>
+ *
+ * PVSnesLib includes a Vertical Blank Interrupt Service Routine (VBlank ISR or NMI ISR) that will
+ * do the following actions (in this order) at the start of the Vertical Blanking Period when
+ * VBlank interrupts are enabled:
+ *  - Transfer #oamMemory to the PPU OAM on non lag-frames.
+ *  - Call #nmi_handler.
+ *  - Increment #snes_vblank_count.
+ *  - Read inputs from the controller ports on non lag-frames (see input.h).
+ *  - Increment #lag_frame_counter on lag-frames.
+ *
+ * A lag-frame is when the execution time between two WaitForVBlank() calls exceeds a 50/60Hz
+ * display frame.  By testing for lag-frames, the VBlank ISR will not transfer a partially
+ * populated #oamMemory to the PPU OAM.
+ *
+ * Lag-frames are determined by the #vblank_flag variable, which is set on WaitForVBlank() and
+ * cleared in the VBlank ISR.
+ *
+ * Inputs are only read on non lag-frames to prevent the input state from unexpectedly changing in
+ * the middle of the main loop (potentially causing a heisenbug).  Code that loops until a button
+ * is pressed must call WaitForVBlank() within the loop otherwise it will loop forever.
+ *
+ * The #nmi_handler function pointer (set using nmiSet()) is called on \b every VBlank interrupt
+ * (even during force-blank / setScreenOff()).
+ * To prevent glitches, #nmi_handler's should either:
+ *  - Test #vblank_flag and only update the PPU registers/memory if the #vblank_flag is set.
+ *  - Use locks or flags on every buffer/queue to prevent partially populated data from being transferred to the PPU.
+ *
+ */
 
 #ifndef SNES_INTERRUPT_INCLUDE
 #define SNES_INTERRUPT_INCLUDE
@@ -69,13 +99,16 @@ extern u16 lag_frame_counter;
 /**
  * \brief VBlank routine
  *
- * This function is called on \b every VBlank interrupt by the VBlank Interrupt Service Routine.
+ * This function is called on \b every VBlank interrupt by the \ref VBlank-ISR "VBlank Interrupt Service Routine".
  *
  * \b CAUTION: Writes to \c nmi_handler are <b>not atomic</b> and can cause a crash if a VBlank
  * Interrupt occurs in the middle of the \c nmi_handler write.  Use nmiSet() or disable NMI
  * interrupts when modifying \c nmi_handler.
  *
- * \see nmiSet()
+ * <b>Assembly note:</b> This function pointer will be called with a non-zero Direct Page register
+ * to prevent \c nmi_handler from clobbering the tcc imaginary registers.
+ *
+ * \see \ref VBlank-ISR, nmiSet()
  */
 extern void *nmi_handler;
 
@@ -193,15 +226,16 @@ The H/V-IRQ flag in Bit7 of TIMEUP, Port 4211h gets set when the V-Counter gets 
  * \b CAUTION: This function will override the default #nmi_handler.
  * If you are using consoleDrawText(), you will need to call consoleVblank() inside \p vblankRoutine.
  *
- * \see #nmi_handler
+ * \see \ref VBlank-ISR, #nmi_handler
  */
 void nmiSet(void (*vblankRoutine)(void));
 
 /**
- *  \brief 
- *      Wait for vblank interrupt<br>
+ * \brief Waits for a VBlank interrupt.
  *
- *      Waits for a vertical blank interrupt<br>
+ * Sets the #vblank_flag and pauses execution until the #vblank_flag is cleared (by the \ref VBlank-ISR).
+ *
+ * \b CAUTION: This function will loop forever if VBlank interrupts are disabled.
  *
  * <b>Assembly note</b>: This function will not modify the A/X/Y registers and can be called with an 8 or 16 bit <tt>.ACCU</tt>/<tt>.INDEX</tt>.
 */
