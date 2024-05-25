@@ -245,6 +245,7 @@ fast_start:
     lda.w #tcc__registers
     tad
 
+    ; This nmi_handler write is safe.  Interrupts are disabled by `tcc__snesinit`
     lda.w #EmptyNMI
     sta.b nmi_handler
     lda.w #:EmptyNMI

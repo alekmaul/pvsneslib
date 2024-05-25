@@ -418,11 +418,12 @@ consoleVblank:
 consoleInit:
     php
 
+    sep #$20
+
+    lda.b #0                                                  ; Disable interrupts to prevent the VBlank ISR
+    sta.l REG_NMITIMEN                                        ; from modifying VRAM, PPU Registers or variables.
+
     rep #$20
-    lda.w #:consoleVblank                                     ; Put current handler to our function
-    sta.l nmi_handler + 2
-    lda.w #consoleVblank
-    sta.l nmi_handler
 
     lda.w #0                                                  ; Begin counting vblank
     sta.w snes_vblank_count
@@ -496,10 +497,14 @@ consoleInit:
     lda #TXT_VRAMOFFSET
     sta txt_vram_offset
 
-    plb
+    ; Set nmi_handler, enable VBlank interrupts, enable joypad auto-read.
+    pea :consoleVblank
+    pea consoleVblank
+    jsl nmiSet
+    pla
+    pla
 
-    lda #INT_VBLENABLE | INT_JOYPAD_ENABLE                    ; enable NMI, enable autojoy
-    sta.l REG_NMITIMEN
+    plb
 
     plp
     rtl

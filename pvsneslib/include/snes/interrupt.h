@@ -66,7 +66,17 @@ extern u8 vblank_flag;
  */
 extern u16 lag_frame_counter;
 
-
+/**
+ * \brief VBlank routine
+ *
+ * This function is called on \b every VBlank interrupt by the VBlank Interrupt Service Routine.
+ *
+ * \b CAUTION: Writes to \c nmi_handler are <b>not atomic</b> and can cause a crash if a VBlank
+ * Interrupt occurs in the middle of the \c nmi_handler write.  Use nmiSet() or disable NMI
+ * interrupts when modifying \c nmi_handler.
+ *
+ * \see nmiSet()
+ */
 extern void *nmi_handler;
 
 /** \brief VBlank NMI Enable  (0=Disable, 1=Enable) (Initially disabled on reset) */
@@ -171,14 +181,21 @@ The H/V-IRQ flag in Bit7 of TIMEUP, Port 4211h gets set when the V-Counter gets 
 #define REG_HVBJOY (*(vuint8 *)0x4212)
 
 /**
- *  \brief 
- *      Add a handler for the given interrupt mask.<br>
+ * \brief Sets the #nmi_handler (VBlank routine).
  *
- *      Specify the handler to use for the nmi interrupt.<br>
- *  \param handler 
- *      Address of the function to use as an interrupt service routine<br>
-*/
-#define nmiSet(handler) nmi_handler = handler;
+ * This function will also disable any active IRQ interrupts, enable VBlank interrupts and enable Joypad Auto-Read.
+ *
+ * \param vblankRoutine the function to call on every VBlank (NMI) interrupt.<br/>
+ *
+ * \b CAUTION: \p vblankRoutine is called on \b every VBlank interrupt.
+ * #vblank_flag can be used to determine if \p vblankRoutine was called during a lag-frame.
+ *
+ * \b CAUTION: This function will override the default #nmi_handler.
+ * If you are using consoleDrawText(), you will need to call consoleVblank() inside \p vblankRoutine.
+ *
+ * \see #nmi_handler
+ */
+void nmiSet(void (*vblankRoutine)(void));
 
 /**
  *  \brief 

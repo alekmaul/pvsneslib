@@ -693,9 +693,54 @@ __JumpTo_nmi_handler:
 
 .ENDS
 
+
 ;---------------------------------------------------------------------------
 
+.BASE BASE_0
+.SECTION  ".nmiSet_text" SUPERFREE
 
+; void nmiSet(void (*vblankRoutine)(void));
+;
+; DB access lowram
+nmiSet:
+	php
+.DEFINE _stack_arg_offset 5
+
+	sep    #$20
+.ACCU 8
+
+	; Disable interrupts.
+	; Prevents a crash if a VBlank Interrupt occurs in the middle of the two `nmi_handler` writes.
+	lda    #0
+	sta.l  REG_NMITIMEN
+
+	rep    #$20
+.INDEX 16
+	lda    _stack_arg_offset,s
+	sta.w  nmi_handler
+
+	lda    _stack_arg_offset + 2,s
+	sta.w  nmi_handler + 2
+
+
+	sep    #$20
+.ACCU 8
+	; Reset the NMI flag.
+	; Prevents an NMI interrupt from erroneously activating on the REG_NMITIMEN write.
+	lda.l  REG_RDNMI
+
+	; Enable VBlank Interrupts and Joypad Auto-Read.
+	lda    #INT_VBLENABLE | INT_JOYPAD_ENABLE
+	sta.l  REG_NMITIMEN
+
+.UNDEFINE _stack_arg_offset
+	plp
+	rtl
+
+.ENDS
+
+
+;---------------------------------------------------------------------------
 
 .BASE BASE_0
 .SECTION  ".waitforvblank_text" SUPERFREE
