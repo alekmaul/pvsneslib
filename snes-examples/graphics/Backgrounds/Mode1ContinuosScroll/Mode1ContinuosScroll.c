@@ -184,23 +184,23 @@ void handleScrollSub(character *p, scroll *s)
 // interruption of vblank (send information to vram via DMA)
 void myconsoleVblank()
 {
-
-    dmaCopyOAram((unsigned char *)&oamMemory, 0, 0x220);
-
-    if (bg_mutex == 0)
+    if (vblank_flag)
     {
-        if (bgInfo.refreshBG1 == true)
+        if (bg_mutex == 0)
         {
-            dmaCopyVram(bgInfo.bg1.gfxoffset, bgInfo.bg1.adrgfxvram, bgInfo.bg1.size);
-            bgInfo.refreshBG1 = false;
+            if (bgInfo.refreshBG1 == true)
+            {
+                dmaCopyVram(bgInfo.bg1.gfxoffset, bgInfo.bg1.adrgfxvram, bgInfo.bg1.size);
+                bgInfo.refreshBG1 = false;
+            }
         }
-    }
-    if (bg_mutex == 0)
-    {
-        if (bgInfo.refreshBG2 == true)
+        if (bg_mutex == 0)
         {
-            dmaCopyVram(bgInfo.bg2.gfxoffset, bgInfo.bg2.adrgfxvram, bgInfo.bg2.size);
-            bgInfo.refreshBG2 = false;
+            if (bgInfo.refreshBG2 == true)
+            {
+                dmaCopyVram(bgInfo.bg2.gfxoffset, bgInfo.bg2.adrgfxvram, bgInfo.bg2.size);
+                bgInfo.refreshBG2 = false;
+            }
         }
     }
 }

@@ -27,31 +27,27 @@ spritequeue sprqueue[16]; // Max 16 entries in queue
 //---------------------------------------------------------------------------------
 void myconsoleVblank(void)
 {
-    u8 *pgfx;
-    u16 padrgfx;
+    if (vblank_flag) {
+        u8 *pgfx;
+        u16 padrgfx;
 
-    // if tile sprite queued
-    if (spr_queue != 0xff)
-    {
-        if (spr_mutex == 0)
-        { // if we have finished adding things
-            // copy memory to vram (2 tiles of the 16x16 sprites)
-            while (spr_queue != 0xff)
-            {
-                pgfx = sprqueue[spr_queue].gfxoffset;
-                padrgfx = sprqueue[spr_queue].adrgfxvram;
-                dmaCopyVram(pgfx, padrgfx, 8 * 4 * 2);
-                dmaCopyVram(pgfx + 8 * 4 * 16, padrgfx + 8 * 4 * 8, 8 * 4 * 2);
-                spr_queue--;
+        // if tile sprite queued
+        if (spr_queue != 0xff)
+        {
+            if (spr_mutex == 0)
+            { // if we have finished adding things
+                // copy memory to vram (2 tiles of the 16x16 sprites)
+                while (spr_queue != 0xff)
+                {
+                    pgfx = sprqueue[spr_queue].gfxoffset;
+                    padrgfx = sprqueue[spr_queue].adrgfxvram;
+                    dmaCopyVram(pgfx, padrgfx, 8 * 4 * 2);
+                    dmaCopyVram(pgfx + 8 * 4 * 16, padrgfx + 8 * 4 * 8, 8 * 4 * 2);
+                    spr_queue--;
+                }
             }
         }
     }
-
-    // Put oam to screen if needed
-    dmaCopyOAram((unsigned char *)&oamMemory, 0, 0x220);
-
-    // count vbls
-    snes_vblank_count++;
 }
 
 //---------------------------------------------------------------------------------
