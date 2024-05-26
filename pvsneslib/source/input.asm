@@ -138,8 +138,8 @@ padsClear:
 
 	rep #$20
 	lda 8,s                                    ; get value
-	pha
-	plx
+	asl
+	tax
 
 	sep	#$20
 	lda #$0
@@ -170,8 +170,8 @@ padsDown:
 
 		rep #$20
 		lda 8,s                                    ; get value
-		pha
-		plx
+		asl
+		tax
 
 		lda pad_keysold,x
 		eor #$FFFF
@@ -205,8 +205,8 @@ padsUp:
 
 		rep #$20
 		lda 8,s                                    ; get value
-		pha
-		plx
+		asl
+		tax
 
 		lda pad_keys,x
 		eor #$FFFF
