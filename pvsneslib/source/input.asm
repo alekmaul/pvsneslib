@@ -128,27 +128,22 @@ connect_st      dsb 2
 ; void padsClear(unsigned short value)
 padsClear:
 	php
-	phb
+	rep #$30
 	phx
 
-	sep	#$20                                   ; change bank address to 0
-	lda.b	#$0
-	pha
-	plb
+	lda 7,s ; value argument
+	cmp #5
+	bcs +
+		asl
+		tax
 
-	rep #$20
-	lda 8,s                                    ; get value
-	asl
-	tax
-
-	sep	#$20
-	lda #$0
-	sta pad_keys,x
-	sta pad_keysold,x
-	sta pad_keysdown,x
+		lda #$0
+		sta.l pad_keys,x
+		sta.l pad_keysold,x
+		sta.l pad_keysdown,x
+	+
 
 	plx
-	plb
 	plp
 	rtl
 .ENDS
