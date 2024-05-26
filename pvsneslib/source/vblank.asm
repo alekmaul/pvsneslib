@@ -77,7 +77,7 @@ snes_frame_count_svg    dsb 2  ; same thing for saving purpose
 	sta	pad_keys                               ; store 'current' state
 	eor	pad_keysold                            ; compute 'down' state from bits that
 	and	pad_keys                               ; have changed from 0 to 1
-	sta	pad_keysrepeat                         ;
+	sta	pad_keysdown                           ;
 
 	lda	REG_JOY2L                              ; read joypad register #2
 	bit	#$0F                                   ; catch non-joypad input
@@ -87,7 +87,7 @@ snes_frame_count_svg    dsb 2  ; same thing for saving purpose
 	sta	pad_keys+2                             ; store 'current' state
 	eor	pad_keysold+2                          ; compute 'down' state from bits that
 	and	pad_keys+2                             ; have changed from 0 to 1
-	sta	pad_keysrepeat+2                       ;
+	sta	pad_keysdown+2                         ;
 
 	sep	#$20
 .ENDM
@@ -182,7 +182,7 @@ snes_frame_count_svg    dsb 2  ; same thing for saving purpose
 	sta.w  __pad_n(pad_keys, 2)
 	eor.w  __pad_n(pad_keysold, 2)
 	and.w  __pad_n(pad_keys, 2)
-	sta.w  __pad_n(pad_keysrepeat, 2)
+	sta.w  __pad_n(pad_keysdown, 2)
 
 	; Process pads 3 & 4
 	.REPEAT 2 INDEX _I
@@ -198,7 +198,7 @@ snes_frame_count_svg    dsb 2  ; same thing for saving purpose
 		+
 		eor.w  __pad_n(pad_keysold, @p)
 		and.w  __pad_n(pad_keys, @p)
-		sta.w  __pad_n(pad_keysrepeat, @p)
+		sta.w  __pad_n(pad_keysdown, @p)
 	.ENDR
 
 

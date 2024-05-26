@@ -78,7 +78,7 @@ typedef enum SUPERSCOPE_BITS
 
 extern u16 pad_keys[5];
 extern u16 pad_keysold[5];
-extern u16 pad_keysrepeat[5];
+extern u16 pad_keysdown[5];
 
 extern u8 snes_mplay5;  /*! \brief 1 if MultiPlay5 is connected */
 extern u8 snes_mouse;   /*! \brief 1 if Mouse is going to be used */
@@ -158,12 +158,13 @@ extern u16 scope_sinceshot; /*! \brief Number of frames elapsed since last shot 
 // unsigned short padsCurrent(u16 value);
 #define padsCurrent(value) (pad_keys[value])
 
-/*!	\fn padsDown(u16 value)
+/*!	\fn padsDown(value)
     \brief Return value of down keys for selected pad
-    \param value Address of the pad to use (0 or 1 to 4 if multiplayer 5 connected)
-    \return unsigned short of the current pad value
+    \param value Address of the pad to use (0-1 or 0-4 if multiplayer 5 connected)
+    \return unsigned short of the newly pressed down keys (0 -> 1 transition)
 */
-unsigned short padsDown(u16 value);
+// unsigned short padsDown(u16 value);
+#define padsDown(value) (pad_keysdown[value])
 
 /*!	\fn padsUp(u16 value)
     \brief Return value of up keys for selected pad

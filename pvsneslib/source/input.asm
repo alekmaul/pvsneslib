@@ -37,9 +37,9 @@
 .BASE $00
 .RAMSECTION ".reg_pads" BANK 0 SLOT 1
 
-pad_keys				dsb 10					; 5 pads , 16 bits reg
-pad_keysold			dsb 10					; 5 pads , 16 bits reg
-pad_keysrepeat	dsb 10					; 5 pads , 16 bits reg
+pad_keys        dsb 10					; 5 pads , 16 bits reg
+pad_keysold     dsb 10					; 5 pads , 16 bits reg
+pad_keysdown    dsb 10					; 5 pads , 16 bits reg
 
 snes_mplay5			db							; 1 if MultiPlayer5 is connected
 mp5read					db							; for multiplayer5 plug test
@@ -145,7 +145,7 @@ padsClear:
 	lda #$0
 	sta pad_keys,x
 	sta pad_keysold,x
-	sta pad_keysrepeat,x
+	sta pad_keysdown,x
 
 	plx
 	plb
@@ -153,40 +153,6 @@ padsClear:
 	rtl
 .ENDS
 
-.SECTION ".pads2_text" SUPERFREE
-
-;---------------------------------------------------------------------------------
-; unsigned short padsDown(unsigned short value)
-;	return (pad_keys[value] & ~pad_keysold[value]);
-padsDown:
-	php
-	phb
-	phx
-
-	sep	#$20                                   ; change bank address to 0
-	lda.b	#$0
-	pha
-	plb
-
-		rep #$20
-		lda 8,s                                    ; get value
-		asl
-		tax
-
-		lda pad_keysold,x
-		eor #$FFFF
-		sta.w tcc__r0
-
-		lda pad_keys,x
-		and.w tcc__r0
-		sta.w tcc__r0
-
-		plx
-	plb
-	plp
-	rtl
-
-.ENDS
 
 .SECTION ".pads3_text" SUPERFREE
 
