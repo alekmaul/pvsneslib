@@ -152,37 +152,25 @@ padsClear:
 .SECTION ".pads3_text" SUPERFREE
 
 ;---------------------------------------------------------------------------------
-;unsigned short padsUp(unsigned short value) {
-;	return (pad_keys[value] ^ pad_keysold[value]) & (~pad_keys[value]);
+;unsigned short padsUp(u16 value)
 padsUp:
 	php
-	phb
+	rep #$30
 	phx
 
-	sep	#$20                                   ; change bank address to 0
-	lda.b	#$0
-	pha
-	plb
+	lda 7,s ; value argument
+	asl
+	tax
 
-		rep #$20
-		lda 8,s                                    ; get value
-		asl
-		tax
+	; return pad_keysold[value] & (~pad_keys[value]);
+	lda.l pad_keys,x
+	eor.w #0xFFFF
+	and.l pad_keysold,x
+	sta.b tcc__r0
 
-		lda pad_keys,x
-		eor #$FFFF
-		sta.w tcc__r0
-
-		lda pad_keys,x
-		eor.w pad_keysold,x
-		and.w tcc__r0
-		sta.w tcc__r0
-
-		plx
-	plb
+	plx
 	plp
 	rtl
-
 .ENDS
 
 
