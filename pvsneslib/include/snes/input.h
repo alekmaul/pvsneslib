@@ -76,9 +76,9 @@ typedef enum SUPERSCOPE_BITS
     SSC_NOISE = BIT(8),     //!< superscope NOISE flag.
 } SUPERSCOPE_BITS;
 
-extern u16 pad_keys[5];
-extern u16 pad_keysold[5];
-extern u16 pad_keysdown[5];
+extern u16 pad_keys[5];     //!< current pad value
+extern u16 pad_keysold[5];  //!< previous pad value
+extern u16 pad_keysdown[5]; //!< newly pressed down pad keys
 
 extern u8 snes_mplay5;  /*! \brief 1 if MultiPlay5 is connected */
 extern u8 snes_mouse;   /*! \brief 1 if Mouse is going to be used */
@@ -152,7 +152,7 @@ extern u16 scope_sinceshot; /*! \brief Number of frames elapsed since last shot 
 
 /*!	\fn  padsCurrent(value)
     \brief Return current value of selected pad
-    \param value Address of the pad to use (0 or 1 to 4 if multiplayer 5 connected)
+    \param value pad index to use (0-1 or 0-4 if multiplayer 5 connected)
     \return unsigned short of the current pad value
 */
 // unsigned short padsCurrent(u16 value);
@@ -160,7 +160,7 @@ extern u16 scope_sinceshot; /*! \brief Number of frames elapsed since last shot 
 
 /*!	\fn padsDown(value)
     \brief Return value of down keys for selected pad
-    \param value Address of the pad to use (0-1 or 0-4 if multiplayer 5 connected)
+    \param value pad index to use (0-1 or 0-4 if multiplayer 5 connected)
     \return unsigned short of the newly pressed down keys (0 -> 1 transition)
 */
 // unsigned short padsDown(u16 value);
@@ -168,14 +168,14 @@ extern u16 scope_sinceshot; /*! \brief Number of frames elapsed since last shot 
 
 /*!	\fn padsUp(u16 value)
     \brief Return value of up keys for selected pad
-    \param value Address of the pad to use (0 or 1 to 4 if multiplayer 5 connected)
-    \return unsigned short of the current pad value
+    \param value pad index to use (0-1 or 0-4 if multiplayer 5 connected)
+    \return unsigned short of the released keys (1 -> 0 transition)
 */
 unsigned short padsUp(u16 value);
 
 /*!	\fn padsClear(u16 value)
     \brief Clear internal variables for selected pad
-    \param value Address of the pad to use (0 or 1 to 4 if multiplayer 5 connected)
+    \param value pad index to use (0-1 or 0-4 if multiplayer 5 connected)
 */
 void padsClear(u16 value);
 
