@@ -27,6 +27,11 @@ tcc__f3 dsb 2
 tcc__f3h dsb 2
 move_insn dsb 4	                        ; 3 bytes mvn + 1 byte rts
 move_backwards_insn dsb 4               ; 3 bytes mvp + 1 byte rts
+.ENDS
+
+
+; `tcc__registers_nmi_isr` should be page-aligned to prevent a `D.l != 0` direct-page cycle penalty.
+.RAMSECTION ".vblank_imagingary_registers" BANK 0 SLOT 1 ALIGN 0x100
 
 ; Imaginary registers for the NMI ISR.
 ; Used to prevent the VBlank interrupts from clobbering the tcc imaginary registers (`tcc__registers`).
@@ -35,6 +40,7 @@ move_backwards_insn dsb 4               ; 3 bytes mvp + 1 byte rts
 tcc__registers_nmi_isr dsb 48
 
 .ENDS
+
 
 ; sections "globram.data" and "glob.data" can stay here in the file
 ; because we are using wla-65816 -d switch to disable WLA's ability to calculate A-B where A and B are labels.
