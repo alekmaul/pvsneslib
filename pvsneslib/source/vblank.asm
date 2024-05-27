@@ -57,7 +57,7 @@ snes_frame_count_svg    dsb 2  ; same thing for saving purpose
 ;; ACCU 8
 ;; INDEX 16
 ;; DB = 0
-;; D = tcc__registers_irq (NOT ZERO)
+;; D = tcc__registers_nmi_isr (NOT ZERO)
 .MACRO _ScanPads
 	ldy	pad_keys                               ; copy joy states #1&2
 	sty	pad_keysold
@@ -109,7 +109,7 @@ snes_frame_count_svg    dsb 2  ; same thing for saving purpose
 ;; ACCU 8
 ;; INDEX 16
 ;; DB = 0
-;; D = tcc__registers_irq (NOT ZERO)
+;; D = tcc__registers_nmi_isr (NOT ZERO)
 .MACRO _ScanMPlay5
 	; Using the multitap reading protocol from the SNES Development Wiki
 	; https://snes.nesdev.org/wiki/Multitap
@@ -248,7 +248,7 @@ snes_frame_count_svg    dsb 2  ; same thing for saving purpose
 ;;           (This subroutine DOES NOT contain a REG_HVBJOY test/spinloop.)
 ;;
 ;; DB = 0
-;; D = tcc__registers_irq (NOT ZERO)
+;; D = tcc__registers_nmi_isr (NOT ZERO)
 .ACCU 8
 .INDEX 16
 _GetScope:
@@ -412,7 +412,7 @@ _GetScope:
 ;;           (This subroutine DOES NOT contain a REG_HVBJOY test/spinloop.)
 ;;
 ;; DB = 0
-;; D = tcc__registers_irq (NOT ZERO)
+;; D = tcc__registers_nmi_isr (NOT ZERO)
 .ACCU 8
 .INDEX 16
 _MouseRead:
@@ -460,7 +460,7 @@ _MouseRead:
 ;; IN: X = 0 or 1
 ;;
 ;; DB = 0
-;; D = tcc__registers_irq (NOT ZERO)
+;; D = tcc__registers_nmi_isr (NOT ZERO)
 .accu 8
 .index 8
 _MouseData:
@@ -556,9 +556,9 @@ FVBlank:
 
 	; Using a different Direct Page Register value to prevent the `nmi_handler` call
 	; from clobbering tcc imaginary registers.
-	lda.w  #tcc__registers_irq
+	lda.w  #tcc__registers_nmi_isr
 	tad
-; D = tcc__registers_irq
+; D = tcc__registers_nmi_isr
 
 	pea    $7e80
 	plb
@@ -690,7 +690,7 @@ FVBlank:
 ;; ACCU 16
 ;; INDEX 16
 ;; DB = $7e
-;; D = tcc__registers_irq
+;; D = tcc__registers_nmi_isr
 __JumpTo_nmi_handler:
 	; The `JML [addr]` instruction will always read the new program counter from Bank 0
 	jml    [nmi_handler]

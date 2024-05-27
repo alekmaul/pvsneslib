@@ -25,9 +25,12 @@ tcc__f3 dsb 2
 tcc__f3h dsb 2
 move_insn dsb 4	                        ; 3 bytes mvn + 1 byte rts
 move_backwards_insn dsb 4               ; 3 bytes mvp + 1 byte rts
- 
-tcc__registers_irq dsb 0
-tcc__regs_irq dsb 48
+
+; Imaginary registers for the NMI ISR.
+; Used to prevent the VBlank interrupts from clobbering the tcc imaginary registers (`tcc__registers`).
+; MUST NOT be used for IRQ interrupts unless you know for certain IRQ and NMI interrupts will not overlap.
+; MUST be >= sizeof(tcc imaginary registers).
+tcc__registers_nmi_isr dsb 48
 
 .ENDS
 
