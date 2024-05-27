@@ -1,6 +1,8 @@
 .include "hdr.asm"
 
-.RAMSECTION ".registers" BANK 0 SLOT 1 PRIORITY 1
+; tcc imaginary registers must start at address $00:0000 to ensure the NMI ISR writes to
+; the correct addresses when the Direct Page Register is `tcc__registers_nmi_isr`.
+.RAMSECTION ".registers" BANK 0 SLOT 1 ORGA 0 FORCE PRIORITY 1000
 tcc__registers dsb 0
 tcc__r0 dsb 2
 tcc__r0h dsb 2
