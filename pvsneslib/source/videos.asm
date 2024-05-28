@@ -101,6 +101,17 @@ m7_md               DSB (225-64)*3              ; 483 bytes
 
 .ENDS
 
+
+; getFPScounter() variables
+.RAMSECTION ".getfpscounter_lowram" BANK 0 SLOT 1
+
+snes_vblank_count_svg   dsb 2  ; for comparing snes_vblank_count
+snes_frame_count        dsb 2  ; 2 bytes for frame counter inside loop
+snes_frame_count_svg    dsb 2  ; same thing for saving purpose
+
+.ENDS
+
+
 .BASE BASE_0
 .SECTION ".videos0_text" SUPERFREE
 

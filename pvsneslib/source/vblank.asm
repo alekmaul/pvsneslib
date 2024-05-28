@@ -33,10 +33,7 @@ nmi_handler             dsb 4
 
 lag_frame_counter       dsb 2  ; Number of lag frames encountered (can be externally modified)
 
-snes_vblank_count       dsb 2  ; 2 bytes to count number of vblank
-snes_vblank_count_svg   dsb 2  ; same thing for saving purpose
-snes_frame_count        dsb 2  ; 2 bytes for frame counter inside loop
-snes_frame_count_svg    dsb 2  ; same thing for saving purpose
+snes_vblank_count       dsb 2  ; Incremented every VBlank interrupt
 
 .ENDS
 
