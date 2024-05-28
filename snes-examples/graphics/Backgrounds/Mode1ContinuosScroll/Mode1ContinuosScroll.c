@@ -76,32 +76,29 @@ character player1;
 // keep the joypad commands
 unsigned short pad0;
 
-// handle a mutex to avoid refresh background while we are changing it
-unsigned char bg_mutex;
-
 // control where the background needs to be updated
 background bgInfo;
 
 // set background 1 to be updated
 void updateBG1(u8 *pgfx, u16 adrspr, int size)
 {
-    bg_mutex = 1; // to avoid vbl during queue management
+    // Safe to write to `bgInfo` - `myconsoleVBlank` will not read from `bgInfo` on lag-frames.
+
     bgInfo.bg1.adrgfxvram = adrspr;
     bgInfo.bg1.gfxoffset = pgfx;
     bgInfo.bg1.size = size;
     bgInfo.refreshBG1 = true;
-    bg_mutex = 0; // to avoid vbl during queue management
 }
 
 // set background 2 to be updated
 void updateBG2(u8 *pgfx, u16 adrspr, int size)
 {
-    bg_mutex = 1; // to avoid vbl during queue management
+    // Safe to write to `bgInfo` - `myconsoleVBlank` will not read from `bgInfo` on lag-frames.
+
     bgInfo.bg2.adrgfxvram = adrspr;
     bgInfo.bg2.gfxoffset = pgfx;
     bgInfo.bg2.size = size;
     bgInfo.refreshBG2 = true;
-    bg_mutex = 0; // to avoid vbl during queue management
 }
 
 void updatePos(character *p, unsigned short pad)
@@ -184,23 +181,21 @@ void handleScrollSub(character *p, scroll *s)
 // interruption of vblank (send information to vram via DMA)
 void myconsoleVblank()
 {
+    // `vblank_flag` is set if the main-loop has finished the frame (not a lag-frame).
+    // `vblank_flag` is also used to confirm it is safe to read from `bgInfo`.
+    // (must not write to `vblank_flag` in this function).
     if (vblank_flag)
     {
-        if (bg_mutex == 0)
+        if (bgInfo.refreshBG1 == true)
         {
-            if (bgInfo.refreshBG1 == true)
-            {
-                dmaCopyVram(bgInfo.bg1.gfxoffset, bgInfo.bg1.adrgfxvram, bgInfo.bg1.size);
-                bgInfo.refreshBG1 = false;
-            }
+            dmaCopyVram(bgInfo.bg1.gfxoffset, bgInfo.bg1.adrgfxvram, bgInfo.bg1.size);
+            bgInfo.refreshBG1 = false;
         }
-        if (bg_mutex == 0)
+
+        if (bgInfo.refreshBG2 == true)
         {
-            if (bgInfo.refreshBG2 == true)
-            {
-                dmaCopyVram(bgInfo.bg2.gfxoffset, bgInfo.bg2.adrgfxvram, bgInfo.bg2.size);
-                bgInfo.refreshBG2 = false;
-            }
+            dmaCopyVram(bgInfo.bg2.gfxoffset, bgInfo.bg2.adrgfxvram, bgInfo.bg2.size);
+            bgInfo.refreshBG2 = false;
         }
     }
 }
@@ -226,7 +221,6 @@ int main(void)
     bgInitTileSet(2, &BG3_tiles, &BG3_pal, 0, (&BG3_tiles_end - &BG3_tiles), 16 * 4, BG_4COLORS, 0x4000);
 
     // queue BG1 and BG2 to be updated in the vblank interruption
-    bg_mutex = 0;
     updateBG1(&BG1_map, 0x0000, 2048);
     updateBG2(&BG2_map, 0x0000 + 2048, 2048);
 
