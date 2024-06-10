@@ -1,6 +1,8 @@
 .include "hdr.asm"
 
-.RAMSECTION ".registers" BANK 0 SLOT 1 PRIORITY 1
+; tcc imaginary registers must start at address $00:0000 to ensure the NMI ISR writes to
+; the correct addresses when the Direct Page Register is `tcc__registers_nmi_isr`.
+.RAMSECTION ".registers" BANK 0 SLOT 1 ORGA 0 FORCE PRIORITY 1000
 tcc__registers dsb 0
 tcc__r0 dsb 2
 tcc__r0h dsb 2
@@ -25,11 +27,20 @@ tcc__f3 dsb 2
 tcc__f3h dsb 2
 move_insn dsb 4	                        ; 3 bytes mvn + 1 byte rts
 move_backwards_insn dsb 4               ; 3 bytes mvp + 1 byte rts
-nmi_handler dsb 4
-
-tcc__registers_irq dsb 0
-tcc__regs_irq dsb 48
 .ENDS
+
+
+; `tcc__registers_nmi_isr` should be page-aligned to prevent a `D.l != 0` direct-page cycle penalty.
+.RAMSECTION ".vblank_imagingary_registers" BANK 0 SLOT 1 ALIGN 0x100
+
+; Imaginary registers for the NMI ISR.
+; Used to prevent the VBlank interrupts from clobbering the tcc imaginary registers (`tcc__registers`).
+; MUST NOT be used for IRQ interrupts unless you know for certain IRQ and NMI interrupts will not overlap.
+; MUST be >= sizeof(tcc imaginary registers).
+tcc__registers_nmi_isr dsb 48
+
+.ENDS
+
 
 ; sections "globram.data" and "glob.data" can stay here in the file
 ; because we are using wla-65816 -d switch to disable WLA's ability to calculate A-B where A and B are labels.
@@ -38,13 +49,22 @@ tcc__regs_irq dsb 48
 
 .ENDS
 
-.SECTION "glob.data" SUPERFREE KEEP
+.BANK 0                                 ; Defines the ROM bank and the slot it is inserted in memory.
+
+.ifdef FASTROM
+.BASE $80
+.endif
+
+.DEFINE ORG_0 0
+.ifdef HIROM
+.REDEFINE ORG_0 $8000
+.endif
+
+.SECTION "glob.data" SEMIFREE ORG ORG_0 KEEP
 
 .ENDS
 
-.BANK 0                                 ; Defines the ROM bank and the slot it is inserted in memory.
-.ORG 0                                  ; .ORG 0 is really $8000, because the slot starts at $8000
-.SECTION "EmptyVectors" SEMIFREE
+.SECTION "EmptyVectors" SEMIFREE ORG ORG_0
 
 EmptyHandler:
        rti
@@ -57,8 +77,7 @@ EmptyNMI:
 .EMPTYFILL $00                         ; fill unused areas with $00, opcode for BRK.
                                        ; BRK will crash the snes if executed.
 
-.BANK 0
-.SECTION "Snes_Init" SEMIFREE
+.SECTION "Snes_Init" SEMIFREE ORG ORG_0
 tcc__snesinit:
 	rep #$10	; X/Y 16 bit
         sep     #$20    ; A is 8 bit
@@ -188,58 +207,48 @@ tcc__snesinit:
 	ldx.w #$4202
 -	stz 0,x
 	inx
-	cpx.w #$420e
+.ifdef FASTROM
+	cpx.w #$420d
 	bne -
 
+    sep #$20    ; A 16 bit
+    lda #$01
+    sta $420d   ; FastROM enabled
+.else
+	cpx.w #$420e
+	bne -
+.endif
         ;cli             ; Enable interrupts
         rts
+
 .ENDS
 
 
-; Needed to satisfy interrupt definition in "Header.inc".
-VBlank:
-  rep #$30
-  phb
-  phd
-  phx
-  phy
-  pha
-  ; set data bank register to bss section
-  pea $7e7e
-  plb
-  plb
-  lda.w #tcc__registers_irq
-  tad
-  lda.l nmi_handler
-  sta.b tcc__r10
-  lda.l nmi_handler + 2
-  sta.b tcc__r10h
-  jsl tcc__jsl_r10
-  pla
-  ply
-  plx
-  pld
-  plb
-  RTI
-
-.BANK 0
-.SECTION ".start"
+.SECTION ".start" SEMIFREE ORG ORG_0
 
 .accu 16
 .index 16
 .16bit
-
 
 tcc__start:
     ; Initialize the SNES.
     sei             ; Disabled interrupts
     clc             ; clear carry to switch to native mode
     xce             ; Xchange carry & emulation bit. native mode
+.ifdef FASTROM
+    jml fast_start
+
+fast_start:
+.endif
     rep     #$18    ; Binary mode (decimal mode off), X/Y 16 bit
     ldx     #$1FFF  ; set stack to $1FFF
     txs
 
     jsr tcc__snesinit
+
+    sep #$20
+
+    stz.w vblank_flag
 
     rep #$30	; all registers 16-bit
 
@@ -247,6 +256,7 @@ tcc__start:
     lda.w #tcc__registers
     tad
 
+    ; This nmi_handler write is safe.  Interrupts are disabled by `tcc__snesinit`
     lda.w #EmptyNMI
     sta.b nmi_handler
     lda.w #:EmptyNMI
@@ -298,6 +308,15 @@ tcc__start:
 
     stz.b tcc__r0
     stz.b tcc__r1
+
+    stz.w lag_frame_counter
+
+    stz.w snes_vblank_count
+    stz.w snes_vblank_count_svg
+    stz.w snes_frame_count
+    stz.w snes_frame_count_svg
+
+    jsl consoleInit
 
     jsr.l main
 

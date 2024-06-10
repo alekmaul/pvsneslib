@@ -15,9 +15,6 @@ extern char map;
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    // Initialize SNES
-    consoleInit();
-
     // Read tiles to VRAM
     bgInitTileSet(0, &back, &palette, 0, (&back_end - &back), 16 * 2 * 2, BG_16COLORS, 0x1000);
 

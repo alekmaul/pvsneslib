@@ -14,15 +14,12 @@ extern char LandPalette, LandPalette_end, CloudPalette, CloudPalette_end;
 extern char Maps, Maps_end;
 extern char Mapsc, Mapsc_end;
 
+short scrX = 0, scrY = 0;
+unsigned short pad0, move;
+
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    short scrX = 0, scrY = 0;
-    unsigned short pad0, move;
-
-    // Initialize SNES
-    consoleInit();
-
     // Copy tiles to VRAM
     bgInitTileSet(0, &LandTiles, &LandPalette, 1, (&LandTiles_end - &LandTiles), (&LandPalette_end - &LandPalette), BG_16COLORS, 0x0000);
     bgInitTileSet(2, &CloudTiles, &CloudPalette, 0, (&CloudTiles_end - &CloudTiles), (&CloudPalette_end - &CloudPalette), BG_4COLORS, 0x1000);

@@ -28,7 +28,7 @@
 .DEFINE OB_ID_NULL	        $0000		    ; null value for obj id
 
 .DEFINE OB_MAX				64		        ; total number of objects in the game
-.DEFINE OB_TYPE_MAX		    48		        ; total number of type of objects in the game
+.DEFINE OB_TYPE_MAX		    64		        ; total number of type of objects in the game
 
 .DEFINE OB_SIZE				64		        ; 64 bytes for each object
 
@@ -48,12 +48,12 @@
 .DEFINE T_SPIKE				$0004
 .DEFINE T_PLATE				$0008
 .DEFINE T_SLOPES            $0020
-;                           $0020             Type Slope 1x1 Up ◢ (action will be climb on it) for tile  
-;                           $0021             Type Slope 1x1 Down ◣ (action will be descend on it) for tile 
+;                           $0020             Type Slope 1x1 Up ◢ (action will be climb on it) for tile
+;                           $0021             Type Slope 1x1 Down ◣ (action will be descend on it) for tile
 ;                           $0022  Type Slope 2x1 lower half Up ◢ (action will be climb on it) for tile
 ;                           $0023  Type Slope 2x1 lower half Down ◣ (action will be descend on it) for tile
 ;                           $0024  Type Slope 2x1 upper half Up ◢ (action will be climb on it) for tile
-;                           $0025  Type Slope 2x1 upper half Down ◣ (action will be descend on it) for tile 
+;                           $0025  Type Slope 2x1 upper half Down ◣ (action will be descend on it) for tile
 
 .DEFINE ACT_CLIMB			$2000
 .DEFINE ACT_DIE				$4000
@@ -112,7 +112,8 @@ objnotused      DSB 7                       ; OB_SIZE-56-1 for future use
 
 .ENDST
 
-.RAMSECTION ".reg_objects7e" bank $7E
+.BASE $00
+.RAMSECTION ".reg_objects7e" BANK $7E SLOT RAMSLOT_0
 
 objbuffers      INSTANCEOF t_objs OB_MAX    ; object struct in memory
 objactives      DSW OB_TYPE_MAX				; active object list
@@ -148,6 +149,7 @@ objtmp4	DW
 
 .ENDS
 
+.BASE BASE_0
 .SECTION ".objects0_text" superfree
 
 .accu 16
@@ -685,7 +687,7 @@ objUpdateAll:
 	pha
 	plb
 
-;    stz objneedrefresh                                  ; no global refresh needed
+    stz objneedrefresh                                  ; no global refresh needed
 
 	rep #$20
 	ldx #$0000
@@ -715,9 +717,9 @@ _oiual3:
     sbc.l x_pos
 
     cmp.w #OB_SCR_XRR_CHK
-    bcc _oiual3y                                        ; x is lower than max
+    bcc _oiual3y                                        ; x is lower than map max
     cmp.w #OB_SCR_XLR_CHK
-    bcc _oiual3y1                                       ; but x is lower than min
+    bcc _oiual3y1                                       ; but x is lower than map min
 
 _oiual3y:                                               ; check now y coordinates
     lda objbuffers.1.ypos+1,x
@@ -725,25 +727,47 @@ _oiual3y:                                               ; check now y coordinate
     sbc.l y_pos
 
     cmp.w #OB_SCR_YRR_CHK
-    bcc _oiual32                                        ; y is lower than max
+    bcc _oiual32                                        ; y is lower than map max
     cmp.w #OB_SCR_YLR_CHK
-    bcs _oiual32                                        ; but y is greater than min
+    bcs _oiual32                                        ; but y is greater than map min
 
 _oiual3y1:
+    jmp _oial4
+
+_oiual32:                                               ; *** now we test if we are really on screen ***
+    lda objbuffers.1.xpos+1,x
+    sec
+    sbc.l x_pos
+    cmp.w #OB_SCR_XRI_CHK
+    bcc _oiual3sy                                        ; x is lower than map max
+    cmp.w #OB_SCR_XLE_CHK
+    bcc _oiual3sy1                                       ; but x is lower than map min
+
+_oiual3sy:                                               ; check now y coordinates
+    lda objbuffers.1.ypos+1,x
+    sec
+    sbc.l y_pos
+
+    cmp.w #OB_SCR_YRI_CHK
+    bcc _oiuals32                                        ; y is lower than map max
+    cmp.w #OB_SCR_YLE_CHK
+    bcs _oiuals32                                        ; but y is greater than map min
+
+_oiual3sy1:
     sep #$20                                            ; check if it was previously on screen to refresh all the objects
     lda objbuffers.1.onscreen,x
-    beq _oiual3y11                                      ; no ? no need to refresh
+    beq _oiual3sy11                                      ; no ? no need to refresh
     stz objbuffers.1.onscreen,x
     lda objneedrefresh                                  ; if we have noticed a global refresh previously, don't do it again
-    bne _oiual3y11
+    bne _oiual3sy11
     lda #1
     sta objneedrefresh
     jsr objOamRefreshAll                                ; do a global refresh of sprites
 
-_oiual3y11:
-    bra _oial4
+_oiual3sy11:                                            ; here we are not on screen but we manage object update
+    bra _oiual321
 
-_oiual32:
+_oiuals32: 
     sep #$20
     lda objbuffers.1.onscreen,x
     bne _oiual321                                       ; no ? we need to refresh
@@ -2016,7 +2040,7 @@ _oiloend:
 .SECTION ".objects4_text" superfree
 
 ;---------------------------------------------------------------------------------
-; void objCollidObj(u16 objidx,u16 obj1idx)
+; u16 objCollidObj(u16 objhandle1, u16 objhandle2);
 ; 5-6 7-8
 objCollidObj:
     php

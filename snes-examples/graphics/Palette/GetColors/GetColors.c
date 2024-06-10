@@ -22,9 +22,6 @@ u16 arraypals[3]; // array of colors for test
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    // Initialize SNES
-    consoleInit();
-
     // Initialize text console with our font
     consoleSetTextVramBGAdr(0x6800);
     consoleSetTextVramAdr(0x3000);

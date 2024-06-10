@@ -118,7 +118,10 @@ pvsneslibfont.pic: pvsneslibfont.bmp
 
 ## Input
 
-Currently, the only input managed with _PVSneslib_ is the **SNES joypad**.  
+ _PVSneslib_ is able to manage the **SNES joypad**, the **mouse** and the **SuperScope**.  
+
+### Joypad  
+
 ```
     __--L--_________________--R--__           Button Colors:
    /    _                          \   PAL and Japan    North America
@@ -172,3 +175,95 @@ At least, the pad is refresh during VBL (thanks to VBlank function), so it is no
        consoleDrawText(12,10,"A PRESSED");
      }
 ```
+
+### Mouse  
+
+**snes_mouse** has to be turned on (snes_mouse = 1). This is set 0 by default after consoleInit().  
+This will tell the system to read from a mouse, if it is found.  
+Mouse and pads can be used simultaneously, on any ports. Externs in the pad.h file goes like this:  
+
+```
+snes_mouse; /*!1 if Mouse is going to be used */
+```
+
+mouseConnect[2];        /* 1 if Mouse present */
+mouseButton[2];         /* 1 if button is pressed, stays for a bit and then it gets released (Click mode). */
+mousePressed[2];        /* 1 if button is pressed, stays until is unpressed (Turbo mode). */
+mouse_x[2], mouse_y[2]; /* Mouse acceleration. daaaaaaa, d = direction (0: up/left, 1: down/right), a = acceleration. */
+mouseSpeedSet[2];          /* Mouse speed setting. 0: slow, 1: normal, 2: fast */
+
+First, we might use **detectMouse()** to populate snes_mouse to 1, so It can be called at boot and like this:  
+
+```
+if (snes_mouse == false)
+{
+  detectMouse();
+  // some other code you might need in your program, like displaying warning messages and stopping your game.
+}
+```
+
+the number inside array specifies port (0 or 1). I recommend using this code structure to convert raw acceleration into usable values:  
+
+```
+u16 p1_mouse_x = 0x80;
+u16 p1_mouse_y = 0x70;
+u16 p2_mouse_x = 0x80;
+u16 p2_mouse_y = 0x70;
+
+ if (mouse_x[0] & 0x80)
+    p1_mouse_x -= mouse_x[0] & 0x7F;
+else
+    p1_mouse_x += mouse_x[0] & 0x7F;
+if (mouse_y[0] & 0x80)
+    p1_mouse_y -= mouse_y[0] & 0x7F;
+else
+    p1_mouse_y += mouse_y[0] & 0x7F;
+```
+
+And that's most of it. You can look inside the example file (**snes-examples/input** folder) to have an idea of how you can program Mouse games.  
+
+
+### SuperScope  
+
+First, we might use **detectSuperScope()** on boot to detect Super Scope presence. Other way is to force detection by populating snes_sscope to 1 manually, but we dont need to do that if we call this function. We need to call this function everytime Scope gets disconnected from the system, a usefull way to do it is inside this conditional:  
+
+```
+if (snes_sscope == false)
+{
+  detectSuperScope();
+  // some other code you might need in your program, like displaying warning messages and stopping your game.
+}
+```
+
+Here is a brief explanation of every variable we might be using:  
+
+```
+extern u16 scope_holddelay; /*! \brief Hold delay. */
+extern u16 scope_repdelay;  /*! \brief Repeat rate. */
+extern u16 scope_shothraw;  /*! \brief Horizontal shot position, not adjusted. */
+extern u16 scope_shotvraw;  /*! \brief Vertical shot position, not adjusted. */
+extern u16 scope_shoth;     /*! \brief Horizontal shot position, adjusted for aim. */
+extern u16 scope_shotv;     /*! \brief Vertical shot position, adjusted for aim. */
+extern u16 scope_centerh;   /*! \brief 0x0000 is the center of the screen, positive values go to bottom right. */
+extern u16 scope_centerv;   /*! \brief 0x0000 is the center of the screen, positive values go to bottom right. */
+extern u16 scope_down;      /*! \brief flags that are currently true.*/
+extern u16 scope_now;       /*! \brief flags that have become true this frame.*/
+extern u16 scope_held;      /*! \brief flagsthat have been true for a certain length of time.*/
+extern u16 scope_last;      /*! \brief flags that were true on the previous frame.*/
+extern u16 scope_sinceshot; /*! \brief Number of frames elapsed since last shot was fired.*/
+for scope_down, scope_now, scope_held, scope_last, we need to mask our bits with this usefull bits:
+
+typedef enum SUPERSCOPE_BITS
+{
+    SSC_FIRE = BIT(15),     //!< superscope FIRE button.
+    SSC_CURSOR = BIT(14),   //!< superscope CURSOR button.
+    SSC_PAUSE = BIT(12),    //!< superscope PAUSE button.
+    SSC_TURBO = BIT(13),    //!< superscope TURBO flag.
+    SSC_OFFSCREEN = BIT(9), //!< superscope OFFSCREEN flag.
+    SSC_NOISE = BIT(8),     //!< superscope NOISE flag.
+} SUPERSCOPE_BITS;
+```
+
+And that's most of it. You can look inside the example file (**snes-examples/input** folder)  to have an idea of how you can program Super Scope games.  
+
+

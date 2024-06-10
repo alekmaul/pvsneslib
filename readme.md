@@ -23,9 +23,9 @@ Here are good entry points to know how Super Nintendo works:
 ![Downloads](https://img.shields.io/github/downloads/alekmaul/pvsneslib/total?label=Total%20Downloads)
 
 
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.2.0/pvsneslib_420_64b_windows_release.zip"><img src="https://img.shields.io/badge/Windows-97C40F?style=for-the-badge&logo=windows&logoColor=white" alt="PVSnesLib Windows Release"></a> 
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.2.0/pvsneslib_420_64b_linux_release.zip"><img src="https://img.shields.io/badge/Linux-F48041?style=for-the-badge&logo=linux&logoColor=white" alt="PVSnesLib Linux Release"></a>
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.2.0/pvsneslib_420_64b_darwin_release.zip"><img src="https://img.shields.io/badge/mac%20os-0E7FC0?style=for-the-badge&logo=apple&logoColor=white" alt="PVSnesLib MacOS Release"></a>
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.3.0/pvsneslib_430_64b_windows_release.zip"><img src="https://img.shields.io/badge/Windows-97C40F?style=for-the-badge&logo=windows&logoColor=white" alt="PVSnesLib Windows Release"></a> 
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.3.0/pvsneslib_430_64b_linux_release.zip"><img src="https://img.shields.io/badge/Linux-F48041?style=for-the-badge&logo=linux&logoColor=white" alt="PVSnesLib Linux Release"></a>
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.3.0/pvsneslib_430_64b_darwin_release.zip"><img src="https://img.shields.io/badge/mac%20os-0E7FC0?style=for-the-badge&logo=apple&logoColor=white" alt="PVSnesLib MacOS Release"></a>
 
 To install the library, please download the latest [release](https://github.com/alekmaul/pvsneslib/releases/latest) or with the link below and follow instructions on the [Wiki pages](https://github.com/alekmaul/pvsneslib/wiki).
 
@@ -97,8 +97,10 @@ Sydney Hunter by [CollectorVision](https://collectorvision.com/store/shop/snes/s
 - [**Shiru**](http://shiru.untergrund.net/) for snesbmp idea & sound tools.
 - [**Mukunda**](http://snes.mukunda.com/) for smconv tool.
 - **RedBug** for constify tcc bug fix and tips for Linux and Docker.
-- [**Mills32**](https://github.com/mills32) for his mode7 3D example.
+- [**Mills32**](https://github.com/mills32/) for his mode7 3D example.
 - [**N_Arno**](https://github.com/nArnoSNES/) for his help on Linux version.
+- [**DigiDwrf**](https://github.com/DigiDwrf/) for hirom / fastrom support and also mouse & superscope support.
+- [**undisbeliever**](https://github.com/undisbeliever/castle_platformer/) for the great update to vblank code and the map engine example.
 
 And, of course, all the [**discord community**](https://discord.gg/DzEFnhB) !
 

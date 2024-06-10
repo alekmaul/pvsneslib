@@ -11,7 +11,7 @@
                                           
 ```
 A graphic converter for Super Nintendo development  
-Developed by ALekmaul and distributed under the terms of the [MIT license](./LICENSE).
+Developed by Alekmaul and distributed under the terms of the [MIT license](./LICENSE).
 
 ## Usage
 ```
@@ -54,7 +54,7 @@ where filename is a 256 color PNG or BMP file
   
 ## Example 
 ```
-gfx4snes -o16 -s8 -c16 -e0 -fpng -p -m -b -i myimage.png
+gfx4snes -o 16 -s 8 -c 16 -e 0 -f png -p -m -b -i myimage.png
 ```
  This will convert a myimage png file to a map/pal/pic files with 16 colors,palette entry #0,  8x8 tiles, a blank tile, a map, no border, 16 colors output.  
  

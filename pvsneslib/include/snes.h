@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-    Copyright (C) 2012-2021
+    Copyright (C) 2012-2024
 
     This software is provided 'as-is', without any express or implied
     warranty.  In no event will the authors be held liable for any
@@ -52,7 +52,7 @@
  - \ref interrupt.h "Interrupts"
 
  \section user_io_api User Input/output
- - \ref pad.h "Keypad"
+ - \ref input.h "Keypad"
  - \ref console.h "Console and Debug Printing"
 
  \section engine_api Engine API functions
@@ -75,6 +75,7 @@
  - <a href="http://code.google.com/p/neo-myth-menu/">Neoflash Menu google code. </a>
  - <a href="http://www.devkitpro.org/">Devkitpro team for pvsneslib structure (lib, makefile, examples, and so on ...). </a>
  - <a href="https://github.com/undisbeliever/castle_platformer">undisbeliever for his great platform code example on github. </a>
+ - <a href="https://github.com/DigiDwrf">digidwrf for fastrom / hirom support, mouse and superscope support. </a>
 */
 
 // adding the example page.
@@ -119,9 +120,11 @@
     <!-- palettes -->
     \example graphics/Palette/GetColors/GetColors.c
 
-    <!-- keypad -->
-    \example pads/input/input.c
-    \example pads/multiplay5/multiplay5.c
+    <!-- inputs -->
+    \example input/controller/controller.c
+    \example input/mouse/mouse.c
+    \example input/multiplay5/multiplay5.c
+    \example input/superscope/superscope.c
 
     <!-- timing -->
     \example timer/timer.c
@@ -160,9 +163,10 @@
     <!-- scoring -->
     \example scoring/scoring.c
 
-    <!-- region test & console type -->
+    <!-- region test, console type and rom type -->
     \example testregion/testregion.c
     \example typeconsole/src/pal_ntsc.c
+    \example memory_mapping/src/memory_mapping.c
 
 */
 
@@ -174,10 +178,10 @@
 #include "snes/background.h"
 #include "snes/console.h"
 #include "snes/dma.h"
+#include "snes/input.h"
 #include "snes/interrupt.h"
 #include "snes/map.h"
 #include "snes/object.h"
-#include "snes/pad.h"
 #include "snes/scores.h"
 #include "snes/sound.h"
 #include "snes/sprite.h"

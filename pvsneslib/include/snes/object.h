@@ -38,7 +38,9 @@
 
 #include <snes/snestypes.h>
 
-#define OB_MAX 64 // total number of objects in the game
+#define OB_MAX              64 /*!< total number of objects in the game */
+
+#define OB_TYPE_MAX		    64	/*!< total number of type of objects in the game */
 
 /*!	\struct t_objs
     \brief object definition (64 bytes)
@@ -63,8 +65,8 @@ typedef struct
     u16 height;                       /*!< 28 height of the object (from the square 16x16 or 32x32) */
     u16 xmin;                         /*!< 30 min x coordinate for action of object, depends of game (ex: revert direction) */
     u16 xmax;                         /*!< 32 max x coordinate for action of object, depends of game (ex: revert direction) */
-    u16 xvel;                         /*!< 34 x velocity */
-    u16 yvel;                         /*!< 36 y velocity */
+    s16 xvel;                         /*!< 34 x velocity */
+    s16 yvel;                         /*!< 36 y velocity */
     u16 tilestand;                    /*!< 38 tile number object is standing on */
     u16 tileabove;                    /*!< 40 tile number above object */
     u16 tilesprop;                    /*!< 42 tile property stand on */

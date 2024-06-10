@@ -2,8 +2,8 @@
 
 
 	Simple tile mode 1 demo with png graphic lzss compressed
-    Without compression : 12,2 Ko (12 544 octets)
-       With compression : 8,48 Ko (8 687 octets)
+    Without compression : 12,2 Ko (12ï¿½544 octets)
+       With compression : 8,48 Ko (8ï¿½687 octets)
 	-- alekmaul
 
 
@@ -16,9 +16,6 @@ extern char map, map_end;
 
 //---------------------------------------------------------------------------------
 int main(void) {
-    // Initialize SNES 
-	consoleInit();
-	 
 	// Copy tiles to VRAM
 	bgInitTileSetLz(0, &patterns, &palette, 0, (&palette_end - &palette), BG_16COLORS, 0x4000);
 

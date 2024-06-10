@@ -11,15 +11,11 @@
 extern char snesfont, snespal;
 
 u8 i;
+unsigned short pad0;
 
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    unsigned short pad0;
-
-    // Initialize SNES
-    consoleInit();
-
     // Initialize text console with our font
     consoleSetTextVramBGAdr(0x6800);
     consoleSetTextVramAdr(0x3000);

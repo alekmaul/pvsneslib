@@ -506,9 +506,6 @@ void run_frame(void)
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    // Initialize SNES
-    consoleInit();
-
     // Put screen off and Wait VBlank to allow us to update VRAM
     setBrightness(0);
     WaitForVBlank();

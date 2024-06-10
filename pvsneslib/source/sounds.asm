@@ -22,13 +22,14 @@
 ;
 ;---------------------------------------------------------------------------------
 
+.BASE $00
 .RAMSECTION ".reg_sounds" BANK 0 SLOT 1
 
 snds_val1       DSB 2                         ; save value #1
 
 .ENDS
 
-
+.BASE BASE_0
 .SECTION ".sound0_text" SUPERFREE
 
 .accu 16

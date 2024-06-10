@@ -6,6 +6,10 @@
 
 #include "spc_program.h"
 
+#define ERRORRED(STRING) "\x1B[31m" STRING "\033[0m"
+#define ERRORPINK(STRING) "\x1B[35m" STRING "\033[0m"
+#define ERRORBRIGHT(STRING) "\x1B[97m" STRING "\033[0m"
+
 u8 CurrentInstrument = 0;
 u8 patch_byte = 0x3C;
 u8 max_instruments = 64; // changing these values breaks
@@ -62,9 +66,10 @@ namespace IT2SPC
 
         if (VERBOSE)
         {
-            printf("\n-----------------------------------------------------------------------");
-            printf("\n  Total Modules Size: [%6i bytes]", totabanksize);
-            printf("\n       Total IT Size: [%6i bytes]", totalitsize);
+            printf("-----------------------------------------------------------------------\n");
+            printf("  Total Modules Size: [%6i bytes]\n", totabanksize);
+            printf("       Total IT Size: [%6i bytes]\n", totalitsize);
+            fflush(stdout);
         }
     }
 
@@ -80,9 +85,10 @@ namespace IT2SPC
 
         if (VERBOSE)
         {
-            printf("\n-----------------------------------------------------------------------");
-            printf("\nAdding module, Title: <%s>", mod.Title);
-            printf("\n             IT Size: [%5i bytes]", size);
+            printf("-----------------------------------------------------------------------\n");
+            printf("Adding module, Title: <%s>\n", mod.Title);
+            printf("             IT Size: [%5i bytes]\n", size);
+            fflush(stdout);
         }
         totalitsize += size;
 
@@ -208,7 +214,6 @@ namespace IT2SPC
         const std::vector<u8> &directory,
         const std::vector<Source *> &sources)
     {
-
         id = Path2ID("MOD_", mod.Filename);
         //		id = cinput.id;
 
@@ -240,8 +245,10 @@ namespace IT2SPC
         for (int i = 0; i < max_length; i++)
             Sequence[i] = i < mod.Length ? mod.Orders[i] : 255;
 
+        //printf("mod.PatternCount %d\n",mod.PatternCount);fflush(stdout);
         for (int i = 0; i < mod.PatternCount; i++)
         {
+            //printf("Patterns.push_back 2 %d %08x\n",i,*(mod.Patterns[i]));fflush(stdout);
             Patterns.push_back(new Pattern(*(mod.Patterns[i])));
         }
 
@@ -291,7 +298,7 @@ namespace IT2SPC
             if (ChkSfx && (totalsizem1 != 0))
             {
                 printf(
-                    "\nConversion report:\n"
+                    "Conversion report:\n"
                     "    Pattern data: [%5i bytes]   Module Length: [%i/%i]\n"
                     "     Sample data: [%5i bytes]        Patterns: [%i/%i]\n"
                     " Instrument data: [%5i bytes]     Instruments: [%i/%i]\n"
@@ -308,7 +315,7 @@ namespace IT2SPC
             else
             {
                 printf(
-                    "\nConversion report:\n"
+                    "Conversion report:\n"
                     "    Pattern data: [%5i bytes]   Module Length: [%i/%i]\n"
                     "     Sample data: [%5i bytes]        Patterns: [%i/%i]\n"
                     " Instrument data: [%5i bytes]     Instruments: [%i/%i]\n"
@@ -327,7 +334,7 @@ namespace IT2SPC
 
             if (totalsize > spc_ram_size)
             {
-                printf("\nsmconv: error 'Module is too big. Maximum is %i bytes'\n", spc_ram_size);
+                printf ("%s: " ERRORRED("error") ": Module is too big. Maximum is %i bytes\n", ERRORBRIGHT("smconv"),spc_ram_size);
             }
         }
     }
@@ -586,11 +593,15 @@ namespace IT2SPC
 
                 int channel = (chvar - 1) & 63;
                 data_bits |= 1 << channel;
+                if (channel>7) {
+                    printf ("%s: " ERRORRED("error") ": More than 8 channels. Found channel %i\n", ERRORBRIGHT("smconv"),channel+1);
+                    return;
+                }
 
                 u8 maskvar;
                 if (chvar & 128)
                 {
-                    maskvar = *read++;
+                    maskvar = *read++; 
                     maskvar = ((maskvar >> 4) | (maskvar << 4)) & 0xFF;
                     maskvar |= maskvar >> 4;
                     p_maskvar[channel] = maskvar;
@@ -602,7 +613,7 @@ namespace IT2SPC
 
                 row_buffer.push_back(maskvar);
 
-                if (maskvar & 16)
+                if (maskvar & 16) 
                 { // note
                     row_buffer.push_back(*read++);
                 }
@@ -618,7 +629,6 @@ namespace IT2SPC
                 u8 cmd, param;
                 if (maskvar & 128)
                 { // cmd+param
-
                     row_buffer.push_back(cmd = *read++);
                     row_buffer.push_back(param = *read++);
                 }
@@ -998,7 +1008,14 @@ namespace IT2SPC
                 "\n",
                 size);
 
-        if (size <= 32768)
+        int banksize;
+        
+        if (HiROM)
+            banksize = 65536;
+        else
+            banksize = 32768;
+
+        if (size <= banksize)
         {
             fprintf(f,
                     ".BANK %i\n"
@@ -1025,7 +1042,7 @@ namespace IT2SPC
         }
         else
         {
-            u32 lastbank = size / 32768;
+            u32 lastbank = size / banksize;
             for (u32 j = 0; j <= lastbank; j++)
             {
                 fprintf(f,
@@ -1047,12 +1064,22 @@ namespace IT2SPC
                 // if( ffo != std::string::npos )
                 // foo = foo.substr( ffo + 1 );
 
-                if (j == 0)
-                    fprintf(f, ".incbin \"%s\" read $8000\n", foo.c_str());
-                else if (j == lastbank)
-                    fprintf(f, ".incbin \"%s\" skip $%x\n", foo.c_str(), j * 0x8000);
-                else
-                    fprintf(f, ".incbin \"%s\" skip $%x read $8000\n", foo.c_str(), j * 0x8000);
+                if (HiROM) {
+                    if (j == 0)
+                        fprintf(f, ".incbin \"%s\" read $10000\n", foo.c_str());
+                    else if (j == lastbank)
+                        fprintf(f, ".incbin \"%s\" skip $%x\n", foo.c_str(), j * 0x10000);
+                    else
+                        fprintf(f, ".incbin \"%s\" skip $%x read $10000\n", foo.c_str(), j * 0x10000);
+                }
+                else {
+                    if (j == 0)
+                        fprintf(f, ".incbin \"%s\" read $8000\n", foo.c_str());
+                    else if (j == lastbank)
+                        fprintf(f, ".incbin \"%s\" skip $%x\n", foo.c_str(), j * 0x8000);
+                    else
+                        fprintf(f, ".incbin \"%s\" skip $%x read $8000\n", foo.c_str(), j * 0x8000);
+                }
 
                 fprintf(f, ".ENDS\n\n");
             }

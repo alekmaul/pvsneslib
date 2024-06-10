@@ -6,7 +6,7 @@ export TOPDIR := $(CURDIR)
 
 # create version number which will be used everywhere
 export PVSNESLIB_MAJOR := 4
-export PVSNESLIB_MINOR := 2
+export PVSNESLIB_MINOR := 3
 export PVSNESLIB_PATCH := 0
 export PVSNESLIB_VERSION := $(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
 
@@ -15,16 +15,35 @@ export PVSDOCSDIR := $(TOPDIR)/docs
 
 all: include/snes/libversion.h pvsneslibversion release docs
 
+HIROM_VALUES := 0 1
+FASTROM_VALUES := 0 1
+KEEP_LIB := 0
+
 release: lib
-	$(MAKE) -C source all
+	@$(foreach HIROM, $(HIROM_VALUES), \
+		$(foreach FASTROM, $(FASTROM_VALUES), \
+			$(MAKE) HIROM=$(HIROM) FASTROM=$(FASTROM) build; \
+			$(MAKE) KEEP_LIB=1 clean; \
+		) \
+	)
+
+build:
+	@$(MAKE) -C source all
 
 lib:
 	@mkdir -p $@
+	@mkdir -p $@/LoROM_SlowROM
+	@mkdir -p $@/LoROM_FastROM
+	@mkdir -p $@/HiROM_SlowROM
+	@mkdir -p $@/HiROM_FastROM
 
 clean:
 	$(MAKE) -C source clean
-	@rm -rf $(PVSDOCSDIR)/html
-	@rm -f pvsneslib_version.txt
+	@if [ "$(KEEP_LIB)" -eq 0 ]; then \
+		rm -rf $(PVSDOCSDIR)/html; \
+		rm -f pvsneslib_version.txt; \
+		rm -rf lib; \
+		fi
 
 # Check if Doxygen is installed
 doxygenInstalled := $(shell command -v doxygen -q 2> /dev/null)

@@ -26,9 +26,6 @@ int main(void)
     // Initialize sound engine (take some time)
     spcBoot();
 
-    // Initialize SNES
-    consoleInit();
-
     // Initialize text console with our font
     consoleSetTextVramBGAdr(0x6800);
     consoleSetTextVramAdr(0x3000);
@@ -71,8 +68,7 @@ int main(void)
 	consoleDrawText(5, 17, "Effect: tada");
     while (1)
     {
-        // Refresh pad values and test key a (without repeating sound if still pressed)
-        scanPads();
+        // Test key a (without repeating sound if still pressed)
         if (padsCurrent(0) & KEY_A)
         {
             if (keyapressed == 0)

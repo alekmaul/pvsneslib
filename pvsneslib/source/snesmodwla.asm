@@ -29,9 +29,16 @@
 ;----------------------------------------------------------------------
 
 .define SB_SAMPCOUNT	8000h
-.define SB_MODCOUNT	8002h
-.define SB_MODTABLE	8004h
-.define SB_SRCTABLE	8184h
+.define SB_MODCOUNT     8002h
+.define SB_MODTABLE     8004h
+.define SB_SRCTABLE     8184h
+
+.ifdef HIROM
+.redefine SB_SAMPCOUNT  0000h
+.redefine SB_MODCOUNT   0002h
+.redefine SB_MODTABLE   0004h
+.redefine SB_SRCTABLE   0184h
+.endif
 
 .equ REG_APUIO0		2140h	; Sound Register			1B/RW
 .equ REG_APUIO1		2141h	; Sound Register			1B/RW
@@ -68,6 +75,7 @@
 ;zeropage
 ;======================================================================
 
+.BASE $00
 .RAMSECTION ".fp" BANK 0 SLOT 1
 spc_ptr:	DS 3
 spc_v:		DS 1
@@ -107,6 +115,7 @@ digi_copyrate:	DS 1
 
 .DEFINE SPC_BOOT 0400h ; spc entry/load address
 
+.BASE BASE_0
 .SECTION ".soundmod" SUPERFREE
 
 ;======================================================================
@@ -121,15 +130,15 @@ digi_copyrate:	DS 1
 ;*
 ;* disable time consuing interrupts during this function
 ;**********************************************************************
-spcBoot:			
+spcBoot:
 ;----------------------------------------------------------------------
-	php                                   ; alek
-	sei	
-	phb                             ; alek
+	php               ; alek
+	sei
+	phb               ; alek
 	sep #$20
-	lda #$0
-	sta     REG_NMI_TIMEN ; alek    
-	pha
+    lda #$0
+	sta REG_NMI_TIMEN ; alek
+    pha
 	plb ; change bank address to 0
 
 -:	ldx	REG_APUIO0	; wait for 'ready signal from SPC
@@ -186,13 +195,13 @@ sb_start:
 -:	cmp	REG_APUIO0	; final sync
 	bne	-		;--------------------------------------
 	stz	REG_APUIO0
-	
+
 	stz	spc_v		; reset V
 	stz	spc_q		; reset Q
 	stz	spc_fwrite	; reset command fifo
 	stz	spc_fread	;
 	stz	spc_sfx_next	;
-	
+
 	stz	spc_pr+0
 	stz	spc_pr+1
 	stz	spc_pr+2
@@ -236,7 +245,7 @@ sb_start:
 	inx
 	cpx #$ff
 	bne -
-	
+
 ;----------------------------------------------------------------------
 ; driver installation successful
 ;----------------------------------------------------------------------
@@ -251,7 +260,7 @@ sb_start:
 ;
 ;**********************************************************************
 spcSetBank:
-	php	
+	php
 	phb
 	sep #$20
 	lda #$0
@@ -269,7 +278,6 @@ spcSetBank:
 .macro incptr
 	iny
 	iny
-	
 .ifndef HIROM
 	bmi	+	;_catch_overflow
 	inc	spc_ptr+2
@@ -292,9 +300,9 @@ spcSetBank:
 ;**********************************************************************
 spcLoad:
 ;----------------------------------------------------------------------
-	php 
+	php
 	phb
-	
+
 	sep #$20
 	lda #$0
 	pha
@@ -308,7 +316,7 @@ spcLoad:
 	phx				; flush fifo!
 	jsr	xspcFlush		;
 	plx				;
-	
+
 	phx
 	ldy	#SB_MODTABLE
 	sty	spc2
@@ -317,14 +325,14 @@ spcLoad:
 	lda	[spc_ptr], y	; X = MODULE SIZE
 	;lda	spc_ptr, y	; X = MODULE SIZE
 	tax
-	
+
 	incptr
-	
+
 	lda	[spc_ptr], y	; read SOURCE LIST SIZE
 	;lda	spc_ptr, y	; read SOURCE LIST SIZE
-	
+
 	incptr
-	
+
 	sty	spc1		; pointer += listsize*2
 	asl			;
 	adc	spc1		;
@@ -336,7 +344,7 @@ spcLoad:
 .endif
 	inc	spc_ptr+2	;
 +:	tay			;
-	
+
 	sep	#20h		;
 	lda	spc_v		; wait for spc
 	pha			;
@@ -352,43 +360,43 @@ spcLoad:
 -:	cmp	REG_APUIO1	; wait for spc
 	bne	-		;------------------------------
 	jsr	do_transfer
-	
+
 	;------------------------------------------------------
 	; transfer sources
 	;------------------------------------------------------
-	
+
 	plx
 	ldy	#SB_MODTABLE
 	sty	spc2
 	jsr	get_address
 	incptr
-	
+
 	rep	#20h		; x = number of sources
 	lda	[spc_ptr], y	;
 	tax			;
-	
+
 	incptr
-	
+
 transfer_sources:
-	
+
 	lda	[spc_ptr], y	; read source index
 	sta	spc1		;
-	
+
 	incptr
-	
+
 	phy			; push memory pointer
 	sep	#20h		; and counter
 	lda	spc_ptr+2	;
 	pha			;
 	phx			;
-	
+
 	jsr	transfer_source
-	
+
 	plx			; pull memory pointer
 	pla			; and counter
 	sta	spc_ptr+2	;
 	ply			;
-	
+
 	dex
 	bne	transfer_sources
 @no_more_sources:
@@ -402,22 +410,22 @@ transfer_sources:
 	bne	-		;-----------------
 	sta	spc_pr+1
 	stz	spc_sfx_next	; reset sfx counter
-	
+
 	plb
 	plp
 	rtl
-	
+
 ;--------------------------------------------------------------
 ; spc1 = source index
 ;--------------------------------------------------------------
 transfer_source:
 ;--------------------------------------------------------------
-	
+
 	ldx	spc1
 	ldy	#SB_SRCTABLE
 	sty	spc2
 	jsr	get_address
-	
+
 	lda	#01h		; port0=01h
 	sta	REG_APUIO0	;
 	rep	#20h		; x = length (bytes->words)
@@ -430,9 +438,9 @@ transfer_source:
 	sta	REG_APUIO2
 	incptr
 	sep	#20h
-	
+
 	lda	spc_v		; send message
-	eor	#80h		;	
+	eor	#80h		;
 	ora	#01h		;
 	sta	spc_v		;
 	sta	REG_APUIO1	;-----------------------
@@ -441,7 +449,7 @@ transfer_source:
 	cpx	#0
 	beq	end_transfer	; if datalen != 0
 	bra	do_transfer	; transfer source data
-	
+
 ;--------------------------------------------------------------
 ; spc_ptr+y: source address
 ; x = length of transfer (WORDS)
@@ -464,7 +472,7 @@ do_transfer:
 	lda	spc_v		;
 	dex			;
 	bne	transfer_again	;
-	
+
 	incptr
 
 end_transfer:
@@ -493,13 +501,13 @@ get_address:
 	adc	spc1		;
 	adc	spc2		;
 	sta	spc_ptr		;
-	
+
 	lda	[spc_ptr]	; read address
 	pha			;
 	sep	#20h		;
 	ldy	#2		;
 	lda	[spc_ptr],y	; read bank#
-	
+
 	clc			; spc_ptr = long address to module
 	adc	spc_bank	;
 	sta	spc_ptr+2	;
@@ -507,7 +515,7 @@ get_address:
 	stz	spc_ptr
 	stz	spc_ptr+1
 	rts			;
-	
+
 ;**********************************************************************
 ;* x = id
 ;*
@@ -526,7 +534,7 @@ spcLoadEffect:
 	lda	6,s	; id
 	tax
 	sep #$20
-	
+
 	ldy	#SB_SRCTABLE	; get address of source
 	sty	spc2		;
 	jsr	get_address	;--------------------------------------
@@ -558,15 +566,15 @@ spcLoadEffect:
 	plb
 	plp
 	rtl
-	
+
 ;**********************************************************************
 ; a = id
 ; spc1 = params
 ;**********************************************************************
 QueueMessage:
-	sei				; disable IRQ in case user 
+	sei				; disable IRQ in case user
 					; has spcProcess in irq handler
-			
+
 	sep	#10h			; queue data in fifo
 	ldx	spc_fwrite		;
 	sta	spc_fifo, x		;
@@ -609,7 +617,7 @@ spcFlush1:
 	plb
 	plp
 	rtl
-	
+
 ;----------------------------------------------------------------------
 xspcFlush:
 ;----------------------------------------------------------------------
@@ -619,7 +627,7 @@ xspcFlush:
 	jsr	xspcProcessMessages	;
 	bra	xspcFlush		;
 @exit:	rts				;
-	
+
 xspcProcessMessages:
 
 	sep	#$10			; 8-bit index during this function
@@ -683,7 +691,7 @@ spcProcess:
 	lda #$0
 	pha
 	plb ; change bank address to 0
-	
+
 	lda	digi_active
 	beq	spcProcessMessages
 	jsr	spcProcessStream
@@ -742,7 +750,7 @@ spcProcessMessages:
 	plb ; alek
 	plp ; alek
 	rtl ; alek
-	
+
 ;**********************************************************************
 ; x = starting position
 ;**********************************************************************
@@ -756,12 +764,12 @@ spcPlay:
 	plb ; change bank address to 0
 
 	lda	6,s	; module_id
-	
-;	txa				; queue message: 
+
+;	txa				; queue message:
 	sta	spc1+1			; id -- xx
 	lda	#CMD_PLAY		;
 	jmp	QueueMessage		;
-	
+
 spcStop:
 	php ; alek
 	phb ; alek
@@ -769,7 +777,7 @@ spcStop:
 	lda #$0
 	pha
 	plb ; change bank address to 0
-	
+
 	lda	#CMD_STOP
 	jmp	QueueMessage
 
@@ -796,14 +804,14 @@ spcTest:			;#
 ;**********************************************************************
 spcReadStatus:
 	ldx	#5			; read PORT2 with stability checks
-	lda	REG_APUIO2		; 
+	lda	REG_APUIO2		;
 @loop:					;
 	cmp	REG_APUIO2		;
 	bne	spcReadStatus		;
 	dex				;
 	bne	@loop			;
 	rts				;
-	
+
 ;**********************************************************************
 ; read position register
 ;**********************************************************************
@@ -844,7 +852,7 @@ spcSetModuleVolume:
 	plb ; change bank address to 0
 
 	lda	6,s	; volume
-	
+
 ;	txa				;queue:
 	sta	spc1+1			; id -- vv
 	lda	#CMD_MVOL		;
@@ -869,7 +877,7 @@ spcFadeModuleVolume:
 	lda	8,s	; target volume
 	tax
 	sep #$20
-	
+
 	txa				;queue:
 	sta	spc1+1			; id xx yy
 	tya				;
@@ -928,17 +936,17 @@ spcSetSoundTable:
 	lda #$0
 	pha
 	plb ; change bank address to 0
-	
+
 	rep #$20
 	lda	6,s	; src (lower 16 bits)
 	sta	SoundTable
 	sep #$20
 	lda	8,s	; src bank
 	sta SoundTable+2
-	
+
 	;sty	SoundTable
 	;sta	SoundTable+2
-	
+
 	plb
 	plp;alek
 	rtl			; return
@@ -993,7 +1001,7 @@ spcPlaySound:
 	lda #$0
 	pha
 	plb ; change bank address to 0
-	
+
 	lda	6,s	; index of sound
 
 	xba
@@ -1002,7 +1010,7 @@ spcPlaySound:
 	ldx	#-1
 	ldy	#-1
 	jmp	spcPlaySoundEx
-	
+
 ;======================================================================
 spcPlaySoundV:
 ;======================================================================
@@ -1013,19 +1021,19 @@ spcPlaySoundV:
 	lda #$0
 	pha
 	plb ; change bank address to 0
-	
+
 	rep #$20
 	lda	6,s	; volume of sound
 	tay
 		sep #$20
 	lda	8,s	; index of sound
-	
+
 	xba
 	lda	#128
 	xba
 	ldx	#-1
 	jmp	spcPlaySoundEx
-	
+
 ;----------------------------------------------------------------------
 ; a = index
 ; b = pitch
@@ -1039,9 +1047,9 @@ spcPlaySoundEx:
 	phx				;
 ;----------------------------------------------------------------------------
 	rep	#30h			; um
-	pha				; 
+	pha				;
 ;----------------------------------------------------------------------------
-	and	#0FFh			; y = sound table index 
+	and	#0FFh			; y = sound table index
 	asl				;
 	asl				;
 	asl				;
@@ -1053,7 +1061,7 @@ spcPlaySoundEx:
 	sep	#20h			;
 ;----------------------------------------------------------------------------
 	cmp	#0			; if a < 0 then use default
-	bmi	@use_default_pitch	; otherwise use direct	
+	bmi	@use_default_pitch	; otherwise use direct
 	sta	digi_pitch		;
 	bra	@direct_pitch		;
 @use_default_pitch:			;
@@ -1085,7 +1093,7 @@ spcPlaySoundEx:
 ;----------------------------------------------------------------------------
 	asl				; vp = (vol << 4) | pan
 	asl				;
-	asl				;		
+	asl				;
 	asl				;
 	ora	spc1			;
 	sta	digi_vp			;
@@ -1111,13 +1119,13 @@ spcPlaySoundEx:
 ;----------------------------------------------------------------------------
 	lda	#1			; set flags
 	sta	digi_init		;
-	sta	digi_active		; 
+	sta	digi_active		;
 ;----------------------------------------------------------------------------
 ;	rts
 	plb
 	plp ; alek
 	rtl; alek
-	
+
 ;============================================================================
 spcProcessStream:
 ;============================================================================
@@ -1155,7 +1163,7 @@ spcProcessStream:
 	lda	digi_copyrate		; get copy rate
 @newnote:
 	rep	#20h			; saturate against remaining length
-	and	#0FFh			; 
+	and	#0FFh			;
 	cmp	digi_remain		;
 	bcc	@nsatcopy		;
 	lda	digi_remain		;
@@ -1187,7 +1195,7 @@ spcProcessStream:
 
 
 @next_block:
-		
+
 	lda	[digi_src2], y
 	sta	spc2
 	rep	#20h			; read 2 bytes
@@ -1208,7 +1216,7 @@ spcProcessStream:
 ;-----------------------------------------------------------------------
 -:	cpx	REG_APUIO0		; wait for spc
 	bne	-			;
-;-----------------------------------------------------------------------:	
+;-----------------------------------------------------------------------:
 	lda	spc_pr+0		; restore port data
 	sta	REG_APUIO0		;
 	lda	spc_pr+1		;
@@ -1229,7 +1237,7 @@ spcProcessStream:
 	sep	#20h			;
 ;-----------------------------------------------------------------------
 	rts
-	
+
 digi_rates:
 	.db	0, 3, 5, 7, 9, 11, 13
 

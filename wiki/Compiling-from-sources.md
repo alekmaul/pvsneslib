@@ -315,7 +315,7 @@ Once the compilation is done, you can find your compressed release *(zip)* in th
 
 You can help use to improve pvsneslib but you need to make all changes on `develop``.
 
-Don't forget to be on this branch before requestin a Pull Request !
+**Don't forget to be on this branch before requesting a Pull Request !**
 
 ```bash
 git checkout develop

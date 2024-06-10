@@ -21,9 +21,6 @@ u16 sprnum; // to manage update of each sprite on screen
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    // Initialize SNES
-    consoleInit();
-
     // Init layer with tiles and init also map length 0x6800 is mandatory for map engine
     bgInitTileSet(0, &tileset, &tilepal, 0, (&tilesetend - &tileset), 16 * 2, BG_16COLORS, 0x2000);
     bgSetMapPtr(0, 0x6800, SC_64x32);

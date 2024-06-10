@@ -70,8 +70,8 @@
 .EQU MOSAIC_IN      2
 .EQU MOSAIC_OUT     1
 
-
-.RAMSECTION ".reg_video7e" BANK $7E
+.BASE $00
+.RAMSECTION ".reg_video7e" BANK $7E SLOT RAMSLOT_0
 
 videoMode           DSB 1
 videoModeSub        DSB 1
@@ -81,7 +81,7 @@ iloc                DSB 1
 
 .ENDS
 
-.RAMSECTION ".reg_video7e_matrix" BANK $7E
+.RAMSECTION ".reg_video7e_matrix" BANK $7E SLOT RAMSLOT_0
 
 m7ma                DSB 2
 m7mb                DSB 2
@@ -101,6 +101,18 @@ m7_md               DSB (225-64)*3              ; 483 bytes
 
 .ENDS
 
+
+; getFPScounter() variables
+.RAMSECTION ".getfpscounter_lowram" BANK 0 SLOT 1
+
+snes_vblank_count_svg   dsb 2  ; for comparing snes_vblank_count
+snes_frame_count        dsb 2  ; 2 bytes for frame counter inside loop
+snes_frame_count_svg    dsb 2  ; same thing for saving purpose
+
+.ENDS
+
+
+.BASE BASE_0
 .SECTION ".videos0_text" SUPERFREE
 
 .ACCU 16
@@ -124,7 +136,8 @@ setFadeEffect:
 
     ldx.b   #$0
 -:
-    wai 
+    jsl     WaitForVBlank
+    ; A,X,Y unchanged
     txa
     sta.l   REG_INIDISP
     inx
@@ -141,7 +154,8 @@ setFadeEffect:
 _fadeouteffect:
     ldx.b   #$F
 -:
-    wai 
+    jsl     WaitForVBlank
+    ; A,X,Y unchanged
     txa
     sta.l   REG_INIDISP
     dex
@@ -175,7 +189,9 @@ setFadeEffectEx:
     ldx.b   #$0
 -:
     lda.b 10,s
---  wai
+--
+    jsl   WaitForVBlank
+    ; A,X,Y unchanged
     dea
     bne --
 
@@ -196,7 +212,9 @@ _sfeex1:
     ldx.b   #$F
 -:
     lda.b 10,s
---  wai
+--
+    jsl   WaitForVBlank
+    ; A,X,Y unchanged
     dea
     bne --
 
@@ -230,9 +248,9 @@ setMosaicEffect:
     lda #$00
     ldx.w   #$0
 -:
-    wai
-    wai
-    wai
+    jsl WaitForThreeVBlanks
+    ; A,X,Y unchanged
+
     ora 8,s                         ; Enable effect for BG in parameters
     sta.l   REG_MOSAIC
     clc
@@ -253,9 +271,9 @@ _mosaicouteffect:
     lda #$F0
     ldx.w   #$0
 
--:  wai
-    wai
-    wai
+-:
+    jsl WaitForThreeVBlanks
+    ; A,X,Y unchanged
 
     ora 8,s                         ; Enable effect for BG in parameters
     sta.l   REG_MOSAIC
@@ -281,9 +299,14 @@ setScreenOn:
     php
 
     sep #$20
-    lda #$f
-    wai
 
+    ; Calling WaitForVBlank to:
+    ;  * Flush any unsent VBlank ISR/routine buffers/queues (fixes an uninitialized OAM glitch).
+    ;  * Ensure the input/pad state is up-to-date when `setScreenOn()` returns.
+    ;  * Prevent screen tearing and a single frame glitch that occurs when the screen is enabled mid-frame.
+    jsl WaitForVBlank
+
+    lda   #$f
     sta.l REG_INIDISP
 
     plp
@@ -1003,7 +1026,7 @@ setMode7Scale:
 
     rep #$20                ; get xscale
     lda 5,s
-    
+
     sep #$20                ; REG_M7A = xscale;
     sta.l REG_M7A
     rep #$20
@@ -1013,7 +1036,7 @@ setMode7Scale:
 
     rep #$20                ; get yscale
     lda 7,s
-    
+
     sep #$20                ; REG_M7D = yscale;
     sta.l REG_M7D
     rep #$20
@@ -1092,3 +1115,127 @@ getPaletteColor:
     rtl
 
 .ENDS
+
+.SECTION ".videos9_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+; unsigned short getFPScounter(void)
+getFPScounter:
+    php
+    phb
+
+    sep #$20
+    lda #$0                                             ; bank 0 for counters
+    pha
+    plb
+
+    rep #$20
+    lda snes_vblank_count
+    cmp snes_vblank_count_svg                           ; is svg < current counter, exit (normaly, never occurs)
+    bcc _gfctr1
+    sec
+    sbc.l snes_vblank_count_svg                         ; check if we reach fps (50 or 60)        
+    sbc.l snes_fps    
+    bcc _gfctr
+
+    lda snes_vblank_count                               ; save vblank count
+    sta snes_vblank_count_svg
+    
+    lda snes_frame_count_svg                            ; init again frame counter
+    cmp #99                                             ; no more than 99 fps (don't be mad ;) )
+    bcc +
+    lda #99
+    
++:  sta snes_frame_count
+    stz snes_frame_count_svg
+_gfctr:
+    inc.w snes_frame_count_svg                          ; increment current frame counter
+
+_gfctr1:
+    lda snes_frame_count                                ; return current value
+    sta.w tcc__r0
+
+    plb
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videos91_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+; void showFPScounter(void)
+showFPScounter:
+    php
+    phb
+
+    sep #$20
+    lda #$0                                             ; bank 0 for counters
+    pha
+    plb
+
+    rep #$20
+    lda snes_vblank_count
+    cmp snes_vblank_count_svg                           ; is svg < current counter, exit to display (normaly, never occurs)
+    bcc _sfctr1
+    sec
+    sbc.l snes_vblank_count_svg                         ; check if we reach fps (50 or 60)        
+    sbc.l snes_fps    
+    bcc _sfctr
+
+    lda snes_vblank_count                               ; save vblank count
+    sta snes_vblank_count_svg
+    
+    lda snes_frame_count_svg                            ; init again frame counter
+    cmp #99                                             ; no more than 99 fps (don't be mad ;) )
+    bcc +
+    lda #99
+    
++:  sta snes_frame_count
+    stz snes_frame_count_svg
+_sfctr:
+    inc.w snes_frame_count_svg                          ; increment current frame counter
+
+_sfctr1:
+    sep #$20
+    lda.l snes_frame_count
+    sta.l $4204
+    lda.l snes_frame_count+1                            ; Write $fps to dividend
+    sta.l $4205
+    LDA #10                                             ; Write 10 to divisor (to have fps/10 for 1st char)
+    sta.l $4206                                         ; Wait 16 machine cycles after (done by code)
+ 
+    lda #$80	                                        ; VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1  set address in VRam for read or write ($2116) + block size transfer ($2115)
+    sta.l $2115
+    rep #$20
+    lda.l txt_vram_bg
+    clc 
+    adc #(1*32+1)                                       ; will put at location 1,1 on character vram BG
+    sta.l $2116
+
+    sep #$20
+    lda.l $4214                                         ; A = result low byte ($4215 result high byte)
+    clc
+    adc #$10                                            ; to have number 0 of graphic
+	rep #$20
+    and #$00FF
+    clc 
+    adc.l txt_vram_offset                                 ; add text offset and put 16 bit value to VRAM
+    sta.l $2118
+
+    sep #$20
+    lda.l $4216                                         ; A = remainder low byte ($4216 remainder high byte) (so fps mod 10)
+    clc
+    adc #$10                                            ; to have number 0 of graphic
+	rep #$20
+    and #$00FF
+    clc 
+    adc.l txt_vram_offset
+	sta.l $2118                                         ; add text offset and put 16 bit value to VRAM
+
+    plb
+    plp
+    rtl
+
+.ENDS
+

@@ -1,6 +1,6 @@
 ;---------------------------------------------------------------------------------
 ;
-;   Copyright (C) 2013-2023
+;   Copyright (C) 2013-2024
 ;       Alekmaul
 ;
 ;   This software is provided 'as-is', without any express or implied
@@ -22,25 +22,24 @@
 ;
 ;---------------------------------------------------------------------------------
 
-.EQU REG_CGADD          $2121
-.EQU CGRAM_PALETTE      $2122
+.EQU REG_CGADD              $2121
+.EQU CGRAM_PALETTE          $2122
 
-.EQU REG_STAT78         $213F
-.EQU REG_DEBUG          $21FC
+.EQU REG_STAT78             $213F
+.EQU REG_DEBUG              $21FC
 
-.EQU BANK_SRAM          $70
-.EQU PPU_50HZ           (1<<4)
+.EQU BANK_SRAM              $70
+.EQU PPU_50HZ               (1<<4)
 
-.EQU INT_VBLENABLE     (1<<7)
-.EQU INT_JOYPAD_ENABLE (1)
+.EQU INT_VBLENABLE          (1<<7)
+.EQU INT_JOYPAD_ENABLE      (1)
 
-.DEFINE TXT_VRAMADR     $0800
-.DEFINE TXT_VRAMBGADR   $0800
-.DEFINE TXT_VRAMOFFSET   $0000
+.DEFINE TXT_VRAMADR         $3000
+.DEFINE TXT_VRAMBGADR       $6800
+.DEFINE TXT_VRAMOFFSET      $0100
 
-.RAMSECTION ".reg_cons7e" BANK $7E
-
-snes_vblank_count       DW                                  ; to count number of vblank
+.BASE $00
+.RAMSECTION ".reg_cons7e" BANK $7E SLOT RAMSLOT_0
 
 snes_50hz               DB                                  ; 1 if PAL console (50 Hz) instead of NTSC (60Hz)
 snes_fps                DB                                  ; 50 if PAL console (50 Hz) or 60 if NTSC console (60Hz)
@@ -64,6 +63,7 @@ snes_rand_seed1:        DSB 2
 snes_rand_seed2:        DSB 2
 .ENDS
 
+.BASE BASE_0
 .SECTION ".consoles0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
@@ -378,17 +378,6 @@ consoleVblank:
     pha
     plb
 
-    ; Refresh pad values
-    lda snes_mplay5
-    beq +
-    jsl scanMPlay5
-    bra cvbloam
-+   jsl scanPads
-
-cvbloam:
-    ; Put oam to screen if needed
-    jsl oamUpdate
-
     ; if buffer need to be update, do it !
     lda scr_txt_dirty
     beq +
@@ -416,11 +405,7 @@ cvbloam:
 
     stz scr_txt_dirty                                         ; no more transfer of text
 
-    ; Count frame number
-+   rep #$20
-    inc.w snes_vblank_count
-
-    plb
++:  plb
     plp
     rtl
 
@@ -433,18 +418,23 @@ cvbloam:
 consoleInit:
     php
 
+    sep #$20
+
+    lda.b #0                                                  ; Disable interrupts to prevent the VBlank ISR
+    sta.l REG_NMITIMEN                                        ; from modifying VRAM, PPU Registers or variables.
+
     rep #$20
-    lda.w #:consoleVblank                                     ; Put current handler to our function
-    sta.l nmi_handler + 2
-    lda.w #consoleVblank
-    sta.l nmi_handler
 
     lda.w #0                                                  ; Begin counting vblank
     sta.w snes_vblank_count
 
+    sta.w mouseConnect                                        ; Mouse init
+
     sep #$20
     sta scr_txt_dirty                                         ; Nothing to print on screen
     sta snes_mplay5                                           ; For Pad function
+    sta snes_mouse                                            ; Set mouse usage disabled by default
+    sta snes_sscope                                           ; Set superscope usage disabled by default
 
     phb
     pha
@@ -507,10 +497,14 @@ consoleInit:
     lda #TXT_VRAMOFFSET
     sta txt_vram_offset
 
-    plb
+    ; Set nmi_handler, enable VBlank interrupts, enable joypad auto-read.
+    pea :consoleVblank
+    pea consoleVblank
+    jsl nmiSet
+    pla
+    pla
 
-    lda #INT_VBLENABLE | INT_JOYPAD_ENABLE                    ; enable NMI, enable autojoy
-    sta.l REG_NMITIMEN
+    plb
 
     plp
     rtl

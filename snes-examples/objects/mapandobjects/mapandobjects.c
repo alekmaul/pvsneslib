@@ -23,9 +23,6 @@ u16 nbobjects;										// to init more than sprite object in map
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    // Initialize SNES
-    consoleInit();
-
     // Init layer with tiles and init also map length 0x6800 is mandatory for map engine
     bgInitTileSet(0, &tileset, &tilesetpal, 0, (&tilesetend - &tileset), 16 * 2, BG_16COLORS, 0x2000);
     bgSetMapPtr(0, 0x6800, SC_64x32);

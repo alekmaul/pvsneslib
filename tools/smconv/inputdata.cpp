@@ -2,6 +2,10 @@
 
 extern std::string PATH;
 
+#define ERRORRED(STRING) "\x1B[31m" STRING "\033[0m"
+#define ERRORPINK(STRING) "\x1B[35m" STRING "\033[0m"
+#define ERRORBRIGHT(STRING) "\x1B[97m" STRING "\033[0m"
+
 namespace ConversionInput
 {
 
@@ -92,7 +96,7 @@ namespace ConversionInput
                     arg++;
                     if (arg == argc)
                     {
-                        printf("\nsmconv: error 'No output file specified'");
+                        printf ("%s: " ERRORRED("fatal error") ": No output file specified\n", ERRORBRIGHT("smconv"));
                         return;
                     }
                     output = argv[arg];
@@ -122,7 +126,7 @@ namespace ConversionInput
                     arg++;
                     if (arg == argc)
                     {
-                        printf("\nsmconv: error 'No bank number specified'");
+                        printf ("%s: " ERRORRED("fatal error") ": No bank number specified\n", ERRORBRIGHT("smconv"));
                         return;
                     }
                     if (isdigit(argv[arg][0]))
@@ -131,7 +135,7 @@ namespace ConversionInput
                     }
                     else
                     {
-                        printf("\nsmconv: error 'Incorrect bank number'");
+                        printf ("%s: " ERRORRED("fatal error") ": Incorrect bank number\n", ERRORBRIGHT("smconv"));
                         return;
                     }
                 }
@@ -139,7 +143,12 @@ namespace ConversionInput
                 break;
             case ARG_INPUT:
                 // input
-
+                if (FILE *file = fopen(argv[arg], "r")) {
+                    fclose(file);
+                }
+                else {
+                    return;
+                }
                 files.push_back(argv[arg]);
                 arg++;
                 break;

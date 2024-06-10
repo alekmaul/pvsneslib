@@ -4,7 +4,7 @@ Go to snes-examples/hello_world to have the famous Hello World example.
 
 # Tips to help you with coding
 
-In this example, all the souce code are in the **src** directory. It consists of only one file **hello_world.c**.
+In this example, all the source code are in the **src** directory. It consists of only one file **hello_world.c**.
 
 You can change this behavior by adding a SRC variable in the makefile.
 

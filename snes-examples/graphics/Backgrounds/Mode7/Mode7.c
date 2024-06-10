@@ -18,9 +18,6 @@ u8 angle;
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    // Initialize SNES
-    consoleInit();
-
     // Read tiles & map to VRAM  (interlace for mode 7)
     bgInitMapTileSet7(&patterns, &map, &palette, (&patterns_end - &patterns), 0x0000);
 

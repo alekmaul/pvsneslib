@@ -1,6 +1,17 @@
 .INCLUDE "hdr.asm"
 
-.SECTION ".libtcc_internal"
+.ifdef FASTROM
+.BASE $80
+.endif
+
+.BANK 1
+
+.DEFINE ORG_0 0
+.ifdef HIROM
+.REDEFINE ORG_0 $8000
+.endif
+
+.SECTION ".libc_mem" SEMIFREE ORG ORG_0
 
 .accu 16
 .index 16

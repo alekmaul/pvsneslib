@@ -12,9 +12,6 @@ int main(void) {
     // Initialize sound engine (take some time)
     spcBoot();
 
-    // Initialize SNES
-    consoleInit();
-
     dmaClearVram();
 
     initPVSnesLibLogo();

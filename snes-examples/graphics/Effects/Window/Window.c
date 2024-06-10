@@ -51,9 +51,6 @@ const u8 tablerighttriangle[]=
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    // Initialize SNES
-    consoleInit();
-
     // Copy tiles to VRAM
     bgInitTileSet(0, &patternsbg1, &palettebg1, 0, (&patternsbg1_end - &patternsbg1), 16*1*2, BG_16COLORS, 0x4000);
     bgInitTileSet(1, &patternsbg2, &palettebg2, 1, (&patternsbg2_end - &patternsbg2), 16*1*2, BG_16COLORS, 0x6000);

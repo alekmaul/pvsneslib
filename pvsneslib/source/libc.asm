@@ -1,6 +1,17 @@
 .INCLUDE "hdr.asm"
 
-.SECTION ".libc_mem" SUPERFREE
+.ifdef FASTROM
+.BASE $80
+.endif
+
+.BANK 1
+
+.DEFINE ORG_0 0
+.ifdef HIROM
+.REDEFINE ORG_0 $8000
+.endif
+
+.SECTION ".libc_mem" SEMIFREE ORG ORG_0
 
 .accu 16
 .index 16
@@ -344,7 +355,7 @@ strrchr:
 
 .ENDS
 
-.SECTION ".libc_misc"
+.SECTION ".libc_misc" SEMIFREE ORG ORG_0
 .accu 16
 .index 16
 
@@ -404,7 +415,7 @@ longjmp:
 
 .ENDS
 
-.SECTION ".libc_cstd"
+.SECTION ".libc_cstd" SEMIFREE ORG ORG_0
 
 .accu 16
 .index 16
@@ -441,16 +452,34 @@ exitl4:
 
 .include "libc_c.asm"
 
+.DEFINE RAMSLOT_0 0
+.ifdef HIROM
+.REDEFINE RAMSLOT_0 2
+.endif
+
+.DEFINE BASE_0 $00
+.ifdef FASTROM
+.ifdef HIROM
+.REDEFINE BASE_0 $C0
+.else
+.REDEFINE BASE_0 $80
+.endif
+.else
+.ifdef HIROM
+.REDEFINE BASE_0 $40
+.endif
+.endif
+
 .include "backgrounds.asm"
 .include "consoles.asm"
 .include "dmas.asm"
-.include "interrupts.asm"
+.include "input.asm"
 .include "lzsss.asm"
 .include "maps.asm"
 .include "objects.asm"
-.include "pads.asm"
 .include "scores.asm"
 .include "snesmodwla.asm"
 .include "sounds.asm"
 .include "sprites.asm"
 .include "videos.asm"
+.include "vblank.asm"
