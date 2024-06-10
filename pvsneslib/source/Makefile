@@ -37,7 +37,7 @@ else
 	$(CC) $(CFLAGS) -Wall -c $< -o $@
 endif
 endif
-ifeq ($(OPERATING_SYSTEM),"darwin")
+ifeq ($(UNAME), Darwin)
 	sed -i '' 's/.include "hdr.asm"//' $@
 else
 	sed -i 's/.include "hdr.asm"//' $@
