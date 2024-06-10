@@ -37,7 +37,11 @@ else
 	$(CC) $(CFLAGS) -Wall -c $< -o $@
 endif
 endif
+ifeq ($(OPERATING_SYSTEM),"darwin")
+	sed -i '' 's/.include "hdr.asm"//' $@
+else
 	sed -i 's/.include "hdr.asm"//' $@
+endif
 
 reset_comp:
 	@echo "; HIROM / FASTROM definitions" > comp_defs.asm
