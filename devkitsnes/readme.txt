@@ -30,7 +30,7 @@ SPECIAL THANKS
 
 CHANGE LOG
 ----------------------
-VERSION V4.3.0 (March,24,2024)
+VERSION V4.3.0 (June,10,2024)
 - See github changelog of the release
 
 VERSION V4.2.1 (March,04,2024)
