@@ -68,8 +68,7 @@ int main(void)
 	consoleDrawText(5, 17, "Effect: tada");
     while (1)
     {
-        // Refresh pad values and test key a (without repeating sound if still pressed)
-        scanPads();
+        // Test key a (without repeating sound if still pressed)
         if (padsCurrent(0) & KEY_A)
         {
             if (keyapressed == 0)

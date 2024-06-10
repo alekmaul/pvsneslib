@@ -101,6 +101,17 @@ m7_md               DSB (225-64)*3              ; 483 bytes
 
 .ENDS
 
+
+; getFPScounter() variables
+.RAMSECTION ".getfpscounter_lowram" BANK 0 SLOT 1
+
+snes_vblank_count_svg   dsb 2  ; for comparing snes_vblank_count
+snes_frame_count        dsb 2  ; 2 bytes for frame counter inside loop
+snes_frame_count_svg    dsb 2  ; same thing for saving purpose
+
+.ENDS
+
+
 .BASE BASE_0
 .SECTION ".videos0_text" SUPERFREE
 
@@ -125,7 +136,8 @@ setFadeEffect:
 
     ldx.b   #$0
 -:
-    wai
+    jsl     WaitForVBlank
+    ; A,X,Y unchanged
     txa
     sta.l   REG_INIDISP
     inx
@@ -142,7 +154,8 @@ setFadeEffect:
 _fadeouteffect:
     ldx.b   #$F
 -:
-    wai
+    jsl     WaitForVBlank
+    ; A,X,Y unchanged
     txa
     sta.l   REG_INIDISP
     dex
@@ -176,7 +189,9 @@ setFadeEffectEx:
     ldx.b   #$0
 -:
     lda.b 10,s
---  wai
+--
+    jsl   WaitForVBlank
+    ; A,X,Y unchanged
     dea
     bne --
 
@@ -197,7 +212,9 @@ _sfeex1:
     ldx.b   #$F
 -:
     lda.b 10,s
---  wai
+--
+    jsl   WaitForVBlank
+    ; A,X,Y unchanged
     dea
     bne --
 
@@ -231,9 +248,9 @@ setMosaicEffect:
     lda #$00
     ldx.w   #$0
 -:
-    wai
-    wai
-    wai
+    jsl WaitForThreeVBlanks
+    ; A,X,Y unchanged
+
     ora 8,s                         ; Enable effect for BG in parameters
     sta.l   REG_MOSAIC
     clc
@@ -254,9 +271,9 @@ _mosaicouteffect:
     lda #$F0
     ldx.w   #$0
 
--:  wai
-    wai
-    wai
+-:
+    jsl WaitForThreeVBlanks
+    ; A,X,Y unchanged
 
     ora 8,s                         ; Enable effect for BG in parameters
     sta.l   REG_MOSAIC
@@ -282,9 +299,14 @@ setScreenOn:
     php
 
     sep #$20
-    lda #$f
-    wai
 
+    ; Calling WaitForVBlank to:
+    ;  * Flush any unsent VBlank ISR/routine buffers/queues (fixes an uninitialized OAM glitch).
+    ;  * Ensure the input/pad state is up-to-date when `setScreenOn()` returns.
+    ;  * Prevent screen tearing and a single frame glitch that occurs when the screen is enabled mid-frame.
+    jsl WaitForVBlank
+
+    lda   #$f
     sta.l REG_INIDISP
 
     plp
