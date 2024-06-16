@@ -486,18 +486,35 @@ _MouseData:
 	rts
 
 @_m20:
-	rep			#$10
-	ldy     #16               ; Read 16 bit data.
-	sep			#$10
 
-@_m30:
-	lda     REG_JOYA,x
 
-	lsr     a
-	rol     mouse_x,x
-	rol     mouse_y,x
-	dey
-	bne     @_m30
+	; According to https://snes.nesdev.org/wiki/Mouse the Hyperkin mouse had extra timing requirements:
+	;  * At least 170 master cycles between bit reads
+	;  * At least 336 master cycles between reading the 2nd and 3rd byte
+	;
+	; The second requirement is already met.  Auto-Joypad read will read the first 16 bits and there
+	; is a significant delay between the end of Auto-Joypad read and the start of this read-loop.
+	;
+	; SlowROM: This loop is 190 m-cycles.  No read-delay was required.
+	; FastROM: This loop is 188 m-cycles.  2 nop instructions were required.
+	;
+	; The delays were manually cycle counted and verified with Mesen's Debugger.
+
+	; Read 16 bits
+	ldy     #16
+	@_m30:
+		lda.w   REG_JOYA,x
+
+		lsr     a
+		rol.w   mouse_x,x
+		rol.w   mouse_y,x
+		.ifdef FASTROM
+			nop          ; Read delay for hyperkin mouse support.
+			nop          ; 1 extra nop for safety (to match the SnesDev wiki)
+		.endif
+		dey
+		bne     @_m30
+
 
 	stz     mousePressed,x
 
