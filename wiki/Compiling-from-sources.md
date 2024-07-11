@@ -244,6 +244,7 @@ A quick way to do this is by adding PATH at the end of your `~/.zshrc`
 Edit this file and add this the end, or update the existing environment variable `PATH` if it already exists by using your favorite file editor *(`nano`, `vim`, ...)*.
 
 ```bash
+# Some people mention that the path is now "/opt/homebrew/opt/gnu-sed/libexec/gnubin", please confirm us!
 PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH
 ```

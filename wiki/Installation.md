@@ -115,6 +115,38 @@ Please remember that:
 
 Don't worry, if you forget, you will be notified of an error message by running the `make` command.
 
+
+Then, install [*brew*](https://brew.sh/):
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Finally, install brew package:
+
+```bash
+brew install gnu-sed
+```
+
+For `gnu-sed`, we need to set it as your default sed command. Let's do it by updating the `PATH` environment.
+
+A quick way to do this is by adding PATH at the end of your `~/.zshrc`
+
+Edit this file and add this the end, or update the existing environment variable `PATH` if it already exists by using your favorite file editor *(`nano`, `vim`, ...)*.
+
+```bash
+# Some people mention that the path is now "/opt/homebrew/opt/gnu-sed/libexec/gnubin", please confirm us!
+PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH
+```
+Save the file and reload it:
+
+```
+source ~/.zshrc
+```
+
+Now `gnu-sed` will be used by default because it precedes all other sed commands installed on your system.
+
 ### It is ready !
 
 
