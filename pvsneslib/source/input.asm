@@ -287,20 +287,26 @@ detectSuperScope:
 ; void mouseSpeedChange(u8 port)
 mouseSpeedChange:
 	php
-	sep     #$30
 	phb
+	rep     #$30           ; Must push/pop 16 bit index (switching to 8 bit Index clobbers high byte)
 	phx
 	phy
 
-	lda     #$00						 ; Set Data Bank to 0
+	sep     #$30
+.ACCU 8
+.INDEX 8
+
+	lda     #$00
 	pha
 	plb
+// DB = 0
 
-	lda     8,s 						; Set port
+	lda     10,s            ; port argument
 	tax
 
 	jsr     @speed_change
 
+	rep     #$30
 	ply
 	plx
 	plb
