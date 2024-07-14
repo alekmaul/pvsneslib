@@ -320,7 +320,12 @@ mouseSpeedChange:
 	lda     mouseConnect,x
 	beq     _s25
 
-	lda     #$10
+
+	; Limit the number of cycle-sensitivity commands to send to the mouse.
+	; Done for 2 reasons:
+	;  1. Prevents an infinite loop if the mouse has been disconnected.
+	;  2. The Hyperkin mouse will always report a mouse sensitivity of 0.
+	lda     #4
 	sta     tcc__r0h
 
 _s10:
