@@ -302,9 +302,11 @@ mouseSpeedChange:
 // DB = 0
 
 	lda     10,s            ; port argument
-	tax
-
-	jsr     @speed_change
+	cmp     #2
+	bcs     +
+		tax
+		jsr     @speed_change
+	+
 
 	rep     #$30
 	ply
