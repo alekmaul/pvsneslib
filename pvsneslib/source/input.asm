@@ -105,7 +105,6 @@ snes_mouse			db					; for lib use. Tells the system to initialize mouse usage
 mouseConnect    dsb 2       ; Mouse connection ports (D0=4016, D0=4017)
 
 mouseSpeedSet   dsb 2       ; Mouse speed setting
-mouse_sp        dsb 2       ; Mouse speed
 
 mouseButton     dsb 2       ; Mouse button trigger
 mousePressed    dsb 2       ; Mouse button turbo
@@ -317,71 +316,74 @@ mouseSpeedChange:
 
 
 ; Called by _MouseRead in the Vblank ISR
+; TIMING: Not auto-joypad read
 ; X = 0 or 1
+; KEEP: X
 ; DB = 0
 .ACCU 8
 .INDEX 8
 @speed_change:
-	php
-	sep     #$30
-
+	; Early exit if mouse is not connected
 	lda     mouseConnect,x
-	beq     _s25
+	beq     @Return
 
+	lda     mouseSpeedSet,x
+	and     #2
+	tay
 
 	; Limit the number of cycle-sensitivity commands to send to the mouse.
 	; Done for 2 reasons:
 	;  1. Prevents an infinite loop if the mouse has been disconnected.
 	;  2. The Hyperkin mouse will always report a mouse sensitivity of 0.
 	lda     #4
-	sta     tcc__r0h
+	sta.b   tcc__r0h
 
-_s10:
-	lda     #$01
-	sta     REG_JOYA
-	lda     REG_JOYA,x      ; Speed change (1 step)
-	stz     REG_JOYA
+	@CycleLoop:
+		; X = port
+		; Y = requested sensitivity
+		; tcc__r0h = decrementing loop counter
 
-	lda     #$01            ; Read speed data.
-	sta     REG_JOYA        ; Shift register clear.
-	lda     #$00
-	sta     REG_JOYA
+		; Send a cycle-sensitivity command to the mouse
+		lda     #$01
+		sta     REG_JOYA
+		lda     REG_JOYA,x
+		stz     REG_JOYA
 
-	sta     mouse_sp,x      ; Speed register clear.
 
-	ldy     #10             ; Shift register read has no meaning
+		; Read sensitivity bits from mouse
+		;
+		; No Hyperkin mouse read delay is required as the Hyperkin mouse does not support
+		; cycle-sensitivity commands.
 
-_s20:
-	lda     REG_JOYA,x
-	dey
-	bne     _s20
+		; Skip the first 10 bits
+		; Using A for loop counter so Y is unchanged
+		lda     #10
+		-
+			bit     REG_JOYA,x
+			dec     a
+			bne     -
 
-	lda     REG_JOYA,x      ; Read speed
+		; Read the 2 sensitivity bits
+		stz.b   tcc__r0
 
-	lsr     a
-	rol     mouse_sp,x
+		lda     REG_JOYA,x
+		lsr
+		rol.b	tcc__r0
 
-	lda     REG_JOYA, x
+		lda     REG_JOYA,x
+		lsr
+		rol.b   tcc__r0
 
-	lsr     a
-	rol     mouse_sp,x
-	lda     mouse_sp,x
 
-	cmp     mouseSpeedSet,x     ; Set speed or not?
+		; Return if read sensitivity == Y
+		cpy.b   tcc__r0
+		beq     @Return
 
-	beq     _s30
+		dec.b   tcc__r0h
+		bne     @CycleLoop
 
-	dec     tcc__r0h            ; For error check
-	bne     _s10
-
-_s25:
-	lda     #$80                ; Speed change error.
-	sta     mouse_sp,x
-
-_s30:
-	plp
+@Return:
 	rts
-
 .ENDS
 
 
