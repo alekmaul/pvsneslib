@@ -377,28 +377,7 @@ _GetScope:
 
 
 ;---------------------------------------------------------------------------------
-
-;* mouse read
-
-;---------------------------------------------------------------------------------
-
-;*          If this routine is called every frame, then the mouse status will be set
-;*          to the appropriate registers.
-;* INPUT
-;*          None (Mouse key read automatically)
-;* OUTPUT
-;*          Connection status (mouse_con)   D0=1 Mouse connected to Joyl
-;*                                          D1=1 Mouse connected to Joy2
-;*          Switch (mousePressed,1)         D0=left switch turbo
-;*                                          D1=right switch turbo
-;*          Switch (mouseButton,1)          D0=left switch trigger
-;*                                          D1=right switch trigger
-;*          Mouse movement (ball) value
-;*                (mouse_x)                 D7=0 Positive turn, D7=1 Negative turn
-;*                                          D6-D0 X movement value
-;*                (mouse_y)                 D7=0 Positive turn, D7=1 Negative turn
-;*                                          D6-D0 X movement value
-
+; Mouse read
 ;---------------------------------------------------------------------------------
 
 
@@ -418,35 +397,23 @@ _MouseRead:
 	; The code assumes Joypad Auto-Read is not active.
 	; This is enforced by a REG_HVBJOY spinloop in the VBlank ISR.
 
-	ldx     #$01
-	lda     REG_JOY2L            ; Joy2
+	ldx     #1
+	lda     REG_JOY2L
 	jsr     _MouseData
 
-	lda     connect_st+1
-	beq     @_20
-
-	jsr     mouseSpeedChange@speed_change
-	stz     connect_st+1
-
-@_20:
-	dex
-	lda     REG_JOY1L           ; Joy1
+	ldx     #0
+	lda     REG_JOY1L
 	jsr     _MouseData
 
-	lda     connect_st
-	beq     @_30
 
-	jsr     mouseSpeedChange@speed_change
-	stz     connect_st
-
-@_30:
-
+	; Disable `snes_mouse` if both mice have been disconnected.
 	lda     mouseConnect
 	ora     mouseConnect+1
 	bne     +
-	stz     snes_mouse           ; Disable mouse flag if no mouse connected
+		stz     snes_mouse
+	+
 
-+:
+
 	rep     #$10
 	rts
 
@@ -455,39 +422,43 @@ _MouseRead:
 ;;
 ;; IN: A = REG_JOY1L or REG_JOY2L
 ;; IN: X = 0 or 1
+;; KEEP: X
 ;;
 ;; DB = 0
 ;; D = tcc__registers_nmi_isr (NOT ZERO)
 .accu 8
 .index 8
 _MouseData:
+	tay
 
-	sta     tcc__r0           ; (421A / 4218 saved to reg0)
-	and.b   #$0F
-	cmp.b   #$01              ; Is the mouse connected?
-	beq     @_m10
+	; Test if a mouse is connected
+	and.b   #$0f
+	cmp.b   #$01
+	bne     @NoMouseConnected
 
-	stz     mouseConnect,x    ; No connection.
-
-	stz     mouseButton,x
-	stz     mousePressed,x
-	stz     mouse_x,x
-	stz     mouse_y,x
-
-	rts
-
-@_m10:
-	lda     mouseConnect,x    ; When mouse is connected, speed will change.
-	bne     @_m20             ; Previous connection status
-                              ; (mouse.com judged by lower 1 bit)
-	lda     #$01              ; Connection check flag on
-	sta     mouseConnect,x
-	sta     connect_st,x
-	rts
-
-@_m20:
+	; Test if the mouse was connected on this frame
+	lda     mouseConnect,x
+	beq     @SetMouseSensitvity
 
 
+	; Update mouse button/pressed variables
+	lda     mousePressed,x
+	sta     mousePreviousPressed,x
+
+	tya
+	asl     a
+	rol     a
+	rol     a
+	and     #3
+	sta     mousePressed,x
+
+	eor     mousePreviousPressed,x
+	and     mousePressed,x
+	sta     mouseButton,x
+
+
+	; Manually read the displacement bits from the controller port.
+	;
 	; According to https://snes.nesdev.org/wiki/Mouse the Hyperkin mouse had extra timing requirements:
 	;  * At least 170 master cycles between bit reads
 	;  * At least 336 master cycles between reading the 2nd and 3rd byte
@@ -515,29 +486,37 @@ _MouseData:
 		dey
 		bne     @_m30
 
+	rts
 
-	stz     mousePressed,x
 
-	rol     tcc__r0
-	rol     mousePressed,x
-	rol     tcc__r0
-	rol     mousePressed,x        ; Switch turbo
+; The Nintendo Mouse has a bug where the reported sensitivity and the internal sensitivity do
+; not match when the mouse is powered on.
+;
+; To fix this bug at a cycle-sensitivity command must be sent to the mouse when it is first
+; connected to the console, even if the sensitivity bits are what the user wants.
+;
+; Calling `speed_change` will cycle the sensitivity at least once and try to cycle the sensitivity
+; to match `mouseSpeedSet`.
+@SetMouseSensitvity:
+	jsr     mouseSpeedChange@speed_change
 
-	lda     mousePressed,x
-	eor     mouse_sb,x        ; Get switch trigger
-	bne     @_m40
+	; Set mouse connected flag
+	lda     #1
+	sta     mouseConnect,x
 
+	; Clear mouse variables, they might not be valid.
+	bra     @ClearMouseState
+
+
+@NoMouseConnected:
+	stz     mouseConnect,x
+@ClearMouseState:
 	stz     mouseButton,x
-
+	stz     mousePressed,x
+	stz     mousePreviousPressed,x
+	stz     mouse_x,x
+	stz     mouse_y,x
 	rts
-
-@_m40:
-	lda     mousePressed,x
-	sta     mouseButton,x
-	sta     mouse_sb,x
-
-	rts
-
 
 
 ;---------------------------------------------------------------------------------

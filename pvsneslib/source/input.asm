@@ -96,25 +96,23 @@ scope_sinceshot	dsb 2
 .ENDS
 
 ;---------------------------------------------------------------------------------
-;		Mouse Driver Routine (Ver 1 .00)
+; Mouse variables
 ;---------------------------------------------------------------------------------
 
 .RAMSECTION ".reg_mouse" BANK 0 SLOT 1
 
-snes_mouse			db					; for lib use. Tells the system to initialize mouse usage
-mouseConnect    dsb 2       ; Mouse connection ports (D0=4016, D0=4017)
+snes_mouse              db    ; Flag to enable mouse reading in VBlank ISR
 
-mouseSpeedSet   dsb 2       ; Mouse speed setting
+mouseConnect            dsb 2 ; Mouse connection status
 
-mouseButton     dsb 2       ; Mouse button trigger
-mousePressed    dsb 2       ; Mouse button turbo
+mouseSpeedSet           dsb 2 ; Mouse speed setting
 
-mouse_y         dsb 2       ; Mouse Y direction
-mouse_x         dsb 2       ; Mouse X direction
+mouseButton             dsb 2 ; Mouse buttons pressed this frame
+mousePressed            dsb 2 ; Mouse buttons held/pressed
+mousePreviousPressed    dsb 2 ; Mouse buttons held/pressed in the previous frame
 
-mouse_sb        dsb 2       ; Previous switch status
-
-connect_st      dsb 2
+mouse_y                 dsb 2 ; Mouse Y displacement
+mouse_x                 dsb 2 ; Mouse X displacement
 
 .ENDS
 
