@@ -302,7 +302,11 @@ mouseSpeedChange:
 	cmp     #2
 	bcs     +
 		tax
-		jsr     @speed_change
+
+		; Call `speed_change` if the mouse if connected.
+		lda     mouseConnect,x
+		beq     +
+			jsr     @speed_change
 	+
 
 	rep     #$30
@@ -315,16 +319,13 @@ mouseSpeedChange:
 
 ; Called by _MouseRead in the Vblank ISR
 ; TIMING: Not auto-joypad read
+; REQUIRES: Mouse connected on port X
 ; X = 0 or 1
 ; KEEP: X
 ; DB = 0
 .ACCU 8
 .INDEX 8
 @speed_change:
-	; Early exit if mouse is not connected
-	lda     mouseConnect,x
-	beq     @Return
-
 	lda     mouseSpeedSet,x
 	and     #2
 	tay
