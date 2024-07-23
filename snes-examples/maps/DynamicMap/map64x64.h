@@ -1,6 +1,7 @@
 #ifndef _MAP64X64_H
 #define _MAP64X64_H
 
+// max scroll area (visible area is 16 x 14)
 #define MAX_SCROLL_WIDTH_64x64 64*16 - 16*16  // 768
 #define MAX_SCROLL_HEIGHT_64x64 64*16 - 14*16 // 800
 
