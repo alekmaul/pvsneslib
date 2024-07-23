@@ -17,6 +17,6 @@ u16 element2sprite64x64(u8 elem);
 u16 calculateSpriteIndex64x64(u8 elem);
 u16 calculateSpritesLength64x64(u16 number_of_sprites);
 void screenRefreshPos64x64(u8 x, u8 y, u16 address);
-void updateSprite64x64(u8 *source, u16 address, u16 sprite);
+void updateSprite64x64(u8 *source, u16 address, u16 elem);
 
 #endif
