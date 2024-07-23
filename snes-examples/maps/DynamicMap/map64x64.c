@@ -86,7 +86,10 @@ u16 getSprite64x64(u8 x, u8 y)
     else if (x < 64 && y < 64)
         return getSpriteRaw64x64(x - 32, y + 64); // bottom right
     else
+    {
         consoleNocashMessage("getSprite64x64: out of bounds: x=%u,y=%u\n", (int) x, (int) y);
+        return 0;
+    }
 }
 
 /**

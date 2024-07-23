@@ -91,7 +91,10 @@ u16 getSprite32x32(u8 x, u8 y)
     else if (x < 32 && y < 32)
         return getSpriteRaw32x32(x - 16, y + 32); // bottom right
     else
+    {
         consoleNocashMessage("drawSprite32x32: out of bounds: x=%u,y=%u\n", (int) x, (int) y);
+        return 0;
+    }
 }
 
 /**
