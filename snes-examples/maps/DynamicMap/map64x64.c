@@ -59,6 +59,7 @@ u16 getSpriteRaw64x64(u8 x, u8 y)
  *
  * @param x column 0 - 63
  * @param y row 0 - 63
+ * @param sprite sprite
  */
 void drawSprite64x64(u8 x, u8 y, u16 sprite)
 {
@@ -153,10 +154,11 @@ void screenRefreshPos64x64(u8 x, u8 y, u16 address)
  *
  * @param source the source base to copy from
  * @param address base vram address to copy to
+ * @param elem gfx tile no 0 - (number_of_sprites - 1)
  */
-void updateSprite64x64(u8 *source, u16 address, u16 sprite)
+void updateSprite64x64(u8 *source, u16 address, u16 elem)
 {
     //dmaCopyVram((u8*) source, address, 256 * number_of_sprites); // update all sprites
-    dmaCopyVram((u8*) (source + calculateSpriteIndex64x64(sprite)), address + element2sprite64x64(sprite)*32, 128); // update sprite top
-    dmaCopyVram((u8*) (source + calculateSpriteIndex64x64(sprite) + 1024), address + element2sprite64x64(sprite)*32 + 1024/2, 128); // update sprite bottom
+    dmaCopyVram((u8*) (source + calculateSpriteIndex64x64(elem)), address + element2sprite64x64(elem)*32, 128); // update sprite top
+    dmaCopyVram((u8*) (source + calculateSpriteIndex64x64(elem) + 1024), address + element2sprite64x64(elem)*32 + 1024/2, 128); // update sprite bottom
 }

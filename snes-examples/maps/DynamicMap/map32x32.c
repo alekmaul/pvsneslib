@@ -64,6 +64,7 @@ getSpriteRaw32x32(u8 x, u8 y)
  *
  * @param x column 0 - 31
  * @param y row 0 - 31
+ * @param sprite sprite
  */
 void drawSprite32x32(u8 x, u8 y, u16 sprite)
 {
@@ -143,9 +144,10 @@ void screenRefreshPos32x32(u8 x, u8 y, u16 address)
  *
  * @param source the source base to copy from
  * @param address base vram address to copy to
+ * @param elem gfx tile no 0 - (number_of_sprites - 1)
  */
-void updateSprite32x32(u8 *source, u16 address, u16 sprite)
+void updateSprite32x32(u8 *source, u16 address, u16 elem)
 {
     //dmaCopyVram((u8*) source, address, 256 * number_of_sprites); // update all sprites
-    dmaCopyVram((u8*) (source + calculateSpriteIndex32x32(sprite)), address + element2sprite32x32(sprite)*32, 256); // update one sprite
+    dmaCopyVram((u8*) (source + calculateSpriteIndex32x32(elem)), address + element2sprite32x32(elem)*32, 256); // update one sprite
 }
