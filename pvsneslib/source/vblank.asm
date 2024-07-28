@@ -405,15 +405,6 @@ _MouseRead:
 	lda     REG_JOY1L
 	jsr     _MouseData
 
-
-	; Disable `snes_mouse` if both mice have been disconnected.
-	lda     mouseConnect
-	ora     mouseConnect+1
-	bne     +
-		stz     snes_mouse
-	+
-
-
 	rep     #$10
 	rts
 
