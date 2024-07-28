@@ -398,23 +398,31 @@ detectMouse:
 	lda     #$0               ; change bank address to 0
 	pha
 	plb
+; DB = 0
 
--:	lda	  REG_HVBJOY
-	and.b   #$01
-	bne	-
+	; Wait until the Joypad Auto-Read has finished.
+	lda.b  #1
+	-
+		bit.w  REG_HVBJOY
+		bne    -
 
-	rep     #$20
-	lda	    REG_JOY1L
-	ora     REG_JOY2L
-	and.w   #$000F
-	cmp.w   #$0001              ; Is the mouse connected on any port?
-	bne +
 
-	sep     #$20
-	lda     #$01
-	sta     snes_mouse
+	; Set `snes_mouse` if JOY1L or JOY2L is a mouse by checking the signature bits.
+	lda.w  REG_JOY1L
+	and.b  #$0f
+	cmp.b  #1
+	beq    @MouseDetected
 
-+:
+	lda.w  REG_JOY2L
+	and.b  #$0f
+	cmp.b  #1
+	bne    @Return
+
+	@MouseDetected:
+		lda.b   #$01
+		sta.w   snes_mouse
+
+@Return:
 	plb
 	plp
 	rtl
