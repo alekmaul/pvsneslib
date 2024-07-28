@@ -327,7 +327,7 @@ mouseSpeedChange:
 .INDEX 8
 @speed_change:
 	lda     mouseSpeedSet,x
-	and     #2
+	and     #3
 	tay
 
 	; Limit the number of cycle-sensitivity commands to send to the mouse.
