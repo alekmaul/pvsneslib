@@ -17,6 +17,7 @@ _It means that this tuturial is **only** needed if you wish to participate to th
       - [Installing the development tools on Fedora.](#installing-the-development-tools-on-fedora)
       - [Installing the development tools on Centos.](#installing-the-development-tools-on-centos)
     - [Installing the development tools on MacOS.](#installing-the-development-tools-on-macos)
+    - [Installing the development tools on ChromeOS.](#installing-the-development-tools-on-chromeos)
   - [Compiling the project](#compiling-the-project)
     - [Clone the repository](#clone-the-repository)
     - [Set the `PVSNESLIB_HOME` environment variable](#set-the-pvsneslib_home-environment-variable)
@@ -258,9 +259,58 @@ Now `gnu-sed` will be used by default because it precedes all other sed commands
 
 Congratulations, you're done to start to compile **PVSNESLIB** on *MacOS*!
 
+### Installing the development tools on ChromeOS.
+
+> This procedure explains how to install the development tools on *ChromeOS* (running Debian 12 bookworm).
+
+If you haven't set up your Linux Development Environment yet:
+
+1. Open your system settings.
+2. Go to "About ChromeOS".
+3. Scroll down to "Linux development environment".
+4. Select "Turn On".
+5. Follow the on-screen instructions.
+
+Next, let's ensure that your container is up to date.
+
+In your Terminal, type (or paste by right-clicking):
+
+```bash
+sudo apt update -y
+```
+After that's done updating, right click Terminal in your taskbar, and press "Shut down Linux".
+
+Then, reopen your Linux container by re-opening Terminal if needed and selecting the name of your Linux container (usually "penguin").
+
+Next, let's install the build tools:
+
+```bash
+sudo apt-get install -y build-essential \
+    gcc-12 \
+    cmake \
+    make \
+    git \
+    doxygen \
+    texi2html \
+    texlive-latex-base \
+    texlive-latex-recommended \
+    texlive-latex-extra
+```
+
+And lastly, set `gcc-12` as your default compiler:
+
+```bash
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 90
+```
+> This sets `gcc-12` as your `gcc` compiler with priority `90`. This step may not be needed if you're already using gcc 12 or if you didn't have gcc installed before.
+> You can check what version of gcc you're currently using with `gcc -v`. If it mentions at the end that you're running "gcc version 12", you should be fine.
+
+Congratulations, you're now ready to compile **PVSNESLIB** on *ChromeOS*!
+From here, you can continue from [Compiling the project](#compiling-the-project).
+
 ## Compiling the project
 
-> This procedure is supposed to work whatever the system used: *Windows under MSYS2*, *Linux* or *MacOS*.
+> This procedure is supposed to work whatever the system used: *Windows under MSYS2*, *Linux*, *MacOS*, or *ChromeOS*.
 
 
 ### Clone the repository
