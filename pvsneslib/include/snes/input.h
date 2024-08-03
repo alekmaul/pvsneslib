@@ -80,32 +80,33 @@ extern u16 pad_keys[5];     //!< current pad value
 extern u16 pad_keysold[5];  //!< previous pad value
 extern u16 pad_keysdown[5]; //!< newly pressed down pad keys
 
-extern u8 snes_mplay5;  /*! \brief 1 if MultiPlay5 is connected */
-extern u8 snes_mouse;   /*! \brief 1 if Mouse is going to be used */
-extern u8 snes_sscope;  /*! \brief 1 if SuperScope is connected */
+extern u8 snes_mplay5;  /*!< \brief 1 if MultiPlay5 is connected */
+extern u8 snes_mouse;   /*!< \brief 1 if Mouse is going to be used */
+extern u8 snes_sscope;  /*!< \brief 1 if SuperScope is connected */
 
-extern u8 mouseConnect[2];        /*! \brief 1 if Mouse present */
-extern u8 mouseButton[2];         /*! \brief 1 if button is pressed, stays for a bit and then it gets released (Click mode). */
-extern u8 mousePressed[2];        /*! \brief 1 if button is pressed, stays until is unpressed (Turbo mode). */
-extern u8 mouse_x[2], mouse_y[2]; /*! \brief Mouse acceleration. daaaaaaa, d = direction (0: up/left, 1: down/right), a = acceleration. */
-extern u8 mouseSpeedSet[2];       /*! \brief Mouse speed setting. 0: slow, 1: normal, 2: fast */
+extern u8 mouseConnect[2];        /*!< \brief 1 if Mouse present */
+extern u8 mouseButton[2];         /*!< \brief 1 if button is pressed, stays for a bit and then it gets released (Click mode). */
+extern u8 mousePressed[2];        /*!< \brief 1 if button is pressed, stays until is unpressed (Turbo mode). */
+extern u8 mouse_x[2];             /*!< \brief Mouse X acceleration. daaaaaaa, d = direction (0: up/left, 1: down/right), a = acceleration. */
+extern u8 mouse_y[2];             /*!< \brief Mouse Y acceleration. daaaaaaa, d = direction (0: up/left, 1: down/right), a = acceleration. */
+extern u8 mouseSpeedSet[2];       /*!< \brief Mouse speed setting. 0: slow, 1: normal, 2: fast */
 
-#define mouse_L 0x01 /*! \brief SNES Mouse Left button mask.*/
-#define mouse_R 0x02 /*! \brief SNES Mouse Right button mask.*/
+#define mouse_L 0x01 /*!< \brief SNES Mouse Left button mask.*/
+#define mouse_R 0x02 /*!< \brief SNES Mouse Right button mask.*/
 
-extern u16 scope_holddelay; /*! \brief Hold delay. */
-extern u16 scope_repdelay;  /*! \brief Repeat rate. */
-extern u16 scope_shothraw;  /*! \brief Horizontal shot position, not adjusted. */
-extern u16 scope_shotvraw;  /*! \brief Vertical shot position, not adjusted. */
-extern u16 scope_shoth;     /*! \brief Horizontal shot position, adjusted for aim. */
-extern u16 scope_shotv;     /*! \brief Vertical shot position, adjusted for aim. */
-extern u16 scope_centerh;   /*! \brief 0x0000 is the center of the screen, positive values go to bottom right. */
-extern u16 scope_centerv;   /*! \brief 0x0000 is the center of the screen, positive values go to bottom right. */
-extern u16 scope_down;      /*! \brief flags that are currently true.*/
-extern u16 scope_now;       /*! \brief flags that have become true this frame.*/
-extern u16 scope_held;      /*! \brief flagsthat have been true for a certain length of time.*/
-extern u16 scope_last;      /*! \brief flags that were true on the previous frame.*/
-extern u16 scope_sinceshot; /*! \brief Number of frames elapsed since last shot was fired.*/
+extern u16 scope_holddelay; /*!< \brief Hold delay. */
+extern u16 scope_repdelay;  /*!< \brief Repeat rate. */
+extern u16 scope_shothraw;  /*!< \brief Horizontal shot position, not adjusted. */
+extern u16 scope_shotvraw;  /*!< \brief Vertical shot position, not adjusted. */
+extern u16 scope_shoth;     /*!< \brief Horizontal shot position, adjusted for aim. */
+extern u16 scope_shotv;     /*!< \brief Vertical shot position, adjusted for aim. */
+extern u16 scope_centerh;   /*!< \brief 0x0000 is the center of the screen, positive values go to bottom right. */
+extern u16 scope_centerv;   /*!< \brief 0x0000 is the center of the screen, positive values go to bottom right. */
+extern u16 scope_down;      /*!< \brief flags that are currently true.*/
+extern u16 scope_now;       /*!< \brief flags that have become true this frame.*/
+extern u16 scope_held;      /*!< \brief flagsthat have been true for a certain length of time.*/
+extern u16 scope_last;      /*!< \brief flags that were true on the previous frame.*/
+extern u16 scope_sinceshot; /*!< \brief Number of frames elapsed since last shot was fired.*/
 
 /*! \def REG_JOYxLH
 
