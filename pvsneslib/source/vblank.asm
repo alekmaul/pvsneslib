@@ -429,7 +429,7 @@ _MouseData:
 
 	; Test if the mouse was connected on this frame
 	lda     mouseConnect,x
-	beq     @SetMouseSensitvity
+	beq     @MouseConnectedThisFrame
 
 
 	; Update mouse button/pressed variables
@@ -437,10 +437,17 @@ _MouseData:
 	sta     mousePreviousPressed,x
 
 	tya
-	asl     a
-	rol     a
-	rol     a
+	lsr     a
+	lsr     a
+	lsr     a
+	lsr     a
+	tay
 	and     #3
+	sta     mouseSensitivity,x
+
+	tya
+	lsr     a
+	lsr     a
 	sta     mousePressed,x
 
 	eor     mousePreviousPressed,x
@@ -464,7 +471,7 @@ _MouseData:
 
 	; Read 16 bits
 	ldy     #16
-	@_m30:
+	-
 		lda.w   REG_JOYA,x
 
 		lsr     a
@@ -475,7 +482,11 @@ _MouseData:
 			nop          ; 1 extra nop for safety (to match the SnesDev wiki)
 		.endif
 		dey
-		bne     @_m30
+		bne     -
+
+
+	lda.w   mouseRequestChangeSensitivity,x
+	bne     @ChangeSensitivityRequest
 
 	rts
 
@@ -486,14 +497,19 @@ _MouseData:
 ; To fix this bug at a cycle-sensitivity command must be sent to the mouse when it is first
 ; connected to the console, even if the sensitivity bits are what the user wants.
 ;
-; Calling `speed_change` will cycle the sensitivity at least once and try to cycle the sensitivity
-; to match `mouseSpeedSet`.
-@SetMouseSensitvity:
-	jsr     mouseSpeedChange@speed_change
+@MouseConnectedThisFrame:
+	; Using `mouseSensitivity` so the sensitivity can be restored if the mouse is
+	; disconnected then reconnected to the console.
+	lda     mouseSensitivity,x
+	and     #3
+	jsr     @SetMouseSensitvity
 
 	; Set mouse connected flag
 	lda     #1
 	sta     mouseConnect,x
+
+	; Clear stale or uninitialised request change sensitivity command.
+	stz     mouseRequestChangeSensitivity,x
 
 	; Clear mouse variables, they might not be valid.
 	bra     @ClearMouseState
@@ -501,12 +517,104 @@ _MouseData:
 
 @NoMouseConnected:
 	stz     mouseConnect,x
+
 @ClearMouseState:
+	; Not clearing mouseSensitivity.
+	; It is used to restore the sensitivity when the mouse is reconnected
 	stz     mouseButton,x
 	stz     mousePressed,x
 	stz     mousePreviousPressed,x
 	stz     mouse_x,x
 	stz     mouse_y,x
+	rts
+
+
+; A = mouseRequestChangeSensitivity
+; negative flag = MSB of `mouseRequestChangeSensitivity`
+@ChangeSensitivityRequest:
+	stz     mouseRequestChangeSensitivity,x
+
+	bmi     @RequestSpecificSensitivity
+
+	; Send one or two cycle-sensitivity commands to the mouse
+	ldy     #$01
+	sty     REG_JOYA
+		dec     a
+		beq     +
+			ldy     REG_JOYA,x
+		+
+		ldy     REG_JOYA,x
+	stz     REG_JOYA
+
+@Return:
+	rts
+
+
+; A = mouseRequestChangeSensitivity
+@RequestSpecificSensitivity:
+	and.b   #3
+	cmp     mouseSensitivity,x
+	beq     @Return
+
+
+; Repeatedly cycle through the mouse sensitivity until reported sensitivity matches the requested sensitivity.
+; CAUTION: This code will always cycle the sensitivity at least once (required when mouse is connected to the console)
+; A = requested sensitivity (0 - 2)
+@SetMouseSensitvity:
+	tay
+
+	; Limit the number of cycle-sensitivity commands to send to the mouse.
+	; Done for 2 reasons:
+	;  1. Prevents an infinite loop if the mouse has been disconnected.
+	;  2. The Hyperkin mouse will always report a mouse sensitivity of 0.
+	lda     #4
+	sta.b   tcc__r0h
+
+	@CycleLoop:
+		; X = port
+		; Y = requested sensitivity
+		; tcc__r0h = decrementing loop counter
+
+		; Send a cycle-sensitivity command to the mouse
+		lda     #$01
+		sta     REG_JOYA
+		lda     REG_JOYA,x
+		stz     REG_JOYA
+
+
+		; Read sensitivity bits from mouse
+		;
+		; No Hyperkin mouse read delay is required as the Hyperkin mouse does not support
+		; cycle-sensitivity commands.
+
+		; Skip the first 10 bits
+		; Using A for loop counter so Y is unchanged
+		lda     #10
+		-
+			bit     REG_JOYA,x
+			dec     a
+			bne     -
+
+		; Read the 2 sensitivity bits
+		stz.b   tcc__r0
+
+		lda     REG_JOYA,x
+		lsr
+		rol.b   tcc__r0
+
+		lda     REG_JOYA,x
+		lsr
+		rol.b   tcc__r0
+
+
+		; Return if read sensitivity == Y
+		cpy.b   tcc__r0
+		beq     @EndCycleLoop
+
+		dec.b   tcc__r0h
+		bne     @CycleLoop
+
+@EndCycleLoop:
 	rts
 
 

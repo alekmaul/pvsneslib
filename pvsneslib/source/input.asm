@@ -105,14 +105,20 @@ snes_mouse              db    ; Flag to enable mouse reading in VBlank ISR
 
 mouseConnect            dsb 2 ; Mouse connection status
 
-mouseSpeedSet           dsb 2 ; Mouse speed setting
-
 mouseButton             dsb 2 ; Mouse buttons pressed this frame
 mousePressed            dsb 2 ; Mouse buttons held/pressed
 mousePreviousPressed    dsb 2 ; Mouse buttons held/pressed in the previous frame
 
 mouse_y                 dsb 2 ; Mouse Y displacement
 mouse_x                 dsb 2 ; Mouse X displacement
+
+mouseSensitivity        dsb 2 ; Mouse sensitivity & sensitivity to set when mouse is connected
+
+; Request a sensitivity change in VBlank ISR
+;   $01 - cycle sensitivity once
+;   $02..=$7f - cycle sensitivity twice
+;   $80..=$ff - set sensitivity to `mouseRequestChangeSensitivity & 3`
+mouseRequestChangeSensitivity dsb 2
 
 .ENDS
 
@@ -277,114 +283,6 @@ detectSuperScope:
 .ENDS
 
 
-; Must be in bank 0, used by _MouseRead in the VBlank ISR.
-.SECTION ".mousespeedchange_text" SEMIFREE BANK 0
-
-;---------------------------------------------------------------------------------
-; void mouseSpeedChange(u8 port)
-mouseSpeedChange:
-	php
-	phb
-	rep     #$30           ; Must push/pop 16 bit index (switching to 8 bit Index clobbers high byte)
-	phx
-	phy
-
-	sep     #$30
-.ACCU 8
-.INDEX 8
-
-	lda     #$00
-	pha
-	plb
-// DB = 0
-
-	lda     10,s            ; port argument
-	cmp     #2
-	bcs     +
-		tax
-
-		; Call `speed_change` if the mouse if connected.
-		lda     mouseConnect,x
-		beq     +
-			jsr     @speed_change
-	+
-
-	rep     #$30
-	ply
-	plx
-	plb
-	plp
-	rtl
-
-
-; Called by _MouseRead in the Vblank ISR
-; TIMING: Not auto-joypad read
-; REQUIRES: Mouse connected on port X
-; X = 0 or 1
-; KEEP: X
-; DB = 0
-.ACCU 8
-.INDEX 8
-@speed_change:
-	lda     mouseSpeedSet,x
-	and     #3
-	tay
-
-	; Limit the number of cycle-sensitivity commands to send to the mouse.
-	; Done for 2 reasons:
-	;  1. Prevents an infinite loop if the mouse has been disconnected.
-	;  2. The Hyperkin mouse will always report a mouse sensitivity of 0.
-	lda     #4
-	sta.b   tcc__r0h
-
-	@CycleLoop:
-		; X = port
-		; Y = requested sensitivity
-		; tcc__r0h = decrementing loop counter
-
-		; Send a cycle-sensitivity command to the mouse
-		lda     #$01
-		sta     REG_JOYA
-		lda     REG_JOYA,x
-		stz     REG_JOYA
-
-
-		; Read sensitivity bits from mouse
-		;
-		; No Hyperkin mouse read delay is required as the Hyperkin mouse does not support
-		; cycle-sensitivity commands.
-
-		; Skip the first 10 bits
-		; Using A for loop counter so Y is unchanged
-		lda     #10
-		-
-			bit     REG_JOYA,x
-			dec     a
-			bne     -
-
-		; Read the 2 sensitivity bits
-		stz.b   tcc__r0
-
-		lda     REG_JOYA,x
-		lsr
-		rol.b	tcc__r0
-
-		lda     REG_JOYA,x
-		lsr
-		rol.b   tcc__r0
-
-
-		; Return if read sensitivity == Y
-		cpy.b   tcc__r0
-		beq     @Return
-
-		dec.b   tcc__r0h
-		bne     @CycleLoop
-
-@Return:
-	rts
-.ENDS
-
 
 .SECTION ".detectmouse_text" SUPERFREE
 
@@ -428,3 +326,84 @@ detectMouse:
 	rtl
 
 .ENDS
+
+
+.SECTION ".mouseCycleSensitivity_text" SUPERFREE
+
+; void mouseCycleSensitivity(u16 port);
+mouseCycleSensitivity:
+	php
+	rep     #$30
+	phx
+
+	lda     7,s ; port argument
+	cmp.w   #2
+	bcs +
+		tax
+		sep     #$20
+	.accu 8
+
+		lda.b   #1
+		sta.l   mouseRequestChangeSensitivity,x
+	+
+// A size unknown
+
+	plx
+	plp
+	rtl
+.ENDS
+
+
+.SECTION ".mouseCycleSensitivityTwice_text" SUPERFREE
+
+; void mouseCycleSensitivityTwice(u16 port);
+mouseCycleSensitivityTwice:
+	php
+	rep     #$30
+	phx
+
+	lda     7,s ; port argument
+	cmp.w   #2
+	bcs +
+		tax
+		sep     #$20
+	.accu 8
+
+		lda.b   #2
+		sta.l   mouseRequestChangeSensitivity,x
+	+
+// A size unknown
+
+	plx
+	plp
+	rtl
+.ENDS
+
+
+.SECTION ".mouseSetSensitivity_text" SUPERFREE
+
+; void mouseSetSensitivity(u16 port, u8 sensitivity);
+mouseSetSensitivity:
+	php
+	rep     #$30
+	phx
+
+	lda     7,s ; port argument
+	cmp.w   #2
+	bcs +
+		tax
+		sep     #$20
+	.accu 8
+
+		lda     9,s ; sensitivity argument
+		ora.b   #$80
+		sta.l   mouseRequestChangeSensitivity,x
+	+
+// A size unknown
+
+	plx
+	plp
+	rtl
+.ENDS
+
+

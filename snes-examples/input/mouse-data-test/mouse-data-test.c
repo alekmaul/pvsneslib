@@ -30,7 +30,7 @@
 #define N_LABELS 6
 const char* const LABELS[N_LABELS] = {
     "Button:",
-    "Set speed:",
+    "Sensitivity:",
     "Displacement:",
     "Position:",
     "",
@@ -96,18 +96,13 @@ int main(void)
 
     consoleDrawText(2, CONTOLS_YPOS, "Controls (Joypad %d):", JOYPAD_PORT + 1);
     consoleDrawText(5, CONTOLS_YPOS + 1, "Y/X/A - Set mouse speed");
-    consoleDrawText(5, CONTOLS_YPOS + 2, "  B   - Add lag");
+    consoleDrawText(5, CONTOLS_YPOS + 2, " L/R  - Cycle mouse speed");
+    consoleDrawText(5, CONTOLS_YPOS + 3, "  B   - Add lag");
 
 
     for (i = 0; i < N_LABELS; i++) {
         consoleDrawText(2, LABEL_YPOS + i * 2, "%s", LABELS[i]);
     }
-
-
-    // Set initial speed to medium
-    mouseSpeedSet[MOUSE_PORT] = 1;
-    printU8(COL_1_XPOS, SPEED_YPOS, mouseSpeedSet[MOUSE_PORT]);
-
 
     // Setup the cursor sprite (hard coded)
     oamMemory[0] = cursor_xPos;
@@ -115,6 +110,9 @@ int main(void)
     oamMemory[2] = 0;
     oamMemory[3] = 0x30;
     oamMemory[512] = 0; // Clear hi table
+
+    // Set initial sensitivity to medium
+    mouseSensitivity[MOUSE_PORT] = 1;
 
     detectMouse();
     consoleDrawText(2, 4, "READING MOUSE ON PORT %d", MOUSE_PORT + 1);
@@ -164,18 +162,22 @@ int main(void)
             }
         }
 
-        if (padsDown(JOYPAD_PORT) & (KEY_Y | KEY_X | KEY_A)) {
+        if (padsDown(JOYPAD_PORT) & (KEY_Y | KEY_X | KEY_A | KEY_L | KEY_R)) {
             if (padsDown(JOYPAD_PORT) & KEY_Y) {
-                mouseSpeedSet[MOUSE_PORT] = 0;
+                mouseSetSensitivity(MOUSE_PORT, 0);
             }
             if (padsDown(JOYPAD_PORT) & KEY_X) {
-                mouseSpeedSet[MOUSE_PORT] = 1;
+                mouseSetSensitivity(MOUSE_PORT, 1);
             }
             if (padsDown(JOYPAD_PORT) & KEY_A) {
-                mouseSpeedSet[MOUSE_PORT] = 2;
+                mouseSetSensitivity(MOUSE_PORT, 2);
             }
-            printU8(COL_1_XPOS, SPEED_YPOS, mouseSpeedSet[MOUSE_PORT]);
-            mouseSpeedChange(MOUSE_PORT);
+            if (padsDown(JOYPAD_PORT) & KEY_R) {
+                mouseCycleSensitivity(MOUSE_PORT);
+            }
+            if (padsDown(JOYPAD_PORT) & KEY_L) {
+                mouseCycleSensitivityTwice(MOUSE_PORT);
+            }
         }
 
         if (padsCurrent(JOYPAD_PORT) & KEY_B) {
@@ -189,6 +191,8 @@ int main(void)
 
         consoleDrawText(COL_1_XPOS, BUTTON_YPOS, BUTTON_STRINGS[mousePressed[MOUSE_PORT] & 3]);
         consoleDrawText(COL_2_XPOS, BUTTON_YPOS, BUTTON_STRINGS[mouseButton[MOUSE_PORT] & 3]);
+
+        printU8(COL_1_XPOS, SPEED_YPOS, mouseSensitivity[MOUSE_PORT]);
 
         drawMouseDelta(COL_1_XPOS, mouse_x[MOUSE_PORT]);
         drawMouseDelta(COL_2_XPOS, mouse_y[MOUSE_PORT]);

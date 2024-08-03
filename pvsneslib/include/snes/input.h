@@ -89,7 +89,32 @@ extern u8 mouseButton[2];         /*!< \brief 1 if button is pressed, stays for 
 extern u8 mousePressed[2];        /*!< \brief 1 if button is pressed, stays until is unpressed (Turbo mode). */
 extern u8 mouse_x[2];             /*!< \brief Mouse X acceleration. daaaaaaa, d = direction (0: up/left, 1: down/right), a = acceleration. */
 extern u8 mouse_y[2];             /*!< \brief Mouse Y acceleration. daaaaaaa, d = direction (0: up/left, 1: down/right), a = acceleration. */
-extern u8 mouseSpeedSet[2];       /*!< \brief Mouse speed setting. 0: slow, 1: normal, 2: fast */
+
+/*!
+ * \brief Mouse sensitivity
+ *
+ *  * When a mouse is connected to the port: sensitivity bits read from the mouse.
+ *  * When no mouse is connected: The sensitivity to set the mouse to when the mouse is connected to the console.
+ *
+ * CAUTION: The Hyperkin clone mouse ignores sensitivity changes and always reports a sensitivity of 0.
+ */
+extern u8 mouseSensitivity[2];
+
+/*!
+ * \brief Request a change mouse sensitivity.
+ *
+ * To prevent auto-joypad read corruption the change sensitivity commands are delayed until the
+ * next non-lag VBlank ISR (after the mouse data has been read).
+ *
+ * Values:
+ *  * `0x00`: No changes to mouse sensitivity.
+ *  * `0x01`: Cycle the mouse sensitivity once.
+ *  * `0x02-0x7f`: Cycle the mouse sensitivity twice.
+ *  * `0x80-0xff`: Set the sensitivity to `value & 3`.
+ *
+ * CAUTION: The Hyperkin clone mouse ignores sensitivity changes and always reports a sensitivity of 0.
+ */
+extern u8 mouseRequestChangeSensitivity[2];
 
 #define mouse_L 0x01 /*!< \brief SNES Mouse Left button mask.*/
 #define mouse_R 0x02 /*!< \brief SNES Mouse Right button mask.*/
@@ -193,15 +218,46 @@ void detectMPlay5(void);
 */
 void detectMouse(void);
 
-/*!	\fn mouseSpeedChange(u8 port)
-    \brief Set mouse hardware speed (populate mouseSpeed[] first).
-    \param port Specify wich port to use (0-1)
-*/
-void mouseSpeedChange(u8 port);
-
 /*!	\fn detectSuperScope(void)
     \brief Detects if SuperScope is connected on Port 1 (second controller port on console) and populate snes_sscope (0 or 1 for connected)
 */
 void detectSuperScope(void);
+
+/*!
+ * \brief Queue a cycle mouse sensitivity command for the next VBlank.
+ *
+ * \param port the port the mouse is connected to (0 or 1).
+ *
+ * CAUTION:
+ *  * The changes to @ref mouseSensitivity are delayed one frame.
+ *  * This function will override any pending @ref mouseRequestChangeSensitivity commands.
+ *  * This function has no effect on the Hyperkin clone mouse.
+ */
+void mouseCycleSensitivity(u16 port);
+
+/*!
+ * \brief Queue a cycle mouse sensitivity twice (decrementing the sensitivity) command for the next VBlank.
+ *
+ * \param port the port the mouse is connected to (0 or 1).
+ *
+ * CAUTION:
+ *  * The changes to @ref mouseSensitivity are delayed one frame.
+ *  * This function will override any pending @ref mouseRequestChangeSensitivity commands.
+ *  * This function has no effect on the Hyperkin clone mouse.
+ */
+void mouseCycleSensitivityTwice(u16 port);
+
+/*!
+ * \brief Queue a set mouse sensitivity command (to be executed on the next VBlank).
+ *
+ * \param port the port the mouse is connected to (0 or 1).
+ * \param sensitivity the sensitivity to set the mouse to (0 - 2).
+ *
+ * CAUTION:
+ *  * The changes to @ref mouseSensitivity are delayed one frame.
+ *  * This function will override any pending @ref mouseRequestChangeSensitivity commands.
+ *  * This function has no effect on the Hyperkin clone mouse.
+ */
+void mouseSetSensitivity(u16 port, u16 sensitivity);
 
 #endif // SNES_PADS_INCLUDE
