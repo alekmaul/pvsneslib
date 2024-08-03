@@ -111,7 +111,6 @@ int main(void)
     oamMemory[3] = 0x30;
     oamMemory[512] = 0; // Clear hi table
 
-    // Set initial sensitivity to medium
     // Enable mouse reading and set the initial mouse sensitivity to medium
     initMouse(1);
 
