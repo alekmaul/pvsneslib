@@ -51,15 +51,10 @@ int main(void)
     // Draw a wonderful text :P
     consoleDrawText(11, 1, "MOUSE TEST");
 
-    // Set the sensitivity to use when the mouse is connected to the console,
-    // or it will just output a random speed.
-    //
-    // This can be changed later with mouseSetSensitivity().
-    mouseSensitivity[0] = slow;
-    mouseSensitivity[1] = slow;
+    // Enable mouse reading and set the initial mouse sensitivity
+    initMouse(slow);
 
-    detectMouse(); // Let's check if a mouse is plugged in any port on boot, be sure nmi interrupt was called at least once (in this case, previous oamInitGfxSet() function was enough)
-    WaitForVBlank(); // Let's make sure we read mouse for the first time after detectMouse()
+    WaitForVBlank(); // Let's make sure we read mouse for the first time after initMouse()
 
     if (mouseConnect[0] == false)
         consoleDrawText(3, 5, "NO MOUSE PLUGGED ON PORT 0");

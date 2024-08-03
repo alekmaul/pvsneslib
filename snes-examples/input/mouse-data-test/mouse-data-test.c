@@ -112,9 +112,9 @@ int main(void)
     oamMemory[512] = 0; // Clear hi table
 
     // Set initial sensitivity to medium
-    mouseSensitivity[MOUSE_PORT] = 1;
+    // Enable mouse reading and set the initial mouse sensitivity to medium
+    initMouse(1);
 
-    detectMouse();
     consoleDrawText(2, 4, "READING MOUSE ON PORT %d", MOUSE_PORT + 1);
 
     setScreenOn();

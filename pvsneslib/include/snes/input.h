@@ -223,6 +223,18 @@ void detectMouse(void);
 */
 void detectSuperScope(void);
 
+
+/*!
+ * \brief Enable mouse reading and set the initial mouse sensitivity
+ *
+ * Initialises mouse variables and enable mouse reading in the VBlank ISR.
+ *
+ * \param sensitivity sensitivity to use when  the mouse is connected to the console
+ * (has no effect on a Hyperkin clone mouse)
+ */
+void initMouse(u8 sensitivity);
+
+
 /*!
  * \brief Queue a cycle mouse sensitivity command for the next VBlank.
  *

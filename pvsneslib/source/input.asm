@@ -328,6 +328,42 @@ detectMouse:
 .ENDS
 
 
+.SECTION ".initMouse_text" SUPERFREE
+
+; void initMouse(u8 sensitivity);
+initMouse:
+	php
+
+	; Clear mouse variables
+	; Assumes mouse array variables are 2 bytes in size
+	rep     #$20
+
+	stz     mouseConnect
+	stz     mouseButton
+	stz     mousePressed
+	stz     mousePreviousPressed
+	stz     mouse_x
+	stz     mouse_y
+	stz     mouseRequestChangeSensitivity
+
+
+	sep     #$20
+
+	; Set initial mouse sensitivity
+	lda     5,s ; sensitivity
+	sta     mouseSensitivity + 0
+	sta     mouseSensitivity + 1
+
+	; Enable mouse reading in the VBlank ISR
+	lda     #1
+	sta     snes_mouse
+
+	plp
+	rts
+
+.ENDS
+
+
 .SECTION ".mouseCycleSensitivity_text" SUPERFREE
 
 ; void mouseCycleSensitivity(u16 port);
