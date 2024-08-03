@@ -96,9 +96,6 @@ int main(void)
 
     while (1)
     {
-        if (snes_mouse == false)
-        detectMouse(); // Let's check if a mouse is plugged in any port
-
         odd++;
         // Optimize Draw text by printing new text just once
         if (mouseConnect[0] != mc_mem[0])

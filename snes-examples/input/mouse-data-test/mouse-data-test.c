@@ -127,7 +127,6 @@ int main(void)
             while (mouseConnect[MOUSE_PORT] == false) {
                 consoleDrawText(2, 4, "NO MOUSE ON PORT %d     ", MOUSE_PORT + 1);
 
-                detectMouse();
                 WaitForVBlank();
             }
 
