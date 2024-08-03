@@ -267,9 +267,10 @@ void mouseCycleSensitivityTwice(u16 port);
  *
  * CAUTION:
  *  * The changes to @ref mouseSensitivity are delayed one frame.
+ *  * A sensitivity value of 3 is invalid.
  *  * This function will override any pending @ref mouseRequestChangeSensitivity commands.
  *  * This function has no effect on the Hyperkin clone mouse.
  */
-void mouseSetSensitivity(u16 port, u16 sensitivity);
+void mouseSetSensitivity(u16 port, u8 sensitivity);
 
 #endif // SNES_PADS_INCLUDE
