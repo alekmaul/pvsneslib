@@ -162,13 +162,13 @@ int main(void)
 
         if (padsDown(JOYPAD_PORT) & (KEY_Y | KEY_X | KEY_A | KEY_L | KEY_R)) {
             if (padsDown(JOYPAD_PORT) & KEY_Y) {
-                mouseSetSensitivity(MOUSE_PORT, 0);
+                mouseSetSensitivity(MOUSE_PORT, MOUSE_SLOW);
             }
             if (padsDown(JOYPAD_PORT) & KEY_X) {
-                mouseSetSensitivity(MOUSE_PORT, 1);
+                mouseSetSensitivity(MOUSE_PORT, MOUSE_MEDIUM);
             }
             if (padsDown(JOYPAD_PORT) & KEY_A) {
-                mouseSetSensitivity(MOUSE_PORT, 2);
+                mouseSetSensitivity(MOUSE_PORT, MOUSE_FAST);
             }
             if (padsDown(JOYPAD_PORT) & KEY_R) {
                 mouseCycleSensitivity(MOUSE_PORT);

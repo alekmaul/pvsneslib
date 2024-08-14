@@ -10,15 +10,6 @@
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-#ifndef MOUSE_SPEED
-#define MOUSE_SPEED
-
-#define slow 0
-#define normal 1
-#define fast 2
-
-#endif
-
 extern char snesfont, snespal, cursorsprite, cursorsprite_end, cursorpal, buttonsmap, buttonstiles, buttonstiles_end, buttonspal;
 char hex_string[4];
 
@@ -52,7 +43,7 @@ int main(void)
     consoleDrawText(11, 1, "MOUSE TEST");
 
     // Enable mouse reading and set the initial mouse sensitivity
-    initMouse(slow);
+    initMouse(MOUSE_SLOW);
 
     WaitForVBlank(); // Let's make sure we read mouse for the first time after initMouse()
 
@@ -294,15 +285,15 @@ int main(void)
             {
                 if ((p1_mouse_x > 0x44) && (p1_mouse_x < 0x64))
                 {
-                    mouseSetSensitivity(0, slow); // Queue a set sensitivity command
+                    mouseSetSensitivity(0, MOUSE_SLOW); // Queue a set sensitivity command
                 }
                 if ((p1_mouse_x > 0x6C) && (p1_mouse_x < 0x94))
                 {
-                    mouseSetSensitivity(0, normal); // Queue a set sensitivity command
+                    mouseSetSensitivity(0, MOUSE_MEDIUM); // Queue a set sensitivity command
                 }
                 if ((p1_mouse_x > 0x9C) && (p1_mouse_x < 0xBC))
                 {
-                    mouseSetSensitivity(0, fast); // Queue a set sensitivity command
+                    mouseSetSensitivity(0, MOUSE_FAST); // Queue a set sensitivity command
                 }
             }
         }
@@ -314,15 +305,15 @@ int main(void)
             {
                 if ((p2_mouse_x > 0x44) && (p2_mouse_x < 0x64))
                 {
-                    mouseSetSensitivity(1, slow); // Queue a set sensitivity command
+                    mouseSetSensitivity(1, MOUSE_SLOW); // Queue a set sensitivity command
                 }
                 if ((p2_mouse_x > 0x6C) && (p2_mouse_x < 0x94))
                 {
-                    mouseSetSensitivity(1, normal); // Queue a set sensitivity command
+                    mouseSetSensitivity(1, MOUSE_MEDIUM); // Queue a set sensitivity command
                 }
                 if ((p2_mouse_x > 0x9C) && (p2_mouse_x < 0xBC))
                 {
-                    mouseSetSensitivity(1, fast); // Queue a set sensitivity command
+                    mouseSetSensitivity(1, MOUSE_FAST); // Queue a set sensitivity command
                 }
             }
         }
@@ -339,15 +330,15 @@ int main(void)
             // Show reported sensitivity
             switch (mouseSensitivity[0])
             {
-            case slow:
+            case MOUSE_SLOW:
                 dmaCopyVram(&buttonsmap + 0x60, 0x6188, 0x0A); // SLOW button pressed
                 dmaCopyVram(&buttonsmap + 0xA0, 0x61A8, 0x0A); // SLOW button pressed
                 break;
-            case normal:
+            case MOUSE_MEDIUM:
                 dmaCopyVram(&buttonsmap + 0x6A, 0x618D, 0x0C); // NORMAL button pressed
                 dmaCopyVram(&buttonsmap + 0xAA, 0x61AD, 0x0C); // NORMAL button pressed
                 break;
-            case fast:
+            case MOUSE_FAST:
                 dmaCopyVram(&buttonsmap + 0x76, 0x6193, 0x0A); // FAST button pressed
                 dmaCopyVram(&buttonsmap + 0xB6, 0x61B3, 0x0A); // FAST button pressed
                 break;
@@ -369,15 +360,15 @@ int main(void)
 
             switch (mouseSensitivity[1])
             {
-            case slow:
+            case MOUSE_SLOW:
                 dmaCopyVram(&buttonsmap + 0x60, 0x6308, 0x0A); // SLOW button pressed
                 dmaCopyVram(&buttonsmap + 0xA0, 0x6328, 0x0A); // SLOW button pressed
                 break;
-            case normal:
+            case MOUSE_MEDIUM:
                 dmaCopyVram(&buttonsmap + 0x6A, 0x630D, 0x0C); // NORMAL button pressed
                 dmaCopyVram(&buttonsmap + 0xAA, 0x632D, 0x0C); // NORMAL button pressed
                 break;
-            case fast:
+            case MOUSE_FAST:
                 dmaCopyVram(&buttonsmap + 0x76, 0x6313, 0x0A); // FAST button pressed
                 dmaCopyVram(&buttonsmap + 0xB6, 0x6333, 0x0A); // FAST button pressed
                 break;

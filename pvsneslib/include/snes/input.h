@@ -76,6 +76,18 @@ typedef enum SUPERSCOPE_BITS
     SSC_NOISE = BIT(8),     //!< superscope NOISE flag.
 } SUPERSCOPE_BITS;
 
+/*!
+ * \brief Mouse sensitivity values
+ *
+ * enum values for the mouse sensitivity.
+ */
+typedef enum MOUSE_SENSITIVITY
+{
+    MOUSE_SLOW = 0,     //!< slow sensitivity
+    MOUSE_MEDIUM = 1,   //!< medium sensitivity
+    MOUSE_FAST = 2,     //!< fast sensitivity
+} MOUSE_SENSITIVITY;
+
 extern u16 pad_keys[5];     //!< current pad value
 extern u16 pad_keysold[5];  //!< previous pad value
 extern u16 pad_keysdown[5]; //!< newly pressed down pad keys
