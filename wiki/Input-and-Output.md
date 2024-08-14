@@ -191,8 +191,8 @@ and update the following mouse state variables (the array index specifies the co
 
 ```
 extern u8 mouseConnect[2];        /*!< \brief 1 if Mouse present */
-extern u8 mouseButton[2];         /*!< \brief 1 if button is pressed, stays for a bit and then it gets released (Click mode). */
-extern u8 mousePressed[2];        /*!< \brief 1 if button is pressed, stays until is unpressed (Turbo mode). */
+extern u8 mouseButton[2];         /*!< \brief Mouse buttons that are pressed on this frame (Click mode). */
+extern u8 mousePressed[2];        /*!< \brief Mouse buttons that are currently pressed, stays until is unpressed (Turbo mode). */
 extern u8 mousePreviousPressed[2];/*!< \brief Mouse buttons held or pressed in the previous frame */
 extern u8 mouse_x[2];             /*!< \brief Mouse horizontal displacement. daaaaaaa, d = direction (1: left, 0: right), a = acceleration. */
 extern u8 mouse_y[2];             /*!< \brief Mouse vertical displacement. daaaaaaa, d = direction (1: up, 0: down), a = acceleration. */
