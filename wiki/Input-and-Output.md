@@ -178,31 +178,43 @@ At least, the pad is refresh during VBL (thanks to VBlank function), so it is no
 
 ### Mouse  
 
-**snes_mouse** has to be turned on (snes_mouse = 1). This is set 0 by default after consoleInit().  
-This will tell the system to read from a mouse, if it is found.  
-Mouse and pads can be used simultaneously, on any ports. Externs in the pad.h file goes like this:  
+**snes_mouse** has to be turned on (`snes_mouse` = 1). This is set to 0 by default after `consoleInit()`.
+
+You can set `snes_mouse` to 1 by calling `initMouse()` or `detectMouse()`.
+ * `initMouse()` will also clear the mouse variables and set the initial mouse sensitivity.
+ * `detectMouse()` will only set `snes_mouse` to 1 if it detects a mouse on one of the console ports.
+
+
+When `snes_mouse` is non-zero, the VBlank ISR will read mouse data from the controller ports
+and update the following mouse state variables (the array index specifies the controller port [0 or
+1]):
 
 ```
-snes_mouse; /*!1 if Mouse is going to be used */
+extern u8 mouseConnect[2];        /*!< \brief 1 if Mouse present */
+extern u8 mouseButton[2];         /*!< \brief Mouse buttons that are pressed on this frame (Click mode). */
+extern u8 mousePressed[2];        /*!< \brief Mouse buttons that are currently pressed, stays until is unpressed (Turbo mode). */
+extern u8 mousePreviousPressed[2];/*!< \brief Mouse buttons held or pressed in the previous frame */
+extern u8 mouse_x[2];             /*!< \brief Mouse horizontal displacement. daaaaaaa, d = direction (1: left, 0: right), a = acceleration. */
+extern u8 mouse_y[2];             /*!< \brief Mouse vertical displacement. daaaaaaa, d = direction (1: up, 0: down), a = acceleration. */
+extern u8 mouseSensitivity[2];    /*!< \brief Mouse sensitivity (0-2) */
 ```
 
-mouseConnect[2];        /* 1 if Mouse present */
-mouseButton[2];         /* 1 if button is pressed, stays for a bit and then it gets released (Click mode). */
-mousePressed[2];        /* 1 if button is pressed, stays until is unpressed (Turbo mode). */
-mouse_x[2], mouse_y[2]; /* Mouse acceleration. daaaaaaa, d = direction (0: up/left, 1: down/right), a = acceleration. */
-mouseSpeedSet[2];          /* Mouse speed setting. 0: slow, 1: normal, 2: fast */
 
-First, we might use **detectMouse()** to populate snes_mouse to 1, so It can be called at boot and like this:  
+To use the mouse, we first call **initMouse()** or **detectMouse()** to populate snes_mouse to 1.
+It can be called at boot and like this:
 
 ```
-if (snes_mouse == false)
-{
-  detectMouse();
-  // some other code you might need in your program, like displaying warning messages and stopping your game.
-}
+// Enable mouse reading and set the initial mouse sensitivity to medium
+initMouse(1);
 ```
 
-the number inside array specifies port (0 or 1). I recommend using this code structure to convert raw acceleration into usable values:  
+Reading the two mouse buttons is done by reading the `mouseButton` or `mousePressed` variables in
+the same manner a detecting joypad buttons.  `mouseButton` will contain buttons that are newly
+pressed on this frame and `mousePressed` contains the buttons that are currently depressed (held
+down).
+
+
+I recommend using this code structure to convert raw displacement data into usable values:
 
 ```
 u16 p1_mouse_x = 0x80;
@@ -210,17 +222,40 @@ u16 p1_mouse_y = 0x70;
 u16 p2_mouse_x = 0x80;
 u16 p2_mouse_y = 0x70;
 
- if (mouse_x[0] & 0x80)
+if (mouse_x[0] & 0x80)
     p1_mouse_x -= mouse_x[0] & 0x7F;
 else
-    p1_mouse_x += mouse_x[0] & 0x7F;
+    p1_mouse_x += mouse_x[0];
+
 if (mouse_y[0] & 0x80)
     p1_mouse_y -= mouse_y[0] & 0x7F;
 else
-    p1_mouse_y += mouse_y[0] & 0x7F;
+    p1_mouse_y += mouse_y[0];
 ```
 
-And that's most of it. You can look inside the example file (**snes-examples/input** folder) to have an idea of how you can program Mouse games.  
+To get a better idea on how to read the mouse, please see the following examples:
+ * `snes-examples/input/mouse`: A mouse demo that can read 2 mice at the same time.
+ * `snes-examples/input/mouse-data-test`: Prints the mouse data from controller port 2 to the user.
+
+
+#### Sensitivity
+
+The Nintendo mouse has 3 sensitivity settings (0=low, 1=medium, 2=high) that can be adjusted by
+sending cycle-sensitivity commands to the mouse through the controller port.
+
+The Hyperkin clone mouse will always report 0 sensitity and will ignore cycle sensitivity commands.
+
+The `u8 mouseRequestChangeSensitivity[2]` variable is used to signal to the VBlank ISR that the
+MainLoop wants to change the Nintendo Mouse's sensitivity setting.  Cycling the sensitity is done in
+the VBlank ISR to prevent a timing conflict with the SNES's Automatic Joypad read.
+
+To adjust the mouse sensitity, either modify `mouseRequestChangeSensitivity` (see `input.h`) or call
+one of these functions:
+ * `void mouseCycleSensitivity(u16 port);` - cycles the mouse sensitivity once (incrementing the sensitivity)
+ * `void mouseCycleSensitivityTwice(u16 port);` - cycles the mouse sensitity twice (decrementing the sensitivity)
+ * `void mouseSetSensitivity(u16 port, u8 sensitivity);` - changes the mouse sensitivity to `sensitivity & 3`. (A sensitivity value of 3 is invalid)
+
+Please be aware that the reported sensitivity in the `mouseSensitivity` variable will be delayed one frame.
 
 
 ### SuperScope  
