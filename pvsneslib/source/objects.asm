@@ -27,7 +27,7 @@
 .DEFINE OB_NULL			    $FFFF		    ; null value for linked table
 .DEFINE OB_ID_NULL	        $0000		    ; null value for obj id
 
-.DEFINE OB_MAX				64		        ; total number of objects in the game
+.DEFINE OB_MAX				80		        ; total number of objects in the game
 .DEFINE OB_TYPE_MAX		    64		        ; total number of type of objects in the game
 
 .DEFINE OB_SIZE				64		        ; 64 bytes for each object
