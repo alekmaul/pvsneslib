@@ -412,7 +412,6 @@ oamSetVisible:
 
 	rep #$20                     ; A 16 bits
 	lda	10,s                     ; id
-	;tay
 	lsr a
 	lsr a
 	lsr a
@@ -488,7 +487,6 @@ oamSetEx:
 
 	rep #$20                         ; A 16 bits
 	lda	10,s                     ; id
-	tay
 	lsr a
 	lsr a
 	lsr a
