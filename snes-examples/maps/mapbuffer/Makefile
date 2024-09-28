@@ -27,6 +27,7 @@ clean: cleanBuildRes cleanRom cleanGfx
 tilesMario.pic: $(GFXDIR)tilesMario.png
 	@echo convert font with no tile reduction ... $(notdir $@)
 	$(GFXCONV) -s 8 -o 48 -u 16 -p -m -i $<
+	@cp $(GFXDIR)tilesMario.map $(MAPDIR)tilesMario.map
 
 BG1.m16: $(MAPDIR)tiledMario.tmj tilesMario.pic
 	@echo convert map tiled ... $(notdir $@)
