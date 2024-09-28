@@ -170,7 +170,12 @@ endif
 # -c should be removed ASAP ! It allow duplicate labels and definitions
 	$(LD) -d -s -v -A -c -L ${LIBDIRSOBJS} linkfile $@
 
+# remove unattended characters
 	@sed -i 's/://' $(ROMNAME).sym
+
+# remove duplicated labels for mesen debugger
+	@sed -i '/ SECTIONSTART_/d;/ SECTIONEND_/d;/ RAM_USAGE_SLOT_/d;' $(ROMNAME).sym
+
 
 	@echo
 	@echo Build finished successfully !
