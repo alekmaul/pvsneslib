@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-    Copyright (C) 2012-2021
+    Copyright (C) 2012-2024
         Alekmaul
 
     This software is provided 'as-is', without any express or implied
@@ -30,6 +30,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "errors.h"
 
 // DEFINES
 #define SNESTOOLSVERSION __BUILD_VERSION
@@ -608,8 +610,8 @@ int show_header(char *filename, FILE *fp)
     // read the header
     if (fread(&snesheader, sizeof(snes_header), 1, fp) < 1)
     {
-        printf("\nsnestools: error 'Header (loRom) of file [%s] is not correct'\n", filename);
-        exit(1);
+        printf("snestools: error 'Header (loRom) of file [%s] is not correct'\n", filename);
+        exit(EXIT_FAILURE);
     }
 
     // a valid checksum is the biggest indicator of a valid header to check lo or Hi rom.
@@ -624,15 +626,15 @@ int show_header(char *filename, FILE *fp)
         // read the header
         if (fread(&snesheader, sizeof(snes_header), 1, fp) < 1)
         {
-            printf("\nsnestools: error 'Header (hiRom) of file [%s] is not correct'\n", filename);
-            exit(1);
+            printf("snestools: error 'Header (hiRom) of file [%s] is not correct'\n", filename);
+            exit(EXIT_FAILURE);
         }
         if ((snesheader.checksum + snesheader.checksum_c) == 0xffff && (snesheader.checksum != 0) && (snesheader.checksum_c != 0))
             valid_check = 1;
         if (!valid_check)
         {
-            printf("\nsnestools: error 'No valid Header (hiRom or loRom) for file [%s]'\n", filename);
-            exit(1);
+            printf("snestools: error 'No valid Header (hiRom or loRom) for file [%s]'\n", filename);
+            exit(EXIT_FAILURE);
         }
     }
 
@@ -719,7 +721,7 @@ int skip_header(char *filename, FILE *fp)
     // Check for a header (512 bytes)
     if (fread(&header, sizeof(header), 1, fp) < 1)
     {
-        printf("\nsnestools: error 'File [%s] has no correct header'\n", filename);
+        errorcontinue("File [%s] has no correct header", filename);
         return 0;
     }
 
@@ -727,28 +729,28 @@ int skip_header(char *filename, FILE *fp)
     {
         // Found an SWC identifier
         if (quietmode == 0)
-            printf("\nsnestools: 'File [%s] has header (SWC)'\n", filename);
+            info("File [%s] has header (SWC)", filename);
         rom_has_header = 1;
     }
     else if ((header[0] | (header[1] << 8)) == (((rom_size - 512) / 1024) / 8))
     { // 2621440
         // Some headers have the rom size at the start, if this matches with the actual rom size, we probably have a header
         if (quietmode == 0)
-            printf("\nsnestools: 'File [%s] has header (size)'\n", filename);
+            info("File [%s] has header (size)", filename);
         rom_has_header = 1;
     }
     else if ((rom_size % 0x8000) == 512)
     {
         // As a last check we'll see if there's exactly 512 bytes extra to this image.
         if (quietmode == 0)
-            printf("\nsnestools: 'File [%s] has header (extra)'\n", filename);
+            info("File [%s] has header (extra)", filename);
         rom_has_header = 1;
     }
     else
     {
         // No header found so go back to the start of the file
         if (quietmode == 0)
-            printf("\nsnestools: 'File [%s] has no header'\n", filename);
+            info("File [%s] has no header", filename);
         rom_has_header = 0;
     }
 
@@ -772,8 +774,7 @@ int change_checksum(char *filename, FILE *fp)
     {
         if ((c = fgetc(fp)) == EOF)
         {
-            printf("\nsnestools: error 'Unexpected end of file [%s] af offset %x'\n", filename, i);
-            exit(1);
+            fatal("Unexpected end of file [%s] af offset %x", filename, i);
         }
         sum_crc += (unsigned char)c;
     }
@@ -791,7 +792,7 @@ int change_checksum(char *filename, FILE *fp)
     }
 
     if (quietmode == 0)
-        printf("\nsnestools: 'Change Checksum to %04Xh and Checksum complement %04Xh...'\n", sum_crc, sum_crc ^ 0xffff);
+        info("Change Checksum to %04Xh and Checksum complement %04Xh...", sum_crc, sum_crc ^ 0xffff);
 
     // Seek back to the checksum entry.
     fseek(fp, addr, SEEK_SET);
@@ -819,7 +820,7 @@ int change_title(char *filename, FILE *fp, char *title)
     int i, addr;
 
     if (quietmode == 0)
-        printf("\nsnestools: 'Change title to [%s]...'\n", title);
+        info("Change title to [%s]...", title);
 
     // Compute address of title entry.
     addr = 512 * rom_has_header + rom_is_lorom ? LOROM_HEADER + OFFSET_TITLE : HIROM_HEADER + OFFSET_TITLE;
@@ -840,7 +841,7 @@ int change_country(char *filename, FILE *fp, char *country)
     int cntry = 0, addr;
 
     if (quietmode == 0)
-        printf("\nsnestools: 'Change country to [%s]...'\n", country);
+        info("Change country to [%s]...", country);
 
     // Compute address of country entry.
     addr = 512 * rom_has_header + rom_is_lorom ? LOROM_HEADER + OFFSET_COUNTRY : HIROM_HEADER + OFFSET_COUNTRY;
@@ -868,7 +869,7 @@ int change_romsize(char *filename, FILE *fp, char *romsize)
     int romsiz = 0, addr;
 
     if (quietmode == 0)
-        printf("\nsnestools: 'Change rom size to [%s]...'\n", romsize);
+        info("Change rom size to [%s]...", romsize);
 
     // Compute address of country entry.
     addr = 512 * rom_has_header + rom_is_lorom ? LOROM_HEADER + OFFSET_ROMSIZE : HIROM_HEADER + OFFSET_ROMSIZE;
@@ -898,7 +899,7 @@ int change_sram(char *filename, FILE *fp, char nosram)
     int addr;
 
     if (quietmode == 0)
-        printf("\nsnestools: 'Change sram to [%s]...'\n", nosram ? "NOSRAM" : "SRAM");
+        info("Change sram to [%s]...", nosram ? "NOSRAM" : "SRAM");
 
     // Compute address of title entry and Go to sram and change it
     addr = 512 * rom_has_header + rom_is_lorom ? LOROM_HEADER + OFFSET_SRAM : HIROM_HEADER + OFFSET_SRAM;
@@ -918,12 +919,11 @@ int change_sram(char *filename, FILE *fp, char nosram)
     return -1;
 }
 
-//////////////////////////////////////////////////////////////////////////////
-
+//-------------------------------------------------------------------------------------------------
 void PrintOptions(char *str)
 {
-    printf("\n\nUsage: snestools.exe [options] sfc/smc filename ...");
-    printf("\n  where filename is a SNES rom file");
+    printf("Usage: snestools.exe [options] sfc/smc filename ...\n");
+    printf("  where filename is a SNES rom file\n");
 
     if (str[0] != 0)
         printf("\nsnestools: error 'The [%s] parameter is not recognized'", str);
@@ -942,15 +942,14 @@ void PrintOptions(char *str)
     printf("\n");
 }
 
-//////////////////////////////////////////////////////////////////////////////
+//-------------------------------------------------------------------------------------------------
 void PrintVersion(void)
 {
     printf("snestools (" SNESTOOLSDATE ") version " SNESTOOLSVERSION "");
-    printf("\nCopyright (c) 2012-2021 Alekmaul\n");
+    printf("\nCopyright (c) 2012-2024 Alekmaul");
 }
 
-/// M A I N ////////////////////////////////////////////////////////////
-
+//-------------------------------------------------------------------------------------------------
 int main(int argc, char **argv)
 {
     FILE *fp;
@@ -1063,23 +1062,18 @@ int main(int argc, char **argv)
     // make sure options are valid
     if (filebase[0] == 0)
     {
-        printf("\nsnestools: error 'You must specify a snes filename'");
-        PrintOptions("");
-        exit(1);
+        fatal("You must specify a snes filename");
     }
     if ((changetitle) && (strlen(programtitle) == 0))
     {
-        printf("\nsnestools: error 'You must specify a game title to change it'");
-        PrintOptions("");
-        exit(1);
+        fatal("You must specify a game title to change it");
     }
 
     // open the file
     fp = fopen(filebase, "rb+");
     if (fp == NULL)
     {
-        printf("\nsnestools: error 'Can't open file [%s]'", filebase);
-        exit(1);
+        fatal("Can't open file [%s]", filebase);
     }
 
     // check for an header and skip it
@@ -1144,7 +1138,7 @@ int main(int argc, char **argv)
     fclose(fp);
 
     if (quietmode == 0)
-        printf("\nsnestools: 'Done!'\n");
+        info("Done!");
 
-    return 0;
+    return (EXIT_SUCCESS);
 }
