@@ -86,7 +86,8 @@ namespace IT2SPC
         if (VERBOSE)
         {
             printf("-----------------------------------------------------------------------\n");
-            printf("Adding module, Title: <%s>\n", mod.Title);
+            printf("Adding module, Filename: <%s>\n", mod.Filename.c_str());
+            printf("             Title: <%s>\n", mod.Title);
             printf("             IT Size: [%5i bytes]\n", size);
             fflush(stdout);
         }
