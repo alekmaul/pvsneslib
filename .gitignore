@@ -54,6 +54,7 @@ linkfile
 *.obj
 *.sfc
 *.sym
+*.symfull
 *.pic
 *.pal
 *.map
