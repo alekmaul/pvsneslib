@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lzssdecodevram_498',['LzssDecodeVram',['../lzss_8h.html#af9cf33e898424f4a39e29eb31f45ff83',1,'lzss.h']]]
+  ['initmouse_0',['initMouse',['../input_8h.html#a675d0765637068a9bb4cee40f9f15e3e',1,'input.h']]]
 ];

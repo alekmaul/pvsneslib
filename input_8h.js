@@ -1,9 +1,12 @@
 var input_8h =
 [
     [ "mouse_L", "input_8h.html#a7e7dc1fef54e53e17af8ef800d0e9bfc", null ],
+    [ "mouse_R", "input_8h.html#a81ae3d96dc815a011c1d553388b4cad9", null ],
     [ "padsCurrent", "input_8h.html#a6063e0eec9a36e437fc32951acafa44c", null ],
+    [ "padsDown", "input_8h.html#a05f5137eb417fb6347e80cd66889cbbe", null ],
     [ "REG_JOYxLH", "input_8h.html#a3cae01317d787d65697fdf0543714272", null ],
     [ "KEYPAD_BITS", "input_8h.html#a8c22a2afdbaf11439d90ba163fc8180f", null ],
+    [ "MOUSE_SENSITIVITY", "input_8h.html#aef6ce895028a2ac4d399e703b253a17a", null ],
     [ "SUPERSCOPE_BITS", "input_8h.html#a1089c7966ba770a9e58ac84bb37efb39", null ],
     [ "KEYPAD_BITS", "input_8h.html#aa27cad8fa018a58930b6622783a83072", [
       [ "KEY_A", "input_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc", null ],
@@ -19,6 +22,11 @@ var input_8h =
       [ "KEY_X", "input_8h.html#aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497", null ],
       [ "KEY_Y", "input_8h.html#aa27cad8fa018a58930b6622783a83072a5d44524b2a6090fa97aa9353d69f67a3", null ]
     ] ],
+    [ "MOUSE_SENSITIVITY", "input_8h.html#a83faf49b2762ae59c8b799f1119c73a5", [
+      [ "MOUSE_SLOW", "input_8h.html#a83faf49b2762ae59c8b799f1119c73a5aa2a587af9b3a0bdc7969d84d7c611070", null ],
+      [ "MOUSE_MEDIUM", "input_8h.html#a83faf49b2762ae59c8b799f1119c73a5addb6ff3a0b1163ba834230447ea6eaad", null ],
+      [ "MOUSE_FAST", "input_8h.html#a83faf49b2762ae59c8b799f1119c73a5a6f6c3c2f9f13112cd9a93196aabb27bb", null ]
+    ] ],
     [ "SUPERSCOPE_BITS", "input_8h.html#a85bf0e48e8e4ded8d7724b95380a565b", [
       [ "SSC_FIRE", "input_8h.html#a85bf0e48e8e4ded8d7724b95380a565ba701b83e6a45cc8e8c6728db02cba31e8", null ],
       [ "SSC_CURSOR", "input_8h.html#a85bf0e48e8e4ded8d7724b95380a565bacfbe89a6c6be02dc20dedaa18b010722", null ],
@@ -30,23 +38,28 @@ var input_8h =
     [ "detectMouse", "input_8h.html#af6e6f4605f1e3cd05af75878dce1bfe1", null ],
     [ "detectMPlay5", "input_8h.html#abd31fc41ec07d41a5ea5349d5483e0ba", null ],
     [ "detectSuperScope", "input_8h.html#ae62699862842e0cb1c7b8d3b3431582a", null ],
-    [ "mouseRead", "input_8h.html#ae8d7c6f3dd84694de003f68899a4bdbc", null ],
-    [ "mouseSpeedChange", "input_8h.html#a165044ce54c23df0a790bcc6ebeee706", null ],
+    [ "initMouse", "input_8h.html#a675d0765637068a9bb4cee40f9f15e3e", null ],
+    [ "mouseCycleSensitivity", "input_8h.html#ab2c716a14c80f949bd22899ab85a8c67", null ],
+    [ "mouseCycleSensitivityTwice", "input_8h.html#a73a781f5dd65965e114b48a2042fd2a9", null ],
+    [ "mouseSetSensitivity", "input_8h.html#ad3541e3e91551999556c919d6be0e7c4", null ],
     [ "padsClear", "input_8h.html#a283ec438fdbb3b6068afd2e50bc9211d", null ],
-    [ "padsDown", "input_8h.html#a66237b0d7609c6f62d2234ef50abbd78", null ],
     [ "padsUp", "input_8h.html#a51de6b359e19a3a0279d42afc7fe6165", null ],
-    [ "scanMPlay5", "input_8h.html#a6c6e694e00ac17bc50940125a917ab6b", null ],
-    [ "scanPads", "input_8h.html#a42632e79292dc47a567aab4dc3e4407d", null ],
-    [ "scanScope", "input_8h.html#a72ab39cf95cf0d46d60e4d6835581ba6", null ],
     [ "mouse_x", "input_8h.html#a724ba33a12d1e079730cb5997232a83d", null ],
+    [ "mouse_y", "input_8h.html#a3af8bd7c47007d05b0d2de20e629b0c7", null ],
     [ "mouseButton", "input_8h.html#a74059eb9a291d858eda2c852a470919e", null ],
     [ "mouseConnect", "input_8h.html#a31b303c7c861ee50cb963e474af244c6", null ],
     [ "mousePressed", "input_8h.html#ab30c9fdb0b74e5188e3f23a87e040b4b", null ],
-    [ "mouseSpeedSet", "input_8h.html#a842e627dee9a37eb405a00361f753289", null ],
+    [ "mousePreviousPressed", "input_8h.html#ab7fe72b412b1cc49a7e110f5429e960b", null ],
+    [ "mouseRequestChangeSensitivity", "input_8h.html#a5df8b1d939994d7883237aabbf346757", null ],
+    [ "mouseSensitivity", "input_8h.html#a7819b55f61dda7e84af3e7af812658b3", null ],
+    [ "pad_keys", "input_8h.html#a62c2179d57a63ddbc863a036e0fc7a71", null ],
+    [ "pad_keysdown", "input_8h.html#aa198072f87b95ed8de962cfb04081dd8", null ],
+    [ "pad_keysold", "input_8h.html#a2790388adf50ca78a52564f00c495ea8", null ],
     [ "scope_centerh", "input_8h.html#a516fdcd3e3a976926d05d0bdd4613bb8", null ],
     [ "scope_centerv", "input_8h.html#a56fe34259c287cf9d2f4a2f8ab129010", null ],
     [ "scope_down", "input_8h.html#a94007e33999d3f93ada2a2e42a2e1951", null ],
     [ "scope_held", "input_8h.html#aeed16325c697d51070c812bffa86cb84", null ],
+    [ "scope_holddelay", "input_8h.html#a76eb62a4521e047f428188fbaae31852", null ],
     [ "scope_last", "input_8h.html#a186f3a2d7d1ca58a34b0134f9ca15623", null ],
     [ "scope_now", "input_8h.html#a2d26fcd09fec276be39a09efda376811", null ],
     [ "scope_repdelay", "input_8h.html#a0cfe2b1ed930e5a79a184087535c88bd", null ],
@@ -56,5 +69,6 @@ var input_8h =
     [ "scope_shotvraw", "input_8h.html#ac503829bd31d171d162ab3da7667d499", null ],
     [ "scope_sinceshot", "input_8h.html#a917121f2b70a742a644fa4c25c9086de", null ],
     [ "snes_mouse", "input_8h.html#a02336472338ed698e6b68425312d193a", null ],
+    [ "snes_mplay5", "input_8h.html#a0776b45d03084ed05cfad12d759249f0", null ],
     [ "snes_sscope", "input_8h.html#a4e6cb54b303d3fae6fba425293d02c41", null ]
 ];

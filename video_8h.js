@@ -65,6 +65,7 @@ var video_8h =
     [ "setMosaicEffect", "video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44", null ],
     [ "setScreenOff", "video_8h.html#aaeaea299a3cfb90fa5232b842f7f7cd0", null ],
     [ "setScreenOn", "video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144", null ],
+    [ "showFPScounter", "video_8h.html#aab6725b8e64d0d2bb9f2dd62b6ca0d44", null ],
     [ "snes_frame_count", "video_8h.html#ab250fa2e5edfba747b7079a49508d92b", null ],
     [ "videoMode", "video_8h.html#a156a14f040a0569d1c1b59c94669aa6f", null ],
     [ "videoModeSub", "video_8h.html#a4da52999afa3808bd6e797c9fbf584aa", null ]

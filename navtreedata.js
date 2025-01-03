@@ -25,18 +25,7 @@
 var NAVTREE =
 [
   [ "PVSnesLib", "index.html", [
-    [ "PVSnesLib Documentation", "index.html", [
-      [ "Introduction", "index.html#intro", null ],
-      [ "2D engine API", "index.html#video_2D_api", null ],
-      [ "Audio API", "index.html#audio_api", null ],
-      [ "Memory", "index.html#memory_api", null ],
-      [ "System", "index.html#system_api", null ],
-      [ "User Input/output", "index.html#user_io_api", null ],
-      [ "Engine API functions", "index.html#engine_api", null ],
-      [ "Miscellaneous functions", "index.html#misc_api", null ],
-      [ "Useful links", "index.html#external_links", null ],
-      [ "Special Thanks", "index.html#special_thanks", null ]
-    ] ],
+    [ "PVSnesLib Documentation", "index.html", "index" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -64,8 +53,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"input_8h.html#ae62699862842e0cb1c7b8d3b3431582a",
-"video_8h.html#a142364f4707bee3366835d7d22494911"
+"input_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65",
+"structt__objs.html#af4bfdc0bbd947feb9ea45fd95f735a9d"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

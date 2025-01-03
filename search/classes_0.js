@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['brrsamples_435',['brrsamples',['../structbrrsamples.html',1,'']]]
+  ['brrsamples_0',['brrsamples',['../structbrrsamples.html',1,'']]]
 ];

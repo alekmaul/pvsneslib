@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['length1_97',['length1',['../structbrrsamples.html#a88adcde351bda684d978194a6a2993d5',1,'brrsamples']]],
-  ['length2_98',['length2',['../structbrrsamples.html#a31a76cfd2811dac5df70684e6ab0beb3',1,'brrsamples']]],
-  ['lzss_2eh_99',['lzss.h',['../lzss_8h.html',1,'']]],
-  ['lzssdecodevram_100',['LzssDecodeVram',['../lzss_8h.html#af9cf33e898424f4a39e29eb31f45ff83',1,'lzss.h']]]
+  ['hbl_5fready_0',['HBL_READY',['../interrupt_8h.html#a88d83a889f8e1d016cedfbd0476db989',1,'interrupt.h']]],
+  ['hdma_5fchannel0_1',['HDMA_CHANNEL0',['../dma_8h.html#a449e65ce5faecb46a0e57fb1ed874fec',1,'dma.h']]],
+  ['hdmatable16_2',['HDMATable16',['../dma_8h.html#ad072502d98153debc89f839d45fc1c80',1,'dma.h']]],
+  ['height_3',['height',['../structt__objs.html#a3bf3757f174f93270ff558d1351a7872',1,'t_objs']]],
+  ['hitpoints_4',['hitpoints',['../structt__objs.html#a66724708a48c464c7c9e1a00a6b81b6d',1,'t_objs']]]
 ];
