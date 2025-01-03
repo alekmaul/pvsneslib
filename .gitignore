@@ -27,6 +27,8 @@ tools/constify/constify
 tools/constify/constify.exe
 tools/gfx2snes/gfx2snes
 tools/gfx2snes/gfx2snes.exe
+tools/gfx4snes/gfx4snes
+tools/gfx4snes/gfx4snes.exe
 tools/smconv/smconv
 tools/smconv/smconv.exe
 tools/snesbrr/snesbrr
