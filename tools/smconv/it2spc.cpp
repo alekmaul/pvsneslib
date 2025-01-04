@@ -292,7 +292,7 @@ namespace IT2SPC
             // othersize += GetExportSize_Header();
 
             u32 echosize = EchoDelay * 2048;
-            u32 totalsize = pattsize + sampsize + instrsize + envsize + echosize;
+            totalsize = pattsize + sampsize + instrsize + envsize + echosize;
             spc_ram_size = 65535 - module_base - header_size;
             u32 bytesfree = spc_ram_size - totalsize - header_size;
             totabanksize = totabanksize + totalsize;
@@ -978,6 +978,7 @@ namespace IT2SPC
             if (!Modules[i]->id.empty())
             {
                 fprintf(f, "#define %-32s	%i\n", Modules[i]->id.c_str(), i);
+                fprintf(f, "#define %-32s	%i\n", std::string(Modules[i]->id + "_SIZE").c_str(), Modules[i]->totalsize);
             }
         }
         fprintf(f, "\n");

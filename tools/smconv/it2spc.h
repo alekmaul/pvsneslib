@@ -141,6 +141,7 @@ namespace IT2SPC {
 
 		std::string id;
 		std::vector<u16> SourceList;
+		u32 totalsize;
 
 		int GetExportSize_Header() const {
 			return 616;
