@@ -1069,7 +1069,6 @@ getPalette:
 
     sep #$20
     lda 8,s                             ; get paletteSize (6+2)
-    dea                                 ; to have 0..palette size
     tax
 
     lda 7,s                             ; get palette entry (5+2)
@@ -1081,7 +1080,9 @@ getPalette:
     and #$7F                            ; remove openbus read
     inc tcc__r0                         ; to go to msb
     sta [tcc__r0]
+    rep #$20                            ; 16bit if *paletteColors leaves 8bit page boundary 
     inc tcc__r0                         ; to go to next entry
+    sep #$20
     pla
     ina
     dex
