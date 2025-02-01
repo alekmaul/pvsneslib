@@ -84,6 +84,8 @@ spc_bank:	DS 1
 spc1:		DS 2
 spc2:		DS 2
 
+spcsav:		DS 1
+
 spc_fread:	DS 1
 spc_fwrite:	DS 1
 
@@ -132,14 +134,14 @@ digi_copyrate:	DS 1
 ;**********************************************************************
 spcBoot:
 ;----------------------------------------------------------------------
-	php               ; alek
+	php               
 	sei
-	phb               ; alek
+	phb               
 	sep #$20
     lda #$0
-	sta REG_NMI_TIMEN ; alek
+	sta REG_NMI_TIMEN 
     pha
-	plb ; change bank address to 0
+	plb 			; change bank address to 0
 
 -:	ldx	REG_APUIO0	; wait for 'ready signal from SPC
 	cpx	#0BBAAh		;
@@ -523,8 +525,8 @@ get_address:
 ;**********************************************************************
 spcLoadEffect:
 ;----------------------------------------------------------------------
-	php ; alek
-	phb ; alek
+	php 
+	phb 
 	sep #$20
 	lda #$0
 	pha
@@ -589,7 +591,6 @@ QueueMessage:
 	rep	#10h			;
 	cli				;
 
-;	rts				;
 	plb
 	plp
 	rtl
@@ -599,12 +600,12 @@ QueueMessage:
 ;**********************************************************************
 spcFlush:
 ;----------------------------------------------------------------------
-	php ; alek
-	phb ; alek
+	php 
+	phb 
 	sep #$20
 	lda #$0
 	pha
-	plb ; change bank address to 0
+	plb 				; change bank address to 0
 
 spcFlush1:
 	lda	spc_fread		; call spcProcess until
@@ -685,12 +686,12 @@ xspcProcessMessages:
 ;**********************************************************************
 spcProcess:
 ;----------------------------------------------------------------------
-	php ; alek
-	phb ; alek
+	php 
+	phb 
 	sep #$20
 	lda #$0
 	pha
-	plb ; change bank address to 0
+	plb 				; change bank address to 0
 
 	lda	digi_active
 	beq	spcProcessMessages
@@ -746,33 +747,31 @@ spcProcessMessages:
 @exit2:
 ;----------------------------------------------------------------------
 	rep	#$10			; restore 16-bit index
-	;	rts				;
-	plb ; alek
-	plp ; alek
-	rtl ; alek
+	plb 
+	plp 
+	rtl 
 
 ;**********************************************************************
 ; x = starting position
 ;**********************************************************************
 spcPlay:
 ;----------------------------------------------------------------------
-	php ; alek
-	phb ; alek
+	php 
+	phb 
 	sep #$20
 	lda #$0
 	pha
-	plb ; change bank address to 0
+	plb 				; change bank address to 0
 
-	lda	6,s	; module_id
+	lda	6,s				; module_id
 
-;	txa				; queue message:
 	sta	spc1+1			; id -- xx
 	lda	#CMD_PLAY		;
 	jmp	QueueMessage		;
 
 spcStop:
-	php ; alek
-	phb ; alek
+	php 				;
+	phb 				; 
 	sep #$20
 	lda #$0
 	pha
@@ -796,6 +795,40 @@ spcTest:			;#
 	sta.l	REG_APUIO1	;#
 	plp
 	rtl			;#
+
+;**********************************************************************
+; pause current music
+;**********************************************************************
+spcPauseMusic:
+	php 
+	phb 
+	sep #$20
+	lda #$0
+	pha
+	plb 				; change bank address to 0
+
+	lda REG_APUIO3		; save current position
+	sta spcsav
+	lda	#CMD_STOP		; stop playing
+	jmp	QueueMessage
+
+;**********************************************************************
+; resume current music
+;**********************************************************************
+spcResumeMusic:
+	php 
+	phb 
+	sep #$20
+	lda #$0
+	pha
+	plb 				; change bank address to 0
+
+	lda spcsav			; restore current position
+	sta	spc1+1			; id -- xx
+
+	lda	#CMD_PLAY		; play again music
+	jmp	QueueMessage	;
+
 ;--------------------------------#
 ; ################################
 
@@ -930,25 +963,22 @@ spcEffect:
 ; void spcSetSoundTable(char *sndTableAddr);
 spcSetSoundTable:
 ;======================================================================
-	php ; alek
-	phb ; alek
+	php 
+	phb 
 	sep #$20
 	lda #$0
 	pha
-	plb ; change bank address to 0
+	plb 					; change bank address to 0
 
 	rep #$20
-	lda	6,s	; src (lower 16 bits)
+	lda	6,s					; src (lower 16 bits)
 	sta	SoundTable
 	sep #$20
-	lda	8,s	; src bank
+	lda	8,s					; src bank
 	sta SoundTable+2
 
-	;sty	SoundTable
-	;sta	SoundTable+2
-
 	plb
-	plp;alek
+	plp
 	rtl			; return
 
 ;======================================================================
@@ -956,22 +986,22 @@ spcAllocateSoundRegion:
 ;======================================================================
 ; a = size of buffer
 ;----------------------------------------------------------------------
-	php ; alek
-	phb ; alek
+	php 
+	phb 				
 	sep #$20
 	lda #$0
 	pha
-	plb ; change bank address to 0
+	plb 				; change bank address to 0
 
-	lda	6,s	; size of buffer
-	pha				; flush command queue
+	lda	6,s				; size of buffer
+	pha					; flush command queue
 	jsr	xspcFlush		;
-					;
+						;
 	lda	spc_v			; wait for spc
 -:	cmp	REG_APUIO1		;
-	bne	-			;
+	bne	-				;
 ;----------------------------------------------------------------------
-	pla				; set parameter
+	pla					; set parameter
 	sta	REG_APUIO3		;
 ;----------------------------------------------------------------------
 	lda	#CMD_SSIZE		; set command
@@ -984,18 +1014,17 @@ spcAllocateSoundRegion:
 	sta	spc_v			;
 	sta	spc_pr+1		;
 ;----------------------------------------------------------------------
-	;rts
 	plb
-	plp ; alek
-	rtl ; alek
+	plp 
+	rtl 
 
 ;----------------------------------------------------------------------
 ; a = index of sound
 ;======================================================================
 spcPlaySound:
 ;======================================================================
-	php ; alek
-	phb ; alek
+	php 
+	phb 
 
 	sep #$20
 	lda #$0
@@ -1014,8 +1043,8 @@ spcPlaySound:
 ;======================================================================
 spcPlaySoundV:
 ;======================================================================
-	php ; alek
-	phb ; alek
+	php 
+	phb 
 
 	sep #$20
 	lda #$0
@@ -1037,8 +1066,8 @@ spcPlaySoundV:
 ;----------------------------------------------------------------------
 ; a = index
 ; b = pitch
-; y = vol
-; x = pan
+; y = vol (0-15)
+; x = pan (0-15, 8=center)
 ;======================================================================
 spcPlaySoundEx:
 ;======================================================================
@@ -1121,10 +1150,9 @@ spcPlaySoundEx:
 	sta	digi_init		;
 	sta	digi_active		;
 ;----------------------------------------------------------------------------
-;	rts
 	plb
-	plp ; alek
-	rtl; alek
+	plp 
+	rtl
 
 ;============================================================================
 spcProcessStream:

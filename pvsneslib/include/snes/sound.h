@@ -118,6 +118,18 @@ void spcPlay(u8 startPos);
 */
 void spcStop(void);
 
+/*! \fn  spcPauseMusic(void)
+    \brief pause playing the current module and save the music position.
+*/
+void spcPauseMusic(void);
+
+/*! \fn  spcResumeMusic(void)
+    \brief Resume playing of current module at music position.
+
+    spcPauseMusic has to be call before to restore correct position.
+*/
+void spcResumeMusic(void);
+
 /*! \fn  spcSetModuleVolume(u8 vol)
     \brief set the module playback volume
     \param vol	volume (0..255)
