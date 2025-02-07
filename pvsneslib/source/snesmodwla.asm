@@ -84,8 +84,6 @@ spc_bank:	DS 1
 spc1:		DS 2
 spc2:		DS 2
 
-spcsav:		DS 1
-
 spc_fread:	DS 1
 spc_fwrite:	DS 1
 
@@ -780,22 +778,6 @@ spcStop:
 	lda	#CMD_STOP
 	jmp	QueueMessage
 
-;-------test function-----------;
-spcTest:			;#
-	php
-	lda	spc_v		;#
--:	cmp.l	REG_APUIO1	;#
-	bne	-		;#
-	xba			;#
-	lda	#CMD_TEST	;#
-	sta.l	REG_APUIO0	;#
-	xba			;#
-	eor	#$80		;#
-	sta	spc_v		;#
-	sta.l	REG_APUIO1	;#
-	plp
-	rtl			;#
-
 ;**********************************************************************
 ; pause current music
 ;**********************************************************************
@@ -805,11 +787,9 @@ spcPauseMusic:
 	sep #$20
 	lda #$0
 	pha
-	plb 				; change bank address to 0
+	plb
 
-	lda REG_APUIO3		; save current position
-	sta spcsav
-	lda	#CMD_STOP		; stop playing
+	lda	#CMD_PAUSE
 	jmp	QueueMessage
 
 ;**********************************************************************
@@ -821,13 +801,10 @@ spcResumeMusic:
 	sep #$20
 	lda #$0
 	pha
-	plb 				; change bank address to 0
+	plb
 
-	lda spcsav			; restore current position
-	sta	spc1+1			; id -- xx
-
-	lda	#CMD_PLAY		; play again music
-	jmp	QueueMessage	;
+	lda	#CMD_RESUME
+	jmp	QueueMessage
 
 ;--------------------------------#
 ; ################################

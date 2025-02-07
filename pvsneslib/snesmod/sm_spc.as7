@@ -542,10 +542,9 @@ CommandTable:
 	.word	CMD_FADE		; 06h - fade module volume
 	.word	CMD_RES			; 07h - reset
 	.word	CMD_FX			; 08h - sound effect
-	.word	CMD_TEST		; 09h - test
+	.word	CMD_PAUSE		; 09h - pause module
 	.word	CMD_SSIZE		; 0Ah - set stream size
-	;	.word	CMD_PDS			; 0Ah - play streamed sound
-;	.word	CMD_DDS			; 0Bh - disable digital stream
+	.word	CMD_RESUME		; 0Bh - resume module
 	
 ;********************************************************
 CMD_LOAD:
@@ -712,19 +711,9 @@ CMD_FX:
 	jmp	SFX_Play
 
 ;********************************************************
-CMD_TEST:
+CMD_PAUSE:
 ;********************************************************
-	SETDSP( 00h, 7fh )
-	SETDSP( 01h, 7fh )
-	SETDSP( 02h, 00h )
-	SETDSP( 03h, 10h )
-	SETDSP( 04h, 09h )
-	SETDSP( 05h, 00h )
-	SETDSP( 06h, 00h )
-	SETDSP( 07h, 7fh )
-	SETDSP( 0Ch, 70h )
-	SETDSP( 1Ch, 70h )
-	SETDSP( 4Ch, 01h )
+	call	Module_Pause
 	jmp	CommandRet
 	
 ;********************************************************
@@ -734,6 +723,16 @@ CMD_SSIZE:
 	mov	a, SPC_PORT3
 	call	Streaming_Resize
 	jmp	CommandRet
+
+;********************************************************
+CMD_RESUME:
+;********************************************************
+	call	Module_Stop
+	mov	a, SPC_PORT3
+	and	STATUS, #~STATUS_P
+	mov	SPC_PORT2, STATUS
+	mov	SPC_PORT1, comms_v
+	jmp	Module_Resume
 
 ;********************************************************
 CMD_DDS:
@@ -886,7 +885,15 @@ Module_Stop:
 	mov	SPC_CONTROL, #%110
 	mov	mod_active, #0
 	ret
-	
+
+;********************************************************
+; pause module
+;********************************************************
+Module_Pause:
+	mov	SPC_CONTROL, #%110
+	mov	mod_active, #0
+	ret
+
 ;********************************************************
 ; play module...
 ;
@@ -939,6 +946,18 @@ _cpan_normal:
 	mov	SPC_PORT2, STATUS
 	
 	SETDSP( DSP_KOF, 0 );	// ??????
+	ret
+
+;********************************************************
+; resume module
+;********************************************************
+Module_Resume:
+	mov	mod_active, #1
+
+	; start timer
+	mov	SPC_CONTROL, #%111
+	
+	SETDSP( DSP_KOF, 0 );
 	ret
 
 ;********************************************************
