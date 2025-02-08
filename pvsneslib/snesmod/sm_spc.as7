@@ -133,17 +133,22 @@
 ; v = volume (15 = max)
 ; p = panning (8 = center)
 ;--------------------------------------------------------
-; TEST	09	Test function
-;
-; >> id vv -- --
-; << -- mm -- --
-;--------------------------------------------------------
-; SSIZE	0A	Set sound region size
+; SSIZE	09	Set sound region size
 ;
 ; >> id vv -- SS
 ; << -- mm -- --
 ;
 ; SS = size of sound region (SS*256 bytes)
+;--------------------------------------------------------
+; PAUSE	0A	Pause function
+;
+; >> id vv -- --
+; << -- mm -- --
+;--------------------------------------------------------
+; RESUME 0B	Resume function
+;
+; >> id vv -- --
+; << -- mm -- --
 ;--------------------------------------------------------
 ; STREAM	Update digital stream
 ;
@@ -721,7 +726,8 @@ CMD_SSIZE:
 ;********************************************************
 CMD_PAUSE:
 ;********************************************************
-	call	Module_Pause
+;	call	Module_Pause
+	call Module_Stop
 	jmp	CommandRet
 
 ;********************************************************
