@@ -84,8 +84,6 @@ spc_bank:	DS 1
 spc1:		DS 2
 spc2:		DS 2
 
-spcsav:		DS 1
-
 spc_fread:	DS 1
 spc_fwrite:	DS 1
 
