@@ -62,8 +62,9 @@
 .define CMD_FADE	06h
 .define CMD_RES		07h
 .define CMD_FX		08h
-.define CMD_TEST	09h
+.define CMD_PAUSE	09h
 .define CMD_SSIZE	0Ah
+.define CMD_RESUME  0Bh
 
 ;----------------------------------------------------------------------
 
