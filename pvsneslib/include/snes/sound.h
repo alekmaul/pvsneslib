@@ -79,6 +79,7 @@ typedef struct
 
 /*! \fn  spcBoot(void)
     \brief boots the spc700 with sm-spc. call once at startup
+    disable time consuing interrupts during this function
 */
 void spcBoot(void);
 
