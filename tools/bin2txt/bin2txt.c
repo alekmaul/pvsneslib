@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-    Copyright (C) 2012-2021
+    Copyright (C) 2012-2025
         Alekmaul
 
     This software is provided 'as-is', without any express or implied
@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define BIN2TXTVERSION __BUILD_VERSION
 #define BIN2TXTDATE __BUILD_DATE
@@ -76,32 +77,17 @@ void PrintOptions(char *str)
 void PrintVersion(void)
 {
     printf("bin2txt (" BIN2TXTDATE ") version " BIN2TXTVERSION "");
-    printf("\nCopyright (c) 2012-2021 Alekmaul\n");
+    printf("\nCopyright (c) 2012-2025 Alekmaul\n");
 }
-
-/*
-#ifndef HAVE_STRUPR
-char* strupr(char* s)
-{
-    char* tmp = s;
-
-    for (;*tmp;++tmp) {
-        *tmp = toupper((unsigned char) *tmp);
-    }
-
-    return s;
-}
-#endif
-*/
 
 /// M A I N ////////////////////////////////////////////////////////////
-
-#include <math.h>
 
 int main(int argc, char **argv)
 {
     int i;
     unsigned char bytei;
+    time_t current_time;
+    struct tm* local_time; 
 
     // parse the arguments
     for (i = 1; i < argc; i++)
@@ -207,13 +193,18 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    // get current date & time
+    current_time = time (NULL);
+    local_time = localtime (&current_time); 
+
     // write header & content & footer
     if (convformat == 1)
     {
         // write asm header
         fprintf(fpo, "//----------------------------------------------------------------------\n");
         fprintf(fpo, "// bin2txt converted binary data\n");
-        fprintf(fpo, "// binary file size : %d bytes\n", filesize);
+        fprintf(fpo, "// binary file size: %d bytes\n", filesize);
+        fprintf(fpo, "// converted the %s", asctime (local_time));
         fprintf(fpo, "//----------------------------------------------------------------------\n\n");
         strupr(filebase);
         fprintf(fpo, "#ifndef %s_INC_\n", filebase);
@@ -244,7 +235,8 @@ int main(int argc, char **argv)
         // write asm header
         fprintf(fpo, ";----------------------------------------------------------------------\n");
         fprintf(fpo, "; bin2txt converted binary data\n");
-        fprintf(fpo, "; binary file size : %d bytes\n", filesize);
+        fprintf(fpo, "; binary file size: %d bytes\n", filesize);
+        fprintf(fpo, "; converted the %s", asctime (local_time));
         fprintf(fpo, ";----------------------------------------------------------------------\n\n");
         fprintf(fpo, ".SECTION \".%s\" SUPERFREE\n\n", filebase);
         strupr(filebase);

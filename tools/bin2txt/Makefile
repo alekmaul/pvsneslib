@@ -1,5 +1,5 @@
 # Define version and build date strings
-VERSION    := 1.0.0
+VERSION    := 1.1.0
 DATESTRING := $(shell date +%Y%m%d)
 
 # Compiler and compiler flags
