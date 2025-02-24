@@ -616,9 +616,9 @@ consoleSetTextGfxPtr:
     rtl
 
 ;---------------------------------------------------------------------------
-;void consoleSetTextVramBGAdr(u16 vrambgfont)
+;void consoleSetTextMapPtr(u16 vrambgfont)
 ; 6-7
-consoleSetTextVramBGAdr:
+consoleSetTextMapPtr:
     php
     phb
 
