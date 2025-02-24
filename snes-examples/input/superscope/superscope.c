@@ -67,8 +67,8 @@ void resetGame()
 int main(void)
 {
     // Initialize text console with our font
-    consoleSetTextVramBGAdr(0x2000);
-    consoleSetTextVramAdr(0x3800);
+    consoleSetTextMapPtr(0x2000);
+    consoleSetTextGfxPtr(0x3800);
     consoleSetTextOffset(0x0080);
     consoleInitText(1, 16 * 2, &tilfont, &palfont);
 

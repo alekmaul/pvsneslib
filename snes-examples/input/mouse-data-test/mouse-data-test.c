@@ -86,8 +86,8 @@ int main(void)
 
     oamInitGfxSet((void*)&CURSOR_TILE, sizeof(CURSOR_TILE), (void*)&CURSOR_PALETTE, sizeof(CURSOR_PALETTE), 0, VRAM_OBJ_TILE_WADDR, OBJ_SIZE8_L16);
 
-    consoleSetTextVramBGAdr(VRAM_BG3_MAP_WADDR);
-    consoleSetTextVramAdr(VRAM_BG3_TILE_WADDR);
+    consoleSetTextMapPtr(VRAM_BG3_MAP_WADDR);
+    consoleSetTextGfxPtr(VRAM_BG3_TILE_WADDR);
     consoleSetTextOffset(0x0000);
     consoleInitText(0, 4 * 2, &Font_Tiles, &Font_Palette);
 
