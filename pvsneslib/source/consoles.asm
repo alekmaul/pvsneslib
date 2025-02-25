@@ -602,14 +602,10 @@ consoleSetTextGfxPtr:
     php
     phb
 
-    sep #$20                                                  ; 8bit A
-    lda #$7e
-    pha
-    plb
 
     rep #$20
     lda 6,s                                                  ; store graphic address of text
-    sta txt_vram_adr
+    sta.l txt_vram_adr
 
     plb
     plp
@@ -622,14 +618,9 @@ consoleSetTextMapPtr:
     php
     phb
 
-    sep #$20                                                  ; 8bit A
-    lda #$7e
-    pha
-    plb
-
     rep #$20
     lda 6,s                                                  ; store BG graphic address of text
-    sta txt_vram_bg
+    sta.l txt_vram_bg
 
     plb
     plp
@@ -642,14 +633,10 @@ consoleSetTextOffset:
     php
     phb
 
-    sep #$20                                                  ; 8bit A
-    lda #$7e
-    pha
-    plb
 
     rep #$20
     lda 6,s                                                  ; store BG graphic address of text
-    sta txt_vram_offset
+    sta.l txt_vram_offset
 
     plb
     plp
