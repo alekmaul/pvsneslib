@@ -91,7 +91,7 @@ AUDIOFILES := res/whatislove.it
 export SOUNDBANK := res/soundbank
 ```
 
-Add the correct parameters to your makefile conditions.
+Add the correct parameters to your makefile conditions (here, we specified that we will use bank 5 as 1st bank for music and sfx).  
 
 ```bash
 # to build musics, define SMCONVFLAGS with parameters you want
@@ -116,7 +116,7 @@ Later in your code, after the sound engine initialization, you must declare the 
     spcSetBank(&SOUNDBANK__0);
 ```
 
-Check soundbank.asm file to know exactly how many banks you have.
+Check soundbank.asm file to know exactly how many banks you have and if the correct bank is choosen for them.
 
 ```bash
 .BANK 5
@@ -160,8 +160,168 @@ In your main loop, you must add a function named **spcProcess** just before wait
         WaitForVBlank();
 ```
 
-## Adding sound effects to your game with some brr files  
-
-
 ## Adding sound effects to your game with one IT file  
 
+Sound effects in IT file is the best weay to play sounds during the game.  
+
+**IT sound effects you want to have at the current state of your game need to be in the SAME IT file.**  
+
+*Remember that all effects you want to have at a current state of your game **plus** the current music need to be lower than 64K, which is the size of the SPC RAM. This is beacuase we are going to load them in RAM with music and the sound engine.*  
+
+When you use **spcconv** to convert your IT files, it will give you the sum of each IT file and also the difference between the 1st IT file you gave in the command line (which will be your IT sound effects file) and all the others.
+
+If you need another IT sound effects file, you will have to do another smconv command with the sound effect plus the musics your have to have with it.  
+
+In the next part, we will use **effectsandmusic** from the **snes-examples/audio** folder.  
+
+### Prepare your wav sfx files  
+
+All sfx files should be with a low frequency to save space. 8Mhz is a good frequency but you can use a higher one if your want.
+
+With **openMTP** or another IT tracker, put all the sfx wav files in the sample part of your empty IT file.
+
+<img src="https://github.com/user-attachments/assets/6e5ec9f1-236f-440c-bd02-86b040f19283">
+
+Remember that you must also have **ONE** instrument mapping **ONE** sample or the sound engine will not work.  
+
+The pattern part is not really important must must be present in the IT file.
+
+<img src="https://github.com/user-attachments/assets/20fdd4b4-0932-4baf-84e8-0e348820b193">
+
+### Compile the IT file with your music  
+
+In this example, **effectssfx.it** contains all the sfxs and **pollen8.it** is a music file.  
+
+```bash
+# BEFORE including snes_rules :
+# list in AUDIOFILES all your .it files in the right order. It will build to generate soundbank file
+AUDIOFILES := res/effectssfx.it res/pollen8.it
+```
+
+And don't forget the parameters for smconv if you want something specific (in our example, it is bank 5 with b parameter).  
+
+```bash
+# to build musics, define SMCONVFLAGS with parameters you want
+SMCONVFLAGS	:= -s -o $(SOUNDBANK) -V -b 5
+musics: $(SOUNDBANK).obj
+```
+
+As explained in previous chapter, inside res directory of the example, you have the asm file generated with the correct includes for your sfx and musics.  
+
+```bash
+...
+
+.BANK 5
+.SECTION "SOUNDBANK0" ; need dedicated bank(s)
+
+..
+
+.incbin "res/soundbank.bnk" skip $8000
+.ENDS
+```
+
+When compiling, smconv will indicate the footprint of sfxs and also the amount of memory available with the music file.  
+
+```bash
+smconv: Loading modules...
+smconv: Starting conversion...
+-----------------------------------------------------------------------
+Adding module, Filename: <res/effectssfx.it>
+             Title: <>
+             IT Size: [76683 bytes]
+Conversion report:
+
+...
+           Total: [20803 bytes]   *37154 bytes free*
+-----------------------------------------------------------------------
+Adding module, Filename: <res/pollen8.it>
+             Title: <pollen resurrection>
+             IT Size: [29369 bytes]
+Conversion report:
+
+...
+           Total: [44137 bytes]   *13820 bytes free*
+-----------------------------------------------------------------------
+  Total Modules Size: [ 64940 bytes]
+       Total IT Size: [106052 bytes]
+```
+
+### Loading and playing sfx IT effects in your program
+
+We already explained that we will 1st need to load the banks in memory.   
+
+```bash
+    // Set soundbanks in reverse order
+    spcSetBank(&SOUNDBANK__1);
+	spcSetBank(&SOUNDBANK__0);
+```
+
+Then, you need to load sfx that are stored in the 1st entry. As we declared 5 samples, we will load them.
+
+```bash
+	// Load all effects
+	spcStop(); spcLoad(0); 
+	for (j=0;j<5;j++) { 
+        spcLoadEffect(j); 
+    }
+```
+
+It is also a good practice to wait a VBL after that with a  **WaitVBLFlag** call.
+
+During your game, you play the sfx with the **spcEffect** function (i is the variable containing the effect index, 0 is the 1st one).  
+
+```bash
+    // Play effect
+    spcEffect(8,i,15*16+8); // (u16 pitch,u16 sfxIndex, u8 volpan); pitch=1=4Khz , 2=8khz, 8=32Khz
+```
+
+## Adding sound effects to your game with some brr files  
+
+You can also play brr sound files when playing music. In these case, they are not include inside a IT file. AS in previous chapter, all brr files should be with a low frequency to save space. 8Mhz is a good frequency but you can use a higher one if your want.
+
+
+### convert your wav files  
+
+TO convert your wave files and allow them to be played, you must declare them in your makefile.  
+
+```bash
+tada.brr: tada.wav
+	@echo convert wav file ... $(notdir $<)
+	$(BRCONV) -e $< $@
+```
+
+And add the **brr converted file** in your **data.asm** file.
+
+```bash
+soundbrr:
+.incbin "tada.brr"
+soundbrrend:
+```
+
+### Loading and playing brr effects in your program  
+
+You must declare a variable with a specific structure in your c file
+
+```bash
+extern char soundbrr, soundbrrend;
+brrsamples tadasound;
+```
+
+Also, you must reserved a specific amount of **SPC RAM** to allow your brr file to play.  
+
+**BE CAREFULL**, you have only around 60K of RAM availabe for effects and musics !
+
+```bash
+    // allocate around 10K of sound ram (39 256-byte blocks)
+    spcAllocateSoundRegion(39);
+```  
+ 
+During your game, you play your brr with the **spcEffect** function after loading it with the **spcSetSoundEntry** function.
+
+```bash
+    // Load effect
+    spcSetSoundEntry(15, 15, 4, &soundbrrend - &soundbrr, &soundbrr, &tadasound);
+
+    // Play effect
+    spcPlaySound(0);
+```
