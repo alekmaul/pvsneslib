@@ -51,9 +51,9 @@ The default values are:
 |Description|Address|
 |-----------|-------|
 |background graphic address|$3000|  
-|background map address|4 bytes|$6800|  
+|background map address|$6800|  
 |offset of text in background map address|$0000|  
-
+  
 here is the **hello_world** example of new vram entries:
 
 ```
