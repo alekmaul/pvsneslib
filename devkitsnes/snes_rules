@@ -59,9 +59,10 @@ endif
 # the compiler executables
 #---------------------------------------------------------------------------------
 
-export CC	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/816-tcc
-export AS	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/wla-65816
-export LD	:=	$(PVSNESLIB_HOME)/devkitsnes/bin/wlalink
+export CC		:=	$(PVSNESLIB_HOME)/devkitsnes/bin/816-tcc
+export AS		:=	$(PVSNESLIB_HOME)/devkitsnes/bin/wla-65816
+export AS700	:=  $(PVSNESLIB_HOME)/devkitsnes/bin/wla-spc700
+export LD		:=	$(PVSNESLIB_HOME)/devkitsnes/bin/wlalink
 
 export GFXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/gfx4snes
 # gfx2snes is just here for old compatibity issues
@@ -170,7 +171,14 @@ endif
 # -c should be removed ASAP ! It allow duplicate labels and definitions
 	$(LD) -d -s -v -A -c -L ${LIBDIRSOBJS} linkfile $@
 
+# remove unattended characters 
 	@sed -i 's/://' $(ROMNAME).sym
+
+#keep with section label if needed
+#	@cp -f $(ROMNAME).sym $(ROMNAME).symfull
+
+# remove duplicated labels for mesen debugger
+	@sed -i '/ SECTIONSTART_/d;/ SECTIONEND_/d;/ RAM_USAGE_SLOT_/d;' $(ROMNAME).sym
 
 	@echo
 	@echo Build finished successfully !

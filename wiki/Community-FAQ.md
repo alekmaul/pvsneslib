@@ -56,6 +56,7 @@ The remaining entries here on the unofficial FAQ are maintained by the community
     - [How to build tcc 816 provided with PVSnesLib sources ?](#how-to-build-tcc-816-provided-with-pvsneslib-sources-)
     - [I get the error "echo: command not found"](#i-get-the-error-echo-command-not-found)
     - [On Linux i get : "fatal error: bits/libc-header-start.h"](#on-linux-i-get--fatal-error-bitslibc-header-starth)
+    - [On Mac OS i get : "sed: 1: "hello_world.sym": extra characters at the end of h command"](#on-Mac-OS-i-get--sed-1--hello-world-sym-extra-characters-at-the-end-of-h-command)
     - [Using malloc with PVSneslib](#using-malloc-with-pvsneslib)
   - [Maps](#maps)
     - [How to create maps with 16x16 tiles ?](#how-to-create-maps-with-16x16-tiles-)
@@ -348,6 +349,11 @@ The value must be in unix style (**/c/snesdev** instead of **c:\\snesdev**) to a
 ### On Linux i get : "fatal error: bits/libc-header-start.h"
 
 When building some tools on Linux like **snestools**, if you get the error _/usr/include/stdlib.h:25:10: fatal error: bits/libc-header-start.h: no such file or directory_, it is related to the -m32 CFLAG provided in the makefile, you probably forgot to install some libraries from gcc. For example on Ubuntu, you just have to install **gcc-multilib** by executing `sudo apt-get install gcc-multilib`
+
+### On Mac OS i get : "sed: 1: "hello_world.sym": extra characters at the end of h command"
+
+It is probably related to the version of `sed` command you use which is not the correct one.
+Please read the [installation page](https://github.com/alekmaul/pvsneslib/wiki/Installation) which explain how to solve it.
 
 ### Using malloc with PVSneslib
 

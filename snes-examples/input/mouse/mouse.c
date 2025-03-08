@@ -10,15 +10,6 @@
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-#ifndef MOUSE_SPEED
-#define MOUSE_SPEED
-
-#define slow 0
-#define normal 1
-#define fast 2
-
-#endif
-
 extern char snesfont, snespal, cursorsprite, cursorsprite_end, cursorpal, buttonsmap, buttonstiles, buttonstiles_end, buttonspal;
 char hex_string[4];
 
@@ -35,7 +26,6 @@ bool printed[2] = {false};
 bool mouseDown_L[2] = {false};
 bool mouseDown_R[2] = {false};
 bool mouseDown_LR[2] = {false};
-bool speedset[2] = {true};
 
 //---------------------------------------------------------------------------------
 int main(void)
@@ -44,20 +34,18 @@ int main(void)
     oamInitGfxSet(&cursorsprite, (&cursorsprite_end - &cursorsprite), &cursorpal, 48 * 2, 0, 0x0000, OBJ_SIZE16_L32);
 
     // Initialize text console with our font
-    consoleSetTextVramBGAdr(0x6800);
-    consoleSetTextVramAdr(0x3000);
+    consoleSetTextMapPtr(0x6800);
+    consoleSetTextGfxPtr(0x3000);
     consoleSetTextOffset(0x0100);
     consoleInitText(0, 16 * 2, &snesfont, &snespal);
 
     // Draw a wonderful text :P
     consoleDrawText(11, 1, "MOUSE TEST");
 
-    // we set mouse speed, or it will just output a random speed. We can change it later manually
-    mouseSpeedSet[0] = slow;
-    mouseSpeedSet[1] = slow;
+    // Enable mouse reading and set the initial mouse sensitivity
+    initMouse(MOUSE_SLOW);
 
-    detectMouse(); // Let's check if a mouse is plugged in any port on boot, be sure nmi interrupt was called at least once (in this case, previous oamInitGfxSet() function was enough)
-    WaitForVBlank(); // Let's make sure we read mouse for the first time after detectMouse()
+    WaitForVBlank(); // Let's make sure we read mouse for the first time after initMouse()
 
     if (mouseConnect[0] == false)
         consoleDrawText(3, 5, "NO MOUSE PLUGGED ON PORT 0");
@@ -99,9 +87,6 @@ int main(void)
 
     while (1)
     {
-        if (snes_mouse == false)
-        detectMouse(); // Let's check if a mouse is plugged in any port
-
         odd++;
         // Optimize Draw text by printing new text just once
         if (mouseConnect[0] != mc_mem[0])
@@ -290,130 +275,115 @@ int main(void)
             }
         }
 
-        WaitForVBlank();
 
         // mouseButton works as a one frame value, so it gets released shortly after pressing the button. Good for clicking stuff that need to be called once, like buttons.
-        if (mouseConnect[0])
+        // mouseButton is 0 if there is no mouse connected
+        if (mouseButton[0] & mouse_L)
         {
-            if (mouseButton[0] & mouse_L)
+            // Let's choose speed setting
+            if ((p1_mouse_y > 0x5E) && (p1_mouse_y < 0x6C))
             {
-                // Let's choose speed setting
-                if ((p1_mouse_y > 0x5E) && (p1_mouse_y < 0x6C))
+                if ((p1_mouse_x > 0x44) && (p1_mouse_x < 0x64))
                 {
-                    if ((p1_mouse_x > 0x44) && (p1_mouse_x < 0x64))
-                    {
-                        mouseSpeedSet[0] = slow;
-                        speedset[0] = true;
-                        mouseSpeedChange(0); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
-                    }
-                    if ((p1_mouse_x > 0x6C) && (p1_mouse_x < 0x94))
-                    {
-                        mouseSpeedSet[0] = normal;
-                        speedset[0] = true;
-                        mouseSpeedChange(0); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
-                    }
-                    if ((p1_mouse_x > 0x9C) && (p1_mouse_x < 0xBC))
-                    {
-                        mouseSpeedSet[0] = fast;
-                        speedset[0] = true;
-                        mouseSpeedChange(0); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
-                    }
+                    mouseSetSensitivity(0, MOUSE_SLOW); // Queue a set sensitivity command
+                }
+                if ((p1_mouse_x > 0x6C) && (p1_mouse_x < 0x94))
+                {
+                    mouseSetSensitivity(0, MOUSE_MEDIUM); // Queue a set sensitivity command
+                }
+                if ((p1_mouse_x > 0x9C) && (p1_mouse_x < 0xBC))
+                {
+                    mouseSetSensitivity(0, MOUSE_FAST); // Queue a set sensitivity command
                 }
             }
+        }
 
-            if (speedset[0])
+        if (mouseButton[1] & mouse_L)
+        {
+            // Let's choose speed setting
+            if ((p2_mouse_y > 0xBE) && (p2_mouse_y < 0xCC))
             {
-                dmaCopyVram(&buttonsmap + 0x40, 0x6188, 0x20); // released buttons
-                dmaCopyVram(&buttonsmap + 0x80, 0x61A8, 0x20); // released buttons
-
-                switch (mouseSpeedSet[0])
+                if ((p2_mouse_x > 0x44) && (p2_mouse_x < 0x64))
                 {
-                case slow:
-                    dmaCopyVram(&buttonsmap + 0x60, 0x6188, 0x0A); // SLOW button pressed
-                    dmaCopyVram(&buttonsmap + 0xA0, 0x61A8, 0x0A); // SLOW button pressed
-                    break;
-                case normal:
-                    dmaCopyVram(&buttonsmap + 0x6A, 0x618D, 0x0C); // NORMAL button pressed
-                    dmaCopyVram(&buttonsmap + 0xAA, 0x61AD, 0x0C); // NORMAL button pressed
-                    break;
-                case fast:
-                    dmaCopyVram(&buttonsmap + 0x76, 0x6193, 0x0A); // FAST button pressed
-                    dmaCopyVram(&buttonsmap + 0xB6, 0x61B3, 0x0A); // FAST button pressed
-                    break;
+                    mouseSetSensitivity(1, MOUSE_SLOW); // Queue a set sensitivity command
                 }
-                speedset[0] = false;
+                if ((p2_mouse_x > 0x6C) && (p2_mouse_x < 0x94))
+                {
+                    mouseSetSensitivity(1, MOUSE_MEDIUM); // Queue a set sensitivity command
+                }
+                if ((p2_mouse_x > 0x9C) && (p2_mouse_x < 0xBC))
+                {
+                    mouseSetSensitivity(1, MOUSE_FAST); // Queue a set sensitivity command
+                }
+            }
+        }
+
+        WaitForVBlank();
+
+        // START VBLANK CODE
+
+        if (mouseConnect[0])
+        {
+            dmaCopyVram(&buttonsmap + 0x40, 0x6188, 0x20); // released buttons
+            dmaCopyVram(&buttonsmap + 0x80, 0x61A8, 0x20); // released buttons
+
+            // Show reported sensitivity
+            switch (mouseSensitivity[0])
+            {
+            case MOUSE_SLOW:
+                dmaCopyVram(&buttonsmap + 0x60, 0x6188, 0x0A); // SLOW button pressed
+                dmaCopyVram(&buttonsmap + 0xA0, 0x61A8, 0x0A); // SLOW button pressed
+                break;
+            case MOUSE_MEDIUM:
+                dmaCopyVram(&buttonsmap + 0x6A, 0x618D, 0x0C); // NORMAL button pressed
+                dmaCopyVram(&buttonsmap + 0xAA, 0x61AD, 0x0C); // NORMAL button pressed
+                break;
+            case MOUSE_FAST:
+                dmaCopyVram(&buttonsmap + 0x76, 0x6193, 0x0A); // FAST button pressed
+                dmaCopyVram(&buttonsmap + 0xB6, 0x61B3, 0x0A); // FAST button pressed
+                break;
             }
 
             if (mousePressed[0] == false)
                 dmaFillVram(&buttonsmap, 0x6940, 0x40); // wipe text
         }
-        else if (speedset[0] == false)
+        else
         {
             dmaFillVram(&buttonsmap + 0x40, 0x6188, 0x20); // remove buttons
             dmaFillVram(&buttonsmap + 0x80, 0x61A8, 0x20); // remove buttons
-            speedset[0] = true;
         }
 
         if (mouseConnect[1])
         {
-            if (mouseButton[1] & mouse_L)
-            {
-                // Let's choose speed setting
-                if ((p2_mouse_y > 0xBE) && (p2_mouse_y < 0xCC))
-                {
-                    if ((p2_mouse_x > 0x44) && (p2_mouse_x < 0x64))
-                    {
-                        mouseSpeedSet[1] = slow;
-                        speedset[1] = true;
-                        mouseSpeedChange(1); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
-                    }
-                    if ((p2_mouse_x > 0x6C) && (p2_mouse_x < 0x94))
-                    {
-                        mouseSpeedSet[1] = normal;
-                        speedset[1] = true;
-                        mouseSpeedChange(1); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
-                    }
-                    if ((p2_mouse_x > 0x9C) && (p2_mouse_x < 0xBC))
-                    {
-                        mouseSpeedSet[1] = fast;
-                        speedset[1] = true;
-                        mouseSpeedChange(1); // Let's tell the mouse we want to change speed. mouseSpeedSet[] has to be populated first.
-                    }
-                }
-            }
+            dmaCopyVram(&buttonsmap + 0x40, 0x6308, 0x20); // released buttons
+            dmaCopyVram(&buttonsmap + 0x80, 0x6328, 0x20); // released buttons
 
-            if (speedset[1])
+            switch (mouseSensitivity[1])
             {
-                dmaCopyVram(&buttonsmap + 0x40, 0x6308, 0x20); // released buttons
-                dmaCopyVram(&buttonsmap + 0x80, 0x6328, 0x20); // released buttons
-
-                switch (mouseSpeedSet[1])
-                {
-                case slow:
-                    dmaCopyVram(&buttonsmap + 0x60, 0x6308, 0x0A); // SLOW button pressed
-                    dmaCopyVram(&buttonsmap + 0xA0, 0x6328, 0x0A); // SLOW button pressed
-                    break;
-                case normal:
-                    dmaCopyVram(&buttonsmap + 0x6A, 0x630D, 0x0C); // NORMAL button pressed
-                    dmaCopyVram(&buttonsmap + 0xAA, 0x632D, 0x0C); // NORMAL button pressed
-                    break;
-                case fast:
-                    dmaCopyVram(&buttonsmap + 0x76, 0x6313, 0x0A); // FAST button pressed
-                    dmaCopyVram(&buttonsmap + 0xB6, 0x6333, 0x0A); // FAST button pressed
-                    break;
-                }
-                speedset[1] = false;
+            case MOUSE_SLOW:
+                dmaCopyVram(&buttonsmap + 0x60, 0x6308, 0x0A); // SLOW button pressed
+                dmaCopyVram(&buttonsmap + 0xA0, 0x6328, 0x0A); // SLOW button pressed
+                break;
+            case MOUSE_MEDIUM:
+                dmaCopyVram(&buttonsmap + 0x6A, 0x630D, 0x0C); // NORMAL button pressed
+                dmaCopyVram(&buttonsmap + 0xAA, 0x632D, 0x0C); // NORMAL button pressed
+                break;
+            case MOUSE_FAST:
+                dmaCopyVram(&buttonsmap + 0x76, 0x6313, 0x0A); // FAST button pressed
+                dmaCopyVram(&buttonsmap + 0xB6, 0x6333, 0x0A); // FAST button pressed
+                break;
             }
 
             if (mousePressed[1] == false)
                 dmaFillVram(&buttonsmap, 0x6AC0, 0x40); // wipe text
         }
-        else if (speedset[1] == false)
+        else
         {
             dmaFillVram(&buttonsmap + 0x40, 0x6308, 0x20); // remove buttons
             dmaFillVram(&buttonsmap + 0x80, 0x6328, 0x20); // remove buttons
-            speedset[1] = true;
         }
+
+        // END VBLANK CODE
     }
     return 0;
 }

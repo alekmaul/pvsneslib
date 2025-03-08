@@ -72,17 +72,17 @@ void consoleUpdate(void);
 */
 void consoleInitText(u8 palnum, u8 palsize, u8 *tilfont, u8 *palfont);
 
-/*! \fn consoleSetTextVramAdr(u16 vramfont)
+/*! \fn consoleSetTextGfxPtr(u16 vramfont)
     \brief Change text graphics address (4K aligned)
     \param vramfont	VRAM Background address (4K aligned)  (default is $0800)
 */
-void consoleSetTextVramAdr(u16 vramfont);
+void consoleSetTextGfxPtr(u16 vramfont);
 
-/*! \fn consoleSetTextVramBGAdr(u16 vrambgfont)
+/*! \fn consoleSetTextMapPtr(u16 vrambgfont)
     \brief Change text Background map address for display (must be BG address)
     \param vrambgfont	VRAM Background map address (default is $0800)
 */
-void consoleSetTextVramBGAdr(u16 offsetfont);
+void consoleSetTextMapPtr(u16 offsetfont);
 
 /*! \fn consoleSetTextOffset(u16 offsetfont)
     \brief Change text Background map address for display (must be BG address)

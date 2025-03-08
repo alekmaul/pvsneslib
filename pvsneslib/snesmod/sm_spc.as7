@@ -133,17 +133,22 @@
 ; v = volume (15 = max)
 ; p = panning (8 = center)
 ;--------------------------------------------------------
-; TEST	09	Test function
-;
-; >> id vv -- --
-; << -- mm -- --
-;--------------------------------------------------------
-; SSIZE	0A	Set sound region size
+; SSIZE	09	Set sound region size
 ;
 ; >> id vv -- SS
 ; << -- mm -- --
 ;
 ; SS = size of sound region (SS*256 bytes)
+;--------------------------------------------------------
+; PAUSE	0A	Pause function
+;
+; >> id vv -- --
+; << -- mm -- --
+;--------------------------------------------------------
+; RESUME 0B	Resume function
+;
+; >> id vv -- --
+; << -- mm -- --
 ;--------------------------------------------------------
 ; STREAM	Update digital stream
 ;
@@ -542,10 +547,9 @@ CommandTable:
 	.word	CMD_FADE		; 06h - fade module volume
 	.word	CMD_RES			; 07h - reset
 	.word	CMD_FX			; 08h - sound effect
-	.word	CMD_TEST		; 09h - test
-	.word	CMD_SSIZE		; 0Ah - set stream size
-	;	.word	CMD_PDS			; 0Ah - play streamed sound
-;	.word	CMD_DDS			; 0Bh - disable digital stream
+	.word	CMD_SSIZE		; 09h - set stream size
+	.word	CMD_PAUSE		; 0Ah - pause module
+	.word	CMD_RESUME		; 0Bh - resume module
 	
 ;********************************************************
 CMD_LOAD:
@@ -712,22 +716,6 @@ CMD_FX:
 	jmp	SFX_Play
 
 ;********************************************************
-CMD_TEST:
-;********************************************************
-	SETDSP( 00h, 7fh )
-	SETDSP( 01h, 7fh )
-	SETDSP( 02h, 00h )
-	SETDSP( 03h, 10h )
-	SETDSP( 04h, 09h )
-	SETDSP( 05h, 00h )
-	SETDSP( 06h, 00h )
-	SETDSP( 07h, 7fh )
-	SETDSP( 0Ch, 70h )
-	SETDSP( 1Ch, 70h )
-	SETDSP( 4Ch, 01h )
-	jmp	CommandRet
-	
-;********************************************************
 CMD_SSIZE:
 ;********************************************************
 	call	Module_Stop
@@ -736,11 +724,20 @@ CMD_SSIZE:
 	jmp	CommandRet
 
 ;********************************************************
-CMD_DDS:
+CMD_PAUSE:
 ;********************************************************
-;	call	Streaming_Deactivate
-;	jmp	CommandRet
-	
+	call Module_Stop
+	jmp	CommandRet
+
+;********************************************************
+CMD_RESUME:
+;********************************************************
+	call	Module_Stop
+	mov	a, SPC_PORT3
+	and	STATUS, #~STATUS_P
+	mov	SPC_PORT2, STATUS
+	mov	SPC_PORT1, comms_v
+	jmp	Module_Resume
 
 ;********************************************************
 ; Setup echo...
@@ -939,6 +936,18 @@ _cpan_normal:
 	mov	SPC_PORT2, STATUS
 	
 	SETDSP( DSP_KOF, 0 );	// ??????
+	ret
+
+;********************************************************
+; resume module
+;********************************************************
+Module_Resume:
+	mov	mod_active, #1
+
+	; start timer
+	mov	SPC_CONTROL, #%111
+	
+	SETDSP( DSP_KOF, 0 );
 	ret
 
 ;********************************************************

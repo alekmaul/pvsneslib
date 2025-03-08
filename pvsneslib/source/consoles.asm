@@ -36,7 +36,7 @@
 
 .DEFINE TXT_VRAMADR         $3000
 .DEFINE TXT_VRAMBGADR       $6800
-.DEFINE TXT_VRAMOFFSET      $0100
+.DEFINE TXT_VRAMOFFSET      $0000
 
 .BASE $00
 .RAMSECTION ".reg_cons7e" BANK $7E SLOT RAMSLOT_0
@@ -596,40 +596,31 @@ consoleInitText:
     rtl
 
 ;---------------------------------------------------------------------------
-;void consoleSetTextVramAdr(u16 vramfont)
+;void consoleSetTextGfxPtr(u16 vramfont)
 ; 6-7
-consoleSetTextVramAdr:
+consoleSetTextGfxPtr:
     php
     phb
 
-    sep #$20                                                  ; 8bit A
-    lda #$7e
-    pha
-    plb
 
     rep #$20
     lda 6,s                                                  ; store graphic address of text
-    sta txt_vram_adr
+    sta.l txt_vram_adr
 
     plb
     plp
     rtl
 
 ;---------------------------------------------------------------------------
-;void consoleSetTextVramBGAdr(u16 vrambgfont)
+;void consoleSetTextMapPtr(u16 vrambgfont)
 ; 6-7
-consoleSetTextVramBGAdr:
+consoleSetTextMapPtr:
     php
     phb
 
-    sep #$20                                                  ; 8bit A
-    lda #$7e
-    pha
-    plb
-
     rep #$20
     lda 6,s                                                  ; store BG graphic address of text
-    sta txt_vram_bg
+    sta.l txt_vram_bg
 
     plb
     plp
@@ -642,14 +633,10 @@ consoleSetTextOffset:
     php
     phb
 
-    sep #$20                                                  ; 8bit A
-    lda #$7e
-    pha
-    plb
 
     rep #$20
     lda 6,s                                                  ; store BG graphic address of text
-    sta txt_vram_offset
+    sta.l txt_vram_offset
 
     plb
     plp

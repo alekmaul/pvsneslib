@@ -17,9 +17,10 @@ extern char spr16g, spr16g_end, spr16p;
 
 const t_metasprites metasprite[] =
 {
-	0,0,0,0x20, OBJ_SPRITE32, &spr32g,0x0000,0x0000,
-	0,24,0,0x21, OBJ_SPRITE16, &spr16g,0x0000,0x0000,
-	16,24,1,0x21, OBJ_SPRITE16, &spr16g,0xFFFF,0x0000,
+	0,0,0,0x20, OBJ_SPRITE32, &spr32g,
+	0,24,0,0x21, OBJ_SPRITE16, &spr16g,
+	16,24,1,0x21, OBJ_SPRITE16, &spr16g,
+    0xFFFF,
 };
 
 //---------------------------------------------------------------------------------
@@ -51,7 +52,7 @@ int main(void)
     while (1)
     {
 		// draw the sprite
-		oamDynamicMetaDraw(1,16,160,(u8 *) &metasprite);
+		oamDynamicMetaDraw(1,16,160,(u8 *) &metasprite);        // put 1 as id to be sure to not be on 1st entry of sprites (test purpose)
 		
         // prepare next frame and wait vblank
         oamInitDynamicSpriteEndFrame();

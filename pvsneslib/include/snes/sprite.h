@@ -2,7 +2,7 @@
 
     sprite.h -- definitions for SNES sprites
 
-    Copyright (C) 2012-2024
+    Copyright (C) 2012-2025
         Alekmaul
 
     This software is provided 'as-is', without any express or implied
@@ -72,14 +72,14 @@ typedef struct
 */
 typedef struct
 {
-    s16 metsprofsx;                          /*!< 0 x offset of the current sprite in meta sprite  */
+    s16 metsprofsx;                          /*!< 0 x offset of the current sprite in meta sprite, 0xFFFF if it is the end of meta sprite definition  */
     s16 metsprofsy;                          /*!< 2 y offset of the current sprite in meta sprite  */
     u16 metsprframeid;                       /*!< 4 frame index in graphic file of the sprite  */
     u8 metsprattribute;                      /*!< 6 sprite attribute value (vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num)  */
     u8 metsprtype;                           /*!< 7 1,2 or 4 for 32x32, 16x16, 8x8 sprite type */
     u8 *metsprgraphics;                      /*!< 8..11 pointer to graphic file  */
-    u16 metsprend;                           /*!< 12..13 0xFFFF if it is the end of meta sprite definition */
-    u16 dummy1;                              /*!< 14..15 to be 16 aligned */
+    //u16 metsprend;                           /*!< 12..13 0xFFFF if it is the end of meta sprite definition */
+    //u16 dummy1;                              /*!< 14..15 to be 16 aligned */
 } t_metasprites __attribute__((__packed__)); /*!< seems to do nothing */
 
 /*!  \brief Sprite Table (from no$sns help file)<br>

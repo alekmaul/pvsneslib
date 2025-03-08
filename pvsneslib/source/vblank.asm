@@ -377,28 +377,7 @@ _GetScope:
 
 
 ;---------------------------------------------------------------------------------
-
-;* mouse read
-
-;---------------------------------------------------------------------------------
-
-;*          If this routine is called every frame, then the mouse status will be set
-;*          to the appropriate registers.
-;* INPUT
-;*          None (Mouse key read automatically)
-;* OUTPUT
-;*          Connection status (mouse_con)   D0=1 Mouse connected to Joyl
-;*                                          D1=1 Mouse connected to Joy2
-;*          Switch (mousePressed,1)         D0=left switch turbo
-;*                                          D1=right switch turbo
-;*          Switch (mouseButton,1)          D0=left switch trigger
-;*                                          D1=right switch trigger
-;*          Mouse movement (ball) value
-;*                (mouse_x)                 D7=0 Positive turn, D7=1 Negative turn
-;*                                          D6-D0 X movement value
-;*                (mouse_y)                 D7=0 Positive turn, D7=1 Negative turn
-;*                                          D6-D0 X movement value
-
+; Mouse read
 ;---------------------------------------------------------------------------------
 
 
@@ -418,35 +397,14 @@ _MouseRead:
 	; The code assumes Joypad Auto-Read is not active.
 	; This is enforced by a REG_HVBJOY spinloop in the VBlank ISR.
 
-	ldx     #$01
-	lda     REG_JOY2L            ; Joy2
+	ldx     #1
+	lda     REG_JOY2L
 	jsr     _MouseData
 
-	lda     connect_st+1
-	beq     @_20
-
-	jsr     mouseSpeedChange@speed_change
-	stz     connect_st+1
-
-@_20:
-	dex
-	lda     REG_JOY1L           ; Joy1
+	ldx     #0
+	lda     REG_JOY1L
 	jsr     _MouseData
 
-	lda     connect_st
-	beq     @_30
-
-	jsr     mouseSpeedChange@speed_change
-	stz     connect_st
-
-@_30:
-
-	lda     mouseConnect
-	ora     mouseConnect+1
-	bne     +
-	stz     snes_mouse           ; Disable mouse flag if no mouse connected
-
-+:
 	rep     #$10
 	rts
 
@@ -455,72 +413,209 @@ _MouseRead:
 ;;
 ;; IN: A = REG_JOY1L or REG_JOY2L
 ;; IN: X = 0 or 1
+;; KEEP: X
 ;;
 ;; DB = 0
 ;; D = tcc__registers_nmi_isr (NOT ZERO)
 .accu 8
 .index 8
 _MouseData:
+	tay
 
-	sta     tcc__r0           ; (421A / 4218 saved to reg0)
-	and.b   #$0F
-	cmp.b   #$01              ; Is the mouse connected?
-	beq     @_m10
+	; Test if a mouse is connected
+	and.b   #$0f
+	cmp.b   #$01
+	bne     @NoMouseConnected
 
-	stz     mouseConnect,x    ; No connection.
+	; Test if the mouse was connected on this frame
+	lda     mouseConnect,x
+	beq     @MouseConnectedThisFrame
 
+
+	; Update mouse button/pressed variables
+	lda     mousePressed,x
+	sta     mousePreviousPressed,x
+
+	tya
+	lsr     a
+	lsr     a
+	lsr     a
+	lsr     a
+	tay
+	and     #3
+	sta     mouseSensitivity,x
+
+	tya
+	lsr     a
+	lsr     a
+	sta     mousePressed,x
+
+	eor     mousePreviousPressed,x
+	and     mousePressed,x
+	sta     mouseButton,x
+
+
+	; Manually read the displacement bits from the controller port.
+	;
+	; According to https://snes.nesdev.org/wiki/Mouse the Hyperkin mouse had extra timing requirements:
+	;  * At least 170 master cycles between bit reads
+	;  * At least 336 master cycles between reading the 2nd and 3rd byte
+	;
+	; The second requirement is already met.  Auto-Joypad read will read the first 16 bits and there
+	; is a significant delay between the end of Auto-Joypad read and the start of this read-loop.
+	;
+	; SlowROM: This loop is 190 m-cycles.  No read-delay was required.
+	; FastROM: This loop is 188 m-cycles.  2 nop instructions were required.
+	;
+	; The delays were manually cycle counted and verified with Mesen's Debugger.
+
+	; Read 16 bits
+	ldy     #16
+	-
+		lda.w   REG_JOYA,x
+
+		lsr     a
+		rol.w   mouse_x,x
+		rol.w   mouse_y,x
+		.ifdef FASTROM
+			nop          ; Read delay for hyperkin mouse support.
+			nop          ; 1 extra nop for safety (to match the SnesDev wiki)
+		.endif
+		dey
+		bne     -
+
+
+	lda.w   mouseRequestChangeSensitivity,x
+	bne     @ChangeSensitivityRequest
+
+	rts
+
+
+; The Nintendo Mouse has a bug where the reported sensitivity and the internal sensitivity do
+; not match when the mouse is powered on.
+;
+; To fix this bug at a cycle-sensitivity command must be sent to the mouse when it is first
+; connected to the console, even if the sensitivity bits are what the user wants.
+;
+@MouseConnectedThisFrame:
+	; Using `mouseSensitivity` so the sensitivity can be restored if the mouse is
+	; disconnected then reconnected to the console.
+	lda     mouseSensitivity,x
+	and     #3
+	jsr     @SetMouseSensitvity
+
+	; Set mouse connected flag
+	lda     #1
+	sta     mouseConnect,x
+
+	; Clear stale or uninitialised request change sensitivity command.
+	stz     mouseRequestChangeSensitivity,x
+
+	; Clear mouse variables, they might not be valid.
+	bra     @ClearMouseState
+
+
+@NoMouseConnected:
+	stz     mouseConnect,x
+
+@ClearMouseState:
+	; Not clearing mouseSensitivity.
+	; It is used to restore the sensitivity when the mouse is reconnected
 	stz     mouseButton,x
 	stz     mousePressed,x
+	stz     mousePreviousPressed,x
 	stz     mouse_x,x
 	stz     mouse_y,x
-
 	rts
 
-@_m10:
-	lda     mouseConnect,x    ; When mouse is connected, speed will change.
-	bne     @_m20             ; Previous connection status
-                              ; (mouse.com judged by lower 1 bit)
-	lda     #$01              ; Connection check flag on
-	sta     mouseConnect,x
-	sta     connect_st,x
+
+; A = mouseRequestChangeSensitivity
+; negative flag = MSB of `mouseRequestChangeSensitivity`
+@ChangeSensitivityRequest:
+	stz     mouseRequestChangeSensitivity,x
+
+	bmi     @RequestSpecificSensitivity
+
+	; Send one or two cycle-sensitivity commands to the mouse
+	ldy     #$01
+	sty     REG_JOYA
+		dec     a
+		beq     +
+			ldy     REG_JOYA,x
+		+
+		ldy     REG_JOYA,x
+	stz     REG_JOYA
+
+@Return:
 	rts
 
-@_m20:
-	rep			#$10
-	ldy     #16               ; Read 16 bit data.
-	sep			#$10
 
-@_m30:
-	lda     REG_JOYA,x
+; A = mouseRequestChangeSensitivity
+@RequestSpecificSensitivity:
+	and.b   #3
+	cmp     mouseSensitivity,x
+	beq     @Return
 
-	lsr     a
-	rol     mouse_x,x
-	rol     mouse_y,x
-	dey
-	bne     @_m30
 
-	stz     mousePressed,x
+; Repeatedly cycle through the mouse sensitivity until reported sensitivity matches the requested sensitivity.
+; CAUTION: This code will always cycle the sensitivity at least once (required when mouse is connected to the console)
+; A = requested sensitivity (0 - 2)
+@SetMouseSensitvity:
+	tay
 
-	rol     tcc__r0
-	rol     mousePressed,x
-	rol     tcc__r0
-	rol     mousePressed,x        ; Switch turbo
+	; Limit the number of cycle-sensitivity commands to send to the mouse.
+	; Done for 2 reasons:
+	;  1. Prevents an infinite loop if the mouse has been disconnected.
+	;  2. The Hyperkin mouse will always report a mouse sensitivity of 0.
+	lda     #4
+	sta.b   tcc__r0h
 
-	lda     mousePressed,x
-	eor     mouse_sb,x        ; Get switch trigger
-	bne     @_m40
+	@CycleLoop:
+		; X = port
+		; Y = requested sensitivity
+		; tcc__r0h = decrementing loop counter
 
-	stz     mouseButton,x
+		; Send a cycle-sensitivity command to the mouse
+		lda     #$01
+		sta     REG_JOYA
+		lda     REG_JOYA,x
+		stz     REG_JOYA
 
+
+		; Read sensitivity bits from mouse
+		;
+		; No Hyperkin mouse read delay is required as the Hyperkin mouse does not support
+		; cycle-sensitivity commands.
+
+		; Skip the first 10 bits
+		; Using A for loop counter so Y is unchanged
+		lda     #10
+		-
+			bit     REG_JOYA,x
+			dec     a
+			bne     -
+
+		; Read the 2 sensitivity bits
+		stz.b   tcc__r0
+
+		lda     REG_JOYA,x
+		lsr
+		rol.b   tcc__r0
+
+		lda     REG_JOYA,x
+		lsr
+		rol.b   tcc__r0
+
+
+		; Return if read sensitivity == Y
+		cpy.b   tcc__r0
+		beq     @EndCycleLoop
+
+		dec.b   tcc__r0h
+		bne     @CycleLoop
+
+@EndCycleLoop:
 	rts
-
-@_m40:
-	lda     mousePressed,x
-	sta     mouseButton,x
-	sta     mouse_sb,x
-
-	rts
-
 
 
 ;---------------------------------------------------------------------------------

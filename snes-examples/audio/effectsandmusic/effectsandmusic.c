@@ -27,8 +27,8 @@ int main(void)
     spcBoot();
 
     // Initialize text console with our font
-    consoleSetTextVramBGAdr(0x6800);
-    consoleSetTextVramAdr(0x3000);
+    consoleSetTextMapPtr(0x6800);
+    consoleSetTextGfxPtr(0x3000);
     consoleSetTextOffset(0x0100);
     consoleInitText(0, 16 * 2, &snesfont, &snespal);
 
@@ -53,6 +53,7 @@ int main(void)
 	for (j=0;j<5;j++) { 
         spcLoadEffect(j); 
     }
+    WaitVBLFlag;
 
     // Draw a wonderfull text :P
     consoleDrawText(5, 11, "Press A to play effect !");

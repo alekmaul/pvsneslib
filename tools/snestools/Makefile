@@ -1,5 +1,5 @@
 # Set version and date string
-VERSION    := 1.0.0
+VERSION    := 1.1.0
 DATESTRING := $(shell date +%Y%m%d)
 
 # Set the C compiler to use and the compiler flags

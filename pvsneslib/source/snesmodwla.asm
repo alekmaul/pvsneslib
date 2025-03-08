@@ -1,6 +1,6 @@
 ;----------------------------------------------------------------------
 ;
-;	SNESMod from CC65 to WLA DX! By KungFuFurby.
+;	SNESMod from CA65 to WLA DX! By KungFuFurby.
 ;	Original SNESMod by mukunda
 ;	Conversion Started: 3/9/12, Last update: 3/9/12 Reason: First attempt.
 ;	Adapted by Alekmaul for pvsneslib
@@ -52,7 +52,6 @@
 ;----------------------------------------------------------------------
 ; spc commands
 ;----------------------------------------------------------------------
-
 .define CMD_LOAD	00h
 .define CMD_LOADE	01h
 .define CMD_VOL		02h
@@ -62,8 +61,9 @@
 .define CMD_FADE	06h
 .define CMD_RES		07h
 .define CMD_FX		08h
-.define CMD_TEST	09h
-.define CMD_SSIZE	0Ah
+.define CMD_SSIZE	09h
+.define CMD_PAUSE	0Ah
+.define CMD_RESUME	0Bh
 
 ;----------------------------------------------------------------------
 
@@ -125,21 +125,17 @@ digi_copyrate:	DS 1
 .index 16
 .accu 8
 
-;**********************************************************************
-;* upload driver
-;*
-;* disable time consuing interrupts during this function
-;**********************************************************************
-spcBoot:
 ;----------------------------------------------------------------------
-	php               ; alek
+; void spcBoot(void)
+spcBoot:
+	php               
 	sei
-	phb               ; alek
+	phb               
 	sep #$20
     lda #$0
-	sta REG_NMI_TIMEN ; alek
+	sta REG_NMI_TIMEN 
     pha
-	plb ; change bank address to 0
+	plb 			; change bank address to 0
 
 -:	ldx	REG_APUIO0	; wait for 'ready signal from SPC
 	cpx	#0BBAAh		;
@@ -253,12 +249,9 @@ sb_start:
 	cli
 	plp
 	rtl			; return
-;----------------------------------------------------------------------
 
-;**********************************************************************
-; set soundbank bank number (important...)
-;
-;**********************************************************************
+;----------------------------------------------------------------------
+; void spcSetBank(u8 *bank)
 spcSetBank:
 	php
 	phb
@@ -274,6 +267,7 @@ spcSetBank:
 	plp
 	rtl
 
+;----------------------------------------------------------------------
 ; increment memory pointer by 2
 .macro incptr
 	iny
@@ -290,16 +284,9 @@ spcSetBank:
 +:
 .endm
 
-;**********************************************************************
-; upload module to spc
-;
-; x = module_id
-; modifies, a,b,x,y
-;
-; this function takes a while to execute
-;**********************************************************************
-spcLoad:
 ;----------------------------------------------------------------------
+; void spcLoad(u16 musIndex)
+spcLoad:
 	php
 	phb
 
@@ -516,15 +503,11 @@ get_address:
 	stz	spc_ptr+1
 	rts			;
 
-;**********************************************************************
-;* x = id
-;*
-;* load effect into memory
-;**********************************************************************
-spcLoadEffect:
 ;----------------------------------------------------------------------
-	php ; alek
-	phb ; alek
+; void spcLoadEffect(u16 sfxIndex)
+spcLoadEffect:
+	php 
+	phb 
 	sep #$20
 	lda #$0
 	pha
@@ -589,22 +572,19 @@ QueueMessage:
 	rep	#10h			;
 	cli				;
 
-;	rts				;
 	plb
 	plp
 	rtl
 
-;**********************************************************************
-; flush fifo (force sync)
-;**********************************************************************
-spcFlush:
 ;----------------------------------------------------------------------
-	php ; alek
-	phb ; alek
+; void spcFlush(void)
+spcFlush:
+	php 
+	phb 
 	sep #$20
 	lda #$0
 	pha
-	plb ; change bank address to 0
+	plb 				; change bank address to 0
 
 spcFlush1:
 	lda	spc_fread		; call spcProcess until
@@ -680,17 +660,15 @@ xspcProcessMessages:
 	rep	#$10			; restore 16-bit index
 	rts				;
 
-;**********************************************************************
-; process spc messages for x time
-;**********************************************************************
-spcProcess:
 ;----------------------------------------------------------------------
-	php ; alek
-	phb ; alek
+; void spcProcess(void)
+spcProcess:
+	php 
+	phb 
 	sep #$20
 	lda #$0
 	pha
-	plb ; change bank address to 0
+	plb 				; change bank address to 0
 
 	lda	digi_active
 	beq	spcProcessMessages
@@ -746,33 +724,31 @@ spcProcessMessages:
 @exit2:
 ;----------------------------------------------------------------------
 	rep	#$10			; restore 16-bit index
-	;	rts				;
-	plb ; alek
-	plp ; alek
-	rtl ; alek
+	plb 
+	plp 
+	rtl 
 
-;**********************************************************************
-; x = starting position
-;**********************************************************************
+;---------------------------------------------------------------------------------
+; void spcPlay(u8 startPos)
 spcPlay:
-;----------------------------------------------------------------------
-	php ; alek
-	phb ; alek
+	php 
+	phb 
 	sep #$20
 	lda #$0
 	pha
-	plb ; change bank address to 0
+	plb 				; change bank address to 0
 
-	lda	6,s	; module_id
+	lda	6,s				; module_id
 
-;	txa				; queue message:
 	sta	spc1+1			; id -- xx
 	lda	#CMD_PLAY		;
 	jmp	QueueMessage		;
 
+;---------------------------------------------------------------------------------
+; void spcStop(void)
 spcStop:
-	php ; alek
-	phb ; alek
+	php 				;
+	phb 				; 
 	sep #$20
 	lda #$0
 	pha
@@ -781,69 +757,35 @@ spcStop:
 	lda	#CMD_STOP
 	jmp	QueueMessage
 
-;-------test function-----------;
-spcTest:			;#
-	php
-	lda	spc_v		;#
--:	cmp.l	REG_APUIO1	;#
-	bne	-		;#
-	xba			;#
-	lda	#CMD_TEST	;#
-	sta.l	REG_APUIO0	;#
-	xba			;#
-	eor	#$80		;#
-	sta	spc_v		;#
-	sta.l	REG_APUIO1	;#
-	plp
-	rtl			;#
-;--------------------------------#
-; ################################
+;---------------------------------------------------------------------------------
+; void spcPauseMusic(void)
+spcPauseMusic:
+	php 
+	phb 
+	sep #$20
+	lda #$0
+	pha
+	plb
 
-;**********************************************************************
-; read status register
-;**********************************************************************
-spcReadStatus:
-	ldx	#5			; read PORT2 with stability checks
-	lda	REG_APUIO2		;
-@loop:					;
-	cmp	REG_APUIO2		;
-	bne	spcReadStatus		;
-	dex				;
-	bne	@loop			;
-	rts				;
+	lda	#CMD_PAUSE
+	jmp	QueueMessage
 
-;**********************************************************************
-; read position register
-;**********************************************************************
-spcReadPosition:
-	ldx	#5			; read PORT3 with stability checks
-	lda	REG_APUIO2		;
-@loop2:					;
-	cmp	REG_APUIO2		;
-	bne	spcReadPosition		;
-	dex				;
-	bne	@loop2			;
-	rts				;
+;---------------------------------------------------------------------------------
+; void spcResumeMusic(void)
+spcResumeMusic:
+	php 
+	phb 
+	sep #$20
+	lda #$0
+	pha
+	plb
 
-;**********************************************************************
-spcGetCues:
-;**********************************************************************
-	lda	spc_q
-	sta	spc1
-	jsr	spcReadStatus
-	and	#0Fh
-	sta	spc_q
-	sec
-	sbc	spc1
-	bcs	+
-	adc	#16
-+:	rts
+	lda	#CMD_RESUME
+	jmp	QueueMessage
 
-;**********************************************************************
-; x = volume
-;**********************************************************************
+;---------------------------------------------------------------------------------
+; void spcSetModuleVolume(u8 vol)
 spcSetModuleVolume:
-;**********************************************************************
 	php
 	phb
 	sep #$20
@@ -858,12 +800,9 @@ spcSetModuleVolume:
 	lda	#CMD_MVOL		;
 	jmp	QueueMessage		;
 
-;**********************************************************************
-; x = target volume
-; y = speed
-;**********************************************************************
+;---------------------------------------------------------------------------------
+; void spcFadeModuleVolume(u16 vol, u16 fadespeed)
 spcFadeModuleVolume:
-;**********************************************************************
 	php
 	phb
 	sep #$20
@@ -885,13 +824,9 @@ spcFadeModuleVolume:
 	lda	#CMD_FADE
 	jmp	QueueMessage
 
-;**********************************************************************
-;* a = v*16 + p
-;* x = id
-;* y = pitch (0-15, 8=32khz)
-;**********************************************************************
+;---------------------------------------------------------------------------------
+; void spcEffect(u16 pitch, u16 sfxIndex, u8 volpan)
 spcEffect:
-;----------------------------------------------------------------------
 	php
 	phb
 	sep #$20
@@ -918,7 +853,6 @@ spcEffect:
 	sta	spc1+1			;------------------------------
 	lda	#CMD_FX			; queue FX message
 	jmp	QueueMessage		;
-;----------------------------------------------------------------------
 
 ;======================================================================
 ;
@@ -926,52 +860,46 @@ spcEffect:
 ;
 ;======================================================================
 
-;======================================================================
+;---------------------------------------------------------------------------------
 ; void spcSetSoundTable(char *sndTableAddr);
 spcSetSoundTable:
-;======================================================================
-	php ; alek
-	phb ; alek
+	php 
+	phb 
 	sep #$20
 	lda #$0
 	pha
-	plb ; change bank address to 0
+	plb 					; change bank address to 0
 
 	rep #$20
-	lda	6,s	; src (lower 16 bits)
+	lda	6,s					; src (lower 16 bits)
 	sta	SoundTable
 	sep #$20
-	lda	8,s	; src bank
+	lda	8,s					; src bank
 	sta SoundTable+2
 
-	;sty	SoundTable
-	;sta	SoundTable+2
-
 	plb
-	plp;alek
+	plp
 	rtl			; return
 
-;======================================================================
-spcAllocateSoundRegion:
-;======================================================================
-; a = size of buffer
 ;----------------------------------------------------------------------
-	php ; alek
-	phb ; alek
+; void spcAllocateSoundRegion(u8 size)
+spcAllocateSoundRegion:
+	php 
+	phb 				
 	sep #$20
 	lda #$0
 	pha
-	plb ; change bank address to 0
+	plb 				; change bank address to 0
 
-	lda	6,s	; size of buffer
-	pha				; flush command queue
+	lda	6,s				; size of buffer
+	pha					; flush command queue
 	jsr	xspcFlush		;
-					;
+						;
 	lda	spc_v			; wait for spc
 -:	cmp	REG_APUIO1		;
-	bne	-			;
+	bne	-				;
 ;----------------------------------------------------------------------
-	pla				; set parameter
+	pla					; set parameter
 	sta	REG_APUIO3		;
 ;----------------------------------------------------------------------
 	lda	#CMD_SSIZE		; set command
@@ -984,18 +912,15 @@ spcAllocateSoundRegion:
 	sta	spc_v			;
 	sta	spc_pr+1		;
 ;----------------------------------------------------------------------
-	;rts
 	plb
-	plp ; alek
-	rtl ; alek
+	plp 
+	rtl 
 
 ;----------------------------------------------------------------------
-; a = index of sound
-;======================================================================
+; void spcPlaySound(u8 sndIndex)
 spcPlaySound:
-;======================================================================
-	php ; alek
-	phb ; alek
+	php 
+	phb 
 
 	sep #$20
 	lda #$0
@@ -1011,11 +936,11 @@ spcPlaySound:
 	ldy	#-1
 	jmp	spcPlaySoundEx
 
-;======================================================================
+;----------------------------------------------------------------------
+; void spcPlaySoundV(u8 sndIndex, u16 volume)
 spcPlaySoundV:
-;======================================================================
-	php ; alek
-	phb ; alek
+	php 
+	phb 
 
 	sep #$20
 	lda #$0
@@ -1037,8 +962,8 @@ spcPlaySoundV:
 ;----------------------------------------------------------------------
 ; a = index
 ; b = pitch
-; y = vol
-; x = pan
+; y = vol (0-15)
+; x = pan (0-15, 8=center)
 ;======================================================================
 spcPlaySoundEx:
 ;======================================================================
@@ -1121,10 +1046,9 @@ spcPlaySoundEx:
 	sta	digi_init		;
 	sta	digi_active		;
 ;----------------------------------------------------------------------------
-;	rts
 	plb
-	plp ; alek
-	rtl; alek
+	plp 
+	rtl
 
 ;============================================================================
 spcProcessStream:

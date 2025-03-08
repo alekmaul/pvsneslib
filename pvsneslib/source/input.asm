@@ -96,26 +96,29 @@ scope_sinceshot	dsb 2
 .ENDS
 
 ;---------------------------------------------------------------------------------
-;		Mouse Driver Routine (Ver 1 .00)
+; Mouse variables
 ;---------------------------------------------------------------------------------
 
 .RAMSECTION ".reg_mouse" BANK 0 SLOT 1
 
-snes_mouse			db					; for lib use. Tells the system to initialize mouse usage
-mouseConnect    dsb 2       ; Mouse connection ports (D0=4016, D0=4017)
+snes_mouse              db    ; Flag to enable mouse reading in VBlank ISR
 
-mouseSpeedSet   dsb 2       ; Mouse speed setting
-mouse_sp        dsb 2       ; Mouse speed
+mouseConnect            dsb 2 ; Mouse connection status
 
-mouseButton     dsb 2       ; Mouse button trigger
-mousePressed    dsb 2       ; Mouse button turbo
+mouseButton             dsb 2 ; Mouse buttons pressed this frame
+mousePressed            dsb 2 ; Mouse buttons held/pressed
+mousePreviousPressed    dsb 2 ; Mouse buttons held/pressed in the previous frame
 
-mouse_y         dsb 2       ; Mouse Y direction
-mouse_x         dsb 2       ; Mouse X direction
+mouse_y                 dsb 2 ; Mouse Y displacement
+mouse_x                 dsb 2 ; Mouse X displacement
 
-mouse_sb        dsb 2       ; Previous switch status
+mouseSensitivity        dsb 2 ; Mouse sensitivity & sensitivity to set when mouse is connected
 
-connect_st      dsb 2
+; Request a sensitivity change in VBlank ISR
+;   $01 - cycle sensitivity once
+;   $02..=$7f - cycle sensitivity twice
+;   $80..=$ff - set sensitivity to `mouseRequestChangeSensitivity & 3`
+mouseRequestChangeSensitivity dsb 2
 
 .ENDS
 
@@ -280,97 +283,6 @@ detectSuperScope:
 .ENDS
 
 
-; Must be in bank 0, used by _MouseRead in the VBlank ISR.
-.SECTION ".mousespeedchange_text" SEMIFREE BANK 0
-
-;---------------------------------------------------------------------------------
-; void mouseSpeedChange(u8 port)
-mouseSpeedChange:
-	php
-	sep     #$30
-	phb
-	phx
-	phy
-
-	lda     #$00						 ; Set Data Bank to 0
-	pha
-	plb
-
-	lda     8,s 						; Set port
-	tax
-
-	jsr     @speed_change
-
-	ply
-	plx
-	plb
-	plp
-	rtl
-
-
-; Called by _MouseRead in the Vblank ISR
-; X = 0 or 1
-; DB = 0
-.ACCU 8
-.INDEX 8
-@speed_change:
-	php
-	sep     #$30
-
-	lda     mouseConnect,x
-	beq     _s25
-
-	lda     #$10
-	sta     tcc__r0h
-
-_s10:
-	lda     #$01
-	sta     REG_JOYA
-	lda     REG_JOYA,x      ; Speed change (1 step)
-	stz     REG_JOYA
-
-	lda     #$01            ; Read speed data.
-	sta     REG_JOYA        ; Shift register clear.
-	lda     #$00
-	sta     REG_JOYA
-
-	sta     mouse_sp,x      ; Speed register clear.
-
-	ldy     #10             ; Shift register read has no meaning
-
-_s20:
-	lda     REG_JOYA,x
-	dey
-	bne     _s20
-
-	lda     REG_JOYA,x      ; Read speed
-
-	lsr     a
-	rol     mouse_sp,x
-
-	lda     REG_JOYA, x
-
-	lsr     a
-	rol     mouse_sp,x
-	lda     mouse_sp,x
-
-	cmp     mouseSpeedSet,x     ; Set speed or not?
-
-	beq     _s30
-
-	dec     tcc__r0h            ; For error check
-	bne     _s10
-
-_s25:
-	lda     #$80                ; Speed change error.
-	sta     mouse_sp,x
-
-_s30:
-	plp
-	rts
-
-.ENDS
-
 
 .SECTION ".detectmouse_text" SUPERFREE
 
@@ -384,25 +296,150 @@ detectMouse:
 	lda     #$0               ; change bank address to 0
 	pha
 	plb
+; DB = 0
 
--:	lda	  REG_HVBJOY
-	and.b   #$01
-	bne	-
+	; Wait until the Joypad Auto-Read has finished.
+	lda.b  #1
+	-
+		bit.w  REG_HVBJOY
+		bne    -
 
-	rep     #$20
-	lda	    REG_JOY1L
-	ora     REG_JOY2L
-	and.w   #$000F
-	cmp.w   #$0001              ; Is the mouse connected on any port?
-	bne +
 
-	sep     #$20
-	lda     #$01
-	sta     snes_mouse
+	; Set `snes_mouse` if JOY1L or JOY2L is a mouse by checking the signature bits.
+	lda.w  REG_JOY1L
+	and.b  #$0f
+	cmp.b  #1
+	beq    @MouseDetected
 
-+:
+	lda.w  REG_JOY2L
+	and.b  #$0f
+	cmp.b  #1
+	bne    @Return
+
+	@MouseDetected:
+		lda.b   #$01
+		sta.w   snes_mouse
+
+@Return:
 	plb
 	plp
 	rtl
 
 .ENDS
+
+
+.SECTION ".initMouse_text" SUPERFREE
+
+; void initMouse(u8 sensitivity);
+initMouse:
+	php
+
+	; Clear mouse variables
+	; Assumes mouse array variables are 2 bytes in size
+	rep     #$20
+
+	stz     mouseConnect
+	stz     mouseButton
+	stz     mousePressed
+	stz     mousePreviousPressed
+	stz     mouse_x
+	stz     mouse_y
+	stz     mouseRequestChangeSensitivity
+
+
+	sep     #$20
+
+	; Set initial mouse sensitivity
+	lda     5,s ; sensitivity
+	sta     mouseSensitivity + 0
+	sta     mouseSensitivity + 1
+
+	; Enable mouse reading in the VBlank ISR
+	lda     #1
+	sta     snes_mouse
+
+	plp
+	rts
+
+.ENDS
+
+
+.SECTION ".mouseCycleSensitivity_text" SUPERFREE
+
+; void mouseCycleSensitivity(u16 port);
+mouseCycleSensitivity:
+	php
+	rep     #$30
+	phx
+
+	lda     7,s ; port argument
+	cmp.w   #2
+	bcs +
+		tax
+		sep     #$20
+	.accu 8
+
+		lda.b   #1
+		sta.l   mouseRequestChangeSensitivity,x
+	+
+// A size unknown
+
+	plx
+	plp
+	rtl
+.ENDS
+
+
+.SECTION ".mouseCycleSensitivityTwice_text" SUPERFREE
+
+; void mouseCycleSensitivityTwice(u16 port);
+mouseCycleSensitivityTwice:
+	php
+	rep     #$30
+	phx
+
+	lda     7,s ; port argument
+	cmp.w   #2
+	bcs +
+		tax
+		sep     #$20
+	.accu 8
+
+		lda.b   #2
+		sta.l   mouseRequestChangeSensitivity,x
+	+
+// A size unknown
+
+	plx
+	plp
+	rtl
+.ENDS
+
+
+.SECTION ".mouseSetSensitivity_text" SUPERFREE
+
+; void mouseSetSensitivity(u16 port, u8 sensitivity);
+mouseSetSensitivity:
+	php
+	rep     #$30
+	phx
+
+	lda     7,s ; port argument
+	cmp.w   #2
+	bcs +
+		tax
+		sep     #$20
+	.accu 8
+
+		lda     9,s ; sensitivity argument
+		ora.b   #$80
+		sta.l   mouseRequestChangeSensitivity,x
+	+
+// A size unknown
+
+	plx
+	plp
+	rtl
+.ENDS
+
+

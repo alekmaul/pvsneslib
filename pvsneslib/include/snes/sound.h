@@ -79,6 +79,7 @@ typedef struct
 
 /*! \fn  spcBoot(void)
     \brief boots the spc700 with sm-spc. call once at startup
+    disable time consuing interrupts during this function
 */
 void spcBoot(void);
 
@@ -117,6 +118,18 @@ void spcPlay(u8 startPos);
     \brief stop playing the current module.
 */
 void spcStop(void);
+
+/*! \fn  spcPauseMusic(void)
+    \brief pause playing the current module and save the music position.
+*/
+void spcPauseMusic(void);
+
+/*! \fn  spcResumeMusic(void)
+    \brief Resume playing of current module at music position.
+
+    spcPauseMusic has to be call before to restore correct position.
+*/
+void spcResumeMusic(void);
 
 /*! \fn  spcSetModuleVolume(u8 vol)
     \brief set the module playback volume
@@ -196,9 +209,12 @@ void spcSetSoundDataEntry(u8 vol, u8 panning, u8 pitch, u16 length, u8 *samplead
 void spcSetSoundTableEntry(brrsamples *ptr);
 
 /*! \fn  spcAllocateSoundRegion(u8 size);
-    \brief set the size of the sound region
-    (this must be big enough to hold your longest/largest sound)
-    this function will STOP module playback too
+    \brief Set the size of the sound region.
+
+    Use it only if you are playing effects with BRR files. If not, just allocate the value 0 by calling spcAllocateSoundRegion(0);
+
+    The value must be big enough to hold your longest/largest sound.
+    This function will STOP module playback too.
     \param size	size of sound region (size*256 bytes)
 */
 void spcAllocateSoundRegion(u8 size);
