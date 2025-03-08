@@ -74,6 +74,12 @@ libc_c.c: $(C_SRC)
 libm.obj: libm.asm
 
 #---------------------------------------------------------------------------------
+#sm_spc.asm : sm_spc2.as7
+#	$(AS700) -i -o sm_spc.obj $<
+#	$(TXCONV) -ca sm_spc.obj
+#	@rm sm_spc.obj
+
+#---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
 	@rm -f libc_c.ps libc_c.asm libm_c.asm
