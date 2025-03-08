@@ -53,6 +53,7 @@ int main(void)
 	for (j=0;j<5;j++) { 
         spcLoadEffect(j); 
     }
+    WaitVBLFlag;
 
     // Draw a wonderfull text :P
     consoleDrawText(5, 11, "Press A to play effect !");
