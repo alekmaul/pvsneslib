@@ -16,5 +16,5 @@ var searchData=
   ['dmafillvram_13',['dmaFillVram',['../dma_8h.html#a235e242d89d3c81b9e697e99a96198f7',1,'dma.h']]],
   ['documentation_14',['PVSnesLib Documentation',['../index.html',1,'']]],
   ['dsp_5fforcevbl_15',['DSP_FORCEVBL',['../video_8h.html#a5623bfd6fefb79d4f21d260b7e333523acef8d68eaf1d65e1bcf2ac9ee730c7d2',1,'video.h']]],
-  ['dummy1_16',['dummy1',['../structt__metasprites.html#a2f132d6d85b658cc0742bcd576b56597',1,'t_metasprites::dummy1'],['../structt__sprites.html#af0a876e2163316875c74a8867aa412cb',1,'t_sprites::dummy1']]]
+  ['dummy1_16',['dummy1',['../structt__sprites.html#af0a876e2163316875c74a8867aa412cb',1,'t_sprites']]]
 ];

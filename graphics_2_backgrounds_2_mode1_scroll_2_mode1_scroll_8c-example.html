@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -121,8 +121,8 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode1_scroll_
 <div class="line">    u16 pad0, move;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Initialize text console with our font</span></div>
-<div class="line">    <a id="a0" name="a0"></a><a class="code hl_function" href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">consoleSetTextVramBGAdr</a>(0x6800);</div>
-<div class="line">    <a id="a1" name="a1"></a><a class="code hl_function" href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">consoleSetTextVramAdr</a>(0x3000);</div>
+<div class="line">    <a id="a0" name="a0"></a><a class="code hl_function" href="console_8h.html#adcbe2c74decb1fdcdf34c80ac525335e">consoleSetTextMapPtr</a>(0x6800);</div>
+<div class="line">    <a id="a1" name="a1"></a><a class="code hl_function" href="console_8h.html#aaf046d1e48f425681b133b5eafa62e09">consoleSetTextGfxPtr</a>(0x3000);</div>
 <div class="line">    <a id="a2" name="a2"></a><a class="code hl_function" href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a>(0x0100);</div>
 <div class="line">    <a id="a3" name="a3"></a><a class="code hl_function" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(0, 16 * 2, &amp;snesfont, &amp;snespal);</div>
 <div class="line"> </div>
@@ -186,11 +186,11 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode1_scroll_
 <div class="ttc" id="abackground_8h_html_aa5e0112ea2d4b514c2dddc6ed2c7c3c7"><div class="ttname"><a href="background_8h.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7">bgSetScroll</a></div><div class="ttdeci">void bgSetScroll(u8 bgNumber, u16 x, u16 y)</div><div class="ttdoc">Sets the scroll hardware to the specified location.</div></div>
 <div class="ttc" id="abackground_8h_html_acc385296e159449a81d18f5e219c8032"><div class="ttname"><a href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a></div><div class="ttdeci">void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address)</div><div class="ttdoc">Initializes a Map Set and loads it into SNES VRAM.</div></div>
 <div class="ttc" id="abackground_8h_html_ae09a7ac09be78eef0f28a6c7aabc82ad"><div class="ttname"><a href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a></div><div class="ttdeci">void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)</div><div class="ttdoc">Initializes a Tile Set and Loads the Tile GFX into VRAM.</div></div>
-<div class="ttc" id="aconsole_8h_html_a344184ac8dda28ea0170c153c854aa16"><div class="ttname"><a href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">consoleSetTextVramAdr</a></div><div class="ttdeci">void consoleSetTextVramAdr(u16 vramfont)</div><div class="ttdoc">Change text graphics address (4K aligned)</div></div>
 <div class="ttc" id="aconsole_8h_html_a5413265662e30a0ded3fee6d3c4781f9"><div class="ttname"><a href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a></div><div class="ttdeci">void consoleInitText(u8 palnum, u8 palsize, u8 *tilfont, u8 *palfont)</div><div class="ttdoc">Initialize the Text System.</div></div>
 <div class="ttc" id="aconsole_8h_html_a7e52d15b5a1befa42f5758de19dfb70c"><div class="ttname"><a href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a></div><div class="ttdeci">void consoleDrawText(u16 x, u16 y, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen (tiles mode)</div></div>
 <div class="ttc" id="aconsole_8h_html_aaddd205f7bb20885a420f26e28214cfb"><div class="ttname"><a href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a></div><div class="ttdeci">void consoleSetTextOffset(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
-<div class="ttc" id="aconsole_8h_html_ab2c949172b9690e58ffb9b3294a36b38"><div class="ttname"><a href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">consoleSetTextVramBGAdr</a></div><div class="ttdeci">void consoleSetTextVramBGAdr(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
+<div class="ttc" id="aconsole_8h_html_aaf046d1e48f425681b133b5eafa62e09"><div class="ttname"><a href="console_8h.html#aaf046d1e48f425681b133b5eafa62e09">consoleSetTextGfxPtr</a></div><div class="ttdeci">void consoleSetTextGfxPtr(u16 vramfont)</div><div class="ttdoc">Change text graphics address (4K aligned)</div></div>
+<div class="ttc" id="aconsole_8h_html_adcbe2c74decb1fdcdf34c80ac525335e"><div class="ttname"><a href="console_8h.html#adcbe2c74decb1fdcdf34c80ac525335e">consoleSetTextMapPtr</a></div><div class="ttdeci">void consoleSetTextMapPtr(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
 <div class="ttc" id="ainput_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition</b> input.h:198</div></div>
 <div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a></div><div class="ttdeci">@ KEY_UP</div><div class="ttdoc">pad UP button.</div><div class="ttdef"><b>Definition</b> input.h:58</div></div>
 <div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a></div><div class="ttdeci">@ KEY_LEFT</div><div class="ttdoc">pad LEFT button.</div><div class="ttdef"><b>Definition</b> input.h:56</div></div>
@@ -205,7 +205,7 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode1_scroll_
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Fri Jan 3 2025       Generated on Fri Jan 3 2025 18:26:13 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Mar 8 2025       Generated on Sat Mar 8 2025 08:20:59 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

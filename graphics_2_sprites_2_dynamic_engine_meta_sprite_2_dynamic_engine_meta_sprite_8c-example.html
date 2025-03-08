@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -117,9 +117,10 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_dynamic_engine_me
 <div class="line"> </div>
 <div class="line"><span class="keyword">const</span> <a id="_a0" name="_a0"></a><a class="code hl_struct" href="structt__metasprites.html">t_metasprites</a> metasprite[] =</div>
 <div class="line">{</div>
-<div class="line">    0,0,0,0x20, <a id="a1" name="a1"></a><a class="code hl_define" href="sprite_8h.html#a4ce5bbeefa16a91cd8e7db8fb7aa0e6c">OBJ_SPRITE32</a>, &amp;spr32g,0x0000,0x0000,</div>
-<div class="line">    0,24,0,0x21, <a id="a2" name="a2"></a><a class="code hl_define" href="sprite_8h.html#a4741ad3cd0b065681e2a8f481525d16b">OBJ_SPRITE16</a>, &amp;spr16g,0x0000,0x0000,</div>
-<div class="line">    16,24,1,0x21, <a class="code hl_define" href="sprite_8h.html#a4741ad3cd0b065681e2a8f481525d16b">OBJ_SPRITE16</a>, &amp;spr16g,0xFFFF,0x0000,</div>
+<div class="line">    0,0,0,0x20, <a id="a1" name="a1"></a><a class="code hl_define" href="sprite_8h.html#a4ce5bbeefa16a91cd8e7db8fb7aa0e6c">OBJ_SPRITE32</a>, &amp;spr32g,</div>
+<div class="line">    0,24,0,0x21, <a id="a2" name="a2"></a><a class="code hl_define" href="sprite_8h.html#a4741ad3cd0b065681e2a8f481525d16b">OBJ_SPRITE16</a>, &amp;spr16g,</div>
+<div class="line">    16,24,1,0x21, <a class="code hl_define" href="sprite_8h.html#a4741ad3cd0b065681e2a8f481525d16b">OBJ_SPRITE16</a>, &amp;spr16g,</div>
+<div class="line">    0xFFFF,</div>
 <div class="line">};</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
@@ -151,7 +152,7 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_dynamic_engine_me
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// draw the sprite</span></div>
-<div class="line">        <a id="a13" name="a13"></a><a class="code hl_function" href="sprite_8h.html#a8022631fa4757d5d9ea5ad5ae042d07e">oamDynamicMetaDraw</a>(1,16,160,(u8 *) &amp;metasprite);</div>
+<div class="line">        <a id="a13" name="a13"></a><a class="code hl_function" href="sprite_8h.html#a8022631fa4757d5d9ea5ad5ae042d07e">oamDynamicMetaDraw</a>(1,16,160,(u8 *) &amp;metasprite);        <span class="comment">// put 1 as id to be sure to not be on 1st entry of sprites (test purpose)</span></div>
 <div class="line">        </div>
 <div class="line">        <span class="comment">// prepare next frame and wait vblank</span></div>
 <div class="line">        <a id="a14" name="a14"></a><a class="code hl_function" href="sprite_8h.html#ac9eb3b2751e5b744470cd16453ff3261">oamInitDynamicSpriteEndFrame</a>();</div>
@@ -183,7 +184,7 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_dynamic_engine_me
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Fri Jan 3 2025       Generated on Fri Jan 3 2025 18:26:13 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Mar 8 2025       Generated on Sat Mar 8 2025 08:20:59 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

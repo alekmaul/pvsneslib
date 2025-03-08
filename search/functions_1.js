@@ -12,9 +12,9 @@ var searchData=
   ['consolemesenbreakpoint_9',['consoleMesenBreakpoint',['../console_8h.html#a8620fbe47bc2afe99a59c67fae3b7b23',1,'console.h']]],
   ['consolenocashmessage_10',['consoleNocashMessage',['../console_8h.html#a3a226cebe7d59aac755e03e1061ff727',1,'console.h']]],
   ['consoleregionisok_11',['consoleRegionIsOK',['../console_8h.html#ad9f96595d599dca8d09df3da5200a8a8',1,'console.h']]],
-  ['consolesettextoffset_12',['consoleSetTextOffset',['../console_8h.html#aaddd205f7bb20885a420f26e28214cfb',1,'console.h']]],
-  ['consolesettextpal_13',['consoleSetTextPal',['../console_8h.html#a89a3c9953b95485d2d19db1846aa0755',1,'console.h']]],
-  ['consolesettextvramadr_14',['consoleSetTextVramAdr',['../console_8h.html#a344184ac8dda28ea0170c153c854aa16',1,'console.h']]],
-  ['consolesettextvrambgadr_15',['consoleSetTextVramBGAdr',['../console_8h.html#ab2c949172b9690e58ffb9b3294a36b38',1,'console.h']]],
+  ['consolesettextgfxptr_12',['consoleSetTextGfxPtr',['../console_8h.html#aaf046d1e48f425681b133b5eafa62e09',1,'console.h']]],
+  ['consolesettextmapptr_13',['consoleSetTextMapPtr',['../console_8h.html#adcbe2c74decb1fdcdf34c80ac525335e',1,'console.h']]],
+  ['consolesettextoffset_14',['consoleSetTextOffset',['../console_8h.html#aaddd205f7bb20885a420f26e28214cfb',1,'console.h']]],
+  ['consolesettextpal_15',['consoleSetTextPal',['../console_8h.html#a89a3c9953b95485d2d19db1846aa0755',1,'console.h']]],
   ['consoleupdate_16',['consoleUpdate',['../console_8h.html#a9bfb9c53fa37e76873d14be4446e71e5',1,'console.h']]]
 ];

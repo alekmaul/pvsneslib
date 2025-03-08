@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -339,8 +339,8 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="line">    <a id="a39" name="a39"></a><a class="code hl_function" href="sound_8h.html#ad8753cb6edb38834257bbf0020700689">spcBoot</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Initialize text console with our font</span></div>
-<div class="line">    <a id="a40" name="a40"></a><a class="code hl_function" href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">consoleSetTextVramBGAdr</a>(0x6000);</div>
-<div class="line">    <a id="a41" name="a41"></a><a class="code hl_function" href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">consoleSetTextVramAdr</a>(0x3000);</div>
+<div class="line">    <a id="a40" name="a40"></a><a class="code hl_function" href="console_8h.html#adcbe2c74decb1fdcdf34c80ac525335e">consoleSetTextMapPtr</a>(0x6000);</div>
+<div class="line">    <a id="a41" name="a41"></a><a class="code hl_function" href="console_8h.html#aaf046d1e48f425681b133b5eafa62e09">consoleSetTextGfxPtr</a>(0x3000);</div>
 <div class="line">    <a id="a42" name="a42"></a><a class="code hl_function" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(1, 16 * 2, &amp;snesfont, &amp;snespal);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Set give soundbank</span></div>
@@ -416,11 +416,11 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="ttc" id="abackground_8h_html_a4dbfb1b8854ff9ca4a7d11a899281bbb"><div class="ttname"><a href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a></div><div class="ttdeci">void bgSetDisable(u8 bgNumber)</div><div class="ttdoc">Disable a BG in the actual SNES mode.</div></div>
 <div class="ttc" id="abackground_8h_html_a4fcbdb4b2378a64e8db62a184ee1851e"><div class="ttname"><a href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a></div><div class="ttdeci">void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize)</div><div class="ttdoc">Change Background Map address.</div></div>
 <div class="ttc" id="abackground_8h_html_ae09a7ac09be78eef0f28a6c7aabc82ad"><div class="ttname"><a href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a></div><div class="ttdeci">void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)</div><div class="ttdoc">Initializes a Tile Set and Loads the Tile GFX into VRAM.</div></div>
-<div class="ttc" id="aconsole_8h_html_a344184ac8dda28ea0170c153c854aa16"><div class="ttname"><a href="console_8h.html#a344184ac8dda28ea0170c153c854aa16">consoleSetTextVramAdr</a></div><div class="ttdeci">void consoleSetTextVramAdr(u16 vramfont)</div><div class="ttdoc">Change text graphics address (4K aligned)</div></div>
 <div class="ttc" id="aconsole_8h_html_a3a226cebe7d59aac755e03e1061ff727"><div class="ttname"><a href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">consoleNocashMessage</a></div><div class="ttdeci">void consoleNocashMessage(char *fmt,...)</div><div class="ttdoc">Send a message to the no$sns debug window.</div></div>
 <div class="ttc" id="aconsole_8h_html_a5413265662e30a0ded3fee6d3c4781f9"><div class="ttname"><a href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a></div><div class="ttdeci">void consoleInitText(u8 palnum, u8 palsize, u8 *tilfont, u8 *palfont)</div><div class="ttdoc">Initialize the Text System.</div></div>
 <div class="ttc" id="aconsole_8h_html_a7e52d15b5a1befa42f5758de19dfb70c"><div class="ttname"><a href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a></div><div class="ttdeci">void consoleDrawText(u16 x, u16 y, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen (tiles mode)</div></div>
-<div class="ttc" id="aconsole_8h_html_ab2c949172b9690e58ffb9b3294a36b38"><div class="ttname"><a href="console_8h.html#ab2c949172b9690e58ffb9b3294a36b38">consoleSetTextVramBGAdr</a></div><div class="ttdeci">void consoleSetTextVramBGAdr(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
+<div class="ttc" id="aconsole_8h_html_aaf046d1e48f425681b133b5eafa62e09"><div class="ttname"><a href="console_8h.html#aaf046d1e48f425681b133b5eafa62e09">consoleSetTextGfxPtr</a></div><div class="ttdeci">void consoleSetTextGfxPtr(u16 vramfont)</div><div class="ttdoc">Change text graphics address (4K aligned)</div></div>
+<div class="ttc" id="aconsole_8h_html_adcbe2c74decb1fdcdf34c80ac525335e"><div class="ttname"><a href="console_8h.html#adcbe2c74decb1fdcdf34c80ac525335e">consoleSetTextMapPtr</a></div><div class="ttdeci">void consoleSetTextMapPtr(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
 <div class="ttc" id="ainput_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition</b> input.h:198</div></div>
 <div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd">KEY_UP</a></div><div class="ttdeci">@ KEY_UP</div><div class="ttdoc">pad UP button.</div><div class="ttdef"><b>Definition</b> input.h:58</div></div>
 <div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072a612120b69c7dfd46086db7aaebdbcf65">KEY_LEFT</a></div><div class="ttdeci">@ KEY_LEFT</div><div class="ttdoc">pad LEFT button.</div><div class="ttdef"><b>Definition</b> input.h:56</div></div>
@@ -454,7 +454,7 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <div class="ttc" id="asound_8h_html_a8e5286554841ea48b028b4b782364ab0"><div class="ttname"><a href="sound_8h.html#a8e5286554841ea48b028b4b782364ab0">spcPlaySound</a></div><div class="ttdeci">void spcPlaySound(u8 sndIndex)</div><div class="ttdoc">Play sound from memory (using default arguments)</div></div>
 <div class="ttc" id="asound_8h_html_ab68840ba8aab786b8ea206ea077acaac"><div class="ttname"><a href="sound_8h.html#ab68840ba8aab786b8ea206ea077acaac">spcSetBank</a></div><div class="ttdeci">void spcSetBank(u8 *bank)</div><div class="ttdoc">set soundbank origin. soundbank must have dedicated bank(s)</div></div>
 <div class="ttc" id="asound_8h_html_acab7d87110bac6baa9d74ab314772c98"><div class="ttname"><a href="sound_8h.html#acab7d87110bac6baa9d74ab314772c98">spcProcess</a></div><div class="ttdeci">void spcProcess(void)</div><div class="ttdoc">Process messages This function will try to give messages to the spc until a few scanlines pass.</div></div>
-<div class="ttc" id="asound_8h_html_ad8753cb6edb38834257bbf0020700689"><div class="ttname"><a href="sound_8h.html#ad8753cb6edb38834257bbf0020700689">spcBoot</a></div><div class="ttdeci">void spcBoot(void)</div><div class="ttdoc">boots the spc700 with sm-spc. call once at startup</div></div>
+<div class="ttc" id="asound_8h_html_ad8753cb6edb38834257bbf0020700689"><div class="ttname"><a href="sound_8h.html#ad8753cb6edb38834257bbf0020700689">spcBoot</a></div><div class="ttdeci">void spcBoot(void)</div><div class="ttdoc">boots the spc700 with sm-spc. call once at startup disable time consuing interrupts during this funct...</div></div>
 <div class="ttc" id="asound_8h_html_ae2c8dfab62ceecf5c302c95f5453a752"><div class="ttname"><a href="sound_8h.html#ae2c8dfab62ceecf5c302c95f5453a752">spcSetModuleVolume</a></div><div class="ttdeci">void spcSetModuleVolume(u8 vol)</div><div class="ttdoc">set the module playback volume</div></div>
 <div class="ttc" id="asound_8h_html_aebf91de1df5e4fa83454a84bb0e60918"><div class="ttname"><a href="sound_8h.html#aebf91de1df5e4fa83454a84bb0e60918">spcPlay</a></div><div class="ttdeci">void spcPlay(u8 startPos)</div><div class="ttdoc">play module. note: this simply queues a message, use spcFlush if you want to wait until the message i...</div></div>
 <div class="ttc" id="asprite_8h_html_a26ae9bbf7a98025a5d9b529bbe403a7f"><div class="ttname"><a href="sprite_8h.html#a26ae9bbf7a98025a5d9b529bbe403a7f">oambuffer</a></div><div class="ttdeci">t_sprites oambuffer[128]</div><div class="ttdoc">Sprite Table (from no$sns help file)  Contains data for 128 OBJs. OAM Size is 512+32 Bytes....</div></div>
@@ -487,7 +487,7 @@ $(document).ready(function(){initNavTree('games_2likemario_2_like_mario_8c-examp
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Fri Jan 3 2025       Generated on Fri Jan 3 2025 18:26:13 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Mar 8 2025       Generated on Sat Mar 8 2025 08:20:59 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

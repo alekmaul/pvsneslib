@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -108,12 +108,8 @@ $(document).ready(function(){initNavTree('structt__metasprites.html',''); initRe
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a2f132d6d85b658cc0742bcd576b56597" id="r_a2f132d6d85b658cc0742bcd576b56597"><td class="memItemLeft" align="right" valign="top">u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structt__metasprites.html#a2f132d6d85b658cc0742bcd576b56597">dummy1</a></td></tr>
-<tr class="separator:a2f132d6d85b658cc0742bcd576b56597"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab02138a421a6916cbddb409447c6d1e6" id="r_ab02138a421a6916cbddb409447c6d1e6"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structt__metasprites.html#ab02138a421a6916cbddb409447c6d1e6">metsprattribute</a></td></tr>
 <tr class="separator:ab02138a421a6916cbddb409447c6d1e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5be9d6ce672123e6383e7fd15cd6525" id="r_af5be9d6ce672123e6383e7fd15cd6525"><td class="memItemLeft" align="right" valign="top">u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structt__metasprites.html#af5be9d6ce672123e6383e7fd15cd6525">metsprend</a></td></tr>
-<tr class="separator:af5be9d6ce672123e6383e7fd15cd6525"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca8bec6dfdaad3769ff56aef3fc51976" id="r_aca8bec6dfdaad3769ff56aef3fc51976"><td class="memItemLeft" align="right" valign="top">u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structt__metasprites.html#aca8bec6dfdaad3769ff56aef3fc51976">metsprframeid</a></td></tr>
 <tr class="separator:aca8bec6dfdaad3769ff56aef3fc51976"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1cd25d0cb7815172bcfef01d400f135" id="r_ab1cd25d0cb7815172bcfef01d400f135"><td class="memItemLeft" align="right" valign="top">u8 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structt__metasprites.html#ab1cd25d0cb7815172bcfef01d400f135">metsprgraphics</a></td></tr>
@@ -130,21 +126,6 @@ Data Fields</h2></td></tr>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#_a0">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>.</dd>
 </dl>
 </div><h2 class="groupheader">Field Documentation</h2>
-<a id="a2f132d6d85b658cc0742bcd576b56597" name="a2f132d6d85b658cc0742bcd576b56597"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f132d6d85b658cc0742bcd576b56597">&#9670;&#160;</a></span>dummy1</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">u16 t_metasprites::dummy1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>14..15 to be 16 aligned </p>
-
-</div>
-</div>
 <a id="ab02138a421a6916cbddb409447c6d1e6" name="ab02138a421a6916cbddb409447c6d1e6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab02138a421a6916cbddb409447c6d1e6">&#9670;&#160;</a></span>metsprattribute</h2>
 
@@ -158,21 +139,6 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>6 sprite attribute value (vhoopppc v : vertical flip h: horizontal flip o: priority bits p: palette num c : last byte of tile num) <br  />
  </p>
-
-</div>
-</div>
-<a id="af5be9d6ce672123e6383e7fd15cd6525" name="af5be9d6ce672123e6383e7fd15cd6525"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5be9d6ce672123e6383e7fd15cd6525">&#9670;&#160;</a></span>metsprend</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">u16 t_metasprites::metsprend</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>12..13 0xFFFF if it is the end of meta sprite definition </p>
 
 </div>
 </div>
@@ -219,7 +185,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>0 x offset of the current sprite in meta sprite <br  />
+<p>0 x offset of the current sprite in meta sprite, 0xFFFF if it is the end of meta sprite definition <br  />
  </p>
 
 </div>
@@ -264,7 +230,7 @@ Data Fields</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="structt__metasprites.html">t_metasprites</a></li>
-    <li class="footer">Generated on Fri Jan 3 2025       Generated on Fri Jan 3 2025 18:26:13 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Mar 8 2025       Generated on Sat Mar 8 2025 08:20:59 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>
