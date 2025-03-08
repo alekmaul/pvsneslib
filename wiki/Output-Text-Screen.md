@@ -46,7 +46,13 @@ You can also change the text graphics and map VRAM address by using the function
     consoleSetTextOffset(offset of text in background map address);
 ```
 
-Default value for text offset is 0x0000.   
+The default values are:  
+
+|Description|Address|
+|-----------|-------|
+|background graphic address|$3000|  
+|background map address|4 bytes|$6800|  
+|offset of text in background map address|$0000|  
 
 here is the **hello_world** example of new vram entries:
 
