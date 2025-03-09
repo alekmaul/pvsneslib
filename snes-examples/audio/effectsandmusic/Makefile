@@ -17,7 +17,7 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 export ROMNAME := effectsandmusic
 
 # to build musics, define SMCONVFLAGS with parameters you want
-SMCONVFLAGS	:= -s -o $(SOUNDBANK) -V -b 5
+SMCONVFLAGS	:= -s -o $(SOUNDBANK) -V -b 5 -f
 musics: $(SOUNDBANK).obj
 
 all: musics bitmaps $(ROMNAME).sfc
