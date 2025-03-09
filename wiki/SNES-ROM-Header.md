@@ -1,3 +1,6 @@
+TO CHECK https://sneslab.net/wiki/SNES_ROM_Header#:~:text=Although%20it's%20not%20required%20to,and%20ends%20at%20%2400%3AFFDF.
+
+
 All SNES rom have an internal header that is used to identifying the game, producer, region and technical aspects of the ROM. It's often referred as Internal ROM Header or SNES Software Specification.
 
 Although it's not required to run a game on real hardware, the SNES ROM Header was used during the Nintendo approval process for validation and it's also used by the SNES emulators to identify and determine the memory layout and ROM type.
@@ -46,6 +49,30 @@ Exception: If you're using Super FX aka GSU-1, move this value to the Expansion 
 
 #### Destination Code
 Where the game is intended to be sold. Common values: #$00 - Japan; #$01 - USA; #$02 - Europe (enables 50fps PAL mode)  
+Store the code, from the table below, which best describes where the product will be sold.
+
+|Value|Destination|ROM ROM Recognition Code (Fourth digit of Game Code)|  
+|-------|------|---------|  
+|00H|Japan|J|
+|01H|North America (USA and Canada)|E|
+|02H|All of Europe|P|
+|03H|Scandinavia|W|
+|06H|Europe (French only)|F|
+|07H|Dutch|H|
+|08H|Spanish|S|
+|09H|German|D|
+|OAH|Italian|I|
+|OBH|Chinese|C|
+|ODH|Korean|K|
+|OEH|Common|A|
+|OFH|Canada|N|
+|10H|Brazil|B|
+||Nintendo Gateway System|G|
+|11H|Australia|U|
+|12H|Other Variation|X|
+|13H|Other Variation|Y|
+|14H|Other Variation|Z|
+
 
 ### Expanded cartridge header    
 
@@ -60,9 +87,9 @@ Where the game is intended to be sold. Common values: #$00 - Japan; #$01 - USA; 
 |$00:FFBF|1 byte|Chipset subtype, used if chipset is $F0-$FF|  
 
 #### Maker Code  
-Two alphanumeric ASCII bytes identifying your company. Ignored by emulators; for ROM hackers and homebrewers, just insert whatever.  
+Two alphanumeric ASCII bytes identifying your company. The 2-digit ASCII code are assigned by Nintendo. Refer to the Nintendo/ Licensee contract, if in doubt. All letters must be in upper case.  
 
 #### Game Code  
-Four alphanumeric ASCII bytes identifying your game. Ignored by emulators; for ROM hackers and homebrewers, just insert whatever.  
+Four alphanumeric ASCII bytes identifying your game. The 4-digit Game Code assigned by Nintendo in ASCII. All letters must be in upper case.  
 Exception: If the game code starts with Z and ends with J, it's a BS-X flash cartridge.  
 

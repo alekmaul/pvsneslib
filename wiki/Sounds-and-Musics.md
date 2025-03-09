@@ -182,7 +182,7 @@ With **openMTP** or another IT tracker, put all the sfx wav files in the sample 
 
 <img src="https://github.com/user-attachments/assets/6e5ec9f1-236f-440c-bd02-86b040f19283">
 
-Remember that you must also have **ONE** instrument mapping **ONE** sample or the sound engine will not work.  
+Instead of musics, you **do not have to create** an instrument mapping the sample (I did in my case, but it is not mandatory ;)).  
 
 The pattern part is not really important must must be present in the IT file.
 
