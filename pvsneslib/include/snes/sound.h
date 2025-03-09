@@ -161,7 +161,7 @@ void spcProcess(void);
 
 /*! \fn  spcEffect(u16 pitch,u16 sfxIndex, u8 volpan)
     \brief Play sound effect (load with spcLoadEffect)
-    \param pitch	pitch (0-15, 8=32khz)
+    \param pitch	pitch (0-15, 1=4Khz , 2=8khz, 4=16Khz, 8=32Khz)
     \param sfxIndex	effect index (0-15)
     \param volpan	volume(0..15) AND panning(0..15) (volume*16+pan)
 */

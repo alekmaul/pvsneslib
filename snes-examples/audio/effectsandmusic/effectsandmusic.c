@@ -72,7 +72,7 @@ int main(void)
             {
                 keyapressed = 1;
                 // Play effect
-                spcEffect(8,i,15*16+8); // (u16 pitch,u16 sfxIndex, u8 volpan); pitch=1=4Khz , 2=8khz, 8=32Khz
+                spcEffect(4,i,15*16+8); // (u16 pitch,u16 sfxIndex, u8 volpan); pitch=1=4Khz , 2=8khz, 4=16Khz, 8=32Khz
             }
         }
         else
