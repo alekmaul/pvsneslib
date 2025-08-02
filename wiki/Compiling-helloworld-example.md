@@ -21,7 +21,7 @@ If you are skilled with assembly code, you can also add another variable to allo
 export PVSNESLIB_DEBUG=1
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules)`
-```
+``` 
 
 # Explanation of main code
 
