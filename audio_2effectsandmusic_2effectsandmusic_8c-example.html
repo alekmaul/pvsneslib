@@ -1,6 +1,6 @@
 <!-- HTML header for doxygen 1.8.14-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" class="light-mode">
 <head>
 <meta http-equiv="cache-control" content="max-age=86400"/>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
@@ -104,7 +104,7 @@ $(document).ready(function(){initNavTree('audio_2effectsandmusic_2effectsandmusi
 <div class="line"><span class="comment">    Simple effect &amp; music sound demo</span></div>
 <div class="line"><span class="comment">    /*\ WARNING effects must be 1st IT file in convertion </span></div>
 <div class="line"><span class="comment">        all musics must be after IT file</span></div>
-<div class="line"><span class="comment">        each combination of a music + effect must be lower than 60K (not 64K because of size of sound drivers)</span></div>
+<div class="line"><span class="comment">        each combination of a music + effect must be lower than 58K (not 64K because of size of sound drivers)</span></div>
 <div class="line"><span class="comment">    -- alekmaul</span></div>
 <div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment"></span> </div>
@@ -115,7 +115,7 @@ $(document).ready(function(){initNavTree('audio_2effectsandmusic_2effectsandmusi
 <div class="line"> </div>
 <div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> snesfont, snespal;</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> SOUNDBANK__0,SOUNDBANK__1;</div>
+<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> SOUNDBANK__;</div>
 <div class="line"> </div>
 <div class="line">u8 i,j, keyapressed = 0,keybpressed = 0,keyxpressed = 0,keylpressed = 0,keyrpressed = 0;</div>
 <div class="line"> </div>
@@ -133,23 +133,19 @@ $(document).ready(function(){initNavTree('audio_2effectsandmusic_2effectsandmusi
 <div class="line">    <a id="a4" name="a4"></a><a class="code hl_function" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(0, 16 * 2, &amp;snesfont, &amp;snespal);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Set soundbanks in reverse order</span></div>
-<div class="line">    <a id="a5" name="a5"></a><a class="code hl_function" href="sound_8h.html#ab68840ba8aab786b8ea206ea077acaac">spcSetBank</a>(&amp;SOUNDBANK__1);</div>
-<div class="line">    <a class="code hl_function" href="sound_8h.html#ab68840ba8aab786b8ea206ea077acaac">spcSetBank</a>(&amp;SOUNDBANK__0);</div>
-<div class="line"> </div>
-<div class="line">    <span class="comment">// Load effects</span></div>
-<div class="line">    <a id="a6" name="a6"></a><a class="code hl_function" href="sound_8h.html#a313e30fb1962df9fb469f2fedd4d91e4">spcLoad</a>(MOD_EFFECTSSFX);</div>
+<div class="line">    <a id="a5" name="a5"></a><a class="code hl_function" href="sound_8h.html#ab68840ba8aab786b8ea206ea077acaac">spcSetBank</a>(&amp;SOUNDBANK__);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init background</span></div>
-<div class="line">    <a id="a7" name="a7"></a><a class="code hl_function" href="background_8h.html#a0206b5b9911749322bcf9da130527924">bgSetGfxPtr</a>(0, 0x2000);</div>
-<div class="line">    <a id="a8" name="a8"></a><a class="code hl_function" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(0, 0x6800, SC_32x32);</div>
+<div class="line">    <a id="a6" name="a6"></a><a class="code hl_function" href="background_8h.html#a0206b5b9911749322bcf9da130527924">bgSetGfxPtr</a>(0, 0x2000);</div>
+<div class="line">    <a id="a7" name="a7"></a><a class="code hl_function" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(0, 0x6800, SC_32x32);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode and disable Bgs except current</span></div>
-<div class="line">    <a id="a9" name="a9"></a><a class="code hl_function" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE1, 0);</div>
-<div class="line">    <a id="a10" name="a10"></a><a class="code hl_function" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
+<div class="line">    <a id="a8" name="a8"></a><a class="code hl_function" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE1, 0);</div>
+<div class="line">    <a id="a9" name="a9"></a><a class="code hl_function" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
 <div class="line">    <a class="code hl_function" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// Load all effects</span></div>
-<div class="line">    <a id="a11" name="a11"></a><a class="code hl_function" href="sound_8h.html#af7366527acd378585446999f84d1c6d0">spcStop</a>(); <a class="code hl_function" href="sound_8h.html#a313e30fb1962df9fb469f2fedd4d91e4">spcLoad</a>(0); </div>
+<div class="line">    <span class="comment">// Load effects</span></div>
+<div class="line">    <a id="a10" name="a10"></a><a class="code hl_function" href="sound_8h.html#af7366527acd378585446999f84d1c6d0">spcStop</a>(); <a id="a11" name="a11"></a><a class="code hl_function" href="sound_8h.html#a313e30fb1962df9fb469f2fedd4d91e4">spcLoad</a>(MOD_EFFECTSSFX);</div>
 <div class="line">    <span class="keywordflow">for</span> (j=0;j&lt;5;j++) { </div>
 <div class="line">        <a id="a12" name="a12"></a><a class="code hl_function" href="sound_8h.html#a57d9e744cfa33d55d543b172df59d518">spcLoadEffect</a>(j); </div>
 <div class="line">    }</div>
@@ -176,7 +172,7 @@ $(document).ready(function(){initNavTree('audio_2effectsandmusic_2effectsandmusi
 <div class="line">            {</div>
 <div class="line">                keyapressed = 1;</div>
 <div class="line">                <span class="comment">// Play effect</span></div>
-<div class="line">                <a id="a18" name="a18"></a><a class="code hl_function" href="sound_8h.html#a99af3b788490e155674f57f455c6be38">spcEffect</a>(8,i,15*16+8); <span class="comment">// (u16 pitch,u16 sfxIndex, u8 volpan); pitch=1=4Khz , 2=8khz, 8=32Khz</span></div>
+<div class="line">                <a id="a18" name="a18"></a><a class="code hl_function" href="sound_8h.html#a99af3b788490e155674f57f455c6be38">spcEffect</a>(4,i,15*16+8); <span class="comment">// (u16 pitch,u16 sfxIndex, u8 volpan); pitch=1=4Khz , 2=8khz, 4=16Khz, 8=32Khz</span></div>
 <div class="line">            }</div>
 <div class="line">        }</div>
 <div class="line">        <span class="keywordflow">else</span></div>
@@ -290,7 +286,7 @@ $(document).ready(function(){initNavTree('audio_2effectsandmusic_2effectsandmusi
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sat Mar 8 2025       Generated on Sat Mar 8 2025 08:20:59 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Aug 6 2025       Generated on Wed Aug 6 2025 20:51:01 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>
