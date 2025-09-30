@@ -78,23 +78,10 @@ jobs:
       # ------------------------------------ #
       # Compiling sources and create release #
       # ------------------------------------ #
-      - name: Build & Release PVSNESLIB for Linux
-        if: (matrix.name == 'linux')
+      - name: Build & Release PVSNESLIB with CMake
         run: |
-          export PVSNESLIB_HOME=$(pwd)
-          make release | tee pvsneslib_release_${{ matrix.name }}.log
-      - name: Build & Release PVSNESLIB for Windows
-        if: (matrix.name == 'windows')
-        shell: msys2 {0}
-        run: |
-          export PVSNESLIB_HOME=$(pwd)
-          make release | tee pvsneslib_release_${{ matrix.name }}.log
-      - name: Build & Release PVSNESLIB for MacOS
-        if: (matrix.name == 'darwin')
-        run: |
-          export PVSNESLIB_HOME=$(pwd)
-          export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
-          make release | tee pvsneslib_release_${{ matrix.name }}.log
+          cmake -B build -DPVSNESLIB_BUILD_EXAMPLES=ON -DPVSNESLIB_AUTO_SUBMODULES=ON
+          cmake --build build --target release | tee pvsneslib_release_${{ matrix.name }}.log
 
       # ------------------------------------ #
       # Checking libraries linking           #
@@ -115,7 +102,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: PVSNESLIB Release for ${{ matrix.name }}
-          path: release/pvsneslib_64b_${{ matrix.name }}.zip
+          path: release/pvsneslib_*_${{ matrix.name }}.tar.gz
 
       # ------------------------------------ #
       # Upload releases                      #

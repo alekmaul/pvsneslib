@@ -37,9 +37,13 @@ $(EXE)$(EXT): $(OBJS)
 	@echo "Linking $<"
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
 
+# Create build directory
+$(OBJ):
+	@mkdir -p $(OBJ)
+
 # Define the recipe for compiling object files
 %.o : %.c
-$(OBJ)/%.o: $(SRC)/%.c
+$(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
 	@echo "Compiling $<"
 	$(CC) $(CFLAGS) -I$(SRC) -c $< -o $@
 

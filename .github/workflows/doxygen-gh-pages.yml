@@ -34,11 +34,10 @@ jobs:
           sudo apt-get install doxygen -y
         shell: bash
 
-      - name: "Build Doxygen Doc"
+      - name: "Build Doxygen Doc with CMake"
         run: |
-          cd pvsneslib
-          export PVSNESLIB_HOME=`pwd`
-          make docs
+          cmake -B build -DPVSNESLIB_BUILD_DOCS=ON
+          cmake --build build --target docs
         shell: bash
 
       # 3. Déploiement sur les Github Pages
