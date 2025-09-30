@@ -172,13 +172,13 @@ endif
 	$(LD) -d -s -v -A -c -L ${LIBDIRSOBJS} linkfile $@
 
 # remove unattended characters 
-	@sed -i 's/://' $(ROMNAME).sym
+	@sed -i.bak 's/://' $(ROMNAME).sym && rm -f $(ROMNAME).sym.bak
 
 #keep with section label if needed
 #	@cp -f $(ROMNAME).sym $(ROMNAME).symfull
 
 # remove duplicated labels for mesen debugger
-	@sed -i '/ SECTIONSTART_/d;/ SECTIONEND_/d;/ RAM_USAGE_SLOT_/d;' $(ROMNAME).sym
+	@sed -i.bak '/ SECTIONSTART_/d;/ SECTIONEND_/d;/ RAM_USAGE_SLOT_/d;' $(ROMNAME).sym && rm -f $(ROMNAME).sym.bak
 
 	@echo
 	@echo Build finished successfully !

@@ -75,3 +75,12 @@ soundbank.h
 
 # Mac OS cache files
 .DS_Store
+
+# CMake build directory
+build/
+
+# Release directory
+release/
+
+# CMake generated files
+pvsneslib/source/comp_defs.asm

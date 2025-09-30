@@ -59,9 +59,9 @@ int main(int argc, char **argv)
     /* -------------------------------- */
     dynArray optAsm = optimizeAsm(file, bss, verbose);
 
-    for (size_t i = 0; i < optAsm.used; i++)
+    for (size_t j = 0; j < optAsm.used; j++)
     {
-        fprintf(stdout, "%s\n", optAsm.arr[i]);
+        fprintf(stdout, "%s\n", optAsm.arr[j]);
     }
 
     /* -------------------------------- */
