@@ -14,16 +14,20 @@ all: bitmaps $(ROMNAME).sfc
 
 clean: cleanBuildRes cleanRom cleanGfx
 
-sprite32.pic: sprite32.png
-	@echo convert map sprites as 32px  ... $(notdir $@)
-	$(GFXCONV) -s 32 -o 16 -u 16 -i $<
+spritehero32.pic: spritehero32.png
+	@echo convert meta sprites as 16px  ... $(notdir $@)
+	$(GFXCONV) -s 32 -o 16 -u 16 -T -X 64 -Y 64 -P 2 -i $<
 
-sprite16.pic: sprite16.png
-	@echo convert map sprites as 16px  ... $(notdir $@)
-	$(GFXCONV) -s 16 -o 16 -u 16 -i $<
+spritehero16.pic: spritehero16.png
+	@echo convert meta sprites as 16px  ... $(notdir $@)
+	$(GFXCONV) -s 16 -o 16 -u 16 -T -X 32 -Y 48 -P 2 -i $<
 
-pvsneslib.pic: pvsneslib.png
-	@echo convert bitmap ... $(notdir $<)
-	$(GFXCONV) -s 8 -o 16 -u 16 -m -i $<
+spritehero8.pic: spritehero8.png
+	@echo convert meta sprites as 16px  ... $(notdir $@)
+	$(GFXCONV) -s 8 -o 16 -u 16 -T -X 16 -Y 16 -P 2 -i $<
 
-bitmaps : pvsneslib.pic sprite32.pic sprite16.pic
+pvsneslibfont.pic: pvsneslibfont.png
+	@echo convert font with no tile reduction ... $(notdir $@)
+	$(GFXCONV) -s 8 -o 2 -u 16 -e 1 -i $<
+
+bitmaps : spritehero32.pic spritehero16.pic spritehero8.pic pvsneslibfont.pic

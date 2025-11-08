@@ -1,34 +1,16 @@
 .include "hdr.asm"
 
-.section ".rodata1" superfree
+.section ".rodata2" superfree
 
-spr32g:
-.incbin "sprite32.pic"
-spr32g_end:
-spr32p:
-.incbin "sprite32.pal"
-
-spr16g:
-.incbin "sprite16.pic"
-spr16g_end:
-spr16p:
-.incbin "sprite16.pal"
+.include "pvsneslibfont_data.as"
 
 .ends
 
-.section ".rodata2" superfree
+.section ".rodata3" superfree
 
-patterns:
-.incbin "pvsneslib.pic"
-patterns_end:
-
-map:
-.incbin "pvsneslib.map"
-map_end:
-
-palette:
-.incbin "pvsneslib.pal"
-palette_end:
+.include "spritehero32_data.as"
+.include "spritehero16_data.as"
+.include "spritehero8_data.as"
 
 .ends
 
