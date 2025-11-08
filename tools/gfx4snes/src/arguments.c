@@ -113,6 +113,20 @@ cmdp_action_t argument_callback(cmdp_process_param_st *params)
 		fatal("incorrect value for map mode format [%d]\nconversion terminated.", gfx4snes_args.mapscreenmode); // exit gfx4snes at this point
 	}
 
+	// Metasprite options --------------------------------------------
+	if  (gfx4snes_args.metasprite) 
+	{
+		if ( (gfx4snes_args.metawidth<=0) || (gfx4snes_args.metawidth>128) ) {
+			fatal("incorrect value for metasprite width [%d]\nconversion terminated.", gfx4snes_args.metawidth); // exit gfx4snes at this point
+		}
+		if ( (gfx4snes_args.metaheight<=0) || (gfx4snes_args.metaheight>128) ) {
+			fatal("incorrect value for metasprite height [%d]\nconversion terminated.", gfx4snes_args.metawidth); // exit gfx4snes at this point
+		}
+		if ( (gfx4snes_args.metapriority<0) || (gfx4snes_args.metapriority>3) ) {
+			fatal("incorrect value for metasprite spriority [%d]\nconversion terminated.", gfx4snes_args.metapriority); // exit gfx4snes at this point
+		}
+	}
+
 	// Palette options -----------------------------------------------
 	// check automatic palettte management
 	if(gfx4snes_args.paletterearrange)

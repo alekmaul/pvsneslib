@@ -681,6 +681,10 @@ static int cmdp_run_callback(int argc, char **argv, cmdp_command_st *cmdp, cmdp_
         };
         cmdp_action_t code = cmdp->fn_process(&fn_process_param);
         bool show_help     = HAS_FLAG(code, CMDP_ACT_SHOW_HELP);
+#if __GNUC__ >= 12
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdangling-pointer"
+#endif
         switch (code & 0xFFFF)
         {
             case CMDP_ACT_OK:
@@ -705,6 +709,9 @@ static int cmdp_run_callback(int argc, char **argv, cmdp_command_st *cmdp, cmdp_
                 }
         }
     }
+#if __GNUC__ >= 12
+#pragma GCC diagnostic pop
+#endif
 
     if (sub_cmd != NULL)
     {
@@ -771,6 +778,10 @@ cmdp_flag_t cmdp_flag_always_hide()
     return CMDP_FLAG_HIDE;
 }
 
+#if __GNUC__ >= 12
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdangling-pointer"
+#endif
 int cmdp_run(int argc, char **argv, cmdp_command_st *root_command, cmdp_ctx *ctx)
 {
     if (ctx)
@@ -795,6 +806,9 @@ int cmdp_run(int argc, char **argv, cmdp_command_st *root_command, cmdp_ctx *ctx
     }
     return cmdp_run_callback(argc - parsed, argv + parsed, root_command, ctx, 0);
 }
+#if __GNUC__ >= 12
+#pragma GCC diagnostic pop
+#endif
 
 
 void cmdp_fprint_options_doc(FILE *fp, cmdp_option_st *options)

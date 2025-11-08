@@ -14,6 +14,8 @@
 #include "palettes.h"
 #include "maps.h"
 #include "tiles.h"
+#include "incgener.h"
+#include "metasprites.h"
 
 #ifndef __BUILD_VERSION
 #include "config.h"
@@ -42,6 +44,12 @@ typedef struct
     int mapoutput;				    											// 1 = save the map
     int maphighpriority;                                                        // 1 = b13 of high priority on
     int map32pages;                                                             // 1 = tile map pages of 32x32 (for scrolling)
+
+    int metasprite;                                                             // 1 = generate header files for metasprites
+    int metawidth;                                                              // width of the metasprite
+    int metaheight;                                                             // height of the metasprite
+	int metapriority;                                                           // sprite priority (0..3)
+	int metalarge;                                                              // 1 = use large sprite size attribute
 
     int paletteoutput;	            											// -1= not managed, number of color for palette output 
     int paletteentry;		        											// value of palette entry (0 to 15)

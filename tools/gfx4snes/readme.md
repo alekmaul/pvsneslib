@@ -20,14 +20,20 @@ gfx4snes [options] png/bmp filename ...
 where filename is a 256 color PNG or BMP file  
 
 ## Options
-### Tiles options 
+### Sprites and tiles options 
 - `-b` Add blank tile management (for multiple bgs)  
 - `-s (8|16|32|64)` Size of image blocks in pixels [8]  
 - `-k` Output in packed pixel format
 - `-z` Output in lz77 compressed pixel format
 - `-W` Width  of image blocks in pixels [8] (do not use with -s option)
 - `-H` Height of image blocks in pixels [8] (do not use with -s option) 
-  
+
+### Metasprites options 
+- `-T` Include metasprite definition for output (-s is mandatory for this)
+- `-X (0..128)` Width of the metasprite
+- `-Y (0..128)` Height of the metasprite
+- `-P (0..3)` Priority of the metasprite 
+
 ### Map options
 - `-f (0..2047)` Generate the whole picture with an offset for tile number {0..2047}
 - `-m` Include map for output  

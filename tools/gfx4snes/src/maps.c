@@ -94,7 +94,7 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
         {
             // get the palette number (0-7 for both 4 & 16 color mode)
             paletteno = (nbcolors != 4) ? (imgbuf[currenttile * sizetile] >> 4) & 0x07 : (imgbuf[currenttile * sizetile] >> 2) & 0x07;
-            tilevalue = ((paletteno + offsetpal) << 10);
+            tilevalue = ((paletteno + offsetpal) << PALETTE_OFS);
             if ((tilevalue>>10)>=8) warning ("out of bounds palette %d for tile %d",currenttile,paletteno);
             
             if ((graphicmode==5) || (graphicmode==6))  
@@ -357,7 +357,7 @@ void map_save (const char *filename, unsigned short *map,int snesmode, int nbtil
 		}
 		else 
 		{
-			WRITEFILEWORD(map[i]+tileoffset+(priority<<13),fp);
+			WRITEFILEWORD(map[i]+tileoffset+(priority<<PRIORITY_OFS),fp);
 		}
 	}
 
@@ -367,3 +367,6 @@ void map_save (const char *filename, unsigned short *map,int snesmode, int nbtil
 	free (outputname);
 }
 
+// for flipping
+// https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-support/png2asset/tiles.cpp#L17
+// add near line 200
