@@ -59,7 +59,7 @@ typedef unsigned char bool;
 #define false 0
 #define true 0xff
 
-// stdio definitions
+//! stdio definitions
 #define NULL 0
 
 #endif
