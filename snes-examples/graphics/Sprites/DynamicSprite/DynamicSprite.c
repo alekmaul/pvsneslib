@@ -1,117 +1,63 @@
 /*---------------------------------------------------------------------------------
-
-
-    Dynamic sprite demo in mode 1
+    Dynamic Engine simple sprite demo in mode 1
     -- alekmaul
-
-
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-extern char gfxpsrite, gfxpsrite_end;
-extern char palsprite, palsprite_end;
+#include "sprites.inc"
 
-unsigned short pad0, padkeya;
-unsigned char spr_queue, spr_mutex;
-
-#define ADRGFXSPR 0x0000
-
-typedef struct
-{
-    u8 *gfxoffset;
-    u16 adrgfxvram;
-} spritequeue;
-
-spritequeue sprqueue[16]; // Max 16 entries in queue
-
-//---------------------------------------------------------------------------------
-void myconsoleVblank(void)
-{
-    if (vblank_flag) {
-        u8 *pgfx;
-        u16 padrgfx;
-
-        // if tile sprite queued
-        if (spr_queue != 0xff)
-        {
-            if (spr_mutex == 0)
-            { // if we have finished adding things
-                // copy memory to vram (2 tiles of the 16x16 sprites)
-                while (spr_queue != 0xff)
-                {
-                    pgfx = sprqueue[spr_queue].gfxoffset;
-                    padrgfx = sprqueue[spr_queue].adrgfxvram;
-                    dmaCopyVram(pgfx, padrgfx, 8 * 4 * 2);
-                    dmaCopyVram(pgfx + 8 * 4 * 16, padrgfx + 8 * 4 * 8, 8 * 4 * 2);
-                    spr_queue--;
-                }
-            }
-        }
-    }
-}
-
-//---------------------------------------------------------------------------------
-void addSprite(u8 *pgfx, u16 adrspr)
-{
-    spr_mutex = 1; // to avoid vbl during queue management
-    spr_queue++;
-    sprqueue[spr_queue].gfxoffset = pgfx;
-    sprqueue[spr_queue].adrgfxvram = adrspr;
-    spr_mutex = 0;
-}
+#define ADRBG1 0x2000
+t_sprites *psprmen;                                                 // ptr to sprite 
 
 //---------------------------------------------------------------------------------
 int main(void)
 {
-    // Put current handler to our function
-    spr_queue = 0xff;
-    spr_mutex = 0;
-    nmiSet(myconsoleVblank);
+    // Init background
+    bgSetGfxPtr(0, ADRBG1);
+    bgSetMapPtr(0, 0x6800, SC_32x32);
 
-    // Init Sprites gfx and palette with default size of 16x16 (and don't load sprite tiles)
-    oamInitGfxSet(&gfxpsrite, 2, &palsprite, 16 * 2, 0, ADRGFXSPR, OBJ_SIZE16_L32);
-
-    // Define sprites parameters
-    oamSet(0, 100, 100, 3, 0, 0, 0, 0); // Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0
-    oamSetEx(0, OBJ_SMALL, OBJ_SHOW);
-
-    // Now Put in 16 color mode and disable all backgrounds
+    // Put in 16 color mode and disable all backgrounds
     setMode(BG_MODE1, 0);
-    bgSetDisable(0);
     bgSetDisable(1);
     bgSetDisable(2);
+
+    // Init sprite engine (0x0000 for large, 0x1000 for small)
+    oamInitDynamicSprite(0x0000, 0x1000, 0, 0, OBJ_SIZE8_L16);
+
+    // Init Sprites palette
+    setPalette(&sprites_pal, 128 + 0 * 16, 16 * 2);
+
+    // prepare sprite
+    psprmen=&oambuffer[0];
+    psprmen->oamx = 128-8;
+    psprmen->oamy = 112-8;
+    psprmen->oamframeid = 0;
+    psprmen->oamattribute = OBJ_PAL(0); // 	16x16 main player and palette0 for new graphics  byte OBJ*4+3: vhoopppN
+    psprmen->oamgraphics=&sprites_til;
+    psprmen->oamrefresh = 1;
+
     setScreenOn();
-
-    // add new sprite to queue
-    addSprite(&gfxpsrite, ADRGFXSPR);
-
-    padkeya = 0;
 
     // Wait for nothing :P
     while (1)
     {
-        // Refresh pad values in VBL and Get current #0 pad
-        pad0 = padsCurrent(0);
+        // Refresh sprite regarding time
+        if ((snes_vblank_count & 15) == 15) {
+            psprmen->oamframeid++;
+            psprmen->oamframeid &=3;
 
-        if (pad0)
-        {
-            // Key A pressed
-            if (pad0 & KEY_A)
-            {
-                // if not yet pressed
-                if (padkeya == 0)
-                {
-                    padkeya = 1; // avoid adding new sprite continuisly
-                    // add new sprite to queue
-                    addSprite((&gfxpsrite) + 8 * 4 * 2, ADRGFXSPR);
-                }
-            }
-            else
-                padkeya = 0;
+            // prepare engine to refresh it
+            psprmen->oamrefresh = 1;
         }
 
-        // Wait VBL 'and update sprites too ;-) )
+        // Draw dynamic sprite index 0
+        oamDynamic16Draw(0);
+
+
+        // prepare next frame and wait vblank
+        oamInitDynamicSpriteEndFrame();
         WaitForVBlank();
+        oamVramQueueUpdate();
     }
     return 0;
 }
