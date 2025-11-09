@@ -28,7 +28,13 @@
 .EQU REG_STAT78             $213F
 .EQU REG_DEBUG              $21FC
 
+.ifdef HIROM
+.EQU BANK_SRAM              $30
+.EQU OFFSET_SRAM            $6000
+.else
 .EQU BANK_SRAM              $70
+.EQU OFFSET_SRAM            $0
+.endif
 .EQU PPU_50HZ               (1<<4)
 
 .EQU INT_VBLENABLE          (1<<7)
@@ -187,7 +193,7 @@ consoleCopySram:
 
     sep #$20
 -:  lda     [tcc__r2],y
-    sta     0,y
+    sta     OFFSET_SRAM,y
     iny
     dex
     beq +
@@ -233,7 +239,7 @@ consoleLoadSram:
     ldy #$0
 
     sep #$20
--:  lda     0,y
+-:  lda     OFFSET_SRAM,y
     sta     [tcc__r2],y
     iny
     dex
@@ -292,7 +298,7 @@ consoleCopySramWithOffset:
 
     pla
     sep #$20
-    sta     0,y
+    sta     OFFSET_SRAM,y
     rep #$20
     ply
     iny     ; increase counter
@@ -347,8 +353,8 @@ consoleLoadSramWithOffset:
     adc     18,s        ;add offset to y index
     tay
     sep #$20
-    lda     0,y         ;load from offset
-    ply                 ;restore y index
+    lda     OFFSET_SRAM,y   ;load from offset
+    ply                     ;restore y index
     sta     [tcc__r2],y
     iny
     dex
