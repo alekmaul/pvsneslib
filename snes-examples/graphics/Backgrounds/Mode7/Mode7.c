@@ -1,10 +1,6 @@
 /*---------------------------------------------------------------------------------
-
-
-    Simple mode 7 rotating demo with more than 32k tiles
+    Simple mode 7 rotating demo with rotation and scaling
     -- alekmaul
-
-
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
@@ -14,6 +10,8 @@ extern char map, map_end;
 
 u16 pad0;
 u8 angle;
+u16 zscale;
+extern u16 m7sx, m7sy;
 
 //---------------------------------------------------------------------------------
 int main(void)
@@ -28,7 +26,8 @@ int main(void)
     setScreenOn();
 
     // Init angle
-    angle = 0;
+    angle = 0; zscale=0x200; // default value stored in PVSnesLib for m7sx & m7sy
+    setMode7Rot(angle);
 
     // Wait for nothing :P
     while (1)
@@ -37,9 +36,9 @@ int main(void)
         pad0 = padsCurrent(0);
         if (pad0)
         {
-            // Update scrolling with current pad
             switch (pad0)
             {
+            // Update rotation with A & B
             case KEY_A:
                 angle++;
                 setMode7Rot(angle);
@@ -47,6 +46,14 @@ int main(void)
             case KEY_B:
                 angle--;
                 setMode7Rot(angle);
+                break;
+            case KEY_DOWN:
+                if (zscale>16) zscale-=16; 
+                m7sx=zscale; setMode7Rot(angle);// as we also modify angle, we use this trick instead of calling setMode7Scale(zscale,zscale);
+                break;
+            case KEY_UP:
+                if (zscale<0xF00) zscale+=16; 
+                m7sx=zscale; setMode7Rot(angle); // as we also modify angle, we use this trick instead of calling  setMode7Scale(zscale,zscale);
                 break;
             }
         }

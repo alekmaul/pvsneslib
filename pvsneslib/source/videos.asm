@@ -527,15 +527,15 @@ _im7m1:
 .EQU OFSV           (0x0200-0x0080)
 
 m7sincos:
-    .db   0,      3,  6,      9,  12,    16,  19,    22
-    .db   25,    28,  31,    34,  37,    40,  43,    46
-    .db   48,    51,  54,    57,  60,    62,  65,    68
-    .db   70,    73,  75,    78,  80,    83,  85,    87
-    .db   90,    92,  94,    96,  98,   100,  102,  104
-    .db   105,  107,  109,  110,  112,  113,  115,  116
-    .db   117,  118,  119,  120,  121,  122,  123,  124
-    .db   124,  125,  126,  126,  126,  127,  127,  127
-    .db   127,  127,  127,  127,  126,  126,  126,  125
+    .db   0,      3,  6,      9,  12,    16,  19,    22 ; 0
+    .db   25,    28,  31,    34,  37,    40,  43,    46 ; 8
+    .db   48,    51,  54,    57,  60,    62,  65,    68 ; 16
+    .db   70,    73,  75,    78,  80,    83,  85,    87 ; 24
+    .db   90,    92,  94,    96,  98,   100,  102,  104 ; 32
+    .db   105,  107,  109,  110,  112,  113,  115,  116 ; 40
+    .db   117,  118,  119,  120,  121,  122,  123,  124 ; 48
+    .db   124,  125,  126,  126,  126,  127,  127,  127 ; 56
+    .db   127,  127,  127,  127,  126,  126,  126,  125 ; 64
     .db   125,  124,  123,  123,  122,  121,  120,  119
     .db   118,  116,  115,  114,  112,  111,  109,  108
     .db   106,  104,  102,  101,  99,    97,  95,    93
@@ -619,23 +619,10 @@ setMode7:
     sta m7sx
     sta m7sy
 
-    rep #$20                            ; m7sin = m7sincos[0]; m7cos = m7sincos[0+64];
-    lda #m7sincos
-    sta tcc__r0
-    lda #:m7sincos
-    sta tcc__r0h
     sep #$20
-    lda.b [tcc__r0]
+    lda #$0                            ; m7sin = m7sincos[0] -> 0 ; m7cos = m7sincos[0+64] -> 125;
     sta m7sin
-    rep #$20
-    lda #m7sincos
-    clc
-    adc #64
-    sta tcc__r0
-    lda #:m7sincos
-    sta tcc__r0h
-    sep #$20
-    lda.b [tcc__r0]
+    lda #$41
     sta m7cos
 
     jsr initm7_matric
@@ -649,209 +636,126 @@ setMode7:
 
 ;---------------------------------------------------------------------------
 ;void setMode7Rot(u8 angle)
+;based on https://wiki.superfamicom.org/mode-7-rotation
 setMode7Rot:
     php
+    phb
 
-    lda.w #0
-    sep #$20
-    lda 5,s
-    rep #$20                            ; m7sin = m7sincos[angle]; m7cos = m7sincos[angle+64];
-    sta.b tcc__r1
-    lda #m7sincos
-    clc
-    adc.b tcc__r1
-    sta tcc__r0
+	rep #$10
+    sep #$20        ; A/mem=8 bit
     lda #:m7sincos
-    sta tcc__r0h
-    sep #$20
-    lda.b [tcc__r0]
+    pha
+    plb
+
+    lda #0			; Set high byte of A to 0
+    xba
+
+    lda 6,s         ; 6 instead of 5 because of b pushed
     rep #$20
-    xba
-    xba
-    bpl +
-    ora.w #$ff00
-+   sep #$20
-    sta.w m7sin
+	tax				; Pass angle to X for indexing into the sincos table
+
+    sep #$20        ; A/mem=8 bit
+	lda m7sincos.w,X	;sin (x)
+    sta.l m7sin
+
+	lda #0			; make high byte of A = 0
+	xba				;
+	txa
+	clc
+    adc #64			; Make the index point to the cos value
     rep #$20
-    lda #m7sincos
-    clc
-    adc.b tcc__r1
-    adc #64
-    and #$00ff                          ; to avoid jumping outside the table
-    sta tcc__r0
-    lda #:m7sincos
-    sta tcc__r0h
-    sep #$20
-    lda.b [tcc__r0]
-    rep #$20
-    xba
-    xba
-    bpl +
-    ora.w #$ff00
-+   sep #$20
-    sta.w m7cos
+    tax
+	sep #$20
+	lda m7sincos.w,X	;cos (x)
+    sta.l m7cos
+
+    plb                 ; go back to default bank
 
     ; compute matrix transformation
     ; calc M7B == -sin(a) * (1/sx)
     ; M7A=SX
     rep #$20                            ; REG_M7A=(m7sx & 255); REG_M7A=(m7sx>>8);
-    lda.w m7sx
-    and #$00ff
+    lda m7sx
     sep #$20
     sta.l REG_M7A
-    rep #$20
-    lda.w m7sx
     xba
-    and #$00ff
-    sep #$20
     sta.l REG_M7A
 
     ; M7B=-sin(angle)
-    lda.w m7sin
-    rep #$20
-    xba
-    xba
-    bpl +
-    ora.w #$ff00
-    +
-    and.w #255
-    sep #$20
+    lda m7sin
+    eor #$FF
+    ina
     sta.l REG_M7B
-    ; __M7_B = sin(angle)*SX
+    ; __M7_B = -sin(angle)*SX
     rep #$20
     lda.l REG_MPYMH
     sta.w m7mb
 
     ; calc M7C == sin(a) * (1/sy)
     ; M7A=SY
-    rep #$20                            ; REG_M7A=(m7sy & 255); REG_M7A=(m7sy>>8);
-    lda.w m7sy
-    and #$00ff
     sep #$20
+    lda m7sy
     sta.l REG_M7A
-    rep #$20
-    lda.w m7sy
-    xba
-    and #$00ff
-    sep #$20
+    lda m7sy+1
     sta.l REG_M7A
     ; M7B=sin(angle)
-    lda.w m7sin
-    rep #$20
-    xba
-    xba
-    bpl +
-    ora #$ff00
-+   sta.b tcc__r0
-    lda.w #0
-    sec
-    sbc.b tcc__r0
+    lda m7sin
     sta.l REG_M7B
-    ; __M7_C = -sin(angle)*SY
+    ; __M7_C = sin(angle)*SY
     rep #$20
     lda.l REG_MPYMH
     sta.w m7mc
 
     ; calc M7A == cos(a) * (1/sx)
     ; M7A=SX
-    rep #$20                            ; REG_M7A=(m7sx & 255); REG_M7A=(m7sx>>8);
     lda m7sx
-    and #$00ff
     sep #$20
     sta.l REG_M7A
-    rep #$20
-    lda m7sx
     xba
-    and #$00ff
-    sep #$20
     sta.l REG_M7A
     ; M7B=cos(angle)
-    lda.w m7cos
-    rep #$20
-    xba
-    xba
-    bpl +
-    ora.w #$ff00
-+   and.w #255
+    lda m7cos
     sta.l REG_M7B
     ;  __M7_A = SX*cos(angle)
     rep #$20
     lda.l REG_MPYMH
-    sta m7ma
+    sta.w m7ma
 
     ; calc M7D == cos(a) * (1/sy)
     ; M7A=SY
-    rep #$20                            ; REG_M7A=(m7sy & 255); REG_M7A=(m7sy>>8);
-    lda.w m7sy
-    and #$00ff
-    sep #$20
+    sep #$20                            
+    lda m7sy                            ; REG_M7A=(m7sy & 255); REG_M7A=(m7sy>>8);
     sta.l REG_M7A
-    rep #$20
-    lda.w m7sy
-    xba
-    and #$00ff
-    sep #$20
+    lda m7sy+1
     sta.l REG_M7A
     ; M7B=cos(angle)
-    lda.w m7cos
-    rep #$20
-    xba
-    xba
-    bpl +
-    ora.w #$ff00
-+   and.w #255
+    lda m7cos
     sta.l REG_M7B
     ; __M7_D = cos(angle) * (SY)
     rep #$20
     lda.l REG_MPYMH
-    sta m7md
+    sta.w m7md
 
     ; Store parameters to matrix
-    lda.w m7ma                            ; REG_M7A=(m7ma & 255); REG_M7A=(m7ma>>8);
-    and #$00ff
     sep #$20
+    lda m7ma                            ; REG_M7A=(m7ma & 255); REG_M7A=(m7ma>>8);
     sta.l REG_M7A
-    rep #$20
-    lda.w m7ma
-    xba
-    and #$00ff
-    sep #$20
+    lda m7ma+1
     sta.l REG_M7A
 
-    rep #$20                            ; REG_M7B=(m7mb & 255); REG_M7B=(m7mb>>8);
-    lda.w m7mb
-    and #$00ff
-    sep #$20
+    lda m7mb                             ; REG_M7B=(m7mb & 255); REG_M7B=(m7mb>>8);
     sta.l REG_M7B
-    rep #$20
-    lda.w m7mb
-    xba
-    and #$00ff
-    sep #$20
+    lda m7mb+1
     sta.l REG_M7B
 
-    rep #$20                            ; REG_M7C=(m7mc & 255); REG_M7C=(m7mc>>8);
-    lda.w m7mc
-    and #$00ff
-    sep #$20
+    lda m7mc                            ; REG_M7C=(m7mc & 255); REG_M7C=(m7mc>>8);
     sta.l REG_M7C
-    rep #$20
-    lda.w m7mc
-    xba
-    and #$00ff
-    sep #$20
+    lda m7mc+1
     sta.l REG_M7C
 
-    rep #$20                            ; REG_M7D=(m7md & 255); REG_M7D=(m7md>>8);
-    lda.w m7md
-    and #$00ff
-    sep #$20
+    lda m7md                             ; REG_M7D=(m7md & 255); REG_M7D=(m7md>>8);
     sta.l REG_M7D
-    rep #$20
-    lda.w m7md
-    xba
-    and #$00ff
-    sep #$20
+    lda m7md+1
     sta.l REG_M7D
 
     plp
@@ -865,45 +769,38 @@ setMode7Rot:
 ;void setMode7Angle(u8 angle);
 setMode7Angle:
     php
+    phb
 
-    lda.w #0
-    sep #$20
-    lda 5,s
-    rep #$20                            ; m7sin = m7sincos[angle]; m7cos = m7sincos[angle+64];
-    sta.b tcc__r1
-    lda #m7sincos
-    clc
-    adc.b tcc__r1
-    sta tcc__r0
+	rep #$10
+    sep #$20        ; A/mem=8 bit
     lda #:m7sincos
-    sta tcc__r0h
-    sep #$20
-    lda.b [tcc__r0]
-    rep #$20
-    xba
-    xba
-    bpl +
-    ora.w #$ff00
-+   sep #$20
-    sta.w m7sin
-    rep #$20
-    lda #m7sincos
-    clc
-    adc.b tcc__r1
-    adc #64
-    sta tcc__r0
-    lda #:m7sincos
-    sta tcc__r0h
-    sep #$20
-    lda.b [tcc__r0]
-    rep #$20
-    xba
-    xba
-    bpl +
-    ora.w #$ff00
-+   sep #$20
-    sta.w m7cos
+    pha
+    plb
 
+    lda #0			; Set high byte of A to 0
+    xba
+
+    lda 6,s         ; 6 instead of 5 because of b pushed
+    ina             ; Inc angle when A is 8bits so it loops after 255
+    rep #$20
+	tax				; Pass angle to X for indexing into the sincos table
+
+    sep #$20        ; A/mem=8 bit
+	lda m7sincos.w,X	;sin (x)
+    sta.l m7sin
+
+	lda #0			; make high byte of A = 0
+	xba				;
+	txa
+	clc
+    adc #64			; Make the index point to the cos value
+    rep #$20
+    tax
+	sep #$20
+	lda m7sincos.w,X	;cos (x)
+    sta.l m7cos
+
+    plb
     plp
     rtl
 
@@ -1021,27 +918,25 @@ setMode7MoveLeftRight:
 
 ;---------------------------------------------------------------------------
 ;void setMode7Scale(u16 xscale, u16 yscale)
+;based on https://wiki.superfamicom.org/mode-7-scaling
 setMode7Scale:
     php
-
+    
     rep #$20                ; get xscale
     lda 5,s
+    sta.l m7sx
+    lda 7,s                 ; get yscale
+    sta.l m7sx
 
     sep #$20                ; REG_M7A = xscale;
+    lda.l m7sx
     sta.l REG_M7A
-    rep #$20
-    xba
-    sep #$20                ; REG_M7A = xscale>>8;
-    sta.l REG_M7A
+    lda.l m7sx+1
+    sta.l REG_M7A           ; REG_M7A = xscale>>8;
 
-    rep #$20                ; get yscale
-    lda 7,s
-
-    sep #$20                ; REG_M7D = yscale;
+    lda.l m7sy
     sta.l REG_M7D
-    rep #$20
-    xba
-    sep #$20                ; REG_M7D = yscale>>8;
+    lda.l m7sy+1
     sta.l REG_M7D
 
     plp
