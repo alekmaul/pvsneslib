@@ -27,6 +27,11 @@
 
 .DEFINE MAP_BG1_ADR     $6800
 
+.EQU REG_BG1HOFS        $210D
+.EQU REG_BG1VOFS        $210E
+.EQU REG_BG2HOFS        $210F
+.EQU REG_BG2VOFS        $2110
+
 .DEFINE MAP_MAXROWS     256*2               ; Maximum number of rows in a map.
 .DEFINE MAP_MAXMTILES   512                 ; Number of metatiles (ort not) per map
 
@@ -43,6 +48,7 @@
 .DEFINE MAP_UPD_WHOLE   $FF
 
 .DEFINE MAP_OPT_1WAY    $01
+.DEFINE MAP_OPT_BG2     $02
 
 .STRUCT metatiles_t
 topleft                 DSW MAP_MAXMTILES*4 ; a metatile is 4 8x8 pixels max
@@ -103,7 +109,7 @@ mapdirty                DB                  ; 1 if map is not correct and need u
 
 maptmpvalue             DW                  ; TO store a temporary value (used for tile flipping for example)
 
-map1wayx                DB                  ; 1 if only one way in x (to the right), default is 0
+mapoptions              DB                  ; xxxx xxbw with w for 1 way scrolling (1), b for bg2 (1)
 
 .ends
 
@@ -144,7 +150,8 @@ _muc1:
 
 _muc2:
     sep #$20
-    lda map1wayx                            ; is it a 1 way map 
+    lda mapoptions                          ; is it a 1 way map 
+    and #MAP_OPT_1WAY
     rep #$20
     bne _muc4                               ; yes, we jump
 
@@ -281,7 +288,7 @@ mapLoad:
     lda #$0
     sta.l mapupdbuf                         ; reset var for map update
     sta.l mapdirty
-    sta.l map1wayx
+    sta.l mapoptions
 
     rep #$31
     lda.l mapwidth
@@ -682,15 +689,31 @@ _mapvb4;                                        ; Update Horizontal Buffer layer
 
 _mapvbend:
     sep #$20                                    ; update scrolling of layer 1 and 2
+    lda.l mapoptions
+    and #MAP_OPT_BG2                            ; if BG2 for map, scroll next BG
+    bne _mapvbbg2
     lda.l dispxofs_L1
-    sta.l $210D                                 ; BG1HOFS
+    sta.l REG_BG1HOFS                           ; BG1HOFS
     lda.l dispxofs_L1 + 1
-    sta.l $210D                                 ; BG1HOFS
+    sta.l REG_BG1HOFS                           ; BG1HOFS
     lda.l dispyofs_L1
-    sta.l $210E                                 ; BG1VOFS
+    sta.l REG_BG1VOFS                           ; BG1VOFS
     lda.l dispyofs_L1 + 1
-    sta.l $210E                                 ; BG1VOFS
+    sta.l REG_BG1VOFS                           ; BG1VOFS
+    bra _mapvbend1
 
+_mapvbbg2:
+    lda.l dispxofs_L1
+    sta.l REG_BG2HOFS                           ; BG1HOFS
+    lda.l dispxofs_L1 + 1
+    sta.l REG_BG2HOFS                           ; BG1HOFS
+    lda.l dispyofs_L1
+    sta.l REG_BG2VOFS                           ; BG1VOFS
+    lda.l dispyofs_L1 + 1
+    sta.l REG_BG2VOFS                           ; BG1VOFS
+    bra _mapvbend1
+
+_mapvbend1:
     lda #$0                                     ; no more need of update
     sta.l mapupdbuf
 
@@ -1047,13 +1070,8 @@ mapSetMapOptions:
     plb
 
     lda 6,s                                 ; get options
-    and #MAP_UPD_WHOLE                      ; one way option ?
-    beq _msmo                               ; no, get out
+    sta mapoptions
 
-    lda #$1                                 ; yes, store info
-    sta map1wayx
-
-_msmo:
     plb
     plp
     rtl
