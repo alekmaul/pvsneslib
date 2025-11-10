@@ -49,11 +49,11 @@ int main(void)
                 break;
             case KEY_DOWN:
                 if (zscale>16) zscale-=16; 
-                m7sx=zscale; setMode7Rot(angle);// as we also modify angle, we use this trick instead of calling setMode7Scale(zscale,zscale);
+                m7sx=zscale; m7sy=zscale; setMode7Rot(angle);// as we also modify angle, we use this trick instead of calling setMode7Scale(zscale,zscale);
                 break;
             case KEY_UP:
                 if (zscale<0xF00) zscale+=16; 
-                m7sx=zscale; setMode7Rot(angle); // as we also modify angle, we use this trick instead of calling  setMode7Scale(zscale,zscale);
+                m7sx=zscale; m7sy=zscale; setMode7Rot(angle); // as we also modify angle, we use this trick instead of calling  setMode7Scale(zscale,zscale);
                 break;
             }
         }
