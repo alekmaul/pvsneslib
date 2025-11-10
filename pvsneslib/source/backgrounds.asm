@@ -329,7 +329,9 @@ bgSetGfxPtr:
     dex
     bne -
     ora bkgrd_val1
+    sep #$20                ; bad but must access in 8 bits
     sta.l REG_BG12NBA
+    rep #$20
     bra _bSGP1
 +   lda bg2gfxaddr ; REG_BG34NBA = (bgState[3].gfxaddr >> 8 ) | (bgState[2].gfxaddr >> 12);
     ldx #12
@@ -343,8 +345,10 @@ bgSetGfxPtr:
     dex
     bne -
     ora bkgrd_val1
+    sep #$20                ; bad but must access in 8 bits
     sta.l REG_BG34NBA
-
+    rep #$20
+    
 _bSGP1:
     plx
 
