@@ -926,7 +926,7 @@ setMode7Scale:
     lda 5,s
     sta.l m7sx
     lda 7,s                 ; get yscale
-    sta.l m7sx
+    sta.l m7sy
 
     sep #$20                ; REG_M7A = xscale;
     lda.l m7sx
