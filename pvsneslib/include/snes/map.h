@@ -50,7 +50,8 @@
 #define ACT_DIE 0x0010   /*!< \brief Action type DIE for object */
 #define ACT_BURN 0x0020  /*!< \brief Action type BURN for object */
 
-#define MAP_OPT_1WAY 0x01  /*!< \brief Map option to only scvroll right */    
+#define MAP_OPT_1WAY 0x01  /*!< \brief Map option to only scroll right */    
+#define MAP_OPT_BG2 0x02  /*!< \brief Map option to use BG2 instead of BG1 (address is still 6800 but scroll BG2) */    
 
 extern u16 bg_L1[32 * 32]; /*!< \brief The buffer to use when updating the whole display on layer 1 */
 
@@ -104,7 +105,8 @@ u16 mapGetMetaTilesProp(u16 xpos, u16 ypos);
     \brief Put some generic options for the map
     \param optmap	options to set
     <br> Options are:
-    <br> MAP_OPT_1WAY, option to only scvroll right
+    <br> MAP_OPT_1WAY: only scroll right
+    <br> MAP_OPT_BG2: option to use BG2 instead of BG1 (address is still 6800 but scroll BG2)
 */
 void mapSetMapOptions(u8 optmap);
 
