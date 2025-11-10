@@ -42,6 +42,8 @@
 .DEFINE MAP_UPD_VERT    $80
 .DEFINE MAP_UPD_WHOLE   $FF
 
+.DEFINE MAP_OPT_1WAY    $01
+
 .STRUCT metatiles_t
 topleft                 DSW MAP_MAXMTILES*4 ; a metatile is 4 8x8 pixels max
 .ENDST
@@ -101,6 +103,8 @@ mapdirty                DB                  ; 1 if map is not correct and need u
 
 maptmpvalue             DW                  ; TO store a temporary value (used for tile flipping for example)
 
+map1wayx                DB                  ; 1 if only one way in x (to the right), default is 0
+
 .ends
 
 .BASE BASE_0
@@ -139,6 +143,11 @@ _muc1:
     brl _muc4                               ; now we are going to test y coordinates
 
 _muc2:
+    sep #$20
+    lda map1wayx                            ; is it a 1 way map 
+    rep #$20
+    bne _muc4                               ; yes, we jump
+
     cmp #MAP_SCRLR_SCRL
     bpl _muc4
     lda 6,s                                 ; get xpos (5+1)
@@ -272,6 +281,7 @@ mapLoad:
     lda #$0
     sta.l mapupdbuf                         ; reset var for map update
     sta.l mapdirty
+    sta.l map1wayx
 
     rep #$31
     lda.l mapwidth
@@ -1020,4 +1030,31 @@ mapGetMetaTilesProp:
     plp
     rtl
 
+.ENDS
+
+.SECTION ".maps3_text" SUPERFREE
+
+;---------------------------------------------------------------------------------
+; void mapSetMapOptions(u8 optmap)
+; 6
+mapSetMapOptions:
+    php
+    phb
+
+    sep #$20
+    lda.b #$7E
+    pha
+    plb
+
+    lda 6,s                                 ; get options
+    and #MAP_UPD_WHOLE                      ; one way option ?
+    beq _msmo                               ; no, get out
+
+    lda #$1                                 ; yes, store info
+    sta map1wayx
+
+_msmo:
+    plb
+    plp
+    rtl
 .ENDS

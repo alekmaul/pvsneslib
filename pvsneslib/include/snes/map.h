@@ -50,6 +50,8 @@
 #define ACT_DIE 0x0010   /*!< \brief Action type DIE for object */
 #define ACT_BURN 0x0020  /*!< \brief Action type BURN for object */
 
+#define MAP_OPT_1WAY 0x01  /*!< \brief Map option to only scvroll right */    
+
 extern u16 bg_L1[32 * 32]; /*!< \brief The buffer to use when updating the whole display on layer 1 */
 
 extern u8 mapupdbuf; /*!< \brief State of buffer update (vert / horiz / all) */
@@ -98,5 +100,12 @@ u16 mapGetMetaTile(u16 xpos, u16 ypos);
 */
 u16 mapGetMetaTilesProp(u16 xpos, u16 ypos);
 
+/*!	\fn mapSetMapOptions(u8 optmap)
+    \brief Put some generic options for the map
+    \param optmap	options to set
+    <br> Options are:
+    <br> MAP_OPT_1WAY, option to only scvroll right
+*/
+void mapSetMapOptions(u8 optmap);
 
 #endif
