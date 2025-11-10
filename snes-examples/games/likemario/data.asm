@@ -2,22 +2,11 @@
 
 .section ".rodata1" superfree
 
-tileset:
-.incbin "tiles.pic"
-tilesetend:
+.include "tiles_data.as"
 
-tilepal:
-.incbin "tiles.pal"
+.include "mario_sprite_data.as"
 
-mariogfx: .incbin "mario_sprite.pic"
-mariogfx_end:
-
-mariopal: .incbin "mario_sprite.pal"
-
-snesfont: .incbin "mariofont.pic"
-snesfont_end:
-
-snespal: .incbin "mariofont.pal"
+.include "mariofont_data.as"
 
 jumpsnd: .incbin "mariojump.brr"
 jumpsndend:

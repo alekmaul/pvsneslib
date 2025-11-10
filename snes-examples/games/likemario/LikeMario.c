@@ -1,14 +1,14 @@
 /*---------------------------------------------------------------------------------
-
-
-    Simple game with map and sprite engine demo
+    Simple game with famous hero ;) and map and sprite engine demo
     -- alekmaul
-
-
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
 #include "soundbank.h"
+
+#include "mario_sprite.inc"
+#include "mariofont.inc"
+#include "tiles.inc"
 
 //---------------------------------------------------------------------------------
 extern char SOUNDBANK__;
@@ -32,15 +32,8 @@ enum
 }; // Mario state
 
 //---------------------------------------------------------------------------------
-extern char tileset, tilesetend, tilepal;
-extern char tilesetdef, tilesetatt; // for map & tileset of map
-
-extern char mapmario, objmario;
-
-extern char mariogfx, mariogfx_end;
-extern char mariopal;
-
-extern char snesfont, snespal;
+extern char mapmario, objmario;             // for map & tileset of map
+extern char tilesetdef, tilesetatt;         // for map & tileset of map
 
 //---------------------------------------------------------------------------------
 brrsamples Jump; // The sound for jumping
@@ -86,10 +79,10 @@ void marioinit(u16 xp, u16 yp, u16 type, u16 minx, u16 maxx)
     oambuffer[0].oamframeid = 6;
     oambuffer[0].oamrefresh = 1;
     oambuffer[0].oamattribute = 0x60 | (0 << 1); // palette 0 of sprite and sprite 16x16 and priority 2 and flip sprite
-    oambuffer[0].oamgraphics = &mariogfx;
+    oambuffer[0].oamgraphics = &mario_sprite_til;
 
     // Init Sprites palette
-    setPalette(&mariopal, 128 + 0 * 16, 16 * 2);
+    setPalette(&mario_sprite_pal, 128 + 0 * 16, 16 * 2);
 }
 
 //---------------------------------------------------------------------------------
@@ -241,7 +234,7 @@ int main(void)
     // Initialize text console with our font
     consoleSetTextMapPtr(0x6000);
     consoleSetTextGfxPtr(0x3000);
-    consoleInitText(1, 16 * 2, &snesfont, &snespal);
+    consoleInitText(1, 16 * 2, &mariofont_til, &mariofont_pal);
 
     // Set give soundbank
     spcSetBank(&SOUNDBANK__);
@@ -258,7 +251,7 @@ int main(void)
     // Init layer with tiles and init also map length 0x6800 is mandatory for map engine
     bgSetGfxPtr(1, 0x3000);
     bgSetMapPtr(1, 0x6000, SC_32x32);
-    bgInitTileSet(0, &tileset, &tilepal, 0, (&tilesetend - &tileset), 16 * 2, BG_16COLORS, 0x2000);
+    bgInitTileSet(0, &tiles_til, &tiles_pal, 0, (&tiles_tilend - &tiles_til), 16 * 2, BG_16COLORS, 0x2000);
     bgSetMapPtr(0, 0x6800, SC_64x32);
 
     // Init sprite engine (0x0000 for large, 0x1000 for small)
