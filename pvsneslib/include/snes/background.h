@@ -82,6 +82,12 @@
 #define BG_256COLORS 256
 #define BG3_MODE1_PRIORITY_HIGH (1 << 3)
 
+#define BG_TIL_PRIO                 (1<<13)     /** \brief 1 for priority in tile attributes */
+#define BG_TIL_PAL(n)               (n<<10)     /** \brief 0 to 7 for palette in tile attributes */
+#define BG_TIL_NUM(n)               (n<<0)      /** \brief 0 to nnn for tile number in tile attributes */
+#define BG_TIL_FLIPX                (1<<14)     /** \brief 1 to flip on X in tile attributes */
+#define BG_TIL_FLIPY                (1<<15)     /** \brief 1 to flip on Y in tile attributes */
+
 /** \def REG_BGMODE
     \brief BG Mode and BG Character Size (W)
     7    BG4 Tile Size (0=8x8, 1=16x16)  ;\(BgMode0..4: variable 8x8 or 16x16)
