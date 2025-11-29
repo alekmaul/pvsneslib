@@ -86,7 +86,7 @@ unsigned short *map_convertsnes (unsigned char *imgbuf, int *nbtiles, int blksiz
     if ( !isquiet && is32size) info("rearrange map for 32x32 scrolling...");
 
     // add the palette number to tiles
-    if (!isquiet) info("add palette entry #%d to tiles in map...",offsetpal);
+    if (!isquiet) info("add palette entry #%d to tiles in map or metasprites...",offsetpal);
     currenttile = 0;
     for (y = 0; y < nbblocky; y++)
     {

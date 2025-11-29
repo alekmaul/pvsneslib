@@ -75,6 +75,7 @@ void metasprite_save (const char *filename, unsigned short *sprites, int nbtilex
     //int nbincrspr=imgwidth/blocksize; // not (nbsprx*nbspry)/nbtiley, don't work
     int nbincrspr=(nbsprx*nbspry)/nbtiley; // not (nbsprx*nbspry)/nbtiley, don't work
 
+/*
     fprintf(stdout,"map= \n"); 
     for (i=0; i<(nbtilex*nbtiley);i++) {
         fprintf(stdout,"%04d ",sprites[i]); 
@@ -82,7 +83,7 @@ void metasprite_save (const char *filename, unsigned short *sprites, int nbtilex
     fprintf(stdout,"\n");fflush(stdout);
 
     fprintf(stdout,"nbsprx=%d nbspry=%d nbtilex=%d nbtiley=%d nbincrspr=%d\n",nbsprx,nbspry,nbtilex, nbtiley, nbincrspr); fflush(stdout);
-
+*/
 
     if (imgwidth<imgheight) nbincrspr=(nbsprx*nbspry); // if it is a vert. image, do not divide
 

@@ -45,7 +45,7 @@ where filename is a 256 color PNG or BMP file
 ### Palette options
 - `-a` Rearrange palette, and preserve palette numbers in tilemap  
 - `-d` Palette rounding  (to a maximum value of 63)
-- `-e (0..15)` The palette entry to add to map tiles (0 to 15)  
+- `-e (0..7)` The palette entry to add to map tiles and sprites (0 to 7)  
 - `-o (0..256)` The number of colors to output (0 to 256) to filename.pal  
 - `-p` Include palette for output  
 - `-u (4|16|128|256)` The number of colors to use [16]  
