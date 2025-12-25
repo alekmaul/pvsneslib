@@ -44,6 +44,7 @@ typedef struct
     int mapoutput;				    											// 1 = save the map
     int maphighpriority;                                                        // 1 = b13 of high priority on
     int map32pages;                                                             // 1 = tile map pages of 32x32 (for scrolling)
+    int tileflip;                                                               // 1 = consider H/V flips when reducing tiles ("tile-flip")
 
     int metasprite;                                                             // 1 = generate header files for metasprites
     int metawidth;                                                              // width of the metasprite
