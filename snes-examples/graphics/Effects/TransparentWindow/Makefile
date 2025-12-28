@@ -14,7 +14,7 @@ all: bitmaps $(ROMNAME).sfc
 
 cleanGfxBackground:
 	@echo clean Background graphics data
-	@rm -f res/*.pic res/*.pal res/*.map
+	@rm -f res/*.pic res/*.pal res/*.map res/*.inc res/*.as
 
 clean: cleanBuildRes cleanRom cleanGfx cleanGfxBackground
 

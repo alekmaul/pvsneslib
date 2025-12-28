@@ -66,6 +66,7 @@ bkgrd_val1      DSB 2                         ; save value #1
 
 ;---------------------------------------------------------------------------
 ; bgSetScroll(u8 bgNumber, u16 x, u16 y);
+; 6 7-8 9-10
 bgSetScroll:
     php
     phb
@@ -112,11 +113,16 @@ bgSetScroll:
 
 ;---------------------------------------------------------------------------
 ;void bgSetEnable(u8 bgNumber) {
+; 6
 bgSetEnable:
     php
+    phb
 
     sep #$20
-    lda 5,s
+    lda #$7E
+    pha
+    plb
+    lda 6,s             ; get bgNumber
 
     rep #$20
     and #$00ff
@@ -136,16 +142,22 @@ bgSetEnable:
 
     sta.l REG_TM        ; REG_TM = videoMode;
 
+    plb
     plp
     rtl
 
 ;---------------------------------------------------------------------------
 ;void bgSetDisable(u8 bgNumber) {
+; 6
 bgSetDisable:
     php
+    phb
 
     sep #$20
-    lda 5,s
+    lda #$7E
+    pha
+    plb
+    lda 6,s                     ; bgNumber
 
     rep #$20
     and #$00ff
@@ -166,6 +178,7 @@ bgSetDisable:
 
     sta.l REG_TM        ; REG_TM = videoMode;
 
+    plb
     plp
     rtl
 
@@ -175,11 +188,16 @@ bgSetDisable:
 
 ;---------------------------------------------------------------------------
 ;void bgSetEnableSub(u8 bgNumber) {
+; 6
 bgSetEnableSub:
     php
+    phb
 
     sep #$20
-    lda 5,s
+    lda #$7E
+    pha
+    plb
+    lda 6,s                     ; bgNumber
 
     rep #$20
     and #$00ff
@@ -199,16 +217,22 @@ bgSetEnableSub:
 
     sta.l REG_TS        ; REG_TS = videoModeSub;
 
+    plb
     plp
     rtl
 
 ;---------------------------------------------------------------------------
 ;void bgSetDisableSub(u8 bgNumber) {
+; 6
 bgSetDisableSub:
     php
+    phb
 
     sep #$20
-    lda 5,s
+    lda #$7E
+    pha
+    plb
+    lda 6,s                     ; bgNumber
 
     rep #$20
     and #$00ff
@@ -229,6 +253,7 @@ bgSetDisableSub:
 
     sta.l REG_TS        ; REG_TS = videoModeSub;
 
+    plb
     plp
     rtl
 
@@ -239,6 +264,7 @@ bgSetDisableSub:
 
 ;---------------------------------------------------------------------------
 ; void bgSetWindowsRegions(u8 bgNumber, u8 winNumber, u8 xLeft, u8 xRight)
+; 5 6 7 8
 bgSetWindowsRegions:
     php
 
@@ -246,9 +272,9 @@ bgSetWindowsRegions:
     sta.l REG_W12SEL
     sta.l REG_WOBJSEL
 
-    lda 7,s
+    lda 7,s                         ; get xL
     sta.l REG_WH0
-    lda 8,s
+    lda 8,s                         ; get xR
     sta.l REG_WH1
 
     lda #$01
@@ -267,17 +293,25 @@ bgSetWindowsRegions:
 
 ;---------------------------------------------------------------------------
 ; void bgSetGfxPtr(u8 bgNumber, u16 address)
+; 8 9-10
 bgSetGfxPtr:
     php
+    phb 
+
     phx
 
     sep #$20
-    lda 7,s                 ; get bgNumber
+    lda #$7E
+    pha
+    plb
+    
+    lda 8,s                 ; get bgNumber
+
     rep #$20
     and #$0003
     asl a
     tax
-    lda 8,s
+    lda 9,s                 ; get address
     sta bg0gfxaddr,x        ; store address
 
     txa                     ; Change address regarde background number
@@ -295,7 +329,9 @@ bgSetGfxPtr:
     dex
     bne -
     ora bkgrd_val1
+    sep #$20                ; bad but must access in 8 bits
     sta.l REG_BG12NBA
+    rep #$20
     bra _bSGP1
 +   lda bg2gfxaddr ; REG_BG34NBA = (bgState[3].gfxaddr >> 8 ) | (bgState[2].gfxaddr >> 12);
     ldx #12
@@ -309,26 +345,37 @@ bgSetGfxPtr:
     dex
     bne -
     ora bkgrd_val1
+    sep #$20                ; bad but must access in 8 bits
     sta.l REG_BG34NBA
-
+    rep #$20
+    
 _bSGP1:
     plx
+
+    plb
     plp
     rtl
 
 ;---------------------------------------------------------------------------
 ; void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize)
+; 8 9-10 11
 bgSetMapPtr:
     php
+    phb 
+
     phx
 
     sep #$20                    ; mapadr = ((address >> 8) & 0xfc) | (mapSize & 0x03);
-    lda 10,s                    ; get mapsize
+    lda #$7E
+    pha
+    plb
+
+    lda 11,s                    ; get mapsize
     and #$0003
     sta bkgrd_val1
 
     rep #$20
-    lda 8,s                     ; get address
+    lda 9,s                     ; get address
     ldx #8
 -   ror a
     dex
@@ -338,7 +385,7 @@ bgSetMapPtr:
     ora bkgrd_val1
     sta bkgrd_val1
 
-    lda 7,s
+    lda 8,s                     ; get bgNumber
     rep #$20
     and #$0003
     tax
@@ -347,6 +394,8 @@ bgSetMapPtr:
     sta.l BG1SC_ADDR,x
 
     plx
+
+    plb
     plp
     rtl
 
@@ -356,21 +405,29 @@ bgSetMapPtr:
 
 ;---------------------------------------------------------------------------
 ;void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)
-;5 6-9 10-13 14 15-16 17-18 19-20 21-22
+;6 7-10 11-14 15 16-17 18-19 20-21 22-23
 bgInitTileSet:
     php
+    phb
+
+    sep #$20                    ; fix bank to avoid issues
+    lda #$7E
+    pha
+    plb
 
     ; If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
     rep #$20
-    lda 19,s                    ; get colorMode
+    lda 20,s                    ; get colorMode
     cmp #BG_4COLORS0
     bne +
     sep #$20                    ; palEntry = bgNumber*32 + paletteEntry*BG_4COLORS;
-    lda 14,s                    ; get paletteEntry
+    
+    lda 15,s                    ; get paletteEntry
     asl a
     asl a
     sta bkgrd_val1
-    lda 5,s
+
+    lda 6,s                     ; bg number
     asl a
     asl a
     asl a
@@ -382,12 +439,12 @@ bgInitTileSet:
     bra _bITS1
 +   sep #$20                    ; palEntry = paletteEntry*colorMode;
     stz bkgrd_val1
-    lda 14,s                    ; get paletteEntry
+    lda 15,s                    ; get paletteEntry
     rep #$20
     and #$F                     ; from 0..16
     tax
     beq _bITS1
-    lda 19,s                    ; get colorMode
+    lda 20,s                    ; get colorMode
     cmp #BG_256COLORS
     beq +
     lda.w #$0                   ; to begin at 16
@@ -409,13 +466,13 @@ _bITS1:
     tas
     wai
 
-    lda 15,s                    ; get tilesize
+    lda 16,s                    ; get tilesize
     pha
-    lda 23,s                    ; get address (21+2)
+    lda 24,s                    ; get address (21+2)
     pha
-    lda 12,s                     ; get tileSource bank address (8+4)
+    lda 13,s                     ; get tileSource bank address (6+4)
     pha
-    lda 12,s                     ; get tileSource data address (6+6)
+    lda 13,s                     ; get tileSource data address (7+6)
     pha
     jsl dmaCopyVram
     tsa
@@ -423,13 +480,13 @@ _bITS1:
     adc #8
     tas
 
-    lda 17,s                    ; get paletteSize
+    lda 18,s                    ; get paletteSize
     pha
     lda bkgrd_val1
     pha
-    lda 16,s                    ; get tilePalette bank address (12+4)
+    lda 17,s                    ; get tilePalette bank address (13+4)
     pha
-    lda 16,s                    ; get tilePalette data address (10+6)
+    lda 17,s                    ; get tilePalette data address (11+6)
     pha
     jsl dmaCopyCGram
     tsa
@@ -437,10 +494,10 @@ _bITS1:
     adc #8
     tas
 
-    lda 21,s                    ; get address
+    lda 22,s                    ; get address
     pha
     sep #$20
-    lda 7,s                     ; get bgNumber (5+2)
+    lda 8,s                     ; get bgNumber (6+2)
     pha
     rep #$20
     jsl bgSetGfxPtr
@@ -449,6 +506,7 @@ _bITS1:
     adc #3
     tas
 
+    plb
     plp
     rtl
 
@@ -458,21 +516,28 @@ _bITS1:
 
 ;---------------------------------------------------------------------------
 ;void bgInitTileSetLz(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 paletteSize, u16 colorMode, u16 address)
-;5 6-9 10-13 14 15-16 17-18 19-20
+;6 7-10 11-14 15 16-17 18-19 20-21
 bgInitTileSetLz:
     php
+    phb
+
+    sep #$20                    ; fix bank to avoid issues
+    lda #$7E
+    pha
+    plb
 
     ; If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
     rep #$20
-    lda 17,s                    ; get colorMode
+    lda 18,s                    ; get colorMode
     cmp #BG_4COLORS0
     bne +
     sep #$20                    ; palEntry = bgNumber*32 + paletteEntry*BG_4COLORS;
-    lda 14,s                    ; get paletteEntry
+    lda 15,s                    ; get paletteEntry
     asl a
     asl a
     sta bkgrd_val1
-    lda 5,s
+    
+    lda 6,s                     ; get bg number
     asl a
     asl a
     asl a
@@ -484,12 +549,12 @@ bgInitTileSetLz:
     bra _bITS1
 +   sep #$20                    ; palEntry = paletteEntry*colorMode;
     stz bkgrd_val1
-    lda 14,s                    ; get paletteEntry
+    lda 15,s                    ; get paletteEntry
     rep #$20
     and #$F                     ; from 0..16
     tax
     beq _bITS1
-    lda 17,s                    ; get colorMode
+    lda 18,s                    ; get colorMode
     cmp #BG_256COLORS
     beq +
     lda.w #$0                   ; to begin at 16
@@ -511,11 +576,11 @@ _bITS1:
     tas
     wai
 
-    lda 19,s                    ; get address
+    lda 20,s                    ; get address
     pha
-    lda 10,s                     ; get tileSource bank address (8+2)
+    lda 11,s                     ; get tileSource bank address (9+2)
     pha
-    lda 10,s                     ; get tileSource data address (6+4)
+    lda 11,s                     ; get tileSource data address (7+4)
     pha
     jsl LzssDecodeVram
     tsa
@@ -523,13 +588,13 @@ _bITS1:
     adc #6
     tas
 
-    lda 15,s                    ; get paletteSize
+    lda 16,s                    ; get paletteSize
     pha
     lda bkgrd_val1
     pha
-    lda 16,s                    ; get tilePalette bank address (12+4)
+    lda 17,s                    ; get tilePalette bank address (13+4)
     pha
-    lda 16,s                    ; get tilePalette data address (10+6)
+    lda 17,s                    ; get tilePalette data address (11+6)
     pha
     jsl dmaCopyCGram
     tsa
@@ -537,10 +602,10 @@ _bITS1:
     adc #8
     tas
 
-    lda 19,s                    ; get address
+    lda 20,s                    ; get address
     pha
     sep #$20
-    lda 7,s                     ; get bgNumber (5+2)
+    lda 6,s                     ; get bgNumber (6+2)
     pha
     rep #$20
     jsl bgSetGfxPtr
@@ -549,6 +614,7 @@ _bITS1:
     adc #3
     tas
 
+    plb
     plp
     rtl
 

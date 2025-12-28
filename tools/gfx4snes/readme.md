@@ -20,26 +20,33 @@ gfx4snes [options] png/bmp filename ...
 where filename is a 256 color PNG or BMP file  
 
 ## Options
-### Tiles options 
+### Sprites and tiles options 
 - `-b` Add blank tile management (for multiple bgs)  
 - `-s (8|16|32|64)` Size of image blocks in pixels [8]  
 - `-k` Output in packed pixel format
 - `-z` Output in lz77 compressed pixel format
 - `-W` Width  of image blocks in pixels [8] (do not use with -s option)
 - `-H` Height of image blocks in pixels [8] (do not use with -s option) 
-  
+
+### Metasprites options 
+- `-T` Include metasprite definition for output (-s is mandatory for this)
+- `-X (0..128)` Width of the metasprite
+- `-Y (0..128)` Height of the metasprite
+- `-P (0..3)` Priority of the metasprite 
+
 ### Map options
 - `-f (0..2047)` Generate the whole picture with an offset for tile number {0..2047}
 - `-m` Include map for output  
 - `-g` Include high priority bit in map
 - `-y` Generate map in pages of 32x32 blocks (good for scrolling)
 - `-R` No tile reduction (not advised)  
+- `-F` deduplicate flipped tiles  
 - `-M (1|5|6|7||9)` Convert the whole picture for mode 1, 5, 6 or 7 format, 9 is without map constraint [1]
   
 ### Palette options
 - `-a` Rearrange palette, and preserve palette numbers in tilemap  
 - `-d` Palette rounding  (to a maximum value of 63)
-- `-e (0..15)` The palette entry to add to map tiles (0 to 15)  
+- `-e (0..7)` The palette entry to add to map tiles and sprites (0 to 7)  
 - `-o (0..256)` The number of colors to output (0 to 256) to filename.pal  
 - `-p` Include palette for output  
 - `-u (4|16|128|256)` The number of colors to use [16]  

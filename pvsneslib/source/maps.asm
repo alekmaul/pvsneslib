@@ -27,6 +27,11 @@
 
 .DEFINE MAP_BG1_ADR     $6800
 
+.EQU REG_BG1HOFS        $210D
+.EQU REG_BG1VOFS        $210E
+.EQU REG_BG2HOFS        $210F
+.EQU REG_BG2VOFS        $2110
+
 .DEFINE MAP_MAXROWS     256*2               ; Maximum number of rows in a map.
 .DEFINE MAP_MAXMTILES   512                 ; Number of metatiles (ort not) per map
 
@@ -41,6 +46,9 @@
 .DEFINE MAP_UPD_POSIT   $02
 .DEFINE MAP_UPD_VERT    $80
 .DEFINE MAP_UPD_WHOLE   $FF
+
+.DEFINE MAP_OPT_1WAY    $01
+.DEFINE MAP_OPT_BG2     $02
 
 .STRUCT metatiles_t
 topleft                 DSW MAP_MAXMTILES*4 ; a metatile is 4 8x8 pixels max
@@ -101,6 +109,8 @@ mapdirty                DB                  ; 1 if map is not correct and need u
 
 maptmpvalue             DW                  ; TO store a temporary value (used for tile flipping for example)
 
+mapoptions              DB                  ; xxxx xxbw with w for 1 way scrolling (1), b for bg2 (1)
+
 .ends
 
 .BASE BASE_0
@@ -139,6 +149,12 @@ _muc1:
     brl _muc4                               ; now we are going to test y coordinates
 
 _muc2:
+    sep #$20
+    lda mapoptions                          ; is it a 1 way map 
+    and #MAP_OPT_1WAY
+    rep #$20
+    bne _muc4                               ; yes, we jump
+
     cmp #MAP_SCRLR_SCRL
     bpl _muc4
     lda 6,s                                 ; get xpos (5+1)
@@ -272,6 +288,7 @@ mapLoad:
     lda #$0
     sta.l mapupdbuf                         ; reset var for map update
     sta.l mapdirty
+    sta.l mapoptions
 
     rep #$31
     lda.l mapwidth
@@ -672,15 +689,31 @@ _mapvb4;                                        ; Update Horizontal Buffer layer
 
 _mapvbend:
     sep #$20                                    ; update scrolling of layer 1 and 2
+    lda.l mapoptions
+    and #MAP_OPT_BG2                            ; if BG2 for map, scroll next BG
+    bne _mapvbbg2
     lda.l dispxofs_L1
-    sta.l $210D                                 ; BG1HOFS
+    sta.l REG_BG1HOFS                           ; BG1HOFS
     lda.l dispxofs_L1 + 1
-    sta.l $210D                                 ; BG1HOFS
+    sta.l REG_BG1HOFS                           ; BG1HOFS
     lda.l dispyofs_L1
-    sta.l $210E                                 ; BG1VOFS
+    sta.l REG_BG1VOFS                           ; BG1VOFS
     lda.l dispyofs_L1 + 1
-    sta.l $210E                                 ; BG1VOFS
+    sta.l REG_BG1VOFS                           ; BG1VOFS
+    bra _mapvbend1
 
+_mapvbbg2:
+    lda.l dispxofs_L1
+    sta.l REG_BG2HOFS                           ; BG1HOFS
+    lda.l dispxofs_L1 + 1
+    sta.l REG_BG2HOFS                           ; BG1HOFS
+    lda.l dispyofs_L1
+    sta.l REG_BG2VOFS                           ; BG1VOFS
+    lda.l dispyofs_L1 + 1
+    sta.l REG_BG2VOFS                           ; BG1VOFS
+    bra _mapvbend1
+
+_mapvbend1:
     lda #$0                                     ; no more need of update
     sta.l mapupdbuf
 
@@ -1020,4 +1053,26 @@ mapGetMetaTilesProp:
     plp
     rtl
 
+.ENDS
+
+.SECTION ".maps3_text" SUPERFREE
+
+;---------------------------------------------------------------------------------
+; void mapSetMapOptions(u8 optmap)
+; 6
+mapSetMapOptions:
+    php
+    phb
+
+    sep #$20
+    lda.b #$7E
+    pha
+    plb
+
+    lda 6,s                                 ; get options
+    sta mapoptions
+
+    plb
+    plp
+    rtl
 .ENDS

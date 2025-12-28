@@ -8,7 +8,7 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 #---------------------------------------------------------------------------------
 # ROMNAME is used in snes_rules file
-export ROMNAME := DynamicEngineMetaSprite
+export ROMNAME := MetaSprite
 
 all: bitmaps $(ROMNAME).sfc
 
@@ -26,8 +26,8 @@ spritehero8.pic: spritehero8.png
 	@echo convert meta sprites as 16px  ... $(notdir $@)
 	$(GFXCONV) -s 8 -o 16 -u 16 -T -X 16 -Y 16 -P 2 -i $<
 
-pvsneslibfont.pic: pvsneslibfont.png
-	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFXCONV) -s 8 -o 2 -u 16 -e 1 -i $<
+pvsneslib.pic: pvsneslib.png
+	@echo convert bitmap ... $(notdir $<)
+	$(GFXCONV) -s 8 -o 16 -u 16 -m -i $<
 
-bitmaps : spritehero32.pic spritehero16.pic spritehero8.pic pvsneslibfont.pic
+bitmaps : pvsneslib.pic spritehero32.pic spritehero16.pic spritehero8.pic

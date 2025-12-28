@@ -8,14 +8,13 @@
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-extern char gfxpsrite, gfxpsrite_end;
-extern char palsprite, palsprite_end;
+#include "sprites.inc"
 
 //---------------------------------------------------------------------------------
 int main(void)
 {
     // Init Sprites gfx and palette with default size of 32x32
-    oamInitGfxSet(&gfxpsrite, (&gfxpsrite_end - &gfxpsrite), &palsprite, (&palsprite_end - &palsprite), 0, 0x0000, OBJ_SIZE32_L64);
+    oamInitGfxSet(&sprites_til, (&sprites_tilend - &sprites_til), &sprites_pal, (&sprites_palend - &sprites_pal), 0, 0x0000, OBJ_SIZE32_L64);
 
     // Define sprites parameters
     oamSet(0, 100, 100, 3, 0, 0, 0, 0); // Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0

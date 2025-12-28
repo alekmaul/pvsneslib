@@ -27,7 +27,7 @@ all: musics logo $(ROMNAME).sfc
 
 cleanGfxLogo:
 	@echo clean logo graphics data
-	@rm -f res/*.pic res/*.pal
+	@rm -f res/*.pic res/*.pal res/*.inc res/*.as
 
 clean: cleanBuildRes cleanRom cleanGfx cleanGfxLogo cleanAudio
 

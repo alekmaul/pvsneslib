@@ -2,7 +2,7 @@
 
 .section ".rodata2" superfree
 
-.include "pvsneslibfont_data.as"
+.include "pvsneslib_data.as"
 
 .ends
 

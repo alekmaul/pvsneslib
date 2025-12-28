@@ -27,7 +27,7 @@ all: musics logo $(ROMNAME).sfc
 
 cleanGfxLogo:
 	@echo clean Capcom graphics data
-	@rm -f res/*.pic res/*.pal res/*.map
+	@rm -f res/*.pic res/*.pal res/*.map res/*.inc res/*.as
 
 clean: cleanBuildRes cleanRom cleanGfx cleanGfxLogo cleanAudio
 

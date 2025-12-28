@@ -6,7 +6,7 @@ export TOPDIR := $(CURDIR)
 
 # create version number which will be used everywhere
 export PVSNESLIB_MAJOR := 4
-export PVSNESLIB_MINOR := 4
+export PVSNESLIB_MINOR := 5
 export PVSNESLIB_PATCH := 0
 export PVSNESLIB_VERSION := $(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
 

@@ -247,11 +247,10 @@ dmaCopySpr16Vram:
 .SECTION ".dmas4_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
-; void dmaFillVram(u8 * source, u16 address, u16 size);
-dmaFillVram:
+; void dmaFillVram8(u8 * source, u16 address, u16 size);
+dmaFillVram8:
     php
 
-;   jsr.w   _wait_nmid
     rep #$20
     lda 9,s
     sta.l   $2116           ; address for VRAM write(or read)
@@ -271,6 +270,65 @@ dmaFillVram:
     lda #$18
     sta.l   $4301           ; 2118 is the VRAM gate
 
+    lda #1                  ; turn on bit 1 (channel 0) of DMA
+    sta.l   $420b
+
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".dmas4b_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+; void dmaFillVram16(u16 * source, u16 address, u16 size);
+; 5-8 9-10 11-12
+dmaFillVram16:
+    php
+
+    rep #$20
+    lda 9,s                 ; get VRAM address
+    sta.l   $2116           ; address for VRAM write(or read)
+
+    lda 11,s                ; get size in word
+    sta.l   $4305           ; number of words to be copied
+    
+    lda 5,s                 ; get source in byte, low value
+    sta.l   $4302           ; data offset in memory
+
+    sep #$20                ; 8bit A
+    lda #$00                ; VRAM byte addressing to VMDATAL
+    sta.l   $2115           
+    
+    lda 7,s                 ; bank address of source
+    sta.l   $4304
+
+    lda #$08                ; Fixed byte transfer to byte register VMDATAL
+    sta.l   $4300           
+    lda #$18
+    sta.l   $4301           ; 2118 is the VRAM gate
+
+    lda #1                  ; turn on bit 1 (channel 0) of DMA
+    sta.l   $420b
+
+    lda #$80                ; VRAM byte addressing to VMDATAH
+    sta.l   $2115           
+    
+    lda #$19
+    sta.l   $4301           ; 2119 is the VRAM gate
+
+    rep #$20
+    lda 5,s                 ; get source in byte, high value
+    ina                     ; get high value
+    sta.l   $4302           ; data offset in memory
+
+    lda 11,s                ; get size in word
+    sta.l   $4305           ; number of words to be copied
+
+    lda 9,s                 ; get VRAM address
+    sta.l   $2116           ; address for VRAM write(or read)
+
+    sep #$20                ; 8bit A
     lda #1                  ; turn on bit 1 (channel 0) of DMA
     sta.l   $420b
 

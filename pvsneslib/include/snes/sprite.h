@@ -52,6 +52,11 @@
 #define OBJ_SPRITE16 2 /*!< \brief sprite with 16x16 identifier */
 #define OBJ_SPRITE8 4  /*!< \brief sprite with 8x8 identifier */
 
+#define OBJ_PAL(palofs) (palofs << 1) /*!<brief sprite palette attribute */
+#define OBJ_FLIPX (0x40) /*!<brief sprite flip x attribute */
+#define OBJ_FLIPY (0x80) /*!<brief sprite flip y attribute */
+#define OBJ_PRIO(prio) (prio << 4) /*!<brief sprite priority attribute */
+
 /*!	\struct t_sprites
     \brief Dynamic sprite definition (16 bytes)
 */
@@ -81,6 +86,30 @@ typedef struct
     //u16 metsprend;                           /*!< 12..13 0xFFFF if it is the end of meta sprite definition */
     //u16 dummy1;                              /*!< 14..15 to be 16 aligned */
 } t_metasprites __attribute__((__packed__)); /*!< seems to do nothing */
+
+/** Metasprite sub-item structure
+    @param dx     delta X coordinate of the sprite relative to the metasprite origin (0,0)
+    @param dy     delta Y coordinate of the sprite relative to the metasprite origin (0,0)
+    @param dtile  start tile relative to the metasprites own set of tiles
+    @param props  property Flags (palette and priority, flip x/y will be added later)
+
+    Metasprites are built from multiple metasprite_t items (one for each sub-sprite)
+    and a pool of tiles they reference. If a metasprite has multiple frames then each
+    frame will be built from some number of metasprite_t items (which may vary based
+    on how many sprites are required for that particular frame).
+
+    A metasprite frame is terminated with a {metasprite_end} entry.
+*/
+typedef struct {
+    u16 dx, dy;
+    u16 dtile;
+    u8 props;
+    u8 unused; // to be sure to align on 16 bits
+} t_metasprite;
+
+#define metasprite_end -128
+#define METASPR_ITEM(dx,dy,dt,a) {(dx),(dy),(dt),(a)}
+#define METASPR_TERM {metasprite_end}
 
 /*!  \brief Sprite Table (from no$sns help file)<br>
 Contains data for 128 OBJs. OAM Size is 512+32 Bytes. The first part (512<br>
@@ -342,5 +371,86 @@ void oamFix8Draw(u16 id);
         the function will reserve the number of sprites in oambuffer, beginning with id.
 */
 void oamDynamicMetaDraw(u16 id, s16 x, s16 y, u8 *sprmeta);
+
+/*!\brief Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br>oambuffer[id] needs to be populate before.
+    \param id the oam number to be used [0 - 127].
+    \param x x coordinate of the metasprite
+    \param y y coordinate of the metasprite
+    \param sprmeta	pointer to metasprite structure (must finish with 0xFFFF, see t_metasprites)
+    \param gfxptr pointer to graphic entry for all sprites of the metasprite
+    \brief the meta structure is composed of:<br>
+        x offset,y offset,gfx offset, attribute<br>
+        the function will reserve the number of sprites in oambuffer, beginning with id.
+        It is necessarilly a LARGE sprite for 32 pixel width.<br>
+*/
+void oamMetaDrawDyn32(u16 id, s16 x,s16 y, u8 *sprmeta,u8 *gfxptr);
+
+/*!\brief Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br>oambuffer[id] needs to be populate before.
+    \param id the oam number to be used [0 - 127].
+    \param x x coordinate of the metasprite
+    \param y y coordinate of the metasprite
+    \param sprmeta pointer to metasprite structure (must finish with 0xFFFF, see t_metasprites)
+    \param ofsgfx offset of graphics related to initiale sprite graphic offset (ex:0x100 if sprites begins at 0x0000 and graphics at 0x0100)
+    \brief the meta structure is composed of:<br>
+        x offset,y offset,gfx offset, attribute<br>
+        the function will reserve the number of sprites in oambuffer, beginning with id.<br>
+        It is necessarilly a LARGE sprite for 32 pixel width.<br>
+        You need to have graphics of Metasprite in VRAM before using this function.
+*/
+void oamMetaDraw32(u16 id, s16 x,s16 y, u8 *sprmeta, u16 ofsgfx);
+
+/*!\brief Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br>oambuffer[id] needs to be populate before.
+    \param id the oam number to be used [0 - 127].
+    \param x x coordinate of the metasprite
+    \param y y coordinate of the metasprite
+    \param sprmeta	pointer to metasprite structure (must finish with 0xFFFF, see t_metasprites)
+    \param gfxptr pointer to graphic entry for all sprites of the metasprite
+    \param sprsize size (OBJ_SMALL or  OBJ_LARGE sprite table to use, 16bits for speed optim)
+    \brief the meta structure is composed of:<br>
+        x offset,y offset,gfx offset, attribute<br>
+        the function will reserve the number of sprites in oambuffer, beginning with id.
+*/
+void oamMetaDrawDyn16(u16 id, s16 x,s16 y, u8 *sprmeta,u8 *gfxptr, u16 sprsize);
+
+/*!\brief Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br>oambuffer[id] needs to be populate before.
+    \param id the oam number to be used [0 - 127].
+    \param x x coordinate of the metasprite
+    \param y y coordinate of the metasprite
+    \param sprmeta	pointer to metasprite structure (must finish with 0xFFFF, see t_metasprites)
+    \param sprsize size (OBJ_SMALL or  OBJ_LARGE sprite table to use, 16bits for speed optim)
+    \param ofsgfx offset of graphics related to initiale sprite graphic offset (ex:0x100 if sprites begins at 0x0000 and graphics at 0x0100)
+    \brief the meta structure is composed of:<br>
+        x offset,y offset,gfx offset, attribute<br>
+        the function will reserve the number of sprites in oambuffer, beginning with id.<br>
+        You need to have graphics of Metasprite in VRAM before using this function.
+*/
+void oamMetaDraw16(u16 id, s16 x,s16 y, u8 *sprmeta,u16 sprsize, u16 ofsgfx);
+
+/*!\brief Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br>oambuffer[id] needs to be populate before.
+    \param id the oam number to be used [0 - 127].
+    \param x x coordinate of the metasprite
+    \param y y coordinate of the metasprite
+    \param sprmeta	pointer to metasprite structure (must finish with 0xFFFF, see t_metasprites)
+    \param gfxptr pointer to graphic entry for all sprites of the metasprite
+    \brief the meta structure is composed of:<br>
+        x offset,y offset,gfx offset, attribute<br>
+        the function will reserve the number of sprites in oambuffer, beginning with id.
+        It is necessarilly a SMALL sprite for 32 pixel width.<br>
+*/
+void oamMetaDrawDyn8(u16 id, s16 x,s16 y, u8 *sprmeta,u8 *gfxptr);
+
+/*!\brief Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br>oambuffer[id] needs to be populate before.
+    \param id the oam number to be used [0 - 127].
+    \param x x coordinate of the metasprite
+    \param y y coordinate of the metasprite
+    \param sprmeta	pointer to metasprite structure (must finish with 0xFFFF, see t_metasprites)
+    \param ofsgfx offset of graphics related to initiale sprite graphic offset (ex:0x100 if sprites begins at 0x0000 and graphics at 0x0100)
+    \brief the meta structure is composed of:<br>
+        x offset,y offset,gfx offset, attribute<br>
+        the function will reserve the number of sprites in oambuffer, beginning with id.<br>
+        It is necessarilly a SMALL sprite for 32 pixel width.<br>
+        You need to have graphics of Metasprite in VRAM before using this function.
+*/
+void oamMetaDraw8(u16 id, s16 x,s16 y, u8 *sprmeta, u16 ofsgfx);
 
 #endif // SNES_SPRITES_INCLUDE
