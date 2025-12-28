@@ -247,8 +247,8 @@ dmaCopySpr16Vram:
 .SECTION ".dmas4_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
-; void dmaFillVram(u8 * source, u16 address, u16 size);
-dmaFillVram:
+; void dmaFillVram8(u8 * source, u16 address, u16 size);
+dmaFillVram8:
     php
 
     rep #$20
@@ -281,9 +281,9 @@ dmaFillVram:
 .SECTION ".dmas4b_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
-; void dmaFillVramEx(u16 * source, u16 address, u16 size);
+; void dmaFillVram16(u16 * source, u16 address, u16 size);
 ; 5-8 9-10 11-12
-dmaFillVramEx:
+dmaFillVram16:
     php
 
     rep #$20

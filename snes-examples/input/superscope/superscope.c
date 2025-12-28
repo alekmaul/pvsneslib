@@ -361,7 +361,7 @@ CONTINUE_GAME:
     setPaletteColor(17, 0x0000); // and black for texts
 
     WaitForVBlank();
-    dmaFillVram(&aim_target_map, 0x2800, 0x700); // Wipe screen
+    dmaFillVram8(&aim_target_map, 0x2800, 0x700); // Wipe screen
     oamInitGfxAttr(0x0000, OBJ_SIZE32_L64);       // Set to bigger sprites
 
     setScreenOn();

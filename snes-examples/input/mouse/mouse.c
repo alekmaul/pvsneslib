@@ -345,12 +345,12 @@ int main(void)
             }
 
             if (mousePressed[0] == false)
-                dmaFillVram(&buttonsmap, 0x6940, 0x40); // wipe text
+                dmaFillVram8(&buttonsmap, 0x6940, 0x40); // wipe text
         }
         else
         {
-            dmaFillVram(&buttonsmap + 0x40, 0x6188, 0x20); // remove buttons
-            dmaFillVram(&buttonsmap + 0x80, 0x61A8, 0x20); // remove buttons
+            dmaFillVram8(&buttonsmap + 0x40, 0x6188, 0x20); // remove buttons
+            dmaFillVram8(&buttonsmap + 0x80, 0x61A8, 0x20); // remove buttons
         }
 
         if (mouseConnect[1])
@@ -375,12 +375,12 @@ int main(void)
             }
 
             if (mousePressed[1] == false)
-                dmaFillVram(&buttonsmap, 0x6AC0, 0x40); // wipe text
+                dmaFillVram8(&buttonsmap, 0x6AC0, 0x40); // wipe text
         }
         else
         {
-            dmaFillVram(&buttonsmap + 0x40, 0x6308, 0x20); // remove buttons
-            dmaFillVram(&buttonsmap + 0x80, 0x6328, 0x20); // remove buttons
+            dmaFillVram8(&buttonsmap + 0x40, 0x6308, 0x20); // remove buttons
+            dmaFillVram8(&buttonsmap + 0x80, 0x6328, 0x20); // remove buttons
         }
 
         // END VBLANK CODE

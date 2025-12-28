@@ -275,21 +275,21 @@ void dmaCopySpr32Vram(u8 *source, u16 address);
 */
 void dmaCopySpr16Vram(u8 *source, u16 address);
 
-/*! \fn  dmaFillVram(u8 * source, u16 address, u16 size)
-    \brief fill the source data to destination using channel 0 of DMA available channels in half words
+/*! \fn  dmaFillVram8(u8 * source, u16 address, u16 size)
+    \brief fill the source data to destination using channel 0 of DMA available channels in half words<br>dmaFillVram is deprecated
     \param source the value of source to copy from
     \param address vram address to copy
     \param size the size in bytes of the data to copy.
 */
-void dmaFillVram(u8 *source, u16 address, u16 size);
+void dmaFillVram8(u8 *source, u16 address, u16 size);
 
-/*! \fn  dmaFillVram(u16 * source, u16 address, u16 size)
+/*! \fn  dmaFillVram16(u16 * source, u16 address, u16 size)
     \brief fill the source data to destination using channel 0 of DMA available channels in words
     \param source the value of source to copy from
     \param address vram address to copy
     \param size the size in words of the data to copy.
 */
-void dmaFillVramEx(u16 *source, u16 address, u16 size);
+void dmaFillVram16(u16 *source, u16 address, u16 size);
 
 /*! \fn  dmaClearVram(void)
     \brief clear all vram data with #0
