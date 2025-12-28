@@ -2,6 +2,7 @@
 COMPILER_PATH       := compiler
 TOOLS_PATH          := tools
 SNES_EXAMPLES_PATH  := snes-examples
+SNES_VSCODE_PATH 	:= vscode-template
 PVSNESLIB_PATH      := pvsneslib
 RELEASE_PATH        := release/pvsneslib
 DOXYGEN_INSTALLED   := $(shell command -v doxygen 2> /dev/null)
@@ -69,6 +70,7 @@ endif
 	@cp $(PVSNESLIB_PATH)/pvsneslib_snesmod.txt $(RELEASE_PATH)/$(PVSNESLIB_PATH)/pvsneslib_snesmod.txt
 	@cp $(PVSNESLIB_PATH)/pvsneslib_version.txt $(RELEASE_PATH)/$(PVSNESLIB_PATH)/pvsneslib_version.txt
 	@cp -r $(SNES_EXAMPLES_PATH) $(RELEASE_PATH)/snes-examples
+	@cp -r $(SNES_VSCODE_PATH) $(RELEASE_PATH)/vscode-template
 	@cd release && zip -q -y -r -m pvsneslib_$(ARCH)_$(OPERATING_SYSTEM).zip pvsneslib
 
 	@echo "* Release pvsneslib_$(ARCH)_$(OPERATING_SYSTEM) created successfully !"
