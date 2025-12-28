@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.4.0</span>
+   &#160;<span id="projectnumber">4.5.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -141,6 +141,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>spcBoot</b> (void)</t
 void&#160;</td><td class="memItemRight" valign="bottom"><b>spcFlush</b> (void)</td></tr>
 <tr class="memdesc:a43c7b104744ce3193cbd4b59ba5b8907"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush message queue (force sync) <br /></td></tr>
 <tr class="separator:a43c7b104744ce3193cbd4b59ba5b8907"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af485204c2db305c433d135a0118882cb" id="r_af485204c2db305c433d135a0118882cb"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sound_8h.html#af485204c2db305c433d135a0118882cb">spcGetMusicPosition</a> (void)</td></tr>
+<tr class="memdesc:af485204c2db305c433d135a0118882cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current running pattern.  <br /></td></tr>
+<tr class="separator:af485204c2db305c433d135a0118882cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a313e30fb1962df9fb469f2fedd4d91e4" id="r_a313e30fb1962df9fb469f2fedd4d91e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sound_8h.html#a313e30fb1962df9fb469f2fedd4d91e4">spcLoad</a> (u16 musIndex)</td></tr>
 <tr class="memdesc:a313e30fb1962df9fb469f2fedd4d91e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">load module into sm-spc. this function may take some time to execute  <br /></td></tr>
 <tr class="separator:a313e30fb1962df9fb469f2fedd4d91e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -322,6 +325,27 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>spcStop</b> (void)</t
 
 </div>
 </div>
+<a id="af485204c2db305c433d135a0118882cb" name="af485204c2db305c433d135a0118882cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af485204c2db305c433d135a0118882cb">&#9670;&#160;</a></span>spcGetMusicPosition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">spcGetMusicPosition </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get current running pattern. </p>
+<dl class="section return"><dt>Returns</dt><dd>current pattern </dd></dl>
+
+</div>
+</div>
 <a id="a313e30fb1962df9fb469f2fedd4d91e4" name="a313e30fb1962df9fb469f2fedd4d91e4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a313e30fb1962df9fb469f2fedd4d91e4">&#9670;&#160;</a></span>spcLoad()</h2>
 
@@ -401,7 +425,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>spcStop</b> (void)</t
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="audio_2effectsandmusic_2effectsandmusic_8c-example.html#a20">audio/effectsandmusic/effectsandmusic.c</a>, <a class="el" href="audio_2music_2_music_8c-example.html#a13">audio/music/Music.c</a>, <a class="el" href="audio_2music_greater_than32k_2music_greater_than32k_8c-example.html#a13">audio/musicGreaterThan32k/musicGreaterThan32k.c</a>, and <a class="el" href="games_2likemario_2_like_mario_8c-example.html#a60">games/likemario/LikeMario.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="audio_2effectsandmusic_2effectsandmusic_8c-example.html#a20">audio/effectsandmusic/effectsandmusic.c</a>, <a class="el" href="audio_2music_2_music_8c-example.html#a13">audio/music/Music.c</a>, <a class="el" href="audio_2music_greater_than32k_2music_greater_than32k_8c-example.html#a13">audio/musicGreaterThan32k/musicGreaterThan32k.c</a>, and <a class="el" href="games_2likemario_2_like_mario_8c-example.html#a61">games/likemario/LikeMario.c</a>.</dd>
 </dl>
 
 </div>
@@ -489,7 +513,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>spcStop</b> (void)</t
 
 <p>Process messages This function will try to give messages to the spc until a few scanlines pass. </p>
 <p>this function MUST be called every frame if you are using streamed sounds </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="audio_2effects_2effects_8c-example.html#a19">audio/effects/effects.c</a>, <a class="el" href="audio_2effectsandmusic_2effectsandmusic_8c-example.html#a24">audio/effectsandmusic/effectsandmusic.c</a>, <a class="el" href="audio_2music_2_music_8c-example.html#a14">audio/music/Music.c</a>, <a class="el" href="audio_2music_greater_than32k_2music_greater_than32k_8c-example.html#a14">audio/musicGreaterThan32k/musicGreaterThan32k.c</a>, <a class="el" href="audio_2tada_2_tada_8c-example.html#a18">audio/tada/Tada.c</a>, and <a class="el" href="games_2likemario_2_like_mario_8c-example.html#a66">games/likemario/LikeMario.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="audio_2effects_2effects_8c-example.html#a19">audio/effects/effects.c</a>, <a class="el" href="audio_2effectsandmusic_2effectsandmusic_8c-example.html#a24">audio/effectsandmusic/effectsandmusic.c</a>, <a class="el" href="audio_2music_2_music_8c-example.html#a14">audio/music/Music.c</a>, <a class="el" href="audio_2music_greater_than32k_2music_greater_than32k_8c-example.html#a14">audio/musicGreaterThan32k/musicGreaterThan32k.c</a>, <a class="el" href="audio_2tada_2_tada_8c-example.html#a18">audio/tada/Tada.c</a>, and <a class="el" href="games_2likemario_2_like_mario_8c-example.html#a67">games/likemario/LikeMario.c</a>.</dd>
 </dl>
 
 </div>
@@ -566,7 +590,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>spcStop</b> (void)</t
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a61">games/likemario/LikeMario.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a62">games/likemario/LikeMario.c</a>.</dd>
 </dl>
 
 </div>
@@ -747,7 +771,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>spcStop</b> (void)</t
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="sound_8h.html">sound.h</a></li>
-    <li class="footer">Generated on Wed Aug 6 2025       Generated on Wed Aug 6 2025 20:51:01 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

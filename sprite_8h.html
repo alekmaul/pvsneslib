@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.4.0</span>
+   &#160;<span id="projectnumber">4.5.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -112,6 +112,8 @@ $(document).ready(function(){initNavTree('sprite_8h.html',''); initResizable(); 
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structt__metasprite.html">t_metasprite</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structt__metasprites.html">t_metasprites</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dynamic metasprite definition (16 bytes)  <a href="structt__metasprites.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,6 +132,14 @@ Macros</h2></td></tr>
 <tr class="memitem:af6b605303fc7a5caa3b97fd254b5d450" id="r_af6b605303fc7a5caa3b97fd254b5d450"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#af6b605303fc7a5caa3b97fd254b5d450">oamGetY</a>(id)&#160;&#160;&#160;(<a class="el" href="sprite_8h.html#a832f0c151a6b4de3bd1f5c23aff47848">oamMemory</a>[id + 1])</td></tr>
 <tr class="memdesc:af6b605303fc7a5caa3b97fd254b5d450"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the y oam coordinate to the supplied values  <br /></td></tr>
 <tr class="separator:af6b605303fc7a5caa3b97fd254b5d450"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71b310f8efd32bb7d355c278a9b7b6c3" id="r_a71b310f8efd32bb7d355c278a9b7b6c3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a71b310f8efd32bb7d355c278a9b7b6c3">OBJ_FLIPX</a>&#160;&#160;&#160;(0x40)</td></tr>
+<tr class="separator:a71b310f8efd32bb7d355c278a9b7b6c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae923ae60a140bd94376f79ef30a0e516" id="r_ae923ae60a140bd94376f79ef30a0e516"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#ae923ae60a140bd94376f79ef30a0e516">OBJ_FLIPY</a>&#160;&#160;&#160;(0x80)</td></tr>
+<tr class="separator:ae923ae60a140bd94376f79ef30a0e516"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab454311cd44a107c14204a9973186ad1" id="r_ab454311cd44a107c14204a9973186ad1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#ab454311cd44a107c14204a9973186ad1">OBJ_PAL</a>(palofs)&#160;&#160;&#160;(palofs &lt;&lt; 1)</td></tr>
+<tr class="separator:ab454311cd44a107c14204a9973186ad1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a719045957a857d18f56354a20313ae37" id="r_a719045957a857d18f56354a20313ae37"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a719045957a857d18f56354a20313ae37">OBJ_PRIO</a>(prio)&#160;&#160;&#160;(prio &lt;&lt; 4)</td></tr>
+<tr class="separator:a719045957a857d18f56354a20313ae37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1893eab6ffef9928ff2de22d49bd18c0" id="r_a1893eab6ffef9928ff2de22d49bd18c0"><td class="memItemLeft" align="right" valign="top"><a id="a1893eab6ffef9928ff2de22d49bd18c0" name="a1893eab6ffef9928ff2de22d49bd18c0"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>OBJ_SIZE16_L32</b>&#160;&#160;&#160;(3 &lt;&lt; 5)</td></tr>
 <tr class="memdesc:a1893eab6ffef9928ff2de22d49bd18c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register <br /></td></tr>
@@ -239,6 +249,30 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>oamInitDynamicSpriteS
 <tr class="memitem:a46e0be47f8fc865a7f43c1b0b126e59a" id="r_a46e0be47f8fc865a7f43c1b0b126e59a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a> (u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize)</td></tr>
 <tr class="memdesc:a46e0be47f8fc865a7f43c1b0b126e59a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a sprites Gfx and Loads the GFX into VRAM.  <br /></td></tr>
 <tr class="separator:a46e0be47f8fc865a7f43c1b0b126e59a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaeb6e2a6169bef6514981b7bbea08f5b" id="r_aaeb6e2a6169bef6514981b7bbea08f5b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#aaeb6e2a6169bef6514981b7bbea08f5b">oamMetaDraw16</a> (u16 id, s16 x, s16 y, u8 *sprmeta, u16 sprsize, u16 ofsgfx)</td></tr>
+<tr class="memdesc:aaeb6e2a6169bef6514981b7bbea08f5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br  />
+oambuffer[id] needs to be populate before.  <br /></td></tr>
+<tr class="separator:aaeb6e2a6169bef6514981b7bbea08f5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac51891626f567c725d53af28d1035ba8" id="r_ac51891626f567c725d53af28d1035ba8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#ac51891626f567c725d53af28d1035ba8">oamMetaDraw32</a> (u16 id, s16 x, s16 y, u8 *sprmeta, u16 ofsgfx)</td></tr>
+<tr class="memdesc:ac51891626f567c725d53af28d1035ba8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br  />
+oambuffer[id] needs to be populate before.  <br /></td></tr>
+<tr class="separator:ac51891626f567c725d53af28d1035ba8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad28c58b86305e393c993af8fad226197" id="r_ad28c58b86305e393c993af8fad226197"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#ad28c58b86305e393c993af8fad226197">oamMetaDraw8</a> (u16 id, s16 x, s16 y, u8 *sprmeta, u16 ofsgfx)</td></tr>
+<tr class="memdesc:ad28c58b86305e393c993af8fad226197"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br  />
+oambuffer[id] needs to be populate before.  <br /></td></tr>
+<tr class="separator:ad28c58b86305e393c993af8fad226197"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a342224f3e6490f4459824b087e9e10dd" id="r_a342224f3e6490f4459824b087e9e10dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a342224f3e6490f4459824b087e9e10dd">oamMetaDrawDyn16</a> (u16 id, s16 x, s16 y, u8 *sprmeta, u8 *gfxptr, u16 sprsize)</td></tr>
+<tr class="memdesc:a342224f3e6490f4459824b087e9e10dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br  />
+oambuffer[id] needs to be populate before.  <br /></td></tr>
+<tr class="separator:a342224f3e6490f4459824b087e9e10dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedd89c4141b510234807fc13a27c420a" id="r_aedd89c4141b510234807fc13a27c420a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#aedd89c4141b510234807fc13a27c420a">oamMetaDrawDyn32</a> (u16 id, s16 x, s16 y, u8 *sprmeta, u8 *gfxptr)</td></tr>
+<tr class="memdesc:aedd89c4141b510234807fc13a27c420a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br  />
+oambuffer[id] needs to be populate before.  <br /></td></tr>
+<tr class="separator:aedd89c4141b510234807fc13a27c420a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7be7b182ab834d5aa7d1bba66344b366" id="r_a7be7b182ab834d5aa7d1bba66344b366"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a7be7b182ab834d5aa7d1bba66344b366">oamMetaDrawDyn8</a> (u16 id, s16 x, s16 y, u8 *sprmeta, u8 *gfxptr)</td></tr>
+<tr class="memdesc:a7be7b182ab834d5aa7d1bba66344b366"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br  />
+oambuffer[id] needs to be populate before.  <br /></td></tr>
+<tr class="separator:a7be7b182ab834d5aa7d1bba66344b366"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb854a7fa3bbfe4c2e331bfce9e374a7" id="r_abb854a7fa3bbfe4c2e331bfce9e374a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#abb854a7fa3bbfe4c2e331bfce9e374a7">oamSet</a> (u16 id, u16 xspr, u16 yspr, u8 priority, u8 hflip, u8 vflip, u16 gfxoffset, u8 paletteoffset)</td></tr>
 <tr class="memdesc:abb854a7fa3bbfe4c2e331bfce9e374a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets an oam entry to the supplied values  <br /></td></tr>
 <tr class="separator:abb854a7fa3bbfe4c2e331bfce9e374a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -416,6 +450,76 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a71b310f8efd32bb7d355c278a9b7b6c3" name="a71b310f8efd32bb7d355c278a9b7b6c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71b310f8efd32bb7d355c278a9b7b6c3">&#9670;&#160;</a></span>OBJ_FLIPX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OBJ_FLIPX&#160;&#160;&#160;(0x40)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>brief sprite flip x attribute </p>
+
+</div>
+</div>
+<a id="ae923ae60a140bd94376f79ef30a0e516" name="ae923ae60a140bd94376f79ef30a0e516"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae923ae60a140bd94376f79ef30a0e516">&#9670;&#160;</a></span>OBJ_FLIPY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OBJ_FLIPY&#160;&#160;&#160;(0x80)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>brief sprite flip y attribute </p>
+
+</div>
+</div>
+<a id="ab454311cd44a107c14204a9973186ad1" name="ab454311cd44a107c14204a9973186ad1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab454311cd44a107c14204a9973186ad1">&#9670;&#160;</a></span>OBJ_PAL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OBJ_PAL</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">palofs</td><td>)</td>
+          <td>&#160;&#160;&#160;(palofs &lt;&lt; 1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>brief sprite palette attribute </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a13">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="a719045957a857d18f56354a20313ae37" name="a719045957a857d18f56354a20313ae37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a719045957a857d18f56354a20313ae37">&#9670;&#160;</a></span>OBJ_PRIO</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OBJ_PRIO</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">prio</td><td>)</td>
+          <td>&#160;&#160;&#160;(prio &lt;&lt; 4)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>brief sprite priority attribute </p>
+
+</div>
+</div>
 <a id="ad8e30bb8ad62f2a58545ff770db95174" name="ad8e30bb8ad62f2a58545ff770db95174"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad8e30bb8ad62f2a58545ff770db95174">&#9670;&#160;</a></span>REG_OAMADDH</h2>
 
@@ -495,7 +599,7 @@ oambuffer[id] needs to be populate before. </p>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a37">games/likemario/LikeMario.c</a>, and <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a17">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a37">games/likemario/LikeMario.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a17">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, and <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a18">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>.</dd>
 </dl>
 
 </div>
@@ -608,8 +712,6 @@ oambuffer[id] needs to be populate before. </p>
 <p>the meta structure is composed of:<br  />
  x offset,y offset,gfx offset, attribute, size (8,16,32),gfxfile<br  />
  the function will reserve the number of sprites in oambuffer, beginning with id. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a13">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>.</dd>
-</dl>
 
 </div>
 </div>
@@ -793,7 +895,7 @@ oambuffer[id] needs to be populate before. ! </p>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a50">games/likemario/LikeMario.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a9">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a6">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a5">objects/mapandobjects/mapandobjects.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a5">objects/nogravityobject/nogravityobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a50">games/likemario/LikeMario.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a2">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a6">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a5">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a5">objects/mapandobjects/mapandobjects.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a5">objects/nogravityobject/nogravityobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -906,7 +1008,406 @@ oambuffer[id] needs to be populate before. ! </p>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a13">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a0">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a3">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a2">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a0">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="input_2mouse_2mouse_8c-example.html#a0">input/mouse/mouse.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a9">input/superscope/superscope.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a4">maps/mapscroll/mapscroll.c</a>, and <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a16">objects/moveobjects/moveobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a13">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a0">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a2">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a0">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="input_2mouse_2mouse_8c-example.html#a0">input/mouse/mouse.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a9">input/superscope/superscope.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a4">maps/mapscroll/mapscroll.c</a>, and <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a16">objects/moveobjects/moveobjects.c</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="aaeb6e2a6169bef6514981b7bbea08f5b" name="aaeb6e2a6169bef6514981b7bbea08f5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaeb6e2a6169bef6514981b7bbea08f5b">&#9670;&#160;</a></span>oamMetaDraw16()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void oamMetaDraw16 </td>
+          <td>(</td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">s16&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">s16&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>sprmeta</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>sprsize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>ofsgfx</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br  />
+oambuffer[id] needs to be populate before. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>the oam number to be used [0 - 127]. </td></tr>
+    <tr><td class="paramname">x</td><td>x coordinate of the metasprite </td></tr>
+    <tr><td class="paramname">y</td><td>y coordinate of the metasprite </td></tr>
+    <tr><td class="paramname">sprmeta</td><td>pointer to metasprite structure (must finish with 0xFFFF, see <a class="el" href="structt__metasprites.html" title="Dynamic metasprite definition (16 bytes)">t_metasprites</a>) </td></tr>
+    <tr><td class="paramname">sprsize</td><td>size (OBJ_SMALL or OBJ_LARGE sprite table to use, 16bits for speed optim) </td></tr>
+    <tr><td class="paramname">ofsgfx</td><td>offset of graphics related to initiale sprite graphic offset (ex:0x100 if sprites begins at 0x0000 and graphics at 0x0100)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>the meta structure is composed of:<br  />
+ x offset,y offset,gfx offset, attribute<br  />
+ the function will reserve the number of sprites in oambuffer, beginning with id.<br  />
+ You need to have graphics of Metasprite in VRAM before using this function. </p>
+
+</div>
+</div>
+<a id="ac51891626f567c725d53af28d1035ba8" name="ac51891626f567c725d53af28d1035ba8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac51891626f567c725d53af28d1035ba8">&#9670;&#160;</a></span>oamMetaDraw32()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void oamMetaDraw32 </td>
+          <td>(</td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">s16&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">s16&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>sprmeta</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>ofsgfx</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br  />
+oambuffer[id] needs to be populate before. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>the oam number to be used [0 - 127]. </td></tr>
+    <tr><td class="paramname">x</td><td>x coordinate of the metasprite </td></tr>
+    <tr><td class="paramname">y</td><td>y coordinate of the metasprite </td></tr>
+    <tr><td class="paramname">sprmeta</td><td>pointer to metasprite structure (must finish with 0xFFFF, see <a class="el" href="structt__metasprites.html" title="Dynamic metasprite definition (16 bytes)">t_metasprites</a>) </td></tr>
+    <tr><td class="paramname">ofsgfx</td><td>offset of graphics related to initiale sprite graphic offset (ex:0x100 if sprites begins at 0x0000 and graphics at 0x0100)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>the meta structure is composed of:<br  />
+ x offset,y offset,gfx offset, attribute<br  />
+ the function will reserve the number of sprites in oambuffer, beginning with id.<br  />
+ It is necessarilly a LARGE sprite for 32 pixel width.<br  />
+ You need to have graphics of Metasprite in VRAM before using this function. </p>
+
+</div>
+</div>
+<a id="ad28c58b86305e393c993af8fad226197" name="ad28c58b86305e393c993af8fad226197"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad28c58b86305e393c993af8fad226197">&#9670;&#160;</a></span>oamMetaDraw8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void oamMetaDraw8 </td>
+          <td>(</td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">s16&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">s16&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>sprmeta</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>ofsgfx</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br  />
+oambuffer[id] needs to be populate before. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>the oam number to be used [0 - 127]. </td></tr>
+    <tr><td class="paramname">x</td><td>x coordinate of the metasprite </td></tr>
+    <tr><td class="paramname">y</td><td>y coordinate of the metasprite </td></tr>
+    <tr><td class="paramname">sprmeta</td><td>pointer to metasprite structure (must finish with 0xFFFF, see <a class="el" href="structt__metasprites.html" title="Dynamic metasprite definition (16 bytes)">t_metasprites</a>) </td></tr>
+    <tr><td class="paramname">ofsgfx</td><td>offset of graphics related to initiale sprite graphic offset (ex:0x100 if sprites begins at 0x0000 and graphics at 0x0100)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>the meta structure is composed of:<br  />
+ x offset,y offset,gfx offset, attribute<br  />
+ the function will reserve the number of sprites in oambuffer, beginning with id.<br  />
+ It is necessarilly a SMALL sprite for 32 pixel width.<br  />
+ You need to have graphics of Metasprite in VRAM before using this function. </p>
+
+</div>
+</div>
+<a id="a342224f3e6490f4459824b087e9e10dd" name="a342224f3e6490f4459824b087e9e10dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a342224f3e6490f4459824b087e9e10dd">&#9670;&#160;</a></span>oamMetaDrawDyn16()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void oamMetaDrawDyn16 </td>
+          <td>(</td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">s16&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">s16&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>sprmeta</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>gfxptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>sprsize</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br  />
+oambuffer[id] needs to be populate before. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>the oam number to be used [0 - 127]. </td></tr>
+    <tr><td class="paramname">x</td><td>x coordinate of the metasprite </td></tr>
+    <tr><td class="paramname">y</td><td>y coordinate of the metasprite </td></tr>
+    <tr><td class="paramname">sprmeta</td><td>pointer to metasprite structure (must finish with 0xFFFF, see <a class="el" href="structt__metasprites.html" title="Dynamic metasprite definition (16 bytes)">t_metasprites</a>) </td></tr>
+    <tr><td class="paramname">gfxptr</td><td>pointer to graphic entry for all sprites of the metasprite </td></tr>
+    <tr><td class="paramname">sprsize</td><td>size (OBJ_SMALL or OBJ_LARGE sprite table to use, 16bits for speed optim)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>the meta structure is composed of:<br  />
+ x offset,y offset,gfx offset, attribute<br  />
+ the function will reserve the number of sprites in oambuffer, beginning with id. </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a22">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="aedd89c4141b510234807fc13a27c420a" name="aedd89c4141b510234807fc13a27c420a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedd89c4141b510234807fc13a27c420a">&#9670;&#160;</a></span>oamMetaDrawDyn32()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void oamMetaDrawDyn32 </td>
+          <td>(</td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">s16&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">s16&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>sprmeta</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>gfxptr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br  />
+oambuffer[id] needs to be populate before. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>the oam number to be used [0 - 127]. </td></tr>
+    <tr><td class="paramname">x</td><td>x coordinate of the metasprite </td></tr>
+    <tr><td class="paramname">y</td><td>y coordinate of the metasprite </td></tr>
+    <tr><td class="paramname">sprmeta</td><td>pointer to metasprite structure (must finish with 0xFFFF, see <a class="el" href="structt__metasprites.html" title="Dynamic metasprite definition (16 bytes)">t_metasprites</a>) </td></tr>
+    <tr><td class="paramname">gfxptr</td><td>pointer to graphic entry for all sprites of the metasprite</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>the meta structure is composed of:<br  />
+ x offset,y offset,gfx offset, attribute<br  />
+ the function will reserve the number of sprites in oambuffer, beginning with id. It is necessarilly a LARGE sprite for 32 pixel width.<br  />
+ </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a24">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="a7be7b182ab834d5aa7d1bba66344b366" name="a7be7b182ab834d5aa7d1bba66344b366"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7be7b182ab834d5aa7d1bba66344b366">&#9670;&#160;</a></span>oamMetaDrawDyn8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void oamMetaDrawDyn8 </td>
+          <td>(</td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">s16&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">s16&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>sprmeta</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>gfxptr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a Meta sprite on screen (can be composed only of 16x16 sprites).<br  />
+oambuffer[id] needs to be populate before. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>the oam number to be used [0 - 127]. </td></tr>
+    <tr><td class="paramname">x</td><td>x coordinate of the metasprite </td></tr>
+    <tr><td class="paramname">y</td><td>y coordinate of the metasprite </td></tr>
+    <tr><td class="paramname">sprmeta</td><td>pointer to metasprite structure (must finish with 0xFFFF, see <a class="el" href="structt__metasprites.html" title="Dynamic metasprite definition (16 bytes)">t_metasprites</a>) </td></tr>
+    <tr><td class="paramname">gfxptr</td><td>pointer to graphic entry for all sprites of the metasprite</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>the meta structure is composed of:<br  />
+ x offset,y offset,gfx offset, attribute<br  />
+ the function will reserve the number of sprites in oambuffer, beginning with id. It is necessarilly a SMALL sprite for 32 pixel width.<br  />
+ </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a23">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>.</dd>
 </dl>
 
 </div>
@@ -987,7 +1488,7 @@ oambuffer[id] needs to be populate before. ! </p>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2breakout_2breakout_8c-example.html#a0">games/breakout/breakout.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a15">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a2">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a5">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a11">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a2">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="input_2mouse_2mouse_8c-example.html#a21">input/mouse/mouse.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a11">input/superscope/superscope.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a6">maps/mapscroll/mapscroll.c</a>, and <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a8">objects/moveobjects/moveobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2breakout_2breakout_8c-example.html#a0">games/breakout/breakout.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a15">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a2">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a11">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a2">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="input_2mouse_2mouse_8c-example.html#a21">input/mouse/mouse.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a11">input/superscope/superscope.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a6">maps/mapscroll/mapscroll.c</a>, and <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a8">objects/moveobjects/moveobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -1091,7 +1592,7 @@ oambuffer[id] needs to be populate before. ! </p>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2breakout_2breakout_8c-example.html#a15">games/breakout/breakout.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a16">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a3">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a6">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a12">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a3">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a12">input/superscope/superscope.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a7">maps/mapscroll/mapscroll.c</a>, and <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a9">objects/moveobjects/moveobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2breakout_2breakout_8c-example.html#a15">games/breakout/breakout.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a16">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a3">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a12">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a3">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a12">input/superscope/superscope.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a7">maps/mapscroll/mapscroll.c</a>, and <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a9">objects/moveobjects/moveobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -1268,7 +1769,7 @@ oambuffer[id] needs to be populate before. ! </p>
  Size bit (Small/Large) can be defined in OBSEL Register (Port 2101h).<br  />
  </p>
 <p>current sprite buffer for dynamic engine </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a16">games/likemario/LikeMario.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a11">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, and <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a8">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a16">games/likemario/LikeMario.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a4">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a8">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, and <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a8">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>.</dd>
 </dl>
 
 </div>
@@ -1304,7 +1805,7 @@ oambuffer[id] needs to be populate before. ! </p>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="sprite_8h.html">sprite.h</a></li>
-    <li class="footer">Generated on Wed Aug 6 2025       Generated on Wed Aug 6 2025 20:51:01 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

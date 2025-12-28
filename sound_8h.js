@@ -7,6 +7,7 @@ var sound_8h =
     [ "spcEffect", "sound_8h.html#a99af3b788490e155674f57f455c6be38", null ],
     [ "spcFadeModuleVolume", "sound_8h.html#a57a421beca64a638a15579c6a465c522", null ],
     [ "spcFlush", "sound_8h.html#a43c7b104744ce3193cbd4b59ba5b8907", null ],
+    [ "spcGetMusicPosition", "sound_8h.html#af485204c2db305c433d135a0118882cb", null ],
     [ "spcLoad", "sound_8h.html#a313e30fb1962df9fb469f2fedd4d91e4", null ],
     [ "spcLoadEffect", "sound_8h.html#a57d9e744cfa33d55d543b172df59d518", null ],
     [ "spcPauseMusic", "sound_8h.html#adec25003acf63ea3889e180487ce21eb", null ],

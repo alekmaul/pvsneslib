@@ -10,5 +10,6 @@ var searchData=
   ['dmacopyspr32vram_7',['dmaCopySpr32Vram',['../dma_8h.html#abbf81dbfd5a87cb2cd2181b12fcd56c5',1,'dma.h']]],
   ['dmacopyvram_8',['dmaCopyVram',['../dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2',1,'dma.h']]],
   ['dmacopyvram7_9',['dmaCopyVram7',['../dma_8h.html#ac0ba95e6b8e91380c0a67ee3b0707582',1,'dma.h']]],
-  ['dmafillvram_10',['dmaFillVram',['../dma_8h.html#a235e242d89d3c81b9e697e99a96198f7',1,'dma.h']]]
+  ['dmafillvram16_10',['dmaFillVram16',['../dma_8h.html#aaa079b73f69a97dd45ade0bb765b20b1',1,'dma.h']]],
+  ['dmafillvram8_11',['dmaFillVram8',['../dma_8h.html#ab55e3ae019e75f79951904ba4e747a0a',1,'dma.h']]]
 ];

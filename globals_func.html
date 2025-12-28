@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.4.0</span>
+   &#160;<span id="projectnumber">4.5.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -146,7 +146,8 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <li>dmaCopySpr32Vram()&#160;:&#160;<a class="el" href="dma_8h.html#abbf81dbfd5a87cb2cd2181b12fcd56c5">dma.h</a></li>
 <li>dmaCopyVram()&#160;:&#160;<a class="el" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dma.h</a></li>
 <li>dmaCopyVram7()&#160;:&#160;<a class="el" href="dma_8h.html#ac0ba95e6b8e91380c0a67ee3b0707582">dma.h</a></li>
-<li>dmaFillVram()&#160;:&#160;<a class="el" href="dma_8h.html#a235e242d89d3c81b9e697e99a96198f7">dma.h</a></li>
+<li>dmaFillVram16()&#160;:&#160;<a class="el" href="dma_8h.html#aaa079b73f69a97dd45ade0bb765b20b1">dma.h</a></li>
+<li>dmaFillVram8()&#160;:&#160;<a class="el" href="dma_8h.html#ab55e3ae019e75f79951904ba4e747a0a">dma.h</a></li>
 </ul>
 
 
@@ -171,6 +172,7 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <li>mapGetMetaTile()&#160;:&#160;<a class="el" href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">map.h</a></li>
 <li>mapGetMetaTilesProp()&#160;:&#160;<a class="el" href="map_8h.html#a82cbe383dfcdf5a9e95acf97609f2c1f">map.h</a></li>
 <li>mapLoad()&#160;:&#160;<a class="el" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">map.h</a></li>
+<li>mapSetMapOptions()&#160;:&#160;<a class="el" href="map_8h.html#aa8ae7b1f270e59535a8296b4a6b9c9c6">map.h</a></li>
 <li>mapUpdate()&#160;:&#160;<a class="el" href="map_8h.html#a332bfe570835ef05934b712fd9701c88">map.h</a></li>
 <li>mapUpdateCamera()&#160;:&#160;<a class="el" href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">map.h</a></li>
 <li>mapVblank()&#160;:&#160;<a class="el" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">map.h</a></li>
@@ -201,6 +203,12 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <li>oamInitDynamicSpriteScreen()&#160;:&#160;<a class="el" href="sprite_8h.html#a70108545e39a9ac3c2efeb0f9b03e206">sprite.h</a></li>
 <li>oamInitGfxAttr()&#160;:&#160;<a class="el" href="sprite_8h.html#ad28cccee6dcd379989a0361fe868bddb">sprite.h</a></li>
 <li>oamInitGfxSet()&#160;:&#160;<a class="el" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">sprite.h</a></li>
+<li>oamMetaDraw16()&#160;:&#160;<a class="el" href="sprite_8h.html#aaeb6e2a6169bef6514981b7bbea08f5b">sprite.h</a></li>
+<li>oamMetaDraw32()&#160;:&#160;<a class="el" href="sprite_8h.html#ac51891626f567c725d53af28d1035ba8">sprite.h</a></li>
+<li>oamMetaDraw8()&#160;:&#160;<a class="el" href="sprite_8h.html#ad28c58b86305e393c993af8fad226197">sprite.h</a></li>
+<li>oamMetaDrawDyn16()&#160;:&#160;<a class="el" href="sprite_8h.html#a342224f3e6490f4459824b087e9e10dd">sprite.h</a></li>
+<li>oamMetaDrawDyn32()&#160;:&#160;<a class="el" href="sprite_8h.html#aedd89c4141b510234807fc13a27c420a">sprite.h</a></li>
+<li>oamMetaDrawDyn8()&#160;:&#160;<a class="el" href="sprite_8h.html#a7be7b182ab834d5aa7d1bba66344b366">sprite.h</a></li>
 <li>oamSet()&#160;:&#160;<a class="el" href="sprite_8h.html#abb854a7fa3bbfe4c2e331bfce9e374a7">sprite.h</a></li>
 <li>oamSetAttr()&#160;:&#160;<a class="el" href="sprite_8h.html#a9a76e12af57f5debf4df08c98820a2a5">sprite.h</a></li>
 <li>oamSetEx()&#160;:&#160;<a class="el" href="sprite_8h.html#a4120a8ff32c39973babeca3615a0a2fd">sprite.h</a></li>
@@ -274,6 +282,7 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <li>spcEffect()&#160;:&#160;<a class="el" href="sound_8h.html#a99af3b788490e155674f57f455c6be38">sound.h</a></li>
 <li>spcFadeModuleVolume()&#160;:&#160;<a class="el" href="sound_8h.html#a57a421beca64a638a15579c6a465c522">sound.h</a></li>
 <li>spcFlush()&#160;:&#160;<a class="el" href="sound_8h.html#a43c7b104744ce3193cbd4b59ba5b8907">sound.h</a></li>
+<li>spcGetMusicPosition()&#160;:&#160;<a class="el" href="sound_8h.html#af485204c2db305c433d135a0118882cb">sound.h</a></li>
 <li>spcLoad()&#160;:&#160;<a class="el" href="sound_8h.html#a313e30fb1962df9fb469f2fedd4d91e4">sound.h</a></li>
 <li>spcLoadEffect()&#160;:&#160;<a class="el" href="sound_8h.html#a57d9e744cfa33d55d543b172df59d518">sound.h</a></li>
 <li>spcPauseMusic()&#160;:&#160;<a class="el" href="sound_8h.html#adec25003acf63ea3889e180487ce21eb">sound.h</a></li>
@@ -300,7 +309,7 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Wed Aug 6 2025       Generated on Wed Aug 6 2025 20:51:01 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

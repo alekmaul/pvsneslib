@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.4.0</span>
+   &#160;<span id="projectnumber">4.5.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -243,9 +243,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>dmaClearVram</b> (voi
 <tr class="memitem:ac0ba95e6b8e91380c0a67ee3b0707582" id="r_ac0ba95e6b8e91380c0a67ee3b0707582"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dma_8h.html#ac0ba95e6b8e91380c0a67ee3b0707582">dmaCopyVram7</a> (u8 *source, u16 address, u16 size, u8 vrammodeinc, u16 dmacontrol)</td></tr>
 <tr class="memdesc:ac0ba95e6b8e91380c0a67ee3b0707582"><td class="mdescLeft">&#160;</td><td class="mdescRight">copies data from source to destination using channel 0 of DMA available channels in half words with VMAIN value  <br /></td></tr>
 <tr class="separator:ac0ba95e6b8e91380c0a67ee3b0707582"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a235e242d89d3c81b9e697e99a96198f7" id="r_a235e242d89d3c81b9e697e99a96198f7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dma_8h.html#a235e242d89d3c81b9e697e99a96198f7">dmaFillVram</a> (u8 *source, u16 address, u16 size)</td></tr>
-<tr class="memdesc:a235e242d89d3c81b9e697e99a96198f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">fill the source data to destination using channel 0 of DMA available channels in half words  <br /></td></tr>
-<tr class="separator:a235e242d89d3c81b9e697e99a96198f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa079b73f69a97dd45ade0bb765b20b1" id="r_aaa079b73f69a97dd45ade0bb765b20b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dma_8h.html#aaa079b73f69a97dd45ade0bb765b20b1">dmaFillVram16</a> (u16 *source, u16 address, u16 size)</td></tr>
+<tr class="memdesc:aaa079b73f69a97dd45ade0bb765b20b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">fill the source data to destination using channel 0 of DMA available channels in words  <br /></td></tr>
+<tr class="separator:aaa079b73f69a97dd45ade0bb765b20b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab55e3ae019e75f79951904ba4e747a0a" id="r_ab55e3ae019e75f79951904ba4e747a0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dma_8h.html#ab55e3ae019e75f79951904ba4e747a0a">dmaFillVram8</a> (u8 *source, u16 address, u16 size)</td></tr>
+<tr class="memdesc:ab55e3ae019e75f79951904ba4e747a0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">fill the source data to destination using channel 0 of DMA available channels in half words<br  />
+dmaFillVram is deprecated  <br /></td></tr>
+<tr class="separator:ab55e3ae019e75f79951904ba4e747a0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a88ab32a0e407cfa3d7f6fc4e9276d8b0" id="r_a88ab32a0e407cfa3d7f6fc4e9276d8b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dma_8h.html#a88ab32a0e407cfa3d7f6fc4e9276d8b0">setModeHdmaColor</a> (u8 *hdmatable)</td></tr>
 <tr class="memdesc:a88ab32a0e407cfa3d7f6fc4e9276d8b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a color gradient effect on screen (with color 0). Use HDMA Channels 6.  <br /></td></tr>
 <tr class="separator:a88ab32a0e407cfa3d7f6fc4e9276d8b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -564,7 +568,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>HDMATable16</b> [224+1]
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2breakout_2breakout_8c-example.html#a3">games/breakout/breakout.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_b_g3_high_priority_2_mode1_b_g3_high_priority_8c-example.html#a3">graphics/Backgrounds/Mode1BG3HighPriority/Mode1BG3HighPriority.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a7">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode3_2_mode3_8c-example.html#a2">graphics/Backgrounds/Mode3/Mode3.c</a>, <a class="el" href="graphics_2_effects_2_h_d_m_a_gradient_2_h_d_m_a_gradient_8c-example.html#a1">graphics/Effects/HDMAGradient/HDMAGradient.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a1">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a4">graphics/Sprites/ObjectSize/ObjectSize.c</a>, and <a class="el" href="input_2mouse_2mouse_8c-example.html#a11">input/mouse/mouse.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2breakout_2breakout_8c-example.html#a3">games/breakout/breakout.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_b_g3_high_priority_2_mode1_b_g3_high_priority_8c-example.html#a3">graphics/Backgrounds/Mode1BG3HighPriority/Mode1BG3HighPriority.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a7">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode3_2_mode3_8c-example.html#a2">graphics/Backgrounds/Mode3/Mode3.c</a>, <a class="el" href="graphics_2_effects_2_h_d_m_a_gradient_2_h_d_m_a_gradient_8c-example.html#a1">graphics/Effects/HDMAGradient/HDMAGradient.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a17">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a4">graphics/Sprites/ObjectSize/ObjectSize.c</a>, and <a class="el" href="input_2mouse_2mouse_8c-example.html#a11">input/mouse/mouse.c</a>.</dd>
 </dl>
 
 </div>
@@ -627,14 +631,58 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>HDMATable16</b> [224+1]
 
 </div>
 </div>
-<a id="a235e242d89d3c81b9e697e99a96198f7" name="a235e242d89d3c81b9e697e99a96198f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a235e242d89d3c81b9e697e99a96198f7">&#9670;&#160;</a></span>dmaFillVram()</h2>
+<a id="aaa079b73f69a97dd45ade0bb765b20b1" name="aaa079b73f69a97dd45ade0bb765b20b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa079b73f69a97dd45ade0bb765b20b1">&#9670;&#160;</a></span>dmaFillVram16()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">dmaFillVram </td>
+          <td class="memname">dmaFillVram16 </td>
+          <td>(</td>
+          <td class="paramtype">u16 *&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>address</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fill the source data to destination using channel 0 of DMA available channels in words </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>the value of source to copy from </td></tr>
+    <tr><td class="paramname">address</td><td>vram address to copy </td></tr>
+    <tr><td class="paramname">size</td><td>the size in words of the data to copy. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab55e3ae019e75f79951904ba4e747a0a" name="ab55e3ae019e75f79951904ba4e747a0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab55e3ae019e75f79951904ba4e747a0a">&#9670;&#160;</a></span>dmaFillVram8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">dmaFillVram8 </td>
           <td>(</td>
           <td class="paramtype">u8 *&#160;</td>
           <td class="paramname"><em>source</em>, </td>
@@ -659,7 +707,8 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>HDMATable16</b> [224+1]
       </table>
 </div><div class="memdoc">
 
-<p>fill the source data to destination using channel 0 of DMA available channels in half words </p>
+<p>fill the source data to destination using channel 0 of DMA available channels in half words<br  />
+dmaFillVram is deprecated </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">source</td><td>the value of source to copy from </td></tr>
@@ -873,7 +922,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>HDMATable16</b> [224+1]
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="dma_8h.html">dma.h</a></li>
-    <li class="footer">Generated on Wed Aug 6 2025       Generated on Wed Aug 6 2025 20:51:01 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

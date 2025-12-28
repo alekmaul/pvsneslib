@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.4.0</span>
+   &#160;<span id="projectnumber">4.5.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -178,89 +178,94 @@ $(document).ready(function(){initNavTree('background_8h_source.html',''); initRe
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#define BG_256COLORS 256</span></div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#define BG3_MODE1_PRIORITY_HIGH (1 &lt;&lt; 3)</span></div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="background_8h.html#a52a05d4fdd66feb5ae0d8bb0a8b291e0">  110</a></span><span class="preprocessor">#define REG_BGMODE (*(vuint8 *)0x2105)</span></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno"><a class="line" href="background_8h.html#af189b16c0e666f2b9a07a538944a5684">  131</a></span><span class="preprocessor">#define REG_MOSAIC (*(vuint8 *)0x2106)</span></div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">#define BG1SC_ADDR 0x2107</span></div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="preprocessor">#define REG_BG1SC (*(vuint8 *)0x2107)</span></div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="preprocessor">#define REG_BG2SC (*(vuint8 *)0x2108)</span></div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="preprocessor">#define REG_BG3SC (*(vuint8 *)0x2109)</span></div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#define REG_BG4SC (*(vuint8 *)0x210A)</span></div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="background_8h.html#a44e47bf13266350ebb5120b7618d46d5">  165</a></span><span class="preprocessor">#define REG_BG12NBA (*(vuint8 *)0x210B)</span></div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="preprocessor">#define REG_BG34NBA (*(vuint8 *)0x210C)</span></div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="background_8h.html#aa5a7327dc4aeb9242a12065c0ee50303">  169</a></span><span class="preprocessor">#define REG_BGxHOFS 0x210D</span></div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="background_8h.html#afe5f6cc3aa46f96d13eb56ee8a0b1778">  171</a></span><span class="preprocessor">#define REG_BGxVOFS 0x210E</span></div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno"><a class="line" href="background_8h.html#ab769d805a40fdce758d964d274bb8195">  174</a></span><span class="preprocessor">#define REG_BG1HOFS (*(vuint8 *)0x210D)</span></div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno"><a class="line" href="background_8h.html#a466a20c79b0739bae02668b1b764d8f1">  176</a></span><span class="preprocessor">#define REG_BG1VOFS (*(vuint8 *)0x210E)</span></div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno"><a class="line" href="background_8h.html#a79723f49e7557337b091835634430844">  178</a></span><span class="preprocessor">#define REG_BG2HOFS (*(vuint8 *)0x210F)</span></div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno"><a class="line" href="background_8h.html#ae64c4fa64e07ea9a1c33873bc2dc269e">  180</a></span><span class="preprocessor">#define REG_BG2VOFS (*(vuint8 *)0x2110)</span></div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="background_8h.html#aac107692b4c51d08af380a28407632d5">  182</a></span><span class="preprocessor">#define REG_BG3HOFS (*(vuint8 *)0x2111)</span></div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno"><a class="line" href="background_8h.html#a182c4c0a976be88919146755c53ab44a">  184</a></span><span class="preprocessor">#define REG_BG3VOFS (*(vuint8 *)0x2112)</span></div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="background_8h.html#a0876479f76d0a58b10b4893dc6d2bbb3">  186</a></span><span class="preprocessor">#define REG_BG4HOFS (*(vuint8 *)0x2113)</span></div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="background_8h.html#a264e13fdbfcfeafc7c7cbc859f241220">  188</a></span><span class="preprocessor">#define REG_BG4VOFS (*(vuint8 *)0x2114)</span></div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="preprocessor">#define COLWIN_OB13W1ENABLEIN (1 &lt;&lt; 0)  </span></div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span><span class="preprocessor">#define COLWIN_OB13W1ENABLEOUT (2 &lt;&lt; 0) </span></div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="preprocessor">#define COLWIN_OB13W2ENABLEIN (1 &lt;&lt; 2)  </span></div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span><span class="preprocessor">#define COLWIN_OB13W2ENABLEOUT (2 &lt;&lt; 2) </span></div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span><span class="preprocessor">#define COLWIN_MB24W1ENABLEIN (1 &lt;&lt; 4)  </span></div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="preprocessor">#define COLWIN_MB24W1ENABLEOUT (2 &lt;&lt; 4) </span></div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="preprocessor">#define COLWIN_MB24W2ENABLEIN (1 &lt;&lt; 6)  </span></div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="preprocessor">#define COLWIN_MB24W2ENABLEOUT (2 &lt;&lt; 6) </span></div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno"><a class="line" href="background_8h.html#ab076a1d15554587d229fe3be8ae0332b">  210</a></span><span class="preprocessor">#define REG_W12SEL (*(vuint8 *)0x2123)</span></div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span><span class="preprocessor">#define REG_W34SEL (*(vuint8 *)0x2124)</span></div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="preprocessor">#define REG_WOBJSEL (*(vuint8 *)0x2125)</span></div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span> </div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno"><a class="line" href="background_8h.html#a26261c1f9b345599d87efd852037081d">  229</a></span><span class="preprocessor">#define REG_WH0 (*(vuint8 *)0x2126)</span></div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span><span class="preprocessor">#define REG_WH1 (*(vuint8 *)0x2127)</span></div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span><span class="preprocessor">#define REG_WH2 (*(vuint8 *)0x2128)</span></div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="preprocessor">#define REG_WH3 (*(vuint8 *)0x2129)</span></div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno"><a class="line" href="background_8h.html#a6b33454f7968061e6820463ae5b5d07c">  249</a></span><span class="preprocessor">#define REG_WBGLOG (*(vuint8 *)0x212A)</span></div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span><span class="preprocessor">#define REG_WOBJLOG (*(vuint8 *)0x212B)</span></div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span> </div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span><span class="preprocessor">#define REG_TM (*(vuint8 *)0x212C)</span></div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno"><a class="line" href="background_8h.html#a6e0a07f0768e62ec6e48802bdd442e30">  269</a></span><span class="preprocessor">#define REG_TS (*(vuint8 *)0x212D)</span></div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno"><a class="line" href="background_8h.html#a53012aa6801fe51e422cf4f17d5c8a35">  284</a></span><span class="preprocessor">#define REG_TMW (*(vuint8 *)0x212E)</span></div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span><span class="preprocessor">#define REG_TSW (*(vuint8 *)0x212F)</span></div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span> </div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span><span class="comment">// background address</span></div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span><span class="keyword">extern</span> u16 bg0gfxaddr; </div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span><span class="keyword">extern</span> u16 <a class="code hl_variable" href="background_8h.html#ad690bfa1333baa15818c1f4bb9a530fc">bg1gfxaddr</a>; </div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span><span class="keyword">extern</span> u16 <a class="code hl_variable" href="background_8h.html#a5a1dd9dbfeb3ada41ca93bff2b46b99b">bg2gfxaddr</a>; </div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span><span class="keyword">extern</span> u16 <a class="code hl_variable" href="background_8h.html#a11dd1e9472913ffd176d125c33a93af0">bg3gfxaddr</a>; </div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno"><a class="line" href="background_8h.html#a0206b5b9911749322bcf9da130527924">  297</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a0206b5b9911749322bcf9da130527924">bgSetGfxPtr</a>(u8 bgNumber, u16 address);</div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno"><a class="line" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">  304</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(u8 bgNumber, u16 address, u8 mapSize);</div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span> </div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno"><a class="line" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">  316</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address);</div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span> </div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno"><a class="line" href="background_8h.html#a4b0af2955fba6d18445f6cd95bf6bef6">  327</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a4b0af2955fba6d18445f6cd95bf6bef6">bgInitTileSetLz</a>(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 paletteSize, u16 colorMode, u16 address);</div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span> </div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno"><a class="line" href="background_8h.html#a4ea396375d85e9f3d9af5072552819aa">  335</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a4ea396375d85e9f3d9af5072552819aa">bgInitTileSetData</a>(u8 bgNumber, u8 *tileSource, u16 tileSize, u16 address);</div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span> </div>
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno"><a class="line" href="background_8h.html#ae1fad909be4edf30a3cd08a0890361dc">  344</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#ae1fad909be4edf30a3cd08a0890361dc">bgInitMapTileSet7</a>(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 tileSize, u16 address);</div>
-<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span> </div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno"><a class="line" href="background_8h.html#acc385296e159449a81d18f5e219c8032">  353</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address);</div>
-<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span> </div>
-<div class="line"><a id="l00360" name="l00360"></a><span class="lineno"><a class="line" href="background_8h.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7">  360</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7">bgSetScroll</a>(u8 bgNumber, u16 x, u16 y);</div>
-<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span> </div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno"><a class="line" href="background_8h.html#a75891c2ac9e1087a9494e924b137eec4">  365</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a75891c2ac9e1087a9494e924b137eec4">bgSetEnable</a>(u8 bgNumber);</div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span> </div>
-<div class="line"><a id="l00370" name="l00370"></a><span class="lineno"><a class="line" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">  370</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(u8 bgNumber);</div>
-<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span> </div>
-<div class="line"><a id="l00375" name="l00375"></a><span class="lineno"><a class="line" href="background_8h.html#a439e34ab400075fa7f12e6e559407e9b">  375</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a439e34ab400075fa7f12e6e559407e9b">bgSetEnableSub</a>(u8 bgNumber);</div>
-<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span> </div>
-<div class="line"><a id="l00380" name="l00380"></a><span class="lineno"><a class="line" href="background_8h.html#af28e4200f4e49073dcb8f950099bb9c3">  380</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#af28e4200f4e49073dcb8f950099bb9c3">bgSetDisableSub</a>(u8 bgNumber);</div>
-<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span> </div>
-<div class="line"><a id="l00388" name="l00388"></a><span class="lineno"><a class="line" href="background_8h.html#a00671918b35ab20db7b3f6b71015ccfb">  388</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a00671918b35ab20db7b3f6b71015ccfb">bgSetWindowsRegions</a>(u8 bgNumber, u8 winNumber, u8 xLeft, u8 xRight);</div>
-<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span> </div>
-<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span><span class="preprocessor">#endif </span><span class="comment">// SNES_BACKGROUND_INCLUDE</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">#define BG_TIL_PRIO                 (1&lt;&lt;13)     </span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">#define BG_TIL_PAL(n)               (n&lt;&lt;10)     </span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="preprocessor">#define BG_TIL_NUM(n)               (n&lt;&lt;0)      </span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">#define BG_TIL_FLIPX                (1&lt;&lt;14)     </span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">#define BG_TIL_FLIPY                (1&lt;&lt;15)     </span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="background_8h.html#a52a05d4fdd66feb5ae0d8bb0a8b291e0">  116</a></span><span class="preprocessor">#define REG_BGMODE (*(vuint8 *)0x2105)</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="background_8h.html#af189b16c0e666f2b9a07a538944a5684">  137</a></span><span class="preprocessor">#define REG_MOSAIC (*(vuint8 *)0x2106)</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="preprocessor">#define BG1SC_ADDR 0x2107</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="preprocessor">#define REG_BG1SC (*(vuint8 *)0x2107)</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="preprocessor">#define REG_BG2SC (*(vuint8 *)0x2108)</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="preprocessor">#define REG_BG3SC (*(vuint8 *)0x2109)</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span><span class="preprocessor">#define REG_BG4SC (*(vuint8 *)0x210A)</span></div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="background_8h.html#a44e47bf13266350ebb5120b7618d46d5">  171</a></span><span class="preprocessor">#define REG_BG12NBA (*(vuint8 *)0x210B)</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span><span class="preprocessor">#define REG_BG34NBA (*(vuint8 *)0x210C)</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="background_8h.html#aa5a7327dc4aeb9242a12065c0ee50303">  175</a></span><span class="preprocessor">#define REG_BGxHOFS 0x210D</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="background_8h.html#afe5f6cc3aa46f96d13eb56ee8a0b1778">  177</a></span><span class="preprocessor">#define REG_BGxVOFS 0x210E</span></div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno"><a class="line" href="background_8h.html#ab769d805a40fdce758d964d274bb8195">  180</a></span><span class="preprocessor">#define REG_BG1HOFS (*(vuint8 *)0x210D)</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="background_8h.html#a466a20c79b0739bae02668b1b764d8f1">  182</a></span><span class="preprocessor">#define REG_BG1VOFS (*(vuint8 *)0x210E)</span></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno"><a class="line" href="background_8h.html#a79723f49e7557337b091835634430844">  184</a></span><span class="preprocessor">#define REG_BG2HOFS (*(vuint8 *)0x210F)</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="background_8h.html#ae64c4fa64e07ea9a1c33873bc2dc269e">  186</a></span><span class="preprocessor">#define REG_BG2VOFS (*(vuint8 *)0x2110)</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="background_8h.html#aac107692b4c51d08af380a28407632d5">  188</a></span><span class="preprocessor">#define REG_BG3HOFS (*(vuint8 *)0x2111)</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno"><a class="line" href="background_8h.html#a182c4c0a976be88919146755c53ab44a">  190</a></span><span class="preprocessor">#define REG_BG3VOFS (*(vuint8 *)0x2112)</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="background_8h.html#a0876479f76d0a58b10b4893dc6d2bbb3">  192</a></span><span class="preprocessor">#define REG_BG4HOFS (*(vuint8 *)0x2113)</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno"><a class="line" href="background_8h.html#a264e13fdbfcfeafc7c7cbc859f241220">  194</a></span><span class="preprocessor">#define REG_BG4VOFS (*(vuint8 *)0x2114)</span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="preprocessor">#define COLWIN_OB13W1ENABLEIN (1 &lt;&lt; 0)  </span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="preprocessor">#define COLWIN_OB13W1ENABLEOUT (2 &lt;&lt; 0) </span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="preprocessor">#define COLWIN_OB13W2ENABLEIN (1 &lt;&lt; 2)  </span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="preprocessor">#define COLWIN_OB13W2ENABLEOUT (2 &lt;&lt; 2) </span></div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="preprocessor">#define COLWIN_MB24W1ENABLEIN (1 &lt;&lt; 4)  </span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="preprocessor">#define COLWIN_MB24W1ENABLEOUT (2 &lt;&lt; 4) </span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="preprocessor">#define COLWIN_MB24W2ENABLEIN (1 &lt;&lt; 6)  </span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="preprocessor">#define COLWIN_MB24W2ENABLEOUT (2 &lt;&lt; 6) </span></div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno"><a class="line" href="background_8h.html#ab076a1d15554587d229fe3be8ae0332b">  216</a></span><span class="preprocessor">#define REG_W12SEL (*(vuint8 *)0x2123)</span></div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span><span class="preprocessor">#define REG_W34SEL (*(vuint8 *)0x2124)</span></div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span><span class="preprocessor">#define REG_WOBJSEL (*(vuint8 *)0x2125)</span></div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno"><a class="line" href="background_8h.html#a26261c1f9b345599d87efd852037081d">  235</a></span><span class="preprocessor">#define REG_WH0 (*(vuint8 *)0x2126)</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="preprocessor">#define REG_WH1 (*(vuint8 *)0x2127)</span></div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span><span class="preprocessor">#define REG_WH2 (*(vuint8 *)0x2128)</span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span><span class="preprocessor">#define REG_WH3 (*(vuint8 *)0x2129)</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno"><a class="line" href="background_8h.html#a6b33454f7968061e6820463ae5b5d07c">  255</a></span><span class="preprocessor">#define REG_WBGLOG (*(vuint8 *)0x212A)</span></div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span><span class="preprocessor">#define REG_WOBJLOG (*(vuint8 *)0x212B)</span></div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span><span class="preprocessor">#define REG_TM (*(vuint8 *)0x212C)</span></div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno"><a class="line" href="background_8h.html#a6e0a07f0768e62ec6e48802bdd442e30">  275</a></span><span class="preprocessor">#define REG_TS (*(vuint8 *)0x212D)</span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno"><a class="line" href="background_8h.html#a53012aa6801fe51e422cf4f17d5c8a35">  290</a></span><span class="preprocessor">#define REG_TMW (*(vuint8 *)0x212E)</span></div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span><span class="preprocessor">#define REG_TSW (*(vuint8 *)0x212F)</span></div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span> </div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span><span class="comment">// background address</span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span><span class="keyword">extern</span> u16 bg0gfxaddr; </div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span><span class="keyword">extern</span> u16 <a class="code hl_variable" href="background_8h.html#ad690bfa1333baa15818c1f4bb9a530fc">bg1gfxaddr</a>; </div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span><span class="keyword">extern</span> u16 <a class="code hl_variable" href="background_8h.html#a5a1dd9dbfeb3ada41ca93bff2b46b99b">bg2gfxaddr</a>; </div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span><span class="keyword">extern</span> u16 <a class="code hl_variable" href="background_8h.html#a11dd1e9472913ffd176d125c33a93af0">bg3gfxaddr</a>; </div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno"><a class="line" href="background_8h.html#a0206b5b9911749322bcf9da130527924">  303</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a0206b5b9911749322bcf9da130527924">bgSetGfxPtr</a>(u8 bgNumber, u16 address);</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span> </div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno"><a class="line" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">  310</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(u8 bgNumber, u16 address, u8 mapSize);</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span> </div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno"><a class="line" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">  322</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address);</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span> </div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno"><a class="line" href="background_8h.html#a4b0af2955fba6d18445f6cd95bf6bef6">  333</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a4b0af2955fba6d18445f6cd95bf6bef6">bgInitTileSetLz</a>(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 paletteSize, u16 colorMode, u16 address);</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span> </div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno"><a class="line" href="background_8h.html#a4ea396375d85e9f3d9af5072552819aa">  341</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a4ea396375d85e9f3d9af5072552819aa">bgInitTileSetData</a>(u8 bgNumber, u8 *tileSource, u16 tileSize, u16 address);</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span> </div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno"><a class="line" href="background_8h.html#ae1fad909be4edf30a3cd08a0890361dc">  350</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#ae1fad909be4edf30a3cd08a0890361dc">bgInitMapTileSet7</a>(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 tileSize, u16 address);</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span> </div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno"><a class="line" href="background_8h.html#acc385296e159449a81d18f5e219c8032">  359</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address);</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span> </div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno"><a class="line" href="background_8h.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7">  366</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7">bgSetScroll</a>(u8 bgNumber, u16 x, u16 y);</div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span> </div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno"><a class="line" href="background_8h.html#a75891c2ac9e1087a9494e924b137eec4">  371</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a75891c2ac9e1087a9494e924b137eec4">bgSetEnable</a>(u8 bgNumber);</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span> </div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno"><a class="line" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">  376</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(u8 bgNumber);</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span> </div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno"><a class="line" href="background_8h.html#a439e34ab400075fa7f12e6e559407e9b">  381</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a439e34ab400075fa7f12e6e559407e9b">bgSetEnableSub</a>(u8 bgNumber);</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span> </div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno"><a class="line" href="background_8h.html#af28e4200f4e49073dcb8f950099bb9c3">  386</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#af28e4200f4e49073dcb8f950099bb9c3">bgSetDisableSub</a>(u8 bgNumber);</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span> </div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno"><a class="line" href="background_8h.html#a00671918b35ab20db7b3f6b71015ccfb">  394</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a00671918b35ab20db7b3f6b71015ccfb">bgSetWindowsRegions</a>(u8 bgNumber, u8 winNumber, u8 xLeft, u8 xRight);</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span> </div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span><span class="preprocessor">#endif </span><span class="comment">// SNES_BACKGROUND_INCLUDE</span></div>
 <div class="ttc" id="abackground_8h_html_a00671918b35ab20db7b3f6b71015ccfb"><div class="ttname"><a href="background_8h.html#a00671918b35ab20db7b3f6b71015ccfb">bgSetWindowsRegions</a></div><div class="ttdeci">void bgSetWindowsRegions(u8 bgNumber, u8 winNumber, u8 xLeft, u8 xRight)</div><div class="ttdoc">Define a region on screen where map / sprite can be disable.</div></div>
 <div class="ttc" id="abackground_8h_html_a0206b5b9911749322bcf9da130527924"><div class="ttname"><a href="background_8h.html#a0206b5b9911749322bcf9da130527924">bgSetGfxPtr</a></div><div class="ttdeci">void bgSetGfxPtr(u8 bgNumber, u16 address)</div><div class="ttdoc">Definition of each background address.</div></div>
 <div class="ttc" id="abackground_8h_html_a11dd1e9472913ffd176d125c33a93af0"><div class="ttname"><a href="background_8h.html#a11dd1e9472913ffd176d125c33a93af0">bg3gfxaddr</a></div><div class="ttdeci">u16 bg3gfxaddr</div><div class="ttdoc">Definition of each background address.</div></div>
@@ -287,7 +292,7 @@ $(document).ready(function(){initNavTree('background_8h_source.html',''); initRe
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="background_8h.html">background.h</a></li>
-    <li class="footer">Generated on Wed Aug 6 2025       Generated on Wed Aug 6 2025 20:51:01 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

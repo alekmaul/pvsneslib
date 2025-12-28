@@ -13,8 +13,9 @@ var searchData=
   ['dmacopyspr32vram_10',['dmaCopySpr32Vram',['../dma_8h.html#abbf81dbfd5a87cb2cd2181b12fcd56c5',1,'dma.h']]],
   ['dmacopyvram_11',['dmaCopyVram',['../dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2',1,'dma.h']]],
   ['dmacopyvram7_12',['dmaCopyVram7',['../dma_8h.html#ac0ba95e6b8e91380c0a67ee3b0707582',1,'dma.h']]],
-  ['dmafillvram_13',['dmaFillVram',['../dma_8h.html#a235e242d89d3c81b9e697e99a96198f7',1,'dma.h']]],
-  ['documentation_14',['PVSnesLib Documentation',['../index.html',1,'']]],
-  ['dsp_5fforcevbl_15',['DSP_FORCEVBL',['../video_8h.html#a5623bfd6fefb79d4f21d260b7e333523acef8d68eaf1d65e1bcf2ac9ee730c7d2',1,'video.h']]],
-  ['dummy1_16',['dummy1',['../structt__sprites.html#af0a876e2163316875c74a8867aa412cb',1,'t_sprites']]]
+  ['dmafillvram16_13',['dmaFillVram16',['../dma_8h.html#aaa079b73f69a97dd45ade0bb765b20b1',1,'dma.h']]],
+  ['dmafillvram8_14',['dmaFillVram8',['../dma_8h.html#ab55e3ae019e75f79951904ba4e747a0a',1,'dma.h']]],
+  ['documentation_15',['PVSnesLib Documentation',['../index.html',1,'']]],
+  ['dsp_5fforcevbl_16',['DSP_FORCEVBL',['../video_8h.html#a5623bfd6fefb79d4f21d260b7e333523acef8d68eaf1d65e1bcf2ac9ee730c7d2',1,'video.h']]],
+  ['dummy1_17',['dummy1',['../structt__sprites.html#af0a876e2163316875c74a8867aa412cb',1,'t_sprites']]]
 ];

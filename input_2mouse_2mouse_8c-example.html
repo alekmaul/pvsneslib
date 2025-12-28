@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.4.0</span>
+   &#160;<span id="projectnumber">4.5.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -445,12 +445,12 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">            }</div>
 <div class="line"> </div>
 <div class="line">            <span class="keywordflow">if</span> (<a class="code hl_variable" href="input_8h.html#ab30c9fdb0b74e5188e3f23a87e040b4b">mousePressed</a>[0] == <span class="keyword">false</span>)</div>
-<div class="line">                <a id="a30" name="a30"></a><a class="code hl_function" href="dma_8h.html#a235e242d89d3c81b9e697e99a96198f7">dmaFillVram</a>(&amp;buttonsmap, 0x6940, 0x40); <span class="comment">// wipe text</span></div>
+<div class="line">                <a id="a30" name="a30"></a><a class="code hl_function" href="dma_8h.html#ab55e3ae019e75f79951904ba4e747a0a">dmaFillVram8</a>(&amp;buttonsmap, 0x6940, 0x40); <span class="comment">// wipe text</span></div>
 <div class="line">        }</div>
 <div class="line">        <span class="keywordflow">else</span></div>
 <div class="line">        {</div>
-<div class="line">            <a class="code hl_function" href="dma_8h.html#a235e242d89d3c81b9e697e99a96198f7">dmaFillVram</a>(&amp;buttonsmap + 0x40, 0x6188, 0x20); <span class="comment">// remove buttons</span></div>
-<div class="line">            <a class="code hl_function" href="dma_8h.html#a235e242d89d3c81b9e697e99a96198f7">dmaFillVram</a>(&amp;buttonsmap + 0x80, 0x61A8, 0x20); <span class="comment">// remove buttons</span></div>
+<div class="line">            <a class="code hl_function" href="dma_8h.html#ab55e3ae019e75f79951904ba4e747a0a">dmaFillVram8</a>(&amp;buttonsmap + 0x40, 0x6188, 0x20); <span class="comment">// remove buttons</span></div>
+<div class="line">            <a class="code hl_function" href="dma_8h.html#ab55e3ae019e75f79951904ba4e747a0a">dmaFillVram8</a>(&amp;buttonsmap + 0x80, 0x61A8, 0x20); <span class="comment">// remove buttons</span></div>
 <div class="line">        }</div>
 <div class="line"> </div>
 <div class="line">        <span class="keywordflow">if</span> (<a class="code hl_variable" href="input_8h.html#a31b303c7c861ee50cb963e474af244c6">mouseConnect</a>[1])</div>
@@ -475,12 +475,12 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">            }</div>
 <div class="line"> </div>
 <div class="line">            <span class="keywordflow">if</span> (<a class="code hl_variable" href="input_8h.html#ab30c9fdb0b74e5188e3f23a87e040b4b">mousePressed</a>[1] == <span class="keyword">false</span>)</div>
-<div class="line">                <a class="code hl_function" href="dma_8h.html#a235e242d89d3c81b9e697e99a96198f7">dmaFillVram</a>(&amp;buttonsmap, 0x6AC0, 0x40); <span class="comment">// wipe text</span></div>
+<div class="line">                <a class="code hl_function" href="dma_8h.html#ab55e3ae019e75f79951904ba4e747a0a">dmaFillVram8</a>(&amp;buttonsmap, 0x6AC0, 0x40); <span class="comment">// wipe text</span></div>
 <div class="line">        }</div>
 <div class="line">        <span class="keywordflow">else</span></div>
 <div class="line">        {</div>
-<div class="line">            <a class="code hl_function" href="dma_8h.html#a235e242d89d3c81b9e697e99a96198f7">dmaFillVram</a>(&amp;buttonsmap + 0x40, 0x6308, 0x20); <span class="comment">// remove buttons</span></div>
-<div class="line">            <a class="code hl_function" href="dma_8h.html#a235e242d89d3c81b9e697e99a96198f7">dmaFillVram</a>(&amp;buttonsmap + 0x80, 0x6328, 0x20); <span class="comment">// remove buttons</span></div>
+<div class="line">            <a class="code hl_function" href="dma_8h.html#ab55e3ae019e75f79951904ba4e747a0a">dmaFillVram8</a>(&amp;buttonsmap + 0x40, 0x6308, 0x20); <span class="comment">// remove buttons</span></div>
+<div class="line">            <a class="code hl_function" href="dma_8h.html#ab55e3ae019e75f79951904ba4e747a0a">dmaFillVram8</a>(&amp;buttonsmap + 0x80, 0x6328, 0x20); <span class="comment">// remove buttons</span></div>
 <div class="line">        }</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// END VBLANK CODE</span></div>
@@ -496,7 +496,7 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="ttc" id="aconsole_8h_html_aaddd205f7bb20885a420f26e28214cfb"><div class="ttname"><a href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a></div><div class="ttdeci">void consoleSetTextOffset(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
 <div class="ttc" id="aconsole_8h_html_aaf046d1e48f425681b133b5eafa62e09"><div class="ttname"><a href="console_8h.html#aaf046d1e48f425681b133b5eafa62e09">consoleSetTextGfxPtr</a></div><div class="ttdeci">void consoleSetTextGfxPtr(u16 vramfont)</div><div class="ttdoc">Change text graphics address (4K aligned)</div></div>
 <div class="ttc" id="aconsole_8h_html_adcbe2c74decb1fdcdf34c80ac525335e"><div class="ttname"><a href="console_8h.html#adcbe2c74decb1fdcdf34c80ac525335e">consoleSetTextMapPtr</a></div><div class="ttdeci">void consoleSetTextMapPtr(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
-<div class="ttc" id="adma_8h_html_a235e242d89d3c81b9e697e99a96198f7"><div class="ttname"><a href="dma_8h.html#a235e242d89d3c81b9e697e99a96198f7">dmaFillVram</a></div><div class="ttdeci">void dmaFillVram(u8 *source, u16 address, u16 size)</div><div class="ttdoc">fill the source data to destination using channel 0 of DMA available channels in half words</div></div>
+<div class="ttc" id="adma_8h_html_ab55e3ae019e75f79951904ba4e747a0a"><div class="ttname"><a href="dma_8h.html#ab55e3ae019e75f79951904ba4e747a0a">dmaFillVram8</a></div><div class="ttdeci">void dmaFillVram8(u8 *source, u16 address, u16 size)</div><div class="ttdoc">fill the source data to destination using channel 0 of DMA available channels in half words dmaFillVr...</div></div>
 <div class="ttc" id="adma_8h_html_adddf1dea4bd52a083b3ee4b39f1e20f2"><div class="ttname"><a href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a></div><div class="ttdeci">void dmaCopyVram(u8 *source, u16 address, u16 size)</div><div class="ttdoc">copy data from source to destination using channel 0 of DMA available channels in half words</div></div>
 <div class="ttc" id="ainput_8h_html_a31b303c7c861ee50cb963e474af244c6"><div class="ttname"><a href="input_8h.html#a31b303c7c861ee50cb963e474af244c6">mouseConnect</a></div><div class="ttdeci">u8 mouseConnect[2]</div><div class="ttdoc">1 if Mouse present</div></div>
 <div class="ttc" id="ainput_8h_html_a3af8bd7c47007d05b0d2de20e629b0c7"><div class="ttname"><a href="input_8h.html#a3af8bd7c47007d05b0d2de20e629b0c7">mouse_y</a></div><div class="ttdeci">u8 mouse_y[2]</div><div class="ttdoc">Mouse vertical displacement. daaaaaaa, d = direction (1: up, 0: down), a = acceleration.</div></div>
@@ -524,7 +524,7 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Wed Aug 6 2025       Generated on Wed Aug 6 2025 20:51:01 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

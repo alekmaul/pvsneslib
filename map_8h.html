@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.4.0</span>
+   &#160;<span id="projectnumber">4.5.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -139,6 +139,14 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>ACT_WALK</b>&#160;&#160;&#160;0x0001</td></tr>
 <tr class="memdesc:a912cfae6ccf6375f3c2831d65646c76b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Action type WALK for object. <br /></td></tr>
 <tr class="separator:a912cfae6ccf6375f3c2831d65646c76b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaaeb07f437c99e9497c94bf585d7a30" id="r_aaaaeb07f437c99e9497c94bf585d7a30"><td class="memItemLeft" align="right" valign="top"><a id="aaaaeb07f437c99e9497c94bf585d7a30" name="aaaaeb07f437c99e9497c94bf585d7a30"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>MAP_OPT_1WAY</b>&#160;&#160;&#160;0x01</td></tr>
+<tr class="memdesc:aaaaeb07f437c99e9497c94bf585d7a30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map option to only scroll right. <br /></td></tr>
+<tr class="separator:aaaaeb07f437c99e9497c94bf585d7a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1697378c813c532a862943726625bd5b" id="r_a1697378c813c532a862943726625bd5b"><td class="memItemLeft" align="right" valign="top"><a id="a1697378c813c532a862943726625bd5b" name="a1697378c813c532a862943726625bd5b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>MAP_OPT_BG2</b>&#160;&#160;&#160;0x02</td></tr>
+<tr class="memdesc:a1697378c813c532a862943726625bd5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map option to use BG2 instead of BG1 (address is still 6800 but scroll BG2) <br /></td></tr>
+<tr class="separator:a1697378c813c532a862943726625bd5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64b628522c7aaec4fd687d8cd3c15797" id="r_a64b628522c7aaec4fd687d8cd3c15797"><td class="memItemLeft" align="right" valign="top"><a id="a64b628522c7aaec4fd687d8cd3c15797" name="a64b628522c7aaec4fd687d8cd3c15797"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>T_EMPTY</b>&#160;&#160;&#160;0x0000</td></tr>
 <tr class="memdesc:a64b628522c7aaec4fd687d8cd3c15797"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type Empty (action will be fall) for tile <br  />
@@ -181,6 +189,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aa113f9698adeb4ddea559d2cdaf82d96" id="r_aa113f9698adeb4ddea559d2cdaf82d96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">mapLoad</a> (u8 *layer1map, u8 *layertiles, u8 *tilesprop)</td></tr>
 <tr class="memdesc:aa113f9698adeb4ddea559d2cdaf82d96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load map definition into memory.  <br /></td></tr>
 <tr class="separator:aa113f9698adeb4ddea559d2cdaf82d96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8ae7b1f270e59535a8296b4a6b9c9c6" id="r_aa8ae7b1f270e59535a8296b4a6b9c9c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="map_8h.html#aa8ae7b1f270e59535a8296b4a6b9c9c6">mapSetMapOptions</a> (u8 optmap)</td></tr>
+<tr class="memdesc:aa8ae7b1f270e59535a8296b4a6b9c9c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Put some generic options for the map.  <br /></td></tr>
+<tr class="separator:aa8ae7b1f270e59535a8296b4a6b9c9c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a332bfe570835ef05934b712fd9701c88" id="r_a332bfe570835ef05934b712fd9701c88"><td class="memItemLeft" align="right" valign="top"><a id="a332bfe570835ef05934b712fd9701c88" name="a332bfe570835ef05934b712fd9701c88"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>mapUpdate</b> (void)</td></tr>
 <tr class="memdesc:a332bfe570835ef05934b712fd9701c88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update map regarding current camera position (must be done once per frame) <br /></td></tr>
@@ -331,7 +342,36 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><b>y_pos</b></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a55">games/likemario/LikeMario.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a10">maps/mapscroll/mapscroll.c</a>, <a class="el" href="maps_2tiled_2tiled_8c-example.html#a5">maps/tiled/tiled.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a10">objects/mapandobjects/mapandobjects.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a10">objects/nogravityobject/nogravityobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a56">games/likemario/LikeMario.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a10">maps/mapscroll/mapscroll.c</a>, <a class="el" href="maps_2tiled_2tiled_8c-example.html#a5">maps/tiled/tiled.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a11">objects/mapandobjects/mapandobjects.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a11">objects/nogravityobject/nogravityobjects.c</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="aa8ae7b1f270e59535a8296b4a6b9c9c6" name="aa8ae7b1f270e59535a8296b4a6b9c9c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8ae7b1f270e59535a8296b4a6b9c9c6">&#9670;&#160;</a></span>mapSetMapOptions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">mapSetMapOptions </td>
+          <td>(</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>optmap</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Put some generic options for the map. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">optmap</td><td>options to set <br  />
+ Options are: <br  />
+ MAP_OPT_1WAY: only scroll right <br  />
+ MAP_OPT_BG2: option to use BG2 instead of BG1 (address is still 6800 but scroll BG2) </td></tr>
+  </table>
+  </dd>
 </dl>
 
 </div>
@@ -370,7 +410,7 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><b>y_pos</b></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a38">games/likemario/LikeMario.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a11">maps/mapscroll/mapscroll.c</a>, <a class="el" href="maps_2tiled_2tiled_8c-example.html#a10">maps/tiled/tiled.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a12">objects/nogravityobject/nogravityobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a38">games/likemario/LikeMario.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a11">maps/mapscroll/mapscroll.c</a>, <a class="el" href="maps_2tiled_2tiled_8c-example.html#a10">maps/tiled/tiled.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a13">objects/nogravityobject/nogravityobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -381,7 +421,7 @@ u16&#160;</td><td class="memItemRight" valign="bottom"><b>y_pos</b></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="map_8h.html">map.h</a></li>
-    <li class="footer">Generated on Wed Aug 6 2025       Generated on Wed Aug 6 2025 20:51:01 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>PVSnesLib: Globals</title>
+<title>PVSnesLib: t_metasprite Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,7 +69,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('globals_g.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('structt__metasprite.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -94,19 +94,33 @@ $(document).ready(function(){initNavTree('globals_g.html',''); initResizable(); 
 </div>
 </div>
 
+<div class="header">
+  <div class="headertitle"><div class="title">t_metasprite Struct Reference</div></div>
+</div><!--header-->
 <div class="contents">
-<div class="textblock">Here is a list of all documented functions, variables, defines, enums, and typedefs with links to the documentation:</div>
 
-<h3><a id="index_g" name="index_g"></a>- g -</h3><ul>
-<li>getFPScounter()&#160;:&#160;<a class="el" href="video_8h.html#a73861f0742d53e6f44385a673504c83c">video.h</a></li>
-<li>getPalette()&#160;:&#160;<a class="el" href="video_8h.html#a4edcd61c70a2e22ed69a93ced9da9126">video.h</a></li>
-<li>getPaletteColor()&#160;:&#160;<a class="el" href="video_8h.html#acbf8deabd274fb30b9448036296efb8d">video.h</a></li>
+<p><code>#include &lt;<a class="el" href="sprite_8h_source.html">sprite.h</a>&gt;</code></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Metasprite sub-item structure </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dx</td><td>delta X coordinate of the sprite relative to the metasprite origin (0,0) </td></tr>
+    <tr><td class="paramname">dy</td><td>delta Y coordinate of the sprite relative to the metasprite origin (0,0) </td></tr>
+    <tr><td class="paramname">dtile</td><td>start tile relative to the metasprites own set of tiles </td></tr>
+    <tr><td class="paramname">props</td><td>property Flags (palette and priority, flip x/y will be added later)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Metasprites are built from multiple metasprite_t items (one for each sub-sprite) and a pool of tiles they reference. If a metasprite has multiple frames then each frame will be built from some number of metasprite_t items (which may vary based on how many sprites are required for that particular frame).</p>
+<p>A metasprite frame is terminated with a {metasprite_end} entry. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li>include/snes/<a class="el" href="sprite_8h_source.html">sprite.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+    <li class="navelem"><a class="el" href="structt__metasprite.html">t_metasprite</a></li>
     <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>

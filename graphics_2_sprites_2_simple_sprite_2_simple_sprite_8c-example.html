@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.4.0</span>
+   &#160;<span id="projectnumber">4.5.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -108,14 +108,13 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_simple_sprite_2_s
 <div class="line"><span class="comment">---------------------------------------------------------------------------------*/</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="snes_8h.html">snes.h</a>&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> gfxpsrite, gfxpsrite_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> palsprite, palsprite_end;</div>
+<div class="line"><span class="preprocessor">#include &quot;sprites.inc&quot;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// Init Sprites gfx and palette with default size of 32x32</span></div>
-<div class="line">    <a id="a0" name="a0"></a><a class="code hl_function" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;gfxpsrite, (&amp;gfxpsrite_end - &amp;gfxpsrite), &amp;palsprite, (&amp;palsprite_end - &amp;palsprite), 0, 0x0000, <a id="a1" name="a1"></a><a class="code hl_define" href="sprite_8h.html#a449cd6f7c4fc8ca09a632e0c58cdb365">OBJ_SIZE32_L64</a>);</div>
+<div class="line">    <a id="a0" name="a0"></a><a class="code hl_function" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;sprites_til, (&amp;sprites_tilend - &amp;sprites_til), &amp;sprites_pal, (&amp;sprites_palend - &amp;sprites_pal), 0, 0x0000, <a id="a1" name="a1"></a><a class="code hl_define" href="sprite_8h.html#a449cd6f7c4fc8ca09a632e0c58cdb365">OBJ_SIZE32_L64</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Define sprites parameters</span></div>
 <div class="line">    <a id="a2" name="a2"></a><a class="code hl_function" href="sprite_8h.html#abb854a7fa3bbfe4c2e331bfce9e374a7">oamSet</a>(0, 100, 100, 3, 0, 0, 0, 0); <span class="comment">// Put sprite in 100,100, with maximum priority 3 from tile entry 0, palette 0</span></div>
@@ -150,7 +149,7 @@ $(document).ready(function(){initNavTree('graphics_2_sprites_2_simple_sprite_2_s
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Wed Aug 6 2025       Generated on Wed Aug 6 2025 20:51:01 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

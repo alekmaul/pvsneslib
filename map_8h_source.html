@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.4.0</span>
+   &#160;<span id="projectnumber">4.5.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -147,30 +147,34 @@ $(document).ready(function(){initNavTree('map_8h_source.html',''); initResizable
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="map_8h.html#ab9c13fbe07aac09e69bc677fe3f0fcaa">   49</a></span><span class="preprocessor">#define ACT_CLIMB 0x0008 </span></div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="map_8h.html#a7843ff58f7ae21834eee28a3cefbbd3a">   50</a></span><span class="preprocessor">#define ACT_DIE 0x0010   </span></div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="map_8h.html#aab4c8cebd89d6e8b2a68e709784829d5">   51</a></span><span class="preprocessor">#define ACT_BURN 0x0020  </span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">extern</span> u16 <a class="code hl_variable" href="map_8h.html#a467103f88f118d5ff5a7aeed5cb8a1d5">bg_L1</a>[32 * 32]; </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keyword">extern</span> u8 <a class="code hl_variable" href="map_8h.html#ab13b1b784e3f0f177501c469853c894e">mapupdbuf</a>; </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">   57</a></span><span class="keyword">extern</span> u16 x_pos, <a class="code hl_variable" href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a>; </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">   66</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">mapLoad</a>(u8 *layer1map, u8 *layertiles, u8 *tilesprop);</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="map_8h.html#a332bfe570835ef05934b712fd9701c88">   71</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#a332bfe570835ef05934b712fd9701c88">mapUpdate</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">   76</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">   83</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">mapUpdateCamera</a>(u16 xpos, u16 ypos);</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">   91</a></span>u16 <a class="code hl_function" href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">mapGetMetaTile</a>(u16 xpos, u16 ypos);</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="map_8h.html#a82cbe383dfcdf5a9e95acf97609f2c1f">   99</a></span>u16 <a class="code hl_function" href="map_8h.html#a82cbe383dfcdf5a9e95acf97609f2c1f">mapGetMetaTilesProp</a>(u16 xpos, u16 ypos);</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="map_8h.html#aaaaeb07f437c99e9497c94bf585d7a30">   53</a></span><span class="preprocessor">#define MAP_OPT_1WAY 0x01  </span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="map_8h.html#a1697378c813c532a862943726625bd5b">   54</a></span><span class="preprocessor">#define MAP_OPT_BG2 0x02  </span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">extern</span> u16 <a class="code hl_variable" href="map_8h.html#a467103f88f118d5ff5a7aeed5cb8a1d5">bg_L1</a>[32 * 32]; </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">extern</span> u8 <a class="code hl_variable" href="map_8h.html#ab13b1b784e3f0f177501c469853c894e">mapupdbuf</a>; </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">   60</a></span><span class="keyword">extern</span> u16 x_pos, <a class="code hl_variable" href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a>; </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">   69</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">mapLoad</a>(u8 *layer1map, u8 *layertiles, u8 *tilesprop);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="map_8h.html#a332bfe570835ef05934b712fd9701c88">   74</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#a332bfe570835ef05934b712fd9701c88">mapUpdate</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">   79</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">   86</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">mapUpdateCamera</a>(u16 xpos, u16 ypos);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">   94</a></span>u16 <a class="code hl_function" href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">mapGetMetaTile</a>(u16 xpos, u16 ypos);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="map_8h.html#a82cbe383dfcdf5a9e95acf97609f2c1f">  102</a></span>u16 <a class="code hl_function" href="map_8h.html#a82cbe383dfcdf5a9e95acf97609f2c1f">mapGetMetaTilesProp</a>(u16 xpos, u16 ypos);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="map_8h.html#aa8ae7b1f270e59535a8296b4a6b9c9c6">  111</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#aa8ae7b1f270e59535a8296b4a6b9c9c6">mapSetMapOptions</a>(u8 optmap);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="amap_8h_html_a0d7b8c3ece013b244c417f761ad150ac"><div class="ttname"><a href="map_8h.html#a0d7b8c3ece013b244c417f761ad150ac">mapGetMetaTile</a></div><div class="ttdeci">u16 mapGetMetaTile(u16 xpos, u16 ypos)</div><div class="ttdoc">Get metatile value from current map.</div></div>
 <div class="ttc" id="amap_8h_html_a15e3d01a91c5650e4de9a6e6be131d34"><div class="ttname"><a href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a></div><div class="ttdeci">void mapVblank(void)</div><div class="ttdoc">Display map regarding current buffer (must be done once per frame, near Vblank)</div></div>
 <div class="ttc" id="amap_8h_html_a332bfe570835ef05934b712fd9701c88"><div class="ttname"><a href="map_8h.html#a332bfe570835ef05934b712fd9701c88">mapUpdate</a></div><div class="ttdeci">void mapUpdate(void)</div><div class="ttdoc">Update map regarding current camera position (must be done once per frame)</div></div>
 <div class="ttc" id="amap_8h_html_a467103f88f118d5ff5a7aeed5cb8a1d5"><div class="ttname"><a href="map_8h.html#a467103f88f118d5ff5a7aeed5cb8a1d5">bg_L1</a></div><div class="ttdeci">u16 bg_L1[32 *32]</div><div class="ttdoc">The buffer to use when updating the whole display on layer 1.</div></div>
-<div class="ttc" id="amap_8h_html_a79f8bb14ed9f0ee9d7031db7f02733be"><div class="ttname"><a href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a></div><div class="ttdeci">u16 y_pos</div><div class="ttdoc">Current value of camera in x &amp; y coordinates.</div><div class="ttdef"><b>Definition</b> map.h:57</div></div>
+<div class="ttc" id="amap_8h_html_a79f8bb14ed9f0ee9d7031db7f02733be"><div class="ttname"><a href="map_8h.html#a79f8bb14ed9f0ee9d7031db7f02733be">y_pos</a></div><div class="ttdeci">u16 y_pos</div><div class="ttdoc">Current value of camera in x &amp; y coordinates.</div><div class="ttdef"><b>Definition</b> map.h:60</div></div>
 <div class="ttc" id="amap_8h_html_a82cbe383dfcdf5a9e95acf97609f2c1f"><div class="ttname"><a href="map_8h.html#a82cbe383dfcdf5a9e95acf97609f2c1f">mapGetMetaTilesProp</a></div><div class="ttdeci">u16 mapGetMetaTilesProp(u16 xpos, u16 ypos)</div><div class="ttdoc">Get metatile property from current map (solid, lad, fire, etc...)</div></div>
 <div class="ttc" id="amap_8h_html_aa113f9698adeb4ddea559d2cdaf82d96"><div class="ttname"><a href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">mapLoad</a></div><div class="ttdeci">void mapLoad(u8 *layer1map, u8 *layertiles, u8 *tilesprop)</div><div class="ttdoc">Load map definition into memory.</div></div>
+<div class="ttc" id="amap_8h_html_aa8ae7b1f270e59535a8296b4a6b9c9c6"><div class="ttname"><a href="map_8h.html#aa8ae7b1f270e59535a8296b4a6b9c9c6">mapSetMapOptions</a></div><div class="ttdeci">void mapSetMapOptions(u8 optmap)</div><div class="ttdoc">Put some generic options for the map.</div></div>
 <div class="ttc" id="amap_8h_html_ab13b1b784e3f0f177501c469853c894e"><div class="ttname"><a href="map_8h.html#ab13b1b784e3f0f177501c469853c894e">mapupdbuf</a></div><div class="ttdeci">u8 mapupdbuf</div><div class="ttdoc">State of buffer update (vert / horiz / all)</div></div>
 <div class="ttc" id="amap_8h_html_ab8720c97e886ceabda97c6beff2e5864"><div class="ttname"><a href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">mapUpdateCamera</a></div><div class="ttdeci">void mapUpdateCamera(u16 xpos, u16 ypos)</div><div class="ttdoc">Update map camera (must be done once per frame)</div></div>
 <div class="ttc" id="asnestypes_8h_html"><div class="ttname"><a href="snestypes_8h.html">snestypes.h</a></div><div class="ttdoc">Custom types used by libsnes.</div></div>
@@ -180,7 +184,7 @@ $(document).ready(function(){initNavTree('map_8h_source.html',''); initResizable
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="map_8h.html">map.h</a></li>
-    <li class="footer">Generated on Wed Aug 6 2025       Generated on Wed Aug 6 2025 20:51:01 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

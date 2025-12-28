@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.4.0</span>
+   &#160;<span id="projectnumber">4.5.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -140,32 +140,32 @@ $(document).ready(function(){initNavTree('objects_2nogravityobject_2nogravityobj
 <div class="line">    <a id="a7" name="a7"></a><a class="code hl_function" href="object_8h.html#ad010f8c119dbd982acd9ddd859f2acec">objInitEngine</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init function for state machine</span></div>
-<div class="line">    <a id="a8" name="a8"></a><a class="code hl_function" href="object_8h.html#a7e95928105307a3b96b1b79a096917e1">objInitFunctions</a>(0, &amp;linkinit, &amp;linkupdate, NULL);</div>
+<div class="line">    <a id="a8" name="a8"></a><a class="code hl_function" href="object_8h.html#a7e95928105307a3b96b1b79a096917e1">objInitFunctions</a>(0, &amp;linkinit, &amp;linkupdate, <a id="a9" name="a9"></a><a class="code hl_define" href="snestypes_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Load all objects into memory</span></div>
-<div class="line">    <a id="a9" name="a9"></a><a class="code hl_function" href="object_8h.html#aeda7828a0cb93ff1985ac0237ac5871b">objLoadObjects</a>((<span class="keywordtype">char</span> *)&amp;objzelda);</div>
+<div class="line">    <a id="a10" name="a10"></a><a class="code hl_function" href="object_8h.html#aeda7828a0cb93ff1985ac0237ac5871b">objLoadObjects</a>((<span class="keywordtype">char</span> *)&amp;objzelda);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Load map in memory and update it regarding current location of the sprite</span></div>
-<div class="line">    <a id="a10" name="a10"></a><a class="code hl_function" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">mapLoad</a>((u8 *)&amp;mapzelda, (u8 *)&amp;tilesetdef, (u8 *)&amp;tilesetatt);</div>
+<div class="line">    <a id="a11" name="a11"></a><a class="code hl_function" href="map_8h.html#aa113f9698adeb4ddea559d2cdaf82d96">mapLoad</a>((u8 *)&amp;mapzelda, (u8 *)&amp;tilesetdef, (u8 *)&amp;tilesetatt);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Screen activated</span></div>
-<div class="line">    <a id="a11" name="a11"></a><a class="code hl_function" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
+<div class="line">    <a id="a12" name="a12"></a><a class="code hl_function" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// generic playing loop</span></div>
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// Update the map regarding the camera</span></div>
-<div class="line">        <a id="a12" name="a12"></a><a class="code hl_function" href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">mapUpdateCamera</a>(*linkox, *linkoy);</div>
-<div class="line">        <a id="a13" name="a13"></a><a class="code hl_function" href="map_8h.html#a332bfe570835ef05934b712fd9701c88">mapUpdate</a>();</div>
+<div class="line">        <a id="a13" name="a13"></a><a class="code hl_function" href="map_8h.html#ab8720c97e886ceabda97c6beff2e5864">mapUpdateCamera</a>(*linkox, *linkoy);</div>
+<div class="line">        <a id="a14" name="a14"></a><a class="code hl_function" href="map_8h.html#a332bfe570835ef05934b712fd9701c88">mapUpdate</a>();</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Update all the available objects</span></div>
-<div class="line">        <a id="a14" name="a14"></a><a class="code hl_function" href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a>();</div>
+<div class="line">        <a id="a15" name="a15"></a><a class="code hl_function" href="object_8h.html#aa3240dfaeaa1b670114283de49dc6526">objUpdateAll</a>();</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// prepare next frame and wait vblank</span></div>
-<div class="line">        <a id="a15" name="a15"></a><a class="code hl_function" href="sprite_8h.html#ac9eb3b2751e5b744470cd16453ff3261">oamInitDynamicSpriteEndFrame</a>();</div>
-<div class="line">        <a id="a16" name="a16"></a><a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">        <a id="a17" name="a17"></a><a class="code hl_function" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a>();</div>
-<div class="line">        <a id="a18" name="a18"></a><a class="code hl_function" href="sprite_8h.html#a4f830004646995018000dae0f898d221">oamVramQueueUpdate</a>();</div>
+<div class="line">        <a id="a16" name="a16"></a><a class="code hl_function" href="sprite_8h.html#ac9eb3b2751e5b744470cd16453ff3261">oamInitDynamicSpriteEndFrame</a>();</div>
+<div class="line">        <a id="a17" name="a17"></a><a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
+<div class="line">        <a id="a18" name="a18"></a><a class="code hl_function" href="map_8h.html#a15e3d01a91c5650e4de9a6e6be131d34">mapVblank</a>();</div>
+<div class="line">        <a id="a19" name="a19"></a><a class="code hl_function" href="sprite_8h.html#a4f830004646995018000dae0f898d221">oamVramQueueUpdate</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
@@ -182,6 +182,7 @@ $(document).ready(function(){initNavTree('objects_2nogravityobject_2nogravityobj
 <div class="ttc" id="aobject_8h_html_ad010f8c119dbd982acd9ddd859f2acec"><div class="ttname"><a href="object_8h.html#ad010f8c119dbd982acd9ddd859f2acec">objInitEngine</a></div><div class="ttdeci">void objInitEngine(void)</div><div class="ttdoc">Initialize object engine, need to be called once.</div></div>
 <div class="ttc" id="aobject_8h_html_aeda7828a0cb93ff1985ac0237ac5871b"><div class="ttname"><a href="object_8h.html#aeda7828a0cb93ff1985ac0237ac5871b">objLoadObjects</a></div><div class="ttdeci">void objLoadObjects(u8 *sourceO)</div><div class="ttdoc">Load all objects for a specific table in memory.</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
+<div class="ttc" id="asnestypes_8h_html_a070d2ce7b6bb7e5c05602aa8c308d0c4"><div class="ttname"><a href="snestypes_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a></div><div class="ttdeci">#define NULL</div><div class="ttdoc">stdio definitions</div><div class="ttdef"><b>Definition</b> snestypes.h:63</div></div>
 <div class="ttc" id="asprite_8h_html_a4f830004646995018000dae0f898d221"><div class="ttname"><a href="sprite_8h.html#a4f830004646995018000dae0f898d221">oamVramQueueUpdate</a></div><div class="ttdeci">void oamVramQueueUpdate(void)</div><div class="ttdoc">Update VRAM graphics for sprites 32x32, 16x16 and 8x8 (can but call in Vblank if needed).</div></div>
 <div class="ttc" id="asprite_8h_html_aa91348e1375ed07236694a7d81fa9ecf"><div class="ttname"><a href="sprite_8h.html#aa91348e1375ed07236694a7d81fa9ecf">OBJ_SIZE8_L16</a></div><div class="ttdeci">#define OBJ_SIZE8_L16</div><div class="ttdoc">default OAM size 8x8 (SM) and 16x16 (LG) pix for OBJSEL register</div><div class="ttdef"><b>Definition</b> sprite.h:39</div></div>
 <div class="ttc" id="asprite_8h_html_ac9eb3b2751e5b744470cd16453ff3261"><div class="ttname"><a href="sprite_8h.html#ac9eb3b2751e5b744470cd16453ff3261">oamInitDynamicSpriteEndFrame</a></div><div class="ttdeci">void oamInitDynamicSpriteEndFrame(void)</div><div class="ttdoc">Must be call at the end of the frame, initialize the dynamic sprite engine for the next frame.</div></div>
@@ -194,7 +195,7 @@ $(document).ready(function(){initNavTree('objects_2nogravityobject_2nogravityobj
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Wed Aug 6 2025       Generated on Wed Aug 6 2025 20:51:01 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>
