@@ -854,6 +854,18 @@ spcEffect:
 	lda	#CMD_FX			; queue FX message
 	jmp	QueueMessage		;
 
+;---------------------------------------------------------------------------------
+; u8 spcGetMusicPosition(void)
+spcGetMusicPosition: 
+	php
+	sep #$20
+	stz.b tcc__r0
+	lda.l REG_APUIO3
+	sta.b tcc__r0
+	rep #$20
+	plp
+	rtl
+
 ;======================================================================
 ;
 ; STREAMING

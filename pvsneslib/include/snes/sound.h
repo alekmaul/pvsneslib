@@ -167,6 +167,12 @@ void spcProcess(void);
 */
 void spcEffect(u16 pitch, u16 sfxIndex, u8 volpan);
 
+/*! \fn  spcGetMusicPosition(void)
+    \brief Get current running pattern
+    \return current pattern
+*/
+u8 spcGetMusicPosition(void);
+
 /*! \fn  spcSetSoundTable(u16 sndTableAddr,u8 sndTableBank)
     \brief set the address of the SOUND TABLE
     \param sndTableAddr	address of sound table
