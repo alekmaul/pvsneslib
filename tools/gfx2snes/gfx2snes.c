@@ -82,28 +82,28 @@ int LoadPicture(void)
 	}
 	switch (file_type) {
 		case 2 : // PCX
-			sprintf(filename,"%s.pcx",filebase);
+			snprintf(filename, sizeof(filename), "%s.pcx", filebase);
 			if (quietmode == 0)
 				printf("\ngfx2snes: 'Opening graphics file: [%s]'",filename);
 			if(!PCX_Load(filename,(pcx_picture_ptr) &image))
 				return 1;
 			break;
 		case 3 : // TGA
-			sprintf(filename,"%s.tga",filebase);
+			snprintf(filename, sizeof(filename), "%s.tga", filebase);
 			if (quietmode == 0)
 				printf("\ngfx2snes: 'Opening graphics file: [%s]'",filename);
 			if(!TGA_Load(filename,(pcx_picture_ptr) &image))
 				return 1;
 			break;
 		case 4 : // PNG
-			sprintf(filename,"%s.png",filebase);
+			snprintf(filename, sizeof(filename), "%s.png", filebase);
 			if (quietmode == 0)
 				printf("\ngfx2snes: 'Opening graphics file: [%s]'",filename);
 			if(!PNG_Load(filename,(pcx_picture_ptr) &image))
 				return 1;
 			break;
 		default : // BMP for everything else
-			sprintf(filename,"%s.bmp",filebase);
+			snprintf(filename, sizeof(filename), "%s.bmp", filebase);
 			if (quietmode == 0)
 				printf("\ngfx2snes: 'Opening graphics file: [%s]'",filename);
 			if(!BMP_Load(filename,(pcx_picture_ptr) &image))
@@ -188,8 +188,8 @@ int main(int argc, char **arg)
 	int i, j;
 
     // init all filenames
-    strcpy(filebase,"");
-    strcpy(filename,"");
+    filebase[0] = '\0';
+    filename[0] = '\0';
 
 	// init all buffers
 	buffer=NULL;
@@ -373,8 +373,10 @@ int main(int argc, char **arg)
 				PrintOptions(arg[i]);
 				return 1;
 			}
-			else
-				strcpy(filebase,arg[i]);
+			else {
+				strncpy(filebase, arg[i], sizeof(filebase) - 1);
+				filebase[sizeof(filebase) - 1] = '\0';
+			}
 		}
 	}
 
@@ -698,12 +700,12 @@ int main(int argc, char **arg)
 	if ( (screen) && (savemap))
 	{
 		if(screen==7)
-			sprintf(filename,"%s.mp7",filebase);
+			snprintf(filename, sizeof(filename), "%s.mp7", filebase);
 		else {
 			if (collision >= 1)
-				sprintf(filename,"%s.clm",filebase);
+				snprintf(filename, sizeof(filename), "%s.clm", filebase);
 			else
-				sprintf(filename,"%s.map",filebase);
+				snprintf(filename, sizeof(filename), "%s.map", filebase);
 		}
 
 		if (quietmode == 0)
@@ -738,7 +740,7 @@ int main(int argc, char **arg)
 
 		// save the sprite table if needed
 		if (collision == 2) {
-			sprintf(filename,"%s.spr",filebase);
+			snprintf(filename, sizeof(filename), "%s.spr", filebase);
 
 			if (quietmode == 0)
 				printf("\ngfx2snes: 'Saving sprite table for map file: [%s]'",filename);
@@ -768,7 +770,7 @@ int main(int argc, char **arg)
 	//convert and save the palette if necessary
 	if ((output_palette) && (collision == 0) && (savepalette))
 	{
-		sprintf(filename,"%s.pal",filebase);
+		snprintf(filename, sizeof(filename), "%s.pal", filebase);
 		if (quietmode == 0)
 			printf("\ngfx2snes: 'Saving palette file: [%s]'",filename);
 		fp = fopen(filename,"wb");

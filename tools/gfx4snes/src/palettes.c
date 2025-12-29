@@ -27,6 +27,7 @@
 	
 ***************************************************************************/
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -125,21 +126,30 @@ void palette_rearrange_snes(unsigned char *imgbuf, int *palettesnes, int nbtiles
     unsigned int data, colortabinc;
     unsigned int n, i, ii;
 
-    // get memory
-    num = (signed int *) malloc(nbtiles * sizeof(int));
+    // get memory (with overflow checks)
+    size_t num_size = (size_t)nbtiles * sizeof(int);
+    if (nbtiles != 0 && num_size / sizeof(int) != (size_t)nbtiles) {
+        fatal("too many tiles (overflow in rearrange_snes)");
+    }
+    num = (signed int *) malloc(num_size);
     if (num == NULL)
     {
         fatal("can't allocate enough memory for the number of tiles in rearrange_snes");
     }
 
-    combos = (unsigned int *) malloc(nbtiles * 16 * sizeof(int));
+    size_t combos_size = (size_t)nbtiles * 16 * sizeof(int);
+    if (nbtiles != 0 && combos_size / 16 / sizeof(int) != (size_t)nbtiles) {
+        free(num);
+        fatal("too many tiles (overflow in rearrange_snes)");
+    }
+    combos = (unsigned int *) malloc(combos_size);
     if (combos == NULL)
     {
         free(num);
         fatal("can't allocate enough memory for the list of colors in rearrange_snes");
     }
 
-    list = (unsigned int *) malloc(nbtiles * sizeof(int));
+    list = (unsigned int *) malloc(num_size);
     if (list == NULL)
     {
         free(combos);
@@ -148,7 +158,7 @@ void palette_rearrange_snes(unsigned char *imgbuf, int *palettesnes, int nbtiles
     }
 
     // clear 'color combo' lists
-    memset(combos, 0, nbtiles * 16 * sizeof(int));
+    memset(combos, 0, combos_size);
     if (!isquiet) info("prepare palette rearrangement for %d tiles and %d colors...", nbtiles,nbcolors);
 
     // start each list having one color... color zero

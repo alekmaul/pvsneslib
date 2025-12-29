@@ -996,7 +996,8 @@ int main(int argc, char **argv)
                 {
                     changecountry = 1;
                     fixcrc        = 0; // because we will do it
-                    strcpy(country, &argv[i][3]);
+                    strncpy(country, &argv[i][3], sizeof(country) - 1);
+                    country[sizeof(country) - 1] = '\0';
                     if (strlen(country) != 2)
                     {
                         PrintOptions(argv[i]);
@@ -1007,7 +1008,8 @@ int main(int argc, char **argv)
                 {
                     changeromsize = 1;
                     fixcrc        = 0; // because we will do it
-                    strcpy(romsz, &argv[i][3]);
+                    strncpy(romsz, &argv[i][3], sizeof(romsz) - 1);
+                    romsz[sizeof(romsz) - 1] = '\0';
                     if (strlen(romsz) != 2)
                     {
                         PrintOptions(argv[i]);
@@ -1016,7 +1018,8 @@ int main(int argc, char **argv)
                 }
                 else if (argv[i][2] == 't') // program title
                 {
-                    strcpy(programtitle, &argv[i][3]);
+                    strncpy(programtitle, &argv[i][3], sizeof(programtitle) - 1);
+                    programtitle[sizeof(programtitle) - 1] = '\0';
                     strtoupper(programtitle);
                     if (strlen(programtitle))
                     {
@@ -1054,7 +1057,8 @@ int main(int argc, char **argv)
             }
             else
             {
-                strcpy(filebase, argv[i]);
+                strncpy(filebase, argv[i], sizeof(filebase) - 1);
+                filebase[sizeof(filebase) - 1] = '\0';
             }
         }
     }
