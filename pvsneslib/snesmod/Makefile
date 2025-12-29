@@ -5,20 +5,24 @@ endif
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
-export TA := ./tasm
+# WLA-DX SPC700 assembler and linker
+export WLASPC := $(PVSNESLIB_HOME)/devkitsnes/bin/wla-spc700
+export WLALINK := $(PVSNESLIB_HOME)/devkitsnes/bin/wlalink
 
 all: sm_spc.asm
 	@echo copying sm_spc.asm in source ...
 	@cp sm_spc.asm ../source/
 
 #---------------------------------------------------------------------------------
-# just make a asm file of snesmod spc-700 driver
-sm_spc.asm : sm_spc.as7
-	$(TA) -07 -b -l $< sm_spc.obj sm_spc.lst
-	$(TXCONV) -ca sm_spc.obj
-	@rm sm_spc.obj sm_spc.lst
+# Build SPC700 driver using WLA-DX (cross-platform)
+sm_spc.asm : sm_spc_wla.asm sm_spc_wla.link
+	$(WLASPC) -o sm_spc_wla.obj sm_spc_wla.asm
+	$(WLALINK) -b sm_spc_wla.link sm_spc_tmp.bin
+	@mv sm_spc_tmp.bin sm_spc.bin
+	$(TXCONV) -ca sm_spc.bin
+	@rm -f sm_spc_wla.obj sm_spc.bin
 
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -f sm_spc.asm
+	@rm -f sm_spc.asm sm_spc_wla.obj sm_spc.bin
