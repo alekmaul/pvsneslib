@@ -74,7 +74,7 @@ tcc__udiv:
 tcc__udiv1:
  	ror a
 - 	sta.b tcc__r5
-	cpx tcc__r5
+	cpx.b tcc__r5
 	bcc +
 	txa
 	sbc.b tcc__r5

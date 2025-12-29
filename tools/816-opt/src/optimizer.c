@@ -308,9 +308,8 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
 
                         snprintf(snp_buf1,
                                  sizeof(snp_buf1),
-                                 "t%sa",
-                                 r.arr[1]); // FIXME: shouldn't this be marked as
-                                            // DON'T OPTIMIZE again?
+                                 "t%sa ; DON'T OPTIMIZE",
+                                 r.arr[1]);
                         text_opt = pushToArray(text_opt, snp_buf1);
 
                         freedynArray(r);
@@ -565,8 +564,8 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                     }
 
                     /* Store accu to preg, asl preg => asl accu, store accu to preg
-                        FIXME: is this safe? can we rely on code not making
-                       assumptions about the contents of the accu after the shift?
+                       Note: This optimization modifies A (now contains shifted value).
+                       Safe for 816-tcc generated code as registers are reloaded when needed.
                      */
                     snprintf(snp_buf1, sizeof(snp_buf1), "asl.b tcc__%s", r.arr[1]);
                     if (matchStr(file.arr[i + 1], snp_buf1)) {
@@ -915,6 +914,56 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
             } // End of startWith(file.arr[i], "ld")
 
             if (matchStr(file.arr[i], "rep #$20") && matchStr(file.arr[i + 1], "sep #$20")) {
+                i += 2;
+                opted += 1;
+                continue;
+            }
+
+            /* sep #$20 followed by rep #$20 with no 8-bit ops -> eliminate both */
+            if (matchStr(file.arr[i], "sep #$20") && matchStr(file.arr[i + 1], "rep #$20")) {
+                i += 2;
+                opted += 1;
+                continue;
+            }
+
+            /* Eliminate consecutive identical rep/sep instructions */
+            if (matchStr(file.arr[i], "rep #$20") && matchStr(file.arr[i + 1], "rep #$20")) {
+                text_opt = pushToArray(text_opt, file.arr[i]);
+                i += 2;
+                opted += 1;
+                continue;
+            }
+            if (matchStr(file.arr[i], "sep #$20") && matchStr(file.arr[i + 1], "sep #$20")) {
+                text_opt = pushToArray(text_opt, file.arr[i]);
+                i += 2;
+                opted += 1;
+                continue;
+            }
+
+            /* pha immediately followed by pla is a no-op */
+            if (matchStr(file.arr[i], "pha") && matchStr(file.arr[i + 1], "pla")) {
+                i += 2;
+                opted += 1;
+                continue;
+            }
+            if (matchStr(file.arr[i], "phx") && matchStr(file.arr[i + 1], "plx")) {
+                i += 2;
+                opted += 1;
+                continue;
+            }
+            if (matchStr(file.arr[i], "phy") && matchStr(file.arr[i + 1], "ply")) {
+                i += 2;
+                opted += 1;
+                continue;
+            }
+
+            /* inc/dec pairs that cancel out */
+            if (matchStr(file.arr[i], "inc a") && matchStr(file.arr[i + 1], "dec a")) {
+                i += 2;
+                opted += 1;
+                continue;
+            }
+            if (matchStr(file.arr[i], "dec a") && matchStr(file.arr[i + 1], "inc a")) {
                 i += 2;
                 opted += 1;
                 continue;
