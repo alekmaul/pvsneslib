@@ -126,8 +126,8 @@ bgSetEnable:
 
     rep #$20
     and #$00ff
-    sep #$20
     sta bkgrd_val1
+    sep #$20
     lda #$01
     ldy bkgrd_val1
     beq +
@@ -439,6 +439,7 @@ bgInitTileSet:
     bra _bITS1
 +   sep #$20                    ; palEntry = paletteEntry*colorMode;
     stz bkgrd_val1
+    stz bkgrd_val1+1            ; clear high byte too
     lda 15,s                    ; get paletteEntry
     rep #$20
     and #$F                     ; from 0..16
@@ -549,6 +550,7 @@ bgInitTileSetLz:
     bra _bITS1
 +   sep #$20                    ; palEntry = paletteEntry*colorMode;
     stz bkgrd_val1
+    stz bkgrd_val1+1            ; clear high byte too
     lda 15,s                    ; get paletteEntry
     rep #$20
     and #$F                     ; from 0..16
