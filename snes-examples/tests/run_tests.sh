@@ -68,6 +68,22 @@ else
     FAILED=$((FAILED + 1))
 fi
 
+# Run background init tests
+echo ""
+echo "Running background init tests..."
+cd "$SCRIPT_DIR/background_init"
+"$MESEN" --testrunner test_background.sfc --lua run_test.lua 2>&1
+RESULT=$?
+TOTAL=$((TOTAL + 1))
+
+if [ $RESULT -eq 0 ]; then
+    echo "  Background init tests: PASSED"
+    PASSED=$((PASSED + 1))
+else
+    echo "  Background init tests: FAILED (exit code: $RESULT)"
+    FAILED=$((FAILED + 1))
+fi
+
 echo ""
 echo "==========================================="
 echo "Results: $PASSED/$TOTAL passed, $FAILED failed"
