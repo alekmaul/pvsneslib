@@ -368,22 +368,25 @@ target_link_libraries(gfx4snes pvsneslib_common)
 
 ## 9. Bug Fixes Applied
 
-### MetaSprite 16x16 Rendering Bug (December 30, 2025)
+### MetaSprite Tile Ordering Bug (December 30, 2025)
 
-**Problem:** 16x16 character metasprites rendered incorrectly with the head appearing below the feet.
+**Problem:** Metasprites rendered incorrectly because tile indices didn't match SNES VRAM layout. Most notably, 16x16 character metasprites rendered with head below feet.
 
-**Root Cause:** Two interconnected issues:
+**Root Cause:** Two interconnected issues affecting ALL metasprite sizes (8x8, 16x16, 32x32):
 
-1. **gfx4snes/metasprites.c** - Generated sequential tile indices (0, 1, 2, 3, 4, 5) instead of VRAM-layout-aware indices (0, 1, 8, 9, 16, 17). The SNES arranges 16x16 sprites in VRAM with 8 sprites per row (128 pixels wide).
+1. **gfx4snes/metasprites.c** - Generated sequential tile indices instead of VRAM-layout-aware indices. The SNES arranges sprites in VRAM with a fixed row width of 128 pixels:
+   - 8x8 sprites: 16 per row
+   - 16x16 sprites: 8 per row
+   - 32x32 sprites: 4 per row
 
-2. **sprites.asm (oamMetaDraw16)** - Ignored the tile index from metasprite data and used the OAM counter instead, making the first bug irrelevant but causing incorrect tile selection.
+2. **sprites.asm (oamMetaDraw8/16/32)** - All three functions ignored the tile index from metasprite data and used the OAM counter instead, causing incorrect tile selection.
 
 **Fix Applied:**
 
 **File: `tools/gfx4snes/src/metasprites.c`**
 ```c
 // Added VRAM-layout-aware tile index calculation
-int sprites_per_vram_row = 128 / blocksize;  // 8 for 16x16, 4 for 32x32, 16 for 8x8
+int sprites_per_vram_row = 128 / blocksize;  // 16 for 8x8, 8 for 16x16, 4 for 32x32
 int metasprites_per_vram_row = sprites_per_vram_row / nbsprx;
 
 // For each tile in metasprite:
@@ -392,7 +395,9 @@ int meta_base_y = (i / metasprites_per_vram_row) * nbspry;
 int vram_tile_index = (meta_base_y + y) * sprites_per_vram_row + (meta_base_x + x);
 ```
 
-**File: `pvsneslib/source/sprites.asm` (lines 3442-3447)**
+**File: `pvsneslib/source/sprites.asm`**
+
+Fixed in three functions: `oamMetaDraw8`, `oamMetaDraw16`, `oamMetaDraw32`
 ```asm
 ; Before: Used OAM counter (ignored metasprite tile index)
 lda sprit_val0      ; A = sprite counter * 4
@@ -408,13 +413,16 @@ tax                 ; X = lookup index
 ```
 
 **Result:**
-- Generated metasprite indices now match SNES VRAM layout
-- Lookup table (`lkup16idT`) correctly maps to character names across multiple VRAM rows
-- 16x16 character sprites now render with correct tile arrangement
+- Generated metasprite indices now match SNES VRAM layout for all sprite sizes
+- Lookup tables (`lkup8idT`, `lkup16idT`, `lkup32idT`) correctly map to character names
+- All metasprite sizes (8x8, 16x16, 32x32) now render with correct tile arrangement
 
 **Files Modified:**
 - `tools/gfx4snes/src/metasprites.c`
-- `pvsneslib/source/sprites.asm`
+- `pvsneslib/source/sprites.asm` (oamMetaDraw8, oamMetaDraw16, oamMetaDraw32)
+
+**Test Added:**
+- `snes-examples/tests/MetaSprite/run_test.lua` - Validates metasprite OAM entries and tile indices
 
 ---
 
