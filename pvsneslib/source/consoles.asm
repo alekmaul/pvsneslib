@@ -441,6 +441,8 @@ consoleInit:
     sta snes_mplay5                                           ; For Pad function
     sta snes_mouse                                            ; Set mouse usage disabled by default
     sta snes_sscope                                           ; Set superscope usage disabled by default
+    sta.l videoMode                                           ; Init video mode (prevent uninitialized read)
+    sta.l videoModeSub                                        ; Init video sub mode
 
     phb
     pha
