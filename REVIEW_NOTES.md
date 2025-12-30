@@ -512,6 +512,72 @@ sta.l videoModeSub    ; Init video sub mode
 
 ---
 
+### Malloc Failure in Small Projects (December 30, 2025) - Issue #311
+
+**Problem:** `malloc()` returned NULL in small projects even when sufficient memory was available. Projects larger than ~35KB .obj files worked correctly.
+
+**Root Cause:** A compiler bug in 816-tcc where NULL pointer comparisons only check the low 16 bits of a 32-bit pointer. When `globram.data` section was empty:
+- Heap started at address `$7F:0000`
+- Low 16 bits = 0, matching NULL comparison
+- Internal malloc checks like `if (msys.free == 0)` incorrectly returned true
+
+**Fix Applied:**
+
+**File: `pvsneslib/source/crt0_snes.asm`**
+
+Added a 2-byte guard at the start of `globram.data` section:
+```asm
+.RAMSECTION "globram.data" BANK $7f SLOT 3 KEEP
+; Reserve 2 bytes to ensure heap never starts at address 0.
+; This fixes malloc() failing in small projects (issue #311) due to
+; a compiler bug where NULL pointer comparisons only check the low 16 bits.
+__heap_guard dsb 2
+.ENDS
+```
+
+**Result:**
+- Heap now starts at `$7F:0002` instead of `$7F:0000`
+- Low 16 bits are non-zero, avoiding false NULL matches
+- `malloc()` works correctly in all project sizes
+
+**Files Modified:**
+- `pvsneslib/source/crt0_snes.asm`
+
+---
+
+### TMX2SNES Hang on Locked Layer (December 30, 2025) - Issue #318
+
+**Problem:** tmx2snes would hang/crash when processing TMX files with locked layers in Tiled.
+
+**Root Cause:** The cute_tiled JSON parser didn't handle the `locked` property introduced in newer Tiled versions. When encountering an unknown property, it failed with "Unknown identifier found."
+
+**Fix Applied:**
+
+**File: `tools/tmx2snes/cute_tiled.h`**
+
+1. Added `locked` field to `cute_tiled_layer_t` structure:
+```c
+int visible;    // 0 or 1. Whether layer is shown or hidden in editor.
+int locked;     // 0 or 1. Whether layer is locked in editor.
+int width;      // Column count.
+```
+
+2. Added case handler for `locked` property (hash: `15597936319690322985U`):
+```c
+case 15597936319690322985U: // locked
+    cute_tiled_read_bool(m, &layer->locked);
+    break;
+```
+
+**Result:**
+- TMX files with locked layers now parse correctly
+- Layer lock status is available for tools that need it
+
+**Files Modified:**
+- `tools/tmx2snes/cute_tiled.h`
+
+---
+
 ## Next Steps
 
 1. Review this document with maintainers
