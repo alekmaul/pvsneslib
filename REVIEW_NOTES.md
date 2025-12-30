@@ -202,7 +202,8 @@ C Source (.c)
 
 | Test Type | Count | Status |
 |-----------|-------|--------|
-| Unit tests | 1 (arithmetic) | Comprehensive |
+| Unit tests | 2 (arithmetic, background_init) | Comprehensive |
+| Build validation | 1 (66 ROMs) | Working |
 | Screenshot tests | ~30 | Working |
 | Smoke tests | Basic | Minimal |
 | Input/Audio/Physics tests | 0 | Missing |
@@ -423,6 +424,61 @@ tax                 ; X = lookup index
 
 **Test Added:**
 - `snes-examples/tests/MetaSprite/run_test.lua` - Validates metasprite OAM entries and tile indices
+
+---
+
+### Uninitialized Memory Read Bug (December 30, 2025)
+
+**Problem:** Mesen2 emulator warned about uninitialized memory read at `$7E9DD2` (`bkgrd_val1+1`), causing non-deterministic behavior that could affect real hardware.
+
+**Root Cause:** Three bugs in `backgrounds.asm` left the high byte of `bkgrd_val1` uninitialized:
+
+1. **bgSetEnable (line 129)** - Used `sep #$20` before `sta bkgrd_val1`, causing only the low byte to be stored (8-bit mode)
+
+2. **bgInitTileSet (line 441)** - When `paletteEntry=0`, `stz bkgrd_val1` only cleared the low byte, then branched to `_bITS1` without clearing the high byte
+
+3. **bgInitTileSetLz (line 552)** - Same pattern as bgInitTileSet
+
+**Fix Applied:**
+
+**File: `pvsneslib/source/backgrounds.asm`**
+
+```asm
+; bgSetEnable - Before (bug):
+rep #$20
+and #$00ff
+sep #$20          ; Switch to 8-bit BEFORE store
+sta bkgrd_val1    ; Only stores low byte!
+
+; bgSetEnable - After (fixed):
+rep #$20
+and #$00ff
+sta bkgrd_val1    ; Store in 16-bit mode (clears both bytes)
+sep #$20          ; Switch to 8-bit AFTER store
+
+; bgInitTileSet/Lz - Before (bug):
+sep #$20
+stz bkgrd_val1    ; Only clears low byte
+lda 15,s
+beq _bITS1        ; Jumps without clearing high byte!
+
+; bgInitTileSet/Lz - After (fixed):
+sep #$20
+stz bkgrd_val1
+stz bkgrd_val1+1  ; Clear high byte too
+lda 15,s
+```
+
+**Result:**
+- Eliminates uninitialized memory warnings in Mesen2
+- Ensures deterministic behavior on real hardware
+- Both bytes of `bkgrd_val1` now always properly initialized
+
+**Files Modified:**
+- `pvsneslib/source/backgrounds.asm` (bgSetEnable, bgInitTileSet, bgInitTileSetLz)
+
+**Test Added:**
+- `snes-examples/tests/background_init/` - 6 tests verifying bgSetEnable and bgInitTileSet properly initialize both bytes of bkgrd_val1
 
 ---
 
