@@ -482,6 +482,36 @@ lda 15,s
 
 ---
 
+### VideoMode Uninitialized Read Bug (December 30, 2025)
+
+**Problem:** Mesen2 warned about uninitialized memory read at `$7E9DD3` (`videoMode`) when `bgSetEnable()` was called before `setMode()`.
+
+**Root Cause:** The `videoMode` and `videoModeSub` variables are in `.reg_video7e` section which is NOT cleared at startup (unlike `.bss`). They are only initialized when `setMode()` is called.
+
+**Fix Applied:**
+
+**File: `pvsneslib/source/consoles.asm`**
+
+Added initialization in `consoleInit()`:
+```asm
+sep #$20
+sta scr_txt_dirty
+sta snes_mplay5
+sta snes_mouse
+sta snes_sscope
+sta.l videoMode       ; Init video mode (prevent uninitialized read)
+sta.l videoModeSub    ; Init video sub mode
+```
+
+**Result:**
+- Eliminates Mesen2 uninitialized memory warnings
+- Safe to call `bgSetEnable()` before `setMode()` (though not recommended)
+
+**Files Modified:**
+- `pvsneslib/source/consoles.asm` (consoleInit)
+
+---
+
 ## Next Steps
 
 1. Review this document with maintainers
