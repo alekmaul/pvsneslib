@@ -85,7 +85,7 @@ This document contains a thorough analysis of the pvsneslib codebase covering:
 
 1. **snestypes.h:** Boolean uses 0xff for TRUE (potential subtle bugs)
 2. **sprite.h:** 20+ duplicate sprite drawing functions (should be unified)
-3. **libc_c.c:** FIXME for strnlen (line 186), incomplete format string support
+3. **libc_c.c:** ~~FIXME for strnlen~~ ✅ Fixed - printf precision now supported
 4. **libm.asm:** FIXME for _RTAR overflow handling (line 208)
 5. **No memory safety** - malloc/free without bounds checking
 
