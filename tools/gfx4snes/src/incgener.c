@@ -60,7 +60,7 @@ void inc_save (const char *filename, bool istile, bool ismap, bool ispal,bool is
 	{
 		fatal("can't allocate memory for tiles filename");
 	}
-	sprintf(outputname,"%s.inc",filename);
+	snprintf(outputname, FILENAME_MAX, "%s.inc", filename);
 
 	// try to open file for writing
 	if (!isquiet) info("saving inc header file [%s]...",outputname);
@@ -113,7 +113,7 @@ void inc_save (const char *filename, bool istile, bool ismap, bool ispal,bool is
 	fclose(fp);
 
 	// do the same for data file
-	sprintf(outputname,"%s_data.as",filename);
+	snprintf(outputname, FILENAME_MAX, "%s_data.as", filename);
 	// try to open file for writing
 	if (!isquiet) info("saving asm data file [%s]...",outputname);
 	fp = fopen(outputname,"w");

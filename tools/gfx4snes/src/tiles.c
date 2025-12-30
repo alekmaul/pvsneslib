@@ -143,7 +143,7 @@ void tiles_save (const char *filename, unsigned char *tiles,int nbtiles, int nbc
 	{
 		fatal("can't allocate memory for tiles filename");
 	}
-	sprintf(outputname,"%s.pic",filename);
+	snprintf(outputname, FILENAME_MAX, "%s.pic", filename);
 
     // find the number of bitplanes (default is 8 for 128 & 256 colors)
     bitplanes = 8;
@@ -278,7 +278,7 @@ void tiles_savepacked (const char *filename, unsigned char *tiles,int tilesnumbe
 	{
 		fatal("can't allocate memory for packed tiles filename");
 	}
-	sprintf(outputname,"%s.pc7",filename);
+	snprintf(outputname, FILENAME_MAX, "%s.pc7", filename);
 
 	if (!isquiet) info("saving packed tiles file [%s]...",outputname);
 

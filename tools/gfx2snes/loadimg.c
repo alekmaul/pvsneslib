@@ -169,8 +169,10 @@ void BMP_BI_RLE8_Load(pcx_picture_ptr image,
 
     unsigned long line, i, count;
     // offset in image buffer where current line starts
-    unsigned int pos;
+    unsigned long pos;
     unsigned char ch, ch2;
+    // buffer size for bounds checking (height + 64 lines as allocated in BMP_Load)
+    unsigned long bufsize = (unsigned long)(bmpinfohead->biHeight + 64) * bmpinfohead->biWidth;
 
     // start from bottom line
     line = bmpinfohead->biHeight;
@@ -188,7 +190,14 @@ void BMP_BI_RLE8_Load(pcx_picture_ptr image,
             ch2 = getc(fp);
             ++count;
             for (i = 0; i < ch; ++i)
+            {
+                if (pos >= bufsize)
+                {
+                    printf("\ngfx2snes: error 'RLE8 decode overflow (repeat)'");
+                    return;
+                }
                 image->buffer[pos++] = ch2;
+            }
             continue;
         }
 
@@ -198,7 +207,11 @@ void BMP_BI_RLE8_Load(pcx_picture_ptr image,
         if (ch == 0)
         {
             // End of line.
-
+            if (line == 0)
+            {
+                printf("\ngfx2snes: error 'RLE8 decode underflow (end of line)'");
+                return;
+            }
             // go one line up
             --line;
             // start of this line.
@@ -224,6 +237,11 @@ void BMP_BI_RLE8_Load(pcx_picture_ptr image,
             ch = getc(fp);
             ++count;
             // go given lines up
+            if (ch > line)
+            {
+                printf("\ngfx2snes: error 'RLE8 decode underflow (delta)'");
+                return;
+            }
             line -= ch;
             pos -= bmpinfohead->biWidth * ch;
         }
@@ -236,6 +254,11 @@ void BMP_BI_RLE8_Load(pcx_picture_ptr image,
             ++count;
             for (i = 0; i < ch; ++i)
             {
+                if (pos >= bufsize)
+                {
+                    printf("\ngfx2snes: error 'RLE8 decode overflow (absolute)'");
+                    return;
+                }
                 image->buffer[pos++] = getc(fp);
                 ++count;
             }

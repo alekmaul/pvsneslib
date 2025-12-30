@@ -53,7 +53,7 @@ void metasprite_save (const char *filename, unsigned short *sprites, int nbtilex
 	{
 		fatal("can't allocate memory for map filename");
 	}
-    sprintf(outputname,"%s_meta.inc",filename);
+    snprintf(outputname, FILENAME_MAX, "%s_meta.inc", filename);
 
     if (!isquiet) 
     {

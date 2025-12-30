@@ -385,7 +385,7 @@ void palette_save (const char *filename, int *palette,int nbcolors, bool isquiet
 	{
 		fatal("can't allocate memory for palette filename");
 	}
-	sprintf(outputname,"%s.pal",filename);
+	snprintf(outputname, FILENAME_MAX, "%s.pal", filename);
 
 	if (!isquiet) info("saving %d colors palette in file [%s]...",nbcolors, outputname);
 
