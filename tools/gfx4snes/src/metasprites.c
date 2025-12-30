@@ -96,19 +96,33 @@ void metasprite_save (const char *filename, unsigned short *sprites, int nbtilex
 		incname++;
 
 
+    // SNES sprites are arranged in VRAM with 8 sprites per row (128 pixels wide)
+    // For 16x16 sprites: 8 sprites per row, for 32x32 sprites: 4 per row, for 8x8: 16 per row
+    int sprites_per_vram_row = 128 / blocksize;  // 8 for 16x16, 4 for 32x32, 16 for 8x8
+    int metasprites_per_vram_row = sprites_per_vram_row / nbsprx;  // how many metasprites fit per VRAM row
+
     for (i=0; i<nbmetasprites;i++)
     {
         int ofsmtx=0;
         int ofsmty=0;
-        idxmetaspr=i*(nbincrspr);
+        idxmetaspr=i*(nbincrspr);  // reset index for each metasprite (for palette access)
+
+        // Calculate base position of this metasprite in VRAM layout
+        int meta_base_x = (i % metasprites_per_vram_row) * nbsprx;
+        int meta_base_y = (i / metasprites_per_vram_row) * nbspry;
+
         fprintf(fp, "const t_metasprite %s_metasprite%d[] = {\n", incname, i);
-        for (y=0;y<nbspry;y++) 
+        for (y=0;y<nbspry;y++)
         {
-            for (x=0;x<nbsprx;x++) 
+            for (x=0;x<nbsprx;x++)
             {
+                // Calculate VRAM-layout-aware tile index
+                // This matches pvsneslib's lkup16idT lookup table which expects 8 sprites per row
+                int vram_tile_index = (meta_base_y + y) * sprites_per_vram_row + (meta_base_x + x);
+
                 fprintf(fp,
                     "\tMETASPR_ITEM(%d, %d, %d, OBJ_PAL(%d) | OBJ_PRIO(%d)),\n",
-                    ofsmtx,ofsmty,sprites[idxmetaspr] & TILEIDX_MASK, ((sprites[idxmetaspr] & PALETTE_MASK)>>PALETTE_OFS), metaprio
+                    ofsmtx, ofsmty, vram_tile_index, ((sprites[idxmetaspr] & PALETTE_MASK)>>PALETTE_OFS), metaprio
                 ); // we need to manage flipx & flipy
                 ofsmtx+=blocksize;
                 idxmetaspr++;
