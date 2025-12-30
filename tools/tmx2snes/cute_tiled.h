@@ -328,6 +328,7 @@ struct cute_tiled_layer_t
 	cute_tiled_string_t type;            // `tilelayer`, `objectgroup`, `imagelayer` or `group`.
 	cute_tiled_string_t image;           // An image filepath. Used if layer is type `imagelayer`.
 	int visible;                         // 0 or 1. Whether layer is shown or hidden in editor.
+	int locked;                          // 0 or 1. Whether layer is locked in editor.
 	int width;                           // Column count. Same as map width for fixed-size maps.
 	int x;                               // Horizontal layer offset in tiles. Always 0.
 	int y;                               // Vertical layer offset in tiles. Always 0.
@@ -2225,6 +2226,10 @@ cute_tiled_layer_t* cute_tiled_layers(cute_tiled_map_internal_t* m)
 
 		case 128234417907068947U: // visible
 			cute_tiled_read_bool(m, &layer->visible);
+			break;
+
+		case 15597936319690322985U: // locked
+			cute_tiled_read_bool(m, &layer->locked);
 			break;
 
 		case 7400839267610537869U: // width
