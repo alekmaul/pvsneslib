@@ -38,17 +38,33 @@ echo "PVSNESLIB Test Suite"
 echo "==========================================="
 echo ""
 
+# Run build validation (no emulator needed)
+echo "Running build validation..."
+"$SCRIPT_DIR/build_validation.sh" > /dev/null 2>&1
+RESULT=$?
+TOTAL=$((TOTAL + 1))
+
+if [ $RESULT -eq 0 ]; then
+    echo "  Build validation: PASSED"
+    PASSED=$((PASSED + 1))
+else
+    echo "  Build validation: FAILED"
+    FAILED=$((FAILED + 1))
+fi
+
 # Run arithmetic tests
+echo ""
+echo "Running arithmetic tests..."
 cd "$SCRIPT_DIR/arithmetic"
 "$MESEN" --testrunner test_arithmetic.sfc --lua run_test.lua 2>&1
 RESULT=$?
 TOTAL=$((TOTAL + 1))
 
 if [ $RESULT -eq 0 ]; then
-    echo "  PASSED"
+    echo "  Arithmetic tests: PASSED"
     PASSED=$((PASSED + 1))
 else
-    echo "  FAILED (exit code: $RESULT)"
+    echo "  Arithmetic tests: FAILED (exit code: $RESULT)"
     FAILED=$((FAILED + 1))
 fi
 
