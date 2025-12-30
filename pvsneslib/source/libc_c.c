@@ -778,7 +778,9 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
             if (!s)
                 s = "<NULL>";
 
-            len = strlen(s); // FIXME: implement strnlen(s, precision);
+            len = strlen(s);
+            if (precision >= 0 && len > (unsigned int)precision)
+                len = precision;  // Limit output to precision characters
 
             if (!(flags & LEFT))
             {
