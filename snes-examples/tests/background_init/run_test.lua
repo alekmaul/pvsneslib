@@ -16,13 +16,11 @@
 local frameCount = 0
 local maxFrames = 300  -- 5 seconds at 60fps
 
--- Memory addresses (will be read from ROM's BSS)
--- These are at the start of BSS after pvsneslib variables
--- We need to find them from the symbol file, but typically around $7E2000
-local ADDR_STATUS = 0x7E2000
-local ADDR_TOTAL = 0x7E2002
-local ADDR_PASSED = 0x7E2004
-local ADDR_FAILED = 0x7E2006
+-- Memory addresses (from .sym file - run 'grep test_ test_background.sym' to verify)
+local ADDR_STATUS = 0x7E2008
+local ADDR_TOTAL = 0x7E200A
+local ADDR_PASSED = 0x7E200C
+local ADDR_FAILED = 0x7E200E
 
 local STATUS_RUNNING = 0x0000
 local STATUS_PASSED = 0x0001

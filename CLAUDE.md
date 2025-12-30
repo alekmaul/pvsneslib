@@ -83,10 +83,27 @@ pvsneslib/
 cd snes-examples/tests
 ./run_tests.sh /path/to/Mesen
 
-# Test types available:
-# - arithmetic/: 71 arithmetic operation tests (s16, s32)
-# - MetaSprite/: Metasprite rendering validation
-# - Screenshot tests: Visual regression testing
+# Test suite (5 tests, all should pass):
+# 1. Build validation: Verifies all 135 ROMs compile correctly
+# 2. Arithmetic tests: 71 tests (addition, multiplication, division, etc.)
+# 3. Background init: 6 tests for bgSetEnable/bgInitTileSet initialization
+# 4. Malloc tests: 7 tests validating heap allocation (Issue #311 fix)
+# 5. TMX2SNES tests: Validates locked layer parsing (Issue #318 fix)
+
+# Run individual tests:
+./build_validation.sh                    # No emulator needed
+cd malloc_test && make                   # Build malloc test ROM
+cd tmx2snes_test && ./run_test.sh        # No emulator needed
+```
+
+### Test Lua Scripts
+
+Test ROMs communicate results via BSS variables. Lua scripts read from symbol file addresses:
+```lua
+-- Example: Find addresses with 'grep test_ *.sym'
+-- 007e2008 test_status
+-- 007e200a test_total
+local ADDR_STATUS = 0x7E2008  -- NOT 0x7E2000!
 ```
 
 ## Key Technical Details
@@ -145,6 +162,16 @@ OBJ_SIZE8_L32   // Small=8x8 at VRAM $0000, Large=32x32 at $0000
 ### "Header file changes not detected"
 - The build system doesn't track header dependencies
 - Use `make clean && make` after header changes
+
+### "malloc() returns NULL in small projects" (Issue #311 - FIXED)
+- **Cause:** Compiler bug where NULL comparison only checks low 16 bits
+- **Fix Applied:** Added `__heap_guard` in crt0_snes.asm to ensure heap starts at non-zero address
+- **Verification:** Run `snes-examples/tests/malloc_test/` - all 7 tests should pass
+
+### "tmx2snes hangs on locked layers" (Issue #318 - FIXED)
+- **Cause:** cute_tiled parser didn't handle `locked` property from newer Tiled versions
+- **Fix Applied:** Added locked field handler in cute_tiled.h
+- **Verification:** Run `snes-examples/tests/tmx2snes_test/run_test.sh`
 
 ## Important Submodules
 

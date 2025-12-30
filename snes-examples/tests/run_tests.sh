@@ -84,6 +84,38 @@ else
     FAILED=$((FAILED + 1))
 fi
 
+# Run malloc tests (Issue #311)
+echo ""
+echo "Running malloc tests..."
+cd "$SCRIPT_DIR/malloc_test"
+"$MESEN" --testrunner malloc_test.sfc --lua run_test.lua 2>&1
+RESULT=$?
+TOTAL=$((TOTAL + 1))
+
+if [ $RESULT -eq 0 ]; then
+    echo "  Malloc tests: PASSED"
+    PASSED=$((PASSED + 1))
+else
+    echo "  Malloc tests: FAILED (exit code: $RESULT)"
+    FAILED=$((FAILED + 1))
+fi
+
+# Run tmx2snes tests (Issue #318 - no emulator needed)
+echo ""
+echo "Running tmx2snes tests..."
+cd "$SCRIPT_DIR/tmx2snes_test"
+./run_test.sh > /dev/null 2>&1
+RESULT=$?
+TOTAL=$((TOTAL + 1))
+
+if [ $RESULT -eq 0 ]; then
+    echo "  TMX2SNES tests: PASSED"
+    PASSED=$((PASSED + 1))
+else
+    echo "  TMX2SNES tests: FAILED"
+    FAILED=$((FAILED + 1))
+fi
+
 echo ""
 echo "==========================================="
 echo "Results: $PASSED/$TOTAL passed, $FAILED failed"
