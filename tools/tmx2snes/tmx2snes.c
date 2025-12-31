@@ -256,6 +256,12 @@ void WriteTileset(void)
         for (i = 0; i < tile->property_count; i++)
         {
             propm = tile->properties + i;
+            // bounds check to prevent buffer overflow
+            if (tile->tile_index >= N_METATILES)
+            {
+                printf("\ntmx2snes: error 'tile index %d exceeds maximum %d'", tile->tile_index, N_METATILES - 1);
+                exit(1);
+            }
             // write attribute (blocker, etc..) property (which is a string)
             if (strcmp(propm->name.ptr, "attribute") == 0)
             {
@@ -528,7 +534,12 @@ int main(int argc, char **argv)
     }
 
     // read the map
-    fread(tilesetmap, filesize, 1, fpi);
+    if (fread(tilesetmap, filesize, 1, fpi) != 1)
+    {
+        printf("\ntmx2snes: error 'failed to read tileset map file'");
+        fclose(fpi);
+        exit(1);
+    }
 
     // close the input file
     fclose(fpi);

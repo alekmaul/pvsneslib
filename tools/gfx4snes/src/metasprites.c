@@ -44,6 +44,9 @@ void metasprite_save (const char *filename, unsigned short *sprites, int nbtilex
     int i,x,y, nbmetasprites;
 
     i=(metasizex/blocksize)*(metasizey/blocksize);  // number of tiles in a standalone metasprite
+    if (i == 0) {
+        fatal("metasprite size results in zero tiles per sprite");
+    }
 
     nbmetasprites=nbtilex*nbtiley/i;                // number of total number of metasprites
 
@@ -87,12 +90,16 @@ void metasprite_save (const char *filename, unsigned short *sprites, int nbtilex
 
     if (imgwidth<imgheight) nbincrspr=(nbsprx*nbspry); // if it is a vert. image, do not divide
 
-   	// get special case where folder is in name
+   	// get special case where folder is in name (handle both Unix and Windows paths)
 	incname = strrchr (filename, '/');
+	char *incname_win = strrchr (filename, '\\');
+	if (incname_win != NULL && (incname == NULL || incname_win > incname)) {
+		incname = incname_win;  // use Windows path separator if it's later in the string
+	}
 	if (incname==NULL) {
 		incname = filename;
 	}
-	else  // go after the /
+	else  // go after the / or backslash
 		incname++;
 
 
