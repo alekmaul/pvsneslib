@@ -209,6 +209,9 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
     dynArray text_opt;
 
     while (opted) {
+        /* Allocate fresh buffer each pass. This is freed at line ~1113 if loop
+         * continues (opted > 0), or returned at end if no more optimizations.
+         * Could be optimized to reuse buffer, but current approach is correct. */
         if ((text_opt.arr = malloc(file.used * sizeof(char *))) == NULL) {
             perror("malloc-lines");
             exit(EXIT_FAILURE);
