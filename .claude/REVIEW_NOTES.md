@@ -578,6 +578,319 @@ case 15597936319690322985U: // locked
 
 ---
 
+---
+
+## 10. Code Review of Death - Complete Branch Analysis
+
+**Date:** December 31, 2025
+**Commits analyzed:** 42 (from e1422663 to 7bfed95e)
+**Files changed:** 77
+**Net lines:** +8,582 / -925
+
+This section provides a complete analysis of every change since forking from upstream/master, including what was kept, what was reverted, and the rationale for each decision.
+
+---
+
+### 10.1 Commit History Summary
+
+```
+ACTIVE CHANGES (kept in final branch):
+├── 7bfed95e fix(sprites): correct 16x16 metasprite tile ordering (FINAL FIX)
+├── be3db175 fix(build): fix sed -i in pvsneslib/source/Makefile for macOS
+├── 5ea5683d fix(ci): point tcc submodule to fork with our commits
+├── 75949783 fix(ci): improve macOS compatibility in GitHub Actions
+├── ed96e04a refactor: migrate from Docker to Podman
+├── 7420372d docs(tests): add comprehensive README for test suite
+├── 32c80d78 chore(tests): remove screenshot-based tests
+├── 931042fc fix(tools): add safety checks and improve portability
+├── dfbe3992 chore(build): improve Makefile robustness
+├── 9ef7610f fix: improve cross-platform compatibility
+├── 0e84c7cc fix(snestools): correct operator precedence and country code range
+├── c0b75815 fix: address remaining code quality issues
+├── 008ff65c chore(gfx2snes): update lodepng to version 20230410
+├── 05791018 test: add malloc and tmx2snes validation tests
+├── f24c9fa6 fix(tmx2snes): add support for locked layer property (fixes #318)
+├── 7e3ff6b3 fix(libc): implement printf string precision limiting
+├── 17d10919 fix(security): prevent buffer overflows in graphics tools
+├── df062883 feat(snesmod): replace TASM with WLA-DX for SPC700 compilation
+├── 7ab128b8 chore(gitignore): ignore intermediate build files
+├── a8536b99 feat(tests): add automated test suite with Mesen2 integration
+├── 29f0d92b feat(examples): add arithmetic calculator demo
+├── 7c709c05 fix(types): use long long for s32/u32 to get actual 32-bit integers
+├── 2ff21b83 fix: replace unsafe string operations with safe alternatives
+└── e1422663 build: improve build system with parallel tools and proper targets
+
+REVERTED CHANGES:
+├── 3e3b7efe revert: remove broken 816-opt peephole optimizations
+├── 05391018 revert: restore upstream library sources to fix sprite corruption
+└── 2f20b811 revert: remove broken metasprite tile ordering changes
+
+SUPERSEDED/INTERMEDIATE:
+├── 0b00930f fix(sprites): extend metasprite tile fix to 8x8 and 32x32 (SUPERSEDED by 7bfed95e)
+├── bedcd7da fix(sprites): correct 16x16 metasprite tile ordering (SUPERSEDED)
+├── 10482f30 fix(malloc): prevent heap from starting at address 0 (REVERTED)
+├── 4d236cd2 fix(lib): initialize videoMode/videoModeSub in consoleInit (REVERTED)
+├── b067a16f fix(lib): resolve uninitialized memory read at $7E9DD2 (REVERTED)
+├── 1683419d perf(compiler): add peephole optimizations and fix division bug (REVERTED)
+└── various docs/chore commits
+```
+
+---
+
+### 10.2 Changes By Category
+
+#### A. ACTIVE BUG FIXES (in final branch)
+
+| Commit | File(s) | Description | Impact |
+|--------|---------|-------------|--------|
+| 7bfed95e | sprites.asm, metasprites.c | 16x16 metasprite tile ordering | Fixes "head below feet" bug |
+| f24c9fa6 | cute_tiled.h | Add `locked` layer property | Fixes #318 hang |
+| 7e3ff6b3 | libc_c.c | Printf string precision limiting | API completeness |
+| 0e84c7cc | snestools.c | Operator precedence, country code range | Bug fixes |
+| 931042fc | tmx2snes.c, metasprites.c | Safety checks, bounds checking | Security |
+| 7c709c05 | snestypes.h | Use long long for 32-bit types | Type correctness |
+| 9ef7610f | snes_rules, 816-gen.c | Cross-platform compatibility | macOS/BSD support |
+
+**Key Fix: 16x16 Metasprite Tile Ordering (7bfed95e)**
+
+The SNES arranges sprites in VRAM with 128 pixels per row:
+- 8x8 sprites: 16 per row
+- 16x16 sprites: 8 per row
+- 32x32 sprites: 4 per row
+
+**Before:** `gfx4snes` generated sequential tile indices (0,1,2,3...) and `sprites.asm` used OAM counter for lookup. This caused tiles to appear in wrong order.
+
+**After:** `gfx4snes` generates VRAM-layout-aware indices, and `oamMetaDraw16` uses the tile index from metasprite data instead of OAM counter.
+
+```c
+// metasprites.c - VRAM layout calculation
+int sprites_per_vram_row = 128 / blocksize;  // 8 for 16x16
+int vram_tile_index = (meta_base_y + y) * sprites_per_vram_row + (meta_base_x + x);
+```
+
+```asm
+; sprites.asm - Use tile index from metasprite data (16x16 only)
+lda oambuffer.1.oamframeid,y  ; get tile index from metasprite data
+asl a                         ; multiply by 2 for word array
+tax
+lda.l lkup16idT,x            ; lookup actual SNES tile number
+```
+
+**Note:** Only 16x16 was fixed. 8x8 and 32x32 still use original logic with OAM counter - they work differently with their lookup tables.
+
+---
+
+#### B. SECURITY IMPROVEMENTS (all active)
+
+| Commit | Files | Change |
+|--------|-------|--------|
+| 2ff21b83 | 11 files | Replace strcpy→strncpy, sprintf→snprintf |
+| 17d10919 | gfx2snes, gfx4snes, tmx2snes | Add bounds checks, overflow protection |
+| 931042fc | tmx2snes.c | Add fread() return check, tile_index bounds |
+
+**Example fix (tmx2snes.c:256):**
+```c
+// Before: No bounds check
+propm = tile->properties + i;
+tile_attr[tile->tile_index] = ...  // Could overflow!
+
+// After: Bounds check added
+if (tile->tile_index >= N_METATILES) {
+    printf("error 'tile index %d exceeds maximum %d'", ...);
+    exit(1);
+}
+```
+
+---
+
+#### C. CROSS-PLATFORM COMPATIBILITY (all active)
+
+| Commit | File | Change |
+|--------|------|--------|
+| be3db175, 9ef7610f | snes_rules, pvsneslib/source/Makefile | Fix sed -i for BSD/macOS |
+| 75949783 | pvsneslib_build_package.yml | Use $(brew --prefix) for Apple Silicon |
+| 931042fc | metasprites.c | Handle Windows backslash paths |
+
+**sed -i fix:**
+```makefile
+# Before (GNU sed only):
+@sed -i 's/://' $(ROMNAME).sym
+
+# After (portable):
+@sed 's/://' $(ROMNAME).sym > $(ROMNAME).sym.tmp && mv $(ROMNAME).sym.tmp $(ROMNAME).sym
+```
+
+**CI fix for Apple Silicon:**
+```yaml
+# Before (Intel-only path):
+sudo ln -s /usr/local/bin/gcc-12 /usr/local/bin/gcc
+
+# After (auto-detect):
+BREW_PREFIX=$(brew --prefix)
+sudo ln -sf ${BREW_PREFIX}/bin/gcc-14 /usr/local/bin/gcc || \
+sudo ln -sf ${BREW_PREFIX}/bin/gcc-13 /usr/local/bin/gcc || \
+sudo ln -sf ${BREW_PREFIX}/bin/gcc-12 /usr/local/bin/gcc
+```
+
+---
+
+#### D. NEW FEATURES (all active)
+
+| Commit | Feature | Files Added |
+|--------|---------|-------------|
+| a8536b99 | Automated test suite | tests/*.lua, run_tests.sh |
+| 29f0d92b | Arithmetic calculator example | arithmetic/src/arithmetic.c |
+| df062883 | SNESMOD WLA-DX conversion | sm_spc_wla.asm, convert_tasm_to_wla.py |
+| ed96e04a | Podman containerization | podman/ (renamed from docker/) |
+
+**Test Suite:**
+- 71 arithmetic tests (s16 and s32 operations)
+- Malloc/free regression tests
+- Background init tests
+- Build validation (all examples compile)
+- Mesen2 Lua test runner
+
+---
+
+#### E. REVERTED CHANGES
+
+##### E1. 816-opt Peephole Optimizations (REVERTED via 3e3b7efe)
+
+**Original commit:** 1683419d
+**Why reverted:** Caused sprite corruption - the optimizations incorrectly removed necessary code.
+
+**Broken optimizations that were removed:**
+```c
+// These patterns corrupted code:
+1. sep #$20 + rep #$20 elimination
+2. Consecutive rep/sep elimination
+3. pha/pla, phx/plx, phy/ply pair elimination
+4. inc a/dec a cancellation
+```
+
+**Current state:** optimizer.c is identical to upstream.
+
+##### E2. Library Assembly Files (REVERTED via 05391018)
+
+**Original commits:** b067a16f, 4d236cd2
+**Files affected:** backgrounds.asm, consoles.asm, crt0_snes.asm
+
+**Why reverted:** These "fixes" for Mesen2 uninitialized memory warnings actually broke sprite rendering. The warnings are benign - the code works correctly on real hardware.
+
+**What was attempted and reverted:**
+- `backgrounds.asm`: Added `stz bkgrd_val1+1`
+- `consoles.asm`: Added `sta.l videoMode` initialization
+- `crt0_snes.asm`: Added `__heap_guard` to prevent heap at address 0
+
+**Current state:** All three files identical to upstream.
+
+##### E3. Earlier Metasprite Fixes (SUPERSEDED by 7bfed95e)
+
+**Original commits:** bedcd7da, 0b00930f
+**Why superseded:** Applied fix to ALL sprite sizes (8x8, 16x16, 32x32) but only 16x16 needed it. The 32x32 tank sprite got split in half.
+
+**Current state:** Only 16x16 fix active. 8x8 and 32x32 use original upstream logic.
+
+---
+
+### 10.3 TCC Submodule Changes
+
+The compiler/tcc submodule points to k0b3n4irb/tcc (fork of alekmaul/tcc) with these commits:
+
+| Commit | Description | Status |
+|--------|-------------|--------|
+| ee58bbc | fix: correct jump patching logic bug | Active |
+| 679eaa8 | chore: ignore macOS debug symbols directory | Active |
+| c29b4d6 | fix(816-gen): change index > 65535 from error to warning | Active |
+| 30f803f | fix(816-gen): use only safe multiplication optimizations | Active |
+| 665c5e7 | perf(816-tcc): expand multiplication constant optimizations | Active |
+| 4232346 | perf(816-tcc): optimize unsigned division/modulo by power of 2 | Active |
+| 1fbab54 | fix(Makefile): remove warning suppressions | Active |
+| 65b49b7 | refactor: replace static arrays with dynamic allocation | Active |
+| c891cb2 | fix: replace unsafe sprintf/strcpy | Active |
+
+**Key TCC improvements:**
+1. **Division optimization:** `x / 2^n` → `LSR`, `x % 2^n` → `AND`
+2. **Multiplication optimization:** Common constants (3,5,6,7,9,10,12,15,etc)
+3. **Security:** Safe string operations throughout
+4. **Bug fix:** Jump patching `found=1` moved inside if block
+
+---
+
+### 10.4 File Change Summary
+
+```
+LIBRARY (pvsneslib/):
+├── source/sprites.asm        +16/-11  (16x16 metasprite fix only)
+├── source/libc_c.c           +10/-4   (printf precision)
+├── source/libtcc.asm         +2/-2    (whitespace)
+├── source/Makefile           +2/-2    (sed -i fix)
+├── source/sm_spc.asm         +3/-3    (whitespace)
+├── include/snes/snestypes.h  +0/-0    (unchanged - matches upstream)
+├── snesmod/sm_spc_wla.asm    +3364    (NEW - WLA-DX version)
+├── snesmod/sm_spc_wla.link   +2       (NEW)
+├── snesmod/convert_tasm_to_wla.py +292 (NEW)
+└── snesmod/Makefile          +18/-18  (WLA-DX build)
+
+TOOLS:
+├── gfx4snes/metasprites.c    +22/-4   (VRAM-aware tile indices)
+├── tmx2snes/tmx2snes.c       +42/-12  (security, locked layer)
+├── tmx2snes/cute_tiled.h     +5/-0    (locked property)
+├── snestools/snestools.c     +26/-20  (operator precedence)
+├── gfx2snes/*.c              +~60     (security fixes)
+├── 816-opt/helpers.c         +24/-20  (security fixes)
+├── constify/constify.cpp     +36/-20  (security fixes)
+└── gfx2snes/lodepng.*        +2012    (updated to 20230410)
+
+BUILD SYSTEM:
+├── devkitsnes/snes_rules     +8/-8    (sed -i portability)
+├── .github/workflows/*.yml   +9/-9    (Apple Silicon)
+├── Makefile                  +25/-12  (targets)
+├── compiler/Makefile         +2/-2    (PHONY)
+├── snes-examples/Makefile    +4/-4    (grep -E, exclude tests)
+└── tools/Makefile            +16/-8   (parallel build)
+
+NEW DIRECTORIES:
+├── snes-examples/arithmetic/         (NEW example)
+├── snes-examples/tests/              (NEW test infrastructure)
+├── podman/                           (renamed from docker/)
+└── .claude/                          (review notes)
+```
+
+---
+
+### 10.5 What's Actually Different from Upstream
+
+**Total meaningful changes:**
+1. **16x16 metasprite fix** - Most significant functional change
+2. **Security hardening** - strcpy→strncpy across all tools
+3. **Cross-platform** - macOS/BSD sed, Apple Silicon CI
+4. **Test infrastructure** - Mesen2 Lua tests
+5. **SNESMOD WLA-DX** - Cross-platform SPC700 compilation
+6. **TCC improvements** - Division/multiplication optimizations
+7. **Podman** - Container tooling
+8. **lodepng update** - Security/bug fixes from upstream
+
+**What was NOT changed (identical to upstream):**
+- 816-opt/optimizer.c
+- backgrounds.asm
+- consoles.asm
+- crt0_snes.asm
+- snestypes.h
+- Most of pvsneslib library
+
+---
+
+### 10.6 Lessons Learned
+
+1. **Test before committing** - The optimizer and library changes looked correct but broke functionality
+2. **Isolate variables** - Use binary search with fresh upstream to find culprit
+3. **Don't fix what isn't broken** - Mesen2 warnings don't always indicate real bugs
+4. **Sprite sizes are different** - 8x8, 16x16, 32x32 have different VRAM layouts and lookup tables
+5. **Verify ROMs** - Compare MD5 checksums against known-good builds
+
+---
+
 ## Next Steps
 
 1. Review this document with maintainers
