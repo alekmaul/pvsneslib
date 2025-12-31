@@ -43,10 +43,10 @@ typedef unsigned long long u32;
 
 typedef volatile unsigned char vuint8;
 typedef volatile unsigned short vuint16;
-typedef volatile unsigned long vuint32;
+typedef volatile unsigned long long vuint32;
 typedef volatile char vint8;
 typedef volatile short vint16;
-typedef volatile long vint32;
+typedef volatile long long vint32;
 
 // Handy function pointer typedefs
 //! a function pointer that takes no arguments and doesn't return anything.
