@@ -47,12 +47,6 @@ tcc__registers_nmi_isr dsb 48
 ; If you remove the -d switch, move those two sections to the very end of the source file, then WLA cannot calculate SECTIONEND_glob.data-SECTIONSTART_glob.data and it should be delayed for WLALINK to calculate
 .RAMSECTION "globram.data" BANK $7f SLOT 3 KEEP
 
-; Reserve 2 bytes to ensure heap never starts at address 0.
-; This fixes malloc() failing in small projects (issue #311) due to
-; a compiler bug where NULL pointer comparisons only check the low 16 bits.
-; When heap started at $7F:0000, the low 16 bits were 0, causing false NULL matches.
-__heap_guard dsb 2
-
 .ENDS
 
 .BANK 0                                 ; Defines the ROM bank and the slot it is inserted in memory.
