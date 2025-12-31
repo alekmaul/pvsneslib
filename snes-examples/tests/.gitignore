@@ -1,3 +1,10 @@
-# Temporary directories
-.mesen_screenshots/
-.screenshot_temp/
+# Build artifacts
+*.sfc
+*.sym
+*.obj
+*.asm
+*.ps
+*.asp
+*.pic
+*.pal
+*.map
