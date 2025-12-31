@@ -171,14 +171,14 @@ endif
 # -c should be removed ASAP ! It allow duplicate labels and definitions
 	$(LD) -d -s -v -A -c -L ${LIBDIRSOBJS} linkfile $@
 
-# remove unattended characters 
-	@sed -i 's/://' $(ROMNAME).sym
+# remove unattended characters (use temp file for macOS/BSD sed compatibility)
+	@sed 's/://' $(ROMNAME).sym > $(ROMNAME).sym.tmp && mv $(ROMNAME).sym.tmp $(ROMNAME).sym
 
 #keep with section label if needed
 #	@cp -f $(ROMNAME).sym $(ROMNAME).symfull
 
-# remove duplicated labels for mesen debugger
-	@sed -i '/ SECTIONSTART_/d;/ SECTIONEND_/d;/ RAM_USAGE_SLOT_/d;' $(ROMNAME).sym
+# remove duplicated labels for mesen debugger (use temp file for macOS/BSD sed compatibility)
+	@sed '/ SECTIONSTART_/d;/ SECTIONEND_/d;/ RAM_USAGE_SLOT_/d;' $(ROMNAME).sym > $(ROMNAME).sym.tmp && mv $(ROMNAME).sym.tmp $(ROMNAME).sym
 
 	@echo
 	@echo Build finished successfully !
