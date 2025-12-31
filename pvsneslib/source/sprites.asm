@@ -3003,14 +3003,14 @@ _oMTD32Rep0p_ok:
 	phx														  ; because we will need it at the end for the table
 	tay														  ; id normaly passed as argument of drawing function
 	
-	lda sprit_val0 				                              ; get current graphic number 
+	lda sprit_val0 				                              ; get current graphic number
 	pha														  ; will be restore in x
 	lsr a													  ; for lookup spriteid entry (nb>>4 *2)
 	tax
 	lda.l lkup32idT,x
 
 	plx
-	sta.w oamMemory+2,x										  ; store in oam memory 
+	sta.w oamMemory+2,x										  ; store in oam memory
 
 	lda oambuffer.1.oamx,y				                      ; get x coordinate
 	xba														  ; save it
@@ -3439,9 +3439,11 @@ _oMTD16Rep0p_ok:
 	phx														  ; because we will need it at the end for the table
 	tay														  ; id normaly passed as argument of drawing function
 	
-	lda sprit_val0 				                              ; get current graphic number 
-	pha														  ; will be restore in x
-	lsr a													  ; for lookup spriteid entry (nb>>4 *2)
+	lda sprit_val0 				                              ; get current OAM entry offset
+	pha														  ; will be restored to x for OAM memory access
+
+	lda oambuffer.1.oamframeid,y                              ; get tile index from metasprite data
+	asl a													  ; multiply by 2 for word array indexing (lkup16idT is .word array)
 	tax
 
 	lda 24,s 										 		  ; if large sprite, adjust address (20+2+2)
@@ -3846,7 +3848,7 @@ _oMTD8Rep0p_ok:
 	phx														  ; because we will need it at the end for the table
 	tay														  ; id normaly passed as argument of drawing function
 	
-	lda sprit_val0 				                              ; get current graphic number 
+	lda sprit_val0 				                              ; get current graphic number
 	pha														  ; will be restore in x
 	lsr a													  ; for lookup spriteid entry (nb>>4 *2)
 	tax
@@ -3859,7 +3861,7 @@ _oMTD8Rep0p_ok:
 +:  lda.l lkup16idT0,x
 _oMTD8Rep1p_16p:
 	plx
-	sta.w oamMemory+2,x										  ; store in oam memory 
+	sta.w oamMemory+2,x										  ; store in oam memory
 
 	lda oambuffer.1.oamx,y				                      ; get x coordinate
 	xba														  ; save it
