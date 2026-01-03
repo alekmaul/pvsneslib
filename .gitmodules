@@ -5,5 +5,5 @@
 
 [submodule "compiler/tcc"]
 	path = compiler/tcc
-	url = https://github.com/k0b3n4irb/tcc.git
+	url = https://github.com/alekmaul/tcc.git
 	ignore = dirty
