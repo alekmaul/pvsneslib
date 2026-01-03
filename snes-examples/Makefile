@@ -1,5 +1,7 @@
-SUBDIRS    := $(shell ls | egrep -v '^(CVS)$$')
+SUBDIRS    := $(shell ls | grep -Ev '^(CVS|tests)$$')
 DATESTRING := $(shell date +%Y%m%d)
+
+.PHONY: all install clean
 
 all:
 	@for i in $(SUBDIRS); do if test -e $$i/Makefile ; then $(MAKE) -C $$i || { exit 1;} fi; done;

@@ -27,6 +27,7 @@
 	
 ***************************************************************************/
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -63,15 +64,23 @@ unsigned char *tiles_convertsnes (unsigned char *imgbuf, int imgwidth, int imghe
     }
     if (!isquiet) info("convert image from %dx%d to %dx%d...",imgwidth,imgheight,newwidth,rows*blksizex);
 
-    // get memory for the new buffer
-    buffer = (unsigned char *) malloc(rows * blksizex * newwidth);
+    // get memory for the new buffer (with overflow check)
+    size_t bufsize = (size_t)rows * blksizex;
+    if (rows != 0 && bufsize / rows != (size_t)blksizex) {
+        fatal("image dimensions too large (overflow in tiles_convertsnes)");
+    }
+    bufsize *= newwidth;
+    if (newwidth != 0 && bufsize / newwidth != (size_t)rows * blksizex) {
+        fatal("image dimensions too large (overflow in tiles_convertsnes)");
+    }
+    buffer = (unsigned char *) malloc(bufsize);
     if (buffer == NULL)
     {
         fatal("can't allocate enough memory for the buffer in tiles_convertsnes");
     }
 
     // initially clear the buffer, so if there are empty image blocks or incomplete blocks, the empty parts will be blank
-    memset(buffer, 0, rows * blksizex * newwidth);
+    memset(buffer, 0, bufsize);
 
     // position in new buffer (x,y) where x and y are in pixel co-ordinates
     x = 0; y = 0;
@@ -134,7 +143,7 @@ void tiles_save (const char *filename, unsigned char *tiles,int nbtiles, int nbc
 	{
 		fatal("can't allocate memory for tiles filename");
 	}
-	sprintf(outputname,"%s.pic",filename);
+	snprintf(outputname, FILENAME_MAX, "%s.pic", filename);
 
     // find the number of bitplanes (default is 8 for 128 & 256 colors)
     bitplanes = 8;
@@ -269,7 +278,7 @@ void tiles_savepacked (const char *filename, unsigned char *tiles,int tilesnumbe
 	{
 		fatal("can't allocate memory for packed tiles filename");
 	}
-	sprintf(outputname,"%s.pc7",filename);
+	snprintf(outputname, FILENAME_MAX, "%s.pc7", filename);
 
 	if (!isquiet) info("saving packed tiles file [%s]...",outputname);
 

@@ -161,12 +161,15 @@ void WriteMap(void)
     char *lastpostslash;
 
     // We use directory and replace file name with layer name
-    strcpy(filemapname, filebase);
+    strncpy(filemapname, filebase, sizeof(filemapname) - 1);
+    filemapname[sizeof(filemapname) - 1] = '\0';
     lastpostslash = strrchr(filemapname, '/');
-    if (lastpostslash != NULL)
-        sprintf(lastpostslash + 1, "%s.m16", layer->name.ptr);
+    if (lastpostslash != NULL) {
+        size_t prefix_len = (lastpostslash + 1) - filemapname;
+        snprintf(lastpostslash + 1, sizeof(filemapname) - prefix_len, "%s.m16", layer->name.ptr);
+    }
     else
-        sprintf(filemapname, "%s.m16", layer->name.ptr);
+        snprintf(filemapname, sizeof(filemapname), "%s.m16", layer->name.ptr);
 
     if (quietmode == 0)
         printf("tmx2snes:     Writing tiles map file...\n");
@@ -222,7 +225,7 @@ void WriteTileset(void)
 
     if (quietmode == 0)
         printf("tmx2snes: Writing tiles attribute file...\n");
-    sprintf(filemapname, "%s.b16", filebase);
+    snprintf(filemapname, sizeof(filemapname), "%s.b16", filebase);
     fpo = fopen(filemapname, "wb");
     if (fpo == NULL)
     {
@@ -253,6 +256,12 @@ void WriteTileset(void)
         for (i = 0; i < tile->property_count; i++)
         {
             propm = tile->properties + i;
+            // bounds check to prevent buffer overflow
+            if (tile->tile_index >= N_METATILES)
+            {
+                printf("\ntmx2snes: error 'tile index %d exceeds maximum %d'", tile->tile_index, N_METATILES - 1);
+                exit(1);
+            }
             // write attribute (blocker, etc..) property (which is a string)
             if (strcmp(propm->name.ptr, "attribute") == 0)
             {
@@ -295,7 +304,7 @@ void WriteMapTileset(void)
     int i, blkprop;
 
     // now write tileset file with properties (only priority & palette for the moment)
-    sprintf(filemapname, "%s.t16", filebase);
+    snprintf(filemapname, sizeof(filemapname), "%s.t16", filebase);
     fpo = fopen(filemapname, "wb");
     if (fpo == NULL)
     {
@@ -328,7 +337,7 @@ void WriteEntities(void)
 
     if (quietmode == 0)
         printf("tmx2snes: Writing entities object file...\n");
-    sprintf(filemapname, "%s.o16", filebase);
+    snprintf(filemapname, sizeof(filemapname), "%s.o16", filebase);
     fpo = fopen(filemapname, "wb");
     if (fpo == NULL)
     {
@@ -410,9 +419,9 @@ int main(int argc, char **argv)
     CUTE_TILED_UNUSED(argv);
 
     // init all filenames
-    strcpy(filebase, "");
-    strcpy(filebasetil, "");
-    strcpy(filemapname, "");
+    filebase[0] = '\0';
+    filebasetil[0] = '\0';
+    filemapname[0] = '\0';
 
     // parse the arguments
     for (i = 1; i < argc; i++)
@@ -451,12 +460,14 @@ int main(int argc, char **argv)
                 }
                 else // not defined, ok it is the map file
                 {
-                    strcpy(filebasetil, argv[i]);
+                    strncpy(filebasetil, argv[i], sizeof(filebasetil) - 1);
+                    filebasetil[sizeof(filebasetil) - 1] = '\0';
                 }
             }
             else // not defined, ok it is the tmx file
             {
-                strcpy(filebase, argv[i]);
+                strncpy(filebase, argv[i], sizeof(filebase) - 1);
+                filebase[sizeof(filebase) - 1] = '\0';
             }
         }
     }
@@ -523,7 +534,12 @@ int main(int argc, char **argv)
     }
 
     // read the map
-    fread(tilesetmap, filesize, 1, fpi);
+    if (fread(tilesetmap, filesize, 1, fpi) != 1)
+    {
+        printf("\ntmx2snes: error 'failed to read tileset map file'");
+        fclose(fpi);
+        exit(1);
+    }
 
     // close the input file
     fclose(fpi);

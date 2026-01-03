@@ -37,7 +37,7 @@ else
 	$(CC) $(CFLAGS) -Wall -c $< -o $@
 endif
 endif
-	sed -i 's/.include "hdr.asm"//' $@
+	@sed 's/.include "hdr.asm"//' $@ > $@.tmp && mv $@.tmp $@
 
 reset_comp:
 	@echo "; HIROM / FASTROM definitions" > comp_defs.asm

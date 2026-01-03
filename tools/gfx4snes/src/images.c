@@ -27,6 +27,7 @@
 	
 ***************************************************************************/
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -52,7 +53,7 @@ void image_load_png(const char *filename, t_image *img, bool isquiet)
 	{
 		fatal("can't allocate memory for png filename");
 	}
-	sprintf(outputname,"%s.png",filename);
+	snprintf(outputname, FILENAME_MAX, "%s.png", filename);
 
     // optionally customize the state
     lodepng_state_init(&pngstate);
@@ -120,7 +121,15 @@ void image_load_png(const char *filename, t_image *img, bool isquiet)
 	// get the image
 	img->header.width = pngwidth;
     img->header.height = pngheight;
-    img->buffer = (unsigned char *) malloc( (size_t) (pngheight + 64) * pngwidth ); // (pngheight + 64) * pngwidth); // allocate memory for the picture + 64 empty lines
+    // Check for overflow before allocation
+    size_t img_bufsize = (size_t)(pngheight + 64) * pngwidth;
+    if (pngwidth != 0 && img_bufsize / pngwidth != (size_t)(pngheight + 64)) {
+        free(pngbuff);
+        free(pngimage);
+        free(outputname);
+        fatal("image dimensions too large (overflow)");
+    }
+    img->buffer = (unsigned char *) malloc(img_bufsize); // allocate memory for the picture + 64 empty lines
     if (img->buffer == NULL)
     {
         free(pngbuff);
@@ -161,7 +170,7 @@ void image_load_bmp(const char *filename, t_image *img, bool isquiet)
 	{
 		fatal("can't allocate memory for bmp filename");
 	}
-	sprintf(outputname,"%s.bmp",filename);
+	snprintf(outputname, FILENAME_MAX, "%s.bmp", filename);
 
 	// load the png file and try to decode it
     bmperror = bmp_load_file(&bmpbuff, &bmpsize, outputname);
@@ -194,7 +203,15 @@ void image_load_bmp(const char *filename, t_image *img, bool isquiet)
 	// get the image
 	img->header.width = bmpwidth;
     img->header.height = bmpheight;
-    img->buffer = (unsigned char *) malloc( (size_t) (bmpheight + 64) * bmpwidth ); // (bmpheight + 64) * bmpwidth); // allocate memory for the picture + 64 empty lines
+    // Check for overflow before allocation
+    size_t img_bufsize = (size_t)(bmpheight + 64) * bmpwidth;
+    if (bmpwidth != 0 && img_bufsize / bmpwidth != (size_t)(bmpheight + 64)) {
+        free(bmpbuff);
+        free(bmpimage);
+        free(outputname);
+        fatal("image dimensions too large (overflow)");
+    }
+    img->buffer = (unsigned char *) malloc(img_bufsize); // allocate memory for the picture + 64 empty lines
     if (img->buffer == NULL)
     {
         free(bmpbuff);

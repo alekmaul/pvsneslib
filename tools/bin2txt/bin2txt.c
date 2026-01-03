@@ -138,8 +138,10 @@ int main(int argc, char **argv)
                 PrintOptions(argv[i]);
                 exit(1);
             }
-            else
-                strcpy(filebase, argv[i]);
+            else {
+                strncpy(filebase, argv[i], sizeof(filebase) - 1);
+                filebase[sizeof(filebase) - 1] = '\0';
+            }
         }
     }
 
@@ -179,9 +181,9 @@ int main(int argc, char **argv)
 
     // open output file for writing
     if (convformat == 1)
-        sprintf(filename, "%s.h", filebase);
+        snprintf(filename, sizeof(filename), "%s.h", filebase);
     else if (convformat == 2)
-        sprintf(filename, "%s.asm", filebase);
+        snprintf(filename, sizeof(filename), "%s.asm", filebase);
 
     if (quietmode == 0)
         printf("bin2txt: 'Saving text file: [%s]\n", filename);

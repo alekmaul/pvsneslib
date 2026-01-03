@@ -823,7 +823,7 @@ int change_title(char *filename, FILE *fp, char *title)
         info("Change title to [%s]...", title);
 
     // Compute address of title entry.
-    addr = 512 * rom_has_header + rom_is_lorom ? LOROM_HEADER + OFFSET_TITLE : HIROM_HEADER + OFFSET_TITLE;
+    addr = 512 * rom_has_header + (rom_is_lorom ? LOROM_HEADER + OFFSET_TITLE : HIROM_HEADER + OFFSET_TITLE);
 
     // Go to title and change it
     fseek(fp, addr, SEEK_SET);
@@ -844,16 +844,16 @@ int change_country(char *filename, FILE *fp, char *country)
         info("Change country to [%s]...", country);
 
     // Compute address of country entry.
-    addr = 512 * rom_has_header + rom_is_lorom ? LOROM_HEADER + OFFSET_COUNTRY : HIROM_HEADER + OFFSET_COUNTRY;
+    addr = 512 * rom_has_header + (rom_is_lorom ? LOROM_HEADER + OFFSET_COUNTRY : HIROM_HEADER + OFFSET_COUNTRY);
 
     // Go to country and change it
     if ((country[0] >= '0') && (country[0] <= '9'))
         cntry = (country[0] - '0') * 10;
-    else if ((country[0] >= 'A') && (country[0] <= 'A'))
+    else if ((country[0] >= 'A') && (country[0] <= 'Z'))
         cntry = (country[0] - 'A') * 10 + 10;
     if ((country[1] >= '0') && (country[1] <= '9'))
         cntry += (country[1] - '0');
-    else if ((country[1] >= 'A') && (country[1] <= 'A'))
+    else if ((country[1] >= 'A') && (country[1] <= 'Z'))
         cntry += (country[1] - 'A') + 10;
     fseek(fp, addr, SEEK_SET);
     fputc(cntry, fp);
@@ -872,7 +872,7 @@ int change_romsize(char *filename, FILE *fp, char *romsize)
         info("Change rom size to [%s]...", romsize);
 
     // Compute address of country entry.
-    addr = 512 * rom_has_header + rom_is_lorom ? LOROM_HEADER + OFFSET_ROMSIZE : HIROM_HEADER + OFFSET_ROMSIZE;
+    addr = 512 * rom_has_header + (rom_is_lorom ? LOROM_HEADER + OFFSET_ROMSIZE : HIROM_HEADER + OFFSET_ROMSIZE);
 
     // Go to romsize and change it
     // possible values
@@ -902,13 +902,13 @@ int change_sram(char *filename, FILE *fp, char nosram)
         info("Change sram to [%s]...", nosram ? "NOSRAM" : "SRAM");
 
     // Compute address of title entry and Go to sram and change it
-    addr = 512 * rom_has_header + rom_is_lorom ? LOROM_HEADER + OFFSET_SRAM : HIROM_HEADER + OFFSET_SRAM;
+    addr = 512 * rom_has_header + (rom_is_lorom ? LOROM_HEADER + OFFSET_SRAM : HIROM_HEADER + OFFSET_SRAM);
     fseek(fp, addr, SEEK_SET);
     if (nosram == 1)
         fputc(0, fp);
 
     // Compute address of title entry.
-    addr = 512 * rom_has_header + rom_is_lorom ? LOROM_HEADER + OFFSET_CARDTYPE : HIROM_HEADER + OFFSET_CARDTYPE;
+    addr = 512 * rom_has_header + (rom_is_lorom ? LOROM_HEADER + OFFSET_CARDTYPE : HIROM_HEADER + OFFSET_CARDTYPE);
     fseek(fp, addr, SEEK_SET);
     if (nosram == 1)
         fputc(0, fp);
@@ -996,7 +996,8 @@ int main(int argc, char **argv)
                 {
                     changecountry = 1;
                     fixcrc        = 0; // because we will do it
-                    strcpy(country, &argv[i][3]);
+                    strncpy(country, &argv[i][3], sizeof(country) - 1);
+                    country[sizeof(country) - 1] = '\0';
                     if (strlen(country) != 2)
                     {
                         PrintOptions(argv[i]);
@@ -1007,7 +1008,8 @@ int main(int argc, char **argv)
                 {
                     changeromsize = 1;
                     fixcrc        = 0; // because we will do it
-                    strcpy(romsz, &argv[i][3]);
+                    strncpy(romsz, &argv[i][3], sizeof(romsz) - 1);
+                    romsz[sizeof(romsz) - 1] = '\0';
                     if (strlen(romsz) != 2)
                     {
                         PrintOptions(argv[i]);
@@ -1016,7 +1018,8 @@ int main(int argc, char **argv)
                 }
                 else if (argv[i][2] == 't') // program title
                 {
-                    strcpy(programtitle, &argv[i][3]);
+                    strncpy(programtitle, &argv[i][3], sizeof(programtitle) - 1);
+                    programtitle[sizeof(programtitle) - 1] = '\0';
                     strtoupper(programtitle);
                     if (strlen(programtitle))
                     {
@@ -1054,7 +1057,8 @@ int main(int argc, char **argv)
             }
             else
             {
-                strcpy(filebase, argv[i]);
+                strncpy(filebase, argv[i], sizeof(filebase) - 1);
+                filebase[sizeof(filebase) - 1] = '\0';
             }
         }
     }

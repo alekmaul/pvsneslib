@@ -75,3 +75,11 @@ soundbank.h
 
 # Mac OS cache files
 .DS_Store
+
+# Claude Code local config
+.claude/
+
+# Generated build artifacts in examples
+snes-examples/**/*.asm
+snes-examples/**/*.inc
+snes-examples/**/*_data.as

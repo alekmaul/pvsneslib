@@ -1,0 +1,10 @@
+# Build artifacts
+*.sfc
+*.sym
+*.obj
+*.asm
+*.ps
+*.asp
+*.pic
+*.pal
+*.map

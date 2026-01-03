@@ -215,15 +215,24 @@ char *replaceStr(char *str, char *orig, char *rep)
     char *p;
     size_t orig_len = strlen(orig);
     size_t rep_len = strlen(rep);
+    size_t prefix_len;
+    size_t suffix_len;
 
     if (!(p = strstr(str, orig)))
         return str;
 
-    memcpy(buffer, str, p - str);
-    buffer[p - str] = '\0';
+    prefix_len = p - str;
+    suffix_len = strlen(p + orig_len);
 
-    strcpy(buffer + (p - str), rep);
-    strcat(buffer + (p - str + rep_len), p + orig_len);
+    // Check if result would overflow buffer
+    if (prefix_len + rep_len + suffix_len >= MAXLEN_LINE) {
+        // Return original string if replacement would overflow
+        return str;
+    }
+
+    memcpy(buffer, str, prefix_len);
+    memcpy(buffer + prefix_len, rep, rep_len);
+    memcpy(buffer + prefix_len + rep_len, p + orig_len, suffix_len + 1); // +1 for null terminator
 
     return buffer;
 }
@@ -305,8 +314,9 @@ dynArray regexMatchGroups(char *string, char *regex, const size_t maxGroups)
     if (!re)
     {
         size_t len, g;
-        char *stringCopy = malloc(strlen(string) + 1);
-        strcpy(stringCopy, string);
+        size_t stringLen = strlen(string);
+        char *stringCopy = malloc(stringLen + 1);
+        memcpy(stringCopy, string, stringLen + 1);
 
         regexgroup.arr = malloc(maxGroups * sizeof(char *));
 
@@ -364,7 +374,7 @@ dynArray pushToArray(dynArray text_opt, char *str)
         exit(EXIT_FAILURE);
     }
 
-    strcpy(text_opt.arr[text_opt.used], str);
+    memcpy(text_opt.arr[text_opt.used], str, len + 1);
     text_opt.used++;
 
     updatedDynArray.arr = text_opt.arr;
