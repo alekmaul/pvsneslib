@@ -2,36 +2,19 @@
 
 .section ".rodata1" superfree
 
-BG1_tiles: .incbin "BG1.pic"
-BG1_tiles_end
-
-BG2_tiles: .incbin "BG2.pic"
-BG2_tiles_end
-
-BG3_tiles: .incbin "BG3.pic"
-BG3_tiles_end
+.include "BG1_data.as"
 
 .ends
 
 .section ".rodata2" superfree
 
-BG1_map: .incbin "BG1.map"
-BG1_map_end:
+.include "BG2_data.as"
 
-BG2_map: .incbin "BG2.map"
-BG2_map_end:
+.ends
 
-BG3_map: .incbin "BG3.map"
-BG3_map_end:
+.section ".rodata3" superfree
 
-BG1_pal: .incbin "BG1.pal"
-BG1_pal_end:
-
-BG2_pal: .incbin "BG2.pal"
-BG2_pal_end:
-
-BG3_pal: .incbin "BG3.pal"
-BG3_pal_end:
+.include "BG3_data.as"
 
 .ends
 
