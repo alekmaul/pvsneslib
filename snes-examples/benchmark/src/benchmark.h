@@ -13,7 +13,7 @@ extern u16 startsec,finishsec;
 
 //------------------------------------------------------------------------------------------
 //#define dotest(tstfct,tstname) { startsec=GetLinearTime(); tstfct();  finishsec=GetLinearTime(); tstPostResult(tstname); WaitForVBlank(); }
-#define dotest(tstfct,tstname) { Benchmark_Start(); tstfct();  Benchmark_End3(); tstPostResult(tstname); WaitForVBlank(); }
+#define dotest(tstfct,tstname) { Benchmark_Start(); tstfct();  Benchmark_End(); tstPostResult(tstname); WaitForVBlank(); }
 
 
 #endif
