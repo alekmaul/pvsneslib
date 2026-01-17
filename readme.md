@@ -23,9 +23,9 @@ Here are good entry points to know how Super Nintendo works:
 ![Downloads](https://img.shields.io/github/downloads/alekmaul/pvsneslib/total?label=Total%20Downloads)
 
 
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.5.0/pvsneslib_450_64b_windows_release.zip"><img src="https://img.shields.io/badge/Windows-97C40F?style=for-the-badge&logo=windows&logoColor=white" alt="PVSnesLib Windows Release"></a>
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.5.0/pvsneslib_450_64b_linux_release.zip"><img src="https://img.shields.io/badge/Linux-F48041?style=for-the-badge&logo=linux&logoColor=white" alt="PVSnesLib Linux Release"></a>
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.5.0/pvsneslib_450_64b_darwin_release.zip"><img src="https://img.shields.io/badge/mac%20os-0E7FC0?style=for-the-badge&logo=apple&logoColor=white" alt="PVSnesLib MacOS Release"></a>
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.6.0/pvsneslib_460_64b_windows_release.zip"><img src="https://img.shields.io/badge/Windows-97C40F?style=for-the-badge&logo=windows&logoColor=white" alt="PVSnesLib Windows Release"></a>
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.6.0/pvsneslib_460_64b_linux_release.zip"><img src="https://img.shields.io/badge/Linux-F48041?style=for-the-badge&logo=linux&logoColor=white" alt="PVSnesLib Linux Release"></a>
+<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.6.0/pvsneslib_460_64b_darwin_release.zip"><img src="https://img.shields.io/badge/mac%20os-0E7FC0?style=for-the-badge&logo=apple&logoColor=white" alt="PVSnesLib MacOS Release"></a>
 
 To install the library, please download the latest [release](https://github.com/alekmaul/pvsneslib/releases/latest) or with the link below and follow instructions on the [Wiki pages](https://github.com/alekmaul/pvsneslib/wiki).
 
@@ -41,11 +41,11 @@ You can find a Visual Studio Code template in the [vscode-template](https://gith
 
 You can find with the link below the last stable builds of PVSnesLib. They are development builds, you can have bugs not yet resolved with them.
 
-# Dependencies and Docker #
+# Dependencies and Podman #
 
 PVSnesLib works on Windows, Linux and MacOS systems.
 
-For people who cannot work with the current builds of PVSneslib, you can build your docker image by following instructions available in the docker folder. Please see [this wiki page](https://github.com/alekmaul/pvsneslib/wiki/Compiling-from-sources) to get all required dependencies.
+For people who cannot work with the current builds of PVSneslib, you can build your docker image by following instructions available in the podman folder. Please see [this wiki page](https://github.com/alekmaul/pvsneslib/wiki/Compiling-from-sources) to get all required dependencies.
 
 
 To use it, you will need at least :
