@@ -51,7 +51,7 @@ extern u8 snes_fps;           /*!< \brief 50 if PAL console (50 Hz) or 60 if NTS
 
 /*! \fn rand(void)
     \brief return a randomized number
-    \return unsigned short of a randozied number
+    \return unsigned short of a randomized number
 */
 u16 rand(void);
 
