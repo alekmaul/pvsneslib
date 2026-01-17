@@ -3704,9 +3704,6 @@ _oMTDD8Rep1_16p:
 	lda.l lkup8idT,x
 _oMTDD8Rep1p_16p:
 	plx
-
-	clc
-	adc sprit_val2											  ; add graphic offset of sprite (0x0000 or something else)
 	sta.w oamMemory+2,x										  ; store in oam memory 
 
 	lda oambuffer.1.oamx,y				                      ; get x coordinate
@@ -3890,6 +3887,9 @@ _oMTD8Rep0p_ok:
 +:  lda.l lkup16idT0,x
 _oMTD8Rep1p_16p:
 	plx
+
+	clc
+	adc sprit_val2											  ; add graphic offset of sprite (0x0000 or something else)
 	sta.w oamMemory+2,x										  ; store in oam memory
 
 	lda oambuffer.1.oamx,y				                      ; get x coordinate
