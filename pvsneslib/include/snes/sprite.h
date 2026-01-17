@@ -381,7 +381,7 @@ void oamDynamicMetaDraw(u16 id, s16 x, s16 y, u8 *sprmeta);
     \brief the meta structure is composed of:<br>
         x offset,y offset,gfx offset, attribute<br>
         the function will reserve the number of sprites in oambuffer, beginning with id.
-        It is necessarilly a LARGE sprite for 32 pixel width.<br>
+        It is definitively a LARGE sprite for 32 pixel width.<br>
 */
 void oamMetaDrawDyn32(u16 id, s16 x,s16 y, u8 *sprmeta,u8 *gfxptr);
 
@@ -390,11 +390,11 @@ void oamMetaDrawDyn32(u16 id, s16 x,s16 y, u8 *sprmeta,u8 *gfxptr);
     \param x x coordinate of the metasprite
     \param y y coordinate of the metasprite
     \param sprmeta pointer to metasprite structure (must finish with 0xFFFF, see t_metasprites)
-    \param ofsgfx offset of graphics related to initiale sprite graphic offset (ex:0x100 if sprites begins at 0x0000 and graphics at 0x0100)
+    \param ofsgfx offset of graphics related to initiale sprite graphic offset (ex:0x100 if VRAM for sprites begins at 0x0100)
     \brief the meta structure is composed of:<br>
         x offset,y offset,gfx offset, attribute<br>
         the function will reserve the number of sprites in oambuffer, beginning with id.<br>
-        It is necessarilly a LARGE sprite for 32 pixel width.<br>
+        It is definitively a LARGE sprite for 32 pixel width.<br>
         You need to have graphics of Metasprite in VRAM before using this function.
 */
 void oamMetaDraw32(u16 id, s16 x,s16 y, u8 *sprmeta, u16 ofsgfx);
@@ -418,7 +418,7 @@ void oamMetaDrawDyn16(u16 id, s16 x,s16 y, u8 *sprmeta,u8 *gfxptr, u16 sprsize);
     \param y y coordinate of the metasprite
     \param sprmeta	pointer to metasprite structure (must finish with 0xFFFF, see t_metasprites)
     \param sprsize size (OBJ_SMALL or  OBJ_LARGE sprite table to use, 16bits for speed optim)
-    \param ofsgfx offset of graphics related to initiale sprite graphic offset (ex:0x100 if sprites begins at 0x0000 and graphics at 0x0100)
+    \param ofsgfx offset of graphics related to initiale sprite graphic offset (ex:0x100 if VRAM for sprites begins at 0x0100)
     \brief the meta structure is composed of:<br>
         x offset,y offset,gfx offset, attribute<br>
         the function will reserve the number of sprites in oambuffer, beginning with id.<br>
@@ -435,7 +435,7 @@ void oamMetaDraw16(u16 id, s16 x,s16 y, u8 *sprmeta,u16 sprsize, u16 ofsgfx);
     \brief the meta structure is composed of:<br>
         x offset,y offset,gfx offset, attribute<br>
         the function will reserve the number of sprites in oambuffer, beginning with id.
-        It is necessarilly a SMALL sprite for 32 pixel width.<br>
+        It is definitively a SMALL sprite for 32 pixel width.<br>
 */
 void oamMetaDrawDyn8(u16 id, s16 x,s16 y, u8 *sprmeta,u8 *gfxptr);
 
@@ -444,11 +444,11 @@ void oamMetaDrawDyn8(u16 id, s16 x,s16 y, u8 *sprmeta,u8 *gfxptr);
     \param x x coordinate of the metasprite
     \param y y coordinate of the metasprite
     \param sprmeta	pointer to metasprite structure (must finish with 0xFFFF, see t_metasprites)
-    \param ofsgfx offset of graphics related to initiale sprite graphic offset (ex:0x100 if sprites begins at 0x0000 and graphics at 0x0100)
+    \param ofsgfx offset of graphics related to initiale sprite graphic offset (ex:0x100 if VRAM for sprites begins at 0x0100)
     \brief the meta structure is composed of:<br>
         x offset,y offset,gfx offset, attribute<br>
         the function will reserve the number of sprites in oambuffer, beginning with id.<br>
-        It is necessarilly a SMALL sprite for 32 pixel width.<br>
+        It is definitively a SMALL sprite for 32 pixel width.<br>
         You need to have graphics of Metasprite in VRAM before using this function.
 */
 void oamMetaDraw8(u16 id, s16 x,s16 y, u8 *sprmeta, u16 ofsgfx);
