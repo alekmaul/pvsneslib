@@ -2952,6 +2952,13 @@ oamMetaDraw32:
 	lda #0
 	tay														  ; y is now the id of meta sprite buffer
 
+	lda 20,s 												  ; get graphic offset for sprite (default is 0x0000)
+	lsr a 													  ; transform into id
+	lsr a 
+	lsr a 
+	lsr a 
+	sta.w sprit_val2									      ; save graphic offset into memory
+
 	lda 12,s												  ; save x coordinate
 	sta sprit_mxsvg
 	lda 14,s												  ; save y coordinate
@@ -3010,6 +3017,8 @@ _oMTD32Rep0p_ok:
 	lda.l lkup32idT,x
 
 	plx
+	clc
+	adc sprit_val2											  ; add graphic offset of sprite (0x0000 or something else)
 	sta.w oamMemory+2,x										  ; store in oam memory
 
 	lda oambuffer.1.oamx,y				                      ; get x coordinate
@@ -3070,7 +3079,7 @@ _oMTD32Rep3p_16p:
 	ora oamMemory,y
 	sta oamMemory,y               							  ; store new value in oam table #2
 
-    rep #$20                                                  ; for large sprite, adjust address (20+2+2)
+    rep #$20                                                  ; 
 	lda sprit_val0											  ; go to next sprite entry (x4 multiplier)
 	clc
 	adc #$0004
@@ -3380,6 +3389,13 @@ oamMetaDraw16:
 	lda #0
 	tay														  ; y is now the id of meta sprite buffer
 
+	lda 22,s 												  ; get graphic offset for sprite (default is 0x0000)
+	lsr a 													  ; transform into id
+	lsr a 
+	lsr a 
+	lsr a 
+	sta.w sprit_val2									      ; save graphic offset into memory
+
 	lda 12,s												  ; save x coordinate
 	sta sprit_mxsvg
 	lda 14,s												  ; save y coordinate
@@ -3454,6 +3470,9 @@ _oMTD16Rep0p_ok:
 +:  lda.l lkup16idT0,x
 _oMTD16Rep1p_16p:
 	plx
+	
+	clc
+	adc sprit_val2											  ; add graphic offset of sprite (0x0000 or something else)
 	sta.w oamMemory+2,x										  ; store in oam memory 
 
 	lda oambuffer.1.oamx,y				                      ; get x coordinate
@@ -3685,6 +3704,9 @@ _oMTDD8Rep1_16p:
 	lda.l lkup8idT,x
 _oMTDD8Rep1p_16p:
 	plx
+
+	clc
+	adc sprit_val2											  ; add graphic offset of sprite (0x0000 or something else)
 	sta.w oamMemory+2,x										  ; store in oam memory 
 
 	lda oambuffer.1.oamx,y				                      ; get x coordinate
@@ -3795,6 +3817,13 @@ oamMetaDraw8:
 	tax														  ; x is now the id of oam buffer
 	lda #0
 	tay														  ; y is now the id of meta sprite buffer
+
+	lda 22,s 												  ; get graphic offset for sprite (default is 0x0000)
+	lsr a 													  ; transform into id
+	lsr a 
+	lsr a 
+	lsr a 
+	sta.w sprit_val2									      ; save graphic offset into memory
 
 	lda 12,s												  ; save x coordinate
 	sta sprit_mxsvg
