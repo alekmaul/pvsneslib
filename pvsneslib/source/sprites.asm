@@ -3012,7 +3012,9 @@ _oMTD32Rep0p_ok:
 	
 	lda sprit_val0 				                              ; get current graphic number
 	pha														  ; will be restore in x
-	lsr a													  ; for lookup spriteid entry (nb>>4 *2)
+	
+	lda oambuffer.1.oamframeid,y                              ; get tile index from metasprite data
+	asl a													  ; multiply by 2 for word array indexing (lkup16idT is .word array)
 	tax
 	lda.l lkup32idT,x
 
@@ -3876,18 +3878,13 @@ _oMTD8Rep0p_ok:
 	
 	lda sprit_val0 				                              ; get current graphic number
 	pha														  ; will be restore in x
-	lsr a													  ; for lookup spriteid entry (nb>>4 *2)
+
+	lda oambuffer.1.oamframeid,y                              ; get tile index from metasprite data
+	asl a													  ; multiply by 2 for word array indexing (lkup16idT is .word array)
 	tax
-
-	lda 26,s 										 		  ; if large sprite, adjust address (20+2+2+2)
-	bne +
 	lda.l lkup8idT,x
-	bra _oMTD8Rep1p_16p
 
-+:  lda.l lkup16idT0,x
-_oMTD8Rep1p_16p:
 	plx
-
 	clc
 	adc sprit_val2											  ; add graphic offset of sprite (0x0000 or something else)
 	sta.w oamMemory+2,x										  ; store in oam memory
