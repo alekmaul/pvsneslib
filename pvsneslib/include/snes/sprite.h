@@ -52,6 +52,8 @@
 #define OBJ_SPRITE16 2 /*!< \brief sprite with 16x16 identifier */
 #define OBJ_SPRITE8 4  /*!< \brief sprite with 8x8 identifier */
 
+#define OBJ_SIZEL   0    /*!<brief sprite size large attribute */
+#define OBJ_SIZES   1    /*!<brief sprite size small attribute */
 #define OBJ_PAL(palofs) (palofs << 1) /*!<brief sprite palette attribute */
 #define OBJ_FLIPX (0x40) /*!<brief sprite flip x attribute */
 #define OBJ_FLIPY (0x80) /*!<brief sprite flip y attribute */
