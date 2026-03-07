@@ -17,7 +17,7 @@ clean: cleanBuildRes cleanRom cleanGfx
 #---------------------------------------------------------------------------------
 backgrounds.pic: backgrounds.bmp
 	@echo convert bitmap ... $(notdir $@)
-	$(GFXCONV) -a -s 8 -u 16 -e 1 -p -m -t bmp -i $<
+	$(GFXCONV) -s 8 -o 32 -u 16 -e 1 -p -m -t bmp -i $<
 
 clouds.pic: clouds.bmp
 	@echo convert bitmap ... $(notdir $@)
