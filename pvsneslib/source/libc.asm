@@ -450,7 +450,7 @@ exitl4:
 
 .ENDS
 
-.include "libc_c.asm"
+.include "libc_c_tcc.asm"
 
 .DEFINE RAMSLOT_0 0
 .ifdef HIROM
@@ -481,5 +481,6 @@ exitl4:
 .include "snesmodwla.asm"
 .include "sounds.asm"
 .include "sprites.asm"
+.include "states.asm"
 .include "videos.asm"
 .include "vblank.asm"
