@@ -16,6 +16,7 @@
 #include "tiles.h"
 #include "incgener.h"
 #include "metasprites.h"
+#include "gradients.h"
 
 #ifndef __BUILD_VERSION
 #include "config.h"
@@ -58,6 +59,7 @@ typedef struct
     int palettesave;		           											// 1 = save the palette
     int paletteround;                  											// 1 = round palette up & down
     int paletterearrange;				    									// 1 = compute palette to fit with snes capabilities
+    int palettegradient;				    									// 1 = do a palette gradient entry only
 } t_gfx4snes_args;
 
 //-------------------------------------------------------------------------------------------------

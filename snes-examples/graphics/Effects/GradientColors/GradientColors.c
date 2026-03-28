@@ -8,11 +8,9 @@
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-extern char patterns, patterns_end;
-extern char palette, palette_end;
-extern char map, map_end;
+#include "pvsneslib.inc"
 
-extern const unsigned char hdmaGradientList[];
+extern const unsigned char hdmaGradgradientList[];
 
 u8 pada,padb;
 u16 pad0;
@@ -21,10 +19,10 @@ u16 pad0;
 int main(void)
 {
     // Copy tiles to VRAM
-    bgInitTileSet(0, &patterns, &palette, 0, (&patterns_end - &patterns), (&palette_end - &palette), BG_16COLORS, 0x4000);
+    bgInitTileSet(0, &pvsneslib_til, &pvsneslib_pal, 0, (&pvsneslib_tilend - &pvsneslib_til), (&pvsneslib_palend - &pvsneslib_pal), BG_16COLORS, 0x4000);
 
     // Copy Map to VRAM
-    bgInitMapSet(0, &map, (&map_end - &map), SC_32x32, 0x0000);
+    bgInitMapSet(0, &pvsneslib_map, (&pvsneslib_mapend - &pvsneslib_map)*2, SC_32x32, 0x0000);
 
     // Now Put in 16 color mode and disable other BGs except 1st one
     setMode(BG_MODE1, 0);
@@ -33,7 +31,7 @@ int main(void)
     setScreenOn();
 
 	// Initialize the gradient color effect 
-	setModeHdmaColor((u8 *) &hdmaGradientList);
+	setModeHdmaColor((u8 *) &hdmaGradgradientList);
 	pada=0; padb=0;
 	
     // Wait for nothing :P
@@ -54,7 +52,7 @@ int main(void)
 		// put it again with key b
 		if (pad0 & KEY_B) {
 			padb=1;
-			setModeHdmaColor((u8 *) &hdmaGradientList);
+			setModeHdmaColor((u8 *) &hdmaGradgradientList);
 		}
 		else padb=0;
 

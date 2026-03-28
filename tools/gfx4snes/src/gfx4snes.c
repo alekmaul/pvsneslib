@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-	Copyright (C) 2012-2025
+	Copyright (C) 2012-2026
 		Alekmaul 
 
 	This software is provided 'as-is', without any express or implied
@@ -64,6 +64,7 @@ static cmdp_command_st gfx4snes_command = {
 			{'o', "pal-col-output", "number of colors to output to filename.pal {0..256}", CMDP_TYPE_INT4, &gfx4snes_args.paletteoutput},
 			{'p', "pal-output", "include palette for output", CMDP_TYPE_BOOL, &gfx4snes_args.palettesave},
 			{'u', "pal-col-use", "number of colors to use {4,16,128,[256]}", CMDP_TYPE_INT4, &gfx4snes_args.palettecolors},
+			{'n', "pal-gradient", "palette gradient for output", CMDP_TYPE_BOOL, &gfx4snes_args.palettegradient},
             {0, 0, "Files options:\n", CMDP_TYPE_NONE, NULL,NULL},
             {'i', "file-input", "png or bmp image to convert", CMDP_TYPE_STRING_PTR, &gfx4snes_args.filebase},
             {'t', "file-type", "convert a png or bmp file", CMDP_TYPE_STRING_PTR, &gfx4snes_args.filetype, .type_name = "<png,bmp>"},
@@ -88,7 +89,7 @@ unsigned char *tiles_snes_mt=NULL;																	// tiles in snes format when 
 void display_version(void)
 {
 	printf("gfx4snes ("GFX4SNESVERSION") version "GFX4SNESDATE"");
-    printf("\nCopyright (c) 2013-2025 Alekmaul");
+    printf("\nCopyright (c) 2013-2026 Alekmaul");
     printf("\nBased on pcx2snes by Neviksti\n\n");
 	exit (EXIT_SUCCESS);
 }
@@ -150,82 +151,91 @@ int main(int argc, const char **argv)
 		nbtiles++;
 	}
 
-	// if we generate a map 
-	if ( gfx4snes_args.mapoutput)
+	// if we generate gradient
+	if (gfx4snes_args.palettegradient) 
 	{
-		// convert tiles to a snes format (8x8)
-		tiles_snes=tiles_convertsnes (snesimage.buffer, snesimage.header.width, snesimage.header.height, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, &nbtilesx, &nbtiles, 8, gfx4snes_args.quietmode);
-
-		// if we want to make palettes before, just do it !
-		if (gfx4snes_args.paletterearrange) 
-		{
-			palette_rearrange_snes(snesimage.buffer, (int *)&palette_snes, nbtiles, gfx4snes_args.palettecolors, gfx4snes_args.quietmode);
-		}
-
-		// convert map to a snes format if needed and /!\ optimize tiles in tiles_snes
-		map_snes = map_convertsnes(tiles_snes, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, blksx, blksy, gfx4snes_args.palettecolors, gfx4snes_args.paletteentry, gfx4snes_args.mapscreenmode, gfx4snes_args.notilereduction, gfx4snes_args.tileblank, gfx4snes_args.map32pages, gfx4snes_args.tileflip, gfx4snes_args.quietmode);
-
-		// save now the map 
-		map_save (gfx4snes_args.filebase, map_snes,gfx4snes_args.mapscreenmode, blksx, blksy, gfx4snes_args.tileoffset,gfx4snes_args.maphighpriority, gfx4snes_args.quietmode);
+		gradient_extractcolors(&snesimage,gfx4snes_args.quietmode);
+		gradient_save(gfx4snes_args.filebase,gfx4snes_args.quietmode);
 	}
-	// no map, only tiles (for sprites or meta sprites certainly)
-	else 
-	{
-		if (gfx4snes_args.metasprite) // specific case to have the correct map implementation for metasprites
+	else { // no, so image processing
+		// if we generate a map 
+		if ( gfx4snes_args.mapoutput)
 		{
 			// convert tiles to a snes format (8x8)
-			tiles_snes_mt=tiles_convertsnes (snesimage.buffer, snesimage.header.width, snesimage.header.height, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, &nbtilesx, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.quietmode);
+			tiles_snes=tiles_convertsnes (snesimage.buffer, snesimage.header.width, snesimage.header.height, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, &nbtilesx, &nbtiles, 8, gfx4snes_args.quietmode);
 
-			// convert map to a snes format if needed and /!\ optimize tiles in tiles_snes_mt
-			// debug fprintf(stdout,"meta blksx=%d blksy=%d tilewidth=%d tileheight=%d\n",blksx,blksy,gfx4snes_args.tilewidth, gfx4snes_args.tileheight);
-			map_snes = map_convertsnes(tiles_snes_mt, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, blksx, blksy, gfx4snes_args.palettecolors, gfx4snes_args.paletteentry, 0, 1, 0, 0, 0, gfx4snes_args.quietmode);
+			// if we want to make palettes before, just do it !
+			if (gfx4snes_args.paletterearrange) 
+			{
+				palette_rearrange_snes(snesimage.buffer, (int *)&palette_snes, nbtiles, gfx4snes_args.palettecolors, gfx4snes_args.quietmode);
+			}
 
-			// save metasprites
-			metasprite_save (gfx4snes_args.filebase, map_snes, blksx, blksy, gfx4snes_args.tilesize, gfx4snes_args.metawidth, gfx4snes_args.metaheight, gfx4snes_args.metapriority, snesimage.header.width, snesimage.header.height, gfx4snes_args.quietmode);
+			// convert map to a snes format if needed and /!\ optimize tiles in tiles_snes
+			map_snes = map_convertsnes(tiles_snes, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, blksx, blksy, gfx4snes_args.palettecolors, gfx4snes_args.paletteentry, gfx4snes_args.mapscreenmode, gfx4snes_args.notilereduction, gfx4snes_args.tileblank, gfx4snes_args.map32pages, gfx4snes_args.tileflip, gfx4snes_args.quietmode);
 
-			// convert again in SNES block format
-			// -> seems to bug :() tiles_snes_nomap=tiles_convertsnes (tiles_snes_mt, blksx*gfx4snes_args.tilewidth, blksy*gfx4snes_args.tileheight, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, &blksx, &blksy, 16*8, gfx4snes_args.quietmode);
-			free(tiles_snes_mt);
+			// save now the map 
+			map_save (gfx4snes_args.filebase, map_snes,gfx4snes_args.mapscreenmode, blksx, blksy, gfx4snes_args.tileoffset,gfx4snes_args.maphighpriority, gfx4snes_args.quietmode);
 		}
-		//else {
-			// first conversion in SNES image block format (meta sprite uses same mechanism)
-			tiles_snes_nomap=tiles_convertsnes (snesimage.buffer, snesimage.header.width, snesimage.header.height, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, &blksx, &blksy, 16*8, gfx4snes_args.quietmode);
-		//}
+		// no map, only tiles (for sprites or meta sprites certainly)
+		else 
+		{
+			if (gfx4snes_args.metasprite) // specific case to have the correct map implementation for metasprites
+			{
+				// convert tiles to a snes format (8x8)
+				tiles_snes_mt=tiles_convertsnes (snesimage.buffer, snesimage.header.width, snesimage.header.height, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, &nbtilesx, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.quietmode);
 
-		// now re-arrange into a list of 8x8 blocks for easy conversion
-		//fprintf(stdout,"NORM TILES blksx=%d blksy=%d tilewidth=%d tileheight=%d\n",blksx,blksy,gfx4snes_args.tilewidth, gfx4snes_args.tileheight);
-		blksx *= gfx4snes_args.tilewidth/8;
-		blksy *= gfx4snes_args.tileheight/8;
-		//fprintf(stdout,"NORM  blksx=%d blksy=%d\n",blksx,blksy);
+				// convert map to a snes format if needed and /!\ optimize tiles in tiles_snes_mt
+				// debug fprintf(stdout,"meta blksx=%d blksy=%d tilewidth=%d tileheight=%d\n",blksx,blksy,gfx4snes_args.tilewidth, gfx4snes_args.tileheight);
+				map_snes = map_convertsnes(tiles_snes_mt, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, blksx, blksy, gfx4snes_args.palettecolors, gfx4snes_args.paletteentry, 0, 1, 0, 0, 0, gfx4snes_args.quietmode);
 
-		// second  conversion in SNES image block format
-		tiles_snes=tiles_convertsnes (tiles_snes_nomap, blksx*8, blksy*8, 8, 8, &blksx, &blksy, 8, gfx4snes_args.quietmode);
-		free(tiles_snes_nomap);
+				// save metasprites
+				metasprite_save (gfx4snes_args.filebase, map_snes, blksx, blksy, gfx4snes_args.tilesize, gfx4snes_args.metawidth, gfx4snes_args.metaheight, gfx4snes_args.metapriority, snesimage.header.width, snesimage.header.height, gfx4snes_args.quietmode);
 
-		//debug fprintf(stdout,"blksx=%d blksy=%d tilewidth=%d tileheight=%d\n",blksx,blksy,gfx4snes_args.tilewidth, gfx4snes_args.tileheight);
+				// convert again in SNES block format
+				// -> seems to bug :() tiles_snes_nomap=tiles_convertsnes (tiles_snes_mt, blksx*gfx4snes_args.tilewidth, blksy*gfx4snes_args.tileheight, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, &blksx, &blksy, 16*8, gfx4snes_args.quietmode);
+				free(tiles_snes_mt);
+			}
+			//else {
+				// first conversion in SNES image block format (meta sprite uses same mechanism)
+				tiles_snes_nomap=tiles_convertsnes (snesimage.buffer, snesimage.header.width, snesimage.header.height, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, &blksx, &blksy, 16*8, gfx4snes_args.quietmode);
+			//}
 
-		nbtiles=blksx*blksy;
-		//}
+			// now re-arrange into a list of 8x8 blocks for easy conversion
+			//fprintf(stdout,"NORM TILES blksx=%d blksy=%d tilewidth=%d tileheight=%d\n",blksx,blksy,gfx4snes_args.tilewidth, gfx4snes_args.tileheight);
+			blksx *= gfx4snes_args.tilewidth/8;
+			blksy *= gfx4snes_args.tileheight/8;
+			//fprintf(stdout,"NORM  blksx=%d blksy=%d\n",blksx,blksy);
+
+			// second  conversion in SNES image block format
+			tiles_snes=tiles_convertsnes (tiles_snes_nomap, blksx*8, blksy*8, 8, 8, &blksx, &blksy, 8, gfx4snes_args.quietmode);
+			free(tiles_snes_nomap);
+
+			//debug fprintf(stdout,"blksx=%d blksy=%d tilewidth=%d tileheight=%d\n",blksx,blksy,gfx4snes_args.tilewidth, gfx4snes_args.tileheight);
+
+			nbtiles=blksx*blksy;
+			//}
+		}
+
+		// save tiles
+		if ((gfx4snes_args.tilepacked) || (gfx4snes_args.mapscreenmode==7))
+		{
+			tiles_savepacked (gfx4snes_args.filebase, tiles_snes,nbtiles, gfx4snes_args.tileblank, gfx4snes_args.quietmode);
+		}
+		else
+		{
+			tiles_save (gfx4snes_args.filebase, tiles_snes,nbtiles, gfx4snes_args.palettecolors, gfx4snes_args.tileblank, gfx4snes_args.tilelzpacked,gfx4snes_args.quietmode);
+		}
+
+		// save palette if needed
+		if (gfx4snes_args.palettesave)
+		{
+			palette_save (gfx4snes_args.filebase,(int *) &palette_snes,gfx4snes_args.paletteoutput , gfx4snes_args.quietmode);
+		}
+
+		// save header file
+		inc_save(gfx4snes_args.filebase,true, gfx4snes_args.mapoutput, gfx4snes_args.palettesave,gfx4snes_args.metasprite,(gfx4snes_args.tilepacked) || (gfx4snes_args.mapscreenmode==7), gfx4snes_args.quietmode);
+
 	}
-
-	// save tiles
-	if ((gfx4snes_args.tilepacked) || (gfx4snes_args.mapscreenmode==7))
-	{
-		tiles_savepacked (gfx4snes_args.filebase, tiles_snes,nbtiles, gfx4snes_args.tileblank, gfx4snes_args.quietmode);
-	}
-	else
-	{
-		tiles_save (gfx4snes_args.filebase, tiles_snes,nbtiles, gfx4snes_args.palettecolors, gfx4snes_args.tileblank, gfx4snes_args.tilelzpacked,gfx4snes_args.quietmode);
-	}
-
-	// save palette if needed
-	if (gfx4snes_args.palettesave)
-	{
-		palette_save (gfx4snes_args.filebase,(int *) &palette_snes,gfx4snes_args.paletteoutput , gfx4snes_args.quietmode);
-	}
-
-	// save header file
-	inc_save(gfx4snes_args.filebase,true, gfx4snes_args.mapoutput, gfx4snes_args.palettesave,gfx4snes_args.metasprite,(gfx4snes_args.tilepacked) || (gfx4snes_args.mapscreenmode==7), gfx4snes_args.quietmode);
 
 	// free memory used for image processing
 	if (map_snes != NULL) free(map_snes);

@@ -175,7 +175,6 @@ cmdp_action_t argument_callback(cmdp_process_param_st *params)
 	{
 		fatal("incorrect value for palette color to use [%d]\nconversion terminated.", gfx4snes_args.palettecolors); // exit gfx4snes at this point
 	}
-
 #if 0
 	// TEST parameters option
 	for (int i = 0; i < params->argc; i++)

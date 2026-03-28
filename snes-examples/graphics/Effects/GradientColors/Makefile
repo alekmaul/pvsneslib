@@ -18,5 +18,9 @@ pvsneslib.pic: pvsneslib.png
 	@echo convert bitmap ... $(notdir $@)
 	$(GFXCONV) -s 8 -o 16 -u 16 -p -m -i $<
 
-bitmaps : pvsneslib.pic
+gradient_grad_data.as: gradient.bmp
+	@echo make gradient list ... $(notdir $@)
+	$(GFXCONV) -n -t bmp -i $<
+
+bitmaps : pvsneslib.pic gradient_grad_data.as
 

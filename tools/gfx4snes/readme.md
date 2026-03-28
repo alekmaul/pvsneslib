@@ -57,7 +57,7 @@ where filename is a 256 color PNG or BMP file
 
 ### Misc options 
 - `-q` Quiet mode  
-- `-v` Display version information
+- `-v` Display version information  
   
 ## Example 
 ```
