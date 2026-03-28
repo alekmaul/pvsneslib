@@ -57,6 +57,8 @@ extern u16 bg_L1[32 * 32]; /*!< \brief The buffer to use when updating the whole
 
 extern u8 mapupdbuf; /*!< \brief State of buffer update (vert / horiz / all) */
 
+extern u16 mapwidth,mapheight; /* !< \brief Width and Height of the map in pixels */
+
 extern u16 x_pos, y_pos; /*!< \brief Current value of camera in x & y coordinates */
 
 /*!	\fn mapLoad(u8 *layer1map, u8 *layertiles, u8 *tilesprop)
