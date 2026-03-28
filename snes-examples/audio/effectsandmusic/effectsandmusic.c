@@ -131,7 +131,7 @@ int main(void)
             if (keyrpressed == 0)
             {
                 keyrpressed  = 1;
-				if (i<5) i++;
+				if (i<4) i++;
 				if (i==0) 
 					consoleDrawText(5, 14, "Effect: tada            ");
 				else if (i==1) 
