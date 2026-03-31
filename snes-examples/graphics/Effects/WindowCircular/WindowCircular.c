@@ -1,5 +1,5 @@
 /*---------------------------------------------------------------------------------
-    Window circular demo
+    Window circular demo in mode 1
     -- alekmaul
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
@@ -14,66 +14,77 @@ u8 hdmaCircleL[226];
 u8 hdmaCircleR[226];
 
 s16 rloop;                                   // loop for iris in & out
-u8 y;                                       // circle y line computation
-u8 i;                                       // loop variable
-u8 hw,dy;                                   // for calculation
+u8 i,hw,dy;                                  // for calculation
 u16 r2, dy2;                                // for calculation
+u8 x1,x2;                                   // for calculation
+
+// NOTE: Does not pause execution if a pad 0 key is currently pressed.
+void WaitForKey() {
+    while (padsCurrent(0) == 0) {
+        WaitForVBlank();
+    }
+}
 
 //---------------------------------------------------------------------------------
 void buildCircleHdma(u8 cx, u8 cy, u8 radius) {
-    r2 = (u16)radius * radius;   // max 16384 — fits u16
+    r2 = radius * radius;   // max 16384 — fits u16
     hw = radius;
     
-    i  = 0;
-    hdmaCircleL[i] = hdmaCircleR[i] = 0xE0;   // repeat header: 224 lines
-    i++;
+    // Set HDMA header and terminator
+    hdmaCircleL[0] = hdmaCircleR[0] = 0xE0;
+    hdmaCircleL[SCREEN_H + 1] = hdmaCircleR[SCREEN_H + 1] = 0x00;
 
-    for (y = 0; y < SCREEN_H; y++, i++) {
-        dy  = (y < cy) ? (cy - y) : (y - cy);
-        dy2 = (u16)dy * dy;   // max 12544 — fits u16
-
-        if (dy2 >= r2) {
-            hdmaCircleL[i] = 0xFF;
-            hdmaCircleR[i] = 0x00;
-            hw = 0;
-        }
-        else {
-            // hw*hw + dy2 max = 16384 + 12544 = 28928 — fits u16
-            while (hw > 0 && (u16)(hw * hw) + dy2 > r2)
-                hw--;
-
-            hdmaCircleL[i] = (hw > cx)       ? 0   : (cx - hw);
-            hdmaCircleR[i] = (cx + hw > 255) ? 255 : (cx + hw);
-        }
-
-        if (y == cy)
-            hw = radius;   // reset for bottom half
+    // Pre-fill all scanlines as "outside circle" (closed window)
+    for (i = 1; i <= SCREEN_H; i++) {
+        hdmaCircleL[i] = 0xFF;
+        hdmaCircleR[i] = 0x00;
     }
-    hdmaCircleL[i] = hdmaCircleR[i] = 0x00;   // terminator
+
+    // Walk outward from center, fill both halves symmetrically
+    for (dy = 0; (dy <= cy) && (dy < SCREEN_H); dy++) {
+        // Decrease hw while (hw,dy) is outside circle
+        while (hw > 0 && (u16)(hw * hw) + (u16)(dy * dy) > r2)
+            hw--;
+
+        // Once hw reaches 0 and we are outside, all further scanlines stay closed
+        if (hw == 0 && (u16)(dy * dy) > r2)
+            break;
+        
+        x1 = (hw >= cx)           ? 0   : (cx - hw);
+        x2 = ((u16) (cx + hw) > 255) ? 255 : (cx + hw);
+
+        // Top half (index = scanline + 1 because byte 0 is the header)
+        hdmaCircleL[cy - dy + 1] = x1;
+        hdmaCircleR[cy - dy + 1] = x2;
+
+        // Bottom half (symmetric, skip if same scanline as top)
+        if ((dy > 0) && ((u16) (cy + dy) < SCREEN_H) ) {
+            hdmaCircleL[cy + dy + 1] = x1;
+            hdmaCircleR[cy + dy + 1] = x2;
+        }
+    }
 }
 
 void irisIn(s16 cx, s16 cy) {
     s16 r;
 
     buildCircleHdma(cx, cy, MAX_RADIUS);
-    setModeHdmaWindow(MSWIN_BG1 | MSWIN_BG2,
-                      MSWIN1_BG1MSKENABLE | MSWIN1_BG2MSKENABLE,
-                      hdmaCircleL, hdmaCircleR);
+    setModeHdmaWindow(MSWIN_BG1 | MSWIN_BG2, MSWIN1_BG1MSKENABLE | MSWIN1_BG2MSKENABLE, hdmaCircleL, hdmaCircleR);
     for (rloop = MAX_RADIUS; r >= 0; rloop -= 3) {
         WaitForVBlank();
         buildCircleHdma(cx, cy, (u8) rloop);
+        WaitForKey();
     }
 }
 
 void irisOut(s16 cx, s16 cy) {
     buildCircleHdma(cx, cy, 0);
-    setModeHdmaWindow(MSWIN_BG1 | MSWIN_BG2,
-                      MSWIN1_BG1MSKENABLE | MSWIN1_BG2MSKENABLE,
-                      hdmaCircleL, hdmaCircleR);
+    setModeHdmaWindow(MSWIN_BG1 | MSWIN_BG2, MSWIN1_BG1MSKENABLE | MSWIN1_BG2MSKENABLE, hdmaCircleL, hdmaCircleR);
 
     for (rloop = 0; rloop <= 128; rloop += 3) {
         WaitForVBlank();
         buildCircleHdma(cx, cy, (u8) rloop);
+        WaitForKey();
     }
 
     setModeHdmaWindowReset(HDMA_CHANNEL4 | HDMA_CHANNEL5);
@@ -93,14 +104,17 @@ int main(void) {
     bgSetDisable(2);
     setScreenOn();
 
-    irisIn(128, 112);    // close to screen center
+    WaitForKey();
 
-    // ... swap level data here ...
-
-    irisOut(128, 112);   // open from screen center
-
-    while (1)
+    while (1) {
+        irisOut(128, 112);   // open from screen center
         WaitForVBlank();
+        WaitForKey();
+
+        irisIn(128, 112);    // close to screen center
+        WaitForVBlank();
+        WaitForKey();
+    }
 
     return 0;
 }
