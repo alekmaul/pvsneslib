@@ -59,8 +59,6 @@
  - \ref object.h "Objects management"
  - \ref map.h "map management"
  
- /*TODO \ ref states.h "States game management"*/
-
  \section misc_api Miscellaneous functions
  - \ref scores.h "Scoring management"
 
@@ -193,7 +191,6 @@
 #include "snes/scores.h"
 #include "snes/sound.h"
 #include "snes/sprite.h"
-// TODO #include "snes/states.h"
 #include "snes/video.h"
 
 #endif // SNES_INCLUDE
