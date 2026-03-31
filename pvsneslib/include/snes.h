@@ -192,7 +192,7 @@
 #include "snes/scores.h"
 #include "snes/sound.h"
 #include "snes/sprite.h"
-#include "snes/states.h"
+// TODO #include "snes/states.h"
 #include "snes/video.h"
 
 #endif // SNES_INCLUDE
