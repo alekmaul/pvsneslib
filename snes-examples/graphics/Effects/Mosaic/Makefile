@@ -8,7 +8,7 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 #---------------------------------------------------------------------------------
 # ROMNAME is used in snes_rules file
-export ROMNAME := MosaicShading
+export ROMNAME := Mosaic
 
 all: bitmaps $(ROMNAME).sfc
 
