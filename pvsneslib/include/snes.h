@@ -58,6 +58,7 @@
  \section engine_api Engine API functions
  - \ref object.h "Objects management"
  - \ref map.h "map management"
+ - \ref states.h "States game management"
 
  \section misc_api Miscellaneous functions
  - \ref scores.h "Scoring management"
@@ -75,6 +76,7 @@
  - <a href="http://code.google.com/p/neo-myth-menu/">Neoflash Menu google code. </a>
  - <a href="http://www.devkitpro.org/">Devkitpro team for pvsneslib structure (lib, makefile, examples, and so on ...). </a>
  - <a href="https://github.com/undisbeliever/castle_platformer">undisbeliever for his great platform code example on github. </a>
+ - <a href="https://github.com/k0b3n4irb">Kobenairb for the port of python optimiser to c version, docker images, building scripts harmonisation and cleaning and the tcc-816 upgrade. </a>
  - <a href="https://github.com/DigiDwrf">digidwrf for fastrom / hirom support, mouse and superscope support. </a>
 */
 
@@ -102,7 +104,7 @@
     \example graphics/Effects/Fading/Fading.c
     \example graphics/Effects/GradientColors/GradientColors.c
     \example graphics/Effects/HDMAGradient/HDMAGradient.c
-    \example graphics/Effects/MosaicShading/MosaicShading.c
+    \example graphics/Effects/Mosaic/Mosaic.c
     \example graphics/Effects/ParallaxScrolling/ParallaxScrolling.c
     \example graphics/Effects/Transparency/Transparency.c
     \example graphics/Effects/TransparentWindow/src/main.c
@@ -115,6 +117,7 @@
     \example graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c
     \example graphics/Sprites/DynamicSprite/DynamicSprite.c
     \example graphics/Sprites/ObjectSize/ObjectSize.c
+    \example graphics/Sprites/MetaSprite/MetaSprite.c
     \example graphics/Sprites/SimpleSprite/SimpleSprite.c
 
     <!-- palettes -->
@@ -125,9 +128,6 @@
     \example input/mouse/mouse.c
     \example input/multiplay5/multiplay5.c
     \example input/superscope/superscope.c
-
-    <!-- timing -->
-    \example timer/timer.c
 
     <!-- games -->
     \example games/likemario/LikeMario.c
@@ -143,6 +143,7 @@
     <!-- maps -->
     \example maps/mapscroll/mapscroll.c
     \example maps/tiled/tiled.c
+    \example maps/slopemario/slopemario.c
 
     <!-- objects -->
     \example objects/mapandobjects/mapandobjects.c
@@ -153,21 +154,26 @@
     \example debug/debug.c
     \example breakpoints/src/breakpoints.c
 
-    <!-- random display -->
-    \example random/random.c
-
     <!-- sram -->
     \example sram/sramoffset/sramoffset.c
     \example sram/sramsimple/sram.c
-
-    <!-- scoring -->
-    \example scoring/scoring.c
 
     <!-- region test, console type and rom type -->
     \example testregion/testregion.c
     \example typeconsole/src/pal_ntsc.c
     \example memory_mapping/src/memory_mapping.c
 
+    <!-- benchmark -->
+    \example benchmark/src/benchmark.c
+
+    <!-- misc examples -->
+    \example arithmetic/src/arithmetic.c
+    \example random/random.c
+    \example scoring/scoring.c
+    \example snes-logo-capcom/src/main.c
+    \example snes-logo-konami/src/main.c
+    \example snes-logo-pvsneslib/src/main.c
+    \example timer/timer.c
 */
 
 #ifndef SNES_INCLUDE
@@ -178,6 +184,7 @@
 #include "snes/background.h"
 #include "snes/console.h"
 #include "snes/dma.h"
+#include "snes/fixed.h"
 #include "snes/input.h"
 #include "snes/interrupt.h"
 #include "snes/map.h"
@@ -185,6 +192,7 @@
 #include "snes/scores.h"
 #include "snes/sound.h"
 #include "snes/sprite.h"
+#include "snes/states.h"
 #include "snes/video.h"
 
 #endif // SNES_INCLUDE
