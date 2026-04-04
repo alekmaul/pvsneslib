@@ -3,117 +3,145 @@
     -- alekmaul
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
-#include <math.h>
+
+#include <string.h>
+#include <stdlib.h>
 
 #include "pvsneslibbg1.inc"
 
-#define SCREEN_H   224
-#define MAX_RADIUS 128
+#define INCDIR               2                  // The more it is ,t he faster it is
+#define MAXRADIUS          160                  // 160 is enough to cover the whole screen 256x224
 
-u8 hdmaCircleL[226];
-u8 hdmaCircleR[226];
+extern u8 circle_buffer[113];
+extern u8 hdma_table_L[224 * 2 + 1];           
+extern u8 hdma_table_R[224 * 2 + 1]; 
 
-s16 rloop;                                   // loop for iris in & out
-u8 i,hw,dy;                                  // for calculation
-u16 r2, dy2;                                // for calculation
-u8 x1,x2;                                   // for calculation
 
-// NOTE: Does not pause execution if a pad 0 key is currently pressed.
-void WaitForKey() {
+extern void update_iris_bresenham(u16 r);
+
+//---------------------------------------------------------------------------------
+u8 radius;
+s8 dir;
+
+//---------------------------------------------------------------------------------
+void WaitForKey() { 
     while (padsCurrent(0) == 0) {
         WaitForVBlank();
     }
+    while (padsCurrent(0) != 0) {
+        WaitForVBlank();
+    }
 }
 
 //---------------------------------------------------------------------------------
-void buildCircleHdma(u8 cx, u8 cy, u8 radius) {
-    r2 = radius * radius;   // max 16384 — fits u16
-    hw = radius;
-    
-    // Set HDMA header and terminator
-    hdmaCircleL[0] = hdmaCircleR[0] = 0xE0;
-    hdmaCircleL[SCREEN_H + 1] = hdmaCircleR[SCREEN_H + 1] = 0x00;
+// c source code here but too slow, did the same in assmbly labguage
+#if 0
+u8 *ptrL,*ptrR;                                 // for faster access
+u16 i;                                           // loop variable
+#define cy 112
+#define cx 128
 
-    // Pre-fill all scanlines as "outside circle" (closed window)
-    for (i = 1; i <= SCREEN_H; i++) {
-        hdmaCircleL[i] = 0xFF;
-        hdmaCircleR[i] = 0x00;
-    }
+void update_iris_bresenham(u16 r) {
+    //int x = 0;
+    //int y = r;
+    //int d = 3 - 2 * r;
 
-    // Walk outward from center, fill both halves symmetrically
-    for (dy = 0; (dy <= cy) && (dy < SCREEN_H); dy++) {
-        // Decrease hw while (hw,dy) is outside circle
-        while (hw > 0 && (u16)(hw * hw) + (u16)(dy * dy) > r2)
-            hw--;
+    // 1. Reset the buffer
+    memset(circle_buffer,0x00,113);
 
-        // Once hw reaches 0 and we are outside, all further scanlines stay closed
-        if (hw == 0 && (u16)(dy * dy) > r2)
-            break;
-        
-        x1 = (hw >= cx)           ? 0   : (cx - hw);
-        x2 = ((u16) (cx + hw) > 255) ? 255 : (cx + hw);
-
-        // Top half (index = scanline + 1 because byte 0 is the header)
-        hdmaCircleL[cy - dy + 1] = x1;
-        hdmaCircleR[cy - dy + 1] = x2;
-
-        // Bottom half (symmetric, skip if same scanline as top)
-        if ((dy > 0) && ((u16) (cy + dy) < SCREEN_H) ) {
-            hdmaCircleL[cy + dy + 1] = x1;
-            hdmaCircleR[cy + dy + 1] = x2;
+    // 2. Standard Bresenham
+    /*
+    if (r > 0) {
+        while (y >= x) {
+            if (y <= 112) circle_buffer[y] = x;
+            if (x <= 112) circle_buffer[x] = y;
+            if (d < 0) {
+                d = d + (4 * x) + 6;
+            } else {
+                d = d + 4 * (x - y) + 10;
+                y--;
+            }
+            x++;
         }
     }
-}
+    */
 
-void irisIn(s16 cx, s16 cy) {
-    s16 r;
+    // 3. Transfer to HDMA
+    ptrL = hdma_table_L;
+    ptrR = hdma_table_R;
 
-    buildCircleHdma(cx, cy, MAX_RADIUS);
-    setModeHdmaWindow(MSWIN_BG1 | MSWIN_BG2, MSWIN1_BG1MSKENABLE | MSWIN1_BG2MSKENABLE, hdmaCircleL, hdmaCircleR);
-    for (rloop = MAX_RADIUS; r >= 0; rloop -= 3) {
-        WaitForVBlank();
-        buildCircleHdma(cx, cy, (u8) rloop);
-        WaitForKey();
+    for (i = 0; i < 224; i++) {
+        s16 dist_y = abs(i - cy); // ((i-cy) ^0xFFFF)+1;//
+        u16 half_width = 0;
+
+        if (dist_y < r && dist_y <= 112) {
+            half_width = circle_buffer[dist_y];
+        }
+
+        s16 left = cx - half_width;
+        s16 right = cx + half_width;
+
+        // FIX: If half_width is 0, the circle doesn't exist on this line.
+        // We set Left to 255 and Right to 0. 
+        // Since Left > Right, the SNES Window logic will result in 0 pixels being masked.
+        if (half_width == 0) {
+            left = 255; 
+            right = 0;
+        } else {
+            // Standard bounds clipping
+            if (left < 0) left = 0;
+            if (right > 255) right = 255;
+            
+            // Extra safety: if they ended up equal, nudge them to avoid the 1-pixel glitch
+            if (left == right) {
+                left = 255;
+                right = 0;
+            }
+        }
+
+        *ptrL++ = 1; *ptrL++ = (u8)left;
+        *ptrR++ = 1; *ptrR++ = (u8)right;
     }
+    *ptrL = 0; *ptrR = 0;
 }
-
-void irisOut(s16 cx, s16 cy) {
-    buildCircleHdma(cx, cy, 0);
-    setModeHdmaWindow(MSWIN_BG1 | MSWIN_BG2, MSWIN1_BG1MSKENABLE | MSWIN1_BG2MSKENABLE, hdmaCircleL, hdmaCircleR);
-
-    for (rloop = 0; rloop <= 128; rloop += 3) {
-        WaitForVBlank();
-        buildCircleHdma(cx, cy, (u8) rloop);
-        WaitForKey();
-    }
-
-    setModeHdmaWindowReset(HDMA_CHANNEL4 | HDMA_CHANNEL5);
-}
+#endif
 
 //---------------------------------------------------------------------------------
 int main(void) {
-    // Copy tiles to VRAM
-    bgInitTileSet(0, &pvsneslibbg1_til, &pvsneslibbg1_pal, 0, (&pvsneslibbg1_tilend - &pvsneslibbg1_til), (&pvsneslibbg1_palend - &pvsneslibbg1_pal), BG_16COLORS, 0x4000);
 
-    // Copy Map to VRAM
+    // Copy tiles & Map to VRAM
+    bgInitTileSet(0, &pvsneslibbg1_til, &pvsneslibbg1_pal, 0, (&pvsneslibbg1_tilend - &pvsneslibbg1_til), (&pvsneslibbg1_palend - &pvsneslibbg1_pal), BG_16COLORS, 0x4000);
     bgInitMapSet(0, &pvsneslibbg1_map, (&pvsneslibbg1_mapend - &pvsneslibbg1_map)*2, SC_32x32, 0x0000);
 
-    // Now Put in 16 color mode and disable other BGs except 1st and 2nd one
+    // Now Put in 16 color mode and disable other BGs except 1st one
     setMode(BG_MODE1, 0);
     bgSetDisable(1);
     bgSetDisable(2);
     setScreenOn();
 
-    WaitForKey();
+    // Prepare circle effect witht the two tables
+    setModeHdmaWindow(MSWIN_BG1, MSWIN1_BG1MSKENABLE | MSWIN1_BG1MSKOUT, hdma_table_L, hdma_table_R);
+    radius = 0;
+    dir = INCDIR; 
 
+    // global loop of iris effect
     while (1) {
-        irisOut(128, 112);   // open from screen center
-        WaitForVBlank();
-        WaitForKey();
+        // Calculate and Update HDMA tables
+        update_iris_bresenham(radius);
+        //update_iris_bresenham(0x40);
 
-        irisIn(128, 112);    // close to screen center
+        radius += dir;
+        if (radius >= MAXRADIUS) {
+            radius = MAXRADIUS;
+            dir = -INCDIR;
+            WaitForKey();
+        }
+        if (radius <= 0) {
+            radius = 0;
+            dir = INCDIR;
+            WaitForKey();
+        }
         WaitForVBlank();
-        WaitForKey();
     }
 
     return 0;
