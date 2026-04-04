@@ -8,10 +8,11 @@
 
 
 //---------------------------------------------------------------------------------
-
-// NOTE: Does not pause execution if a pad 0 key is currently pressed.
 void WaitForKey() {
     while (padsCurrent(0) == 0) {
+        WaitForVBlank();
+    }
+    while (padsCurrent(0) != 0) {
         WaitForVBlank();
     }
 }
@@ -36,12 +37,10 @@ int main(void)
     while (1) {
         // Now do some big pixels
         setMosaicEffect(MOSAIC_OUT, MOSAIC_BG1);
-        WaitForVBlank();
         WaitForKey();
 
         // And now restore screen to normal
         setMosaicEffect(MOSAIC_IN, MOSAIC_BG1);
-        WaitForVBlank();
         WaitForKey();
     }
     return 0;
