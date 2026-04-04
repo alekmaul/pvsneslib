@@ -128,7 +128,6 @@ int main(void) {
     while (1) {
         // Calculate and Update HDMA tables
         update_iris_bresenham(radius);
-        //update_iris_bresenham(0x40);
 
         radius += dir;
         if (radius >= MAXRADIUS) {
