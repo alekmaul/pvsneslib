@@ -3,8 +3,7 @@
 .ramsection ".reg_vblanks" bank $7f slot 0
 
 circle_buffer   dsb  113                     ;  Only need half the screen height
-hdma_table_L    dsb  224 * 2 + 1             ; 1 byte line count + 1 byte left or right + 1 terminator
-hdma_table_R    dsb  224 * 2 + 1 
+hdma_table_LR    dsb  224 * 3 + 1 
 
 fcdval          dw
 fcdx            dw
@@ -173,14 +172,14 @@ _fchide_line:
 
 _fcwriteta:    
     lda #$01                                  ; Line count byte
-    sta hdma_table_L,y
-    sta hdma_table_R,y
+    sta hdma_table_LR,y
     iny
 
     lda fctmpl
-    sta hdma_table_L,y
+    sta hdma_table_LR,y
+    iny
     lda fctmpr
-    sta hdma_table_R,y
+    sta hdma_table_LR,y
     rep #$20
     iny
     
@@ -193,8 +192,7 @@ _fcnext_line:
 _fcend:
     sep #$20
     lda #0          
-    sta hdma_table_L,y     ; Terminator
-    sta hdma_table_R,y
+    sta hdma_table_LR,y
 
     ply
     plx

@@ -9,12 +9,12 @@
 
 #include "pvsneslibbg1.inc"
 
-#define INCDIR               2                  // The more it is ,t he faster it is
+#define INCDIR               4                  // The more it is ,t he faster it is
 #define MAXRADIUS          160                  // 160 is enough to cover the whole screen 256x224
 
 extern u8 circle_buffer[113];
-extern u8 hdma_table_L[224 * 2 + 1];           
-extern u8 hdma_table_R[224 * 2 + 1]; 
+extern u8 hdma_table_LR[224 * 3 + 1]; 
+u8 hdma_table_LRB[224 * 3 + 1]; 
 
 
 extern void update_iris_bresenham(u16 r);
@@ -36,7 +36,7 @@ void WaitForKey() {
 //---------------------------------------------------------------------------------
 // c source code here but too slow, did the same in assmbly labguage
 #if 0
-u8 *ptrL,*ptrR;                                 // for faster access
+u8 *ptrLR;                                       // for faster access
 u16 i;                                           // loop variable
 #define cy 112
 #define cx 128
@@ -67,8 +67,7 @@ void update_iris_bresenham(u16 r) {
     */
 
     // 3. Transfer to HDMA
-    ptrL = hdma_table_L;
-    ptrR = hdma_table_R;
+    ptrLR = hdma_table_LR;
 
     for (i = 0; i < 224; i++) {
         s16 dist_y = abs(i - cy); // ((i-cy) ^0xFFFF)+1;//
@@ -99,10 +98,9 @@ void update_iris_bresenham(u16 r) {
             }
         }
 
-        *ptrL++ = 1; *ptrL++ = (u8)left;
-        *ptrR++ = 1; *ptrR++ = (u8)right;
+        *ptrLR++ = 1; *ptrLR++ = (u8)left; *ptrLR++ = (u8)right;
     }
-    *ptrL = 0; *ptrR = 0;
+    *ptrLR = 0;
 }
 #endif
 
@@ -120,7 +118,7 @@ int main(void) {
     setScreenOn();
 
     // Prepare circle effect witht the two tables
-    setModeHdmaWindow(MSWIN_BG1, MSWIN1_BG1MSKENABLE | MSWIN1_BG1MSKOUT, hdma_table_L, hdma_table_R);
+    setModeHdmaWindowEx(MSWIN_BG1, MSWIN1_BG1MSKENABLE | MSWIN1_BG1MSKOUT, hdma_table_LRB);
     radius = 0;
     dir = INCDIR; 
 
@@ -128,6 +126,7 @@ int main(void) {
     while (1) {
         // Calculate and Update HDMA tables
         update_iris_bresenham(radius);
+        memcpy(hdma_table_LRB,hdma_table_LR,224*3+1); // to avoid glitch on screen when calculating new values
 
         radius += dir;
         if (radius >= MAXRADIUS) {
