@@ -312,7 +312,7 @@ extern u8 videoModeSub; /*!< \brief Current value of REG_TS in RAM */
 
 extern u16 snes_frame_count; /*!< \brief Number of frame per second (need a call to videoGetFrames() once a frame)*/
 
-extern u8 mirrorINIDISP;  /*!< \brief Cuurent value of REG_INIDISP in RAM to know if screen is on or not */
+extern u8 mirrorINIDISP;  /*!< \brief Current value of REG_INIDISP in RAM to know if screen is on or not */
 
 
 /*! \fn  setBrightness(u8 level)
