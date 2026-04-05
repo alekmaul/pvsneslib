@@ -79,6 +79,8 @@ videoModeSub        DSB 1
 bgCnt               DSB 1
 iloc                DSB 1
 
+mirrorINIDISP       DSB 1
+
 .ENDS
 
 .RAMSECTION ".reg_video7e_matrix" BANK $7E SLOT RAMSLOT_0
@@ -139,7 +141,8 @@ setFadeEffect:
     jsl     WaitForVBlank
     ; A,X,Y unchanged
     txa
-    sta.l   REG_INIDISP
+    sta.l REG_INIDISP
+    sta.l mirrorINIDISP                                      ; Save value in RAM
     inx
     cpx #$10
     bne -
@@ -157,7 +160,8 @@ _fadeouteffect:
     jsl     WaitForVBlank
     ; A,X,Y unchanged
     txa
-    sta.l   REG_INIDISP
+    sta.l REG_INIDISP
+    sta.l mirrorINIDISP                                      ; Save value in RAM
     dex
     bpl -
 
@@ -196,7 +200,8 @@ setFadeEffectEx:
     bne --
 
     txa
-    sta.l   REG_INIDISP
+    sta.l REG_INIDISP
+    sta.l mirrorINIDISP                                      ; Save value in RAM
     inx
     cpx #$10
     bne -
@@ -219,7 +224,8 @@ _sfeex1:
     bne --
 
     txa
-    sta.l   REG_INIDISP
+    sta.l REG_INIDISP
+    sta.l mirrorINIDISP                                      ; Save value in RAM
     dex
     bpl -
 
@@ -308,6 +314,7 @@ setScreenOn:
 
     lda   #$f
     sta.l REG_INIDISP
+    sta.l mirrorINIDISP                                      ; Save value in RAM
 
     plp
     rtl
@@ -320,6 +327,7 @@ setScreenOff:
     sep #$20
     lda #DSP_FORCEVBL                                         ; force vblank before putting screen off
     sta.l REG_INIDISP                                         ; Screen brightness
+    sta.l mirrorINIDISP                                      ; Save value in RAM
 
     plp
     rtl
@@ -373,7 +381,8 @@ setBrightness:
 
 _sbv1:
     sta.l   REG_INIDISP         ; Screen brightness
-
+    sta.l mirrorINIDISP                                      ; Save value in RAM
+    
     plp
     rtl
 
