@@ -21,7 +21,7 @@ fctmpl          db
 .16bit
 
 ;---------------------------------------------------------------------------------
-; void fastcalc(u16 r) {
+; void update_iris_bresenham(u16 r);
 ; 10-11
 update_iris_bresenham:
     php
