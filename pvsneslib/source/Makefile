@@ -68,8 +68,8 @@ endif
 	@rm -f *.ps
 
 #---------------------------------------------------------------------------------
-libc.obj: libc.asm libc_c.asm
-libc_c.asm: libc_c.c $(C_SRC) sm_spc.asm
+libc.obj: libc.asm libc_c.tccasm
+libc_c.tccasm: libc_c.c $(C_SRC) sm_spc.asm
 libc_c.c: $(C_SRC)
 libm.obj: libm.asm
 

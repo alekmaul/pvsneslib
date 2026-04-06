@@ -450,7 +450,7 @@ exitl4:
 
 .ENDS
 
-.include "libc_c.asm"
+.include "libc_c.tccasm"
 
 .DEFINE RAMSLOT_0 0
 .ifdef HIROM
