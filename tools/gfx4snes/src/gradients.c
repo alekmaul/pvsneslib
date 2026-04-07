@@ -116,7 +116,7 @@ void gradient_extractcolors(t_image *img, bool isquiet)
 // isquiet = 0 if we want some messages in console
 void gradient_save (const char *filename, bool isquiet)
 {
-	char *outputname;
+	char *outputname, *incname;
 	char strval[128],strcol[128];
 	FILE *fp;
 	int i, row_len;
@@ -145,8 +145,16 @@ void gradient_save (const char *filename, bool isquiet)
 
 	if (!isquiet) info("saving gradient asm data file [%s]...",outputname);
 
+	// get special case where folder is in name
+	incname = strrchr (filename, '/');
+	if (incname==NULL) {
+		incname = filename;
+	}
+	else  // go after the /
+		incname++;
+
 	// write data ...
-    fprintf(fp, "hdmaGrad%sList:\n", filename);
+    fprintf(fp, "hdmaGrad%sList:\n", incname);
 
 	strcpy(strval,"");
 	row_len=0;
