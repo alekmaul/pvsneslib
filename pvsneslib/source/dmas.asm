@@ -732,8 +732,8 @@ setModeHdmaWindowReset:
 
 .SECTION ".dmas13_text" SUPERFREE
 
-; void setModeHdmaColor(u8* hdmatable)
-; 5-8
+; void setModeHdmaColor(u8 channel, u8* hdmatable)
+; 5 6-9
 setModeHdmaColor:
     php
 
@@ -748,14 +748,15 @@ setModeHdmaColor:
     lda #$21
     sta.l   $4361                                             ; 0x00 Screen display register  -> so we control brightness
 
-    lda 7,s                                                   ; src bank
+    lda 8,s                                                   ; src bank
     sta.l   $4364
 
     rep #$20
-    lda 5,s                                                   ; src (lower 16 bits)
+    lda 6,s                                                   ; src (lower 16 bits)
     sta.l   $4362
 
-    lda #$40                                                  ; Enable HDMA channel 6
+    sep #$20
+    lda 5,s                                                  ; Enable HDMA channel x
     sta.l   REG_HDMAEN
 
     plp
@@ -765,8 +766,8 @@ setModeHdmaColor:
 
 ;.SECTION ".dmas14_text" SUPERFREE
 
-; void setModeHdmaWaves(u8 bgNumber)
-; 8
+; void setModeHdmaWaves(u8 channel, u8 bgrnd)
+; 8 9
 setModeHdmaWaves:
     php
     phb
@@ -796,7 +797,7 @@ _smhw01:
 
     lda #$42                                                  ; indirect mode = the 0100 0000 bit ($40)
     sta.l $4360                                               ; 1 register, write twice
-    lda 8,s                                                   ; 0=bg1, 1=bg2
+    lda 9,s                                                   ; 0=bg1, 1=bg2
     cmp #1
     beq +
     lda #$0d                                                  ; BG1HOFS horizontal scroll bg1
@@ -811,7 +812,8 @@ _smhw01:
     lda #$7e
     sta.l $4367                                               ; indirect address bank
 
-    lda #$40                                                  ; channel 6
+    sep #$20
+    lda 8,s                                                  ; Enable HDMA channel x
     sta.l   REG_HDMAEN
 
     plx
@@ -957,8 +959,8 @@ _waveTable:
 
 .SECTION ".dmas14_text" SUPERFREE
 
-; void setModeHdmaWindow(u8 bgrnd, u8 bgrndmask,u8* hdmatableL,u8* hdmatableR)
-; 8 9 10-13 14-17
+; void setModeHdmaWindow(u8 channels, u8 bgrnd, u8 bgrndmask,u8* hdmatableL,u8* hdmatableR)
+; 8 9 10 11-14 15-18
 setModeHdmaWindow:
     php
     phb
@@ -969,43 +971,43 @@ setModeHdmaWindow:
     pha
     plb
 
-    lda 8,s                                                   ; got all the flags to active windows on BG1..4
+    lda 9,s                                                   ; got all the flags to active windows on BG1..4
     ora #$10                                                  ; also add obj in window effect
     sta REG_TMW                                               ; active or not window
 
-    lda 8,s
+    lda 9,s
     and #$0C                                                  ; if effect on BG3 or BG4, not same register
     bne +
-    lda 9,s                                                   ; got all the flags to mask effect (inside, outside on BG1..2)
+    lda 10,s                                                   ; got all the flags to mask effect (inside, outside on BG1..2)
     sta REG_W12SEL
     bra ++
 +:
-    lda 9,s                                                   ; got all the flags to mask effect (inside, outside on BG3..4)
+    lda 10,s                                                   ; got all the flags to mask effect (inside, outside on BG3..4)
     sta REG_W34SEL
 
-++: lda 9,s                                                   ; todo : find a way to manage easily objects -> currently, it works only for BG1
+++: lda 10,s                                                   ; todo : find a way to manage easily objects -> currently, it works only for BG1
     sta REG_WOBJSEL
 
     stz REG_DMAP4                                             ; 1 register, write once
     lda #$26                                                  ; 2126  Window 1 Left Position (X1)
     sta REG_BBAD4                                             ; destination
-    lda 12,s                                                  ; bank address of left  table
+    lda 13,s                                                  ; bank address of left  table
     sta REG_A1B4
 
     stz $4350                                                 ; 1 register, write once
     lda #$27                                                  ; 2127 Window 1 Right Position (X2)
     sta $4351
-    lda 16,s                                                  ; bank address of right table
+    lda 17,s                                                  ; bank address of right table
     sta $4354
 
     rep #$20
-    lda 10,s                                                  ; low address of left table
+    lda 11,s                                                  ; low address of left table
     sta REG_A1T4LH                                            ; low address of right table
-    lda 14,s
+    lda 15,s
     sta $4352
 
     sep #$20
-    lda #$30                                                  ; channel 4 & 5       00110000
+    lda 8,s                                                  ; Enable HDMA channel x & y, need two registers !
     sta.l   REG_HDMAEN
 
     plx
@@ -1017,8 +1019,8 @@ setModeHdmaWindow:
 
 .SECTION ".dmas15_text" SUPERFREE
 
-; void setModeHdmaWindowEx(u8 bgrnd, u8 bgrndmask,u8* hdmatable)
-; 8 9 10-13
+; void setModeHdmaWindowEx(u8 channel, u8 bgrnd, u8 bgrndmask,u8* hdmatable)
+; 8 9 10 11-14
 setModeHdmaWindowEx:
     php
     phb
@@ -1029,37 +1031,37 @@ setModeHdmaWindowEx:
     pha
     plb
 
-    lda 8,s                                                   ; got all the flags to active windows on BG1..4
+    lda 9,s                                                   ; got all the flags to active windows on BG1..4
     ora #$10                                                  ; also add obj in window effect
     sta REG_TMW                                               ; active or not window
 
-    lda 8,s
+    lda 9,s
     and #$0C                                                  ; if effect on BG3 or BG4, not same register
     bne +
-    lda 9,s                                                   ; got all the flags to mask effect (inside, outside on BG1..2)
+    lda 10,s                                                   ; got all the flags to mask effect (inside, outside on BG1..2)
     sta REG_W12SEL
     bra ++
 +:
-    lda 9,s                                                   ; got all the flags to mask effect (inside, outside on BG3..4)
+    lda 10,s                                                   ; got all the flags to mask effect (inside, outside on BG3..4)
     sta REG_W34SEL
 
-++: lda 9,s                                                   ; todo : find a way to manage easily objects -> currently, it works only for BG1
+++: lda 10,s                                                   ; todo : find a way to manage easily objects -> currently, it works only for BG1
     sta REG_WOBJSEL
 
     lda #$01                                                  ; Mode 1 (2 bytes to $21xx, $21xx+1)
     sta REG_DMAP4                                             ; 
     lda #$26                                                  ; 2126  Window 1 Left Position (X1) (X2 will be done because of auto increment)
     sta REG_BBAD4                                             ; destination
-    lda 12,s                                                  ; bank address of left  table
+    lda 13,s                                                  ; bank address of left  table
     sta REG_A1B4
 
     rep #$20
-    lda 10,s                                                  ; low address of left & right table
+    lda 11,s                                                  ; low address of left & right table
     sta REG_A1T4LH                                            ; 
 
     sep #$20
-    lda #$10                                                  ; channel 4        00010000
-    sta.l REG_HDMAEN
+    lda 8,s                                                  ; Enable HDMA channel x 
+    sta.l   REG_HDMAEN
 
     plx
     plb

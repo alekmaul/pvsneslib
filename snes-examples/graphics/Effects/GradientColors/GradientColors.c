@@ -27,7 +27,7 @@ int main(void)
     setScreenOn();
 
 	// Initialize the gradient color effect 
-	setModeHdmaColor((u8 *) &hdmaGradgradientList);
+	setModeHdmaColor(HDMA_CHANNEL6, (u8 *) &hdmaGradgradientList);
 	pada=0; padb=0;
 	
     // Wait for nothing :P
@@ -48,7 +48,7 @@ int main(void)
 		// put it again with key b
 		if (pad0 & KEY_B) {
 			padb=1;
-			setModeHdmaColor((u8 *) &hdmaGradgradientList);
+			setModeHdmaColor(HDMA_CHANNEL6, (u8 *) &hdmaGradgradientList);
 		}
 		else padb=0;
 

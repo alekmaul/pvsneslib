@@ -66,7 +66,7 @@ int main(void)
     setScreenOn();
 
 	// Initialize the window effect on bg1 & bg2
-	setModeHdmaWindow(MSWIN_BG1 | MSWIN_BG2, MSWIN1_BG1MSKENABLE | MSWIN1_BG2MSKENABLE | MSWIN1_BG1MSKOUT | MSWIN1_BG2MSKOUT, (u8 *) &tablelefttriangle, (u8 *) &tablerighttriangle);
+	setModeHdmaWindow(HDMA_CHANNEL4 | HDMA_CHANNEL5, MSWIN_BG1 | MSWIN_BG2, MSWIN1_BG1MSKENABLE | MSWIN1_BG2MSKENABLE | MSWIN1_BG1MSKOUT | MSWIN1_BG2MSKOUT, (u8 *) &tablelefttriangle, (u8 *) &tablerighttriangle);
 
     // Wait for nothing :P
     while (1)
@@ -78,7 +78,7 @@ int main(void)
 		if (pad0 & KEY_A) {
 			if (!pada) {
 				pada=1;
-				setModeHdmaWindow(MSWIN_BG1, MSWIN1_BG1MSKENABLE | MSWIN1_BG1MSKOUT, (u8 *) &tablelefttriangle, (u8 *) &tablerighttriangle);			
+				setModeHdmaWindow(HDMA_CHANNEL4 | HDMA_CHANNEL5, MSWIN_BG1, MSWIN1_BG1MSKENABLE | MSWIN1_BG1MSKOUT, (u8 *) &tablelefttriangle, (u8 *) &tablerighttriangle);			
 			}
 		}
 		else pada=0;
@@ -87,7 +87,7 @@ int main(void)
 		if (pad0 & KEY_X) {
 			if (!padx) {
 				padx=1;
-				setModeHdmaWindow(MSWIN_BG2, MSWIN1_BG2MSKENABLE | MSWIN1_BG2MSKOUT, (u8 *) &tablelefttriangle, (u8 *) &tablerighttriangle);			
+				setModeHdmaWindow(HDMA_CHANNEL4 | HDMA_CHANNEL5, MSWIN_BG2, MSWIN1_BG2MSKENABLE | MSWIN1_BG2MSKOUT, (u8 *) &tablelefttriangle, (u8 *) &tablerighttriangle);			
 			}
 		}
 		else padx=0;
@@ -97,7 +97,7 @@ int main(void)
 		if (pad0 & KEY_B) {
 			if (!padb) {
 				padb=1;
-				setModeHdmaWindow(MSWIN_BG1 | MSWIN_BG2, MSWIN1_BG1MSKENABLE | MSWIN1_BG2MSKENABLE | MSWIN1_BG1MSKOUT | MSWIN1_BG2MSKOUT, (u8 *) &tablelefttriangle, (u8 *) &tablerighttriangle);
+				setModeHdmaWindow(HDMA_CHANNEL4 | HDMA_CHANNEL5, MSWIN_BG1 | MSWIN_BG2, MSWIN1_BG1MSKENABLE | MSWIN1_BG2MSKENABLE | MSWIN1_BG1MSKOUT | MSWIN1_BG2MSKOUT, (u8 *) &tablelefttriangle, (u8 *) &tablerighttriangle);
 			}
 		}
 		else padb=0;

@@ -352,38 +352,42 @@ void setModeHdmaReset(u8 channels);
 */
 void setModeHdmaWindowReset(u8 channels);
 
-/*! \fn  setModeHdmaColor(u8* hdmatable)
+/*! \fn  void setModeHdmaColor(u8 channel, u8* hdmatable)
     \brief Do a color gradient effect on screen (with color 0). Use HDMA Channels 6.
+    \param channel channel to use HDMA_CHANNEL0..HDMA_CHANNEL7 
     \param hdmatable table with gradient colors
 */    
-void setModeHdmaColor(u8* hdmatable);
+void setModeHdmaColor(u8 channel, u8* hdmatable);
 
-/*! \fn  setModeHdmaWaves(u8 bgrnd)
+/*! \fn  void setModeHdmaWaves(u8 channel, u8 bgrnd)
     \brief Do a waves effect on screen (init function). Use HDMA Channels 6.
+    \param channel channel to use HDMA_CHANNEL0..HDMA_CHANNEL7 
     \param bgrnd background for the wave effect (value 0..1)
 */    
-void setModeHdmaWaves(u8 bgrnd);
+void setModeHdmaWaves(u8 channel, u8 bgrnd);
 
 /*! \fn  setModeHdmaWavesMove(void)
     \brief Animate the waves effect. Must be called during each frame.<br> setModeHdmaWaves must have been done to init it.
 */
 void setModeHdmaWavesMove(void);
 
-/*! \fn  setModeHdmaWindow(u8 bgrnd, u8* hdmatableL,u8* hdmatableR)
+/*! \fn  void setModeHdmaWindow(u8 channels, u8 bgrnd, u8 bgrndmask,u8* hdmatableL,u8* hdmatableR)
     \brief Do a window  effect on screen. Use HDMA Channels 4 & 5.
+    \param channels channels to use HDMA_CHANNEL0..HDMA_CHANNEL7  /!\ 2 channels to activate ! (ex:HDMA_CHANNEL4| HDMA_CHANNEL5)
     \param bgrnd background for the windows effect  (value MSWIN_BG1..MSWIN_BG4)
     \param bgrndmask background mask (inside, outside) for the windows effect  (value MSWIN1_BG13MSKIN..MSWIN1_BG13MSKIN)
     \param hdmatableL table with windows effect on the left
     \param hdmatableR table with windows effect on the right
 */    
-void setModeHdmaWindow(u8 bgrnd, u8 bgrndmask,u8* hdmatableL,u8* hdmatableR);
+void setModeHdmaWindow(u8 channels, u8 bgrnd, u8 bgrndmask,u8* hdmatableL,u8* hdmatableR);
 
-/*! \fn  setModeHdmaWindowEx(u8 bgrnd, u8 bgrndmask,u8* hdmatable)
+/*! \fn  void setModeHdmaWindowEx(u8 channel, u8 bgrnd, u8 bgrndmask,u8* hdmatable)
     \brief Do a window  effect on screen. Use HDMA Channels.
+    \param channel channel to use HDMA_CHANNEL0..HDMA_CHANNEL7 
     \param bgrnd background for the windows effect  (value MSWIN_BG1..MSWIN_BG4)
     \param bgrndmask background mask (inside, outside) for the windows effect  (value MSWIN1_BG13MSKIN..MSWIN1_BG13MSKIN)
     \param hdmatable table with windows effect on the left & right side
 */    
-void setModeHdmaWindowEx(u8 bgrnd, u8 bgrndmask,u8* hdmatable);
+void setModeHdmaWindowEx(u8 channel, u8 bgrnd, u8 bgrndmask,u8* hdmatable);
 
 #endif // SNES_DMA_INCLUDE

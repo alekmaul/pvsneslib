@@ -31,7 +31,7 @@ int main(void)
     setScreenOn();
 
 	// Initialize the wave effect
-	setModeHdmaWaves(0);
+	setModeHdmaWaves(HDMA_CHANNEL4 , 0);
 	pada=0; padb=0;
 
     // Wait for nothing :P
@@ -52,7 +52,7 @@ int main(void)
 		// put it again with key b
 		if (pad0 & KEY_B) {
 			padb=1;
-			setModeHdmaWaves(0);
+			setModeHdmaWaves(HDMA_CHANNEL4 , 0);
 		}
 		else padb=0;
 
