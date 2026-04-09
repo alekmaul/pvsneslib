@@ -30,6 +30,16 @@ SPECIAL THANKS
 
 CHANGE LOG
 ----------------------
+VERSION V4.6.0 (xxx,xx,2026)
+- Add gfx4snes option to create gradient features (for HDMA processes)
+- See github changelog of the release
+
+VERSION V4.5.0 (December,28,2025)
+- See github changelog of the release
+
+VERSION V4.4.0 (March,8,2025)
+- See github changelog of the release
+
 VERSION V4.3.0 (June,10,2024)
 - See github changelog of the release
 
