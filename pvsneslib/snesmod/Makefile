@@ -20,6 +20,8 @@ sm_spc.asm : sm_spc_wla.asm sm_spc_wla.link
 	$(WLALINK) -b sm_spc_wla.link sm_spc_tmp.bin
 	@mv sm_spc_tmp.bin sm_spc.bin
 	$(TXCONV) -ca sm_spc.bin
+	@echo copying sm_spc.asm in source ...
+	@cp sm_spc.asm ../source/
 	@rm -f sm_spc_wla.obj sm_spc.bin
 
 #---------------------------------------------------------------------------------

@@ -19,6 +19,7 @@ CFLAGS	+=	-I${PVSNESLIB_HOME}/devkitsnes/include \
 
 export SNESOBJS = crt0_snes.obj libm.obj libtcc.obj libc.obj
 
+export PVSSPCDIR = ${PVSNESLIB_HOME}/pvsneslib/snesmod
 
 #---------------------------------------------------------------------------------
 %.ps: %.c
@@ -68,16 +69,10 @@ endif
 	@rm -f *.ps
 
 #---------------------------------------------------------------------------------
-libc.obj: libc.asm libc_c.tccasm
-libc_c.tccasm: libc_c.c $(C_SRC) sm_spc.asm
+libc.obj: libc.asm libc_c.tccasm 
+libc_c.tccasm: libc_c.c $(C_SRC) 
 libc_c.c: $(C_SRC)
 libm.obj: libm.asm
-
-#---------------------------------------------------------------------------------
-#sm_spc.asm : sm_spc2.as7
-#	$(AS700) -i -o sm_spc.obj $<
-#	$(TXCONV) -ca sm_spc.obj
-#	@rm sm_spc.obj
 
 #---------------------------------------------------------------------------------
 clean:

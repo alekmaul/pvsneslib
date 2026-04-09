@@ -10,10 +10,13 @@ export PVSNESLIB_MINOR := 6
 export PVSNESLIB_PATCH := 0
 export PVSNESLIB_VERSION := $(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
 
+# Directory for spc700 driver
+export PVSSPCDIR := $(TOPDIR)/snesmod
+
 # Directory with docs config and output (via doxygen)
 export PVSDOCSDIR := $(TOPDIR)/docs
 
-all: include/snes/libversion.h pvsneslibversion release docs
+all: include/snes/libversion.h pvsneslibversion release docs spc700
 
 HIROM_VALUES := 0 1
 FASTROM_VALUES := 0 1
@@ -28,6 +31,7 @@ release: lib
 	)
 
 build:
+	@$(MAKE) -C snesmod all
 	@$(MAKE) -C source all
 
 lib:
@@ -38,6 +42,7 @@ lib:
 	@mkdir -p $@/HiROM_FastROM
 
 clean:
+	$(MAKE) -C snesmod clean
 	$(MAKE) -C source clean
 	@if [ "$(KEEP_LIB)" -eq 0 ]; then \
 		rm -rf $(PVSDOCSDIR)/html; \
@@ -97,4 +102,4 @@ pvsneslibversion:
 	@echo $(PVSNESLIB_VERSION) > pvsneslib_version.txt
 
 # Declare the phony targets
-.PHONY: release clean all docs
+.PHONY: release clean all docs spc700
