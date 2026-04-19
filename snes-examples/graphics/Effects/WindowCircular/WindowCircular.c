@@ -118,7 +118,7 @@ int main(void) {
     setScreenOn();
 
     // Prepare circle effect witht the two tables
-    setModeHdmaWindowEx(HDMA_CHANNEL4 | HDMA_CHANNEL5, MSWIN_BG1, MSWIN1_BG1MSKENABLE | MSWIN1_BG1MSKOUT, hdma_table_LRB);
+    setModeHdmaWindowEx(HDMA_CHANNEL4, MSWIN_BG1, MSWIN1_BG1MSKENABLE | MSWIN1_BG1MSKOUT, 0,  hdma_table_LRB);
     radius = 0;
     dir = INCDIR; 
 

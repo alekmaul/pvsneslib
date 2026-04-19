@@ -49,27 +49,28 @@
 #define HDMA_CHANNELALL			(HDMA_CHANNEL0 | HDMA_CHANNEL1 | HDMA_CHANNEL2 | HDMA_CHANNEL3 | HDMA_CHANNEL4 | HDMA_CHANNEL5 | HDMA_CHANNEL6 | HDMA_CHANNEL7)
 
 /*!	\brief Bit defines for the window area main screen effect */
-#define MSWIN_BG1               (1 << 0) /*!< \brief Main Screen BG1 disable background */
-#define MSWIN_BG2               (1 << 1) /*!< \brief Main Screen BG2 disable background */
-#define MSWIN_BG3               (1 << 2) /*!< \brief Main Screen BG3 disable background */
-#define MSWIN_BG4               (1 << 3) /*!< \brief Main Screen BG4 disable background */
+#define MSWIN_BG1               (1 << 0) /*!< \brief Main Screen BG1 effect enable */
+#define MSWIN_BG2               (1 << 1) /*!< \brief Main Screen BG2 effect enable */
+#define MSWIN_BG3               (1 << 2) /*!< \brief Main Screen BG3 effect enable */
+#define MSWIN_BG4               (1 << 3) /*!< \brief Main Screen BG4 effect enable */
 
 #define MSWIN1_BG1MSKOUT        (1 << 0) /*!< \brief Window 1 area BG1 inside (0) outside(1) */
-#define MSWIN1_BG1MSKENABLE     (2 << 0) /*!< \brief Window 1 area BG1 enable */
+#define MSWIN1_BG1MSKENABLE     (1 << 1) /*!< \brief Window 1 area BG1 enable */
 #define MSWIN2_BG1MSKOUT        (1 << 2) /*!< \brief Window 2 area BG1 inside (0) outside(1) */
-#define MSWIN2_BG1MSKENABLE     (2 << 2) /*!< \brief Window 2 area BG1 enable */
+#define MSWIN2_BG1MSKENABLE     (1 << 3) /*!< \brief Window 2 area BG1 enable */
 #define MSWIN1_BG2MSKOUT        (1 << 4) /*!< \brief Window 1 area BG2 inside (0) outside(1) */
-#define MSWIN1_BG2MSKENABLE     (2 << 4) /*!< \brief Window 1 area BG2 enable */
-#define MSWIN2_BG2MSKOUT        (1 << 4) /*!< \brief Window 2 area BG2 inside (0) outside(1) */
-#define MSWIN2_BG2MSKENABLE     (2 << 4) /*!< \brief Window 2 area BG2 enable */
+#define MSWIN1_BG2MSKENABLE     (1 << 5) /*!< \brief Window 1 area BG2 enable */
+#define MSWIN2_BG2MSKOUT        (1 << 6) /*!< \brief Window 2 area BG2 inside (0) outside(1) */
+#define MSWIN2_BG2MSKENABLE     (1 << 7) /*!< \brief Window 2 area BG2 enable */
+
 #define MSWIN1_BG3MSKOUT        (1 << 0) /*!< \brief Window 1 area BG3 inside (0) outside(1) */
-#define MSWIN1_BG3MSKENABLE     (2 << 0) /*!< \brief Window 1 area BG3 enable */
+#define MSWIN1_BG3MSKENABLE     (1 << 1) /*!< \brief Window 1 area BG3 enable */
 #define MSWIN2_BG3MSKOUT        (1 << 2) /*!< \brief Window 2 area BG3 inside (0) outside(1) */
-#define MSWIN2_BG3MSKENABLE     (2 << 2) /*!< \brief Window 2 area BG3 enable */
+#define MSWIN2_BG3MSKENABLE     (1 << 3) /*!< \brief Window 2 area BG3 enable */
 #define MSWIN1_BG4MSKOUT        (1 << 4) /*!< \brief Window 1 area BG4 inside (0) outside(1) */
-#define MSWIN1_BG4MSKENABLE     (2 << 4) /*!< \brief Window 1 area BG4 enable */
-#define MSWIN2_BG4MSKOUT        (1 << 4) /*!< \brief Window 2 area BG4 inside (0) outside(1) */
-#define MSWIN2_BG4MSKENABLE     (2 << 4) /*!< \brief Window 2 area BG4 enable */
+#define MSWIN1_BG4MSKENABLE     (1 << 5) /*!< \brief Window 1 area BG4 enable */
+#define MSWIN2_BG4MSKOUT        (1 << 6) /*!< \brief Window 2 area BG4 inside (0) outside(1) */
+#define MSWIN2_BG4MSKENABLE     (1 << 7) /*!< \brief Window 2 area BG4 enable */
 
 /*!	\brief Bit defines for the DMA control registers */
 #define DMA_ENABLE 1
@@ -375,7 +376,7 @@ void setModeHdmaWavesMove(void);
     \brief Do a window  effect on screen. Use HDMA Channels 4 & 5.
     \param channels channels to use HDMA_CHANNEL0..HDMA_CHANNEL7  /!\ 2 channels to activate ! (ex:HDMA_CHANNEL4| HDMA_CHANNEL5)
     \param bgrnd background for the windows effect  (value MSWIN_BG1..MSWIN_BG4)
-    \param bgrndmask background mask (inside, outside) for the windows effect  (value MSWIN1_BG13MSKIN..MSWIN1_BG13MSKIN)
+    \param bgrndmask background mask (inside, outside) for the windows effect  (value MSWIN1_BG1MSKENABLE..MSWIN1_BG4MSKENABLE)
     \param hdmatableL table with windows effect on the left
     \param hdmatableR table with windows effect on the right
 */    
@@ -384,10 +385,11 @@ void setModeHdmaWindow(u8 channels, u8 bgrnd, u8 bgrndmask,u8* hdmatableL,u8* hd
 /*! \fn  void setModeHdmaWindowEx(u8 channel, u8 bgrnd, u8 bgrndmask,u8* hdmatable)
     \brief Do a window  effect on screen. Use HDMA Channels.
     \param channel channel to use HDMA_CHANNEL0..HDMA_CHANNEL7 
-    \param bgrnd background for the windows effect  (value MSWIN_BG1..MSWIN_BG4)
-    \param bgrndmask background mask (inside, outside) for the windows effect  (value MSWIN1_BG13MSKIN..MSWIN1_BG13MSKIN)
+    \param bgrnds backgrounds for the windows effect  (value MSWIN_BG1..MSWIN_BG4, | usable for multiple backgrounds)
+    \param bgrndmask background mask (inside, outside) for the windows effect BG1 & BG2 (value MSWIN1_BG1MSKENABLE..MSWIN1_BG2MSKENABLE)
+    \param bgrndmask background mask (inside, outside) for the windows effect BG3 & BG4 (value MSWIN1_BG3MSKENABLE..MSWIN1_BG4MSKENABLE)
     \param hdmatable table with windows effect on the left & right side
 */    
-void setModeHdmaWindowEx(u8 channel, u8 bgrnd, u8 bgrndmask,u8* hdmatable);
+void setModeHdmaWindowEx(u8 channel, u8 bgrnds, u8 bgrndmask12,u8 bgrndmask34,u8* hdmatable);
 
 #endif // SNES_DMA_INCLUDE

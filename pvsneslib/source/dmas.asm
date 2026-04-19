@@ -976,10 +976,12 @@ setModeHdmaWindow:
     sta REG_TMW                                               ; active or not window
 
     lda 9,s
-    and #$0C                                                  ; if effect on BG3 or BG4, not same register
-    bne +
+    and #$0C                                                  ; if effect on BG3 or BG4, not same register (00001100)
+    beq + 
     lda 10,s                                                   ; got all the flags to mask effect (inside, outside on BG1..2)
     sta REG_W12SEL
+    lda 9,s
+
     bra ++
 +:
     lda 10,s                                                   ; got all the flags to mask effect (inside, outside on BG3..4)
@@ -1019,8 +1021,8 @@ setModeHdmaWindow:
 
 .SECTION ".dmas15_text" SUPERFREE
 
-; void setModeHdmaWindowEx(u8 channel, u8 bgrnd, u8 bgrndmask,u8* hdmatable)
-; 8 9 10 11-14
+; void setModeHdmaWindowEx(u8 channel, u8 bgrnds, u8 bgrndmask12,u8 bgrndmask34,u8* hdmatable)
+; 8 9 10 11 12-15
 setModeHdmaWindowEx:
     php
     phb
@@ -1035,28 +1037,23 @@ setModeHdmaWindowEx:
     ora #$10                                                  ; also add obj in window effect
     sta REG_TMW                                               ; active or not window
 
-    lda 9,s
-    and #$0C                                                  ; if effect on BG3 or BG4, not same register
-    bne +
-    lda 10,s                                                   ; got all the flags to mask effect (inside, outside on BG1..2)
+    lda 10,s                                                  ; got all the flags to mask effect (inside, outside on BG1..2)
     sta REG_W12SEL
-    bra ++
-+:
-    lda 10,s                                                   ; got all the flags to mask effect (inside, outside on BG3..4)
+    lda 11,s                                                  ; got all the flags to mask effect (inside, outside on BG3..4)
     sta REG_W34SEL
 
-++: lda 10,s                                                   ; todo : find a way to manage easily objects -> currently, it works only for BG1
+    lda 10,s                                                  ; todo : find a way to manage easily objects -> currently, it works only for BG1
     sta REG_WOBJSEL
 
     lda #$01                                                  ; Mode 1 (2 bytes to $21xx, $21xx+1)
     sta REG_DMAP4                                             ; 
     lda #$26                                                  ; 2126  Window 1 Left Position (X1) (X2 will be done because of auto increment)
     sta REG_BBAD4                                             ; destination
-    lda 13,s                                                  ; bank address of left  table
+    lda 14,s                                                  ; bank address of left  table
     sta REG_A1B4
 
     rep #$20
-    lda 11,s                                                  ; low address of left & right table
+    lda 12,s                                                  ; low address of left & right table
     sta REG_A1T4LH                                            ; 
 
     sep #$20
