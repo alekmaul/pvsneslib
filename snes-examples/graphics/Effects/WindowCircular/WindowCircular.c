@@ -126,7 +126,9 @@ int main(void) {
     while (1) {
         // Calculate and Update HDMA tables
         update_iris_bresenham(radius);
-        memcpy(hdma_table_LRB,hdma_table_LR,224*3+1); // to avoid glitch on screen when calculating new values
+
+        // to avoid glitch on screen after calculating new values
+        memcpy(hdma_table_LRB,hdma_table_LR,224*3+1); 
 
         radius += dir;
         if (radius >= MAXRADIUS) {
