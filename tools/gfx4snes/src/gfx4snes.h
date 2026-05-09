@@ -52,6 +52,7 @@ typedef struct
     int metaheight;                                                             // height of the metasprite
 	int metapriority;                                                           // sprite priority (0..3)
 	int metalarge;                                                              // 1 = use large sprite size attribute
+	int metaflip;                                                               // metasprite flip: 0=none 1=flipx 2=flipy 3=flipx+flipy (separate variants) 4=flipxy (single combined variant)
 
     int paletteoutput;	            											// -1= not managed, number of color for palette output 
     int paletteentry;		        											// value of palette entry (0 to 15)

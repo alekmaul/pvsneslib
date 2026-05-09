@@ -33,6 +33,7 @@ where filename is a 256 color PNG or BMP file
 - `-X (0..128)` Width of the metasprite
 - `-Y (0..128)` Height of the metasprite
 - `-P (0..3)` Priority of the metasprite 
+- `-L (1..7)` Flipped metasprite variants: bit1=flipx bit2=flipy bit3=flipx+flipy (you can combine)
 
 ### Map options
 - `-f (0..2047)` Generate the whole picture with an offset for tile number {0..2047}

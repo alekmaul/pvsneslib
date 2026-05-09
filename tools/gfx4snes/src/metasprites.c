@@ -33,12 +33,28 @@
 
 #include "metasprites.h"
 
-//-------------------------------------------------------------------------------------------------
+// Return non-zero if every pixel of tile tileIdx in tilebuf is palette index 0. 
+static int tile_is_blank(unsigned char *tilebuf, int tileIdx, int blocksize)
+{
+    int npx = blocksize * blocksize;
+    unsigned char *p = tilebuf + tileIdx * npx;
+    int k;
+    for (k = 0; k < npx; k++) {
+        if (p[k] != 0) return 0;
+    }
+    return 1;
+}
+
 // filename = bitmap file name (png or bmp)
 // c = map contening id of each sprite tile
 // nbtilex,nbtiley = number of tiles to save (width and height)
+// metaflip = flip variants to generate:
+// tilebuf = raw pixel buffer (1 byte per pixel, palette-indexed) from tiles_convertsnes;
+//           tile index N occupies bytes [N * blocksize*blocksize .. (N+1)*blocksize*blocksize - 1]
+//           METASPR_ITEM entries are always skipped for tiles that are fully transparent (all pixels index 0)
 // isquiet = 0 if we want some messages in console
-void metasprite_save (const char *filename, unsigned short *sprites, int nbtilex, int nbtiley, int blocksize, int metasizex, int metasizey, int metaprio, int imgwidth, int imgheight, bool isquiet) {
+//void metasprite_save (const char *filename, unsigned short *sprites, int nbtilex, int nbtiley, int blocksize, int metasizex, int metasizey, int metaprio, int metaflip, int imgwidth, int imgheight, bool isquiet) {
+void metasprite_save (const char *filename, unsigned short *sprites, int nbtilex, int nbtiley, int blocksize, int metasizex, int metasizey, int metaprio, int metaflip, unsigned char *tilebuf, int imgwidth, int imgheight, bool isquiet) {
 	char *outputname, *incname;
 	FILE *fp;
     int i,x,y, nbmetasprites;
@@ -72,18 +88,7 @@ void metasprite_save (const char *filename, unsigned short *sprites, int nbtilex
     int nbsprx=metasizex/blocksize;   // size of metasprite / size of a block of sprite (8x8 or 16x16 sprites)
     int nbspry=metasizey/blocksize;   // same for tiles on Y
     int idxmetaspr=0;                 // incement to go to next entry
-    //int nbincrspr=imgwidth/blocksize; // not (nbsprx*nbspry)/nbtiley, don't work
-    int nbincrspr=(nbsprx*nbspry)/nbtiley; // not (nbsprx*nbspry)/nbtiley, don't work
-
-/*
-    fprintf(stdout,"map= \n"); 
-    for (i=0; i<(nbtilex*nbtiley);i++) {
-        fprintf(stdout,"%04d ",sprites[i]); 
-    };
-    fprintf(stdout,"\n");fflush(stdout);
-
-    fprintf(stdout,"nbsprx=%d nbspry=%d nbtilex=%d nbtiley=%d nbincrspr=%d\n",nbsprx,nbspry,nbtilex, nbtiley, nbincrspr); fflush(stdout);
-*/
+    int nbincrspr=(nbsprx*nbspry)/nbtiley; 
 
     if (imgwidth<imgheight) nbincrspr=(nbsprx*nbspry); // if it is a vert. image, do not divide
 
@@ -95,65 +100,139 @@ void metasprite_save (const char *filename, unsigned short *sprites, int nbtilex
 	else  // go after the /
 		incname++;
 
-#if 0
-    // SNES sprites are arranged in VRAM with 8 sprites per row (128 pixels wide)
-    // For 16x16 sprites: 8 sprites per row, for 32x32 sprites: 4 per row, for 8x8: 16 per row
-    int sprites_per_vram_row = 128 / blocksize;  // 8 for 16x16, 4 for 32x32, 16 for 8x8
-    int metasprites_per_vram_row = sprites_per_vram_row / nbsprx;  // how many metasprites fit per VRAM row
-#endif
+    // ---- base (no flip) variant ----
     for (i=0; i<nbmetasprites;i++)
     {
         int ofsmtx=0;
         int ofsmty=0;
         idxmetaspr=i*(nbincrspr);  // reset index for each metasprite (for palette access)
 
-#if 0
-        // Calculate base position of this metasprite in VRAM layout
-        int meta_base_x = (i % metasprites_per_vram_row) * nbsprx;
-        int meta_base_y = (i / metasprites_per_vram_row) * nbspry;
-#endif
-
         fprintf(fp, "const t_metasprite %s_metasprite%d[] = {\n", incname, i);
         for (y=0;y<nbspry;y++)
         {
             for (x=0;x<nbsprx;x++)
             {
-#if 0
-                // Calculate VRAM-layout-aware tile index
-                // This matches pvsneslib's lkup16idT lookup table which expects 8 sprites per row
-                int vram_tile_index = (meta_base_y + y) * sprites_per_vram_row + (meta_base_x + x);
-                fprintf(stdout,"vram_tile_index=%d sprites[idxmetaspr]=%d\n",vram_tile_index,sprites[idxmetaspr] & TILEIDX_MASK); fflush(stdout);
-#endif
+                if (!tile_is_blank(tilebuf, sprites[idxmetaspr] & TILEIDX_MASK, blocksize)) {
+                    fprintf(fp,
+                        "\tMETASPR_ITEM(%d, %d, %d, OBJ_PAL(%d) | OBJ_PRIO(%d)),\n",
+                        ofsmtx,ofsmty,sprites[idxmetaspr] & TILEIDX_MASK, ((sprites[idxmetaspr] & PALETTE_MASK)>>PALETTE_OFS), metaprio); 
 
-                fprintf(fp,
-                    "\tMETASPR_ITEM(%d, %d, %d, OBJ_PAL(%d) | OBJ_PRIO(%d)),\n",
-#if 0
-                    ofsmtx, ofsmty, vram_tile_index & TILEIDX_MASK, ((sprites[idxmetaspr] & PALETTE_MASK)>>PALETTE_OFS), metaprio
-#else
-                    ofsmtx,ofsmty,sprites[idxmetaspr] & TILEIDX_MASK, ((sprites[idxmetaspr] & PALETTE_MASK)>>PALETTE_OFS), metaprio
-#endif
-
-                ); // we need to manage flipx & flipy
+                }
                 ofsmtx+=blocksize;
                 idxmetaspr++;
             }
-            //fprintf(stdout,"idxmetaspr=%d\n",idxmetaspr);fflush (stdout);
             ofsmtx=0;                           // go back to x for the next one
             ofsmty+=blocksize;
             idxmetaspr += nbtilex-nbsprx;      // go to next line with correct offset
-            //fprintf(stdout,"idxmetaspr=%d %d\n",idxmetaspr,nbtilex-nbsprx);fflush (stdout);
         }
         fprintf(fp, "\tMETASPR_TERM\n");
         fprintf(fp, "};\n\n");
     }
 
+    // ---- flip X variant ---- 
+    if (metaflip & 1)
+    {
+        if (!isquiet) 
+        {
+            info("saving splited X metasprite file [%s] of (%d) sprites...",outputname,nbmetasprites);
+        }
+
+        for (i=0; i<nbmetasprites;i++)
+        {
+            idxmetaspr=i*(nbincrspr);
+            fprintf(fp, "const t_metasprite %s_metasprite%d[] = {\n", incname, i+nbmetasprites);
+            for (y=0;y<nbspry;y++)
+            {
+                for (x=0;x<nbsprx;x++)
+                {
+                    /* Mirror X offset: rightmost tile goes to offset 0, etc. */
+                    int mx = (nbsprx-1-x)*blocksize;
+                    if (!tile_is_blank(tilebuf, sprites[idxmetaspr] & TILEIDX_MASK, blocksize)) {
+                        fprintf(fp,
+                            "\tMETASPR_ITEM(%d, %d, %d, OBJ_PAL(%d) | OBJ_PRIO(%d) | OBJ_FLIPX),\n",
+                            mx, y*blocksize, sprites[idxmetaspr] & TILEIDX_MASK, ((sprites[idxmetaspr] & PALETTE_MASK)>>PALETTE_OFS), metaprio);
+                    }
+                    idxmetaspr++;
+                }
+                idxmetaspr += nbtilex-nbsprx;
+            }
+            fprintf(fp, "\tMETASPR_TERM\n");
+            fprintf(fp, "};\n\n");
+        }
+    }
+
+    // ---- flip Y variant ---- 
+    int nbtotmty=nbmetasprites+(metaflip & 1 ? nbmetasprites : 0);
+    if (metaflip & 2)
+    {
+        if (!isquiet) 
+        {
+            info("saving splited Y metasprite file [%s] of (%d) sprites...",outputname,nbmetasprites);
+        }
+        for (i=0; i<nbmetasprites;i++)
+        {
+            idxmetaspr=i*(nbincrspr);
+            fprintf(fp, "const t_metasprite %s_metasprite%d_flipy[] = {\n", incname, i+nbtotmty);
+            for (y=0;y<nbspry;y++)
+            {
+                for (x=0;x<nbsprx;x++)
+                {
+                    /* Mirror Y offset: bottom row goes to offset 0, etc. */
+                    int my = (nbspry-1-y)*blocksize;
+                    if (!tile_is_blank(tilebuf, sprites[idxmetaspr] & TILEIDX_MASK, blocksize)) {
+                        fprintf(fp,
+                            "\tMETASPR_ITEM(%d, %d, %d, OBJ_PAL(%d) | OBJ_PRIO(%d) | OBJ_FLIPY),\n",
+                            x*blocksize, my, sprites[idxmetaspr] & TILEIDX_MASK, ((sprites[idxmetaspr] & PALETTE_MASK)>>PALETTE_OFS), metaprio );
+                    }
+                    idxmetaspr++;
+                }
+                idxmetaspr += nbtilex-nbsprx;
+            }
+            fprintf(fp, "\tMETASPR_TERM\n");
+            fprintf(fp, "};\n\n");
+        }
+    }
+
+    // ---- flip X+Y combined variant ---- 
+    int nbtotmtxy=nbmetasprites+(metaflip & 1 ? nbmetasprites : 0)  + (metaflip & 2 ? nbmetasprites : 0);
+    if (metaflip & 4)
+    {
+        if (!isquiet) 
+        {
+            info("saving splited X/Y metasprite file [%s] of (%d) sprites...",outputname,nbmetasprites);
+        }
+
+        for (i=0; i<nbmetasprites;i++)
+        {
+            idxmetaspr=i*(nbincrspr);
+            fprintf(fp, "const t_metasprite %s_metasprite%d[] = {\n", incname, i+nbtotmtxy);
+            for (y=0;y<nbspry;y++)
+            {
+                for (x=0;x<nbsprx;x++)
+                {
+                    int mx = (nbsprx-1-x)*blocksize;
+                    int my = (nbspry-1-y)*blocksize;
+                    fprintf(fp,
+                        "\tMETASPR_ITEM(%d, %d, %d, OBJ_PAL(%d) | OBJ_PRIO(%d) | OBJ_FLIPX | OBJ_FLIPY),\n",
+                        mx, my, sprites[idxmetaspr] & TILEIDX_MASK, ((sprites[idxmetaspr] & PALETTE_MASK)>>PALETTE_OFS), metaprio );
+                    idxmetaspr++;
+                }
+                idxmetaspr += nbtilex-nbsprx;
+            }
+            fprintf(fp, "\tMETASPR_TERM\n");
+            fprintf(fp, "};\n\n");
+        }
+    }
+
     // Put the table with all metasprites pointers
-    fprintf(fp, "const t_metasprite* %s_metasprites[%d] = {\n\t", incname, nbmetasprites);
-    for(i=0; i<nbmetasprites; i++)
+    fprintf(fp, "const t_metasprite* %s_metasprites[%d] = {\n\t", incname, nbtotmtxy);
+    for(i=0; i<nbtotmtxy; i++)
     {
         fprintf(fp, "%s_metasprite%d", incname, i);
-        if((i+1) != nbmetasprites)
+        if((i+1) != nbtotmtxy)
             fprintf(fp, ", ");
+        if (i && ( (i % 7) == 0)) 
+            fprintf(fp, "\n\t");
     }
     fprintf(fp, "\n};\n");
 

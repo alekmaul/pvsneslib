@@ -49,6 +49,7 @@ static cmdp_command_st gfx4snes_command = {
 			{'X', "meta-width","Width of the metasprite {0..128}",CMDP_TYPE_INT4, &gfx4snes_args.metawidth},
 			{'Y', "meta-width","Height of the metasprite {0..128}",CMDP_TYPE_INT4, &gfx4snes_args.metaheight},
 			{'P', "meta-priority","priority of the metasprite {0..3}",CMDP_TYPE_INT4, &gfx4snes_args.metapriority},
+			{'L', "meta-flip",   "generate flipped metasprite variants: b1=flipx b2=flipy b3=flipx+flipy",CMDP_TYPE_INT4, &gfx4snes_args.metaflip},
             {0, 0, "Maps options:\n", CMDP_TYPE_NONE, NULL,NULL},
 			{'f', "map-offset", "generate the whole picture with an offset for tile number {0..2047}", CMDP_TYPE_INT4, &gfx4snes_args.tileoffset},
 			{'m', "map-output", "include map for output", CMDP_TYPE_BOOL, &gfx4snes_args.mapoutput},
@@ -189,7 +190,8 @@ int main(int argc, const char **argv)
 				map_snes = map_convertsnes(tiles_snes_mt, &nbtiles, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, blksx, blksy, gfx4snes_args.palettecolors, gfx4snes_args.paletteentry, 0, 1, 0, 0, 0, gfx4snes_args.quietmode);
 
 				// save metasprites
-				metasprite_save (gfx4snes_args.filebase, map_snes, blksx, blksy, gfx4snes_args.tilesize, gfx4snes_args.metawidth, gfx4snes_args.metaheight, gfx4snes_args.metapriority, snesimage.header.width, snesimage.header.height, gfx4snes_args.quietmode);
+				metasprite_save (gfx4snes_args.filebase, map_snes, blksx, blksy, gfx4snes_args.tilesize, gfx4snes_args.metawidth, gfx4snes_args.metaheight, gfx4snes_args.metapriority, gfx4snes_args.metaflip, tiles_snes_mt, snesimage.header.width, snesimage.header.height, gfx4snes_args.quietmode);
+				//metasprite_save (gfx4snes_args.filebase, map_snes, blksx, blksy, gfx4snes_args.tilesize, gfx4snes_args.metawidth, gfx4snes_args.metaheight, gfx4snes_args.metapriority, gfx4snes_args.metaflip, snesimage.header.width, snesimage.header.height, gfx4snes_args.quietmode);
 
 				// convert again in SNES block format
 				// -> seems to bug :() tiles_snes_nomap=tiles_convertsnes (tiles_snes_mt, blksx*gfx4snes_args.tilewidth, blksy*gfx4snes_args.tileheight, gfx4snes_args.tilewidth, gfx4snes_args.tileheight, &blksx, &blksy, 16*8, gfx4snes_args.quietmode);
