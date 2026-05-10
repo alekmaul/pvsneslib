@@ -8,7 +8,7 @@
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-extern char snesfont, snespal;
+#include "pvsneslibfont.inc"
 
 scoMemory scoretst, scoretst1;
 char sz[128];
@@ -20,7 +20,7 @@ int main(void)
     consoleSetTextMapPtr(0x6800);
     consoleSetTextGfxPtr(0x3000);
     consoleSetTextOffset(0x0100);
-    consoleInitText(0, 16 * 2, &snesfont, &snespal);
+    consoleInitText(0, 16 * 2, &pvsneslibfont_til, &pvsneslibfont_pal);
 
     // Init background
     bgSetGfxPtr(0, 0x2000);
