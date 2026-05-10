@@ -1,14 +1,10 @@
 /*---------------------------------------------------------------------------------
-
-
     Simple console 'hello world' demo
     -- alekmaul
-
-
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-extern char tilfont, palfont;
+#include "../pvsneslibfont.inc"
 
 //---------------------------------------------------------------------------------
 int main(void)
@@ -17,7 +13,7 @@ int main(void)
     consoleSetTextMapPtr(0x6800);
     consoleSetTextGfxPtr(0x3000);
     consoleSetTextOffset(0x0100);
-    consoleInitText(0, 16 * 2, &tilfont, &palfont);
+    consoleInitText(0, 16 * 2, &pvsneslibfont_til, &pvsneslibfont_pal);
 
     // Init background
     bgSetGfxPtr(0, 0x2000);
