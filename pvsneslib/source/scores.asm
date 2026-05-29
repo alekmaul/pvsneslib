@@ -21,6 +21,7 @@
 ;       distribution.
 ;
 ;---------------------------------------------------------------------------------
+.DEFINE SCORE_MAX 10000     ; when lo reaches this value, it wraps
 
 .BASE $00
 .RAMSECTION ".reg_scores" BANK 0 SLOT 1
@@ -82,12 +83,16 @@ scoreAdd:
     adc.w 0,x
     sta 0,x
     sec
-    sbc #$2710                      ; is it greater than 10000 ?
-    bcc _scoAdd1                    ; not a overflow, exit
+    sbc #SCORE_MAX                      ; is it greater than 10000 ?
+    bcc _scoAdd1                        ; not a overflow, exit
 
     sta 0,x                             ; store again when 10000 is subtract
     lda 2,x                             ; add one to high number
     inc a
+    cmp #SCORE_MAX
+    bcc _scoAdd2
+    lda #SCORE_MAX - 1                  ; saturate hi at 9999
+_scoAdd2:
     sta 2,x
 
 _scoAdd1:
@@ -101,6 +106,73 @@ _scoAdd1:
 .ENDS
 
 .SECTION ".scores2_text" SUPERFREE
+
+;---------------------------------------------------------------------------------
+; void scoreSub(scoMemory *source, u16 value);
+; 5-8 9-10
+scoreSub:
+    php
+    phb
+
+    phx
+    phy
+
+    lda 14,s                            ; get value (9+1+2+2)
+    sta.l tcc__r1
+
+    sep #$20
+    lda 12,s                            ; bank address of score (5+2+1+2+2)
+    pha
+    plb
+
+    rep #$20                            ; word address of score (5+1+2+2)
+    lda 10,s
+    tax
+
+    lda 0,x                            ; get lo and sub value 
+    sec
+    sbc.w tcc__r1
+    bcs _scoSub1                        ; no borrow, all good                     
+
+    ldy 2,x
+    beq _scoSub2                        ;  hi == 0, can't borrow → clamp to zero
+
+    clc
+    adc #SCORE_MAX                      ;  lo_new = (lo - value + 65536) + 10000 - 65536
+
+    cmp #SCORE_MAX
+    bcc _scoSub3                        ; lo_new == 10000: another borrow needed
+    sec
+    sbc #SCORE_MAX                      ; lo_new = 0
+    dey                                 ; hi--
+    bpl _scoSub3                 
+    bra _scoSub2                        ; hi went negative (was 0), saturate
+
+_scoSub3:
+    sta 0,x
+    dey
+    sty 2,x
+    bra +
+
+_scoSub2:
+    stz 0,x
+    stz 2,x
+    bra +
+
+_scoSub1:
+    sta 0,x
+
++:
+    ply
+    plx
+
+    plb
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".scores3_text" SUPERFREE
 
 ;---------------------------------------------------------------------------------
 ; void scoreCpy(scoMemory *source, scoMemory *dest);
@@ -146,7 +218,7 @@ scoreCpy:
 
 .ENDS
 
-.SECTION ".scores3_text" SUPERFREE
+.SECTION ".scores4_text" SUPERFREE
 ;---------------------------------------------------------------------------------
 ; void scoreCmp(scoMemory *source, scoMemory *dest);
 scoreCmp:
@@ -217,6 +289,33 @@ _scocmplow1:
 
 _scocmpbye:
     ply
+    plx
+
+    plb
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".scores5_text" SUPERFREE
+;---------------------------------------------------------------------------------
+; void scoreToStr(scoMemory *source, char *buf);
+; 5-8 9-12
+scoreToStr:
+    php
+    phb
+
+    phx 
+
+    sep #$20
+    lda 10,s                            ; bank address of source score
+    pha
+    plb
+
+    rep #$20                            ; word address of source score
+    lda 8,s
+    tax
+
     plx
 
     plb

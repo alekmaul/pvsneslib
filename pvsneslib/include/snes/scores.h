@@ -50,6 +50,12 @@ void scoreClear(scoMemory *source);
 */
 void scoreAdd(scoMemory *source, u16 value);
 
+/*! \brief substract a value to a score memory
+    \param source the source to clear from
+    \param value the value to add
+*/
+void scoreSub(scoMemory *source, u16 value);
+
 /*! \brief copy a score memory to another score memory
     \param source the source to copy from
     \param dest the destination to copy to
