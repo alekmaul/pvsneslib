@@ -36,8 +36,7 @@
 /*! \brief Decompress Lzss data to VRAM
     \param source the source to decompress from
     \param address vram address to decompress
-    \param size the size in bytes of the data to decompress.
 */
-void LzssDecodeVram(u8 *source, u16 address, u16 size);
+void LzssDecodeVram(u8 *source, u16 address);
 
 #endif // SNES_LZSS_INCLUDE
