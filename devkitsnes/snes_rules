@@ -111,6 +111,9 @@ DBGFILES+= $(wildcard $(SRC)/*/*/*.dbg)
 
 export OFILES	:=	$(BINFILES:.bin=.obj) $(CFILES:.c=.obj) $(SFILES:.asm=.obj)
 
+# Define the build log
+BUILD_LOG := $(ROMNAME).log
+
 # The first rule available in makefile become the default one
 # We want "all" as default rule, but we will declare it later !
 .DEFAULT_GOAL := all
@@ -174,7 +177,7 @@ endif
 # remove unattended characters 
 	@sed -i 's/://' $(ROMNAME).sym
 
-#keep with section label if needed
+# keep with section label if needed
 #	@cp -f $(ROMNAME).sym $(ROMNAME).symfull
 
 # remove duplicated labels for mesen debugger
@@ -198,6 +201,7 @@ $(SOUNDBANK).asm : $(AUDIOFILES)
 	@echo Compiling Soundbank ...
 	$(SMCONV) $(SMCONVFLAGS) $^
 
+#---------------------------------------------------------------------------------
 .PHONY: cleanBuildRes cleanRom cleanGfx cleanAudio
 
 cleanBuildRes: cleanDebug
@@ -221,3 +225,23 @@ ifeq ($(DEBUG),1)
 	@echo clean debug files
 	@find . -type f -name "*.dbg" -delete
 endif
+
+cleanLogs:
+	@rm -f $(BUILD_LOG)
+
+#---------------------------------------------------------------------------------
+# buildActual must be defined in your makefile
+# 2 rules needed:
+#     all: cleanLogs buildWithSummary
+#     buildActual: <all specific build> $(OBJS) $(ROMNAME).sfc
+
+.PHONY: buildWithSummary
+
+buildWithSummary:
+	@echo "--- Starting Build ---" > $(BUILD_LOG)
+	@make buildActual >> $(BUILD_LOG) 2>&1 || true
+	@echo "--- COMPILATION SUMMARY ---"
+	@grep -E "warning|error" $(BUILD_LOG) || echo "No warnings or errors found."
+	@echo "---------------------------"
+	@grep -E " free" $(BUILD_LOG); 
+	@if grep -q "error" $(BUILD_LOG); then exit 1; fi
