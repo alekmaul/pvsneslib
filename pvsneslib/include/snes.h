@@ -166,7 +166,6 @@
     \example benchmark/src/benchmark.c
 
     <!-- misc examples -->
-    \example arithmetic/src/arithmetic.c
     \example random/random.c
     \example scoring/scoring.c
     \example snes-logo-capcom/src/main.c
