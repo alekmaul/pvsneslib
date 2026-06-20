@@ -59,6 +59,7 @@ jobs:
         if: matrix.name == 'darwin'
         run: |
           brew update
+          brew upgrade
           brew install doxygen
           # Homebrew prefix: /opt/homebrew on Apple Silicon, /usr/local on Intel
           BREW_PREFIX=$(brew --prefix)
