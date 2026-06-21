@@ -59,6 +59,7 @@ jobs:
         if: matrix.name == 'darwin'
         run: |
           brew update
+          brew upgrade
           rm -f '/usr/local/bin/2to3'
           brew install doxygen
           brew install gnu-sed
