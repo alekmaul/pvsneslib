@@ -58,16 +58,9 @@ jobs:
       - name: Install dependencies for MacOS
         if: matrix.name == 'darwin'
         run: |
-          brew trust aws/tap 
-          brew trust azure/bicep
-          brew trust hashicorp/tap
-          brew update
-          brew upgrade
-          brew install doxygen
-          # Homebrew prefix: /opt/homebrew on Apple Silicon, /usr/local on Intel
-          BREW_PREFIX=$(brew --prefix)
-          sudo ln -sf ${BREW_PREFIX}/bin/gcc-14 /usr/local/bin/gcc || sudo ln -sf ${BREW_PREFIX}/bin/gcc-13 /usr/local/bin/gcc || sudo ln -sf ${BREW_PREFIX}/bin/gcc-12 /usr/local/bin/gcc
-          sudo ln -sf ${BREW_PREFIX}/bin/g++-14 /usr/local/bin/g++ || sudo ln -sf ${BREW_PREFIX}/bin/g++-13 /usr/local/bin/g++ || sudo ln -sf ${BREW_PREFIX}/bin/g++-12 /usr/local/bin/g++
+          brew update || true
+          brew install doxygen zip || true
+          # Xcode Command Line Tools provides the compiler
 
       # ------------------------------------ #
       # Checkout the project                 #
