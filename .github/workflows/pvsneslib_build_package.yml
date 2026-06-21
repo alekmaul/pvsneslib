@@ -60,6 +60,7 @@ jobs:
         run: |
           brew update
           brew upgrade
+          brew trust --formula azure/bicep/bicep
           brew install doxygen
           # Homebrew prefix: /opt/homebrew on Apple Silicon, /usr/local on Intel
           BREW_PREFIX=$(brew --prefix)
