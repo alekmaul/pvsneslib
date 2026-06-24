@@ -1221,21 +1221,14 @@ int sscanf(const char *buf, const char *fmt, ...)
     return i;
 }
 
-static void lzss7WriteVramHigh(u16 vramaddr, u8 value)
-{
-    REG_VMADDLH = vramaddr;
-    REG_VMDATAH = value;
-}
-
-static u8 lzss7ReadVramHigh(u16 vramaddr)
-{
-    REG_VMADDLH = vramaddr;
-    return REG_VMDATAHREAD;
-}
-
 void LzssDecodeVram7(u8 *src, u16 address)
 {
     unsigned int size, y, outpos, flags, bit, copy_len, copy_src;
+    unsigned int b1;
+    unsigned int b2;
+    unsigned int length;
+    unsigned int offset;
+    u8 result;
 
     if ((src[0] & 0xF0) != 0x10)
         return;
@@ -1254,8 +1247,10 @@ void LzssDecodeVram7(u8 *src, u16 address)
     {
         if (copy_len > 0)
         {
-            lzss7WriteVramHigh((u16)(address + outpos),
-                               lzss7ReadVramHigh((u16)(address + copy_src)));
+            REG_VMADDLH = (u16)(address + copy_src);
+            result = REG_VMDATAHREAD;
+            REG_VMADDLH = (u16)(address + outpos);
+            REG_VMDATAH = result;
             copy_src++;
             outpos++;
             copy_len--;
@@ -1270,10 +1265,10 @@ void LzssDecodeVram7(u8 *src, u16 address)
 
         if (flags & 0x80)
         {
-            unsigned int b1 = src[y++];
-            unsigned int b2 = src[y++];
-            unsigned int length = (b1 >> 4) + 3;
-            unsigned int offset = ((b1 & 0x0F) << 8) | b2;
+            b1 = src[y++];
+            b2 = src[y++];
+            length = (b1 >> 4) + 3;
+            offset = ((b1 & 0x0F) << 8) | b2;
 
             if (length > size - outpos)
                 length = size - outpos;
@@ -1282,7 +1277,8 @@ void LzssDecodeVram7(u8 *src, u16 address)
         }
         else
         {
-            lzss7WriteVramHigh((u16)(address + outpos), src[y++]);
+            REG_VMADDLH = (u16)(address + outpos);
+            REG_VMDATAH = src[y++];
             outpos++;
         }
 
