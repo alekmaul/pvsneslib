@@ -39,4 +39,11 @@
 */
 void LzssDecodeVram(u8 *source, u16 address);
 
+/*! \brief Decompress LZ77 data into a linear byte buffer for Mode 7 tilesets
+    \param source compressed data (.pc7 from gfx4snes -z)
+    \param dest destination buffer (16 KB minimum, e.g. lzss7_decode_buf)
+    \return decompressed size in bytes, or 0 if the data is not LZ77 (tag != 0x10)
+*/
+u16 LzssDecodeVram7(u8 *source, u8 *dest);
+
 #endif // SNES_LZSS_INCLUDE

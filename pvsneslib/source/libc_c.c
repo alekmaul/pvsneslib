@@ -44,6 +44,10 @@
 #include <stdarg.h>
 #include <string.h>
 #include <limits.h>
+#include <snes.h>
+
+extern unsigned char lzss7_decode_buf[];
+extern unsigned short lzss7_dec_size;
 
 /**
  * @brief Check if a character is a decimal digit.
@@ -1215,4 +1219,62 @@ int sscanf(const char *buf, const char *fmt, ...)
     i = vsscanf(buf, fmt, args);
     va_end(args);
     return i;
+}
+
+u16 LzssDecodeVram7(u8 *src, u8 *dst)
+{
+    unsigned int size, y, outpos, flags, bit;
+
+    if ((src[0] & 0xF0) != 0x10)
+        return 0;
+
+    size = src[1] | ((unsigned int)src[2] << 8) | ((unsigned int)src[3] << 16);
+    y = 4;
+    outpos = 0;
+
+    while (outpos < size)
+    {
+        flags = src[y++];
+        for (bit = 0; bit < 8 && outpos < size; bit++)
+        {
+            if (flags & 0x80)
+            {
+                unsigned int b1 = src[y++];
+                unsigned int b2 = src[y++];
+                unsigned int length = (b1 >> 4) + 3;
+                unsigned int offset = ((b1 & 0x0F) << 8) | b2;
+                unsigned int start = outpos - offset - 1;
+                unsigned int i;
+
+                if (length > size - outpos)
+                    length = size - outpos;
+                for (i = 0; i < length; i++)
+                    dst[outpos++] = dst[start + i];
+            }
+            else
+            {
+                dst[outpos++] = src[y++];
+            }
+            flags <<= 1;
+        }
+    }
+    return (u16)size;
+}
+
+void bgInitMapTileSet7Lz(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 address)
+{
+    setBrightness(0);
+    WaitForVBlank();
+
+    dmaCopyVram7(mapSource, address, 0x4000,
+                 VRAM_INCLOW | VRAM_ADRTR_0B | VRAM_ADRSTINC_1, 0x1800);
+    bgSetMapPtr(0, address, SC_32x32);
+
+    lzss7_dec_size = LzssDecodeVram7(tileSource, lzss7_decode_buf);
+
+    dmaCopyVram7((u8 *)lzss7_decode_buf, address, lzss7_dec_size,
+                 VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1, 0x1900);
+
+    dmaCopyCGram(tilePalette, 0, 256 * 2);
+    bgSetGfxPtr(0, address);
 }

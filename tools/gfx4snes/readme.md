@@ -24,7 +24,7 @@ where filename is a 256 color PNG or BMP file
 - `-b` Add blank tile management (for multiple bgs)  
 - `-s (8|16|32|64)` Size of image blocks in pixels [8]  
 - `-k` Output in packed pixel format
-- `-z` Output in lz77 compressed pixel format
+- `-z` Output tile data in lz77 compressed format (`.pic` bitplanes or mode 7 `.pc7`)
 - `-W` Width  of image blocks in pixels [8] (do not use with -s option)
 - `-H` Height of image blocks in pixels [8] (do not use with -s option) 
 
