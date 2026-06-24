@@ -45,9 +45,7 @@
 #include <string.h>
 #include <limits.h>
 #include <snes.h>
-
-extern unsigned char lzss7_decode_buf[];
-extern unsigned short lzss7_dec_size;
+#include <snes/lzss.h>
 
 /**
  * @brief Check if a character is a decimal digit.
@@ -1221,14 +1219,30 @@ int sscanf(const char *buf, const char *fmt, ...)
     return i;
 }
 
-u16 LzssDecodeVram7(u8 *src, u8 *dst)
+#define REG_VMDATAHREAD (*(vuint8 *)0x213A)
+
+static void lzss7WriteVramHigh(u16 vramaddr, u8 value)
+{
+    REG_VMADDLH = vramaddr;
+    REG_VMDATAH = value;
+}
+
+static u8 lzss7ReadVramHigh(u16 vramaddr)
+{
+    REG_VMADDLH = vramaddr;
+    return REG_VMDATAHREAD;
+}
+
+void LzssDecodeVram7(u8 *src, u16 address)
 {
     unsigned int size, y, outpos, flags, bit;
 
     if ((src[0] & 0xF0) != 0x10)
-        return 0;
+        return;
 
     size = src[1] | ((unsigned int)src[2] << 8) | ((unsigned int)src[3] << 16);
+    REG_VMAIN = VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1;
+
     y = 4;
     outpos = 0;
 
@@ -1249,16 +1263,18 @@ u16 LzssDecodeVram7(u8 *src, u8 *dst)
                 if (length > size - outpos)
                     length = size - outpos;
                 for (i = 0; i < length; i++)
-                    dst[outpos++] = dst[start + i];
+                    lzss7WriteVramHigh((u16)(address + outpos + i),
+                                       lzss7ReadVramHigh((u16)(address + start + i)));
+                outpos += length;
             }
             else
             {
-                dst[outpos++] = src[y++];
+                lzss7WriteVramHigh((u16)(address + outpos), src[y++]);
+                outpos++;
             }
             flags <<= 1;
         }
     }
-    return (u16)size;
 }
 
 void bgInitMapTileSet7Lz(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 address)
@@ -1270,10 +1286,7 @@ void bgInitMapTileSet7Lz(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 add
                  VRAM_INCLOW | VRAM_ADRTR_0B | VRAM_ADRSTINC_1, 0x1800);
     bgSetMapPtr(0, address, SC_32x32);
 
-    lzss7_dec_size = LzssDecodeVram7(tileSource, lzss7_decode_buf);
-
-    dmaCopyVram7((u8 *)lzss7_decode_buf, address, lzss7_dec_size,
-                 VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1, 0x1900);
+    LzssDecodeVram7(tileSource, address);
 
     dmaCopyCGram(tilePalette, 0, 256 * 2);
     bgSetGfxPtr(0, address);

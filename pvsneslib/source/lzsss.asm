@@ -37,13 +37,7 @@ m0					DW
 m4					DW
 m5					DW
 m6					DW
-lzss7_dec_size		DW
-lzss7_tmp_byte		db
 
-.ENDS
-
-.RAMSECTION ".lzss7buf" BANK $7E
-lzss7_decode_buf DSB 16384
 .ENDS
 
 .BASE BASE_0
