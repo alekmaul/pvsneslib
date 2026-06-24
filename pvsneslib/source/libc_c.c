@@ -1223,17 +1223,17 @@ int sscanf(const char *buf, const char *fmt, ...)
 
 void LzssDecodeVram7(u8 *src, u16 address)
 {
-    unsigned int size, y, outpos, flags, bit, copy_len, copy_src;
-    unsigned int b1;
-    unsigned int b2;
-    unsigned int length;
-    unsigned int offset;
+    u16 size, y, outpos, flags, bit, copy_len, copy_src;
+    u16 b1;
+    u16 b2;
+    u16 length;
+    u16 offset;
     u8 result;
 
     if ((src[0] & 0xF0) != 0x10)
         return;
 
-    size = src[1] | ((unsigned int)src[2] << 8) | ((unsigned int)src[3] << 16);
+    size = src[1] | ((u16)src[2] << 8) | ((u16)src[3] << 16);
     REG_VMAIN = VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1;
 
     y = 4;
