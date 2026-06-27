@@ -97,6 +97,7 @@
     \example graphics/Backgrounds/Mode3/Mode3.c
     \example graphics/Backgrounds/Mode5/Mode5.c
     \example graphics/Backgrounds/Mode7/Mode7.c
+    \example graphics/Backgrounds/Mode7LZ77/src/Mode7LZ77.c
     \example graphics/Backgrounds/Mode7Perspective/Mode7Perspective.c
 
     <!-- effects -->
@@ -161,9 +162,6 @@
     \example testregion/testregion.c
     \example typeconsole/src/pal_ntsc.c
     \example memory_mapping/src/memory_mapping.c
-
-    <!-- benchmark -->
-    \example benchmark/src/benchmark.c
 
     <!-- misc examples -->
     \example random/random.c

@@ -605,7 +605,7 @@ _bITS1:
     lda 20,s                    ; get address
     pha
     sep #$20
-    lda 6,s                     ; get bgNumber (6+2)
+    lda 8,s                     ; get bgNumber (6+2)
     pha
     rep #$20
     jsl bgSetGfxPtr
@@ -817,6 +817,125 @@ bgInitMapTileSet7:
     tas
 
     lda 19,s                    ; get address
+    pha
+    sep #$20
+    lda #0
+    pha
+    rep #$20
+    jsl bgSetGfxPtr
+    tsa
+    clc
+    adc #3
+    tas
+
++   plp
+    rtl
+
+.ENDS
+
+.SECTION ".backgroundsa_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+; void bgInitMapTileSet7lz(u8 *tileSource,  u8 *mapSource, u8 *tilePalette, u16 tileSize, u16 address)
+; 5-8 9-12 13-16 17-18 19-20
+bgInitMapTileSet7lz:
+    php
+
+    sep #$20
+    lda #0
+    pha
+    rep #$20
+    jsl setBrightness           ; Force VBlank Interrupt (value 0)
+    tsa
+    clc
+    adc #1
+    tas
+    wai
+
+    lda  #$1800                 ;   dmaCopyVram7(mapSource, address,0x4000, VRAM_INCLOW | VRAM_ADRTR_0B | VRAM_ADRSTINC_1,0x1800);
+    pha
+    sep #$20
+    lda #(VRAM_INCLOW | VRAM_ADRTR_0B | VRAM_ADRSTINC_1)
+    pha
+    rep #$20
+    lda  #$4000
+    pha
+    lda 24,s                    ; get address (19+5)
+    pha
+    lda 18,s                    ; get mapSource bank address (11+7)
+    pha
+    lda 18,s                    ; get mapSource data address (9+9)
+    pha
+    jsl dmaCopyVram7
+    tsa
+    clc
+    adc #11
+    tas
+
+    sep #$20
+    lda #SC_32x32
+    pha
+    rep #$20
+    lda 20,s                    ; get address (19+1)
+    pha
+    sep #$20
+    lda #$0
+    pha
+    rep #$20
+    jsl bgSetMapPtr
+    tsa
+    clc
+    adc #4
+    tas
+
+truv7:
+    lda 19,s                    ; get address (19+0)
+    pha
+    lda 9,s                     ; get tileSource bank address (5+2+2)
+    pha
+    lda 9,s                     ; et tileSource data address (5+4)
+    pha
+    jsl LzssDecodeVram7
+    tsa
+    clc
+    adc #6
+    tas
+
+;    lda  #$1900                 ;   dmaCopyVram7(tileSource, address, tileSize, VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1,0x1900);
+;    pha
+;    sep #$20
+;    lda #(VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1)
+;    pha
+;    rep #$20
+;    lda  20,s                    ; get tileSize (17+3)
+;    pha
+;    lda 24,s                    ; get address (19+5)
+;    pha
+;    lda 14,s                    ; get tileSource bank address (7+7)
+;    pha
+;    lda 14,s                    ; get tileSource data address (5+9)
+;    pha
+;    jsl dmaCopyVram7
+;    tsa
+;    clc
+;    adc #11
+;    tas
+
+    lda #256*2                  ; dmaCopyCGram(tilePalette, 0, 256*2);
+    pha
+    lda #0
+    pha
+    lda 19,s                    ; get tilePalette bank address (15+4)
+    pha
+    lda 19,s                    ; get tilePalette data address (13+6)
+    pha
+    jsl dmaCopyCGram
+    tsa
+    clc
+    adc #8
+    tas
+
+    lda 19,s                    ; get address (19+0)
     pha
     sep #$20
     lda #0
