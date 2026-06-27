@@ -263,6 +263,7 @@ LzssDecodeVram:
 .SECTION ".lz77a_text" superfree
 ;---------------------------------------------------------------------------
 ; void LzssDecodeVram7(u8 * source, u16 address);
+; Based on github MisterDigifox C source code version (PR https://github.com/alekmaul/pvsneslib/pull/335/changes)
 ; 10-13 14-15
 LzssDecodeVram7:
     php                         
@@ -355,9 +356,7 @@ LzssDecodeVram7:
     bne @lz7v7_have_bit         							; still have bits -> skip reload
     
 	ldy lz7_src_idx											; bit == 0 -> load next flag byte from stream.
-    sep #$20
-    lda [tcc__r0], y            							; flags = src[y]  (8-bit)
-    rep #$20
+    lda [tcc__r0], y            							; flags = src[y]  (8-bit) (no need sep / rep with and)
     and #$00FF                  							; zero-extend; keep upper byte of m5 = 0
     sta m5
     inc lz7_src_idx             							; y++
@@ -370,13 +369,11 @@ LzssDecodeVram7:
     bne @lz7v7_match            							; bit 7 was set -> back-reference token
 
     ldy lz7_src_idx											; write src[y] directly to VRAM[m0 + outpos]
-    sep #$20
-    lda [tcc__r0], y            							; literal = src[y]  (8-bit)
-    rep #$20
+    lda [tcc__r0], y            							; literal = src[y]  (8-bit) (no need sep / rep with and)
     inc lz7_src_idx             							; y++
     and #$00FF                  							; zero-extend
     pha
-     lda m0
+    lda m0
     clc
     adc lz7_outpos              							; = m0 + outpos
     sta.l REG_VMADDL            							; set VRAM write address
@@ -391,9 +388,7 @@ LzssDecodeVram7:
 
 @lz7v7_match:
     ldy lz7_src_idx											; ---- Read b1 and b2 ----
-    sep #$20
-    lda [tcc__r0], y            							; b1 = src[y]  (8-bit)
-    rep #$20
+    lda [tcc__r0], y            							; b1 = src[y]  (8-bit) (no need sep / rep with and)
     and #$00FF
     tax                         							; X = b1 (zero-extended)
     sep #$20
@@ -404,10 +399,10 @@ LzssDecodeVram7:
     iny
     sty lz7_src_idx             							; y += 2
     sep #$20
-    sta lz7_copy_src          							; lz7_copy_src low byte  = b2
+    sta lz7_copy_src          								; lz7_copy_src low byte  = b2
     txa                         							; A (8-bit) = b1
     and #$0F                    							; A = b1 & $0F
-    sta lz7_copy_src+1        							; lz7_copy_src high byte = b1 & $0F
+    sta lz7_copy_src+1        								; lz7_copy_src high byte = b1 & $0F
     txa                         							; A (8-bit) = b1
     lsr a
     lsr a
