@@ -334,9 +334,8 @@ void tiles_savepacked (const char *filename, unsigned char *tiles,int tilesnumbe
 			fatal("error during lz77 compression of mode7 tileset");
 		}
 
-		for (t = 0; t < bufsize; t++) {
-			WRITEFILEBYTE(buftolzout[t], fp);
-		}
+    	// add graphics to file
+		fwrite(buftolzout, bufsize, 1, fp);
 
 		free(buftolzout);
 		free(buftolzin);
