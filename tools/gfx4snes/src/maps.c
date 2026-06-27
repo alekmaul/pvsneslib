@@ -618,7 +618,3 @@ void map_save (const char *filename, unsigned short *map,int snesmode, int nbtil
 	fclose(fp);
 	free (outputname);
 }
-
-// for flipping
-// https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-support/png2asset/tiles.cpp#L17
-// add near line 200

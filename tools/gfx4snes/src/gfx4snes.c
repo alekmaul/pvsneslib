@@ -221,7 +221,7 @@ int main(int argc, const char **argv)
 		// save tiles
 		if ((gfx4snes_args.tilepacked) || (gfx4snes_args.mapscreenmode==7))
 		{
-			tiles_savepacked (gfx4snes_args.filebase, tiles_snes,nbtiles, gfx4snes_args.tileblank, gfx4snes_args.quietmode);
+			tiles_savepacked (gfx4snes_args.filebase, tiles_snes,nbtiles, gfx4snes_args.tileblank, gfx4snes_args.tilelzpacked, gfx4snes_args.quietmode);
 		}
 		else
 		{
