@@ -21,6 +21,6 @@ tileslevel1.pic: tileslevel1.png
 
 BG1.m16: maplevel01.tmj tileslevel1.pic
 	@echo convert map tiled ... $(notdir $@)
-	$(TMXCONV) $< tileslevel1.map
+	$(TMXCONV) -i $< -m tileslevel1.map
 
 bitmaps : BG1.m16 tileslevel1.pic

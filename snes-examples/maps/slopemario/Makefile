@@ -36,7 +36,7 @@ tiles.pic: tiles.png
 
 map_1_1.m16: map_1_1.tmj tiles.pic
 	@echo convert map tiled ... $(notdir $@)
-	$(TMXCONV) $< tiles.map
+	$(TMXCONV) -i $< -m tiles.map
 
 mariofont.pic: mariofont.bmp
 	@echo convert font with no tile reduction ... $(notdir $@)
