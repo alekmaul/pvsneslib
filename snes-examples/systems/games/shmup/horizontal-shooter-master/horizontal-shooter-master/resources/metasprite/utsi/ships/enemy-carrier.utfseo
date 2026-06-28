@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF_8"?>
+<!DOCTYPE untech>
+<fsexportorder name="EnemyCarrier">
+  <animation id="Flying_Shield"/>
+  <animation id="DropShield"/>
+  <animation id="RaiseShield"/>
+</fsexportorder>

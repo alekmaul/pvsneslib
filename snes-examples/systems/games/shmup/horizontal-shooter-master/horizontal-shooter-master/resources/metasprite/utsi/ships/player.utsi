@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF_8"?>
+<!DOCTYPE untech>
+<spriteimporter id="Player" tilesettype="ONE_ROW_FIXED" exportorder="Player" image="player.png" transparent="881a1c">
+  <grid width="20" height="20" xoffset="4" yoffset="4" xpadding="0" ypadding="0" xorigin="12" yorigin="10"/>
+  <palette npalettes="1" colorsize="4"/>
+  <frame id="Dead" order="2">
+    <gridlocation x="0" y="1"/>
+    <object size="small" x="3" y="6"/>
+    <object size="large" x="2" y="2"/>
+  </frame>
+  <frame id="Down_1" order="2">
+    <gridlocation x="1" y="2"/>
+    <object size="large" x="2" y="2"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="5"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="16"/>
+    <entityhitbox type="---B" x="5" y="3" width="7" height="14"/>
+    <entityhitbox type="W--B" x="12" y="7" width="3" height="6"/>
+  </frame>
+  <frame id="Down_2" order="2">
+    <gridlocation x="2" y="2"/>
+    <object size="small" x="3" y="6"/>
+    <object size="large" x="2" y="2"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="5"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="16"/>
+    <entityhitbox type="---B" x="5" y="3" width="7" height="14"/>
+    <entityhitbox type="W--B" x="12" y="7" width="3" height="6"/>
+  </frame>
+  <frame id="Down_3" order="2">
+    <gridlocation x="3" y="2"/>
+    <object size="small" x="3" y="6"/>
+    <object size="large" x="2" y="2"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="5"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="16"/>
+    <entityhitbox type="---B" x="5" y="3" width="7" height="14"/>
+    <entityhitbox type="W--B" x="12" y="7" width="3" height="6"/>
+  </frame>
+  <frame id="Straight_1" order="2">
+    <gridlocation x="1" y="1"/>
+    <object size="large" x="2" y="2"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="5"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="16"/>
+    <entityhitbox type="---B" x="5" y="3" width="7" height="14"/>
+    <entityhitbox type="W--B" x="12" y="7" width="3" height="6"/>
+  </frame>
+  <frame id="Straight_2" order="2">
+    <gridlocation x="2" y="1"/>
+    <object size="small" x="3" y="6"/>
+    <object size="large" x="2" y="2"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="5"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="16"/>
+    <entityhitbox type="---B" x="5" y="3" width="7" height="14"/>
+    <entityhitbox type="W--B" x="12" y="7" width="3" height="6"/>
+  </frame>
+  <frame id="Straight_3" order="2">
+    <gridlocation x="3" y="1"/>
+    <object size="small" x="3" y="6"/>
+    <object size="large" x="2" y="2"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="5"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="16"/>
+    <entityhitbox type="---B" x="5" y="3" width="7" height="14"/>
+    <entityhitbox type="W--B" x="12" y="7" width="3" height="6"/>
+  </frame>
+  <frame id="Up_1" order="2">
+    <gridlocation x="1" y="0"/>
+    <object size="large" x="2" y="2"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="5"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="16"/>
+    <entityhitbox type="---B" x="5" y="3" width="7" height="14"/>
+    <entityhitbox type="W--B" x="12" y="7" width="3" height="6"/>
+  </frame>
+  <frame id="Up_2" order="2">
+    <gridlocation x="2" y="0"/>
+    <object size="small" x="3" y="6"/>
+    <object size="large" x="2" y="2"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="5"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="16"/>
+    <entityhitbox type="---B" x="5" y="3" width="7" height="14"/>
+    <entityhitbox type="W--B" x="12" y="7" width="3" height="6"/>
+  </frame>
+  <frame id="Up_3" order="2">
+    <gridlocation x="3" y="0"/>
+    <object size="small" x="3" y="6"/>
+    <object size="large" x="2" y="2"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="5"/>
+    <actionpoint type="ManualPlayerProjectile" x="14" y="16"/>
+    <entityhitbox type="---B" x="5" y="3" width="7" height="14"/>
+    <entityhitbox type="W--B" x="12" y="7" width="3" height="6"/>
+  </frame>
+  <animation id="Dead" durationformat="FRAME" oneshot="true">
+    <aframe frame="Dead" duration="1"/>
+  </animation>
+  <animation id="Down" durationformat="FRAME">
+    <aframe frame="Down_1" duration="2"/>
+    <aframe frame="Down_2" duration="2"/>
+    <aframe frame="Down_3" duration="2"/>
+  </animation>
+  <animation id="Straight" durationformat="FRAME">
+    <aframe frame="Straight_1" duration="2"/>
+    <aframe frame="Straight_2" duration="2"/>
+    <aframe frame="Straight_3" duration="2"/>
+  </animation>
+  <animation id="Up" durationformat="FRAME">
+    <aframe frame="Up_1" duration="2"/>
+    <aframe frame="Up_2" duration="2"/>
+    <aframe frame="Up_3" duration="2"/>
+  </animation>
+</spriteimporter>

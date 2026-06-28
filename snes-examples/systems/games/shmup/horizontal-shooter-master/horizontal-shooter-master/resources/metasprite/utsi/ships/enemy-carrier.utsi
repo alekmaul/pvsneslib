@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF_8"?>
+<!DOCTYPE untech>
+<spriteimporter id="EnemyCarrier" tilesettype="ONE_ROW_FIXED" exportorder="EnemyCarrier" image="enemy-carrier.png" transparent="881a1c">
+  <grid width="56" height="48" xoffset="4" yoffset="4" xpadding="0" ypadding="8" xorigin="24" yorigin="24"/>
+  <palette npalettes="1" colorsize="4"/>
+  <frame id="Destroy_Shield_1" order="2">
+    <gridlocation x="0" y="2"/>
+    <object size="large" x="8" y="8"/>
+    <object size="large" x="24" y="8"/>
+    <object size="large" x="40" y="8"/>
+    <object size="large" x="8" y="24"/>
+    <object size="large" x="24" y="24"/>
+    <object size="large" x="40" y="24"/>
+    <object size="small" x="26" y="0"/>
+    <object size="small" x="34" y="0"/>
+    <object size="small" x="42" y="0"/>
+    <object size="small" x="42" y="40"/>
+    <object size="small" x="34" y="40"/>
+    <object size="small" x="26" y="40"/>
+    <object size="small" x="0" y="16"/>
+    <object size="small" x="0" y="8"/>
+    <object size="small" x="2" y="0"/>
+    <object size="small" x="0" y="24"/>
+    <object size="small" x="0" y="32"/>
+    <object size="small" x="2" y="40"/>
+    <entityhitbox type="-S--" x="3" y="5" width="5" height="38"/>
+    <entityhitbox type="---B" x="10" y="12" width="33" height="23"/>
+    <entityhitbox type="W--B" x="27" y="3" width="21" height="7"/>
+    <entityhitbox type="W--B" x="27" y="38" width="21" height="7"/>
+  </frame>
+  <frame id="Destroy_Shield_2" order="2">
+    <gridlocation x="1" y="2"/>
+    <object size="large" x="8" y="8"/>
+    <object size="large" x="24" y="8"/>
+    <object size="large" x="40" y="8"/>
+    <object size="large" x="8" y="24"/>
+    <object size="large" x="24" y="24"/>
+    <object size="large" x="40" y="24"/>
+    <object size="small" x="26" y="0"/>
+    <object size="small" x="34" y="0"/>
+    <object size="small" x="42" y="0"/>
+    <object size="small" x="42" y="40"/>
+    <object size="small" x="34" y="40"/>
+    <object size="small" x="26" y="40"/>
+    <object size="small" x="0" y="16"/>
+    <object size="small" x="0" y="8"/>
+    <object size="small" x="0" y="24"/>
+    <object size="small" x="0" y="32"/>
+    <entityhitbox type="-S--" x="3" y="8" width="5" height="32"/>
+    <entityhitbox type="---B" x="10" y="12" width="33" height="23"/>
+    <entityhitbox type="W--B" x="27" y="3" width="21" height="7"/>
+    <entityhitbox type="W--B" x="27" y="38" width="21" height="7"/>
+  </frame>
+  <frame id="Destroy_Shield_3" order="2">
+    <gridlocation x="2" y="2"/>
+    <object size="large" x="8" y="8"/>
+    <object size="large" x="24" y="8"/>
+    <object size="large" x="40" y="8"/>
+    <object size="large" x="8" y="24"/>
+    <object size="large" x="24" y="24"/>
+    <object size="large" x="40" y="24"/>
+    <object size="small" x="26" y="0"/>
+    <object size="small" x="34" y="0"/>
+    <object size="small" x="42" y="0"/>
+    <object size="small" x="42" y="40"/>
+    <object size="small" x="34" y="40"/>
+    <object size="small" x="26" y="40"/>
+    <object size="small" x="0" y="16"/>
+    <object size="small" x="0" y="8"/>
+    <object size="small" x="0" y="24"/>
+    <object size="small" x="0" y="32"/>
+    <entityhitbox type="-S--" x="3" y="11" width="4" height="26"/>
+    <entityhitbox type="---B" x="9" y="12" width="33" height="23"/>
+    <entityhitbox type="W--B" x="27" y="3" width="21" height="7"/>
+    <entityhitbox type="W--B" x="27" y="38" width="21" height="7"/>
+  </frame>
+  <frame id="Destroy_Shield_4" order="2">
+    <gridlocation x="0" y="3"/>
+    <object size="large" x="8" y="8"/>
+    <object size="large" x="24" y="8"/>
+    <object size="large" x="40" y="8"/>
+    <object size="large" x="8" y="24"/>
+    <object size="large" x="24" y="24"/>
+    <object size="large" x="40" y="24"/>
+    <object size="small" x="26" y="0"/>
+    <object size="small" x="34" y="0"/>
+    <object size="small" x="42" y="0"/>
+    <object size="small" x="42" y="40"/>
+    <object size="small" x="34" y="40"/>
+    <object size="small" x="26" y="40"/>
+    <object size="small" x="0" y="16"/>
+    <object size="small" x="0" y="24"/>
+    <entityhitbox type="-S--" x="3" y="16" width="4" height="16"/>
+    <entityhitbox type="---B" x="10" y="12" width="33" height="23"/>
+    <entityhitbox type="W--B" x="27" y="3" width="21" height="7"/>
+    <entityhitbox type="W--B" x="27" y="38" width="21" height="7"/>
+  </frame>
+  <frame id="Destroy_Shield_5" order="2">
+    <gridlocation x="1" y="3"/>
+    <object size="large" x="8" y="8"/>
+    <object size="large" x="24" y="8"/>
+    <object size="large" x="40" y="8"/>
+    <object size="large" x="8" y="24"/>
+    <object size="large" x="24" y="24"/>
+    <object size="large" x="40" y="24"/>
+    <object size="small" x="26" y="0"/>
+    <object size="small" x="34" y="0"/>
+    <object size="small" x="42" y="0"/>
+    <object size="small" x="42" y="40"/>
+    <object size="small" x="34" y="40"/>
+    <object size="small" x="26" y="40"/>
+    <object size="small" x="0" y="16"/>
+    <object size="small" x="0" y="24"/>
+    <entityhitbox type="-S--" x="3" y="19" width="4" height="10"/>
+    <entityhitbox type="---B" x="10" y="12" width="33" height="23"/>
+    <entityhitbox type="W--B" x="27" y="3" width="21" height="7"/>
+    <entityhitbox type="W--B" x="27" y="38" width="21" height="7"/>
+  </frame>
+  <frame id="Destroy_Shield_6" order="2">
+    <gridlocation x="2" y="3"/>
+    <object size="large" x="8" y="8"/>
+    <object size="large" x="24" y="8"/>
+    <object size="large" x="40" y="8"/>
+    <object size="large" x="8" y="24"/>
+    <object size="large" x="24" y="24"/>
+    <object size="large" x="40" y="24"/>
+    <object size="small" x="26" y="0"/>
+    <object size="small" x="34" y="0"/>
+    <object size="small" x="42" y="0"/>
+    <object size="small" x="42" y="40"/>
+    <object size="small" x="34" y="40"/>
+    <object size="small" x="26" y="40"/>
+    <object size="small" x="0" y="20"/>
+    <entityhitbox type="-S--" x="3" y="22" width="4" height="4"/>
+    <entityhitbox type="---B" x="10" y="12" width="33" height="23"/>
+    <entityhitbox type="W--B" x="27" y="3" width="21" height="7"/>
+    <entityhitbox type="W--B" x="27" y="38" width="21" height="7"/>
+  </frame>
+  <frame id="Flying_1" order="2">
+    <gridlocation x="0" y="1"/>
+    <object size="large" x="8" y="8"/>
+    <object size="large" x="24" y="8"/>
+    <object size="large" x="40" y="8"/>
+    <object size="large" x="8" y="24"/>
+    <object size="large" x="24" y="24"/>
+    <object size="large" x="40" y="24"/>
+    <object size="small" x="26" y="0"/>
+    <object size="small" x="34" y="0"/>
+    <object size="small" x="42" y="0"/>
+    <object size="small" x="42" y="40"/>
+    <object size="small" x="34" y="40"/>
+    <object size="small" x="26" y="40"/>
+    <actionpoint type="SpawnCarrierDrone" x="18" y="20"/>
+    <actionpoint type="SpawnCarrierDrone" x="18" y="29"/>
+    <actionpoint type="SpawnCarrierDrone" x="35" y="29"/>
+    <actionpoint type="SpawnCarrierDrone" x="35" y="19"/>
+    <entityhitbox type="---B" x="10" y="12" width="33" height="23"/>
+    <entityhitbox type="W--B" x="27" y="3" width="21" height="7"/>
+    <entityhitbox type="W--B" x="27" y="38" width="21" height="7"/>
+  </frame>
+  <frame id="Flying_2" order="2">
+    <gridlocation x="1" y="1"/>
+    <object size="large" x="8" y="8"/>
+    <object size="large" x="24" y="8"/>
+    <object size="large" x="40" y="8"/>
+    <object size="large" x="8" y="24"/>
+    <object size="large" x="24" y="24"/>
+    <object size="large" x="40" y="24"/>
+    <object size="small" x="26" y="0"/>
+    <object size="small" x="34" y="0"/>
+    <object size="small" x="42" y="0"/>
+    <object size="small" x="42" y="40"/>
+    <object size="small" x="34" y="40"/>
+    <object size="small" x="26" y="40"/>
+    <entityhitbox type="---B" x="10" y="12" width="33" height="23"/>
+    <entityhitbox type="W--B" x="27" y="3" width="21" height="7"/>
+    <entityhitbox type="W--B" x="27" y="38" width="21" height="7"/>
+  </frame>
+  <frame id="Flying_3" order="2">
+    <gridlocation x="2" y="1"/>
+    <object size="large" x="8" y="8"/>
+    <object size="large" x="24" y="8"/>
+    <object size="large" x="40" y="8"/>
+    <object size="large" x="8" y="24"/>
+    <object size="large" x="24" y="24"/>
+    <object size="large" x="40" y="24"/>
+    <object size="small" x="26" y="0"/>
+    <object size="small" x="34" y="0"/>
+    <object size="small" x="42" y="0"/>
+    <object size="small" x="42" y="40"/>
+    <object size="small" x="34" y="40"/>
+    <object size="small" x="26" y="40"/>
+    <entityhitbox type="---B" x="9" y="12" width="33" height="23"/>
+    <entityhitbox type="W--B" x="27" y="3" width="21" height="7"/>
+    <entityhitbox type="W--B" x="27" y="38" width="21" height="7"/>
+  </frame>
+  <frame id="Flying_Shield_1" order="2">
+    <gridlocation x="0" y="0"/>
+    <object size="large" x="8" y="8"/>
+    <object size="large" x="24" y="8"/>
+    <object size="large" x="40" y="8"/>
+    <object size="large" x="8" y="24"/>
+    <object size="large" x="24" y="24"/>
+    <object size="large" x="40" y="24"/>
+    <object size="small" x="26" y="0"/>
+    <object size="small" x="34" y="0"/>
+    <object size="small" x="42" y="0"/>
+    <object size="small" x="42" y="40"/>
+    <object size="small" x="34" y="40"/>
+    <object size="small" x="26" y="40"/>
+    <object size="small" x="0" y="16"/>
+    <object size="small" x="0" y="8"/>
+    <object size="small" x="2" y="0"/>
+    <object size="small" x="0" y="24"/>
+    <object size="small" x="0" y="32"/>
+    <object size="small" x="2" y="40"/>
+    <entityhitbox type="-S--" x="5" y="3" width="4" height="42"/>
+    <entityhitbox type="---B" x="10" y="12" width="33" height="23"/>
+    <entityhitbox type="W--B" x="27" y="3" width="21" height="7"/>
+    <entityhitbox type="W--B" x="27" y="38" width="21" height="7"/>
+  </frame>
+  <frame id="Flying_Shield_2" order="2">
+    <gridlocation x="1" y="0"/>
+    <object size="large" x="8" y="8"/>
+    <object size="large" x="24" y="8"/>
+    <object size="large" x="40" y="8"/>
+    <object size="large" x="8" y="24"/>
+    <object size="large" x="24" y="24"/>
+    <object size="large" x="40" y="24"/>
+    <object size="small" x="26" y="0"/>
+    <object size="small" x="34" y="0"/>
+    <object size="small" x="42" y="0"/>
+    <object size="small" x="42" y="40"/>
+    <object size="small" x="34" y="40"/>
+    <object size="small" x="26" y="40"/>
+    <object size="small" x="0" y="16"/>
+    <object size="small" x="0" y="8"/>
+    <object size="small" x="2" y="0"/>
+    <object size="small" x="0" y="24"/>
+    <object size="small" x="0" y="32"/>
+    <object size="small" x="2" y="40"/>
+    <entityhitbox type="-S--" x="5" y="3" width="5" height="42"/>
+    <entityhitbox type="---B" x="9" y="12" width="33" height="23"/>
+    <entityhitbox type="W--B" x="27" y="3" width="21" height="7"/>
+    <entityhitbox type="W--B" x="27" y="38" width="21" height="7"/>
+  </frame>
+  <frame id="Flying_Shield_3" order="2">
+    <gridlocation x="2" y="0"/>
+    <object size="large" x="8" y="8"/>
+    <object size="large" x="24" y="8"/>
+    <object size="large" x="40" y="8"/>
+    <object size="large" x="8" y="24"/>
+    <object size="large" x="24" y="24"/>
+    <object size="large" x="40" y="24"/>
+    <object size="small" x="26" y="0"/>
+    <object size="small" x="34" y="0"/>
+    <object size="small" x="42" y="0"/>
+    <object size="small" x="42" y="40"/>
+    <object size="small" x="34" y="40"/>
+    <object size="small" x="26" y="40"/>
+    <object size="small" x="0" y="16"/>
+    <object size="small" x="0" y="8"/>
+    <object size="small" x="2" y="0"/>
+    <object size="small" x="0" y="24"/>
+    <object size="small" x="0" y="32"/>
+    <object size="small" x="2" y="40"/>
+    <entityhitbox type="-S--" x="5" y="3" width="5" height="42"/>
+    <entityhitbox type="---B" x="10" y="12" width="33" height="23"/>
+    <entityhitbox type="W--B" x="27" y="3" width="21" height="7"/>
+    <entityhitbox type="W--B" x="27" y="38" width="21" height="7"/>
+  </frame>
+  <animation id="DropShield" durationformat="FRAME" next="Flying_NoShield">
+    <aframe frame="Destroy_Shield_1" duration="2"/>
+    <aframe frame="Destroy_Shield_2" duration="2"/>
+    <aframe frame="Destroy_Shield_3" duration="2"/>
+    <aframe frame="Destroy_Shield_4" duration="2"/>
+    <aframe frame="Destroy_Shield_5" duration="2"/>
+    <aframe frame="Destroy_Shield_6" duration="2"/>
+  </animation>
+  <animation id="Flying_NoShield" durationformat="FRAME">
+    <aframe frame="Flying_1" duration="3"/>
+    <aframe frame="Flying_2" duration="3"/>
+    <aframe frame="Flying_3" duration="3"/>
+  </animation>
+  <animation id="Flying_Shield" durationformat="FRAME">
+    <aframe frame="Flying_1" duration="2"/>
+    <aframe frame="Flying_Shield_1" duration="2"/>
+    <aframe frame="Flying_2" duration="2"/>
+    <aframe frame="Flying_Shield_2" duration="2"/>
+    <aframe frame="Flying_3" duration="2"/>
+    <aframe frame="Flying_Shield_3" duration="2"/>
+  </animation>
+  <animation id="RaiseShield" durationformat="FRAME" next="Flying_Shield">
+    <aframe frame="Destroy_Shield_6" duration="2"/>
+    <aframe frame="Destroy_Shield_5" duration="2"/>
+    <aframe frame="Destroy_Shield_4" duration="2"/>
+    <aframe frame="Destroy_Shield_3" duration="2"/>
+    <aframe frame="Destroy_Shield_2" duration="2"/>
+    <aframe frame="Destroy_Shield_1" duration="2"/>
+  </animation>
+</spriteimporter>

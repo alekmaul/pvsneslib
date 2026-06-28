@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF_8"?>
+<!DOCTYPE untech>
+<fsexportorder name="Player">
+  <animation id="Straight"/>
+  <animation id="Up"/>
+  <animation id="Down"/>
+  <animation id="Dead"/>
+</fsexportorder>

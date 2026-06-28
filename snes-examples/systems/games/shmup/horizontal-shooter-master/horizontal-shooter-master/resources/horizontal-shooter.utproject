@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF_8"?>
+<!DOCTYPE untech>
+<project>
+  <block-settings block-size="16384" block-count="1"/>
+  <metatile-engine-settings max-map-size="8192" n-metatiles="512"/>
+  <entity-rom-data>
+    <listid name="Particles"/>
+    <listid name="PlayerProjectiles"/>
+    <listid name="EnemyProjectiles"/>
+    <listid name="Players"/>
+    <listid name="Enemies"/>
+    <struct name="Base">
+      <struct-field name="health" type="uint16"/>
+    </struct>
+    <struct name="BaseEnemyData" parent="Base">
+      <struct-field name="initialVelocity" type="sint32"/>
+    </struct>
+    <struct name="CarrierDroneData" parent="BaseEnemyData">
+      <struct-field name="path" type="addr"/>
+    </struct>
+    <struct name="EnemySinusoidal" parent="BaseEnemyData">
+      <struct-field name="missileCooldown" type="uint16"/>
+    </struct>
+    <struct name="Missile">
+      <struct-field name="initialVelocity" type="uint32"/>
+      <struct-field name="reflectOffShield" type="uint8" default="1"/>
+    </struct>
+    <function-table name="Player" struct="Base" export-order="Player" parameter-type="unused"/>
+    <function-table name="EnemyCarrier" struct="BaseEnemyData" export-order="EnemyCarrier" parameter-type="unused"/>
+    <function-table name="EnemyCarrierDrone" struct="CarrierDroneData" export-order="SingleAnimation" parameter-type="word" comment="parameter = spawning entity address"/>
+    <function-table name="EnemyFighter" struct="BaseEnemyData" export-order="Enemy" parameter-type="unused"/>
+    <function-table name="EnemySinusoidal" struct="EnemySinusoidal" export-order="Enemy" parameter-type="unused"/>
+    <function-table name="Missile" struct="Missile" export-order="Missile" parameter-type="word" comment="parameter = spawning entity address"/>
+    <function-table name="Particles" export-order="Particle" parameter-type="unused"/>
+    <entities>
+      <entry name="Player" function-table="Player" projectileid="PlayerPlasma" listid="Players" frameset="Player" frame="Straight_2" palette="0">
+        <entry-field for="health" value="6"/>
+      </entry>
+      <entry name="EnemyCarrier" function-table="EnemyCarrier" listid="Enemies" frameset="EnemyCarrier" frame="Flying_1" palette="0">
+        <entry-field for="health" value="50"/>
+        <entry-field for="initialVelocity" value="-0x010000"/>
+      </entry>
+      <entry name="EnemyCarrierDrone_FrontBay" function-table="EnemyCarrierDrone" projectileid="EnemyPlasma" listid="Enemies" frameset="EnemyCarrierDrone" frame="Flying" palette="0">
+        <entry-field for="health" value="2"/>
+        <entry-field for="initialVelocity" value="0x00000000"/>
+        <entry-field for="path" value="Entities.EnemyCarrierDrone.FrontBayPath"/>
+      </entry>
+      <entry name="EnemyCarrierDrone_RearBay" function-table="EnemyCarrierDrone" projectileid="EnemyPlasma" listid="Enemies" frameset="EnemyCarrierDrone" frame="Flying" palette="0">
+        <entry-field for="health" value="2"/>
+        <entry-field for="initialVelocity" value="0x00006666"/>
+        <entry-field for="path" value="Entities.EnemyCarrierDrone.RearBayPath"/>
+      </entry>
+      <entry name="EnemyFighter_Slow" function-table="EnemyFighter" projectileid="EnemyPlasma" listid="Enemies" frameset="EnemyFighter" frame="Flying_Left_1" palette="0">
+        <entry-field for="health" value="3"/>
+        <entry-field for="initialVelocity" value="-0x011234"/>
+        <entry-field for="path" value="Entities.EnemyCarrierDrone.RearPath"/>
+      </entry>
+      <entry name="EnemyFighter_Medium" function-table="EnemyFighter" projectileid="EnemyPlasma" listid="Enemies" frameset="EnemyFighter" frame="Flying_Left_2" palette="0">
+        <entry-field for="health" value="3"/>
+        <entry-field for="initialVelocity" value="-0x015678"/>
+        <entry-field for="path" value="Entities.EnemyCarrierDrone.RearPath"/>
+      </entry>
+      <entry name="EnemyFighter_Fast" function-table="EnemyFighter" projectileid="EnemyPlasma" listid="Enemies" frameset="EnemyFighter" frame="Flying_Left_3" palette="0">
+        <entry-field for="health" value="3"/>
+        <entry-field for="initialVelocity" value="-0x019abc"/>
+        <entry-field for="path" value="Entities.EnemyCarrierDrone.RearPath"/>
+      </entry>
+      <entry name="EnemySinusoidal_Slow" function-table="EnemySinusoidal" projectileid="EnemyPlasma" listid="Enemies" frameset="EnemyFighter" frame="Flying_Left_1" palette="0">
+        <entry-field for="health" value="3"/>
+        <entry-field for="initialVelocity" value="-0x009876"/>
+        <entry-field for="missileCooldown" value="60"/>
+        <entry-field for="path" value="Entities.EnemyCarrierDrone.RearPath"/>
+      </entry>
+      <entry name="EnemySinusoidal_Medium" function-table="EnemySinusoidal" projectileid="EnemyPlasma" listid="Enemies" frameset="EnemyFighter" frame="Flying_Left_2" palette="0">
+        <entry-field for="health" value="3"/>
+        <entry-field for="initialVelocity" value="-0x010000"/>
+        <entry-field for="missileCooldown" value="50"/>
+        <entry-field for="path" value="Entities.EnemyCarrierDrone.RearPath"/>
+      </entry>
+      <entry name="EnemySinusoidal_Fast" function-table="EnemySinusoidal" projectileid="EnemyPlasma" listid="Enemies" frameset="EnemyFighter" frame="Flying_Left_3" palette="0">
+        <entry-field for="health" value="3"/>
+        <entry-field for="initialVelocity" value="-0x012345"/>
+        <entry-field for="missileCooldown" value="40"/>
+        <entry-field for="path" value="Entities.EnemyCarrierDrone.RearPath"/>
+      </entry>
+      <entry name="Explosion" function-table="Particles" listid="Particles" frameset="Explosion" frame="Frame_0" palette="0"/>
+    </entities>
+    <projectiles>
+      <entry name="PlayerPlasma" function-table="Missile" listid="PlayerProjectiles" frameset="PlayerPlasma" frame="Right_1" palette="0">
+        <entry-field for="initialVelocity" value="0x028000"/>
+        <entry-field for="initialVelocity_px" value="0x8000"/>
+        <entry-field for="initialVelocity_sx" value="2"/>
+      </entry>
+      <entry name="EnemyPlasma" function-table="Missile" listid="EnemyProjectiles" frameset="EnemyPlasma" frame="Right_1" palette="0">
+        <entry-field for="initialVelocity" value="0x020000"/>
+        <entry-field for="initialVelocity_px" value="0x8000"/>
+        <entry-field for="initialVelocity_sx" value="2"/>
+      </entry>
+    </projectiles>
+  </entity-rom-data>
+  <action-point-function name="PlayerProjectile"/>
+  <action-point-function name="EnemyProjectile"/>
+  <action-point-function name="ManualPlayerProjectile" manually-invoked="true"/>
+  <action-point-function name="SpawnCarrierDrone"/>
+  <exportorder src="metasprite/utsi/missiles/missiles.utfseo"/>
+  <exportorder src="metasprite/utsi/particles/particle.utfseo"/>
+  <exportorder src="metasprite/utsi/ships/enemy-carrier.utfseo"/>
+  <exportorder src="metasprite/utsi/ships/enemy.utfseo"/>
+  <exportorder src="metasprite/utsi/ships/player.utfseo"/>
+  <exportorder src="metasprite/single-animation.utfseo"/>
+  <frameset src="metasprite/utsi/ships/player.utsi" type="spriteimporter"/>
+  <frameset src="metasprite/utsi/ships/enemy-fighter.utsi" type="spriteimporter"/>
+  <frameset src="metasprite/utsi/ships/enemy-carrier.utsi" type="spriteimporter"/>
+  <frameset src="metasprite/utsi/ships/enemy-carrier-drone.utsi" type="spriteimporter"/>
+  <frameset src="metasprite/utsi/missiles/player-plasma.utsi" type="spriteimporter"/>
+  <frameset src="metasprite/utsi/missiles/enemy-plasma.utsi" type="spriteimporter"/>
+  <frameset src="metasprite/utsi/particles/explosion.utsi" type="spriteimporter"/>
+</project>

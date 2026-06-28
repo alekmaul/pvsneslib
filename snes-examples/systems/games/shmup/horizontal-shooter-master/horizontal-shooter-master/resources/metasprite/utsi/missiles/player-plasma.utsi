@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF_8"?>
+<!DOCTYPE untech>
+<spriteimporter id="PlayerPlasma" tilesettype="ONE_TILE_FIXED" exportorder="Missile" image="player-plasma.png" transparent="881a1c">
+  <grid width="16" height="16" xoffset="0" yoffset="0" xpadding="0" ypadding="0" xorigin="9" yorigin="8"/>
+  <palette npalettes="1" colorsize="4"/>
+  <frame id="Right_1" order="3">
+    <gridlocation x="0" y="0"/>
+    <object size="small" x="4" y="4"/>
+    <entityhitbox type="ATTACK" x="6" y="7" width="4" height="2"/>
+  </frame>
+  <frame id="Right_2" order="3">
+    <gridlocation x="1" y="0"/>
+    <object size="small" x="4" y="4"/>
+    <entityhitbox type="ATTACK" x="6" y="7" width="4" height="2"/>
+  </frame>
+  <frame id="Right_3" order="3">
+    <gridlocation x="2" y="0"/>
+    <object size="small" x="4" y="4"/>
+    <entityhitbox type="ATTACK" x="6" y="7" width="4" height="2"/>
+  </frame>
+  <frame id="Right_4" order="3">
+    <gridlocation x="3" y="0"/>
+    <object size="small" x="4" y="4"/>
+    <entityhitbox type="ATTACK" x="6" y="7" width="4" height="2"/>
+  </frame>
+  <animation id="Move_Right" durationformat="FRAME">
+    <aframe frame="Right_1" duration="2"/>
+    <aframe frame="Right_2" duration="2"/>
+    <aframe frame="Right_3" duration="2"/>
+    <aframe frame="Right_4" duration="2"/>
+  </animation>
+</spriteimporter>

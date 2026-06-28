@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF_8"?>
+<!DOCTYPE untech>
+<fsexportorder name="Enemy">
+  <animation id="Flying_Left">
+    <alt name="Flying_Right" hflip="true"/>
+  </animation>
+  <animation id="Flying_Right">
+    <alt name="Flying_Left" hflip="true"/>
+  </animation>
+  <animation id="Shoot_Left">
+    <alt name="Shoot_Right" hflip="true"/>
+  </animation>
+  <animation id="Shoot_Right">
+    <alt name="Shoot_Left" hflip="true"/>
+  </animation>
+  <animation id="Dead_Left">
+    <alt name="Dead_Right" hflip="true"/>
+  </animation>
+  <animation id="Dead_Right">
+    <alt name="Dead_Left" hflip="true"/>
+  </animation>
+</fsexportorder>

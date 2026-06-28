@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF_8"?>
+<!DOCTYPE untech>
+<spriteimporter id="Explosion" tilesettype="ONE_TILE" exportorder="Particle" image="explosion.png" transparent="610058">
+  <grid width="16" height="16" xoffset="0" yoffset="0" xpadding="0" ypadding="0" xorigin="8" yorigin="8"/>
+  <frame id="Frame_0" order="2">
+    <gridlocation x="0" y="0"/>
+    <object size="large" x="0" y="0"/>
+  </frame>
+  <frame id="Frame_1" order="2">
+    <gridlocation x="1" y="0"/>
+    <object size="large" x="0" y="0"/>
+  </frame>
+  <frame id="Frame_2" order="2">
+    <gridlocation x="2" y="0"/>
+    <object size="large" x="0" y="0"/>
+  </frame>
+  <frame id="Frame_3" order="2">
+    <gridlocation x="3" y="0"/>
+    <object size="large" x="0" y="0"/>
+  </frame>
+  <frame id="Frame_4" order="2">
+    <gridlocation x="4" y="0"/>
+    <object size="large" x="0" y="0"/>
+  </frame>
+  <frame id="Frame_5" order="2">
+    <gridlocation x="5" y="0"/>
+    <object size="large" x="0" y="0"/>
+  </frame>
+  <frame id="Frame_6" order="2">
+    <gridlocation x="6" y="0"/>
+    <object size="large" x="0" y="0"/>
+  </frame>
+  <frame id="Frame_7" order="2">
+    <gridlocation x="7" y="0"/>
+    <object size="large" x="0" y="0"/>
+  </frame>
+  <animation id="Animation" durationformat="TIME" oneshot="true">
+    <aframe frame="Frame_0" duration="6"/>
+    <aframe frame="Frame_1" duration="6"/>
+    <aframe frame="Frame_2" duration="6"/>
+    <aframe frame="Frame_3" duration="6"/>
+    <aframe frame="Frame_4" duration="6"/>
+    <aframe frame="Frame_5" duration="6"/>
+    <aframe frame="Frame_6" duration="6"/>
+    <aframe frame="Frame_7" duration="6"/>
+  </animation>
+</spriteimporter>

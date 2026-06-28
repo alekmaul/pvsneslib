@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF_8"?>
+<!DOCTYPE untech>
+<spriteimporter id="EnemyFighter" tilesettype="ONE_ROW_FIXED" exportorder="Enemy" image="enemy-fighter.png">
+  <grid width="20" height="20" xoffset="0" yoffset="0" xpadding="0" ypadding="0" xorigin="10" yorigin="11"/>
+  <frame id="Dead_Left" order="2">
+    <gridlocation x="0" y="0"/>
+    <object size="large" x="2" y="2"/>
+  </frame>
+  <frame id="Flying_Left_1" order="2">
+    <gridlocation x="1" y="0"/>
+    <object size="large" x="2" y="2"/>
+    <entityhitbox type="---B" x="5" y="7" width="10" height="7"/>
+  </frame>
+  <frame id="Flying_Left_2" order="2">
+    <gridlocation x="2" y="0"/>
+    <object size="large" x="2" y="2"/>
+    <entityhitbox type="---B" x="5" y="7" width="10" height="7"/>
+  </frame>
+  <frame id="Flying_Left_3" order="2">
+    <gridlocation x="3" y="0"/>
+    <object size="large" x="2" y="2"/>
+    <entityhitbox type="---B" x="5" y="7" width="10" height="7"/>
+  </frame>
+  <frame id="Shoot_Left_1" order="2">
+    <gridlocation x="4" y="0"/>
+    <object size="small" x="9" y="6"/>
+    <object size="large" x="2" y="2"/>
+    <entityhitbox type="---B" x="5" y="7" width="10" height="7"/>
+  </frame>
+  <frame id="Shoot_Left_2" order="2">
+    <gridlocation x="5" y="0"/>
+    <object size="small" x="6" y="6"/>
+    <object size="large" x="2" y="2"/>
+    <entityhitbox type="---B" x="5" y="7" width="10" height="7"/>
+  </frame>
+  <frame id="Shoot_Left_3" order="2">
+    <gridlocation x="6" y="0"/>
+    <object size="small" x="5" y="6"/>
+    <object size="large" x="2" y="2"/>
+    <actionpoint type="EnemyProjectile" x="5" y="11"/>
+    <entityhitbox type="---B" x="5" y="7" width="10" height="7"/>
+  </frame>
+  <animation id="Dead_Left" durationformat="FRAME">
+    <aframe frame="Dead_Left" duration="1"/>
+  </animation>
+  <animation id="Flying_Left" durationformat="FRAME">
+    <aframe frame="Flying_Left_1" duration="4"/>
+    <aframe frame="Flying_Left_2" duration="4"/>
+    <aframe frame="Flying_Left_3" duration="4"/>
+  </animation>
+  <animation id="Shoot_Left" durationformat="FRAME" next="Flying_Left">
+    <aframe frame="Shoot_Left_1" duration="4"/>
+    <aframe frame="Shoot_Left_2" duration="4"/>
+    <aframe frame="Shoot_Left_3" duration="4"/>
+  </animation>
+</spriteimporter>
