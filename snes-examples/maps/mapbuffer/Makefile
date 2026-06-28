@@ -6,8 +6,8 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 .PHONY: bitmaps all
 
-MAPDIR := ./maps/$(MAPDIR)
-GFXDIR := ./gfx/$(GFXDIR)
+MAPDIR := maps/$(MAPDIR)
+GFXDIR := gfx/$(GFXDIR)
 
 CFLAGS += -I$(CURDIR)/maps $\
 		  -I$(CURDIR)/src/gameobjects $\

@@ -97,7 +97,7 @@ int compareVersions(Version v1, Version v2)
 void WriteMap(const char *filename, bool isquiet)
 {
     int tileattr, tilesnes, i;
-    //char *lastpostslash;
+    char *lastpostslash;
    	char *outputname;
     FILE *fpo;
 
@@ -107,22 +107,20 @@ void WriteMap(const char *filename, bool isquiet)
 	{
 		fatal("can't allocate memory for bmp filename");
 	}
-	snprintf(outputname, FILENAME_MAX, "%s.m16", layer->name.ptr);
-/*
+	//snprintf(outputname, FILENAME_MAX, "%s.m16", layer->name.ptr);
+
     // We use directory and replace file name with layer name
-    strncpy(filemapname, filebase, sizeof(filemapname) - 1);
-    filemapname[sizeof(filemapname) - 1] = '\0';
-    lastpostslash = strrchr(filemapname, '/');
+    strncpy(outputname, filename, FILENAME_MAX - 1);
+    outputname[sizeof(outputname) - 1] = '\0'; 
+    lastpostslash = strrchr(outputname, '/');
     if (lastpostslash != NULL) {
-        size_t prefix_len = (lastpostslash + 1) - filemapname;
-        snprintf(lastpostslash + 1, sizeof(filemapname) - prefix_len, "%s.m16", layer->name.ptr);
+        size_t prefix_len = (lastpostslash + 1) - outputname;
+        snprintf(lastpostslash + 1, FILENAME_MAX - prefix_len, "%s.m16", layer->name.ptr);
     }
     else
-        snprintf(filemapname, sizeof(filemapname), "%s.m16", layer->name.ptr);
-    */
+        snprintf(outputname, FILENAME_MAX, "%s.m16", layer->name.ptr);
 
     if (!isquiet) info("Writing tiles map file...");
-    // sprintf(filemapname,"%s.m16",layer->name.ptr);
     fpo = fopen(outputname, "wb");
     if (fpo == NULL)
     {

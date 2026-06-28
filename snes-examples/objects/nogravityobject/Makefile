@@ -22,7 +22,7 @@ tiles.pic: tiles.png
 
 mapzelda.m16: mapzelda.tmj tiles.pic
 	@echo convert map tiled ... $(notdir $@)
-	$(TMXCONV) $< tiles.map
+	$(TMXCONV) -i $< -m tiles.map
 
 link.pic: link.png
 	@echo convert sprite bitmap ... $(notdir $@)

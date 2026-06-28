@@ -21,7 +21,7 @@ tilesMario.pic: tilesMario.png
 
 BG1.m16: tiledMario.tmj tilesMario.pic
 	@echo convert map tiled ... $(notdir $@)
-	$(TMXCONV) $< tilesMario.map
+	$(TMXCONV) -i $< -m tilesMario.map
 
 mario.pic: mario.png
 	@echo convert sprite bitmap ... $(notdir $@)
