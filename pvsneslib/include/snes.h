@@ -130,7 +130,7 @@
     \example input/superscope/superscope.c
 
     <!-- games -->
-    \example games/likemario/LikeMario.c
+    \example games/likemario/src/LikeMario.c
     \example games/breakout/breakout.c
 
     <!-- audio -->
