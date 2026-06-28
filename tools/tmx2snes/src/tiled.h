@@ -1,6 +1,8 @@
 #ifndef _TMX2SNES_MAPS_H
 #define _TMX2SNES_MAPS_H
 
+#include <stdbool.h>
+
 #include "errors.h"
 
 #define N_METATILES 1024 // maximum tiles
