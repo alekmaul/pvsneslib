@@ -58,6 +58,7 @@ jobs:
       - name: Install dependencies for MacOS
         if: matrix.name == 'darwin'
         run: |
+          export HOMEBREW_NO_REQUIRE_TAP_TRUST=1
           brew update || true
           brew install doxygen zip || true
           # Xcode Command Line Tools provides the compiler
