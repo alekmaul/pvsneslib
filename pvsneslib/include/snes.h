@@ -130,8 +130,8 @@
     \example input/superscope/superscope.c
 
     <!-- games -->
-    \example games/likemario/src/LikeMario.c
-    \example games/breakout/breakout.c
+    \example systems/games/likemario/src/LikeMario.c
+    \example systems/games/breakout/breakout.c
 
     <!-- audio -->
     \example audio/effects/effects.c
@@ -141,35 +141,32 @@
     \example audio/musicGreaterThan32k/musicGreaterThan32k.c
 
     <!-- maps -->
-    \example maps/mapscroll/mapscroll.c
-    \example maps/tiled/tiled.c
-    \example maps/slopemario/slopemario.c
+    \example graphics/maps/mapscroll/mapscroll.c
+    \example graphics/maps/tiled/tiled.c
+    \example graphics/maps/slopemario/slopemario.c
 
     <!-- objects -->
-    \example objects/mapandobjects/mapandobjects.c
-    \example objects/moveobjects/moveobjects.c
-    \example objects/nogravityobject/nogravityobjects.c
+    \example systems/objects/mapandobjects/mapandobjects.c
+    \example systems/objects/moveobjects/moveobjects.c
+    \example systems/objects/nogravityobject/nogravityobjects.c
 
     <!-- debugging -->
-    \example debug/debug.c
-    \example breakpoints/src/breakpoints.c
+    \example systems/debug/debug.c
+    \example systems/breakpoints/src/breakpoints.c
 
     <!-- sram -->
-    \example sram/sramoffset/sramoffset.c
-    \example sram/sramsimple/sram.c
+    \example systems/sram/sramoffset/sramoffset.c
+    \example systems/sram/sramsimple/sram.c
 
     <!-- region test, console type and rom type -->
-    \example testregion/testregion.c
-    \example typeconsole/src/pal_ntsc.c
-    \example memory_mapping/src/memory_mapping.c
+    \example systems/testregion/testregion.c
+    \example systems/typeconsole/src/pal_ntsc.c
+    \example systems/memory_mapping/src/memory_mapping.c
 
     <!-- misc examples -->
-    \example random/random.c
-    \example scoring/scoring.c
-    \example snes-logo-capcom/src/main.c
-    \example snes-logo-konami/src/main.c
-    \example snes-logo-pvsneslib/src/main.c
-    \example timer/timer.c
+    \example systems/random/random.c
+    \example systems/scoring/scoring.c
+    \example systems/timer/timer.c
 */
 
 #ifndef SNES_INCLUDE
@@ -188,6 +185,7 @@
 #include "snes/scores.h"
 #include "snes/sound.h"
 #include "snes/sprite.h"
+#include "snes/states.h"
 #include "snes/video.h"
 
 #endif // SNES_INCLUDE

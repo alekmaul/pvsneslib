@@ -481,6 +481,7 @@ exitl4:
 .include "snesmodwla.asm"
 .include "sounds.asm"
 .include "sprites.asm"
-; futur use .include "states.asm"
+.include "states.asm"
 .include "videos.asm"
 .include "vblank.asm"
+;futur use .include "vwfont.asm"
