@@ -47,37 +47,37 @@
 */
 void gstaInitFunctions(u8 staidx, void *initfct, void *updfct);
 
-/*! \fn staSetState(u8 staidx);
-    \brief Change the current state to a new one
-    \param staidx   The idx of states depending of the game
+/*! \fn gstaSetState(u8 staidx);
+    \brief Change the current game state to a new one
+    \param staidx   The idx of game states depending of the game
 */
 void gstaSetState(u8 staidx);
 
-/*! \fn staProcess(void);
-    \brief call state engine for all states (staSetState must be called before)
+/*! \fn gstaProcess(void);
+    \brief call game state engine for all states (gstaSetState must be called before)
 */
 void gstaProcess(void);
 
-#define STATESINIT 
-#define STATE_DEF_END 
+#define GSTATESINIT 
+#define GSTATE_DEF_END 
 
-/*! \fn _STATEINIT
+/*! \fn _GSTATEINIT
     \brief Declare external state of the game for the others defines with type functions (initialize, update)
-    each state has 2 function staini_STATEID and staup_STATEID
-    for example staini_menu() and staupd_menu() 
-    \param STATE_ID name of state, for exemple menu
+    each state has 2 function gstaini_STATEID and gstaup_STATEID
+    for example gstaini_menu() and gstaupd_menu() 
+    \param GSTATE_ID name of game state, for exemple menu
 */
-#define DECLARE_GSTATE(STATE_ID)   extern void gstaini_##STATE_ID(void); extern void gstaupd_##STATE_ID(void)
+#define DECLARE_GSTATE(GSTATE_ID)   extern void gstaini_##GSTATE_ID(void); extern void gstaupd_##GSTATE_ID(void)
 
 /*! \fn _GSTATEINIT
     \brief Initialize a state of the game with type functions (initialize, update)
     \param GSTATE_ID name of state, for exemple menu
 */
-#define _GSTATEINIT(GSTATE_ID) staInitFunctions(GSTATE_ID, gstaini_##GSTATE_ID, gstaupd_##GSTATE_ID);
+#define _GSTATEINIT(GSTATE_ID) gstaInitFunctions(GSTATE_ID, gstaini_##GSTATE_ID, gstaupd_##GSTATE_ID);
 
 /*! \fn _GSTATEDEF
     \brief Define identifier of each state of the game
-    \param GSTATE_ID name of state, for exemple menu
+    \param GSTATE_ID name of game state, for exemple menu
 */
 #define _GSTATEDEF(GSTATE_ID) GSTATE_ID,
 
