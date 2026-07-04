@@ -30,12 +30,12 @@
     \brief 16 maximum game states managed by engine
 */
 
-#ifndef SNES_STATES_INCLUDE
-#define SNES_STATES_INCLUDE
+#ifndef SNES_GSTATES_INCLUDE
+#define SNES_GSTATES_INCLUDE
 
 #include <snes/snestypes.h>
 
-#define STA_MAX             16 /*!< total number of states in the game */
+#define GSTA_MAX             16 /*!< total number of states in the game */
 
 /*! \fn gstaInitFunctions(u8 staidx, void *initfct, void *updfct);
     \brief Initialize the game state type functions (initialize, update) of a specific state (intro, menu, etc)

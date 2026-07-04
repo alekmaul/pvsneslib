@@ -22,12 +22,12 @@
 ;
 ;
 ;---------------------------------------------------------------------------------
-.DEFINE STA_MAX			16		                            ; total number of game states in the game (e.q. init, menu, and so on)
+.DEFINE GSTA_MAX			16		                            ; total number of game states in the game (e.q. init, menu, and so on)
 
 .BASE $00
 .RAMSECTION ".reg_gstates7e" BANK $7E SLOT RAMSLOT_0
-gstafctinit             DSB 4*STA_MAX			            ; pointer to init function of game states
-gstafctupd	            DSB 4*STA_MAX			            ; pointer to update function of game states
+gstafctinit             DSB 4*GSTA_MAX			            ; pointer to init function of game states
+gstafctupd	            DSB 4*GSTA_MAX			            ; pointer to update function of game states
 
 objgstacall	            DSB 2						        ; low address for C function call
 objgstacallh	        DSB 2						        ; high address for C function call

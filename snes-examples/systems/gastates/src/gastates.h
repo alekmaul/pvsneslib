@@ -7,7 +7,7 @@
 GSTATE_DEF_END
 
 typedef enum {
-    GSTATESDEF
+    GSTATESDEF 
     N_GSTATES
 } GSTATES;
 
