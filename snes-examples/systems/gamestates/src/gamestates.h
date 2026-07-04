@@ -1,0 +1,14 @@
+#ifndef _GSTA_MAIN_H
+#define _GSTA_MAIN_H
+
+#define GTATESDEF \
+ _GSTATEDEF(INTRO) \
+ _GSTATEDEF(TITLE) \
+GSTATE_DEF_END
+
+typedef enum {
+    GSTATESDEF
+    N_GSTATES
+} GSTATES;
+
+#endif

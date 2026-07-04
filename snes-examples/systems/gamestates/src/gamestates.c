@@ -12,17 +12,17 @@
 
 //---------------------------------------------------------------------------------
 // default definition of states
-DECLARE_STATE(INTRO);
-DECLARE_STATE(TITLE);
+DECLARE_GSTATE(INTRO);
+DECLARE_GSTATE(TITLE);
 
 // need to undef as it is also in library
-#undef STATESINIT
+#undef GSTATESINIT
 
 // need to declare local states
-#define STATESINIT \
- _STATEINIT(INTRO) \
- _STATEINIT(TITLE) \
-STATE_DEF_END
+#define GSTATESINIT \
+ _GSTATEINIT(INTRO) \
+ _GSTATEINIT(TITLE) \
+GSTATE_DEF_END
 
 //---------------------------------------------------------------------------------
 u16 pad0;                                               // declared here because used in all states
@@ -48,16 +48,16 @@ int main(void)
     bgSetDisable(2);
 
     // init all states for the game
-    staInitEngine();
+    gstaInitEngine();
 
     // Display screen
     setScreenOn();
 
     // go to 1st state
-    staSetState(INTRO);
+    gstaSetState(INTRO);
 
     // Loop on states
-    staUpdateAll();
+    gstaProcess();
 
     // never reach this point
     return 0;

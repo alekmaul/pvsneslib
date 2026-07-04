@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-    states.h -- definitions for SNES states engine
+    states.h -- definitions for SNES game states engine
 
     Copyright (C) 2025-2026
         Alekmaul
@@ -25,9 +25,9 @@
     distribution.
 
 ---------------------------------------------------------------------------------*/
-/*! \file states.h
-    \brief snes states engine functionality.
-    \brief 16 maximum states managed by engine
+/*! \file gamestates.h
+    \brief snes game states engine functionality.
+    \brief 16 maximum game states managed by engine
 */
 
 #ifndef SNES_STATES_INCLUDE
@@ -37,26 +37,26 @@
 
 #define STA_MAX             16 /*!< total number of states in the game */
 
-/*! \fn staInitFunctions(u8 staidx, void *initfct, void *updfct);
-    \brief Initialize the state type functions (initialize, update) of a specific state (intro, menu, etc)
-    \param staidx   The idx of states depending of the game
+/*! \fn gstaInitFunctions(u8 staidx, void *initfct, void *updfct);
+    \brief Initialize the game state type functions (initialize, update) of a specific state (intro, menu, etc)
+    \param staidx   The idx of game state depending of the game (intro, menu, etc...)
     \param initfct  The address of the function when we init the state
     \param updfct   The address of the function when we update the state (need to be called once per frame)
     \brief init and update functions have no parameters
     \brief functions name must begin with staini_<statename> and staupd_<statename>
 */
-void staInitFunctions(u8 staidx, void *initfct, void *updfct);
+void gstaInitFunctions(u8 staidx, void *initfct, void *updfct);
 
 /*! \fn staSetState(u8 staidx);
     \brief Change the current state to a new one
     \param staidx   The idx of states depending of the game
 */
-void staSetState(u8 staidx);
+void gstaSetState(u8 staidx);
 
-/*! \fn staUpdateAll(void);
+/*! \fn staProcess(void);
     \brief call state engine for all states (staSetState must be called before)
 */
-void staUpdateAll(void);
+void gstaProcess(void);
 
 #define STATESINIT 
 #define STATE_DEF_END 
@@ -67,49 +67,49 @@ void staUpdateAll(void);
     for example staini_menu() and staupd_menu() 
     \param STATE_ID name of state, for exemple menu
 */
-#define DECLARE_STATE(STATE_ID)   extern void staini_##STATE_ID(void); extern void staupd_##STATE_ID(void)
+#define DECLARE_GSTATE(STATE_ID)   extern void gstaini_##STATE_ID(void); extern void gstaupd_##STATE_ID(void)
 
-/*! \fn _STATEINIT
+/*! \fn _GSTATEINIT
     \brief Initialize a state of the game with type functions (initialize, update)
-    \param STATE_ID name of state, for exemple menu
+    \param GSTATE_ID name of state, for exemple menu
 */
-#define _STATEINIT(STATE_ID) staInitFunctions(STATE_ID, staini_##STATE_ID, staupd_##STATE_ID);
+#define _GSTATEINIT(GSTATE_ID) staInitFunctions(GSTATE_ID, gstaini_##GSTATE_ID, gstaupd_##GSTATE_ID);
 
-/*! \fn _STATEDEF
+/*! \fn _GSTATEDEF
     \brief Define identifier of each state of the game
-    \param STATE_ID name of state, for exemple menu
+    \param GSTATE_ID name of state, for exemple menu
 */
-#define _STATEDEF(STATE_ID) STATE_ID,
+#define _GSTATEDEF(GSTATE_ID) GSTATE_ID,
 
-/*! \fn staInitEngine
+/*! \fn gstaInitEngine
     \brief Initialize all the states of the game with type functions (initialize, update)
-     Your code must define STATESINIT as
+     Your code must define GSTATESINIT as
      \code{.c}
-       #undef STATESINIT
-       #define STATESINIT \
-            _STATEINIT(idofstate1) \
+       #undef GSTATESINIT
+       #define GSTATESINIT \
+            _GSTATEINIT(idofstate1) \
      ...
-            _STATEINIT(idofstaten) \
-       STATE_DEF_END
+            _GSTATEINIT(idofstaten) \
+       GSTATE_DEF_END
      \endcode
 
      It must also define enumeration named STATESDEF in an include file available for all c file using state engine
      \code{.c}
-       #define STATESDEF \
-            _STATEDEF(idofstate1) \
+       #define GSTATESDEF \
+            _GSTATEDEF(idofstate1) \
      ...
-            _STATEDEF(idofstaten) \
-       STATE_DEF_END
+            _GSTATEDEF(idofstaten) \
+       GSTATE_DEF_END
 
        typedef enum {
-            STATESDEF
-            N_STATES
-        } STATES;
+            GSTATESDEF
+            N_GSTATES
+        } GSTATES;
      \endcode
 
      The declarations must be after the include of pvsneslib main include <snes.h>
 */
-#define staInitEngine() STATESINIT
+#define gstaInitEngine() GSTATESINIT
 
 
-#endif // SNES_OBJECTS_INCLUDE
+#endif // SNES_GSTATES_INCLUDE

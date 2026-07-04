@@ -1,5 +1,5 @@
 /*---------------------------------------------------------------------------------
-    title state example for state machine engine
+    title state example for game state machine engine
     -- alekmaul
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
@@ -14,7 +14,7 @@ extern char SOUNDBANK__;
 
 //---------------------------------------------------------------------------------
 // here, every needed to initialize title state, it will be called once
-void staini_TITLE(void) {
+void gstaini_TITLE(void) {
     // Set give soundbank
     spcSetBank(&SOUNDBANK__);
 
@@ -33,7 +33,7 @@ void staini_TITLE(void) {
 
 //---------------------------------------------------------------------------------
 // here, every needed during all title call, called once per frame
-void staupd_TITLE(void) {
+void gstaupd_TITLE(void) {
     // Update music / sfx stream and wait vbl
     spcProcess();
 }

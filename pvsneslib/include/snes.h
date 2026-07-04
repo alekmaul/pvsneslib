@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-    Copyright (C) 2012-2024
+    Copyright (C) 2012-2026
 
     This software is provided 'as-is', without any express or implied
     warranty.  In no event will the authors be held liable for any
@@ -58,6 +58,7 @@
  \section engine_api Engine API functions
  - \ref object.h "Objects management"
  - \ref map.h "map management"
+ - \ref gamestates.h "game states management"
  
  \section misc_api Miscellaneous functions
  - \ref scores.h "Scoring management"
@@ -178,6 +179,7 @@
 #include "snes/console.h"
 #include "snes/dma.h"
 #include "snes/fixed.h"
+#include "snes/gamestates.h"
 #include "snes/input.h"
 #include "snes/interrupt.h"
 #include "snes/map.h"
@@ -185,7 +187,6 @@
 #include "snes/scores.h"
 #include "snes/sound.h"
 #include "snes/sprite.h"
-#include "snes/states.h"
 #include "snes/video.h"
 
 #endif // SNES_INCLUDE
