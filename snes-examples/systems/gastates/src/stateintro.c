@@ -6,7 +6,7 @@
 
 #include "../res/libfontintro.inc"
 
-#include "states.h"
+#include "gastates.h"
 
 extern u16 pad0;
 

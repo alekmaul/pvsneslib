@@ -7,7 +7,7 @@
 #include "../res/libfonttitle.inc"
 #include "../res/soundbank.h"
 
-#include "states.h"
+#include "gastates.h"
 
 extern u16 pad0;
 extern char SOUNDBANK__;

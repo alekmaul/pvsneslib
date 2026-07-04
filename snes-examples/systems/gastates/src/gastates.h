@@ -1,7 +1,7 @@
 #ifndef _GSTA_MAIN_H
 #define _GSTA_MAIN_H
 
-#define GTATESDEF \
+#define GSTATESDEF \
  _GSTATEDEF(INTRO) \
  _GSTATEDEF(TITLE) \
 GSTATE_DEF_END
