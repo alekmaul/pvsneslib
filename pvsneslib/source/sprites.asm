@@ -41,7 +41,7 @@
 .EQU OBJ_SIZE16_L32				$60							  ; (3<<5) default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register (used for 16x16 sprite gfx entry)
 
 .EQU OBJ_QUEUELIST_SIZE			128							  ; 128 sprites of 8x8, 16x16 & 32x32 max in queue to update sprite graphics
-.EQU MAXSPRTRF					64*6				  	  	  ; 64 sprites max transferred each time to VRAM (safe value if we thing of only 32x32 sprites)
+.EQU MAXSPRTRF					96*6				  	  	  ; 96 sprites max transferred each time to VRAM (safe value if we thing of only 32x32 sprites)
 															  ; 1 8x8 sprite is 32 bytes size to transfert
 															  ; WARNING : 1 32x32 will take 16 entries and 1 16x16 will take 4 entries
 
@@ -1042,7 +1042,7 @@ oamInitDynamicSpriteEndFrame:
 	ldx	oamnumberperframe
 	txa
 	cmp oamnumberperframeold
-    bcs _oamIDSEndFrame2				; no, leave the function
+    bcs _oamIDSEndFrame2				; oamnumberperframe is greater than oamnumberperframeold, leave the function
 
 	;	change visibility of old frame sprites
 	phy
@@ -1094,7 +1094,7 @@ _oamIDSEndFrame1:
 _oamIDSEndFrame2:
 	lda oamnumberperframe
 	sta oamnumberperframeold
-    lda #$00
+    lda #$0000
 	sta oamnumberperframe
 
     lda oamnumberspr0Init
@@ -1166,7 +1166,7 @@ _ovquLoop:
 
 _ovquDo8:
         rep #$20												 ; ------------------------------------------------------
-        lda ovquFrameBudget									 ; 8×8 entry
+        lda ovquFrameBudget										 ; 8×8 entry
         sec
         sbc #VRAM_COST_8
         bcs +
@@ -1194,7 +1194,7 @@ _ovquDo8:
 
 _ovquDo16:
         rep #$20												 ; ------------------------------------------------------
-        lda ovquFrameBudget									 ; 16×16 entry
+        lda ovquFrameBudget										 ; 16×16 entry
         sec
         sbc #VRAM_COST_16
         bcs +
