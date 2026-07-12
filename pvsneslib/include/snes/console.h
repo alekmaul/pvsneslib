@@ -147,7 +147,7 @@ void consoleNocashMessage(char *fmt, ...);
 
 /*! \brief Execute the special WDM opcode which Mesen can break on
  */
-void consoleMesenBreakpoint();
+void consoleMesenBreakpoint(void);
 
 /*! \brief Send data to SRAM
     \param source the source to copy from
