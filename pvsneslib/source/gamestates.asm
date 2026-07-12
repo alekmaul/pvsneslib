@@ -76,14 +76,14 @@ gstaInitFunctions:
     tax
 
     lda 9,s												    ; get bank + data init function address (6+1+2 & 8+1+2)
-    sta stafctinit,x
+    sta gstafctinit,x
     lda 11,s
-    sta stafctinit+2,x
+    sta gstafctinit+2,x
 
     lda 13,s										        ; get bank + data update function address (10+1+2 & 12+1+2)
-    sta stafctupd,x
+    sta gstafctupd,x
     lda 15,s
-    sta stafctupd+2,x
+    sta gstafctupd+2,x
 
     plx
     plb
@@ -157,19 +157,11 @@ _gsuaUpdLo:
             jsl jslcallgsta
             ply
             sep #$20
-            lda starunning                                  ; loop while state is running
-            bne _suaUpdLo
-        lda staoptions                                      ; fade or display on
-        and #STA_OPT_FADE
-        beq +                                               ; no fade, display
+            lda gstarunning                                 ; loop while state is running
+            bne _gsuaUpdLo
         lda #$80                                            ; Put screen Off
         sta.l REG_INIDISP                                   ; Screen brightness
-        bra _suaLoop
-+ :     lda #1                                              ; 1 = FADE OUT
-        pha
-        jsl setFadeEffect
-        pla
-    bra _suaLoop
+        bra _gsuaLoop
 
 ; never reach here
 
