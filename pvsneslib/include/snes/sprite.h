@@ -72,7 +72,7 @@ typedef struct
     u8 *oamgraphics; /*!< \brief 8..11 pointer to graphic file  */
     u16 dummy1;      /*!< \brief 12..15 to be 16 aligned */
     u16 dummy2;
-} t_sprites __attribute__((__packed__)); /*!< seems to do nothing */
+} t_sprites; // __attribute__((__packed__)); /*!< seems to do nothing */
 
 /*!	\struct t_metasprites
     \brief Dynamic metasprite definition (16 bytes)
@@ -87,7 +87,7 @@ typedef struct
     u8 *metsprgraphics;                      /*!< 8..11 pointer to graphic file  */
     //u16 metsprend;                           /*!< 12..13 0xFFFF if it is the end of meta sprite definition */
     //u16 dummy1;                              /*!< 14..15 to be 16 aligned */
-} t_metasprites __attribute__((__packed__)); /*!< seems to do nothing */
+} t_metasprites; //  __attribute__((__packed__)); /*!< seems to do nothing */
 
 /** Metasprite sub-item structure
     @param dx     delta X coordinate of the sprite relative to the metasprite origin (0,0)
