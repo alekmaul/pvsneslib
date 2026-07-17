@@ -16,6 +16,30 @@
 #include "optimizer.h"
 
 /**
+ * @brief keep a small dynamic list of <name>_locals defines we've seen
+ */
+char **locals_names = NULL;
+size_t locals_names_used = 0, locals_names_size = 0;
+
+static void pushLocalName(char *name)
+{
+    if (locals_names_used == locals_names_size) {
+        locals_names_size = locals_names_size ? locals_names_size * 2 : 8;
+        locals_names = realloc(locals_names, locals_names_size * sizeof(char *));
+    }
+    locals_names[locals_names_used++] = strdup(name);
+}
+
+static int hasLocalName(const char *name)
+{
+    for (size_t ii = 0; ii < locals_names_used; ++ii) {
+        if (strcmp(locals_names[ii], name) == 0)
+            return 1;
+    }
+    return 0;
+}
+
+/**
  * @brief Checks if OPT816_QUIET is set.
  * This environment variable sets the output in a quiet mode.
  * Just set it if you don't want extra messages (export OPT816_QUIET=1).
@@ -220,9 +244,61 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
         size_t i = 0;
 
         if (verbose)
-            fprintf(stderr, "optimization pass %lu: ", opass);
+            fprintf(stderr, "optimization pass %llu: ", opass);
 
         while (i < file.used) {
+            //record and remove .define <name>_locals 0 
+            r = regexMatchGroups(file.arr[i], "^\\.define\\s+([A-Za-z0-9_]+_locals)\\s+0$", 2);
+            if (r.arr != NULL) {
+                // remember the name (including the _locals suffix) but do not emit the .define 
+                pushLocalName(r.arr[1]);
+                freedynArray(r);
+                i += 1;
+                opted += 1; // count this as an optimization/removal 
+                continue;
+            }
+            r = regexMatchGroups(file.arr[i], "^\\.ifgr\\s+([A-Za-z0-9_]+_locals)\\s+0$", 2);
+            if (r.arr != NULL) {
+                if (hasLocalName(r.arr[1]) && i + 5 < file.used) {
+                    // prolog pattern 
+                    if (matchStr(file.arr[i + 1], "tsa")
+                        && matchStr(file.arr[i + 2], "sec")
+                        && startWith(file.arr[i + 3], "sbc #")
+                        && matchStr(file.arr[i + 4], "tas")
+                        && matchStr(file.arr[i + 5], ".endif")) {
+                        i += 6;
+                        opted += 1;
+                        freedynArray(r);
+                        continue;
+                    }
+
+                    /* epilog pattern */
+                    if (matchStr(file.arr[i + 1], "tsa")
+                        && matchStr(file.arr[i + 2], "clc")
+                        && startWith(file.arr[i + 3], "adc #")
+                        && matchStr(file.arr[i + 4], "tas")
+                        && matchStr(file.arr[i + 5], ".endif")) {
+                        i += 6;
+                        opted += 1;
+                        freedynArray(r);
+                        continue;
+                    }
+                }
+                freedynArray(r);
+            }
+            // Keep only local inside code -> remove name as it is useless (was 0 in define)
+            r = regexMatchGroups(file.arr[i],"([A-Za-z_][A-Za-z0-9_]*)_locals \\+ ([0-9]+),s",3);
+            if (r.arr != NULL && !hasLocalName(r.arr[1])) {
+                snprintf(snp_buf1, sizeof(snp_buf1), "%s_locals + ", r.arr[1]);
+                char *newline = replaceStr(file.arr[i], snp_buf1, "");
+                text_opt = pushToArray(text_opt, newline);
+
+                freedynArray(r);
+                i++;
+                opted++;
+                continue;
+            }
+
             if (startWith(file.arr[i], "st")) {
                 /* Eliminate redundant stores */
                 r = regexMatchGroups(file.arr[i], STORE_AXYZ_TO_PSEUDO, 3);
@@ -1064,6 +1140,13 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
             freedynArray(text_opt);
         }
 
+        // CLeaning local names
+        for (size_t ii = 0; ii < locals_names_used; ++ii)
+            free(locals_names[ii]);
+        free(locals_names);
+        locals_names = NULL;
+        locals_names_used = locals_names_size = 0;
+
         if (verbose)
             fprintf(stderr, "%u optimizations performed\n", opted);
 
@@ -1071,7 +1154,7 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
     }
 
     if (verbose)
-        fprintf(stderr, "%lu optimizations performed in total\n", totalopt);
+        fprintf(stderr, "%llu optimizations performed in total\n", totalopt);
 
     return text_opt;
 }
