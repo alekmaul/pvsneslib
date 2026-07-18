@@ -22,6 +22,57 @@ u8 i;
 u8 cntentryspr;                                             // number of sprite in "entry of blocks"
 
 //---------------------------------------------------------------------------------
+void dynDrawSprites(void) {
+    for (i = 0; i < SPRNUMBER; i++)
+    {
+        // change sprites coordinates and frame randomly
+        if ((rand() & 7) == 7)
+        {
+            if (oambuffer[i].oamx < 240)
+                oambuffer[i].oamx += 2;
+            else
+                oambuffer[i].oamx = 128;
+        }
+        else if ((rand() & 5) == 5)
+        {
+            if (oambuffer[i].oamx > 0)
+                oambuffer[i].oamx -= 2;
+            else
+                oambuffer[i].oamx = 128;
+        }
+        else if ((rand() & 8) == 8)
+        {
+            if (oambuffer[i].oamy < 208)
+                oambuffer[i].oamy += 2;
+            else
+                oambuffer[i].oamy = 120;
+        }
+        else if ((rand() & 3) == 3)
+        {
+            if (oambuffer[i].oamy > 0)
+                oambuffer[i].oamy -= 2;
+            else
+                oambuffer[i].oamy = 120;
+        }
+        if ((rand() & 15) == 15)
+        {
+            oambuffer[i].oamframeid++;
+            if (oambuffer[i].oamframeid > 2)
+                oambuffer[i].oamframeid = 0;
+            oambuffer[i].oamrefresh = 1;
+        }
+        if (i < 8)
+        {
+            oamDynamic32Draw(i);
+        }
+        else
+        {
+            oamDynamic16Draw(i);
+        }
+    }
+}
+
+//---------------------------------------------------------------------------------
 int main(void)
 {
     // Copy tiles to VRAM
@@ -55,6 +106,11 @@ int main(void)
                 oambuffer[i].oamgraphics = &spr32g;
                 cntentryspr+=16;
             }
+            else {
+                oambuffer[i].oamattribute = OBJ_PRIO(2) | OBJ_PAL(0) | OBJ_SIZES; // palette 0 of sprite and sprite 16x16 and priority 2
+                oambuffer[i].oamgraphics = &spr16g;
+                cntentryspr+=4;
+            }
         }
         else
         {
@@ -68,53 +124,7 @@ int main(void)
     while (1)
     {
         // Draw sprite
-        for (i = 0; i < SPRNUMBER; i++)
-        {
-            // change sprites coordinates and frame randomly
-            if ((rand() & 7) == 7)
-            {
-                if (oambuffer[i].oamx < 240)
-                    oambuffer[i].oamx += 2;
-                else
-                    oambuffer[i].oamx = 128;
-            }
-            else if ((rand() & 5) == 5)
-            {
-                if (oambuffer[i].oamx > 0)
-                    oambuffer[i].oamx -= 2;
-                else
-                    oambuffer[i].oamx = 128;
-            }
-            else if ((rand() & 8) == 8)
-            {
-                if (oambuffer[i].oamy < 208)
-                    oambuffer[i].oamy += 2;
-                else
-                    oambuffer[i].oamy = 120;
-            }
-            else if ((rand() & 3) == 3)
-            {
-                if (oambuffer[i].oamy > 0)
-                    oambuffer[i].oamy -= 2;
-                else
-                    oambuffer[i].oamy = 120;
-            }
-            if ((rand() & 15) == 15)
-            {
-                oambuffer[i].oamframeid++;
-                if (oambuffer[i].oamframeid > 2)
-                    oambuffer[i].oamframeid = 0;
-                oambuffer[i].oamrefresh = 1;
-            }
-            if (i < 8)
-            {
-                oamDynamic32Draw(i);
-            }
-            else
-            {
-                oamDynamic16Draw(i);
-            }
-        }
+        dynDrawSprites();
 
         // prepare next frame and wait vblank
         oamInitDynamicSpriteEndFrame();
