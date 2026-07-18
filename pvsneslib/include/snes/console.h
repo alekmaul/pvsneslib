@@ -42,9 +42,6 @@
 #include <snes/sound.h>
 #include <snes/video.h>
 
-extern u8 scr_txt_font_map[0x800]; /*!< \brief tilemap used for text display */
-extern u8 scr_txt_dirty;           /*!< \brief flag to redraw text during vblank */
-
 extern u16 snes_vblank_count; /*!< \brief Number of VBL since consoleInit called (16 bits longs so reset each 18 minutes in NTSC)*/
 extern u8 snes_50hz;          /*!< \brief 1 if on a PAL/50Hz SNES */
 extern u8 snes_fps;           /*!< \brief 50 if PAL console (50 Hz) or 60 if NTSC console (60Hz) */
@@ -54,83 +51,6 @@ extern u8 snes_fps;           /*!< \brief 50 if PAL console (50 Hz) or 60 if NTS
     \return unsigned short of a randomized number
 */
 u16 rand(void);
-
-/*! \fn consoleUpdate(void);
-    \brief Update current text buffer on screen
-*/
-void consoleUpdate(void);
-
-/*! \brief Initialize the Text System
-    \param palnum	palette entry (0..7)
-    \param palsize	size of palette of text (4,16,etc ...)
-    \param tilfont	Pointer to tiles gfx for printing
-    \param palfont	Pointer to palette of text
-
-    Reserve a BG and load the font characters into VRAM. It will only work in tiled display modes.
-    You can change address of graphics and map with consoleSetTextVramAdr() and consoleSetTextVramBGAdr().
-    Also, consoleSetTextPal can change the text palette.
-*/
-void consoleInitText(u8 palnum, u8 palsize, u8 *tilfont, u8 *palfont);
-
-/*! \fn consoleSetTextGfxPtr(u16 vramfont)
-    \brief Change text graphics address (4K aligned)
-    \param vramfont	VRAM Background address (4K aligned)  (default is $0800)
-*/
-void consoleSetTextGfxPtr(u16 vramfont);
-
-/*! \fn consoleSetTextMapPtr(u16 vrambgfont)
-    \brief Change text Background map address for display (must be BG address)
-    \param vrambgfont	VRAM Background map address (default is $0800)
-*/
-void consoleSetTextMapPtr(u16 offsetfont);
-
-/*! \fn consoleSetTextOffset(u16 offsetfont)
-    \brief Change text Background map address for display (must be BG address)
-    \param offsetfont	VRAM offset for text (default is 0, as it is aligned with BG tiles)
-*/
-void consoleSetTextOffset(u16 offsetfont);
-
-/*! \fn consoleSetTextPal(u8 palnum, u8 *palfont, u8 palsize)
-    \brief Change text font palette
-    \param palnum	palette entry (0..7)
-    \param palfont	pointer to the new palette
-    \param palsize	size of palette of text (4,16,etc ...)
-*/
-void consoleSetTextPal(u8 palnum, u8 *palfont, u8 palsize);
-
-/*! \brief Output formatted string on a screen (tiles mode)
-    \param x 	The X character number the string should start on
-    \param y 	The Y character number the string should start on
-    \param fmt 	The Format string (see printf() documentation in your local C tutorial)
-
-    Output a text string to the screen. Before using this, you need to call consoleInitText().
-    You can also print the value of variables this way, by putting a format string and additional parameters.
-*/
-void consoleDrawText(u16 x, u16 y, char *fmt, ...);
-
-/*! \brief Output formatted string on a screen (2 colors tiles mode)
-    \param x 	The X character number the string should start on
-    \param y 	The Y character number the string should start on
-    \param map 	The 0x800 char map entry to put string
-    \param attributes	attributes for tiles
-    \param fmt 	The Format string (see printf() documentation in your local C tutorial)
-
-    Output a text string to the screen. Before using this, you need to call consoleInitText().
-    You can also print the value of variables this way, by putting a format string and additional parameters.
-*/
-void consoleDrawTextMap(u16 x, u16 y, u8 *map, u8 attributes, char *fmt, ...);
-
-/*! \brief Output formatted string on a screen, centered it (2 colors tiles mode)
-    \param y 	The Y character number the string should start on
-    \param map 	The 0x800 char map entry to put string
-    \param attributes	attributes for tiles
-    \param fmt 	The Format string (see printf() documentation in your local C tutorial)
-
-    Output a text string to the screen. Before using this, you need to call consoleInitText().
-    You can also print the value of variables this way, by putting a format string and additional parameters.
-    The text will be centered on x axis.
-*/
-void consoleDrawTextMapCenter(u16 y, u16 *map, u8 attributes, char *fmt, ...);
 
 /*! \fn  consoleInit()
     \brief Initialize console
