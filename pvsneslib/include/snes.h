@@ -186,6 +186,7 @@
 #include "snes/object.h"
 #include "snes/scores.h"
 #include "snes/sound.h"
+#include "snes/textfont.h"
 #include "snes/sprite.h"
 #include "snes/video.h"
 
