@@ -287,16 +287,18 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t verbose)
                 freedynArray(r);
             }
             // Keep only local inside code -> remove name as it is useless (was 0 in define)
-            r = regexMatchGroups(file.arr[i],"([A-Za-z_][A-Za-z0-9_]*)_locals \\+ ([0-9]+),s",3);
-            if (r.arr != NULL && !hasLocalName(r.arr[1])) {
-                snprintf(snp_buf1, sizeof(snp_buf1), "%s_locals + ", r.arr[1]);
-                char *newline = replaceStr(file.arr[i], snp_buf1, "");
-                text_opt = pushToArray(text_opt, newline);
-
+            r = regexMatchGroups(file.arr[i],"([A-Za-z0-9_]+_locals) \\+ ([0-9]+),s",2);
+            if (r.arr != NULL) {
+                if (hasLocalName(r.arr[1])) {
+                    snprintf(snp_buf1, sizeof(snp_buf1), "%s + ", r.arr[1]);
+                    char *newline = replaceStr(file.arr[i], snp_buf1, "");
+                    text_opt = pushToArray(text_opt, newline);
+                    i++;
+                    opted++;
+                    freedynArray(r);
+                    continue;
+                }
                 freedynArray(r);
-                i++;
-                opted++;
-                continue;
             }
 
             if (startWith(file.arr[i], "st")) {
