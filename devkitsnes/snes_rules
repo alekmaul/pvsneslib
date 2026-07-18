@@ -198,10 +198,11 @@ cleanAudio:
 	@echo clean audio data
 	@rm -f $(SOUNDBANK).asm $(SOUNDBANK).h $(SOUNDBANK).bnk
 
+# @- ignore erros when find returns an error
 cleanDebug:
 ifeq ($(DEBUG),1)
 	@echo clean debug files
-	@find . -type f -name "*.dbg" -delete
+	@-find . -type f -name "*.dbg" -delete
 endif
 
 cleanLogs:
