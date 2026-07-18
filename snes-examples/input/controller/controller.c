@@ -8,7 +8,7 @@
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-extern char snesfont, snespal;
+#include "pvsneslibfont.inc"
 
 unsigned short pad0;
 
@@ -19,11 +19,7 @@ int main(void)
     consoleSetTextMapPtr(0x6800);
     consoleSetTextGfxPtr(0x3000);
     consoleSetTextOffset(0x0100);
-    consoleInitText(0, 16 * 2, &snesfont, &snespal);
-
-    // Draw a wonderful text :P
-    consoleDrawText(12, 1, "PAD TEST");
-    consoleDrawText(6, 5, "USE PAD TO SEE VALUE");
+    consoleInitText(0, 16 * 2, &pvsneslibfont_til, &pvsneslibfont_pal);
 
     // Init background
     bgSetGfxPtr(0, 0x2000);
@@ -33,6 +29,10 @@ int main(void)
     setMode(BG_MODE1, 0);
     bgSetDisable(1);
     bgSetDisable(2);
+
+    // Draw a wonderful text :P
+    consoleDrawText(12, 1, "PAD TEST");
+    consoleDrawText(6, 5, "USE PAD TO SEE VALUE");
 
     // Wait for nothing :P
     setScreenOn();

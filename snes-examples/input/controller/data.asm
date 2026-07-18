@@ -2,10 +2,6 @@
 
 .section ".rodata1" superfree
 
-snesfont:
-.incbin "pvsneslibfont.pic"
-
-snespal:
-.incbin "pvsneslibfont.pal"
+.include "pvsneslibfont_data.as"
 
 .ends
