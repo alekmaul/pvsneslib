@@ -11,6 +11,8 @@
 #include <regex.h>
 #endif
 
+#include "errors.h"
+
 /*!
  * @brief Max length of the line.
  */

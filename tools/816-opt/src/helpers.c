@@ -1,17 +1,29 @@
-/*
- * opt-65816 - Assembly code optimizer for the WDC 65816 processor.
- *
- * Description: Assembly code optimizer produced
- * by the 816 Tiny C Compiler (816-tcc).
- * This library is a C port of the 816-opt python tool.
- *
- * Author: kobenairb (kobenairb@gmail.com).
- *
- * Copyright (c) 2022.
- *
- * This project is released under the GNU Public License.
- *
- */
+/*---------------------------------------------------------------------------------
+
+	Copyright (C) 2022-2026
+		Alekmaul & kobenairb (kobenairb@gmail.com)
+
+	This software is provided 'as-is', without any express or implied
+	warranty.  In no event will the authors be held liable for any
+	damages arising from the use of this software.
+
+	Permission is granted to anyone to use this software for any
+	purpose, including commercial applications, and to alter it and
+	redistribute it freely, subject to the following restrictions:
+
+	1.	The origin of this software must not be misrepresented; you
+		must not claim that you wrote the original software. If you use
+		this software in a product, an acknowledgment in the product
+		documentation would be appreciated but is not required.
+	2.	Altered source versions must be plainly marked as such, and
+		must not be misrepresented as being the original software.
+	3.	This notice may not be removed or altered from any source
+		distribution.
+
+ 	Assembly code optimizer produced for the 816 Tiny C Compiler (816-tcc).
+ 	This library is a C port of the 816-opt python tool.
+	
+***************************************************************************/
 
 #include "helpers.h"
 
@@ -305,9 +317,8 @@ dynArray regexMatchGroups(char *string, char *regex, const size_t maxGroups)
 
     if (re)
     {
-        fprintf(stderr, "Could not compile regular expression.\n");
-        exit(EXIT_FAILURE);
-    };
+        fatal("Could not compile regular expression.\n");
+    }
 
     re = regexec(&regexCompiled, string, maxGroups, groupArray, 0);
 
@@ -352,9 +363,10 @@ dynArray regexMatchGroups(char *string, char *regex, const size_t maxGroups)
     {
         char msgbuf[100];
         regerror(re, &regexCompiled, msgbuf, sizeof(msgbuf));
-        fprintf(stderr, "Regex match failed: %s\n", msgbuf);
-        exit(EXIT_FAILURE);
+        fatal("Regex match failed: %s\n", msgbuf);
     }
+
+    return regexgroup; // never go here
 }
 
 /**
@@ -370,8 +382,7 @@ dynArray pushToArray(dynArray text_opt, char *str)
 
     if ((text_opt.arr[text_opt.used] = malloc(len + 1)) == NULL)
     {
-        perror("malloc-lines");
-        exit(EXIT_FAILURE);
+        fatal("malloc-lines");
     }
 
     memcpy(text_opt.arr[text_opt.used], str, len + 1);
