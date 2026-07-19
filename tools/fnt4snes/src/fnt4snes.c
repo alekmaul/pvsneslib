@@ -36,7 +36,7 @@ static cmdp_command_st fnt4snes_command = {
     .options =
         (cmdp_option_st[]){
             {0, 0, "Characters options:\n", CMDP_TYPE_NONE, NULL,NULL},
-			{'b', "break-color", "RGB in 32 color used for glyth end of width (1st line)", CMDP_TYPE_INT4, &fnt4snes_args.rgbbreak},
+			{'b', "break-color", "RGB in 32 color used for marker width break (1st line) {RRGGBB in hexa format}", CMDP_TYPE_STRING_PTR, &fnt4snes_args.rgbbreak, .type_name = "FF0000"},
             {0, 0, "Palettes options:\n", CMDP_TYPE_NONE, NULL,NULL},
 			{'o', "pal-col-output", "number of colors to output to filename.pal {[4]..16}", CMDP_TYPE_INT4, &fnt4snes_args.paletteoutput},
 			{'p', "pal-output", "include palette for output", CMDP_TYPE_BOOL, &fnt4snes_args.palettesave},
@@ -131,10 +131,13 @@ int main(int argc, const char **argv)
 	
 	// 1st color is always transparent color (background color)
 	bkgcolor.r=snesimage.palette[0].r; bkgcolor.g=snesimage.palette[0].g; bkgcolor.b=snesimage.palette[0].b;
-	if (!fnt4snes_args.quietmode) info("Transparent color is (%02x,%02x,%02x) ",bkgcolor.r,bkgcolor.g,bkgcolor.b);
+	if (!fnt4snes_args.quietmode) {
+		info("Transparent color: (%02x,%02x,%02x) ",bkgcolor.r,bkgcolor.g,bkgcolor.b);
+		info("Marker color: (%02x,%02x,%02x) ",fnt4snes_args.markercolor.r,fnt4snes_args.markercolor.g,fnt4snes_args.markercolor.b);
+	}
 
 	// process tiles with width calculation
-	tiles_snes=tiles_processglyph (snesimage.buffer, snesimage.palette, snesimage.header.width, snesimage.header.height, (t_glyph*) &glyphs, (unsigned char *) &glyphs_widths, bkgcolor, 2, fnt4snes_args.quietmode);
+	tiles_snes=tiles_processglyph (snesimage.buffer, snesimage.palette, snesimage.header.width, snesimage.header.height, (t_glyph*) &glyphs, (unsigned char *) &glyphs_widths, bkgcolor, fnt4snes_args.markercolor, 2, fnt4snes_args.quietmode);
 
 	// convert tiles to a snes format (8x8)
 	//tiles_snes=tiles_convertsnes (snesimage.buffer, snesimage.header.width, snesimage.header.height, fnt4snes_args.tilewidth, fnt4snes_args.tileheight, &nbtilesx, &nbtiles, 8, fnt4snes_args.quietmode);

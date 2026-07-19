@@ -20,11 +20,8 @@ typedef struct {
 } t_glyph;
 
 //-------------------------------------------------------------------------------------------------
-extern void extract_glyphs(unsigned char *imgbuf, t_RGB_color *imgpal, int w, t_RGB_color bg, t_glyph *glyphs);
+extern void extract_glyphs(unsigned char *imgbuf, t_RGB_color *imgpal, int w, t_RGB_color bg, t_RGB_color red, t_glyph *glyphs);
 extern void tiles_save (const char *filename, unsigned char *tiles,int nbtiles, int nbcolors, bool isquiet);
-extern unsigned char *tiles_processglyph (unsigned char *imgbuf, t_RGB_color *imgpal, int imgwidth, int imgheight, t_glyph *imgglyphs, unsigned char *sizglyph, t_RGB_color bgcol, unsigned char bpp,bool isquiet);
-
-//extern unsigned char tiles_processglyph (unsigned char *imgbuf, int imgwidth, int imgheight, int blksizey, int asciistart, int nbcolors, unsigned char *fntidx, unsigned char *fntwidth, Tile *fnt_faces, bool isquiet);
-//extern unsigned char *tiles_convertsnes (unsigned char *imgbuf, int imgwidth, int imgheight, int blksizex, int blksizey, int *sizex, int *sizey, int newwidth, bool isquiet);
+extern unsigned char *tiles_processglyph (unsigned char *imgbuf, t_RGB_color *imgpal, int imgwidth, int imgheight, t_glyph *imgglyphs, unsigned char *sizglyph, t_RGB_color bgcol, t_RGB_color redcol, unsigned char bpp,bool isquiet);
 
 #endif

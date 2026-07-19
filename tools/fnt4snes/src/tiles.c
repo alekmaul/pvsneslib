@@ -34,8 +34,6 @@
 
 #include "tiles.h"
 
-static const t_RGB_color RED = { 0x3F, 0, 0 };
-
 //-------------------------------------------------------------------------------------------------
 // Given one row of 8 palette-index pixels, fills `planes` (bpp entries) 
 //  bit X of plane P is set if pixel X's palette index has bit P set.
@@ -107,7 +105,7 @@ static int palette_at(unsigned char *img, int w, int x, int y) {
 
 //-------------------------------------------------------------------------------------------------
 // create glyph from an image tile (8x8)
-void extract_glyphs(unsigned char *imgbuf, t_RGB_color *imgpal, int w, t_RGB_color bg, t_glyph *glyphs) 
+void extract_glyphs(unsigned char *imgbuf, t_RGB_color *imgpal, int w, t_RGB_color bg, t_RGB_color red, t_glyph *glyphs) 
 {
     int g;
     int x0, width, x, y;
@@ -118,7 +116,7 @@ void extract_glyphs(unsigned char *imgbuf, t_RGB_color *imgpal, int w, t_RGB_col
 
         width = -1;
         for (x = 0; x < GLYPH_W; x++) {
-            if (rgb_eq(pixel_at(imgbuf, imgpal, w, x0 + x, 0), RED)) {
+            if (rgb_eq(pixel_at(imgbuf, imgpal, w, x0 + x, 0), red)) {
                 width = x;
                 break;
             }
@@ -136,7 +134,7 @@ void extract_glyphs(unsigned char *imgbuf, t_RGB_color *imgpal, int w, t_RGB_col
                 idx = 0;
                 if (x < width) {
                     t_RGB_color c = pixel_at(imgbuf, imgpal, w, x0 + x, y);
-                    if (!rgb_eq(c, bg) && !rgb_eq(c, RED)) {
+                    if (!rgb_eq(c, bg) && !rgb_eq(c, red)) {
                         idx = palette_at(imgbuf, w, x0 + x, y);
                     }
                 }
@@ -148,14 +146,14 @@ void extract_glyphs(unsigned char *imgbuf, t_RGB_color *imgpal, int w, t_RGB_col
 
 //-------------------------------------------------------------------------------------------------
 // create glyph, width table and image buffer
-unsigned char *tiles_processglyph (unsigned char *imgbuf, t_RGB_color *imgpal, int imgwidth, int imgheight, t_glyph *imgglyphs, unsigned char *sizglyph, t_RGB_color bgcol, unsigned char bpp,bool isquiet)
+unsigned char *tiles_processglyph (unsigned char *imgbuf, t_RGB_color *imgpal, int imgwidth, int imgheight, t_glyph *imgglyphs, unsigned char *sizglyph, t_RGB_color bgcol, t_RGB_color redcol, unsigned char bpp,bool isquiet)
 {
     int tile_bytes;
     unsigned char *bitmap, *dst;
     int min_w, max_w, g ;
 
     // extarct all glyphs from image
-    extract_glyphs(imgbuf, imgpal, imgwidth, bgcol, imgglyphs);
+    extract_glyphs(imgbuf, imgpal, imgwidth, bgcol, redcol, imgglyphs);
 
     tile_bytes = bpp * 8; /* 16 for 2bpp, 32 for 4bpp */
     

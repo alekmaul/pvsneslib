@@ -29,7 +29,8 @@ typedef struct
     int quietmode;			    												// 0 = not quiet, 1 = i can't say anything :P
     char *filebase;			    							        			// file to use for graphic conversion
 
-    int rgbbreak;                                                               // RGB (r,g,b) color break for width glyph
+    char *rgbbreak;                                                             // RGB color break for width glyph in hexa format (RRGGBB)
+    t_RGB_color markercolor;                                                    // RGB color break in r,g,b format
 
     int paletteoutput;	            											// -1= not managed, number of color for palette output 
     int paletteentry;		        											// value of palette entry (0 to 15)
@@ -37,10 +38,10 @@ typedef struct
     int palettesave;		           											// 1 = save the palette
 
 
-    int tileblank;              	      										// 1 = blank tile generated
     int tilesize;																// size tile, 8x8 16x16 32x32 64x64
     int tilewidth;
     int tileheight;
+/*    int tileblank;              	      										// 1 = blank tile generated
     int notilereduction;	        								    		// 1 = no tile reduction (warning !)
     int tilelzpacked;                     										// 1 = compress file with LZSS algorithm
     int tilepacked;                     										// 1 = compress file with packed pixel format
@@ -49,7 +50,7 @@ typedef struct
     int maphighpriority;                                                        // 1 = b13 of high priority on
     int map32pages;                                                             // 1 = tile map pages of 32x32 (for scrolling)
     int tileflip;                                                               // 1 = consider H/V flips when reducing tiles ("tile-flip")
-
+*/
 } t_fnt4snes_args;
 
 //-------------------------------------------------------------------------------------------------

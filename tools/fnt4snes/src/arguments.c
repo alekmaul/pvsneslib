@@ -24,23 +24,32 @@
 	Inspired by crosszgb variable width font example (https://github.com/gbdk-2020/CrossZGB/tree/develop/examples/vwf)
 	
 ***************************************************************************/
+#include <string.h>
+
 #include "arguments.h"
 
 char errormessage_arg[256];				    								// error message if argument is not correct
 
+const char predcolor[]={'F','F','0','0','0','0','\0'};
+
 //-------------------------------------------------------------------------------------------------
 void argument_set_default_values(void) 
 {
+	fprintf(stdout,"argument_set_default_values\n");fflush(stdout);
+
 	if (!fnt4snes_args.tilesize) fnt4snes_args.tilesize=8; 
 	if (!fnt4snes_args.paletteoutput) fnt4snes_args.paletteoutput=4;
 	if (!fnt4snes_args.palettecolors) fnt4snes_args.palettecolors=4;
 	if (!fnt4snes_args.palettesave) fnt4snes_args.palettesave=1;
+	if (fnt4snes_args.rgbbreak==NULL) fnt4snes_args.rgbbreak=predcolor;;
+	fprintf(stdout,"argument_set_default_values %s\n",fnt4snes_args.rgbbreak);fflush(stdout);
 }
 //-------------------------------------------------------------------------------------------------
 cmdp_action_t argument_callback(cmdp_process_param_st *params)
 {
 	char *filename_dot;
 	int offset;
+    unsigned int packed;
 
 	// if version, go out
 	if (fnt4snes_args.dispversion)
@@ -53,6 +62,18 @@ cmdp_action_t argument_callback(cmdp_process_param_st *params)
 	
 	// to have a correct display of messages if we are too fast
 	fflush(stdout);
+
+
+	fprintf(stdout,"-> %s",fnt4snes_args.rgbbreak);fflush(stdout);
+
+	// Color option -----------------------------------------------
+    if (sscanf(fnt4snes_args.rgbbreak, "%6x", &packed) != 1) 
+	{
+		fatal("invalid marker color [%s], need RRGGBB in heaxdecimal format."); // exit fnt4snes at this point
+	}
+    fnt4snes_args.markercolor.r = (unsigned char)(((packed >> 16) & 0xFF)>> 2);// >>2 to have a 5bits colors
+    fnt4snes_args.markercolor.g = (unsigned char)(((packed >> 8) & 0xFF)>> 2);
+    fnt4snes_args.markercolor.b = (unsigned char)(((packed & 0xFF))>> 2);
 
 	// File options -----------------------------------------------
 	// check input filename
