@@ -1123,13 +1123,13 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t quietdisp)
         locals_names_used = locals_names_size = 0;
 
         if (!quietdisp)
-            info("%u optimizations performed\n", opted);
+            info("%u optimizations performed", opted);
 
         totalopt += opted;
     }
 
     if (!quietdisp)
-        info("%llu optimizations performed in total\n", totalopt);
+        info("%llu optimizations performed in total", totalopt);
 
     return text_opt;
 }

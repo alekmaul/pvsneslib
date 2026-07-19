@@ -56,6 +56,7 @@ void display_version(void)
 	exit (EXIT_SUCCESS);
 }
 
+//-------------------------------------------------------------------------------------------------
 /**
  * @brief The main function. Accept an ASM file
  as argument or stdin.

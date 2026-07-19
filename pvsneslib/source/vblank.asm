@@ -629,7 +629,7 @@ _MouseData:
 ;;
 VBlank:
 .ifdef FASTROM
-  jml FVBlank
+	jml FVBlank
 
 FVBlank:
 .endif
