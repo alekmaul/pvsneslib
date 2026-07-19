@@ -11,7 +11,7 @@ else ifeq ($(UNAME), Linux)
 	MAKEFLAGS := -j$(shell nproc)
 endif
 
-SUBDIRS := gfx2snes gfx4snes smconv bin2txt constify snestools snesbrr tmx2snes 816-opt
+SUBDIRS := gfx2snes gfx4snes smconv bin2txt constify snestools snesbrr tmx2snes 816-opt fnt4snes
 
 all clean install: $(SUBDIRS)
 
