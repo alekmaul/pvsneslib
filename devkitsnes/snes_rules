@@ -55,7 +55,6 @@ export TXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/bin2txt
 export SNTOOLS	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snestools
 export TMXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/tmx2snes
 export OPT		:=	$(PVSNESLIB_HOME)/devkitsnes/tools/816-opt
-export CTF		:=	$(PVSNESLIB_HOME)/devkitsnes/tools/constify
 
 #---------------------------------------------------------------------------------
 # Add default flag for compiling
@@ -120,16 +119,10 @@ endif
 #---------------------------------------------------------------------------------
 %.asm: %.ps
 	@echo Assembling ... $(notdir $<)
-	$(OPT) -i $< -o $*.asp
+	$(OPT) -i $< -o $@
 ifeq ($(DEBUG),1)
-	cp $*.asp $*.opt.02.dbg
+	cp $*.asm $*.opt.02.dbg
 endif
-	@echo Moving constants ... $(notdir $<)
-	$(CTF) $*.c $*.asp $@
-ifeq ($(DEBUG),1)
-	cp $*.asp $*.ctf.03.dbg
-endif
-	@rm $*.asp
 
 %.obj: %.asm
 	@echo Doing obj files from asm ... $(fname)
