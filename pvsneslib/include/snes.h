@@ -164,6 +164,9 @@
     \example systems/typeconsole/src/pal_ntsc.c
     \example systems/memory_mapping/src/memory_mapping.c
 
+    <!-- variable width font examples -->
+    \example systems/textvwfont/src/textvwfont.c
+
     <!-- misc examples -->
     \example systems/random/random.c
     \example systems/scoring/scoring.c
