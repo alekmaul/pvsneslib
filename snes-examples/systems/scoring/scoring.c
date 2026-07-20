@@ -73,6 +73,10 @@ int main(void)
     else if (scoreCmp(&scoretst, &scoretst1) == 1)
         consoleDrawText(2, 14, "3 scoretst lower");
 
+    scoreToStr(&scoretst1, sz);
+    while(1);
+    consoleDrawText(2, 15, "4 String %s",sz);
+
     // Now Put in 16 color mode and disable Bgs except current
     setMode(BG_MODE1, 0);
     bgSetDisable(1);

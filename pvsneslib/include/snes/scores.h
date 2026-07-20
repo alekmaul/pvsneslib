@@ -69,4 +69,12 @@ void scoreCpy(scoMemory *source, scoMemory *dest);
 */
 u8 scoreCmp(scoMemory *source, scoMemory *dest);
 
+/*! \brief convert a score memory into a string
+    \param source the score to convert
+    \param buf the destination string
+    
+    String version of scrore will be 00000000 with first digit of hi score and then lo score
+*/
+void scoreToStr(scoMemory *source, char *buf);
+
 #endif // SNES_SCORE_INCLUDE
