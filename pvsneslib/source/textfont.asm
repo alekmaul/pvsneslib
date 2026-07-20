@@ -1039,14 +1039,13 @@ consoleDrawText:
     pha
     plb
 
-    sep #$20
     lda #2
     sta scr_txt_dirty
 
     rep #$20
     tsa
     clc
-    adc.w #0009                                                    ; get data address of fmt (9+0)
+    adc.w #0010                                                     ; get data address of fmt (9+1)
     clc
     adc.w #0004                                                    ; add size to do va_start(ap, last) ap = ((char*)&(last)) + sizeof(last)
     sta tcc__r0
