@@ -63,10 +63,13 @@ To discuss about the library, your project or to request help, join us on [Disco
 
 PVSneslib and affiliated tools are distributed under the MIT license (see [pvsneslib_license](https://github.com/alekmaul/pvsneslib/blob/master/pvsneslib/pvsneslib_license.txt) file).
 
-# Support PVSneslib #
+## Support PVSnesLib
 
-PVSneslib is free but you can donate to support its development:<br> <br>
-[![Paypal](https://www.paypalobjects.com/fr_FR/FR/i/btn/x-click-but04.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5USKF23DQVLC)
+If you find this project useful and PVSnesLib helped you create a game, consider supporting development:
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-yellow?logo=paypal)](https://paypal.me/GIRARD996)
+
+Your support helps maintain documentation, tools and examples.  
 
 # Powered by PVSneslib #
 
