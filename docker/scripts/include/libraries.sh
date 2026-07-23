@@ -12,12 +12,12 @@ function f_usage {
 
 function f_print_progress_bar {
 
-    podman_build_pid=${1}
+    docker_build_pid=${1}
     sp='/-\|'
     printf ' '
 
-    while kill -0 "${podman_build_pid}" 2>/dev/null; do
-        printf '\r%s %s \b%.1s' "Preparing container image" "  " "$sp"
+    while kill -0 "${docker_build_pid}" 2>/dev/null; do
+        printf '\r%s %s \b%.1s' "Preparing docker image" "  " "$sp"
         sp=${sp#?}${sp%???}
     done
 
@@ -37,38 +37,41 @@ function f_check_distro {
 
 }
 
-function f_build_podman_image {
+function f_build_docker_image {
 
     if [[ ${batch_mode} == "false" ]]; then
-        podman build \
-            -f "podman/${distro}/Dockerfile" \
-            -t "${image}" . >"${PVSNESLIB_HOME}/podman/${distro}/podman_build.log" 2>&1 &
+        docker build \
+            -f "docker/${distro}/Dockerfile" \
+            -t "${image}" . >"${PVSNESLIB_HOME}/docker/${distro}/docker_build.log" 2>&1 &
         my_pid=$!
         f_print_progress_bar ${my_pid}
         wait ${my_pid}
     else
-        podman build \
-            -f "podman/${distro}/Dockerfile" \
-            -t "${image}" . >"${PVSNESLIB_HOME}/podman/${distro}/podman_build.log" 2>&1
+        docker build \
+            -f "docker/${distro}/Dockerfile" \
+            -t "${image}" . >"${PVSNESLIB_HOME}/docker/${distro}/docker_build.log" 2>&1
     fi
 
-    f_print_message "PODMAN" "Building image $image" $?
+    f_print_message "DOCKER" "Building image $image" $?
 
 }
 
-function f_run_podman_container {
+function f_run_docker_container {
 
-    echo -e "[PODMAN] Starting Container ${distro} [...]\n"
+    echo -e "[DOCKER] Starting Container ${distro} [...]\n"
 
-    podman run -ti --rm \
+    docker run -ti --rm \
         -w "${PVSNESLIB_HOME}" \
         -v "${PVSNESLIB_HOME}:${PVSNESLIB_HOME}" \
+        -v "/etc/group:/etc/group:ro" \
+        -v "/etc/passwd:/etc/passwd:ro" \
+        -u "$(id -u):$(id -g)" \
         -e "PVSNESLIB_HOME=${PVSNESLIB_HOME}" \
         -e "DISTRO=${distro}" \
         -e "MAKE_RELEASE=${make_release}" \
         "${image}"
 
-    f_print_message "PODMAN" "Running container with tasks" $?
+    f_print_message "DOCKER" "Running container with tasks" $?
 
 }
 

@@ -4,7 +4,7 @@
 # M A I N
 # --------------- #
 
-source "podman/scripts/include/libraries.sh"
+source "docker/scripts/include/libraries.sh"
 
 trap f_quit SIGINT
 trap f_quit SIGTERM
@@ -56,6 +56,6 @@ export padding_width \
     exit 1
 }
 
-f_build_podman_image
+f_build_docker_image
 
-f_run_podman_container
+f_run_docker_container

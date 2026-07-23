@@ -1,35 +1,28 @@
-# Build and release sources from Podman container
+# Build and release sources from docker container
 
-This readme explains how and why to use Podman containers.
+This readme explains how and why to use docker containers.
 
-- [Build and release sources from Podman container](#build-and-release-sources-from-podman-container)
-  - [Why use Podman for this project](#why-use-podman-for-this-project)
+- [Build and release sources from docker container](#build-and-release-sources-from-docker-container)
+  - [Why use docker for this project](#why-use-docker-for-this-project)
   - [Features](#features)
   - [Integrated linux distributions](#integrated-linux-distributions)
   - [Installation](#installation)
-  - [How to use podmanrun.sh](#how-to-use-podmanrunsh)
+  - [How to use dockerrun.sh](#how-to-use-dockerrunsh)
     - [Use cases](#use-cases)
   - [Remarks](#remarks)
   - [Todo](#todo)
   - [To contribute](#to-contribute)
 
-## Why use Podman for this project
+## Why use docker for this project
 
 - Each distribution uses different package versions, by testing the most used distributions, it is easier to trace the regressions between each release of **pvsneslib**.
 - You don't want to install all the development packages on your OS but you want to be able to compile the code and test by yourself.
 - The Dockerfiles serve as documentation if you want to test the compilation locally on your distribution but you don't know which packages to install.
 
-### Why Podman over Docker?
-
-- **Rootless by default**: No daemon running as root, better security model
-- **No service required**: No `systemctl enable/start` needed - just run `podman`
-- **No group membership**: No need to add users to a special group
-- **Daemonless**: Each container runs as a child process, not managed by a central daemon
-- **Docker-compatible**: Uses the same Dockerfile format and similar CLI commands
 
 ## Features
 
-- Compile **pvsneslib** tools from different linux distribution versions.
+- Compile **pvnseslib** tools from different linux distribution versions.
 - Create ready-to-use releases in zip form
 - Check that pvsneslib compiles correctly on different linux distributions, and thus test different versions of tools and libraries used to compile it.
 
@@ -46,51 +39,38 @@ All these distributions are in latest stable version.
 
 ## Installation
 
-Install Podman on your distribution:
+As a prerequisite, you must install docker-ce on your distribution.
 
-### Fedora / CentOS / RHEL
+* [centos](https://docs.docker.com/engine/install/centos/)
+* [fedora](https://docs.docker.com/engine/install/fedora/)
+* [debian](https://docs.docker.com/engine/install/debian/)
+* [ubuntu](https://docs.docker.com/engine/install/ubuntu/)
 
-```bash
-sudo dnf install podman
-```
+These distributions have been integrated because they represent the most used ones (not exhaustive). [See Top Linux Subcategories by market share](https://truelist.co/blog/linux-statistics/).
 
-### Debian / Ubuntu
 
-```bash
-sudo apt-get update
-sudo apt-get install podman
-```
-
-### macOS
+Activate and start the docker service.
 
 ```bash
-brew install podman
-podman machine init
-podman machine start
+ sudo systemctl enable docker
+ sudo systemctl start docker
 ```
 
-### Windows
-
-Download from [Podman Desktop](https://podman-desktop.io/) or use WSL2:
+Add your current user to the docker group and restart your system to make it effective.
 
 ```bash
-# In WSL2 Ubuntu
-sudo apt-get install podman
+  sudo usermod -aG docker ${USER}
 ```
 
-That's it! No daemon to start, no groups to join. Just install and run.
-
-> **Note for Docker users**: If you have existing Docker workflows, you can install `podman-docker` which provides a `docker` command alias that calls `podman`.
-
-## How to use podmanrun.sh
+## How to use dockerrun.sh
 
 Above all, this script must be executed at the root of the project, which is the equivalent of the `PVSNESLIB_HOME` environment variable.
 
 No need to set this environment variable, the script takes care of it for you.
 
 ```
-  ./podmanrun.sh -h
-usage: ./podmanrun.sh options:<d|h|r|b>
+  ./dockerrun -h
+usage: ./dockerrun.sh options:<d|h|r|b>
 -h: help, print this message
 -d: followed by the name of the linux distribution (fedora, ubuntu or debian)
 -r: Create release (make release)
@@ -101,10 +81,11 @@ usage: ./podmanrun.sh options:<d|h|r|b>
 
 I just want to compile my code for ubuntu distribution.
 
-> Notes: podmanrun.sh *must* be launched at the root of the repository as it used the current working directory to set `PVSNESLIB_HOME`.
+> Notes: dockerrun.sh *must* be launched at the root of the repository as it used the current working directory to set `PVSNESLIB_HOME`.
 
 ```bash
-podman/scripts/podmanrun.sh -d ubuntu
+  docker/scripts/dockerrun.sh -d ubuntu
+
 ```
 
 > Notes: The `-d` option is the only mandatory option (except help `-h` menu).
@@ -112,7 +93,8 @@ podman/scripts/podmanrun.sh -d ubuntu
 I want to compile my code for my **ubuntu** distribution and create the release (`make release`).
 
 ```bash
-podman/scripts/podmanrun.sh -d ubuntu -r
+  docker/scripts/dockerrun.sh -d ubuntu -r
+
 ```
 
 The release file is located in the `release` directory.
@@ -120,12 +102,13 @@ The release file is located in the `release` directory.
 Finally I want to integrate this script in batch mode (without terminal), without progress bars to keep readable logs.
 
 ```bash
-podman/scripts/podmanrun.sh -d ubuntu -b
+  ./dockerrun -d ubuntu -b
+
 ```
 
 ## Remarks
 
-The **centos** and **fedora** versions (especially) take longer on first use (to build the container image). Made some changes to improve build times.
+The **centos** and **fedora** versions (especially) take longer on first use (to build the docker image). Made some changes to improve build times.
 
 ## Todo
 
