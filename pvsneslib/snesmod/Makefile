@@ -3,6 +3,9 @@ ifeq ($(strip $(PVSNESLIB_HOME)),)
 $(error "Please create an environment variable PVSNESLIB_HOME by following this guide: https://github.com/alekmaul/pvsneslib/wiki/Installation")
 endif
 
+# no default hdr.asm generation
+AUTOHDR := 0
+
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 # WLA-DX SPC700 assembler and linker
