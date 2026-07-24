@@ -7,19 +7,28 @@
 | |_| | | | | |>  < ./ /__\__ \ | | |  __/\__ \
  \__|_| |_| |_/_/\_\\_____/___/_| |_|\___||___/
 ```
-A Tiled (https://www.mapeditor.org/) json file converter for Super Nintendo development  
+A Tiled (https://www.mapeditor.org/) file converter for Super Nintendo development  
 Developed by Alekmaul and distributed under the terms of the [MIT license](./LICENSE).
 
 ## Usage
 ```
 tmx2snes [options] -i tmxfilename -m mapfilename  
 ```
-where tmxfilename is a Tiled tmx file (in json format)  
-  and mapfilename is the map file of tileset for tileset optimization
+where tmxfilename is a Tiled map, either:
+- a **native `.tmx` file** (Tiled's own XML format, or
+- a **`.tmj`/`.json` file** (Tiled's "Export As... JSON")
+
+You can pass the extension explicitly (`-i level1.tmx`), or omit it and tmx2snes will look for `<name>.tmx` first, then fall back to `<name>.tmj`.  
+mapfilename is the map file of tileset for tileset optimization
+
+>[!IMPORTANT]
+> **Native `.tmx` files: CSV layer format required.** In Tiled, set `Map > Map Properties... > Tile Layer Format` to **CSV** before saving. 
+>
+> Native `.tmx` tilesets may reference an external `.tsx` file (`firstgid="1" source="tiles.tsx"`) or be embedded directly -- both are supported and resolved relative to the `.tmx` file's location.
 
 ## Options
 ### File options
-- `-i <tmx filename>` file to use for tiled tmx file in json format   
+- `-i <tmx filename>` tiled map file: native `.tmx`, or `.tmj`/`.json` export
 - `-m <tile filename>` file to use for map file of tileset for optimization
 
 ### Misc options 
@@ -27,19 +36,28 @@ where tmxfilename is a Tiled tmx file (in json format)
 - `-v` Display version information  
   
 ## Example 
-```
+```bash
 tmx2snes -i mytilemap.tmj -m mytilepic.map
 ```
- This will convert a myimage png file to a map/pal/pic files with 16 colors,palette entry #0,  8x8 tiles, a blank tile, a map, no border, 16 colors output.  
-
-In your makefile, youneed to prepare the tiles before the map conversion
-
+or, using a native Tiled map instead of a JSON export:
+```bash
+tmx2snes -i mytilemap.tmx -m mytilepic.map
 ```
+ 
+In your makefile, you need to prepare the tiles before the map conversion
+
+```makefile
 tiles.pic: tiles.png
 	@echo convert map tileset... $(notdir $@)
 	$(GFXCONV) -s 8 -o 16 -u 16 -p -m -i $<
 
 map_1_1.m16: map_1_1.tmj tiles.pic
+	@echo convert map tiled ... $(notdir $@)
+	$(TMXCONV) -i $< -m tiles.map
+```
+or, if you're working directly from a native `.tmx` map instead of a JSON export:
+```makefile
+map_1_1.m16: map_1_1.tmx tiles.pic
 	@echo convert map tiled ... $(notdir $@)
 	$(TMXCONV) -i $< -m tiles.map
 ```

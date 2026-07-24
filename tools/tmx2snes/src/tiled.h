@@ -21,6 +21,6 @@ typedef struct
 } pvsneslib_object_t;
 
 //-------------------------------------------------------------------------------------------------
-extern void image_load(const char *tmxname, const char *tilemapname, bool isquiet);
+extern void tmx_load(const char *tmxname, const char *tilemapname, bool isquiet);
 
 #endif

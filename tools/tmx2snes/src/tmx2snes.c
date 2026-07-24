@@ -32,7 +32,9 @@
 //-------------------------------------------------------------------------------------------------
 static cmdp_command_st tmx2snes_command = {
     .doc = "Usage: tmx2snes [options] -i tmxfilename -m mapfilename\n"
-            "  where tmxfilename is a Tiled tmx file (in json format)\n"
+            "  where tmxfilename is a Tiled map, either:\n"
+            "          - a native .tmx file (Tiled's own XML format)\n"
+            "          - a .tmj/.json file (Tiled's 'Export As... JSON')\n"
             "        mapfilename is the map file of tileset for tileset optimization\n"
             "  tmx2snes will do:\n"
             "  	.m16 file for map\n"
@@ -43,7 +45,7 @@ static cmdp_command_st tmx2snes_command = {
     .options =
         (cmdp_option_st[]){
             {0, 0, "Files options:\n", CMDP_TYPE_NONE, NULL,NULL},
-            {'i', "tmx-input", "tiled tmx file in json format", CMDP_TYPE_STRING_PTR, &tmx2snes_args.tmxbase},
+            {'i', "tmx-input", "tiled map file: native .tmx, or .tmj/.json export", CMDP_TYPE_STRING_PTR, &tmx2snes_args.tmxbase},
             {'m', "map-input", "map file of tileset for optimization", CMDP_TYPE_STRING_PTR, &tmx2snes_args.tilemapbase},
             {0, 0, "Miscellaneous options:\n", CMDP_TYPE_NONE, NULL,NULL},
 			{'q', "quiet", "quiet mode", CMDP_TYPE_BOOL, &tmx2snes_args.quietmode},

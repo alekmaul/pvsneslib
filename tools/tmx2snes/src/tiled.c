@@ -26,7 +26,10 @@
         https://www.mapeditor.org/
 
 ---------------------------------------------------------------------------------*/
+#include <string.h>
+#include <strings.h>
 #include "tiled.h"
+#include "tmxconv.h"
 
 #define CUTE_TILED_IMPLEMENTATION
 #include "cute_tiled.h"
@@ -381,11 +384,29 @@ void WriteEntities(const char *filename, bool isquiet)
 }
 
 //-------------------------------------------------------------------------------------------------
+// true if 'name' ends with 'suffix', case-insensitively
+static bool has_suffix_ci(const char *name, const char *suffix)
+{
+    size_t nlen = strlen(name);
+    size_t slen = strlen(suffix);
+    if (slen > nlen) return false;
+    return strcasecmp(name + (nlen - slen), suffix) == 0;
+}
+
+static bool file_exists(const char *path)
+{
+    FILE *f = fopen(path, "rb");
+    if (f) { fclose(f); return true; }
+    return false;
+}
+
+//-------------------------------------------------------------------------------------------------
 void tmx_load(const char *tmxname, const char *tilemapname, bool isquiet) 
 {
-    FILE *fpi;                                                          // input file handlers
+    FILE *fpi;                                                          // input file handler (reused below for the .map file)
     unsigned int filesize;                                              // input file size
 	char *outputname;
+    bool is_native_tmx;
 
   	// prepare file extension
 	outputname=(char *) malloc(FILENAME_MAX); //malloc(strlen(filename)+4);							// 4 to be sure to have enough for extension
@@ -393,32 +414,60 @@ void tmx_load(const char *tmxname, const char *tilemapname, bool isquiet)
 	{
 		fatal("can't allocate memory for tmj filename");
 	}
-	snprintf(outputname, FILENAME_MAX, "%s.tmj", tmxname);
 
-    // open the tmx file
-    fpi = fopen(outputname, "rb");
-    if (fpi == NULL)
+    // Figure out which file to actually load
+    if (has_suffix_ci(tmxname, ".tmx") || has_suffix_ci(tmxname, ".tmj") || has_suffix_ci(tmxname, ".json"))
     {
-        fatal("Can't open tmx file [%s]", outputname);
+        snprintf(outputname, FILENAME_MAX, "%s", tmxname);
+    }
+    else
+    {
+        snprintf(outputname, FILENAME_MAX, "%s.tmx", tmxname);
+        if (!file_exists(outputname))
+        {
+            snprintf(outputname, FILENAME_MAX, "%s.tmj", tmxname);
+        }
     }
 
-    // get filesize
-    fseek(fpi, 0, SEEK_END);
-    filesize = ftell(fpi);
-    fseek(fpi, 0, SEEK_SET);
+    is_native_tmx = has_suffix_ci(outputname, ".tmx");
 
-    // load the map in memory
-    if (!isquiet) info("Loading map: [%s]",outputname);
-    map = cute_tiled_load_map_from_file(outputname, 0);
-    if (map == NULL)
+    if (is_native_tmx)
     {
+        // Native Tiled XML map: convert it in memory to the same JSON shape
+        char *json = tmx_convert_to_json(outputname, isquiet);
+
+        if (!isquiet) info("Loading map: [%s]", outputname);
+        map = cute_tiled_load_map_from_memory(json, (int)strlen(json), 0);
+        free(json);
+
+        if (map == NULL)
+        {
+            free(outputname);
+            fatal("Cannot load map");
+        }
+    }
+    else
+    {
+        // open the tmx (JSON) file
+        fpi = fopen(outputname, "rb");
+        if (fpi == NULL)
+        {
+            fatal("Can't open tmx file [%s]", outputname);
+        }
+
+        // load the map in memory
+        if (!isquiet) info("Loading map: [%s]",outputname);
+        map = cute_tiled_load_map_from_file(outputname, 0);
+        if (map == NULL)
+        {
+            fclose(fpi);
+            free(outputname);
+            fatal("Cannot load map");
+        }
+
+        // close the input file
         fclose(fpi);
-        free(outputname);
-        fatal("Cannot load map");
     }
-
-    // close the input file
-    fclose(fpi);
 
     // open the tileset map file
    	snprintf(outputname, FILENAME_MAX, "%s.map", tilemapname);
