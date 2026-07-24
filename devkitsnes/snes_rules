@@ -23,6 +23,49 @@ $(info $(ROMTYPE) $(SPEEDTYPE) compilation is enabled)
 
 LIBDIRSOBJS := $(PVSNESLIB_HOME)/pvsneslib/lib/$(ROMTYPE)_$(SPEEDTYPE)
 
+#---------------------------------------------------------------------------------
+# Automatic hdr.asm generation
+# Set AUTOHDR := 0 in your project Makefile to use your own hdr.asm instead.
+#---------------------------------------------------------------------------------
+AUTOHDR       ?= 1
+
+ROMTITLE      ?= $(ROMNAME)
+CARTRIDGETYPE ?= 00
+ROMSIZE       ?= 08
+SRAMSIZE      ?= 00
+COUNTRY       ?= 01
+LICENSEECODE  ?= 00
+VERSION       ?= 00
+ROMBANKS      ?= 08
+
+ifeq ($(HIROM),1)
+  ROMMODE  := HIROM
+else
+  ROMMODE  := LOROM
+endif
+ifeq ($(FASTROM),1)
+  ROMSPEED := FASTROM
+else
+  ROMSPEED := SLOWROM
+endif
+
+ifeq ($(AUTOHDR),1)
+  ifeq ($(strip $(ROMNAME)),)
+    $(error "ROMNAME must be set before including snes_rules")
+  endif
+  $(shell sed \
+      -e 's/@ROMTITLE@/$(ROMTITLE)/' \
+      -e 's/@CARTRIDGETYPE@/$(CARTRIDGETYPE)/' \
+      -e 's/@ROMSIZE@/$(ROMSIZE)/' \
+      -e 's/@SRAMSIZE@/$(SRAMSIZE)/' \
+      -e 's/@COUNTRY@/$(COUNTRY)/' \
+      -e 's/@LICENSEECODE@/$(LICENSEECODE)/' \
+      -e 's/@VERSION@/$(VERSION)/' \
+      -e 's/@ROMBANKS@/$(ROMBANKS)/' \
+      -e 's/@ROMMODE@/$(ROMMODE)/' \
+      -e 's/@ROMSPEED@/$(ROMSPEED)/' \
+      $(PVSNESLIB_HOME)/devkitsnes/include/hdr.asm.in > hdr.asm)
+endif
 
 #---------------------------------------------------------------------------------
 # on windows, linkfile can only manage path like E:\pvsneslib\lib\crt0_snes.obj
@@ -40,7 +83,6 @@ endif
 #---------------------------------------------------------------------------------
 # the compiler executables
 #---------------------------------------------------------------------------------
-
 export CC		:= $(PVSNESLIB_HOME)/devkitsnes/bin/816-tcc
 export AS		:= $(PVSNESLIB_HOME)/devkitsnes/bin/wla-65816
 export AS700		:= $(PVSNESLIB_HOME)/devkitsnes/bin/wla-spc700
@@ -173,11 +215,16 @@ $(SOUNDBANK).asm : $(AUDIOFILES)
 	$(SMCONV) $(SMCONVFLAGS) $^
 
 #---------------------------------------------------------------------------------
+# cleaning rules 
+#---------------------------------------------------------------------------------
 .PHONY: cleanBuildRes cleanRom cleanGfx cleanAudio
 
 cleanBuildRes: cleanDebug
 	@echo clean build resources
 	@rm -f $(OFILES) $(DBGFILES) linkfile
+ifeq ($(AUTOHDR),1)
+	@rm -f hdr.asm
+endif
 
 cleanRom:
 	@echo clean rom
@@ -206,7 +253,7 @@ cleanLogs:
 # 2 rules needed:
 #     all: cleanLogs buildWithSummary
 #     buildActual: <all specific build> $(OBJS) $(ROMNAME).sfc
-
+#---------------------------------------------------------------------------------
 .PHONY: buildWithSummary
 
 buildWithSummary:
