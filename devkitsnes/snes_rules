@@ -36,17 +36,23 @@ SRAMSIZE      ?= 00
 COUNTRY       ?= 01
 LICENSEECODE  ?= 00
 VERSION       ?= 00
-ROMBANKS      ?= 08
+ROMBANKS      ?= 8
 
 ifeq ($(HIROM),1)
   ROMMODE  := HIROM
+  ROMBANKSIZE := 10000
+  HIROMDEF := .DEFINE HIROM 1
 else
   ROMMODE  := LOROM
+  ROMBANKSIZE := 8000
+  HIROMDEF := 
 endif
 ifeq ($(FASTROM),1)
   ROMSPEED := FASTROM
+  FASTROMDEF := .DEFINE FASTROM 1
 else
   ROMSPEED := SLOWROM
+  FASTROMDEF := 
 endif
 
 ifeq ($(AUTOHDR),1)
@@ -54,6 +60,8 @@ ifeq ($(AUTOHDR),1)
     $(error "ROMNAME must be set before including snes_rules")
   endif
   $(shell sed \
+      -e 's/@HIROMDEF@/$(HIROMDEF)/' \
+	  -e 's/@FASTROMDEF@/$(FASTROMDEF)/' \
       -e 's/@ROMTITLE@/$(ROMTITLE)/' \
       -e 's/@CARTRIDGETYPE@/$(CARTRIDGETYPE)/' \
       -e 's/@ROMSIZE@/$(ROMSIZE)/' \
@@ -62,6 +70,7 @@ ifeq ($(AUTOHDR),1)
       -e 's/@LICENSEECODE@/$(LICENSEECODE)/' \
       -e 's/@VERSION@/$(VERSION)/' \
       -e 's/@ROMBANKS@/$(ROMBANKS)/' \
+	  -e 's/@ROMBANKSIZE@/$(ROMBANKSIZE)/' \
       -e 's/@ROMMODE@/$(ROMMODE)/' \
       -e 's/@ROMSPEED@/$(ROMSPEED)/' \
       $(PVSNESLIB_HOME)/devkitsnes/include/hdr.asm.in > hdr.asm)
