@@ -34,7 +34,7 @@ tiles.pic: tiles.png
 	@echo convert map tileset... $(notdir $@)
 	$(GFXCONV) -s 8 -o 16 -u 16 -p -m -i $<
 
-map_1_1.m16: map_1_1.tmj tiles.pic
+map_1_1.m16: map_1_1.tmx tiles.pic
 	@echo convert map tiled ... $(notdir $@)
 	$(TMXCONV) -i $< -m tiles.map
 
