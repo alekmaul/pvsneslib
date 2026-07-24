@@ -7,13 +7,14 @@ HIROM=1
 # Tell the compiler to use FastROM. $420D reg is enabled on start and reset, nmi and vectors jumps with an ofset of $80 banks
 FASTROM=1
 
+# ROMNAME is used in snes_rules file
+export ROMNAME := memory_mapping
+
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 .PHONY: bitmaps all
 
 #---------------------------------------------------------------------------------
-# ROMNAME is used in snes_rules file
-export ROMNAME := memory_mapping
 
 all: bitmaps $(ROMNAME).sfc
 

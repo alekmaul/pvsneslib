@@ -8,14 +8,14 @@ AUDIOFILES := overworld.it
 # then define the path to generate soundbank data. The name can be different but do not forget to update your include in .c file !
 export SOUNDBANK := soundbank
 
+# ROMNAME is used in snes_rules file
+export ROMNAME := slopemario
+
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 .PHONY: bitmaps all
 
 #---------------------------------------------------------------------------------
-# ROMNAME is used in snes_rules file
-export ROMNAME := slopemario
-
 # to build musics, define SMCONVFLAGS with parameters you want
 SMCONVFLAGS	:= -s -o $(SOUNDBANK) -V -b 5
 musics: $(SOUNDBANK).obj

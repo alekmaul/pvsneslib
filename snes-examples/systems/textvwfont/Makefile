@@ -2,6 +2,9 @@ ifeq ($(strip $(PVSNESLIB_HOME)),)
 $(error "Please create an environment variable PVSNESLIB_HOME by following this guide: https://github.com/alekmaul/pvsneslib/wiki/Installation")
 endif
 
+# ROMNAME is used in snes_rules file
+export ROMNAME := textvwfont
+
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 export FNTCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/fnt4snes
@@ -9,9 +12,6 @@ export FNTCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/fnt4snes
 .PHONY: bitmaps all
 
 #---------------------------------------------------------------------------------
-# ROMNAME is used in snes_rules file
-export ROMNAME := textvwfont
-
 all: bitmaps $(ROMNAME).sfc
 
 clean: cleanBuildRes cleanRom cleanGfx
