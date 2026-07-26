@@ -4,14 +4,12 @@
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-#include "../pvsneslibfont.inc"
-
 //---------------------------------------------------------------------------------
 int main(void)
 {
     // Initialize text console with our font
     // Default Map is 0x6800, Gfx is 0x3000 and offset is 0
-    consoleInitText(0, 16 * 2, &pvsneslibfont_til, &pvsneslibfont_pal);
+    consoleInitDefaultText(0);
 
     // Init background
     bgSetGfxPtr(0, 0x3000);

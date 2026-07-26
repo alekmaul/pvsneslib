@@ -242,7 +242,7 @@ int main(int argc, char **argv)
         fprintf(fpo, ";----------------------------------------------------------------------\n\n");
         fprintf(fpo, ".SECTION \".%s\" SUPERFREE\n\n", filebase);
         strupr(filebase);
-        fprintf(fpo, ".define %s_SIZE %xh\n\n", filebase, filesize);
+        fprintf(fpo, ".define %s_SIZE $%x\n\n", filebase, filesize);
         fprintf(fpo, "%s:\n", filebase);
 
         // write const

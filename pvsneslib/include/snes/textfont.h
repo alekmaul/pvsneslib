@@ -121,6 +121,14 @@ void consoleUpdate(void);
 */
 void consoleInitText(u8 palnum, u8 palsize, u8 *tilfont, u8 *palfont);
 
+/*! \brief Initialize the Text System with the font shipped in PVSNesLib
+    \param palnum	palette entry (0..7)
+
+    Reserve a BG and load the font characters into VRAM. It will only work in tiled display modes.
+    You can change address of graphics and map with consoleSetTextVramAdr() and consoleSetTextVramBGAdr().
+    Also, consoleSetTextPal can change the text palette.
+*/void consoleInitDefaultText(u8 palnum);
+
 /*! \fn consoleSetTextGfxPtr(u16 vramfont)
     \brief Change text graphics address (4K aligned)
     \param vramfont	VRAM Background address (4K aligned)  (default is $0800)

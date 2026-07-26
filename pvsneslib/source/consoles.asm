@@ -47,42 +47,87 @@
 .BASE $00
 .RAMSECTION ".reg_cons7e" BANK $7E SLOT RAMSLOT_0
 
-snes_50hz               DB                                  ; 1 if PAL console (50 Hz) instead of NTSC (60Hz)
-snes_fps                DB                                  ; 50 if PAL console (50 Hz) or 60 if NTSC console (60Hz)
+snes_50hz               DB                                          ; 1 if PAL console (50 Hz) instead of NTSC (60Hz)
+snes_fps                DB                                          ; 50 if PAL console (50 Hz) or 60 if NTSC console (60Hz)
 
-text_buffer             DSB 128                             ; text formatted with argument
+text_buffer             DSB 128                                     ; text formatted with argument
 
-cons_val1               DSB 2                               ; save value #1
+cons_val1               DSB 2                                       ; save value #1
 
 .ENDS
 
 .RAMSECTION ".consfp" bank 0 slot 1
-snes_rand_seed1:        DSB 2
-snes_rand_seed2:        DSB 2
+snes_rand_seed          DW
 .ENDS
 
 .BASE BASE_0
 .SECTION ".consoles0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
-;u16 rand(void);
-rand:
+;void srand(u16 seed);
+; 5-6
+srand:
     php
 
-    rep #$30
+    rep #$20
+    lda 5,s
+    bne _rng1
 
-    lda.w snes_rand_seed2
-    lsr a
-    adc.w snes_rand_seed1
-    sta.w snes_rand_seed1
-    eor.w #$00ff
-    sta.w tcc__r0
-    lda.w snes_rand_seed2
-    sbc.w tcc__r0
-    sta.w snes_rand_seed2
+    lda #$0001
+
+_rng1:
+    sta.l snes_rand_seed
 
     plp
     rtl
+
+;---------------------------------------------------------------------------
+;u16 rand(void); // based on George Marsaglia's xorshift16 PRNG
+rand:
+    php
+    phb
+
+    sep #$20
+    lda #$0
+    pha
+    plb                                                             ; change bank address to 0
+
+    rep #$20                                                        ; 16-bit accumulator
+    lda.w snes_rand_seed
+
+    asl a                                                           ; state ^= state << 7
+    asl a
+    asl a
+    asl a
+    asl a
+    asl a
+    asl a
+
+    eor snes_rand_seed
+    sta snes_rand_seed
+   
+    lsr a                                                           ; state ^= state >> 9
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+
+    eor snes_rand_seed
+    sta snes_rand_seed
+
+    xba                                                             ; state ^= state << 8 (swap bytes -> rotate left 8)
+    eor snes_rand_seed
+    sta snes_rand_seed
+    sta.w tcc__r0
+
+    plb
+    plp
+    rtl
+
 .ENDS
 
 ;---------------------------------------------------------------------------
@@ -439,9 +484,7 @@ consoleInit:
     plb
     rep #$20
     lda.w #1
-    sta snes_rand_seed1                                       ; For rand function
-    lda.w #5
-    sta snes_rand_seed2                                       ; For rand function
+    sta snes_rand_seed                                        ; For rand function
     plb
 
     lda.w #$0000                                              ; Init background address
@@ -495,8 +538,7 @@ consoleInit:
     lda #TXT_VRAMOFFSET
     sta txt_vram_offset
 
-    ; Set nmi_handler, enable VBlank interrupts, enable joypad auto-read.
-    pea :consoleVblank
+    pea :consoleVblank                                              ; Set nmi_handler, enable VBlank interrupts, enable joypad auto-read.
     pea consoleVblank
     jsl nmiSet
     pla

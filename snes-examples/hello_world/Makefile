@@ -13,13 +13,7 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 .PHONY: all cleanLogs
 
 all: buildWithSummary
-buildActual: bitmaps $(OBJS) $(ROMNAME).sfc
+buildActual: $(OBJS) $(ROMNAME).sfc
 	
 clean: cleanBuildRes cleanRom cleanGfx cleanLogs
 
-#---------------------------------------------------------------------------------
-pvsneslibfont.pic: pvsneslibfont.png
-	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFXCONV) -s 8 -o 16 -u 16 -p -e 0 -i $<
-
-bitmaps : pvsneslibfont.pic

@@ -46,6 +46,14 @@ extern u16 snes_vblank_count; /*!< \brief Number of VBL since consoleInit called
 extern u8 snes_50hz;          /*!< \brief 1 if on a PAL/50Hz SNES */
 extern u8 snes_fps;           /*!< \brief 50 if PAL console (50 Hz) or 60 if NTSC console (60Hz) */
 
+#define RAND_MAX    65535    /*!< \brief 65535 is maximum number for randomizd numbers */   
+
+/*! \fn srand(u16 seed)
+    \brief initialize the seed for random numbers
+    \param seed a number between 1 and 65535
+*/
+void srand(u16 seed);
+
 /*! \fn rand(void)
     \brief return a randomized number
     \return unsigned short of a randomized number

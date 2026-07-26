@@ -884,6 +884,10 @@ consoleInitText:
     plp
     rtl
 
+.ENDS
+
+.SECTION ".textfont9_text" SUPERFREE
+
 ;---------------------------------------------------------------------------
 ;void consoleSetTextGfxPtr(u16 vramfont)
 ; 6-7
@@ -900,6 +904,10 @@ consoleSetTextGfxPtr:
     plp
     rtl
 
+.ENDS 
+
+.SECTION ".textfont10_text" SUPERFREE
+
 ;---------------------------------------------------------------------------
 ;void consoleSetTextMapPtr(u16 vrambgfont)
 ; 6-7
@@ -914,6 +922,10 @@ consoleSetTextMapPtr:
     plb
     plp
     rtl
+
+.ENDS
+
+.SECTION ".textfont11_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ;void consoleSetTextOffset(u16 offsetfont)
@@ -933,7 +945,7 @@ consoleSetTextOffset:
 
 .ENDS
 
-.SECTION ".textfont9_text" SUPERFREE
+.SECTION ".textfont12_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void consoleSetTextPal(u8 paloffset, u8 *palfont, u8 palsize)
@@ -962,7 +974,7 @@ consoleSetTextPal:
 
 .ENDS
 
-.SECTION ".textfont10_text" SUPERFREE
+.SECTION ".textfont13_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void print_screen_map(u16 x, u16 y, unsigned char  *map, u8 attributes, unsigned char *buffer)
@@ -1094,7 +1106,7 @@ consoleDrawText:
 
 .ENDS
 
-.SECTION ".textfont11_text" SUPERFREE
+.SECTION ".textfont14_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ;void consoleDrawTextMap(u16 x, u16 y, u8 *map, u8 attributes, char *fmt, ...)
@@ -1146,6 +1158,10 @@ consoleDrawTextMap:
 
     plp
     rtl
+
+.ENDS
+
+.SECTION ".textfont15_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ;void consoleDrawTextMapCenter(u16 y, u16 *map, u8 attributes, char *fmt, ...)
@@ -1213,7 +1229,7 @@ consoleDrawTextMapCenter:
 
 .ENDS
 
-.SECTION ".textfont12_text" SUPERFREE
+.SECTION ".textfont16_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ;void consoleUpdate(void) {
@@ -1251,6 +1267,94 @@ consoleUpdate:
     sta scr_txt_dirty                       ; if buffer need to be update, do it !
 
 +   plp
+    rtl
+
+.ENDS
+
+.include "pvsl_font_data.asm"
+
+.SECTION ".textfont17_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+;void consoleInitDefaultText(u8 palnum)
+; 5 
+consoleInitDefaultText:
+    php
+    phb
+
+    sep #$20                                                  ; 8bit A
+    lda #$7e
+    pha
+    plb
+
+    rep #$20
+    phx
+    ldx #$0000                                                ; Init map for text with no character
+    lda #$0000                                                ; So copy data to VRAM (also clear screen)
+-   sta scr_txt_font_map,x
+    inx
+    inx
+    cpx #$0800
+    bne -
+    plx
+
+    sep #$20
+    lda #0
+    pha
+    jsl setBrightness                                         ; Force VBlank Interrupt (value 0)
+    rep #$20
+    tsa
+    clc
+    adc #1
+    tas
+
+    rep #$20
+    lda #3072                                                     ; size of text (48*8*8)
+    pha
+    lda txt_vram_adr                                                ; put text at VRAM address
+    pha
+    lda #:PVSLFONT_PIC
+    pha
+    lda #PVSLFONT_PIC.w                                             ; get bank address of tiles (10+2+2)
+    pha
+    jsl dmaCopyVram
+    tsa
+    clc
+    adc #8
+    tas
+
+
+    lda #$0000
+    sep #$20
+    lda #16*2                                                       ; get palette size
+    rep #$20
+    sta.l   $4305
+    lda #PVSLFONT_PAL.w                                             ; src (lower 16 bits)
+    sta.l   $4302
+    sep #$20
+    lda #:PVSLFONT_PAL                                              ; src bank
+    sta.l   $4304
+    lda 6,s                                                         ; address of palette
+    asl a
+    asl a
+    asl a
+    asl a
+    sta.l   $2121
+    lda #0
+    sta.l   $4300
+    lda #$22
+    sta.l   $4301
+    lda #1
+    sta.l   $420b
+
+    lda 6,s                                                         ; address of palette (5+1)
+    asl a
+    asl a
+    ora #(1<<5)                                                     ; (10-7) because only high byte are addressed
+    sta txt_pal_adr
+
+    plb
+    plp
     rtl
 
 .ENDS
