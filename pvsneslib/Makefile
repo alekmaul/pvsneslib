@@ -13,10 +13,13 @@ export PVSNESLIB_VERSION := $(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PA
 # Directory for spc700 driver
 export PVSSPCDIR := $(TOPDIR)/snesmod
 
+# Directory for spc700 driver
+export PVSFNTDIR := $(TOPDIR)/res
+
 # Directory with docs config and output (via doxygen)
 export PVSDOCSDIR := $(TOPDIR)/docs
 
-all: include/snes/libversion.h pvsneslibversion release docs spc700
+all: include/snes/libversion.h pvsneslibversion release docs spc700 deffont
 
 HIROM_VALUES := 0 1
 FASTROM_VALUES := 0 1
@@ -32,6 +35,7 @@ release: lib
 
 build:
 	@$(MAKE) -C snesmod all
+	@$(MAKE) -C res all
 	@$(MAKE) -C source all
 
 lib:
@@ -43,6 +47,7 @@ lib:
 
 clean:
 	$(MAKE) -C snesmod clean
+	$(MAKE) -C res clean
 	$(MAKE) -C source clean
 	@if [ "$(KEEP_LIB)" -eq 0 ]; then \
 		rm -rf $(PVSDOCSDIR)/html; \
@@ -102,4 +107,4 @@ pvsneslibversion:
 	@echo $(PVSNESLIB_VERSION) > pvsneslib_version.txt
 
 # Declare the phony targets
-.PHONY: release clean all docs spc700
+.PHONY: release clean all docs spc700 deffont
