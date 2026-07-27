@@ -2694,97 +2694,10 @@ _oMTDRepEnd0p:
 .SECTION ".spritesc_text" SUPERFREE
 
 ;---------------------------------------------------------------------------------
-; void oamSort(u8 id)
-; 10
-oamSort:
-	php
-	phb
-	phx
-
-	sep #$20
-	lda #$7e
-	pha
-	plb
-
-;	lda #TABLE_SIZE - 1  ; Initialize high index
-;  	ldx #0  ; Initialize low index
-
-  	jsr quicksort  											  ; Perform quicksort
-
-	plx
-	plb
-	plp
-
-	rtl
-
-quicksort:													  ; Quicksort algorithm
-	pha 													  ; Save registers
-	phx
-  	phy
-
-;  LDX #VAR1_OFFSET  ; Sort based on VAR1
-
-;  LDA HIGH_IDX  ; Load high index
-;  STA TEMP_HIGH
-
-;  LDA LOW_IDX  ; Load low index
-;  STA TEMP_LOW
-
-;  LDX TEMP_LOW  ; Load low index into X
-
-;  INX  ; Increment low index
-
-;  LDA TABLE, X  ; Load pivot element
-;  STA PIVOT
-
-  ; Partition the table
-partition_loop:
-;  LDA TABLE, X  ; Load element for comparison
-;  CMP PIVOT
-
-  BCC increment_low_index  ; If element is less than pivot, increment low index
-
-  ; Swap elements
-;  LDA TABLE, X
-;  STA TABLE, TEMP_HIGH
-;  LDA TABLE, TEMP_LOW
-;  STA TABLE, X
-
-;  DEC TEMP_HIGH  ; Decrement high index
-;  DEY  ; Decrement Y
-
-  ; Check if all elements have been partitioned
-;  CPX TEMP_HIGH
-;  BCC partition_loop  ; If not, continue partitioning
-
-  ; Swap pivot element into its correct position
-;  LDA TABLE, X
-;  STA TABLE, TEMP_HIGH
-;  LDA PIVOT
-;  STA TABLE, X
-
-  ; Recursive calls to quicksort
-;  LDA TEMP_LOW
-;  CMP LOW_IDX
-;  BCC skip_left
-;  STA HIGH_IDX
-;  JSR quicksort
-
-skip_left:
-;  LDA TEMP_HIGH
-;  CMP HIGH_IDX
-;  BCC skip_right
-;  STA LOW_IDX
-;  JSR quicksort
-
-skip_right:
-	ply
-	plx
-	pla
-
-	rts  ; Return from subroutine
-
-
+;void oamZOrder(u16 firstSprite):
+; 5-6
+	
+; TODO 
 .ENDS
 
 .SECTION ".spritesmt1_text" SUPERFREE
