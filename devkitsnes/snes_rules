@@ -130,10 +130,23 @@ ifneq ($(strip $(AUDIOFILES)),)
 	SFILES += $(SOUNDBANK).asm
 endif
 
-# recursive search
-CFILES  := $(foreach dir,$(SRC_DIRS),$(call rwildcard,$(dir)/,*.c))
-SFILES  += $(foreach dir,$(SRC_DIRS),$(call rwildcard,$(dir)/,*.asm))
-DBGFILES:= $(foreach dir,$(SRC_DIRS),$(call rwildcard,$(dir)/,*.dbg))
+#---------------------------------------------------------------------------------
+# Search all .asm and .c files until 3rd level in the tree
+#---------------------------------------------------------------------------------
+CFILES = $(wildcard *.c)
+CFILES+= $(wildcard $(SRC)/*.c)
+CFILES+= $(wildcard $(SRC)/*/*.c)
+CFILES+= $(wildcard $(SRC)/*/*/*.c)
+
+SFILES := $(SFILES) $(wildcard *.asm)
+SFILES := $(SFILES) $(wildcard $(SRC)/*.asm)
+SFILES := $(SFILES) $(wildcard $(SRC)/*/*.asm)
+SFILES := $(SFILES) $(wildcard $(SRC)/*/*/*.asm)
+
+DBGFILES = $(wildcard *.dbg)
+DBGFILES+= $(wildcard $(SRC)/*.dbg)
+DBGFILES+= $(wildcard $(SRC)/*/*.dbg)
+DBGFILES+= $(wildcard $(SRC)/*/*/*.dbg)
 
 export OFILES := $(BINFILES:.bin=.obj) \
                  $(CFILES:.c=.obj) \
@@ -200,7 +213,7 @@ endif
 	@sed 's/://' $(ROMNAME).sym > $(ROMNAME).sym.tmp && mv $(ROMNAME).sym.tmp $(ROMNAME).sym
 
 #keep with section label if needed
-#	@cp -f $(ROMNAME).sym $(ROMNAME).symfull
+	@cp -f $(ROMNAME).sym $(ROMNAME).symfull
 
 # remove duplicated labels for mesen debugger (use temp file for macOS/BSD sed compatibility)
 	@sed '/ SECTIONSTART_/d;/ SECTIONEND_/d;/ RAM_USAGE_SLOT_/d;' $(ROMNAME).sym > $(ROMNAME).sym.tmp && mv $(ROMNAME).sym.tmp $(ROMNAME).sym
