@@ -26,8 +26,8 @@
         https://www.mapeditor.org/
 
 ---------------------------------------------------------------------------------*/
+#include <stdio.h>
 #include <string.h>
-#include <strings.h>
 #include "tiled.h"
 #include "tmxconv.h"
 
@@ -108,13 +108,14 @@ void WriteMap(const char *filename, bool isquiet)
 	outputname=(char *) malloc(FILENAME_MAX); 
 	if(outputname==NULL)
 	{
-		fatal("can't allocate memory for bmp filename");
+		fatal("can't allocate memory for map filename");
 	}
 	//snprintf(outputname, FILENAME_MAX, "%s.m16", layer->name.ptr);
 
     // We use directory and replace file name with layer name
-    strncpy(outputname, filename, FILENAME_MAX - 1);
-    outputname[sizeof(outputname) - 1] = '\0'; 
+    //strncpy(outputname, filename, FILENAME_MAX - 1);
+    strcpy(outputname, filename);
+    //outputname[sizeof(outputname) - 1] = '\0'; 
     lastpostslash = strrchr(outputname, '/');
     if (lastpostslash != NULL) {
         size_t prefix_len = (lastpostslash + 1) - outputname;
@@ -123,7 +124,7 @@ void WriteMap(const char *filename, bool isquiet)
     else
         snprintf(outputname, FILENAME_MAX, "%s.m16", layer->name.ptr);
 
-    if (!isquiet) info("Writing tiles map file...");
+        if (!isquiet) info("Writing tiles map file [%s]...",outputname);
     fpo = fopen(outputname, "wb");
     if (fpo == NULL)
     {
