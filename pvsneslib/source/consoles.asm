@@ -73,7 +73,7 @@ srand:
     lda 5,s
     bne _rng1
 
-    lda #$0001
+    lda #$ACE1
 
 _rng1:
     sta.l snes_rand_seed
@@ -82,7 +82,7 @@ _rng1:
     rtl
 
 ;---------------------------------------------------------------------------
-;u16 rand(void); // based on George Marsaglia's xorshift16 PRNG
+;u16 rand(void); // based on 16-bit LFSR pseudo-random number generator
 rand:
     php
     phb
@@ -92,37 +92,40 @@ rand:
     pha
     plb                                                             ; change bank address to 0
 
-    rep #$20                                                        ; 16-bit accumulator
-    lda.w snes_rand_seed
+    rep #$20                                                        ; Polynomial: x^16 + x^14 + x^13 + x^11 + 1
+    lda snes_rand_seed
+    sta tcc__r0
+    lsr a                                                           ; Compute feedback bit
+    lsr a
+    eor tcc__r0
+    sta tcc__r0h
+    lda tcc__r0
+    lsr a
+    lsr a
+    lsr a
+    eor tcc__r0h
+    sta tcc__r0h
 
-    asl a                                                           ; state ^= state << 7
-    asl a
-    asl a
-    asl a
-    asl a
-    asl a
-    asl a
+    lda tcc__r0
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    eor tcc__r0h
+    and #1
+    beq _rndcar
+    sec
+    bra _rndshft
 
-    eor snes_rand_seed
+_rndcar:
+    clc
+
+_rndshft:
+    lda snes_rand_seed
+    ror A                                                           ; carry becomes bit 15
     sta snes_rand_seed
-   
-    lsr a                                                           ; state ^= state >> 9
-    lsr a
-    lsr a
-    lsr a
-    lsr a
-    lsr a
-    lsr a
-    lsr a
-    lsr a
-
-    eor snes_rand_seed
-    sta snes_rand_seed
-
-    xba                                                             ; state ^= state << 8 (swap bytes -> rotate left 8)
-    eor snes_rand_seed
-    sta snes_rand_seed
-    sta.w tcc__r0
+    sta tcc__r0
 
     plb
     plp
