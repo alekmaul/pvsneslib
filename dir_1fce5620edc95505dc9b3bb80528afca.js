@@ -3,6 +3,8 @@ var dir_1fce5620edc95505dc9b3bb80528afca =
     [ "background.h", "background_8h.html", "background_8h" ],
     [ "console.h", "console_8h.html", "console_8h" ],
     [ "dma.h", "dma_8h.html", "dma_8h" ],
+    [ "fixed.h", "fixed_8h_source.html", null ],
+    [ "gamestates.h", "gamestates_8h.html", "gamestates_8h" ],
     [ "input.h", "input_8h.html", "input_8h" ],
     [ "interrupt.h", "interrupt_8h.html", "interrupt_8h" ],
     [ "libversion.h", "libversion_8h_source.html", null ],
@@ -14,5 +16,6 @@ var dir_1fce5620edc95505dc9b3bb80528afca =
     [ "snestypes.h", "snestypes_8h.html", "snestypes_8h" ],
     [ "sound.h", "sound_8h.html", "sound_8h" ],
     [ "sprite.h", "sprite_8h.html", "sprite_8h" ],
+    [ "textfont.h", "textfont_8h.html", "textfont_8h" ],
     [ "video.h", "video_8h.html", "video_8h" ]
 ];

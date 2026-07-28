@@ -11,6 +11,15 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    // Initialize Dark Mode
+    DoxygenAwesomeDarkModeToggle.init();
+    // Initialize Copy Button
+    DoxygenAwesomeFragmentCopyButton.init();
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,7 +28,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this aaooaaa div, it is closed by doxygen! -->
@@ -30,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -164,6 +173,10 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>OBJ_SIZE8_L64</b>&#160;&#160;&#160;(2 &lt;&lt; 5)</td></tr>
 <tr class="memdesc:a35468d3300e6ad4bdb2c027c93c7dbe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">default OAM size 8x8 (SM) and 64x64 (LG) pix for OBJSEL register <br /></td></tr>
 <tr class="separator:a35468d3300e6ad4bdb2c027c93c7dbe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a193eeebe707039ce0413405497344d2f" id="r_a193eeebe707039ce0413405497344d2f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a193eeebe707039ce0413405497344d2f">OBJ_SIZEL</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a193eeebe707039ce0413405497344d2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf5be223e57f677be3f839cd4f95592d" id="r_abf5be223e57f677be3f839cd4f95592d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#abf5be223e57f677be3f839cd4f95592d">OBJ_SIZES</a>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:abf5be223e57f677be3f839cd4f95592d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4741ad3cd0b065681e2a8f481525d16b" id="r_a4741ad3cd0b065681e2a8f481525d16b"><td class="memItemLeft" align="right" valign="top"><a id="a4741ad3cd0b065681e2a8f481525d16b" name="a4741ad3cd0b065681e2a8f481525d16b"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>OBJ_SPRITE16</b>&#160;&#160;&#160;2</td></tr>
 <tr class="memdesc:a4741ad3cd0b065681e2a8f481525d16b"><td class="mdescLeft">&#160;</td><td class="mdescRight">sprite with 16x16 identifier <br /></td></tr>
@@ -496,7 +509,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>brief sprite palette attribute </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a13">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a18">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, and <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a13">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>.</dd>
 </dl>
 
 </div>
@@ -517,6 +530,42 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>brief sprite priority attribute </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a17">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="a193eeebe707039ce0413405497344d2f" name="a193eeebe707039ce0413405497344d2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a193eeebe707039ce0413405497344d2f">&#9670;&#160;</a></span>OBJ_SIZEL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OBJ_SIZEL&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>brief sprite size large attribute </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a19">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, and <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a14">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="abf5be223e57f677be3f839cd4f95592d" name="abf5be223e57f677be3f839cd4f95592d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf5be223e57f677be3f839cd4f95592d">&#9670;&#160;</a></span>OBJ_SIZES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OBJ_SIZES&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>brief sprite size small attribute </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a21">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>.</dd>
+</dl>
 
 </div>
 </div>
@@ -599,7 +648,7 @@ oambuffer[id] needs to be populate before. </p>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a37">games/likemario/LikeMario.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a17">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, and <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a18">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a7">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a19">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="graphics_2maps_2slopemario_2slopemario_8c-example.html#a38">graphics/maps/slopemario/slopemario.c</a>, and <a class="el" href="systems_2games_2likemario_2src_2_like_mario_8c-example.html#a37">systems/games/likemario/src/LikeMario.c</a>.</dd>
 </dl>
 
 </div>
@@ -628,7 +677,7 @@ oambuffer[id] needs to be populate before. </p>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a16">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a6">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>.</dd>
 </dl>
 
 </div>
@@ -895,7 +944,7 @@ oambuffer[id] needs to be populate before. ! </p>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a50">games/likemario/LikeMario.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a2">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a6">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a5">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="objects_2mapandobjects_2mapandobjects_8c-example.html#a5">objects/mapandobjects/mapandobjects.c</a>, and <a class="el" href="objects_2nogravityobject_2nogravityobjects_8c-example.html#a5">objects/nogravityobject/nogravityobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a2">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a14">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a5">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="graphics_2maps_2slopemario_2slopemario_8c-example.html#a51">graphics/maps/slopemario/slopemario.c</a>, <a class="el" href="systems_2games_2likemario_2src_2_like_mario_8c-example.html#a50">systems/games/likemario/src/LikeMario.c</a>, <a class="el" href="systems_2objects_2mapandobjects_2mapandobjects_8c-example.html#a5">systems/objects/mapandobjects/mapandobjects.c</a>, and <a class="el" href="systems_2objects_2nogravityobject_2nogravityobjects_8c-example.html#a5">systems/objects/nogravityobject/nogravityobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -934,7 +983,7 @@ oambuffer[id] needs to be populate before. ! </p>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="input_2superscope_2superscope_8c-example.html#a38">input/superscope/superscope.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_meta_sprite_2_meta_sprite_8c-example.html#a2">graphics/Sprites/MetaSprite/MetaSprite.c</a>, and <a class="el" href="input_2superscope_2superscope_8c-example.html#a38">input/superscope/superscope.c</a>.</dd>
 </dl>
 
 </div>
@@ -1008,7 +1057,7 @@ oambuffer[id] needs to be populate before. ! </p>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a13">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a0">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a2">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a0">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="input_2mouse_2mouse_8c-example.html#a0">input/mouse/mouse.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a9">input/superscope/superscope.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a4">maps/mapscroll/mapscroll.c</a>, and <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a16">objects/moveobjects/moveobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a13">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a0">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a2">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a0">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="graphics_2maps_2mapscroll_2mapscroll_8c-example.html#a4">graphics/maps/mapscroll/mapscroll.c</a>, <a class="el" href="input_2mouse_2mouse_8c-example.html#a0">input/mouse/mouse.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a9">input/superscope/superscope.c</a>, and <a class="el" href="systems_2objects_2moveobjects_2moveobjects_8c-example.html#a16">systems/objects/moveobjects/moveobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -1072,7 +1121,7 @@ oambuffer[id] needs to be populate before. </p>
     <tr><td class="paramname">y</td><td>y coordinate of the metasprite </td></tr>
     <tr><td class="paramname">sprmeta</td><td>pointer to metasprite structure (must finish with 0xFFFF, see <a class="el" href="structt__metasprites.html" title="Dynamic metasprite definition (16 bytes)">t_metasprites</a>) </td></tr>
     <tr><td class="paramname">sprsize</td><td>size (OBJ_SMALL or OBJ_LARGE sprite table to use, 16bits for speed optim) </td></tr>
-    <tr><td class="paramname">ofsgfx</td><td>offset of graphics related to initiale sprite graphic offset (ex:0x100 if sprites begins at 0x0000 and graphics at 0x0100)</td></tr>
+    <tr><td class="paramname">ofsgfx</td><td>offset of graphics related to initiale sprite graphic offset (ex:0x100 if VRAM for sprites begins at 0x0100)</td></tr>
   </table>
   </dd>
 </dl>
@@ -1080,6 +1129,8 @@ oambuffer[id] needs to be populate before. </p>
  x offset,y offset,gfx offset, attribute<br  />
  the function will reserve the number of sprites in oambuffer, beginning with id.<br  />
  You need to have graphics of Metasprite in VRAM before using this function. </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_meta_sprite_2_meta_sprite_8c-example.html#a10">graphics/Sprites/MetaSprite/MetaSprite.c</a>.</dd>
+</dl>
 
 </div>
 </div>
@@ -1135,15 +1186,17 @@ oambuffer[id] needs to be populate before. </p>
     <tr><td class="paramname">x</td><td>x coordinate of the metasprite </td></tr>
     <tr><td class="paramname">y</td><td>y coordinate of the metasprite </td></tr>
     <tr><td class="paramname">sprmeta</td><td>pointer to metasprite structure (must finish with 0xFFFF, see <a class="el" href="structt__metasprites.html" title="Dynamic metasprite definition (16 bytes)">t_metasprites</a>) </td></tr>
-    <tr><td class="paramname">ofsgfx</td><td>offset of graphics related to initiale sprite graphic offset (ex:0x100 if sprites begins at 0x0000 and graphics at 0x0100)</td></tr>
+    <tr><td class="paramname">ofsgfx</td><td>offset of graphics related to initiale sprite graphic offset (ex:0x100 if VRAM for sprites begins at 0x0100)</td></tr>
   </table>
   </dd>
 </dl>
 <p>the meta structure is composed of:<br  />
  x offset,y offset,gfx offset, attribute<br  />
  the function will reserve the number of sprites in oambuffer, beginning with id.<br  />
- It is necessarilly a LARGE sprite for 32 pixel width.<br  />
+ It is definitively a LARGE sprite for 32 pixel width.<br  />
  You need to have graphics of Metasprite in VRAM before using this function. </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_meta_sprite_2_meta_sprite_8c-example.html#a9">graphics/Sprites/MetaSprite/MetaSprite.c</a>.</dd>
+</dl>
 
 </div>
 </div>
@@ -1199,14 +1252,14 @@ oambuffer[id] needs to be populate before. </p>
     <tr><td class="paramname">x</td><td>x coordinate of the metasprite </td></tr>
     <tr><td class="paramname">y</td><td>y coordinate of the metasprite </td></tr>
     <tr><td class="paramname">sprmeta</td><td>pointer to metasprite structure (must finish with 0xFFFF, see <a class="el" href="structt__metasprites.html" title="Dynamic metasprite definition (16 bytes)">t_metasprites</a>) </td></tr>
-    <tr><td class="paramname">ofsgfx</td><td>offset of graphics related to initiale sprite graphic offset (ex:0x100 if sprites begins at 0x0000 and graphics at 0x0100)</td></tr>
+    <tr><td class="paramname">ofsgfx</td><td>offset of graphics related to initiale sprite graphic offset (ex:0x100 if VRAM for sprites begins at 0x0100)</td></tr>
   </table>
   </dd>
 </dl>
 <p>the meta structure is composed of:<br  />
  x offset,y offset,gfx offset, attribute<br  />
  the function will reserve the number of sprites in oambuffer, beginning with id.<br  />
- It is necessarilly a SMALL sprite for 32 pixel width.<br  />
+ It is definitively a SMALL sprite for 32 pixel width.<br  />
  You need to have graphics of Metasprite in VRAM before using this function. </p>
 
 </div>
@@ -1340,7 +1393,7 @@ oambuffer[id] needs to be populate before. </p>
 </dl>
 <p>the meta structure is composed of:<br  />
  x offset,y offset,gfx offset, attribute<br  />
- the function will reserve the number of sprites in oambuffer, beginning with id. It is necessarilly a LARGE sprite for 32 pixel width.<br  />
+ the function will reserve the number of sprites in oambuffer, beginning with id. It is definitively a LARGE sprite for 32 pixel width.<br  />
  </p>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a24">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>.</dd>
 </dl>
@@ -1405,7 +1458,7 @@ oambuffer[id] needs to be populate before. </p>
 </dl>
 <p>the meta structure is composed of:<br  />
  x offset,y offset,gfx offset, attribute<br  />
- the function will reserve the number of sprites in oambuffer, beginning with id. It is necessarilly a SMALL sprite for 32 pixel width.<br  />
+ the function will reserve the number of sprites in oambuffer, beginning with id. It is definitively a SMALL sprite for 32 pixel width.<br  />
  </p>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a23">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>.</dd>
 </dl>
@@ -1488,7 +1541,7 @@ oambuffer[id] needs to be populate before. </p>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2breakout_2breakout_8c-example.html#a0">games/breakout/breakout.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a15">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a2">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a11">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a2">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="input_2mouse_2mouse_8c-example.html#a21">input/mouse/mouse.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a11">input/superscope/superscope.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a6">maps/mapscroll/mapscroll.c</a>, and <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a8">objects/moveobjects/moveobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a15">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a2">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a11">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a2">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="graphics_2maps_2mapscroll_2mapscroll_8c-example.html#a6">graphics/maps/mapscroll/mapscroll.c</a>, <a class="el" href="input_2mouse_2mouse_8c-example.html#a21">input/mouse/mouse.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a11">input/superscope/superscope.c</a>, <a class="el" href="systems_2games_2breakout_2breakout_8c-example.html#a0">systems/games/breakout/breakout.c</a>, and <a class="el" href="systems_2objects_2moveobjects_2moveobjects_8c-example.html#a8">systems/objects/moveobjects/moveobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -1592,7 +1645,7 @@ oambuffer[id] needs to be populate before. </p>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2breakout_2breakout_8c-example.html#a15">games/breakout/breakout.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a16">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a3">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a12">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a3">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a12">input/superscope/superscope.c</a>, <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a7">maps/mapscroll/mapscroll.c</a>, and <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a9">objects/moveobjects/moveobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a16">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a3">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a12">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a3">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="graphics_2maps_2mapscroll_2mapscroll_8c-example.html#a7">graphics/maps/mapscroll/mapscroll.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a12">input/superscope/superscope.c</a>, <a class="el" href="systems_2games_2breakout_2breakout_8c-example.html#a15">systems/games/breakout/breakout.c</a>, and <a class="el" href="systems_2objects_2moveobjects_2moveobjects_8c-example.html#a9">systems/objects/moveobjects/moveobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -1671,7 +1724,7 @@ oambuffer[id] needs to be populate before. </p>
   </dd>
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>When OBJ_HIDE is used, the sprite is set at these coordinates: x = 255, y 240. Therefore when a sprite is hidden and it is needed to show it again (use OBJ_SHOW), it is necessary to reset the sprite coordinates with <a class="el" href="sprite_8h.html#a4b8ea6388961b74cc228104a97eaecbd" title="sets an oam coordinate to the supplied values">oamSetXY()</a>. If the sprite needs to be hidden and keep its coordinates, please use oamSetGfxOffset instead by passing a transparent tile. </dd></dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a12">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a4">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="input_2mouse_2mouse_8c-example.html#a18">input/mouse/mouse.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a0">input/superscope/superscope.c</a>, and <a class="el" href="maps_2mapscroll_2mapscroll_8c-example.html#a8">maps/mapscroll/mapscroll.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a12">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a4">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2maps_2mapscroll_2mapscroll_8c-example.html#a8">graphics/maps/mapscroll/mapscroll.c</a>, <a class="el" href="input_2mouse_2mouse_8c-example.html#a18">input/mouse/mouse.c</a>, and <a class="el" href="input_2superscope_2superscope_8c-example.html#a0">input/superscope/superscope.c</a>.</dd>
 </dl>
 
 </div>
@@ -1769,7 +1822,7 @@ oambuffer[id] needs to be populate before. </p>
  Size bit (Small/Large) can be defined in OBSEL Register (Port 2101h).<br  />
  </p>
 <p>current sprite buffer for dynamic engine </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a16">games/likemario/LikeMario.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a4">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a8">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, and <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a8">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a4">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a1">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a8">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="graphics_2maps_2slopemario_2slopemario_8c-example.html#a17">graphics/maps/slopemario/slopemario.c</a>, and <a class="el" href="systems_2games_2likemario_2src_2_like_mario_8c-example.html#a16">systems/games/likemario/src/LikeMario.c</a>.</dd>
 </dl>
 
 </div>
@@ -1805,7 +1858,7 @@ oambuffer[id] needs to be populate before. </p>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="sprite_8h.html">sprite.h</a></li>
-    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

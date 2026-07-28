@@ -7,10 +7,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>PVSnesLib: graphics/Effects/MosaicShading/MosaicShading.c</title>
+<title>PVSnesLib: systems/testregion/src/testregion.c</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    // Initialize Dark Mode
+    DoxygenAwesomeDarkModeToggle.init();
+    // Initialize Copy Button
+    DoxygenAwesomeFragmentCopyButton.init();
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,7 +28,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this aaooaaa div, it is closed by doxygen! -->
@@ -30,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -69,7 +78,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('graphics_2_effects_2_mosaic_shading_2_mosaic_shading_8c-example.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('systems_2testregion_2src_2testregion_8c-example.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -95,90 +104,76 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_mosaic_shading_2_
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">graphics/Effects/MosaicShading/MosaicShading.c</div></div>
+  <div class="headertitle"><div class="title">systems/testregion/src/testregion.c</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><span class="comment">/*---------------------------------------------------------------------------------</span></div>
 <div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment"></span> </div>
-<div class="line"><span class="comment">    Simple tile mode 1 demo</span></div>
+<div class="line"><span class="comment">    Simple check region code between console and cartridge</span></div>
+<div class="line"><span class="comment">    Cartridge is currently in region 03 , which is a PAL region</span></div>
 <div class="line"><span class="comment">    -- alekmaul</span></div>
 <div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">---------------------------------------------------------------------------------*/</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="snes_8h.html">snes.h</a>&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> patterns, patterns_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> palette, palette_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> map, map_end;</div>
+<div class="line"><span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> pad0;</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// NOTE: Does not pause execution if a pad 0 key is currently pressed.</span></div>
-<div class="line"><span class="keywordtype">void</span> WaitForKey() {</div>
-<div class="line">    <span class="keywordflow">while</span> (<a id="a0" name="a0"></a><a class="code hl_define" href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0) == 0)</div>
-<div class="line">    {</div>
-<div class="line">        <a id="a1" name="a1"></a><a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">    }</div>
-<div class="line">}</div>
-<div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
-<div class="line">    <span class="comment">// Copy tiles to VRAM</span></div>
-<div class="line">    <a id="a2" name="a2"></a><a class="code hl_function" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(0, &amp;patterns, &amp;palette, 0, (&amp;patterns_end - &amp;patterns), (&amp;palette_end - &amp;palette), BG_16COLORS, 0x4000);</div>
+<div class="line">    <span class="comment">// Initialize text console with our font</span></div>
+<div class="line">    <a id="a0" name="a0"></a><a class="code hl_function" href="textfont_8h.html#a71222d27987b5e71863ab7da2355a3a3">consoleInitDefaultText</a>(0);</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// Copy Map to VRAM</span></div>
-<div class="line">    <a id="a3" name="a3"></a><a class="code hl_function" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(0, &amp;map, (&amp;map_end - &amp;map), SC_32x32, 0x1000);</div>
+<div class="line">    <span class="comment">// Draw a wonderful text :P</span></div>
+<div class="line">    <a id="a1" name="a1"></a><a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(10, 6, <span class="stringliteral">&quot;CHECK REGIONS&quot;</span>);</div>
+<div class="line">    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 10, <span class="stringliteral">&quot;BETWEEN SNES AND CARTRIDGE&quot;</span>);</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// Now Put in 16 color mode and disable other BGs except 1st one</span></div>
+<div class="line">    <span class="comment">// Init background</span></div>
+<div class="line">    <a id="a2" name="a2"></a><a class="code hl_function" href="background_8h.html#a0206b5b9911749322bcf9da130527924">bgSetGfxPtr</a>(0, 0x3000);</div>
+<div class="line">    <a id="a3" name="a3"></a><a class="code hl_function" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(0, 0x6800, SC_32x32);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Now Put in 16 color mode and disable Bgs except current</span></div>
 <div class="line">    <a id="a4" name="a4"></a><a class="code hl_function" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE1, 0);</div>
 <div class="line">    <a id="a5" name="a5"></a><a class="code hl_function" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
 <div class="line">    <a class="code hl_function" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Display screen</span></div>
 <div class="line">    <a id="a6" name="a6"></a><a class="code hl_function" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
 <div class="line"> </div>
-<div class="line">    WaitForKey();</div>
+<div class="line">    <span class="comment">// Check the regions (1 if ok)</span></div>
+<div class="line">    <span class="keywordflow">if</span> (<a id="a7" name="a7"></a><a class="code hl_function" href="console_8h.html#ad9f96595d599dca8d09df3da5200a8a8">consoleRegionIsOK</a>() == 1)</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(6, 14, <span class="stringliteral">&quot;OK, THE SAME REGION!&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">else</span></div>
+<div class="line">    {</div>
+<div class="line">        <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(4, 14, <span class="stringliteral">&quot;BAD, NOT THE SAME REGION!&quot;</span>);</div>
+<div class="line">    }</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// Now just play with effects :P</span></div>
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
-<div class="line">        <span class="comment">// Fade out so light to black</span></div>
-<div class="line">        <a id="a7" name="a7"></a><a class="code hl_function" href="video_8h.html#ac34bd13a8556c8ac8e1eeeded15f7632">setFadeEffect</a>(FADE_OUT);</div>
-<div class="line">        <a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">        WaitForKey();</div>
-<div class="line"> </div>
-<div class="line">        <span class="comment">// Fade in now so black to light</span></div>
-<div class="line">        <a class="code hl_function" href="video_8h.html#ac34bd13a8556c8ac8e1eeeded15f7632">setFadeEffect</a>(FADE_IN);</div>
-<div class="line">        <a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">        WaitForKey();</div>
-<div class="line"> </div>
-<div class="line">        <span class="comment">// Now do some big pixels</span></div>
-<div class="line">        <a id="a8" name="a8"></a><a class="code hl_function" href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">setMosaicEffect</a>(MOSAIC_OUT, MOSAIC_BG1);</div>
-<div class="line">        <a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">        WaitForKey();</div>
-<div class="line"> </div>
-<div class="line">        <span class="comment">// And now restore screen to normal</span></div>
-<div class="line">        <a class="code hl_function" href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">setMosaicEffect</a>(MOSAIC_IN, MOSAIC_BG1);</div>
-<div class="line">        <a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">        WaitForKey();</div>
+<div class="line">        <a id="a8" name="a8"></a><a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
+<div class="ttc" id="abackground_8h_html_a0206b5b9911749322bcf9da130527924"><div class="ttname"><a href="background_8h.html#a0206b5b9911749322bcf9da130527924">bgSetGfxPtr</a></div><div class="ttdeci">void bgSetGfxPtr(u8 bgNumber, u16 address)</div><div class="ttdoc">Definition of each background address.</div></div>
 <div class="ttc" id="abackground_8h_html_a4dbfb1b8854ff9ca4a7d11a899281bbb"><div class="ttname"><a href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a></div><div class="ttdeci">void bgSetDisable(u8 bgNumber)</div><div class="ttdoc">Disable a BG in the actual SNES mode.</div></div>
-<div class="ttc" id="abackground_8h_html_acc385296e159449a81d18f5e219c8032"><div class="ttname"><a href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a></div><div class="ttdeci">void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address)</div><div class="ttdoc">Initializes a Map Set and loads it into SNES VRAM.</div></div>
-<div class="ttc" id="abackground_8h_html_ae09a7ac09be78eef0f28a6c7aabc82ad"><div class="ttname"><a href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a></div><div class="ttdeci">void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)</div><div class="ttdoc">Initializes a Tile Set and Loads the Tile GFX into VRAM.</div></div>
-<div class="ttc" id="ainput_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition</b> input.h:198</div></div>
+<div class="ttc" id="abackground_8h_html_a4fcbdb4b2378a64e8db62a184ee1851e"><div class="ttname"><a href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a></div><div class="ttdeci">void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize)</div><div class="ttdoc">Change Background Map address.</div></div>
+<div class="ttc" id="aconsole_8h_html_ad9f96595d599dca8d09df3da5200a8a8"><div class="ttname"><a href="console_8h.html#ad9f96595d599dca8d09df3da5200a8a8">consoleRegionIsOK</a></div><div class="ttdeci">u16 consoleRegionIsOK(void)</div><div class="ttdoc">Check compatibility between console (NTSC/PAL) and cartridge (country)</div></div>
 <div class="ttc" id="ainterrupt_8h_html_abd33830487e4764e5ec22ec98b749f4b"><div class="ttname"><a href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Waits for a VBlank interrupt.</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
-<div class="ttc" id="avideo_8h_html_aa14785c4eb1ce08cc02eb98d26c98c44"><div class="ttname"><a href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">setMosaicEffect</a></div><div class="ttdeci">void setMosaicEffect(u8 mode, u8 bgNumbers)</div><div class="ttdoc">Do a mosaic in or out effect.</div></div>
+<div class="ttc" id="atextfont_8h_html_a71222d27987b5e71863ab7da2355a3a3"><div class="ttname"><a href="textfont_8h.html#a71222d27987b5e71863ab7da2355a3a3">consoleInitDefaultText</a></div><div class="ttdeci">void consoleInitDefaultText(u8 palnum)</div><div class="ttdoc">Initialize the Text System with the font shipped in PVSNesLib.</div></div>
+<div class="ttc" id="atextfont_8h_html_a7e52d15b5a1befa42f5758de19dfb70c"><div class="ttname"><a href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a></div><div class="ttdeci">void consoleDrawText(u16 x, u16 y, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen (tiles mode)</div></div>
 <div class="ttc" id="avideo_8h_html_abc7d4ef8ebc22f5b710927909bb3f144"><div class="ttname"><a href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a></div><div class="ttdeci">void setScreenOn(void)</div><div class="ttdoc">Put screen On.</div></div>
-<div class="ttc" id="avideo_8h_html_ac34bd13a8556c8ac8e1eeeded15f7632"><div class="ttname"><a href="video_8h.html#ac34bd13a8556c8ac8e1eeeded15f7632">setFadeEffect</a></div><div class="ttdeci">void setFadeEffect(u8 mode)</div><div class="ttdoc">Do a fadein or fadeout effect.</div></div>
 <div class="ttc" id="avideo_8h_html_afd9e46ae627d055dd8c98a4b0ebb73b1"><div class="ttname"><a href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a></div><div class="ttdeci">void setMode(u8 mode, u8 size)</div><div class="ttdoc">Set the SNES hardware to operate in new display mode.</div></div>
 </div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

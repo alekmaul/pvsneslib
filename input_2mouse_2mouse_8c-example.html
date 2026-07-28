@@ -11,6 +11,15 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    // Initialize Dark Mode
+    DoxygenAwesomeDarkModeToggle.init();
+    // Initialize Copy Button
+    DoxygenAwesomeFragmentCopyButton.init();
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,7 +28,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this aaooaaa div, it is closed by doxygen! -->
@@ -30,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -134,13 +143,13 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">    <a id="a0" name="a0"></a><a class="code hl_function" href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a>(&amp;cursorsprite, (&amp;cursorsprite_end - &amp;cursorsprite), &amp;cursorpal, 48 * 2, 0, 0x0000, <a id="a1" name="a1"></a><a class="code hl_define" href="sprite_8h.html#a1893eab6ffef9928ff2de22d49bd18c0">OBJ_SIZE16_L32</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Initialize text console with our font</span></div>
-<div class="line">    <a id="a2" name="a2"></a><a class="code hl_function" href="console_8h.html#adcbe2c74decb1fdcdf34c80ac525335e">consoleSetTextMapPtr</a>(0x6800);</div>
-<div class="line">    <a id="a3" name="a3"></a><a class="code hl_function" href="console_8h.html#aaf046d1e48f425681b133b5eafa62e09">consoleSetTextGfxPtr</a>(0x3000);</div>
-<div class="line">    <a id="a4" name="a4"></a><a class="code hl_function" href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a>(0x0100);</div>
-<div class="line">    <a id="a5" name="a5"></a><a class="code hl_function" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(0, 16 * 2, &amp;snesfont, &amp;snespal);</div>
+<div class="line">    <a id="a2" name="a2"></a><a class="code hl_function" href="textfont_8h.html#adcbe2c74decb1fdcdf34c80ac525335e">consoleSetTextMapPtr</a>(0x6800);</div>
+<div class="line">    <a id="a3" name="a3"></a><a class="code hl_function" href="textfont_8h.html#aaf046d1e48f425681b133b5eafa62e09">consoleSetTextGfxPtr</a>(0x3000);</div>
+<div class="line">    <a id="a4" name="a4"></a><a class="code hl_function" href="textfont_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a>(0x0100);</div>
+<div class="line">    <a id="a5" name="a5"></a><a class="code hl_function" href="textfont_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(0, 16 * 2, &amp;snesfont, &amp;snespal);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Draw a wonderful text :P</span></div>
-<div class="line">    <a id="a6" name="a6"></a><a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(11, 1, <span class="stringliteral">&quot;MOUSE TEST&quot;</span>);</div>
+<div class="line">    <a id="a6" name="a6"></a><a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(11, 1, <span class="stringliteral">&quot;MOUSE TEST&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Enable mouse reading and set the initial mouse sensitivity</span></div>
 <div class="line">    <a id="a7" name="a7"></a><a class="code hl_function" href="input_8h.html#a675d0765637068a9bb4cee40f9f15e3e">initMouse</a>(<a id="a8" name="a8"></a><a class="code hl_enumvalue" href="input_8h.html#a83faf49b2762ae59c8b799f1119c73a5aa2a587af9b3a0bdc7969d84d7c611070">MOUSE_SLOW</a>);</div>
@@ -148,25 +157,25 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">    <a id="a9" name="a9"></a><a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>(); <span class="comment">// Let&#39;s make sure we read mouse for the first time after initMouse()</span></div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">if</span> (<a id="a10" name="a10"></a><a class="code hl_variable" href="input_8h.html#a31b303c7c861ee50cb963e474af244c6">mouseConnect</a>[0] == <span class="keyword">false</span>)</div>
-<div class="line">        <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 5, <span class="stringliteral">&quot;NO MOUSE PLUGGED ON PORT 0&quot;</span>);</div>
+<div class="line">        <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 5, <span class="stringliteral">&quot;NO MOUSE PLUGGED ON PORT 0&quot;</span>);</div>
 <div class="line">    <span class="keywordflow">else</span></div>
 <div class="line">    {</div>
 <div class="line">        <a id="a11" name="a11"></a><a class="code hl_function" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;buttonsmap + 0x60, 0x6188, 0x0A); <span class="comment">// SLOW button pressed</span></div>
 <div class="line">        <a class="code hl_function" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;buttonsmap + 0xA0, 0x61A8, 0x0A); <span class="comment">// SLOW button pressed</span></div>
 <div class="line">        <a class="code hl_function" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;buttonsmap + 0x4A, 0x618D, 0x16); <span class="comment">// released buttons</span></div>
 <div class="line">        <a class="code hl_function" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;buttonsmap + 0x8A, 0x61AD, 0x16); <span class="comment">// released buttons</span></div>
-<div class="line">        <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(5, 5, <span class="stringliteral">&quot;MOUSE PLUGGED ON PORT 0&quot;</span>);</div>
+<div class="line">        <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(5, 5, <span class="stringliteral">&quot;MOUSE PLUGGED ON PORT 0&quot;</span>);</div>
 <div class="line">    }</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">if</span> (<a class="code hl_variable" href="input_8h.html#a31b303c7c861ee50cb963e474af244c6">mouseConnect</a>[1] == <span class="keyword">false</span>)</div>
-<div class="line">        <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 17, <span class="stringliteral">&quot;NO MOUSE PLUGGED ON PORT 1&quot;</span>);</div>
+<div class="line">        <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 17, <span class="stringliteral">&quot;NO MOUSE PLUGGED ON PORT 1&quot;</span>);</div>
 <div class="line">    <span class="keywordflow">else</span></div>
 <div class="line">    {</div>
 <div class="line">        <a class="code hl_function" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;buttonsmap + 0x60, 0x6308, 0x0A); <span class="comment">// SLOW button pressed</span></div>
 <div class="line">        <a class="code hl_function" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;buttonsmap + 0xA0, 0x6328, 0x0A); <span class="comment">// SLOW button pressed</span></div>
 <div class="line">        <a class="code hl_function" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;buttonsmap + 0x4A, 0x630D, 0x16); <span class="comment">// released buttons</span></div>
 <div class="line">        <a class="code hl_function" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;buttonsmap + 0x8A, 0x632D, 0x16); <span class="comment">// released buttons</span></div>
-<div class="line">        <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(5, 17, <span class="stringliteral">&quot;MOUSE PLUGGED ON PORT 1&quot;</span>);</div>
+<div class="line">        <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(5, 17, <span class="stringliteral">&quot;MOUSE PLUGGED ON PORT 1&quot;</span>);</div>
 <div class="line">    }</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Init background</span></div>
@@ -199,9 +208,9 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">            <span class="keywordflow">if</span> (printed[0])</div>
 <div class="line">            {</div>
 <div class="line">                <a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">                <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 5, <span class="stringliteral">&quot;NO MOUSE PLUGGED ON PORT 0&quot;</span>);</div>
-<div class="line">                <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(11, 7, <span class="stringliteral">&quot;          &quot;</span>);</div>
-<div class="line">                <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 10, <span class="stringliteral">&quot;                    &quot;</span>);</div>
+<div class="line">                <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 5, <span class="stringliteral">&quot;NO MOUSE PLUGGED ON PORT 0&quot;</span>);</div>
+<div class="line">                <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(11, 7, <span class="stringliteral">&quot;          &quot;</span>);</div>
+<div class="line">                <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 10, <span class="stringliteral">&quot;                    &quot;</span>);</div>
 <div class="line">                printed[0] = <span class="keyword">false</span>;</div>
 <div class="line">            }</div>
 <div class="line">            <a id="a18" name="a18"></a><a class="code hl_function" href="sprite_8h.html#a35a0da9852240ef41b5030ed21b6eeb2">oamSetVisible</a>(0, OBJ_HIDE); <span class="comment">// Hide 1p cursor</span></div>
@@ -233,8 +242,8 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">            <span class="keywordflow">if</span> (printed[0])</div>
 <div class="line">            {</div>
 <div class="line">                <a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">                <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 5, <span class="stringliteral">&quot;  MOUSE PLUGGED ON PORT 0 &quot;</span>);</div>
-<div class="line">                <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(11, 7, <span class="stringliteral">&quot;X:    Y:&quot;</span>);</div>
+<div class="line">                <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 5, <span class="stringliteral">&quot;  MOUSE PLUGGED ON PORT 0 &quot;</span>);</div>
+<div class="line">                <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(11, 7, <span class="stringliteral">&quot;X:    Y:&quot;</span>);</div>
 <div class="line">                printed[0] = <span class="keyword">false</span>;</div>
 <div class="line">            }</div>
 <div class="line"> </div>
@@ -244,9 +253,9 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">            <span class="keywordflow">if</span> ((odd &amp; 0x01) &amp;&amp; (<a id="a22" name="a22"></a><a class="code hl_variable" href="input_8h.html#a74059eb9a291d858eda2c852a470919e">mouseButton</a>[0] == <span class="keyword">false</span>))</div>
 <div class="line">            {</div>
 <div class="line">                sprintf(hex_string, <span class="stringliteral">&quot;%02X&quot;</span>, p1_mouse_x);</div>
-<div class="line">                <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(13, 7, hex_string);</div>
+<div class="line">                <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(13, 7, hex_string);</div>
 <div class="line">                sprintf(hex_string, <span class="stringliteral">&quot;%02X&quot;</span>, p1_mouse_y);</div>
-<div class="line">                <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(19, 7, hex_string);</div>
+<div class="line">                <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(19, 7, hex_string);</div>
 <div class="line">            }</div>
 <div class="line"> </div>
 <div class="line">            <span class="comment">// mousePressed works as turbo switch, it will be 1 until it gets released, and then it goes back to 0. Good for dragging or writing.</span></div>
@@ -255,7 +264,7 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">            <span class="keywordflow">case</span> <a id="a24" name="a24"></a><a class="code hl_define" href="input_8h.html#a7e7dc1fef54e53e17af8ef800d0e9bfc">mouse_L</a>:</div>
 <div class="line">                <span class="keywordflow">if</span> (mouseDown_L[0] == <span class="keyword">false</span>)</div>
 <div class="line">                {</div>
-<div class="line">                    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 10, <span class="stringliteral">&quot;LEFT BUTTON PRESSED &quot;</span>);</div>
+<div class="line">                    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 10, <span class="stringliteral">&quot;LEFT BUTTON PRESSED &quot;</span>);</div>
 <div class="line">                    mouseDown_L[0] = <span class="keyword">true</span>;</div>
 <div class="line">                    mouseDown_R[0] = <span class="keyword">false</span>;</div>
 <div class="line">                    mouseDown_LR[0] = <span class="keyword">false</span>;</div>
@@ -264,7 +273,7 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">            <span class="keywordflow">case</span> <a id="a25" name="a25"></a><a class="code hl_define" href="input_8h.html#a81ae3d96dc815a011c1d553388b4cad9">mouse_R</a>:</div>
 <div class="line">                <span class="keywordflow">if</span> (mouseDown_R[0] == <span class="keyword">false</span>)</div>
 <div class="line">                {</div>
-<div class="line">                    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 10, <span class="stringliteral">&quot;RIGHT BUTTON PRESSED&quot;</span>);</div>
+<div class="line">                    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 10, <span class="stringliteral">&quot;RIGHT BUTTON PRESSED&quot;</span>);</div>
 <div class="line">                    mouseDown_L[0] = <span class="keyword">false</span>;</div>
 <div class="line">                    mouseDown_R[0] = <span class="keyword">true</span>;</div>
 <div class="line">                    mouseDown_LR[0] = <span class="keyword">false</span>;</div>
@@ -273,7 +282,7 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">            <span class="keywordflow">case</span> <a class="code hl_define" href="input_8h.html#a7e7dc1fef54e53e17af8ef800d0e9bfc">mouse_L</a> + <a class="code hl_define" href="input_8h.html#a81ae3d96dc815a011c1d553388b4cad9">mouse_R</a>:</div>
 <div class="line">                <span class="keywordflow">if</span> (mouseDown_LR[0] == <span class="keyword">false</span>)</div>
 <div class="line">                {</div>
-<div class="line">                    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 10, <span class="stringliteral">&quot;BOTH BUTTONS PRESSED&quot;</span>);</div>
+<div class="line">                    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 10, <span class="stringliteral">&quot;BOTH BUTTONS PRESSED&quot;</span>);</div>
 <div class="line">                    mouseDown_L[0] = <span class="keyword">false</span>;</div>
 <div class="line">                    mouseDown_R[0] = <span class="keyword">false</span>;</div>
 <div class="line">                    mouseDown_LR[0] = <span class="keyword">true</span>;</div>
@@ -292,9 +301,9 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">            <span class="keywordflow">if</span> (printed[1])</div>
 <div class="line">            {</div>
 <div class="line">                <a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">                <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 17, <span class="stringliteral">&quot;NO MOUSE PLUGGED ON PORT 1&quot;</span>);</div>
-<div class="line">                <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(11, 19, <span class="stringliteral">&quot;          &quot;</span>);</div>
-<div class="line">                <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 22, <span class="stringliteral">&quot;                    &quot;</span>);</div>
+<div class="line">                <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 17, <span class="stringliteral">&quot;NO MOUSE PLUGGED ON PORT 1&quot;</span>);</div>
+<div class="line">                <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(11, 19, <span class="stringliteral">&quot;          &quot;</span>);</div>
+<div class="line">                <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 22, <span class="stringliteral">&quot;                    &quot;</span>);</div>
 <div class="line">                printed[1] = <span class="keyword">false</span>;</div>
 <div class="line">            }</div>
 <div class="line">            <a class="code hl_function" href="sprite_8h.html#a35a0da9852240ef41b5030ed21b6eeb2">oamSetVisible</a>(4, OBJ_HIDE); <span class="comment">// Hide 2p cursor</span></div>
@@ -326,8 +335,8 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">            <span class="keywordflow">if</span> (printed[1])</div>
 <div class="line">            {</div>
 <div class="line">                <a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">                <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 17, <span class="stringliteral">&quot;  MOUSE PLUGGED ON PORT 1 &quot;</span>);</div>
-<div class="line">                <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(11, 19, <span class="stringliteral">&quot;X:    Y:&quot;</span>);</div>
+<div class="line">                <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 17, <span class="stringliteral">&quot;  MOUSE PLUGGED ON PORT 1 &quot;</span>);</div>
+<div class="line">                <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(11, 19, <span class="stringliteral">&quot;X:    Y:&quot;</span>);</div>
 <div class="line">                printed[1] = <span class="keyword">false</span>;</div>
 <div class="line">            }</div>
 <div class="line"> </div>
@@ -337,9 +346,9 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">            <span class="keywordflow">if</span> (((odd &amp; 0x01) == 0) &amp;&amp; (<a class="code hl_variable" href="input_8h.html#a74059eb9a291d858eda2c852a470919e">mouseButton</a>[1] == <span class="keyword">false</span>))</div>
 <div class="line">            {</div>
 <div class="line">                sprintf(hex_string, <span class="stringliteral">&quot;%02X&quot;</span>, p2_mouse_x, p2_mouse_y);</div>
-<div class="line">                <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(13, 19, hex_string);</div>
+<div class="line">                <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(13, 19, hex_string);</div>
 <div class="line">                sprintf(hex_string, <span class="stringliteral">&quot;%02X&quot;</span>, p2_mouse_y);</div>
-<div class="line">                <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(19, 19, hex_string);</div>
+<div class="line">                <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(19, 19, hex_string);</div>
 <div class="line">            }</div>
 <div class="line"> </div>
 <div class="line">            <span class="comment">// mousePressed works as turbo switch, it will be 1 until it gets released, and then it goes back to 0. Good for dragging or writing.</span></div>
@@ -348,7 +357,7 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">            <span class="keywordflow">case</span> <a class="code hl_define" href="input_8h.html#a7e7dc1fef54e53e17af8ef800d0e9bfc">mouse_L</a>:</div>
 <div class="line">                <span class="keywordflow">if</span> (mouseDown_L[1] == <span class="keyword">false</span>)</div>
 <div class="line">                {</div>
-<div class="line">                    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 22, <span class="stringliteral">&quot;LEFT BUTTON PRESSED &quot;</span>);</div>
+<div class="line">                    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 22, <span class="stringliteral">&quot;LEFT BUTTON PRESSED &quot;</span>);</div>
 <div class="line">                    mouseDown_L[1] = <span class="keyword">true</span>;</div>
 <div class="line">                    mouseDown_R[1] = <span class="keyword">false</span>;</div>
 <div class="line">                    mouseDown_LR[1] = <span class="keyword">false</span>;</div>
@@ -357,7 +366,7 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">            <span class="keywordflow">case</span> <a class="code hl_define" href="input_8h.html#a81ae3d96dc815a011c1d553388b4cad9">mouse_R</a>:</div>
 <div class="line">                <span class="keywordflow">if</span> (mouseDown_R[1] == <span class="keyword">false</span>)</div>
 <div class="line">                {</div>
-<div class="line">                    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 22, <span class="stringliteral">&quot;RIGHT BUTTON PRESSED&quot;</span>);</div>
+<div class="line">                    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 22, <span class="stringliteral">&quot;RIGHT BUTTON PRESSED&quot;</span>);</div>
 <div class="line">                    mouseDown_L[1] = <span class="keyword">false</span>;</div>
 <div class="line">                    mouseDown_R[1] = <span class="keyword">true</span>;</div>
 <div class="line">                    mouseDown_LR[1] = <span class="keyword">false</span>;</div>
@@ -366,7 +375,7 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="line">            <span class="keywordflow">case</span> <a class="code hl_define" href="input_8h.html#a7e7dc1fef54e53e17af8ef800d0e9bfc">mouse_L</a> + <a class="code hl_define" href="input_8h.html#a81ae3d96dc815a011c1d553388b4cad9">mouse_R</a>:</div>
 <div class="line">                <span class="keywordflow">if</span> (mouseDown_LR[1] == <span class="keyword">false</span>)</div>
 <div class="line">                {</div>
-<div class="line">                    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 22, <span class="stringliteral">&quot;BOTH BUTTONS PRESSED&quot;</span>);</div>
+<div class="line">                    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 22, <span class="stringliteral">&quot;BOTH BUTTONS PRESSED&quot;</span>);</div>
 <div class="line">                    mouseDown_L[1] = <span class="keyword">false</span>;</div>
 <div class="line">                    mouseDown_R[1] = <span class="keyword">false</span>;</div>
 <div class="line">                    mouseDown_LR[1] = <span class="keyword">true</span>;</div>
@@ -491,11 +500,6 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="ttc" id="abackground_8h_html_a4dbfb1b8854ff9ca4a7d11a899281bbb"><div class="ttname"><a href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a></div><div class="ttdeci">void bgSetDisable(u8 bgNumber)</div><div class="ttdoc">Disable a BG in the actual SNES mode.</div></div>
 <div class="ttc" id="abackground_8h_html_a4fcbdb4b2378a64e8db62a184ee1851e"><div class="ttname"><a href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a></div><div class="ttdeci">void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize)</div><div class="ttdoc">Change Background Map address.</div></div>
 <div class="ttc" id="abackground_8h_html_ae09a7ac09be78eef0f28a6c7aabc82ad"><div class="ttname"><a href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a></div><div class="ttdeci">void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)</div><div class="ttdoc">Initializes a Tile Set and Loads the Tile GFX into VRAM.</div></div>
-<div class="ttc" id="aconsole_8h_html_a5413265662e30a0ded3fee6d3c4781f9"><div class="ttname"><a href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a></div><div class="ttdeci">void consoleInitText(u8 palnum, u8 palsize, u8 *tilfont, u8 *palfont)</div><div class="ttdoc">Initialize the Text System.</div></div>
-<div class="ttc" id="aconsole_8h_html_a7e52d15b5a1befa42f5758de19dfb70c"><div class="ttname"><a href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a></div><div class="ttdeci">void consoleDrawText(u16 x, u16 y, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen (tiles mode)</div></div>
-<div class="ttc" id="aconsole_8h_html_aaddd205f7bb20885a420f26e28214cfb"><div class="ttname"><a href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a></div><div class="ttdeci">void consoleSetTextOffset(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
-<div class="ttc" id="aconsole_8h_html_aaf046d1e48f425681b133b5eafa62e09"><div class="ttname"><a href="console_8h.html#aaf046d1e48f425681b133b5eafa62e09">consoleSetTextGfxPtr</a></div><div class="ttdeci">void consoleSetTextGfxPtr(u16 vramfont)</div><div class="ttdoc">Change text graphics address (4K aligned)</div></div>
-<div class="ttc" id="aconsole_8h_html_adcbe2c74decb1fdcdf34c80ac525335e"><div class="ttname"><a href="console_8h.html#adcbe2c74decb1fdcdf34c80ac525335e">consoleSetTextMapPtr</a></div><div class="ttdeci">void consoleSetTextMapPtr(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
 <div class="ttc" id="adma_8h_html_ab55e3ae019e75f79951904ba4e747a0a"><div class="ttname"><a href="dma_8h.html#ab55e3ae019e75f79951904ba4e747a0a">dmaFillVram8</a></div><div class="ttdeci">void dmaFillVram8(u8 *source, u16 address, u16 size)</div><div class="ttdoc">fill the source data to destination using channel 0 of DMA available channels in half words dmaFillVr...</div></div>
 <div class="ttc" id="adma_8h_html_adddf1dea4bd52a083b3ee4b39f1e20f2"><div class="ttname"><a href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a></div><div class="ttdeci">void dmaCopyVram(u8 *source, u16 address, u16 size)</div><div class="ttdoc">copy data from source to destination using channel 0 of DMA available channels in half words</div></div>
 <div class="ttc" id="ainput_8h_html_a31b303c7c861ee50cb963e474af244c6"><div class="ttname"><a href="input_8h.html#a31b303c7c861ee50cb963e474af244c6">mouseConnect</a></div><div class="ttdeci">u8 mouseConnect[2]</div><div class="ttdoc">1 if Mouse present</div></div>
@@ -517,6 +521,11 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <div class="ttc" id="asprite_8h_html_a35a0da9852240ef41b5030ed21b6eeb2"><div class="ttname"><a href="sprite_8h.html#a35a0da9852240ef41b5030ed21b6eeb2">oamSetVisible</a></div><div class="ttdeci">void oamSetVisible(u16 id, u8 hide)</div><div class="ttdoc">Hide or show a sprite.</div></div>
 <div class="ttc" id="asprite_8h_html_a46e0be47f8fc865a7f43c1b0b126e59a"><div class="ttname"><a href="sprite_8h.html#a46e0be47f8fc865a7f43c1b0b126e59a">oamInitGfxSet</a></div><div class="ttdeci">void oamInitGfxSet(u8 *tileSource, u16 tileSize, u8 *tilePalette, u16 paletteSize, u8 tilePaletteNumber, u16 address, u8 oamsize)</div><div class="ttdoc">Initializes a sprites Gfx and Loads the GFX into VRAM.</div></div>
 <div class="ttc" id="asprite_8h_html_abb854a7fa3bbfe4c2e331bfce9e374a7"><div class="ttname"><a href="sprite_8h.html#abb854a7fa3bbfe4c2e331bfce9e374a7">oamSet</a></div><div class="ttdeci">void oamSet(u16 id, u16 xspr, u16 yspr, u8 priority, u8 hflip, u8 vflip, u16 gfxoffset, u8 paletteoffset)</div><div class="ttdoc">sets an oam entry to the supplied values</div></div>
+<div class="ttc" id="atextfont_8h_html_a5413265662e30a0ded3fee6d3c4781f9"><div class="ttname"><a href="textfont_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a></div><div class="ttdeci">void consoleInitText(u8 palnum, u8 palsize, u8 *tilfont, u8 *palfont)</div><div class="ttdoc">Initialize the Text System.</div></div>
+<div class="ttc" id="atextfont_8h_html_a7e52d15b5a1befa42f5758de19dfb70c"><div class="ttname"><a href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a></div><div class="ttdeci">void consoleDrawText(u16 x, u16 y, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen (tiles mode)</div></div>
+<div class="ttc" id="atextfont_8h_html_aaddd205f7bb20885a420f26e28214cfb"><div class="ttname"><a href="textfont_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a></div><div class="ttdeci">void consoleSetTextOffset(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
+<div class="ttc" id="atextfont_8h_html_aaf046d1e48f425681b133b5eafa62e09"><div class="ttname"><a href="textfont_8h.html#aaf046d1e48f425681b133b5eafa62e09">consoleSetTextGfxPtr</a></div><div class="ttdeci">void consoleSetTextGfxPtr(u16 vramfont)</div><div class="ttdoc">Change text graphics address (4K aligned)</div></div>
+<div class="ttc" id="atextfont_8h_html_adcbe2c74decb1fdcdf34c80ac525335e"><div class="ttname"><a href="textfont_8h.html#adcbe2c74decb1fdcdf34c80ac525335e">consoleSetTextMapPtr</a></div><div class="ttdeci">void consoleSetTextMapPtr(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
 <div class="ttc" id="avideo_8h_html_abc7d4ef8ebc22f5b710927909bb3f144"><div class="ttname"><a href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a></div><div class="ttdeci">void setScreenOn(void)</div><div class="ttdoc">Put screen On.</div></div>
 <div class="ttc" id="avideo_8h_html_afd9e46ae627d055dd8c98a4b0ebb73b1"><div class="ttname"><a href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a></div><div class="ttdeci">void setMode(u8 mode, u8 size)</div><div class="ttdoc">Set the SNES hardware to operate in new display mode.</div></div>
 </div><!-- fragment --> </div><!-- contents -->
@@ -524,7 +533,7 @@ $(document).ready(function(){initNavTree('input_2mouse_2mouse_8c-example.html','
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

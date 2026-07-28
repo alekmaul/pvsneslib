@@ -11,6 +11,15 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    // Initialize Dark Mode
+    DoxygenAwesomeDarkModeToggle.init();
+    // Initialize Copy Button
+    DoxygenAwesomeFragmentCopyButton.init();
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,7 +28,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this aaooaaa div, it is closed by doxygen! -->
@@ -30,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -121,6 +130,12 @@ Functions</h2></td></tr>
 <tr class="memitem:afc036e454a935daea483dc85ee1d95a8" id="r_afc036e454a935daea483dc85ee1d95a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scores_8h.html#afc036e454a935daea483dc85ee1d95a8">scoreCpy</a> (scoMemory *source, scoMemory *dest)</td></tr>
 <tr class="memdesc:afc036e454a935daea483dc85ee1d95a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">copy a score memory to another score memory  <br /></td></tr>
 <tr class="separator:afc036e454a935daea483dc85ee1d95a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf7d0ffe61430a5a2a14d86af0c15e6c" id="r_aaf7d0ffe61430a5a2a14d86af0c15e6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scores_8h.html#aaf7d0ffe61430a5a2a14d86af0c15e6c">scoreSub</a> (scoMemory *source, u16 value)</td></tr>
+<tr class="memdesc:aaf7d0ffe61430a5a2a14d86af0c15e6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">substract a value to a score memory  <br /></td></tr>
+<tr class="separator:aaf7d0ffe61430a5a2a14d86af0c15e6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e46bcc0bca5280f4471ad36d5482a73" id="r_a2e46bcc0bca5280f4471ad36d5482a73"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scores_8h.html#a2e46bcc0bca5280f4471ad36d5482a73">scoreToStr</a> (scoMemory *source, char *buf)</td></tr>
+<tr class="memdesc:a2e46bcc0bca5280f4471ad36d5482a73"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert a score memory into a string  <br /></td></tr>
+<tr class="separator:a2e46bcc0bca5280f4471ad36d5482a73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Wrapper functions for score management. </p>
@@ -159,7 +174,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="scoring_2scoring_8c-example.html#a8">scoring/scoring.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="systems_2scoring_2src_2scoring_8c-example.html#a5">systems/scoring/src/scoring.c</a>.</dd>
 </dl>
 
 </div>
@@ -187,7 +202,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="scoring_2scoring_8c-example.html#a6">scoring/scoring.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="systems_2scoring_2src_2scoring_8c-example.html#a3">systems/scoring/src/scoring.c</a>.</dd>
 </dl>
 
 </div>
@@ -227,7 +242,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if equals, 0xFF if source greater than destination, 1 otherwise </dd></dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="scoring_2scoring_8c-example.html#a9">scoring/scoring.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="systems_2scoring_2src_2scoring_8c-example.html#a6">systems/scoring/src/scoring.c</a>.</dd>
 </dl>
 
 </div>
@@ -269,13 +284,90 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aaf7d0ffe61430a5a2a14d86af0c15e6c" name="aaf7d0ffe61430a5a2a14d86af0c15e6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf7d0ffe61430a5a2a14d86af0c15e6c">&#9670;&#160;</a></span>scoreSub()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void scoreSub </td>
+          <td>(</td>
+          <td class="paramtype">scoMemory *&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u16&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>substract a value to a score memory </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>the source to clear from </td></tr>
+    <tr><td class="paramname">value</td><td>the value to add </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2e46bcc0bca5280f4471ad36d5482a73" name="a2e46bcc0bca5280f4471ad36d5482a73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e46bcc0bca5280f4471ad36d5482a73">&#9670;&#160;</a></span>scoreToStr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void scoreToStr </td>
+          <td>(</td>
+          <td class="paramtype">scoMemory *&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>buf</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>convert a score memory into a string </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>the score to convert </td></tr>
+    <tr><td class="paramname">buf</td><td>the destination string</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>String version of scrore will be 00000000 with first digit of hi score and then lo score </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="systems_2scoring_2src_2scoring_8c-example.html#a7">systems/scoring/src/scoring.c</a>.</dd>
+</dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="scores_8h.html">scores.h</a></li>
-    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

@@ -7,10 +7,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>PVSnesLib: sram/sramoffset/sramoffset.c</title>
+<title>PVSnesLib: systems/sram/sramoffset/src/sramoffset.c</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    // Initialize Dark Mode
+    DoxygenAwesomeDarkModeToggle.init();
+    // Initialize Copy Button
+    DoxygenAwesomeFragmentCopyButton.init();
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,7 +28,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this aaooaaa div, it is closed by doxygen! -->
@@ -30,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -69,7 +78,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('sram_2sramoffset_2sramoffset_8c-example.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('systems_2sram_2sramoffset_2src_2sramoffset_8c-example.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -95,7 +104,7 @@ $(document).ready(function(){initNavTree('sram_2sramoffset_2sramoffset_8c-exampl
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">sram/sramoffset/sramoffset.c</div></div>
+  <div class="headertitle"><div class="title">systems/sram/sramoffset/src/sramoffset.c</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><span class="comment">/*---------------------------------------------------------------------------------</span></div>
@@ -111,7 +120,6 @@ $(document).ready(function(){initNavTree('sram_2sramoffset_2sramoffset_8c-exampl
 <div class="line"><span class="preprocessor">#define SLOT1 0</span></div>
 <div class="line"><span class="preprocessor">#define SLOT2 1</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> snesfont, snespal;</div>
 <div class="line"><span class="keywordtype">char</span> sz[16];</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> pad0;</div>
@@ -145,24 +153,24 @@ $(document).ready(function(){initNavTree('sram_2sramoffset_2sramoffset_8c-exampl
 <div class="line">{</div>
 <div class="line"> </div>
 <div class="line">    sprintf(sz, <span class="stringliteral">&quot;%04X camX &quot;</span>, vtl.camX);</div>
-<div class="line">    <a id="a1" name="a1"></a><a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 14, sz);</div>
+<div class="line">    <a id="a1" name="a1"></a><a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 14, sz);</div>
 <div class="line">    sprintf(sz, <span class="stringliteral">&quot;%04X camY &quot;</span>, vtl.camY);</div>
-<div class="line">    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 14, sz);</div>
+<div class="line">    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 14, sz);</div>
 <div class="line">    sprintf(sz, <span class="stringliteral">&quot;%04X posX &quot;</span>, vtl.posX);</div>
-<div class="line">    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 15, sz);</div>
+<div class="line">    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 15, sz);</div>
 <div class="line">    sprintf(sz, <span class="stringliteral">&quot;%04X posY &quot;</span>, vtl.posY);</div>
-<div class="line">    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 15, sz);</div>
+<div class="line">    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(7, 15, sz);</div>
 <div class="line">}</div>
 <div class="line"><span class="keywordtype">void</span> LoadSlot1()</div>
 <div class="line">{</div>
 <div class="line">    <a id="a2" name="a2"></a><a class="code hl_function" href="console_8h.html#ae0dffef580d764d61fe92d2bbb937f1e">consoleLoadSramWithOffset</a>((u8 *)&amp;vtl, <span class="keyword">sizeof</span>(SaveState), <span class="keyword">sizeof</span>(SaveState) * SLOT1);</div>
-<div class="line">    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 13, <span class="stringliteral">&quot;LOAD SLOT1&quot;</span>);</div>
+<div class="line">    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 13, <span class="stringliteral">&quot;LOAD SLOT1&quot;</span>);</div>
 <div class="line">    PrintLoadedSlot();</div>
 <div class="line">}</div>
 <div class="line"><span class="keywordtype">void</span> LoadSlot2()</div>
 <div class="line">{</div>
 <div class="line">    <a class="code hl_function" href="console_8h.html#ae0dffef580d764d61fe92d2bbb937f1e">consoleLoadSramWithOffset</a>((u8 *)&amp;vtl, <span class="keyword">sizeof</span>(SaveState), <span class="keyword">sizeof</span>(SaveState) * SLOT2);</div>
-<div class="line">    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 13, <span class="stringliteral">&quot;LOAD SLOT2&quot;</span>);</div>
+<div class="line">    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 13, <span class="stringliteral">&quot;LOAD SLOT2&quot;</span>);</div>
 <div class="line">    PrintLoadedSlot();</div>
 <div class="line">}</div>
 <div class="line"> </div>
@@ -171,60 +179,57 @@ $(document).ready(function(){initNavTree('sram_2sramoffset_2sramoffset_8c-exampl
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// Initialize text console with our font</span></div>
-<div class="line">    <a id="a3" name="a3"></a><a class="code hl_function" href="console_8h.html#adcbe2c74decb1fdcdf34c80ac525335e">consoleSetTextMapPtr</a>(0x6800);</div>
-<div class="line">    <a id="a4" name="a4"></a><a class="code hl_function" href="console_8h.html#aaf046d1e48f425681b133b5eafa62e09">consoleSetTextGfxPtr</a>(0x3000);</div>
-<div class="line">    <a id="a5" name="a5"></a><a class="code hl_function" href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a>(0x0100);</div>
-<div class="line">    <a id="a6" name="a6"></a><a class="code hl_function" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a>(0, 16 * 2, &amp;snesfont, &amp;snespal);</div>
+<div class="line">    <a id="a3" name="a3"></a><a class="code hl_function" href="textfont_8h.html#a71222d27987b5e71863ab7da2355a3a3">consoleInitDefaultText</a>(0);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Draw a wonderful text :P</span></div>
-<div class="line">    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(12, 1, <span class="stringliteral">&quot;SRAM TEST&quot;</span>);</div>
-<div class="line">    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 5, <span class="stringliteral">&quot;USE A TO WRITE Slot1&quot;</span>);</div>
-<div class="line">    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 7, <span class="stringliteral">&quot;USE B TO READ Slot1&quot;</span>);</div>
-<div class="line">    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 9, <span class="stringliteral">&quot;USE X TO WRITE Slot2&quot;</span>);</div>
-<div class="line">    <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 11, <span class="stringliteral">&quot;USE Y TO READ Slot2&quot;</span>);</div>
+<div class="line">    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(12, 1, <span class="stringliteral">&quot;SRAM TEST&quot;</span>);</div>
+<div class="line">    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 5, <span class="stringliteral">&quot;USE A TO WRITE Slot1&quot;</span>);</div>
+<div class="line">    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 7, <span class="stringliteral">&quot;USE B TO READ Slot1&quot;</span>);</div>
+<div class="line">    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 9, <span class="stringliteral">&quot;USE X TO WRITE Slot2&quot;</span>);</div>
+<div class="line">    <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(3, 11, <span class="stringliteral">&quot;USE Y TO READ Slot2&quot;</span>);</div>
 <div class="line">    <span class="comment">// Init background</span></div>
-<div class="line">    <a id="a7" name="a7"></a><a class="code hl_function" href="background_8h.html#a0206b5b9911749322bcf9da130527924">bgSetGfxPtr</a>(0, 0x2000);</div>
-<div class="line">    <a id="a8" name="a8"></a><a class="code hl_function" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(0, 0x6800, SC_32x32);</div>
+<div class="line">    <a id="a4" name="a4"></a><a class="code hl_function" href="background_8h.html#a0206b5b9911749322bcf9da130527924">bgSetGfxPtr</a>(0, 0x3000);</div>
+<div class="line">    <a id="a5" name="a5"></a><a class="code hl_function" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(0, 0x6800, SC_32x32);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode</span></div>
-<div class="line">    <a id="a9" name="a9"></a><a class="code hl_function" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE1, 0);</div>
-<div class="line">    <a id="a10" name="a10"></a><a class="code hl_function" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
+<div class="line">    <a id="a6" name="a6"></a><a class="code hl_function" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE1, 0);</div>
+<div class="line">    <a id="a7" name="a7"></a><a class="code hl_function" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(1);</div>
 <div class="line">    <a class="code hl_function" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(2);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Wait for nothing :P</span></div>
-<div class="line">    <a id="a11" name="a11"></a><a class="code hl_function" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
+<div class="line">    <a id="a8" name="a8"></a><a class="code hl_function" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="comment">// Get current #0 pad</span></div>
-<div class="line">        pad0 = <a id="a12" name="a12"></a><a class="code hl_define" href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
+<div class="line">        pad0 = <a id="a9" name="a9"></a><a class="code hl_define" href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a>(0);</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Update display with current pad</span></div>
 <div class="line">        <span class="keywordflow">switch</span> (pad0)</div>
 <div class="line">        {</div>
-<div class="line">        <span class="keywordflow">case</span> <a id="a13" name="a13"></a><a class="code hl_enumvalue" href="input_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>:</div>
+<div class="line">        <span class="keywordflow">case</span> <a id="a10" name="a10"></a><a class="code hl_enumvalue" href="input_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a>:</div>
 <div class="line">            SaveSlot1();</div>
-<div class="line">            <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 13, <span class="stringliteral">&quot;SAVE SLOT1&quot;</span>);</div>
-<div class="line">            <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 14, <span class="stringliteral">&quot;               &quot;</span>);</div>
-<div class="line">            <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 15, <span class="stringliteral">&quot;               &quot;</span>);</div>
+<div class="line">            <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 13, <span class="stringliteral">&quot;SAVE SLOT1&quot;</span>);</div>
+<div class="line">            <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 14, <span class="stringliteral">&quot;               &quot;</span>);</div>
+<div class="line">            <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 15, <span class="stringliteral">&quot;               &quot;</span>);</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
 <div class="line"> </div>
-<div class="line">        <span class="keywordflow">case</span> <a id="a14" name="a14"></a><a class="code hl_enumvalue" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a">KEY_B</a>:</div>
+<div class="line">        <span class="keywordflow">case</span> <a id="a11" name="a11"></a><a class="code hl_enumvalue" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a">KEY_B</a>:</div>
 <div class="line">            LoadSlot1();</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
 <div class="line"> </div>
-<div class="line">        <span class="keywordflow">case</span> <a id="a15" name="a15"></a><a class="code hl_enumvalue" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497">KEY_X</a>:</div>
+<div class="line">        <span class="keywordflow">case</span> <a id="a12" name="a12"></a><a class="code hl_enumvalue" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a480a807305121d41673b8c208898f497">KEY_X</a>:</div>
 <div class="line">            SaveSlot2();</div>
-<div class="line">            <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 13, <span class="stringliteral">&quot;SAVE SLOT2&quot;</span>);</div>
-<div class="line">            <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 14, <span class="stringliteral">&quot;               &quot;</span>);</div>
-<div class="line">            <a class="code hl_function" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 15, <span class="stringliteral">&quot;               &quot;</span>);</div>
+<div class="line">            <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 13, <span class="stringliteral">&quot;SAVE SLOT2&quot;</span>);</div>
+<div class="line">            <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 14, <span class="stringliteral">&quot;               &quot;</span>);</div>
+<div class="line">            <a class="code hl_function" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a>(2, 15, <span class="stringliteral">&quot;               &quot;</span>);</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
 <div class="line"> </div>
-<div class="line">        <span class="keywordflow">case</span> <a id="a16" name="a16"></a><a class="code hl_enumvalue" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a5d44524b2a6090fa97aa9353d69f67a3">KEY_Y</a>:</div>
+<div class="line">        <span class="keywordflow">case</span> <a id="a13" name="a13"></a><a class="code hl_enumvalue" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a5d44524b2a6090fa97aa9353d69f67a3">KEY_Y</a>:</div>
 <div class="line">            LoadSlot2();</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
 <div class="line">        }</div>
-<div class="line">        <a id="a17" name="a17"></a><a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
+<div class="line">        <a id="a14" name="a14"></a><a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
@@ -232,11 +237,6 @@ $(document).ready(function(){initNavTree('sram_2sramoffset_2sramoffset_8c-exampl
 <div class="ttc" id="abackground_8h_html_a4dbfb1b8854ff9ca4a7d11a899281bbb"><div class="ttname"><a href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a></div><div class="ttdeci">void bgSetDisable(u8 bgNumber)</div><div class="ttdoc">Disable a BG in the actual SNES mode.</div></div>
 <div class="ttc" id="abackground_8h_html_a4fcbdb4b2378a64e8db62a184ee1851e"><div class="ttname"><a href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a></div><div class="ttdeci">void bgSetMapPtr(u8 bgNumber, u16 address, u8 mapSize)</div><div class="ttdoc">Change Background Map address.</div></div>
 <div class="ttc" id="aconsole_8h_html_a46f2e0184bbdeaad57a7fc2f9bb8c0c6"><div class="ttname"><a href="console_8h.html#a46f2e0184bbdeaad57a7fc2f9bb8c0c6">consoleCopySramWithOffset</a></div><div class="ttdeci">void consoleCopySramWithOffset(u8 *source, u16 size, u16 offset)</div><div class="ttdoc">Send data to SRAM with offset.</div></div>
-<div class="ttc" id="aconsole_8h_html_a5413265662e30a0ded3fee6d3c4781f9"><div class="ttname"><a href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">consoleInitText</a></div><div class="ttdeci">void consoleInitText(u8 palnum, u8 palsize, u8 *tilfont, u8 *palfont)</div><div class="ttdoc">Initialize the Text System.</div></div>
-<div class="ttc" id="aconsole_8h_html_a7e52d15b5a1befa42f5758de19dfb70c"><div class="ttname"><a href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a></div><div class="ttdeci">void consoleDrawText(u16 x, u16 y, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen (tiles mode)</div></div>
-<div class="ttc" id="aconsole_8h_html_aaddd205f7bb20885a420f26e28214cfb"><div class="ttname"><a href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">consoleSetTextOffset</a></div><div class="ttdeci">void consoleSetTextOffset(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
-<div class="ttc" id="aconsole_8h_html_aaf046d1e48f425681b133b5eafa62e09"><div class="ttname"><a href="console_8h.html#aaf046d1e48f425681b133b5eafa62e09">consoleSetTextGfxPtr</a></div><div class="ttdeci">void consoleSetTextGfxPtr(u16 vramfont)</div><div class="ttdoc">Change text graphics address (4K aligned)</div></div>
-<div class="ttc" id="aconsole_8h_html_adcbe2c74decb1fdcdf34c80ac525335e"><div class="ttname"><a href="console_8h.html#adcbe2c74decb1fdcdf34c80ac525335e">consoleSetTextMapPtr</a></div><div class="ttdeci">void consoleSetTextMapPtr(u16 offsetfont)</div><div class="ttdoc">Change text Background map address for display (must be BG address)</div></div>
 <div class="ttc" id="aconsole_8h_html_ae0dffef580d764d61fe92d2bbb937f1e"><div class="ttname"><a href="console_8h.html#ae0dffef580d764d61fe92d2bbb937f1e">consoleLoadSramWithOffset</a></div><div class="ttdeci">void consoleLoadSramWithOffset(u8 *dest, u16 size, u16 offset)</div><div class="ttdoc">Load data from SRAM with offset.</div></div>
 <div class="ttc" id="ainput_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition</b> input.h:198</div></div>
 <div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a">KEY_B</a></div><div class="ttdeci">@ KEY_B</div><div class="ttdoc">pad B button.</div><div class="ttdef"><b>Definition</b> input.h:52</div></div>
@@ -245,6 +245,8 @@ $(document).ready(function(){initNavTree('sram_2sramoffset_2sramoffset_8c-exampl
 <div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072aa7b3a3d0503a46bec51c6e3da95747cc">KEY_A</a></div><div class="ttdeci">@ KEY_A</div><div class="ttdoc">pad A button.</div><div class="ttdef"><b>Definition</b> input.h:51</div></div>
 <div class="ttc" id="ainterrupt_8h_html_abd33830487e4764e5ec22ec98b749f4b"><div class="ttname"><a href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a></div><div class="ttdeci">void WaitForVBlank(void)</div><div class="ttdoc">Waits for a VBlank interrupt.</div></div>
 <div class="ttc" id="asnes_8h_html"><div class="ttname"><a href="snes_8h.html">snes.h</a></div><div class="ttdoc">the master include file for snes applications.</div></div>
+<div class="ttc" id="atextfont_8h_html_a71222d27987b5e71863ab7da2355a3a3"><div class="ttname"><a href="textfont_8h.html#a71222d27987b5e71863ab7da2355a3a3">consoleInitDefaultText</a></div><div class="ttdeci">void consoleInitDefaultText(u8 palnum)</div><div class="ttdoc">Initialize the Text System with the font shipped in PVSNesLib.</div></div>
+<div class="ttc" id="atextfont_8h_html_a7e52d15b5a1befa42f5758de19dfb70c"><div class="ttname"><a href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">consoleDrawText</a></div><div class="ttdeci">void consoleDrawText(u16 x, u16 y, char *fmt,...)</div><div class="ttdoc">Output formatted string on a screen (tiles mode)</div></div>
 <div class="ttc" id="avideo_8h_html_abc7d4ef8ebc22f5b710927909bb3f144"><div class="ttname"><a href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a></div><div class="ttdeci">void setScreenOn(void)</div><div class="ttdoc">Put screen On.</div></div>
 <div class="ttc" id="avideo_8h_html_afd9e46ae627d055dd8c98a4b0ebb73b1"><div class="ttname"><a href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a></div><div class="ttdeci">void setMode(u8 mode, u8 size)</div><div class="ttdoc">Set the SNES hardware to operate in new display mode.</div></div>
 </div><!-- fragment --> </div><!-- contents -->
@@ -252,7 +254,7 @@ $(document).ready(function(){initNavTree('sram_2sramoffset_2sramoffset_8c-exampl
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

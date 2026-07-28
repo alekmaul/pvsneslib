@@ -11,6 +11,15 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    // Initialize Dark Mode
+    DoxygenAwesomeDarkModeToggle.init();
+    // Initialize Copy Button
+    DoxygenAwesomeFragmentCopyButton.init();
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,7 +28,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this aaooaaa div, it is closed by doxygen! -->
@@ -30,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -99,20 +108,14 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_gradient_colors_2
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><span class="comment">/*---------------------------------------------------------------------------------</span></div>
-<div class="line"><span class="comment"></span> </div>
-<div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">    Simple gradient color effect in mode 1 </span></div>
 <div class="line"><span class="comment">    -- alekmaul</span></div>
-<div class="line"><span class="comment"></span> </div>
-<div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">---------------------------------------------------------------------------------*/</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="snes_8h.html">snes.h</a>&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> patterns, patterns_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> palette, palette_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> map, map_end;</div>
+<div class="line"><span class="preprocessor">#include &quot;pvsneslib.inc&quot;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> hdmaGradientList[];</div>
+<div class="line"><span class="keyword">extern</span> <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> hdmaGradgradientList[];</div>
 <div class="line"> </div>
 <div class="line">u8 pada,padb;</div>
 <div class="line">u16 pad0;</div>
@@ -121,10 +124,10 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_gradient_colors_2
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// Copy tiles to VRAM</span></div>
-<div class="line">    <a id="a0" name="a0"></a><a class="code hl_function" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(0, &amp;patterns, &amp;palette, 0, (&amp;patterns_end - &amp;patterns), (&amp;palette_end - &amp;palette), BG_16COLORS, 0x4000);</div>
+<div class="line">    <a id="a0" name="a0"></a><a class="code hl_function" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(0, &amp;pvsneslib_til, &amp;pvsneslib_pal, 0, (&amp;pvsneslib_tilend - &amp;pvsneslib_til), (&amp;pvsneslib_palend - &amp;pvsneslib_pal), BG_16COLORS, 0x4000);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Copy Map to VRAM</span></div>
-<div class="line">    <a id="a1" name="a1"></a><a class="code hl_function" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(0, &amp;map, (&amp;map_end - &amp;map), SC_32x32, 0x0000);</div>
+<div class="line">    <a id="a1" name="a1"></a><a class="code hl_function" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(0, &amp;pvsneslib_map, (&amp;pvsneslib_mapend - &amp;pvsneslib_map)*2, SC_32x32, 0x0000);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode and disable other BGs except 1st one</span></div>
 <div class="line">    <a id="a2" name="a2"></a><a class="code hl_function" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE1, 0);</div>
@@ -133,7 +136,7 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_gradient_colors_2
 <div class="line">    <a id="a4" name="a4"></a><a class="code hl_function" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Initialize the gradient color effect </span></div>
-<div class="line">    <a id="a5" name="a5"></a><a class="code hl_function" href="dma_8h.html#a88ab32a0e407cfa3d7f6fc4e9276d8b0">setModeHdmaColor</a>((u8 *) &amp;hdmaGradientList);</div>
+<div class="line">    <a id="a5" name="a5"></a><a class="code hl_function" href="dma_8h.html#a63078748089f933ce6fad10a7f31a160">setModeHdmaColor</a>(HDMA_CHANNEL6, (u8 *) &amp;hdmaGradgradientList);</div>
 <div class="line">    pada=0; padb=0;</div>
 <div class="line">    </div>
 <div class="line">    <span class="comment">// Wait for nothing :P</span></div>
@@ -154,7 +157,7 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_gradient_colors_2
 <div class="line">        <span class="comment">// put it again with key b</span></div>
 <div class="line">        <span class="keywordflow">if</span> (pad0 &amp; <a id="a9" name="a9"></a><a class="code hl_enumvalue" href="input_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a">KEY_B</a>) {</div>
 <div class="line">            padb=1;</div>
-<div class="line">            <a class="code hl_function" href="dma_8h.html#a88ab32a0e407cfa3d7f6fc4e9276d8b0">setModeHdmaColor</a>((u8 *) &amp;hdmaGradientList);</div>
+<div class="line">            <a class="code hl_function" href="dma_8h.html#a63078748089f933ce6fad10a7f31a160">setModeHdmaColor</a>(HDMA_CHANNEL6, (u8 *) &amp;hdmaGradgradientList);</div>
 <div class="line">        }</div>
 <div class="line">        <span class="keywordflow">else</span> padb=0;</div>
 <div class="line"> </div>
@@ -166,7 +169,7 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_gradient_colors_2
 <div class="ttc" id="abackground_8h_html_a4dbfb1b8854ff9ca4a7d11a899281bbb"><div class="ttname"><a href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a></div><div class="ttdeci">void bgSetDisable(u8 bgNumber)</div><div class="ttdoc">Disable a BG in the actual SNES mode.</div></div>
 <div class="ttc" id="abackground_8h_html_acc385296e159449a81d18f5e219c8032"><div class="ttname"><a href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a></div><div class="ttdeci">void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address)</div><div class="ttdoc">Initializes a Map Set and loads it into SNES VRAM.</div></div>
 <div class="ttc" id="abackground_8h_html_ae09a7ac09be78eef0f28a6c7aabc82ad"><div class="ttname"><a href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a></div><div class="ttdeci">void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)</div><div class="ttdoc">Initializes a Tile Set and Loads the Tile GFX into VRAM.</div></div>
-<div class="ttc" id="adma_8h_html_a88ab32a0e407cfa3d7f6fc4e9276d8b0"><div class="ttname"><a href="dma_8h.html#a88ab32a0e407cfa3d7f6fc4e9276d8b0">setModeHdmaColor</a></div><div class="ttdeci">void setModeHdmaColor(u8 *hdmatable)</div><div class="ttdoc">Do a color gradient effect on screen (with color 0). Use HDMA Channels 6.</div></div>
+<div class="ttc" id="adma_8h_html_a63078748089f933ce6fad10a7f31a160"><div class="ttname"><a href="dma_8h.html#a63078748089f933ce6fad10a7f31a160">setModeHdmaColor</a></div><div class="ttdeci">void setModeHdmaColor(u8 channel, u8 *hdmatable)</div><div class="ttdoc">Do a color gradient effect on screen (with color 0). Use HDMA Channels 6.</div></div>
 <div class="ttc" id="adma_8h_html_a8c8bd3a5701bedb8d9abb10e114f15d5"><div class="ttname"><a href="dma_8h.html#a8c8bd3a5701bedb8d9abb10e114f15d5">setModeHdmaReset</a></div><div class="ttdeci">void setModeHdmaReset(u8 channels)</div><div class="ttdoc">Reset or Set HDMA channels.</div></div>
 <div class="ttc" id="ainput_8h_html_a6063e0eec9a36e437fc32951acafa44c"><div class="ttname"><a href="input_8h.html#a6063e0eec9a36e437fc32951acafa44c">padsCurrent</a></div><div class="ttdeci">#define padsCurrent(value)</div><div class="ttdoc">Return current value of selected pad.</div><div class="ttdef"><b>Definition</b> input.h:198</div></div>
 <div class="ttc" id="ainput_8h_html_aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a"><div class="ttname"><a href="input_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a">KEY_B</a></div><div class="ttdeci">@ KEY_B</div><div class="ttdoc">pad B button.</div><div class="ttdef"><b>Definition</b> input.h:52</div></div>
@@ -180,7 +183,7 @@ $(document).ready(function(){initNavTree('graphics_2_effects_2_gradient_colors_2
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

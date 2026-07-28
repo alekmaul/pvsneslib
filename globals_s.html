@@ -11,6 +11,15 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    // Initialize Dark Mode
+    DoxygenAwesomeDarkModeToggle.init();
+    // Initialize Copy Button
+    DoxygenAwesomeFragmentCopyButton.init();
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,7 +28,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this aaooaaa div, it is closed by doxygen! -->
@@ -30,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -118,8 +127,10 @@ $(document).ready(function(){initNavTree('globals_s.html',''); initResizable(); 
 <li>scoreClear()&#160;:&#160;<a class="el" href="scores_8h.html#a610bffa01efc5915459764c57f0a7d32">scores.h</a></li>
 <li>scoreCmp()&#160;:&#160;<a class="el" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scores.h</a></li>
 <li>scoreCpy()&#160;:&#160;<a class="el" href="scores_8h.html#afc036e454a935daea483dc85ee1d95a8">scores.h</a></li>
-<li>scr_txt_dirty&#160;:&#160;<a class="el" href="console_8h.html#a73c5f483e71c951f267ad0375084242f">console.h</a></li>
-<li>scr_txt_font_map&#160;:&#160;<a class="el" href="console_8h.html#ad3897ef4ed73fa003953d4a979ed50b0">console.h</a></li>
+<li>scoreSub()&#160;:&#160;<a class="el" href="scores_8h.html#aaf7d0ffe61430a5a2a14d86af0c15e6c">scores.h</a></li>
+<li>scoreToStr()&#160;:&#160;<a class="el" href="scores_8h.html#a2e46bcc0bca5280f4471ad36d5482a73">scores.h</a></li>
+<li>scr_txt_dirty&#160;:&#160;<a class="el" href="textfont_8h.html#a73c5f483e71c951f267ad0375084242f">textfont.h</a></li>
+<li>scr_txt_font_map&#160;:&#160;<a class="el" href="textfont_8h.html#ad3897ef4ed73fa003953d4a979ed50b0">textfont.h</a></li>
 <li>setBrightness()&#160;:&#160;<a class="el" href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">video.h</a></li>
 <li>setColorEffect()&#160;:&#160;<a class="el" href="video_8h.html#a87d6cb8ec2433c908666a0a7f2306cb4">video.h</a></li>
 <li>setColorIntensity()&#160;:&#160;<a class="el" href="video_8h.html#aedc79f1675778d0573d181fe22a0902d">video.h</a></li>
@@ -132,13 +143,14 @@ $(document).ready(function(){initNavTree('globals_s.html',''); initResizable(); 
 <li>setMode7MoveLeftRight()&#160;:&#160;<a class="el" href="video_8h.html#ade2a8e199ad857a17e402333123b1f43">video.h</a></li>
 <li>setMode7Rot()&#160;:&#160;<a class="el" href="video_8h.html#a4d332cdc88b26fc9ec2cdd4f6710ce8c">video.h</a></li>
 <li>setMode7Scale()&#160;:&#160;<a class="el" href="video_8h.html#a79a6e89e2d541b67229f6033ebc861ce">video.h</a></li>
-<li>setModeHdmaColor()&#160;:&#160;<a class="el" href="dma_8h.html#a88ab32a0e407cfa3d7f6fc4e9276d8b0">dma.h</a></li>
+<li>setModeHdmaColor()&#160;:&#160;<a class="el" href="dma_8h.html#a63078748089f933ce6fad10a7f31a160">dma.h</a></li>
 <li>setModeHdmaGradient()&#160;:&#160;<a class="el" href="dma_8h.html#acf06b5c6b9733a2fdb5cb466dd6b16bf">dma.h</a></li>
 <li>setModeHdmaReset()&#160;:&#160;<a class="el" href="dma_8h.html#a8c8bd3a5701bedb8d9abb10e114f15d5">dma.h</a></li>
 <li>setModeHdmaShadeUpDown()&#160;:&#160;<a class="el" href="dma_8h.html#a68c89ad2f21c471cf6bf07583576f0a2">dma.h</a></li>
 <li>setModeHdmaShading()&#160;:&#160;<a class="el" href="dma_8h.html#a17730c5eb2e9c19d4ce49c6c5930af73">dma.h</a></li>
-<li>setModeHdmaWaves()&#160;:&#160;<a class="el" href="dma_8h.html#ab45352a81959147a9d678a3f327e33e0">dma.h</a></li>
+<li>setModeHdmaWaves()&#160;:&#160;<a class="el" href="dma_8h.html#ae01ed6d701ed88b6860241f1575d5d10">dma.h</a></li>
 <li>setModeHdmaWavesMove()&#160;:&#160;<a class="el" href="dma_8h.html#ad3bd40985508523aefb457ac0538551d">dma.h</a></li>
+<li>setModeHdmaWindow()&#160;:&#160;<a class="el" href="dma_8h.html#a8eb47f4e35faa81528eb4aa7a72ad142">dma.h</a></li>
 <li>setModeHdmaWindowReset()&#160;:&#160;<a class="el" href="dma_8h.html#a6369793f06caeebb66ee3718d9dd5982">dma.h</a></li>
 <li>setMosaicEffect()&#160;:&#160;<a class="el" href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">video.h</a></li>
 <li>setPalette&#160;:&#160;<a class="el" href="video_8h.html#ae29ed0390bca0390d3fdf55362a3663b">video.h</a></li>
@@ -174,6 +186,7 @@ $(document).ready(function(){initNavTree('globals_s.html',''); initResizable(); 
 <li>spcSetSoundEntry()&#160;:&#160;<a class="el" href="sound_8h.html#a4ef9d5d4b7618a2e091194b6c17f75a5">sound.h</a></li>
 <li>spcSetSoundTable()&#160;:&#160;<a class="el" href="sound_8h.html#ad1eb603fd2445102225319797d226fea">sound.h</a></li>
 <li>spcStop()&#160;:&#160;<a class="el" href="sound_8h.html#af7366527acd378585446999f84d1c6d0">sound.h</a></li>
+<li>srand()&#160;:&#160;<a class="el" href="console_8h.html#aa07a03cf6342aee49beaeffcedc14aad">console.h</a></li>
 <li>SSC_CURSOR&#160;:&#160;<a class="el" href="input_8h.html#a85bf0e48e8e4ded8d7724b95380a565bacfbe89a6c6be02dc20dedaa18b010722">input.h</a></li>
 <li>SSC_FIRE&#160;:&#160;<a class="el" href="input_8h.html#a85bf0e48e8e4ded8d7724b95380a565ba701b83e6a45cc8e8c6728db02cba31e8">input.h</a></li>
 <li>SSC_NOISE&#160;:&#160;<a class="el" href="input_8h.html#a85bf0e48e8e4ded8d7724b95380a565bab1777ec153099a8423c4d76cdaba04cd">input.h</a></li>
@@ -187,7 +200,7 @@ $(document).ready(function(){initNavTree('globals_s.html',''); initResizable(); 
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

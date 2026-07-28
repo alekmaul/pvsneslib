@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['map_2eh_0',['map.h',['../map_8h.html',1,'']]]
+  ['lzss_2eh_0',['lzss.h',['../lzss_8h.html',1,'']]]
 ];

@@ -11,6 +11,15 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    // Initialize Dark Mode
+    DoxygenAwesomeDarkModeToggle.init();
+    // Initialize Copy Button
+    DoxygenAwesomeFragmentCopyButton.init();
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,7 +28,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this aaooaaa div, it is closed by doxygen! -->
@@ -30,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -111,17 +120,9 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode1_b_g3_hi
 <div class="line"><span class="comment">---------------------------------------------------------------------------------*/</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="snes_8h.html">snes.h</a>&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> BG1_tiles, BG1_tiles_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> BG1_pal, BG1_pal_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> BG1_map, BG1_map_end;</div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> BG2_tiles, BG2_tiles_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> BG2_pal, BG1_pal_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> BG2_map, BG1_map_end;</div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> BG3_tiles, BG3_tiles_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> BG3_pal, BG3_pal_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> BG3_map, BG3_map_end;</div>
+<div class="line"><span class="preprocessor">#include &quot;BG1.inc&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;BG2.inc&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;BG3.inc&quot;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
@@ -137,15 +138,17 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode1_b_g3_hi
 <div class="line">    <span class="comment">// BG2 point to vram address 0x0000 and with one pages of 32 tiles (32x32)</span></div>
 <div class="line">    <a class="code hl_function" href="background_8h.html#a4fcbdb4b2378a64e8db62a184ee1851e">bgSetMapPtr</a>(2, 0x0000 + 2048, SC_32x32);</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// copy BG0 tiles to vram 0x2000 and palette</span></div>
-<div class="line">    <a id="a1" name="a1"></a><a class="code hl_function" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(0, &amp;BG2_tiles, &amp;BG1_pal, 2, (&amp;BG2_tiles_end - &amp;BG2_tiles), 16 * 2, BG_16COLORS, 0x2000);</div>
-<div class="line">    <a class="code hl_function" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(1, &amp;BG1_tiles, &amp;BG2_pal, 4, (&amp;BG1_tiles_end - &amp;BG1_tiles), 16 * 2, BG_16COLORS, 0x3000);</div>
-<div class="line">    <a class="code hl_function" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(2, &amp;BG3_tiles, &amp;BG3_pal, 0, (&amp;BG3_tiles_end - &amp;BG3_tiles), 4 * 2, BG_16COLORS, 0x4000);</div>
+<div class="line">    <span class="comment">// BG0 tiles to vram 0x2000 and palette #2, top of screen</span></div>
+<div class="line">    <span class="comment">// BG1 (vram 0x3000) is for background image with palette #4, background screen</span></div>
+<div class="line">    <span class="comment">// BG2 (vram 0x4000) is HUD, on top of other backgrounds, with palette 0 (as palettes with 4 colors must be first entries)</span></div>
+<div class="line">    <a id="a1" name="a1"></a><a class="code hl_function" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(0, &amp;BG1_til, &amp;BG1_pal, 2, (&amp;BG1_tilend - &amp;BG1_til), 16 * 2, BG_16COLORS, 0x2000);</div>
+<div class="line">    <a class="code hl_function" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(1, &amp;BG2_til, &amp;BG2_pal, 4, (&amp;BG2_tilend - &amp;BG2_til), 16 * 2, BG_16COLORS, 0x3000);</div>
+<div class="line">    <a class="code hl_function" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a>(2, &amp;BG3_til, &amp;BG3_pal, 0, (&amp;BG3_tilend - &amp;BG3_til), 4 * 2, BG_4COLORS, 0x4000);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// copy background maps</span></div>
 <div class="line">    <a id="a2" name="a2"></a><a class="code hl_function" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b">WaitForVBlank</a>();</div>
-<div class="line">    <a id="a3" name="a3"></a><a class="code hl_function" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;BG2_map, 0x0000, 2048);</div>
-<div class="line">    <a class="code hl_function" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;BG1_map, 0x0000 + 1024, 2048);</div>
+<div class="line">    <a id="a3" name="a3"></a><a class="code hl_function" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;BG1_map, 0x0000, 2048);</div>
+<div class="line">    <a class="code hl_function" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;BG2_map, 0x0000 + 1024, 2048);</div>
 <div class="line">    <a class="code hl_function" href="dma_8h.html#adddf1dea4bd52a083b3ee4b39f1e20f2">dmaCopyVram</a>(&amp;BG3_map, 0x0000 + 2048, 2048);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// IMPORTANT - use mode1 with BG3_MODE1_PRIORITY_HIGH otherwise your HUD will not have the highest priority</span></div>
@@ -174,7 +177,7 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode1_b_g3_hi
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

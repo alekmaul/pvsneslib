@@ -22,6 +22,7 @@ var background_8h =
     [ "SC_TILE_BASE", "background_8h.html#af6cde02aaf57795f0dff8cd45db5ce1d", null ],
     [ "bgInitMapSet", "background_8h.html#acc385296e159449a81d18f5e219c8032", null ],
     [ "bgInitMapTileSet7", "background_8h.html#ae1fad909be4edf30a3cd08a0890361dc", null ],
+    [ "bgInitMapTileSet7lz", "background_8h.html#ab7734664860165c8533b68b70429fd83", null ],
     [ "bgInitTileSet", "background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad", null ],
     [ "bgInitTileSetData", "background_8h.html#a4ea396375d85e9f3d9af5072552819aa", null ],
     [ "bgInitTileSetLz", "background_8h.html#a4b0af2955fba6d18445f6cd95bf6bef6", null ],

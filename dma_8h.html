@@ -11,6 +11,15 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    // Initialize Dark Mode
+    DoxygenAwesomeDarkModeToggle.init();
+    // Initialize Copy Button
+    DoxygenAwesomeFragmentCopyButton.init();
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,7 +28,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this aaooaaa div, it is closed by doxygen! -->
@@ -30,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -123,7 +132,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:a449e65ce5faecb46a0e57fb1ed874fec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit defines for the HDMA channels. <br /></td></tr>
 <tr class="separator:a449e65ce5faecb46a0e57fb1ed874fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a200a74fdc8a0532c0ac7199e3ea1f22d" id="r_a200a74fdc8a0532c0ac7199e3ea1f22d"><td class="memItemLeft" align="right" valign="top"><a id="a200a74fdc8a0532c0ac7199e3ea1f22d" name="a200a74fdc8a0532c0ac7199e3ea1f22d"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN1_BG1MSKENABLE</b>&#160;&#160;&#160;(2 &lt;&lt; 0)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN1_BG1MSKENABLE</b>&#160;&#160;&#160;(1 &lt;&lt; 1)</td></tr>
 <tr class="memdesc:a200a74fdc8a0532c0ac7199e3ea1f22d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 1 area BG1 enable. <br /></td></tr>
 <tr class="separator:a200a74fdc8a0532c0ac7199e3ea1f22d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66d2702fd40da5970df67b9c7f60dfb8" id="r_a66d2702fd40da5970df67b9c7f60dfb8"><td class="memItemLeft" align="right" valign="top"><a id="a66d2702fd40da5970df67b9c7f60dfb8" name="a66d2702fd40da5970df67b9c7f60dfb8"></a>
@@ -131,7 +140,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:a66d2702fd40da5970df67b9c7f60dfb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 1 area BG1 inside (0) outside(1) <br /></td></tr>
 <tr class="separator:a66d2702fd40da5970df67b9c7f60dfb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac66980762b38860ee821f19833988971" id="r_ac66980762b38860ee821f19833988971"><td class="memItemLeft" align="right" valign="top"><a id="ac66980762b38860ee821f19833988971" name="ac66980762b38860ee821f19833988971"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN1_BG2MSKENABLE</b>&#160;&#160;&#160;(2 &lt;&lt; 4)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN1_BG2MSKENABLE</b>&#160;&#160;&#160;(1 &lt;&lt; 5)</td></tr>
 <tr class="memdesc:ac66980762b38860ee821f19833988971"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 1 area BG2 enable. <br /></td></tr>
 <tr class="separator:ac66980762b38860ee821f19833988971"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8de63e77a8d05fbf5a4ee88b0ced15d4" id="r_a8de63e77a8d05fbf5a4ee88b0ced15d4"><td class="memItemLeft" align="right" valign="top"><a id="a8de63e77a8d05fbf5a4ee88b0ced15d4" name="a8de63e77a8d05fbf5a4ee88b0ced15d4"></a>
@@ -139,7 +148,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:a8de63e77a8d05fbf5a4ee88b0ced15d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 1 area BG2 inside (0) outside(1) <br /></td></tr>
 <tr class="separator:a8de63e77a8d05fbf5a4ee88b0ced15d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef6cceefe85db77e13f8480b8eb9f057" id="r_aef6cceefe85db77e13f8480b8eb9f057"><td class="memItemLeft" align="right" valign="top"><a id="aef6cceefe85db77e13f8480b8eb9f057" name="aef6cceefe85db77e13f8480b8eb9f057"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN1_BG3MSKENABLE</b>&#160;&#160;&#160;(2 &lt;&lt; 0)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN1_BG3MSKENABLE</b>&#160;&#160;&#160;(1 &lt;&lt; 1)</td></tr>
 <tr class="memdesc:aef6cceefe85db77e13f8480b8eb9f057"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 1 area BG3 enable. <br /></td></tr>
 <tr class="separator:aef6cceefe85db77e13f8480b8eb9f057"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b1b41e9ff7882dce28ebd54aea88aad" id="r_a2b1b41e9ff7882dce28ebd54aea88aad"><td class="memItemLeft" align="right" valign="top"><a id="a2b1b41e9ff7882dce28ebd54aea88aad" name="a2b1b41e9ff7882dce28ebd54aea88aad"></a>
@@ -147,7 +156,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:a2b1b41e9ff7882dce28ebd54aea88aad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 1 area BG3 inside (0) outside(1) <br /></td></tr>
 <tr class="separator:a2b1b41e9ff7882dce28ebd54aea88aad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82952d05bef37ad03701db76e9c7ba02" id="r_a82952d05bef37ad03701db76e9c7ba02"><td class="memItemLeft" align="right" valign="top"><a id="a82952d05bef37ad03701db76e9c7ba02" name="a82952d05bef37ad03701db76e9c7ba02"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN1_BG4MSKENABLE</b>&#160;&#160;&#160;(2 &lt;&lt; 4)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN1_BG4MSKENABLE</b>&#160;&#160;&#160;(1 &lt;&lt; 5)</td></tr>
 <tr class="memdesc:a82952d05bef37ad03701db76e9c7ba02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 1 area BG4 enable. <br /></td></tr>
 <tr class="separator:a82952d05bef37ad03701db76e9c7ba02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8718ad2e20711671ca55ec86f31cb63e" id="r_a8718ad2e20711671ca55ec86f31cb63e"><td class="memItemLeft" align="right" valign="top"><a id="a8718ad2e20711671ca55ec86f31cb63e" name="a8718ad2e20711671ca55ec86f31cb63e"></a>
@@ -155,7 +164,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:a8718ad2e20711671ca55ec86f31cb63e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 1 area BG4 inside (0) outside(1) <br /></td></tr>
 <tr class="separator:a8718ad2e20711671ca55ec86f31cb63e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a822807332e7683766b1969ea46198d75" id="r_a822807332e7683766b1969ea46198d75"><td class="memItemLeft" align="right" valign="top"><a id="a822807332e7683766b1969ea46198d75" name="a822807332e7683766b1969ea46198d75"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN2_BG1MSKENABLE</b>&#160;&#160;&#160;(2 &lt;&lt; 2)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN2_BG1MSKENABLE</b>&#160;&#160;&#160;(1 &lt;&lt; 3)</td></tr>
 <tr class="memdesc:a822807332e7683766b1969ea46198d75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 2 area BG1 enable. <br /></td></tr>
 <tr class="separator:a822807332e7683766b1969ea46198d75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a770dff7b0ee0b8ff9b3a571bfdebd10b" id="r_a770dff7b0ee0b8ff9b3a571bfdebd10b"><td class="memItemLeft" align="right" valign="top"><a id="a770dff7b0ee0b8ff9b3a571bfdebd10b" name="a770dff7b0ee0b8ff9b3a571bfdebd10b"></a>
@@ -163,15 +172,15 @@ Macros</h2></td></tr>
 <tr class="memdesc:a770dff7b0ee0b8ff9b3a571bfdebd10b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 2 area BG1 inside (0) outside(1) <br /></td></tr>
 <tr class="separator:a770dff7b0ee0b8ff9b3a571bfdebd10b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a7581f01c56420b02ecd37130ff6ef6" id="r_a3a7581f01c56420b02ecd37130ff6ef6"><td class="memItemLeft" align="right" valign="top"><a id="a3a7581f01c56420b02ecd37130ff6ef6" name="a3a7581f01c56420b02ecd37130ff6ef6"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN2_BG2MSKENABLE</b>&#160;&#160;&#160;(2 &lt;&lt; 4)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN2_BG2MSKENABLE</b>&#160;&#160;&#160;(1 &lt;&lt; 7)</td></tr>
 <tr class="memdesc:a3a7581f01c56420b02ecd37130ff6ef6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 2 area BG2 enable. <br /></td></tr>
 <tr class="separator:a3a7581f01c56420b02ecd37130ff6ef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abba92d1b0d3bdfe4b094af207271c2df" id="r_abba92d1b0d3bdfe4b094af207271c2df"><td class="memItemLeft" align="right" valign="top"><a id="abba92d1b0d3bdfe4b094af207271c2df" name="abba92d1b0d3bdfe4b094af207271c2df"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN2_BG2MSKOUT</b>&#160;&#160;&#160;(1 &lt;&lt; 4)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN2_BG2MSKOUT</b>&#160;&#160;&#160;(1 &lt;&lt; 6)</td></tr>
 <tr class="memdesc:abba92d1b0d3bdfe4b094af207271c2df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 2 area BG2 inside (0) outside(1) <br /></td></tr>
 <tr class="separator:abba92d1b0d3bdfe4b094af207271c2df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9590fb898c89ba140484f4a1a4831ec" id="r_ae9590fb898c89ba140484f4a1a4831ec"><td class="memItemLeft" align="right" valign="top"><a id="ae9590fb898c89ba140484f4a1a4831ec" name="ae9590fb898c89ba140484f4a1a4831ec"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN2_BG3MSKENABLE</b>&#160;&#160;&#160;(2 &lt;&lt; 2)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN2_BG3MSKENABLE</b>&#160;&#160;&#160;(1 &lt;&lt; 3)</td></tr>
 <tr class="memdesc:ae9590fb898c89ba140484f4a1a4831ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 2 area BG3 enable. <br /></td></tr>
 <tr class="separator:ae9590fb898c89ba140484f4a1a4831ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f2f144f75f1fb7723ddfb8f7431f83b" id="r_a8f2f144f75f1fb7723ddfb8f7431f83b"><td class="memItemLeft" align="right" valign="top"><a id="a8f2f144f75f1fb7723ddfb8f7431f83b" name="a8f2f144f75f1fb7723ddfb8f7431f83b"></a>
@@ -179,11 +188,11 @@ Macros</h2></td></tr>
 <tr class="memdesc:a8f2f144f75f1fb7723ddfb8f7431f83b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 2 area BG3 inside (0) outside(1) <br /></td></tr>
 <tr class="separator:a8f2f144f75f1fb7723ddfb8f7431f83b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56dd136a98db51a1fab6d80d4c1277db" id="r_a56dd136a98db51a1fab6d80d4c1277db"><td class="memItemLeft" align="right" valign="top"><a id="a56dd136a98db51a1fab6d80d4c1277db" name="a56dd136a98db51a1fab6d80d4c1277db"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN2_BG4MSKENABLE</b>&#160;&#160;&#160;(2 &lt;&lt; 4)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN2_BG4MSKENABLE</b>&#160;&#160;&#160;(1 &lt;&lt; 7)</td></tr>
 <tr class="memdesc:a56dd136a98db51a1fab6d80d4c1277db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 2 area BG4 enable. <br /></td></tr>
 <tr class="separator:a56dd136a98db51a1fab6d80d4c1277db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7c7f7b69dc241474570d1fb9e458951" id="r_af7c7f7b69dc241474570d1fb9e458951"><td class="memItemLeft" align="right" valign="top"><a id="af7c7f7b69dc241474570d1fb9e458951" name="af7c7f7b69dc241474570d1fb9e458951"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN2_BG4MSKOUT</b>&#160;&#160;&#160;(1 &lt;&lt; 4)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN2_BG4MSKOUT</b>&#160;&#160;&#160;(1 &lt;&lt; 6)</td></tr>
 <tr class="memdesc:af7c7f7b69dc241474570d1fb9e458951"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window 2 area BG4 inside (0) outside(1) <br /></td></tr>
 <tr class="separator:af7c7f7b69dc241474570d1fb9e458951"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b875796929dfd18bb81e25bbb610b54" id="r_a2b875796929dfd18bb81e25bbb610b54"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dma_8h.html#a2b875796929dfd18bb81e25bbb610b54">MSWIN_BG1</a>&#160;&#160;&#160;(1 &lt;&lt; 0)</td></tr>
@@ -191,15 +200,15 @@ Macros</h2></td></tr>
 <tr class="separator:a2b875796929dfd18bb81e25bbb610b54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc92eb3c10e2d9fdafea29ff92ca0b93" id="r_acc92eb3c10e2d9fdafea29ff92ca0b93"><td class="memItemLeft" align="right" valign="top"><a id="acc92eb3c10e2d9fdafea29ff92ca0b93" name="acc92eb3c10e2d9fdafea29ff92ca0b93"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN_BG2</b>&#160;&#160;&#160;(1 &lt;&lt; 1)</td></tr>
-<tr class="memdesc:acc92eb3c10e2d9fdafea29ff92ca0b93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main Screen BG2 disable background. <br /></td></tr>
+<tr class="memdesc:acc92eb3c10e2d9fdafea29ff92ca0b93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main Screen BG2 effect enable. <br /></td></tr>
 <tr class="separator:acc92eb3c10e2d9fdafea29ff92ca0b93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35273d4a1d131c0a4c32f08dc25abdce" id="r_a35273d4a1d131c0a4c32f08dc25abdce"><td class="memItemLeft" align="right" valign="top"><a id="a35273d4a1d131c0a4c32f08dc25abdce" name="a35273d4a1d131c0a4c32f08dc25abdce"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN_BG3</b>&#160;&#160;&#160;(1 &lt;&lt; 2)</td></tr>
-<tr class="memdesc:a35273d4a1d131c0a4c32f08dc25abdce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main Screen BG3 disable background. <br /></td></tr>
+<tr class="memdesc:a35273d4a1d131c0a4c32f08dc25abdce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main Screen BG3 effect enable. <br /></td></tr>
 <tr class="separator:a35273d4a1d131c0a4c32f08dc25abdce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e426246c60b0c0d10438f7742295155" id="r_a1e426246c60b0c0d10438f7742295155"><td class="memItemLeft" align="right" valign="top"><a id="a1e426246c60b0c0d10438f7742295155" name="a1e426246c60b0c0d10438f7742295155"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>MSWIN_BG4</b>&#160;&#160;&#160;(1 &lt;&lt; 3)</td></tr>
-<tr class="memdesc:a1e426246c60b0c0d10438f7742295155"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main Screen BG4 disable background. <br /></td></tr>
+<tr class="memdesc:a1e426246c60b0c0d10438f7742295155"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main Screen BG4 effect enable. <br /></td></tr>
 <tr class="separator:a1e426246c60b0c0d10438f7742295155"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a384405596b1aadf2454e966455d74228" id="r_a384405596b1aadf2454e966455d74228"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dma_8h.html#a384405596b1aadf2454e966455d74228">REG_A1B7</a>&#160;&#160;&#160;(*(vuint8 *)0x4374)</td></tr>
 <tr class="memdesc:a384405596b1aadf2454e966455d74228"><td class="mdescLeft">&#160;</td><td class="mdescRight">A1TxL - HDMA Table Start Address (low) / DMA Current Addr (low) (R/W) A1TxH - HDMA Table Start Address (hi) / DMA Current Addr (hi) (R/W) A1Bx - HDMA Table Start Address (bank) / DMA Current Addr (bank) (R/W)  <br /></td></tr>
@@ -250,9 +259,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>dmaClearVram</b> (voi
 <tr class="memdesc:ab55e3ae019e75f79951904ba4e747a0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">fill the source data to destination using channel 0 of DMA available channels in half words<br  />
 dmaFillVram is deprecated  <br /></td></tr>
 <tr class="separator:ab55e3ae019e75f79951904ba4e747a0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88ab32a0e407cfa3d7f6fc4e9276d8b0" id="r_a88ab32a0e407cfa3d7f6fc4e9276d8b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dma_8h.html#a88ab32a0e407cfa3d7f6fc4e9276d8b0">setModeHdmaColor</a> (u8 *hdmatable)</td></tr>
-<tr class="memdesc:a88ab32a0e407cfa3d7f6fc4e9276d8b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a color gradient effect on screen (with color 0). Use HDMA Channels 6.  <br /></td></tr>
-<tr class="separator:a88ab32a0e407cfa3d7f6fc4e9276d8b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63078748089f933ce6fad10a7f31a160" id="r_a63078748089f933ce6fad10a7f31a160"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dma_8h.html#a63078748089f933ce6fad10a7f31a160">setModeHdmaColor</a> (u8 channel, u8 *hdmatable)</td></tr>
+<tr class="memdesc:a63078748089f933ce6fad10a7f31a160"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a color gradient effect on screen (with color 0). Use HDMA Channels 6.  <br /></td></tr>
+<tr class="separator:a63078748089f933ce6fad10a7f31a160"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf06b5c6b9733a2fdb5cb466dd6b16bf" id="r_acf06b5c6b9733a2fdb5cb466dd6b16bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dma_8h.html#acf06b5c6b9733a2fdb5cb466dd6b16bf">setModeHdmaGradient</a> (u8 maxLevels)</td></tr>
 <tr class="memdesc:acf06b5c6b9733a2fdb5cb466dd6b16bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a brightness gradient on screen. Use HDMA Channels 3.  <br /></td></tr>
 <tr class="separator:acf06b5c6b9733a2fdb5cb466dd6b16bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -266,14 +275,17 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setModeHdmaShadeUpDow
 <tr class="memitem:a17730c5eb2e9c19d4ce49c6c5930af73" id="r_a17730c5eb2e9c19d4ce49c6c5930af73"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dma_8h.html#a17730c5eb2e9c19d4ce49c6c5930af73">setModeHdmaShading</a> (unsigned char mode)</td></tr>
 <tr class="memdesc:a17730c5eb2e9c19d4ce49c6c5930af73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a shading effect on screen. Use HDMA Channels 0 to 2.  <br /></td></tr>
 <tr class="separator:a17730c5eb2e9c19d4ce49c6c5930af73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab45352a81959147a9d678a3f327e33e0" id="r_ab45352a81959147a9d678a3f327e33e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dma_8h.html#ab45352a81959147a9d678a3f327e33e0">setModeHdmaWaves</a> (u8 bgrnd)</td></tr>
-<tr class="memdesc:ab45352a81959147a9d678a3f327e33e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a waves effect on screen (init function). Use HDMA Channels 6.  <br /></td></tr>
-<tr class="separator:ab45352a81959147a9d678a3f327e33e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae01ed6d701ed88b6860241f1575d5d10" id="r_ae01ed6d701ed88b6860241f1575d5d10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dma_8h.html#ae01ed6d701ed88b6860241f1575d5d10">setModeHdmaWaves</a> (u8 channel, u8 bgrnd)</td></tr>
+<tr class="memdesc:ae01ed6d701ed88b6860241f1575d5d10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a waves effect on screen (init function). Use HDMA Channels 6.  <br /></td></tr>
+<tr class="separator:ae01ed6d701ed88b6860241f1575d5d10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3bd40985508523aefb457ac0538551d" id="r_ad3bd40985508523aefb457ac0538551d"><td class="memItemLeft" align="right" valign="top"><a id="ad3bd40985508523aefb457ac0538551d" name="ad3bd40985508523aefb457ac0538551d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setModeHdmaWavesMove</b> (void)</td></tr>
 <tr class="memdesc:ad3bd40985508523aefb457ac0538551d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Animate the waves effect. Must be called during each frame.<br  />
  setModeHdmaWaves must have been done to init it. <br /></td></tr>
 <tr class="separator:ad3bd40985508523aefb457ac0538551d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8eb47f4e35faa81528eb4aa7a72ad142" id="r_a8eb47f4e35faa81528eb4aa7a72ad142"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dma_8h.html#a8eb47f4e35faa81528eb4aa7a72ad142">setModeHdmaWindow</a> (u8 channels, u8 bgrnd, u8 bgrndmask, u8 *hdmatableL, u8 *hdmatableR)</td></tr>
+<tr class="memdesc:a8eb47f4e35faa81528eb4aa7a72ad142"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a window effect on screen. Use HDMA Channels 4 &amp; 5.  <br /></td></tr>
+<tr class="separator:a8eb47f4e35faa81528eb4aa7a72ad142"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6369793f06caeebb66ee3718d9dd5982" id="r_a6369793f06caeebb66ee3718d9dd5982"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dma_8h.html#a6369793f06caeebb66ee3718d9dd5982">setModeHdmaWindowReset</a> (u8 channels)</td></tr>
 <tr class="memdesc:a6369793f06caeebb66ee3718d9dd5982"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset or Set HDMA channels and remove WINDOW effect.  <br /></td></tr>
 <tr class="separator:a6369793f06caeebb66ee3718d9dd5982"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -304,8 +316,8 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>HDMATable16</b> [224+1]
 </div><div class="memdoc">
 
 <p>Bit defines for the window area main screen effect. </p>
-<p>Main Screen BG1 disable background </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_effects_2_window_2_window_8c-example.html#a6">graphics/Effects/Window/Window.c</a>.</dd>
+<p>Main Screen BG1 effect enable </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_effects_2_window_2_window_8c-example.html#a7">graphics/Effects/Window/Window.c</a>.</dd>
 </dl>
 
 </div>
@@ -404,7 +416,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>HDMATable16</b> [224+1]
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2breakout_2breakout_8c-example.html#a2">games/breakout/breakout.c</a>, and <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a5">graphics/Sprites/ObjectSize/ObjectSize.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a5">graphics/Sprites/ObjectSize/ObjectSize.c</a>, and <a class="el" href="systems_2games_2breakout_2breakout_8c-example.html#a2">systems/games/breakout/breakout.c</a>.</dd>
 </dl>
 
 </div>
@@ -568,7 +580,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>HDMATable16</b> [224+1]
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2breakout_2breakout_8c-example.html#a3">games/breakout/breakout.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_b_g3_high_priority_2_mode1_b_g3_high_priority_8c-example.html#a3">graphics/Backgrounds/Mode1BG3HighPriority/Mode1BG3HighPriority.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a7">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode3_2_mode3_8c-example.html#a2">graphics/Backgrounds/Mode3/Mode3.c</a>, <a class="el" href="graphics_2_effects_2_h_d_m_a_gradient_2_h_d_m_a_gradient_8c-example.html#a1">graphics/Effects/HDMAGradient/HDMAGradient.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a17">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a4">graphics/Sprites/ObjectSize/ObjectSize.c</a>, and <a class="el" href="input_2mouse_2mouse_8c-example.html#a11">input/mouse/mouse.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_backgrounds_2_mode1_b_g3_high_priority_2_mode1_b_g3_high_priority_8c-example.html#a3">graphics/Backgrounds/Mode1BG3HighPriority/Mode1BG3HighPriority.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a7">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode3_2_mode3_8c-example.html#a2">graphics/Backgrounds/Mode3/Mode3.c</a>, <a class="el" href="graphics_2_effects_2_h_d_m_a_gradient_2_h_d_m_a_gradient_8c-example.html#a1">graphics/Effects/HDMAGradient/HDMAGradient.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a17">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_meta_sprite_2_meta_sprite_8c-example.html#a5">graphics/Sprites/MetaSprite/MetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a4">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="input_2mouse_2mouse_8c-example.html#a11">input/mouse/mouse.c</a>, and <a class="el" href="systems_2games_2breakout_2breakout_8c-example.html#a3">systems/games/breakout/breakout.c</a>.</dd>
 </dl>
 
 </div>
@@ -722,18 +734,28 @@ dmaFillVram is deprecated </p>
 
 </div>
 </div>
-<a id="a88ab32a0e407cfa3d7f6fc4e9276d8b0" name="a88ab32a0e407cfa3d7f6fc4e9276d8b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88ab32a0e407cfa3d7f6fc4e9276d8b0">&#9670;&#160;</a></span>setModeHdmaColor()</h2>
+<a id="a63078748089f933ce6fad10a7f31a160" name="a63078748089f933ce6fad10a7f31a160"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63078748089f933ce6fad10a7f31a160">&#9670;&#160;</a></span>setModeHdmaColor()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">setModeHdmaColor </td>
+          <td class="memname">void setModeHdmaColor </td>
           <td>(</td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>hdmatable</em></td><td>)</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>channel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>hdmatable</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -741,6 +763,7 @@ dmaFillVram is deprecated </p>
 <p>Do a color gradient effect on screen (with color 0). Use HDMA Channels 6. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">channel</td><td>channel to use HDMA_CHANNEL0..HDMA_CHANNEL7 </td></tr>
     <tr><td class="paramname">hdmatable</td><td>table with gradient colors </td></tr>
   </table>
   </dd>
@@ -832,18 +855,28 @@ dmaFillVram is deprecated </p>
 
 </div>
 </div>
-<a id="ab45352a81959147a9d678a3f327e33e0" name="ab45352a81959147a9d678a3f327e33e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab45352a81959147a9d678a3f327e33e0">&#9670;&#160;</a></span>setModeHdmaWaves()</h2>
+<a id="ae01ed6d701ed88b6860241f1575d5d10" name="ae01ed6d701ed88b6860241f1575d5d10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae01ed6d701ed88b6860241f1575d5d10">&#9670;&#160;</a></span>setModeHdmaWaves()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">setModeHdmaWaves </td>
+          <td class="memname">void setModeHdmaWaves </td>
           <td>(</td>
           <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>bgrnd</em></td><td>)</td>
+          <td class="paramname"><em>channel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>bgrnd</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -851,11 +884,72 @@ dmaFillVram is deprecated </p>
 <p>Do a waves effect on screen (init function). Use HDMA Channels 6. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">channel</td><td>channel to use HDMA_CHANNEL0..HDMA_CHANNEL7 </td></tr>
     <tr><td class="paramname">bgrnd</td><td>background for the wave effect (value 0..1) </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_effects_2_waves_2_waves_8c-example.html#a5">graphics/Effects/Waves/Waves.c</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="a8eb47f4e35faa81528eb4aa7a72ad142" name="a8eb47f4e35faa81528eb4aa7a72ad142"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8eb47f4e35faa81528eb4aa7a72ad142">&#9670;&#160;</a></span>setModeHdmaWindow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setModeHdmaWindow </td>
+          <td>(</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>channels</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>bgrnd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>bgrndmask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>hdmatableL</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>hdmatableR</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Do a window effect on screen. Use HDMA Channels 4 &amp; 5. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">channels</td><td>channels to use HDMA_CHANNEL0..HDMA_CHANNEL7 /!\ 2 channels to activate ! (ex:HDMA_CHANNEL4| HDMA_CHANNEL5) </td></tr>
+    <tr><td class="paramname">bgrnd</td><td>background for the windows effect (value MSWIN_BG1..MSWIN_BG4) </td></tr>
+    <tr><td class="paramname">bgrndmask</td><td>background mask (inside, outside) for the windows effect (value MSWIN1_BG1MSKENABLE..MSWIN1_BG4MSKENABLE) </td></tr>
+    <tr><td class="paramname">hdmatableL</td><td>table with windows effect on the left </td></tr>
+    <tr><td class="paramname">hdmatableR</td><td>table with windows effect on the right </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_effects_2_window_2_window_8c-example.html#a6">graphics/Effects/Window/Window.c</a>.</dd>
 </dl>
 
 </div>
@@ -922,7 +1016,7 @@ dmaFillVram is deprecated </p>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="dma_8h.html">dma.h</a></li>
-    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

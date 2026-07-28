@@ -16,6 +16,8 @@ var sprite_8h =
     [ "OBJ_SIZE8_L16", "sprite_8h.html#aa91348e1375ed07236694a7d81fa9ecf", null ],
     [ "OBJ_SIZE8_L32", "sprite_8h.html#a4e8556727bbae22ac2e0fa8392a13fc4", null ],
     [ "OBJ_SIZE8_L64", "sprite_8h.html#a35468d3300e6ad4bdb2c027c93c7dbe5", null ],
+    [ "OBJ_SIZEL", "sprite_8h.html#a193eeebe707039ce0413405497344d2f", null ],
+    [ "OBJ_SIZES", "sprite_8h.html#abf5be223e57f677be3f839cd4f95592d", null ],
     [ "OBJ_SPRITE16", "sprite_8h.html#a4741ad3cd0b065681e2a8f481525d16b", null ],
     [ "OBJ_SPRITE32", "sprite_8h.html#a4ce5bbeefa16a91cd8e7db8fb7aa0e6c", null ],
     [ "OBJ_SPRITE8", "sprite_8h.html#aabc9778e950220ff7adbac8a01faa148", null ],

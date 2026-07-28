@@ -11,6 +11,15 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    // Initialize Dark Mode
+    DoxygenAwesomeDarkModeToggle.init();
+    // Initialize Copy Button
+    DoxygenAwesomeFragmentCopyButton.init();
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,7 +28,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this aaooaaa div, it is closed by doxygen! -->
@@ -30,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -102,25 +111,23 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode1_l_z77_2
 <div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">    Simple tile mode 1 demo with png graphic lzss compressed</span></div>
-<div class="line"><span class="comment">    Without compression : 12,2 Ko (12�544 octets)</span></div>
-<div class="line"><span class="comment">       With compression : 8,48 Ko (8�687 octets)</span></div>
+<div class="line"><span class="comment">    Without compression : 12,2 Ko (12544 octets)</span></div>
+<div class="line"><span class="comment">       With compression : 8,48 Ko (8687 octets)</span></div>
 <div class="line"><span class="comment">    -- alekmaul</span></div>
 <div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment"></span> </div>
 <div class="line"><span class="comment">---------------------------------------------------------------------------------*/</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="snes_8h.html">snes.h</a>&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> patterns, patterns_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> palette, palette_end;</div>
-<div class="line"><span class="keyword">extern</span> <span class="keywordtype">char</span> map, map_end;</div>
+<div class="line"><span class="preprocessor">#include &quot;pvsneslib.inc&quot;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//---------------------------------------------------------------------------------</span></div>
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>) {</div>
 <div class="line">    <span class="comment">// Copy tiles to VRAM</span></div>
-<div class="line">    <a id="a0" name="a0"></a><a class="code hl_function" href="background_8h.html#a4b0af2955fba6d18445f6cd95bf6bef6">bgInitTileSetLz</a>(0, &amp;patterns, &amp;palette, 0, (&amp;palette_end - &amp;palette), BG_16COLORS, 0x4000);</div>
+<div class="line">    <a id="a0" name="a0"></a><a class="code hl_function" href="background_8h.html#a4b0af2955fba6d18445f6cd95bf6bef6">bgInitTileSetLz</a>(0, &amp;pvsneslib_til, &amp;pvsneslib_pal, 0, (&amp;pvsneslib_palend - &amp;pvsneslib_pal), BG_16COLORS, 0x4000);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Copy Map to VRAM</span></div>
-<div class="line">    <a id="a1" name="a1"></a><a class="code hl_function" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(0, &amp;map, (&amp;map_end - &amp;map),SC_32x32, 0x0000);</div>
+<div class="line">    <a id="a1" name="a1"></a><a class="code hl_function" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(0, &amp;pvsneslib_map, (&amp;pvsneslib_mapend - &amp;pvsneslib_map)*2,SC_32x32, 0x0000);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Now Put in 16 color mode and disable other BGs except 1st one</span></div>
 <div class="line">    <a id="a2" name="a2"></a><a class="code hl_function" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a>(BG_MODE1,0);  </div>
@@ -146,7 +153,7 @@ $(document).ready(function(){initNavTree('graphics_2_backgrounds_2_mode1_l_z77_2
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

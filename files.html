@@ -11,6 +11,15 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    // Initialize Dark Mode
+    DoxygenAwesomeDarkModeToggle.init();
+    // Initialize Copy Button
+    DoxygenAwesomeFragmentCopyButton.init();
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,7 +28,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this aaooaaa div, it is closed by doxygen! -->
@@ -30,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -105,19 +114,22 @@ $(document).ready(function(){initNavTree('files.html',''); initResizable(); });
 <tr id="row_0_0_0_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="background_8h_source.html"><span class="icondoc"></span></a><a class="el" href="background_8h.html" target="_self">background.h</a></td><td class="desc">Snes background defines and functionality </td></tr>
 <tr id="row_0_0_1_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="console_8h_source.html"><span class="icondoc"></span></a><a class="el" href="console_8h.html" target="_self">console.h</a></td><td class="desc">Snes generic console support </td></tr>
 <tr id="row_0_0_2_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="dma_8h_source.html"><span class="icondoc"></span></a><a class="el" href="dma_8h.html" target="_self">dma.h</a></td><td class="desc">Wrapper functions for direct memory access hardware </td></tr>
-<tr id="row_0_0_3_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="input_8h_source.html"><span class="icondoc"></span></a><a class="el" href="input_8h.html" target="_self">input.h</a></td><td class="desc">Input support </td></tr>
-<tr id="row_0_0_4_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="interrupt_8h_source.html"><span class="icondoc"></span></a><a class="el" href="interrupt_8h.html" target="_self">interrupt.h</a></td><td class="desc">Snes interrupt support </td></tr>
-<tr id="row_0_0_5_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="libversion_8h_source.html"><span class="icondoc"></span></a><b>libversion.h</b></td><td class="desc"></td></tr>
-<tr id="row_0_0_6_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="lzss_8h_source.html"><span class="icondoc"></span></a><a class="el" href="lzss_8h.html" target="_self">lzss.h</a></td><td class="desc">Wrapper functions for lzss decoding </td></tr>
-<tr id="row_0_0_7_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="map_8h_source.html"><span class="icondoc"></span></a><a class="el" href="map_8h.html" target="_self">map.h</a></td><td class="desc">Functions to manage / scroll large background MAP on SNES </td></tr>
-<tr id="row_0_0_8_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="object_8h_source.html"><span class="icondoc"></span></a><a class="el" href="object_8h.html" target="_self">object.h</a></td><td class="desc">Snes object engine functionality </td></tr>
-<tr id="row_0_0_9_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="pixel_8h_source.html"><span class="icondoc"></span></a><a class="el" href="pixel_8h.html" target="_self">pixel.h</a></td><td class="desc">Basic definitions for doing a pixel per pixel mode for SNES </td></tr>
-<tr id="row_0_0_10_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="scores_8h_source.html"><span class="icondoc"></span></a><a class="el" href="scores_8h.html" target="_self">scores.h</a></td><td class="desc">Wrapper functions for score management </td></tr>
-<tr id="row_0_0_11_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="snestypes_8h_source.html"><span class="icondoc"></span></a><a class="el" href="snestypes_8h.html" target="_self">snestypes.h</a></td><td class="desc">Custom types used by libsnes </td></tr>
-<tr id="row_0_0_12_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="sound_8h_source.html"><span class="icondoc"></span></a><a class="el" href="sound_8h.html" target="_self">sound.h</a></td><td class="desc">Snes sound support </td></tr>
-<tr id="row_0_0_13_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="sprite_8h_source.html"><span class="icondoc"></span></a><a class="el" href="sprite_8h.html" target="_self">sprite.h</a></td><td class="desc">Snes sprites functionality </td></tr>
-<tr id="row_0_0_14_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="video_8h_source.html"><span class="icondoc"></span></a><a class="el" href="video_8h.html" target="_self">video.h</a></td><td class="desc">Basic definitions for controlling the video hardware </td></tr>
-<tr id="row_0_1_" class="odd"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="snes_8h_source.html"><span class="icondoc"></span></a><a class="el" href="snes_8h.html" target="_self">snes.h</a></td><td class="desc">Master include file for snes applications </td></tr>
+<tr id="row_0_0_3_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="fixed_8h_source.html"><span class="icondoc"></span></a><b>fixed.h</b></td><td class="desc"></td></tr>
+<tr id="row_0_0_4_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="gamestates_8h_source.html"><span class="icondoc"></span></a><a class="el" href="gamestates_8h.html" target="_self">gamestates.h</a></td><td class="desc">Snes game states engine functionality </td></tr>
+<tr id="row_0_0_5_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="input_8h_source.html"><span class="icondoc"></span></a><a class="el" href="input_8h.html" target="_self">input.h</a></td><td class="desc">Input support </td></tr>
+<tr id="row_0_0_6_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="interrupt_8h_source.html"><span class="icondoc"></span></a><a class="el" href="interrupt_8h.html" target="_self">interrupt.h</a></td><td class="desc">Snes interrupt support </td></tr>
+<tr id="row_0_0_7_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="libversion_8h_source.html"><span class="icondoc"></span></a><b>libversion.h</b></td><td class="desc"></td></tr>
+<tr id="row_0_0_8_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="lzss_8h_source.html"><span class="icondoc"></span></a><a class="el" href="lzss_8h.html" target="_self">lzss.h</a></td><td class="desc">Wrapper functions for lzss decoding </td></tr>
+<tr id="row_0_0_9_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="map_8h_source.html"><span class="icondoc"></span></a><a class="el" href="map_8h.html" target="_self">map.h</a></td><td class="desc">Functions to manage / scroll large background MAP on SNES </td></tr>
+<tr id="row_0_0_10_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="object_8h_source.html"><span class="icondoc"></span></a><a class="el" href="object_8h.html" target="_self">object.h</a></td><td class="desc">Snes object engine functionality </td></tr>
+<tr id="row_0_0_11_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="pixel_8h_source.html"><span class="icondoc"></span></a><a class="el" href="pixel_8h.html" target="_self">pixel.h</a></td><td class="desc">Basic definitions for doing a pixel per pixel mode for SNES </td></tr>
+<tr id="row_0_0_12_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="scores_8h_source.html"><span class="icondoc"></span></a><a class="el" href="scores_8h.html" target="_self">scores.h</a></td><td class="desc">Wrapper functions for score management </td></tr>
+<tr id="row_0_0_13_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="snestypes_8h_source.html"><span class="icondoc"></span></a><a class="el" href="snestypes_8h.html" target="_self">snestypes.h</a></td><td class="desc">Custom types used by libsnes </td></tr>
+<tr id="row_0_0_14_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="sound_8h_source.html"><span class="icondoc"></span></a><a class="el" href="sound_8h.html" target="_self">sound.h</a></td><td class="desc">Snes sound support </td></tr>
+<tr id="row_0_0_15_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="sprite_8h_source.html"><span class="icondoc"></span></a><a class="el" href="sprite_8h.html" target="_self">sprite.h</a></td><td class="desc">Snes sprites functionality </td></tr>
+<tr id="row_0_0_16_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="textfont_8h_source.html"><span class="icondoc"></span></a><a class="el" href="textfont_8h.html" target="_self">textfont.h</a></td><td class="desc">Basic definitions for controlling the variable width font display </td></tr>
+<tr id="row_0_0_17_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="video_8h_source.html"><span class="icondoc"></span></a><a class="el" href="video_8h.html" target="_self">video.h</a></td><td class="desc">Basic definitions for controlling the video hardware </td></tr>
+<tr id="row_0_1_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="snes_8h_source.html"><span class="icondoc"></span></a><a class="el" href="snes_8h.html" target="_self">snes.h</a></td><td class="desc">Master include file for snes applications </td></tr>
 </table>
 </div><!-- directory -->
 </div><!-- contents -->
@@ -125,7 +137,7 @@ $(document).ready(function(){initNavTree('files.html',''); initResizable(); });
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

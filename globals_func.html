@@ -11,6 +11,15 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    // Initialize Dark Mode
+    DoxygenAwesomeDarkModeToggle.init();
+    // Initialize Copy Button
+    DoxygenAwesomeFragmentCopyButton.init();
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,7 +28,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this aaooaaa div, it is closed by doxygen! -->
@@ -30,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -100,6 +109,7 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <h3><a id="index_b" name="index_b"></a>- b -</h3><ul>
 <li>bgInitMapSet()&#160;:&#160;<a class="el" href="background_8h.html#acc385296e159449a81d18f5e219c8032">background.h</a></li>
 <li>bgInitMapTileSet7()&#160;:&#160;<a class="el" href="background_8h.html#ae1fad909be4edf30a3cd08a0890361dc">background.h</a></li>
+<li>bgInitMapTileSet7lz()&#160;:&#160;<a class="el" href="background_8h.html#ab7734664860165c8533b68b70429fd83">background.h</a></li>
 <li>bgInitTileSet()&#160;:&#160;<a class="el" href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">background.h</a></li>
 <li>bgInitTileSetData()&#160;:&#160;<a class="el" href="background_8h.html#a4ea396375d85e9f3d9af5072552819aa">background.h</a></li>
 <li>bgInitTileSetLz()&#160;:&#160;<a class="el" href="background_8h.html#a4b0af2955fba6d18445f6cd95bf6bef6">background.h</a></li>
@@ -117,21 +127,25 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <h3><a id="index_c" name="index_c"></a>- c -</h3><ul>
 <li>consoleCopySram()&#160;:&#160;<a class="el" href="console_8h.html#ac3c55f6e16ff70d19c046404b9aa8a9b">console.h</a></li>
 <li>consoleCopySramWithOffset()&#160;:&#160;<a class="el" href="console_8h.html#a46f2e0184bbdeaad57a7fc2f9bb8c0c6">console.h</a></li>
-<li>consoleDrawText()&#160;:&#160;<a class="el" href="console_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">console.h</a></li>
-<li>consoleDrawTextMap()&#160;:&#160;<a class="el" href="console_8h.html#ab062e25ee448ec8a56aa73107c33491f">console.h</a></li>
-<li>consoleDrawTextMapCenter()&#160;:&#160;<a class="el" href="console_8h.html#a514ade13c61cd2f237bd100d78d5e11d">console.h</a></li>
+<li>consoleDrawText()&#160;:&#160;<a class="el" href="textfont_8h.html#a7e52d15b5a1befa42f5758de19dfb70c">textfont.h</a></li>
+<li>consoleDrawTextMap()&#160;:&#160;<a class="el" href="textfont_8h.html#ab062e25ee448ec8a56aa73107c33491f">textfont.h</a></li>
+<li>consoleDrawTextMapCenter()&#160;:&#160;<a class="el" href="textfont_8h.html#a514ade13c61cd2f237bd100d78d5e11d">textfont.h</a></li>
 <li>consoleInit()&#160;:&#160;<a class="el" href="console_8h.html#a6047713bb5a73afd3cd1d77e336bcdad">console.h</a></li>
-<li>consoleInitText()&#160;:&#160;<a class="el" href="console_8h.html#a5413265662e30a0ded3fee6d3c4781f9">console.h</a></li>
+<li>consoleInitDefaultText()&#160;:&#160;<a class="el" href="textfont_8h.html#a71222d27987b5e71863ab7da2355a3a3">textfont.h</a></li>
+<li>consoleInitText()&#160;:&#160;<a class="el" href="textfont_8h.html#a5413265662e30a0ded3fee6d3c4781f9">textfont.h</a></li>
 <li>consoleLoadSram()&#160;:&#160;<a class="el" href="console_8h.html#abe1fabedc24a3adef79f32e02c3bc2d5">console.h</a></li>
 <li>consoleLoadSramWithOffset()&#160;:&#160;<a class="el" href="console_8h.html#ae0dffef580d764d61fe92d2bbb937f1e">console.h</a></li>
-<li>consoleMesenBreakpoint()&#160;:&#160;<a class="el" href="console_8h.html#a8620fbe47bc2afe99a59c67fae3b7b23">console.h</a></li>
+<li>consoleMesenBreakpoint()&#160;:&#160;<a class="el" href="console_8h.html#aed31ad362f383e6b8acdc2fde42160fd">console.h</a></li>
 <li>consoleNocashMessage()&#160;:&#160;<a class="el" href="console_8h.html#a3a226cebe7d59aac755e03e1061ff727">console.h</a></li>
 <li>consoleRegionIsOK()&#160;:&#160;<a class="el" href="console_8h.html#ad9f96595d599dca8d09df3da5200a8a8">console.h</a></li>
-<li>consoleSetTextGfxPtr()&#160;:&#160;<a class="el" href="console_8h.html#aaf046d1e48f425681b133b5eafa62e09">console.h</a></li>
-<li>consoleSetTextMapPtr()&#160;:&#160;<a class="el" href="console_8h.html#adcbe2c74decb1fdcdf34c80ac525335e">console.h</a></li>
-<li>consoleSetTextOffset()&#160;:&#160;<a class="el" href="console_8h.html#aaddd205f7bb20885a420f26e28214cfb">console.h</a></li>
-<li>consoleSetTextPal()&#160;:&#160;<a class="el" href="console_8h.html#a89a3c9953b95485d2d19db1846aa0755">console.h</a></li>
-<li>consoleUpdate()&#160;:&#160;<a class="el" href="console_8h.html#a9bfb9c53fa37e76873d14be4446e71e5">console.h</a></li>
+<li>consoleSetTextGfxPtr()&#160;:&#160;<a class="el" href="textfont_8h.html#aaf046d1e48f425681b133b5eafa62e09">textfont.h</a></li>
+<li>consoleSetTextMapPtr()&#160;:&#160;<a class="el" href="textfont_8h.html#adcbe2c74decb1fdcdf34c80ac525335e">textfont.h</a></li>
+<li>consoleSetTextOffset()&#160;:&#160;<a class="el" href="textfont_8h.html#aaddd205f7bb20885a420f26e28214cfb">textfont.h</a></li>
+<li>consoleSetTextPal()&#160;:&#160;<a class="el" href="textfont_8h.html#a89a3c9953b95485d2d19db1846aa0755">textfont.h</a></li>
+<li>consoleSetvwTextBlkTile()&#160;:&#160;<a class="el" href="textfont_8h.html#a9409e8c504b0a536a7433e2414eedfc5">textfont.h</a></li>
+<li>consoleSetvwTextMapAttr()&#160;:&#160;<a class="el" href="textfont_8h.html#a9f16faf396a11b992c272a3371647162">textfont.h</a></li>
+<li>consoleUpdate()&#160;:&#160;<a class="el" href="textfont_8h.html#a9bfb9c53fa37e76873d14be4446e71e5">textfont.h</a></li>
+<li>consolevwTextUpdate()&#160;:&#160;<a class="el" href="textfont_8h.html#ab1089ded6cb9ed5b4d8bbb970cd55046">textfont.h</a></li>
 </ul>
 
 
@@ -155,6 +169,9 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <li>getFPScounter()&#160;:&#160;<a class="el" href="video_8h.html#a73861f0742d53e6f44385a673504c83c">video.h</a></li>
 <li>getPalette()&#160;:&#160;<a class="el" href="video_8h.html#a4edcd61c70a2e22ed69a93ced9da9126">video.h</a></li>
 <li>getPaletteColor()&#160;:&#160;<a class="el" href="video_8h.html#acbf8deabd274fb30b9448036296efb8d">video.h</a></li>
+<li>gstaInitFunctions()&#160;:&#160;<a class="el" href="gamestates_8h.html#aef4ec626e0fd0c8c40c27fb5fa0c6949">gamestates.h</a></li>
+<li>gstaProcess()&#160;:&#160;<a class="el" href="gamestates_8h.html#a0dc023c92870c1c1ac816385e04a7493">gamestates.h</a></li>
+<li>gstaSetState()&#160;:&#160;<a class="el" href="gamestates_8h.html#a5c5505c750d34b65fd1df87dc8bcbaf2">gamestates.h</a></li>
 </ul>
 
 
@@ -164,7 +181,7 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 
 
 <h3><a id="index_l" name="index_l"></a>- l -</h3><ul>
-<li>LzssDecodeVram()&#160;:&#160;<a class="el" href="lzss_8h.html#af9cf33e898424f4a39e29eb31f45ff83">lzss.h</a></li>
+<li>LzssDecodeVram()&#160;:&#160;<a class="el" href="lzss_8h.html#ae01a97bc31a2c32d3cdae197a9fbe9dc">lzss.h</a></li>
 </ul>
 
 
@@ -252,6 +269,8 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <li>scoreClear()&#160;:&#160;<a class="el" href="scores_8h.html#a610bffa01efc5915459764c57f0a7d32">scores.h</a></li>
 <li>scoreCmp()&#160;:&#160;<a class="el" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scores.h</a></li>
 <li>scoreCpy()&#160;:&#160;<a class="el" href="scores_8h.html#afc036e454a935daea483dc85ee1d95a8">scores.h</a></li>
+<li>scoreSub()&#160;:&#160;<a class="el" href="scores_8h.html#aaf7d0ffe61430a5a2a14d86af0c15e6c">scores.h</a></li>
+<li>scoreToStr()&#160;:&#160;<a class="el" href="scores_8h.html#a2e46bcc0bca5280f4471ad36d5482a73">scores.h</a></li>
 <li>setBrightness()&#160;:&#160;<a class="el" href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">video.h</a></li>
 <li>setColorEffect()&#160;:&#160;<a class="el" href="video_8h.html#a87d6cb8ec2433c908666a0a7f2306cb4">video.h</a></li>
 <li>setColorIntensity()&#160;:&#160;<a class="el" href="video_8h.html#aedc79f1675778d0573d181fe22a0902d">video.h</a></li>
@@ -264,13 +283,14 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <li>setMode7MoveLeftRight()&#160;:&#160;<a class="el" href="video_8h.html#ade2a8e199ad857a17e402333123b1f43">video.h</a></li>
 <li>setMode7Rot()&#160;:&#160;<a class="el" href="video_8h.html#a4d332cdc88b26fc9ec2cdd4f6710ce8c">video.h</a></li>
 <li>setMode7Scale()&#160;:&#160;<a class="el" href="video_8h.html#a79a6e89e2d541b67229f6033ebc861ce">video.h</a></li>
-<li>setModeHdmaColor()&#160;:&#160;<a class="el" href="dma_8h.html#a88ab32a0e407cfa3d7f6fc4e9276d8b0">dma.h</a></li>
+<li>setModeHdmaColor()&#160;:&#160;<a class="el" href="dma_8h.html#a63078748089f933ce6fad10a7f31a160">dma.h</a></li>
 <li>setModeHdmaGradient()&#160;:&#160;<a class="el" href="dma_8h.html#acf06b5c6b9733a2fdb5cb466dd6b16bf">dma.h</a></li>
 <li>setModeHdmaReset()&#160;:&#160;<a class="el" href="dma_8h.html#a8c8bd3a5701bedb8d9abb10e114f15d5">dma.h</a></li>
 <li>setModeHdmaShadeUpDown()&#160;:&#160;<a class="el" href="dma_8h.html#a68c89ad2f21c471cf6bf07583576f0a2">dma.h</a></li>
 <li>setModeHdmaShading()&#160;:&#160;<a class="el" href="dma_8h.html#a17730c5eb2e9c19d4ce49c6c5930af73">dma.h</a></li>
-<li>setModeHdmaWaves()&#160;:&#160;<a class="el" href="dma_8h.html#ab45352a81959147a9d678a3f327e33e0">dma.h</a></li>
+<li>setModeHdmaWaves()&#160;:&#160;<a class="el" href="dma_8h.html#ae01ed6d701ed88b6860241f1575d5d10">dma.h</a></li>
 <li>setModeHdmaWavesMove()&#160;:&#160;<a class="el" href="dma_8h.html#ad3bd40985508523aefb457ac0538551d">dma.h</a></li>
+<li>setModeHdmaWindow()&#160;:&#160;<a class="el" href="dma_8h.html#a8eb47f4e35faa81528eb4aa7a72ad142">dma.h</a></li>
 <li>setModeHdmaWindowReset()&#160;:&#160;<a class="el" href="dma_8h.html#a6369793f06caeebb66ee3718d9dd5982">dma.h</a></li>
 <li>setMosaicEffect()&#160;:&#160;<a class="el" href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">video.h</a></li>
 <li>setParallaxScrolling()&#160;:&#160;<a class="el" href="dma_8h.html#aa03948bd578cc7311908ca96fec14a93">dma.h</a></li>
@@ -297,6 +317,7 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <li>spcSetSoundEntry()&#160;:&#160;<a class="el" href="sound_8h.html#a4ef9d5d4b7618a2e091194b6c17f75a5">sound.h</a></li>
 <li>spcSetSoundTable()&#160;:&#160;<a class="el" href="sound_8h.html#ad1eb603fd2445102225319797d226fea">sound.h</a></li>
 <li>spcStop()&#160;:&#160;<a class="el" href="sound_8h.html#af7366527acd378585446999f84d1c6d0">sound.h</a></li>
+<li>srand()&#160;:&#160;<a class="el" href="console_8h.html#aa07a03cf6342aee49beaeffcedc14aad">console.h</a></li>
 </ul>
 
 
@@ -309,7 +330,7 @@ $(document).ready(function(){initNavTree('globals_func.html',''); initResizable(
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

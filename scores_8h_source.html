@@ -11,6 +11,15 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    // Initialize Dark Mode
+    DoxygenAwesomeDarkModeToggle.init();
+    // Initialize Copy Button
+    DoxygenAwesomeFragmentCopyButton.init();
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,7 +28,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this aaooaaa div, it is closed by doxygen! -->
@@ -30,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -144,13 +153,19 @@ $(document).ready(function(){initNavTree('scores_8h_source.html',''); initResiza
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="scores_8h.html#a95d4103529817bc4d7efbaa7098ae2e5">   51</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="scores_8h.html#a95d4103529817bc4d7efbaa7098ae2e5">scoreAdd</a>(scoMemory *source, u16 value);</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="scores_8h.html#afc036e454a935daea483dc85ee1d95a8">   57</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="scores_8h.html#afc036e454a935daea483dc85ee1d95a8">scoreCpy</a>(scoMemory *source, scoMemory *dest);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="scores_8h.html#aaf7d0ffe61430a5a2a14d86af0c15e6c">   57</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="scores_8h.html#aaf7d0ffe61430a5a2a14d86af0c15e6c">scoreSub</a>(scoMemory *source, u16 value);</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">   64</a></span>u8 <a class="code hl_function" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(scoMemory *source, scoMemory *dest);</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#endif </span><span class="comment">// SNES_SCORE_INCLUDE</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="scores_8h.html#afc036e454a935daea483dc85ee1d95a8">   63</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="scores_8h.html#afc036e454a935daea483dc85ee1d95a8">scoreCpy</a>(scoMemory *source, scoMemory *dest);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">   70</a></span>u8 <a class="code hl_function" href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a>(scoMemory *source, scoMemory *dest);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="scores_8h.html#a2e46bcc0bca5280f4471ad36d5482a73">   78</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="scores_8h.html#a2e46bcc0bca5280f4471ad36d5482a73">scoreToStr</a>(scoMemory *source, <span class="keywordtype">char</span> *buf);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#endif </span><span class="comment">// SNES_SCORE_INCLUDE</span></div>
+<div class="ttc" id="ascores_8h_html_a2e46bcc0bca5280f4471ad36d5482a73"><div class="ttname"><a href="scores_8h.html#a2e46bcc0bca5280f4471ad36d5482a73">scoreToStr</a></div><div class="ttdeci">void scoreToStr(scoMemory *source, char *buf)</div><div class="ttdoc">convert a score memory into a string</div></div>
 <div class="ttc" id="ascores_8h_html_a610bffa01efc5915459764c57f0a7d32"><div class="ttname"><a href="scores_8h.html#a610bffa01efc5915459764c57f0a7d32">scoreClear</a></div><div class="ttdeci">void scoreClear(scoMemory *source)</div><div class="ttdoc">clear a score memory</div></div>
 <div class="ttc" id="ascores_8h_html_a95d4103529817bc4d7efbaa7098ae2e5"><div class="ttname"><a href="scores_8h.html#a95d4103529817bc4d7efbaa7098ae2e5">scoreAdd</a></div><div class="ttdeci">void scoreAdd(scoMemory *source, u16 value)</div><div class="ttdoc">add a value to a score memory</div></div>
+<div class="ttc" id="ascores_8h_html_aaf7d0ffe61430a5a2a14d86af0c15e6c"><div class="ttname"><a href="scores_8h.html#aaf7d0ffe61430a5a2a14d86af0c15e6c">scoreSub</a></div><div class="ttdeci">void scoreSub(scoMemory *source, u16 value)</div><div class="ttdoc">substract a value to a score memory</div></div>
 <div class="ttc" id="ascores_8h_html_ab961bc25a6ecc6ee901a90827460df62"><div class="ttname"><a href="scores_8h.html#ab961bc25a6ecc6ee901a90827460df62">scoreCmp</a></div><div class="ttdeci">u8 scoreCmp(scoMemory *source, scoMemory *dest)</div><div class="ttdoc">compare a score memory to another score memory</div></div>
 <div class="ttc" id="ascores_8h_html_afc036e454a935daea483dc85ee1d95a8"><div class="ttname"><a href="scores_8h.html#afc036e454a935daea483dc85ee1d95a8">scoreCpy</a></div><div class="ttdeci">void scoreCpy(scoMemory *source, scoMemory *dest)</div><div class="ttdoc">copy a score memory to another score memory</div></div>
 <div class="ttc" id="asnestypes_8h_html"><div class="ttname"><a href="snestypes_8h.html">snestypes.h</a></div><div class="ttdoc">Custom types used by libsnes.</div></div>
@@ -160,7 +175,7 @@ $(document).ready(function(){initNavTree('scores_8h_source.html',''); initResiza
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="scores_8h.html">scores.h</a></li>
-    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

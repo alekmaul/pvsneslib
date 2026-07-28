@@ -11,6 +11,15 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    // Initialize Dark Mode
+    DoxygenAwesomeDarkModeToggle.init();
+    // Initialize Copy Button
+    DoxygenAwesomeFragmentCopyButton.init();
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,7 +28,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this aaooaaa div, it is closed by doxygen! -->
@@ -30,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -179,7 +188,7 @@ Data Fields</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>object definition (64 bytes) </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#_a1">games/likemario/LikeMario.c</a>, and <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#_a0">objects/moveobjects/moveobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2maps_2slopemario_2slopemario_8c-example.html#_a1">graphics/maps/slopemario/slopemario.c</a>, <a class="el" href="systems_2games_2likemario_2src_2_like_mario_8c-example.html#_a1">systems/games/likemario/src/LikeMario.c</a>, and <a class="el" href="systems_2objects_2moveobjects_2moveobjects_8c-example.html#_a0">systems/objects/moveobjects/moveobjects.c</a>.</dd>
 </dl>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="af4bfdc0bbd947feb9ea45fd95f735a9d" name="af4bfdc0bbd947feb9ea45fd95f735a9d"></a>
@@ -194,7 +203,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>46 current action of the object, depends of game </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a14">games/likemario/LikeMario.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2maps_2slopemario_2slopemario_8c-example.html#a15">graphics/maps/slopemario/slopemario.c</a>, and <a class="el" href="systems_2games_2likemario_2src_2_like_mario_8c-example.html#a14">systems/games/likemario/src/LikeMario.c</a>.</dd>
 </dl>
 
 </div>
@@ -241,7 +250,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>28 height of the object (from the square 16x16 or 32x32) </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a9">games/likemario/LikeMario.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2maps_2slopemario_2slopemario_8c-example.html#a10">graphics/maps/slopemario/slopemario.c</a>, and <a class="el" href="systems_2games_2likemario_2src_2_like_mario_8c-example.html#a9">systems/games/likemario/src/LikeMario.c</a>.</dd>
 </dl>
 
 </div>
@@ -423,7 +432,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>6 sprite oam number of the object (multiple of 4) </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a7">objects/moveobjects/moveobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="systems_2objects_2moveobjects_2moveobjects_8c-example.html#a7">systems/objects/moveobjects/moveobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -545,7 +554,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>38 tile number object is standing on </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a28">games/likemario/LikeMario.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2maps_2slopemario_2slopemario_8c-example.html#a29">graphics/maps/slopemario/slopemario.c</a>, and <a class="el" href="systems_2games_2likemario_2src_2_like_mario_8c-example.html#a28">systems/games/likemario/src/LikeMario.c</a>.</dd>
 </dl>
 
 </div>
@@ -577,7 +586,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>26 width of the object (from the square 16x16 or 32x32) </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a8">games/likemario/LikeMario.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2maps_2slopemario_2slopemario_8c-example.html#a8">graphics/maps/slopemario/slopemario.c</a>, and <a class="el" href="systems_2games_2likemario_2src_2_like_mario_8c-example.html#a8">systems/games/likemario/src/LikeMario.c</a>.</dd>
 </dl>
 
 </div>
@@ -624,6 +633,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>22 x offset of the object (from the square 16x16 or 32x32) </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2maps_2slopemario_2slopemario_8c-example.html#a9">graphics/maps/slopemario/slopemario.c</a>.</dd>
+</dl>
 
 </div>
 </div>
@@ -639,7 +650,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>16 x position on the screen (3 fixed point) </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a10">games/likemario/LikeMario.c</a>, and <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a10">objects/moveobjects/moveobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2maps_2slopemario_2slopemario_8c-example.html#a11">graphics/maps/slopemario/slopemario.c</a>, <a class="el" href="systems_2games_2likemario_2src_2_like_mario_8c-example.html#a10">systems/games/likemario/src/LikeMario.c</a>, and <a class="el" href="systems_2objects_2moveobjects_2moveobjects_8c-example.html#a10">systems/objects/moveobjects/moveobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -656,7 +667,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>34 x velocity </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a12">games/likemario/LikeMario.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2maps_2slopemario_2slopemario_8c-example.html#a13">graphics/maps/slopemario/slopemario.c</a>, and <a class="el" href="systems_2games_2likemario_2src_2_like_mario_8c-example.html#a12">systems/games/likemario/src/LikeMario.c</a>.</dd>
 </dl>
 
 </div>
@@ -688,7 +699,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>19 y position on the screen (3 fixed point) </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a11">games/likemario/LikeMario.c</a>, and <a class="el" href="objects_2moveobjects_2moveobjects_8c-example.html#a11">objects/moveobjects/moveobjects.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2maps_2slopemario_2slopemario_8c-example.html#a12">graphics/maps/slopemario/slopemario.c</a>, <a class="el" href="systems_2games_2likemario_2src_2_like_mario_8c-example.html#a11">systems/games/likemario/src/LikeMario.c</a>, and <a class="el" href="systems_2objects_2moveobjects_2moveobjects_8c-example.html#a11">systems/objects/moveobjects/moveobjects.c</a>.</dd>
 </dl>
 
 </div>
@@ -705,7 +716,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>36 y velocity </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="games_2likemario_2_like_mario_8c-example.html#a13">games/likemario/LikeMario.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2maps_2slopemario_2slopemario_8c-example.html#a14">graphics/maps/slopemario/slopemario.c</a>, and <a class="el" href="systems_2games_2likemario_2src_2_like_mario_8c-example.html#a13">systems/games/likemario/src/LikeMario.c</a>.</dd>
 </dl>
 
 </div>
@@ -719,7 +730,7 @@ Data Fields</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="structt__objs.html">t_objs</a></li>
-    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

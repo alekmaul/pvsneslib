@@ -11,6 +11,15 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    // Initialize Dark Mode
+    DoxygenAwesomeDarkModeToggle.init();
+    // Initialize Copy Button
+    DoxygenAwesomeFragmentCopyButton.init();
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,7 +28,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this aaooaaa div, it is closed by doxygen! -->
@@ -30,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.6.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -251,21 +260,23 @@ $(document).ready(function(){initNavTree('background_8h_source.html',''); initRe
 <div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span> </div>
 <div class="line"><a id="l00350" name="l00350"></a><span class="lineno"><a class="line" href="background_8h.html#ae1fad909be4edf30a3cd08a0890361dc">  350</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#ae1fad909be4edf30a3cd08a0890361dc">bgInitMapTileSet7</a>(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 tileSize, u16 address);</div>
 <div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span> </div>
-<div class="line"><a id="l00359" name="l00359"></a><span class="lineno"><a class="line" href="background_8h.html#acc385296e159449a81d18f5e219c8032">  359</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address);</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno"><a class="line" href="background_8h.html#ab7734664860165c8533b68b70429fd83">  359</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#ab7734664860165c8533b68b70429fd83">bgInitMapTileSet7lz</a>(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 tileSize, u16 address);</div>
 <div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span> </div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno"><a class="line" href="background_8h.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7">  366</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7">bgSetScroll</a>(u8 bgNumber, u16 x, u16 y);</div>
-<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span> </div>
-<div class="line"><a id="l00371" name="l00371"></a><span class="lineno"><a class="line" href="background_8h.html#a75891c2ac9e1087a9494e924b137eec4">  371</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a75891c2ac9e1087a9494e924b137eec4">bgSetEnable</a>(u8 bgNumber);</div>
-<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span> </div>
-<div class="line"><a id="l00376" name="l00376"></a><span class="lineno"><a class="line" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">  376</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(u8 bgNumber);</div>
-<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span> </div>
-<div class="line"><a id="l00381" name="l00381"></a><span class="lineno"><a class="line" href="background_8h.html#a439e34ab400075fa7f12e6e559407e9b">  381</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a439e34ab400075fa7f12e6e559407e9b">bgSetEnableSub</a>(u8 bgNumber);</div>
-<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span> </div>
-<div class="line"><a id="l00386" name="l00386"></a><span class="lineno"><a class="line" href="background_8h.html#af28e4200f4e49073dcb8f950099bb9c3">  386</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#af28e4200f4e49073dcb8f950099bb9c3">bgSetDisableSub</a>(u8 bgNumber);</div>
-<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span> </div>
-<div class="line"><a id="l00394" name="l00394"></a><span class="lineno"><a class="line" href="background_8h.html#a00671918b35ab20db7b3f6b71015ccfb">  394</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a00671918b35ab20db7b3f6b71015ccfb">bgSetWindowsRegions</a>(u8 bgNumber, u8 winNumber, u8 xLeft, u8 xRight);</div>
-<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span> </div>
-<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span><span class="preprocessor">#endif </span><span class="comment">// SNES_BACKGROUND_INCLUDE</span></div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno"><a class="line" href="background_8h.html#acc385296e159449a81d18f5e219c8032">  368</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a>(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address);</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span> </div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno"><a class="line" href="background_8h.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7">  375</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7">bgSetScroll</a>(u8 bgNumber, u16 x, u16 y);</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span> </div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno"><a class="line" href="background_8h.html#a75891c2ac9e1087a9494e924b137eec4">  380</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a75891c2ac9e1087a9494e924b137eec4">bgSetEnable</a>(u8 bgNumber);</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span> </div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno"><a class="line" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">  385</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a4dbfb1b8854ff9ca4a7d11a899281bbb">bgSetDisable</a>(u8 bgNumber);</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span> </div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno"><a class="line" href="background_8h.html#a439e34ab400075fa7f12e6e559407e9b">  390</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a439e34ab400075fa7f12e6e559407e9b">bgSetEnableSub</a>(u8 bgNumber);</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span> </div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno"><a class="line" href="background_8h.html#af28e4200f4e49073dcb8f950099bb9c3">  395</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#af28e4200f4e49073dcb8f950099bb9c3">bgSetDisableSub</a>(u8 bgNumber);</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span> </div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno"><a class="line" href="background_8h.html#a00671918b35ab20db7b3f6b71015ccfb">  403</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="background_8h.html#a00671918b35ab20db7b3f6b71015ccfb">bgSetWindowsRegions</a>(u8 bgNumber, u8 winNumber, u8 xLeft, u8 xRight);</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span> </div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span><span class="preprocessor">#endif </span><span class="comment">// SNES_BACKGROUND_INCLUDE</span></div>
 <div class="ttc" id="abackground_8h_html_a00671918b35ab20db7b3f6b71015ccfb"><div class="ttname"><a href="background_8h.html#a00671918b35ab20db7b3f6b71015ccfb">bgSetWindowsRegions</a></div><div class="ttdeci">void bgSetWindowsRegions(u8 bgNumber, u8 winNumber, u8 xLeft, u8 xRight)</div><div class="ttdoc">Define a region on screen where map / sprite can be disable.</div></div>
 <div class="ttc" id="abackground_8h_html_a0206b5b9911749322bcf9da130527924"><div class="ttname"><a href="background_8h.html#a0206b5b9911749322bcf9da130527924">bgSetGfxPtr</a></div><div class="ttdeci">void bgSetGfxPtr(u8 bgNumber, u16 address)</div><div class="ttdoc">Definition of each background address.</div></div>
 <div class="ttc" id="abackground_8h_html_a11dd1e9472913ffd176d125c33a93af0"><div class="ttname"><a href="background_8h.html#a11dd1e9472913ffd176d125c33a93af0">bg3gfxaddr</a></div><div class="ttdeci">u16 bg3gfxaddr</div><div class="ttdoc">Definition of each background address.</div></div>
@@ -277,6 +288,7 @@ $(document).ready(function(){initNavTree('background_8h_source.html',''); initRe
 <div class="ttc" id="abackground_8h_html_a5a1dd9dbfeb3ada41ca93bff2b46b99b"><div class="ttname"><a href="background_8h.html#a5a1dd9dbfeb3ada41ca93bff2b46b99b">bg2gfxaddr</a></div><div class="ttdeci">u16 bg2gfxaddr</div><div class="ttdoc">Definition of each background address.</div></div>
 <div class="ttc" id="abackground_8h_html_a75891c2ac9e1087a9494e924b137eec4"><div class="ttname"><a href="background_8h.html#a75891c2ac9e1087a9494e924b137eec4">bgSetEnable</a></div><div class="ttdeci">void bgSetEnable(u8 bgNumber)</div><div class="ttdoc">Enable a BG in the actual SNES mode.</div></div>
 <div class="ttc" id="abackground_8h_html_aa5e0112ea2d4b514c2dddc6ed2c7c3c7"><div class="ttname"><a href="background_8h.html#aa5e0112ea2d4b514c2dddc6ed2c7c3c7">bgSetScroll</a></div><div class="ttdeci">void bgSetScroll(u8 bgNumber, u16 x, u16 y)</div><div class="ttdoc">Sets the scroll hardware to the specified location.</div></div>
+<div class="ttc" id="abackground_8h_html_ab7734664860165c8533b68b70429fd83"><div class="ttname"><a href="background_8h.html#ab7734664860165c8533b68b70429fd83">bgInitMapTileSet7lz</a></div><div class="ttdeci">void bgInitMapTileSet7lz(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 tileSize, u16 address)</div><div class="ttdoc">Initializes a Tile &amp; Map Set and Loads the Tiles compressed with LZ algo into VRAM &amp; Map GFX into VRA...</div></div>
 <div class="ttc" id="abackground_8h_html_acc385296e159449a81d18f5e219c8032"><div class="ttname"><a href="background_8h.html#acc385296e159449a81d18f5e219c8032">bgInitMapSet</a></div><div class="ttdeci">void bgInitMapSet(u8 bgNumber, u8 *mapSource, u16 mapSize, u8 sizeMode, u16 address)</div><div class="ttdoc">Initializes a Map Set and loads it into SNES VRAM.</div></div>
 <div class="ttc" id="abackground_8h_html_ad690bfa1333baa15818c1f4bb9a530fc"><div class="ttname"><a href="background_8h.html#ad690bfa1333baa15818c1f4bb9a530fc">bg1gfxaddr</a></div><div class="ttdeci">u16 bg1gfxaddr</div><div class="ttdoc">Definition of each background address.</div></div>
 <div class="ttc" id="abackground_8h_html_ae09a7ac09be78eef0f28a6c7aabc82ad"><div class="ttname"><a href="background_8h.html#ae09a7ac09be78eef0f28a6c7aabc82ad">bgInitTileSet</a></div><div class="ttdeci">void bgInitTileSet(u8 bgNumber, u8 *tileSource, u8 *tilePalette, u8 paletteEntry, u16 tileSize, u16 paletteSize, u16 colorMode, u16 address)</div><div class="ttdoc">Initializes a Tile Set and Loads the Tile GFX into VRAM.</div></div>
@@ -292,7 +304,7 @@ $(document).ready(function(){initNavTree('background_8h_source.html',''); initRe
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="background_8h.html">background.h</a></li>
-    <li class="footer">Generated on Sun Dec 28 2025       Generated on Sun Dec 28 2025 07:27:53 for PVSnesLib by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>
