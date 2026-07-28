@@ -250,7 +250,7 @@ endif
 
 cleanRom:
 	@echo clean rom
-	@rm -f $(ROMNAME).sfc $(ROMNAME).sym
+	@rm -f $(ROMNAME).sfc $(ROMNAME).sym $(ROMNAME).symfull
 
 cleanGfx:
 	@echo clean graphics data
