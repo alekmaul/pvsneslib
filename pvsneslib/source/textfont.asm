@@ -70,6 +70,10 @@ vwf_dt_plane                  DW
 vwf_dt_tmp                    DW
 vwf_dt_lineByte               DW                                    ; the line index, 0..(VWF_MAXLINES-1)
 
+.ENDS
+
+.RAMSECTION ".reg_ftxt" BANK $7E SLOT RAMSLOT_0
+
 scr_txt_dirty                 DB                                    ; 1 if we need to refresh screen
 txt_pal_adr                   DB                                    ; text attribute (palette, high priority ...)
 txt_vram_bg                   DW                                    ; vram address of BG for text
