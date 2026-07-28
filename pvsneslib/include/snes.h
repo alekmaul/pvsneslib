@@ -152,15 +152,15 @@
     \example systems/objects/nogravityobject/nogravityobjects.c
 
     <!-- debugging -->
-    \example systems/debug/debug.c
+    \example systems/debug/src/debug.c
     \example systems/breakpoints/src/breakpoints.c
 
     <!-- sram -->
-    \example systems/sram/sramoffset/sramoffset.c
-    \example systems/sram/sramsimple/sram.c
+    \example systems/sram/sramoffset/src/sramoffset.c
+    \example systems/sram/sramsimple/src/sram.c
 
     <!-- region test, console type and rom type -->
-    \example systems/testregion/testregion.c
+    \example systems/testregion/src/testregion.c
     \example systems/typeconsole/src/pal_ntsc.c
     \example systems/memory_mapping/src/memory_mapping.c
 
@@ -168,9 +168,9 @@
     \example systems/textvwfont/src/textvwfont.c
 
     <!-- misc examples -->
-    \example systems/random/random.c
-    \example systems/scoring/scoring.c
-    \example systems/timer/timer.c
+    \example systems/random/src/random.c
+    \example systems/scoring/src/scoring.c
+    \example systems/timer/src/timer.c
 */
 
 #ifndef SNES_INCLUDE
