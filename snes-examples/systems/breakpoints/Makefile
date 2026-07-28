@@ -7,16 +7,9 @@ export ROMNAME := breakpoints
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
-.PHONY: bitmaps all
+.PHONY: all
 
 #---------------------------------------------------------------------------------
-all: bitmaps $(ROMNAME).sfc
+all: $(ROMNAME).sfc
 
 clean: cleanBuildRes cleanRom cleanGfx
-	
-#---------------------------------------------------------------------------------
-pvsneslibfont.pic: pvsneslibfont.png
-	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFXCONV) -s 8 -o 16 -u 16 -p -i $<
-
-bitmaps : pvsneslibfont.pic

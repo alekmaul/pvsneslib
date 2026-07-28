@@ -7,9 +7,9 @@ export ROMNAME := debug
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
-.PHONY: bitmaps all
+.PHONY: all
 
 #---------------------------------------------------------------------------------
-all: bitmaps $(ROMNAME).sfc
+all: $(ROMNAME).sfc
 
 clean: cleanBuildRes cleanRom
