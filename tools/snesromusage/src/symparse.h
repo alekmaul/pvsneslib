@@ -7,6 +7,7 @@
 #include <ctype.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <errno.h>
 
 #include "errors.h"
 
