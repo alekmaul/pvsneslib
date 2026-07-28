@@ -7,10 +7,10 @@ export ROMNAME := typeconsole
 
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
-.PHONY: bitmaps all
+.PHONY: all
 
 #---------------------------------------------------------------------------------
-all: bitmaps $(ROMNAME).sfc
+all: $(ROMNAME).sfc
 	$(SNTOOLS) -hi! $(GTITLE) $(ROMNAME).sfc
 	cp $(ROMNAME).sfc $(ROMNAME)_ntsc.sfc
 	$(SNTOOLS) -hi! -hS! $(GTITLE) -hc03 $(ROMNAME).sfc
@@ -18,10 +18,3 @@ all: bitmaps $(ROMNAME).sfc
 
 clean: cleanBuildRes cleanRom cleanGfx
 	@rm -f $(ROMNAME)_*.sfc
-
-#---------------------------------------------------------------------------------
-pvsneslibfont.pic: pvsneslibfont.bmp
-	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFXCONV) -s 8 -o 2 -u 16 -p -t bmp -i $<
-
-bitmaps : pvsneslibfont.pic
