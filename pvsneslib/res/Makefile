@@ -27,8 +27,9 @@ pvsl_font.pic: pvsl_font.png
 	@cat pvslfont_pic.asm >> pvsl_font_data.asm
 	@echo copying pvsl_font asm in source ...
 	@cp pvsl_font_data.asm ../source/
+	@rm -f pvsl_font.inc pvslfont_pic.asm pvslfont_pal.asm pvslfont_pic.bin pvslfont_pal.bin pvsl_font_data.as
 
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -f pvsl_font.pic pvsl_font.pal pvsl_font.inc pvsl_font_data.asm pvsl_font_pic.asm pvsl_font_pal.asm
+	@rm -f pvslfont_pic.asm pvslfont_pal.asm pvslfont_pic.bin pvslfont_pal.bin pvsl_font.inc pvsl_font_data.asm pvsl_font_data.as
