@@ -152,9 +152,9 @@ int main(int argc, char **argv)
     unsigned int i, j;
     int k;
     int varOffs, varSize = 0, varsMoved, bytesMoved, ch, currSection;
-    char cFilebase[256]   = "";
-    char asmFilebase[256] = "";
-    char outFilebase[256] = "";
+    string cFilebase;
+    string asmFilebase;
+    string outFilebase;
 
     // parse the arguments
     sectName.clear();
@@ -197,40 +197,40 @@ int main(int argc, char **argv)
             }
 
             // its not an option flag, so it must be the filenames
-            if (cFilebase[0] != 0) // if already defined... check other file
+            if (!cFilebase.empty()) // if already defined... check other file
             {
-                if (asmFilebase[0] != 0) // if already defined... check other file
+                if (!asmFilebase.empty()) // if already defined... check other file
                 {
-                    if (outFilebase[0] != 0) // if already defined... problem :/
+                    if (!outFilebase.empty()) // if already defined... problem :/
                     {
                         PrintOptions(argv[k]);
                         return 1;
                     }
                     else
-                        strcpy(outFilebase, argv[k]);
+                        outFilebase = argv[k];
                 }
                 else
-                    strcpy(asmFilebase, argv[k]);
+                    asmFilebase = argv[k];
             }
             else
-                strcpy(cFilebase, argv[k]);
+                cFilebase = argv[k];
         }
     } // for(k=1;k<argc;k++)
 
     // check filenames
-    if (cFilebase[0] == 0)
+    if (cFilebase.empty())
     {
         printf("\nconstify: error 'You must specify a c source filename'");
         PrintOptions("");
         exit(1);
     }
-    if (outFilebase[0] == 0)
+    if (outFilebase.empty())
     {
         printf("\nconstify: error 'You must specify an output source filename'");
         PrintOptions("");
         exit(1);
     }
-    if (asmFilebase[0] == 0)
+    if (asmFilebase.empty())
     {
         printf("\nconstify: error 'You must specify an asm output source filename'");
         PrintOptions("");
@@ -238,10 +238,10 @@ int main(int argc, char **argv)
     }
 
     // Find all const variables that and store them in constVars
-    cFile = fopen(cFilebase, "rb");
+    cFile = fopen(cFilebase.c_str(), "rb");
     if (cFile == NULL)
     {
-        printf("\nconstify: error 'Cannot open file %s'\n", cFilebase);
+        printf("\nconstify: error 'Cannot open file %s'\n", cFilebase.c_str());
         exit(1);
     }
     oneLine.clear();
@@ -272,16 +272,16 @@ int main(int argc, char **argv)
     }
     fclose(cFile);
 
-    asmFile = fopen(asmFilebase, "rb");
+    asmFile = fopen(asmFilebase.c_str(), "rb");
     if (asmFile == NULL)
     {
-        printf("\nconstify: error 'Cannot open file %s'\n", asmFilebase);
+        printf("\nconstify: error 'Cannot open file %s'\n", asmFilebase.c_str());
         exit(1);
     }
-    outFile = fopen(outFilebase, "wb");
+    outFile = fopen(outFilebase.c_str(), "wb");
     if (outFile == NULL)
     {
-        printf("\nconstify: error 'Cannot create file %s'\n", outFilebase);
+        printf("\nconstify: error 'Cannot create file %s'\n", outFilebase.c_str());
         exit(1);
     }
 

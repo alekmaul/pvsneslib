@@ -58,13 +58,10 @@ jobs:
       - name: Install dependencies for MacOS
         if: matrix.name == 'darwin'
         run: |
-          brew update
-          brew upgrade
-          rm -f '/usr/local/bin/2to3'
-          brew install doxygen
-          brew install gnu-sed
-          sudo ln -s /usr/local/bin/gcc-12 /usr/local/bin/gcc
-          sudo ln -s /usr/local/bin/g++-12 /usr/local/bin/g++
+          export HOMEBREW_NO_REQUIRE_TAP_TRUST=1
+          brew update || true
+          brew install doxygen zip || true
+          # Xcode Command Line Tools provides the compiler
 
       # ------------------------------------ #
       # Checkout the project                 #
@@ -94,7 +91,6 @@ jobs:
         if: (matrix.name == 'darwin')
         run: |
           export PVSNESLIB_HOME=$(pwd)
-          export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
           make release | tee pvsneslib_release_${{ matrix.name }}.log
 
       # ------------------------------------ #

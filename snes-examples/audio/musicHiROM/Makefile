@@ -2,7 +2,8 @@ ifeq ($(strip $(PVSNESLIB_HOME)),)
 $(error "Please create an environment variable PVSNESLIB_HOME by following this guide: https://github.com/alekmaul/pvsneslib/wiki/Installation")
 endif
 
-HIROM := 1
+# Tell the compiler to export a Mode 21 (HiROM) memory mapped ROM
+HIROM = 1
 
 # BEFORE including snes_rules :
 # list in AUDIOFILES all your .it files in the right order. It will build to generate soundbank file
@@ -10,14 +11,14 @@ AUDIOFILES := res/whatislove.it
 # then define the path to generate soundbank data. The name can be different but do not forget to update your include in .c file !
 export SOUNDBANK := res/soundbank
 
+# ROMNAME is used in snes_rules file
+export ROMNAME := musicHiROM
+
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 .PHONY: bitmaps all
 
 #---------------------------------------------------------------------------------
-# ROMNAME is used in snes_rules file
-export ROMNAME := musicHiROM
-
 # to build musics, define SMCONVFLAGS with parameters you want, for HiROM use -i
 SMCONVFLAGS	:= -s -o $(SOUNDBANK) -i -V -b 3
 musics: $(SOUNDBANK).obj

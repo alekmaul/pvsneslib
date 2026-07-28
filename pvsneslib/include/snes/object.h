@@ -81,7 +81,7 @@ typedef struct
     u8 sprrefresh;                    /*!< 55 if object needs sprite to be refresh */
     u8 onscreen;                      /*!< 56 to know if object is on screen or not */
     u8 objnotused[7];                 /*!<  OB_SIZE-55-1 for future use */
-} t_objs __attribute__((__packed__)); // seems to do nothing :/
+} t_objs;  // __attribute__((__packed__)); // seems to do nothing :/
 
 extern u16 objptr;   /*!< \brief pointer to current object */
 extern u8 objtokill; /*!< \brief put 1 in variable to kill current object */

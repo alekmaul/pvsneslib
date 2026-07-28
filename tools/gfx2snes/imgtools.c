@@ -670,7 +670,7 @@ extern int Convert2PicLZ77(int quietmode, unsigned char *bufin, int buflen, unsi
 int Convert2Pic(char *filebase, unsigned char *buffer,
                 int num_tiles, int blank_absent, int colors, int packed, int lzsspacked)
 {
-    char filename[80];
+    char filename[256];
     int x, y, t, b;
     int i, j;
     int bitplanes;
@@ -681,9 +681,9 @@ int Convert2Pic(char *filebase, unsigned char *buffer,
     FILE *fp;
 
     if (packed)
-        sprintf(filename, "%s.pc7", filebase);
+        snprintf(filename, sizeof(filename), "%s.pc7", filebase);
     else
-        sprintf(filename, "%s.pic", filebase);
+        snprintf(filename, sizeof(filename), "%s.pic", filebase);
 
     if (quietmode == 0)
         printf("\ngfx2snes: 'Saving graphics file: [%s]'", filename);

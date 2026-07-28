@@ -2,17 +2,20 @@ ifeq ($(strip $(PVSNESLIB_HOME)),)
 $(error "Please create an environment variable PVSNESLIB_HOME by following this guide: https://github.com/alekmaul/pvsneslib/wiki/Installation")
 endif
 
-include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
-
-.PHONY: bitmaps all
-
-#---------------------------------------------------------------------------------
 # ROMNAME is used in snes_rules file
 export ROMNAME := Mode7Perspective
 
-all: bitmaps $(ROMNAME).sfc
+include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
-clean: cleanBuildRes cleanRom cleanGfx
+#---------------------------------------------------------------------------------
+# Force the build to go through a wrapper. Instead of running 'make' directly, we define a custom rule
+.PHONY: all cleanLogs
+
+all: cleanLogs buildWithSummary
+
+buildActual: bitmaps $(OBJS) $(ROMNAME).sfc
+	
+clean: cleanBuildRes cleanRom cleanGfx cleanLogs
 
 #---------------------------------------------------------------------------------
 ground.pc7	: ground.png
@@ -25,5 +28,3 @@ sky.pic	: sky.png
 	
 bitmaps : ground.pc7 sky.pic
 
-#---------------------------------------------------------------------------------
-$(OUTPUT).sfc	: $(OFILES)

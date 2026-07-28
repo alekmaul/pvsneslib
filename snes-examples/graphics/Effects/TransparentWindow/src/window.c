@@ -95,14 +95,14 @@ void createTransparentWindow(u8 x, u8 y, u8 width, u8 height, u8 bgNumber, u8 co
     // Activate Window1 on bgNumber (see: REG_W12SEL)
     switch(bgNumber) {
         case 0:
-            setModeHdmaWindow(MSWIN_BG1, 
+            setModeHdmaWindow(HDMA_CHANNEL4 | HDMA_CHANNEL5, MSWIN_BG1, 
                 MSWIN1_BG1MSKENABLE, 
                 (u8 *) &hdmaTableLeft, 
                 (u8 *) &hdmaTableRight);
             break;
 
         case 1:
-            setModeHdmaWindow(MSWIN_BG2, 
+            setModeHdmaWindow(HDMA_CHANNEL4 | HDMA_CHANNEL5, MSWIN_BG2, 
                 MSWIN1_BG2MSKENABLE, 
                 (u8 *) &hdmaTableLeft, 
                 (u8 *) &hdmaTableRight);

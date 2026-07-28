@@ -1,107 +1,124 @@
-# A library to code in C or ASM for the Nintendo SNES #
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/license/mit/) [![Discord](https://img.shields.io/badge/chat-on%20discord-blue.svg)](https://discord.com/channels/@me)
+# PVSnesLib
 
+**P**rogrammer **V**aluable **Snes** **Lib**rary — a small, open, and free development kit for coding Nintendo SNES games in C (or assembly).
 
-**PVSnesLib** (**P**rogrammer **V**aluable **Snes** **Lib**rary) is an open and free library to develop programs for the Nintendo SNES using the C programming language.
-
-Created initially for the 20th birthday of the Nintendo SNES (2012) and based on Ulrich Hecht [SDK](http://code.google.com/p/snes-sdk/), it has been evolved a lot and is now mainly coded in assembler for performances reasons. It is also directly usable in asm for those who do not want to use C language but without rewriting everything from scratch.
-
-It contains a snes-sdk compiler / linker and a library (sources included) which offer facilities to use backgrounds / sprites / pads / music & sound on the Nintendo SNES system.
-It also contains examples which demonstrate how to use the functions in the library.
-
-# Before getting started #
-First, you need to know that PVSnesLib uses the C language (assembly is possible and highly recommended for some speed aspects). It's highly recommended to be familiar with C programming before trying to develop with PVSnesLib. Learning C language at same time as learning Super Nintendo programming is definitely too difficult and you will end up getting nowhere. It's also important to have a good knowledge of the Super Nintendo hardware.
-
-Here are good entry points to know how Super Nintendo works:
-
-- [**SFC Development Wiki**](https://wiki.superfamicom.org/)
-- [**SNESdev Wiki**](https://snes.nesdev.org/wiki/SNESdev_Wiki)
-- [**Super NES Programming**](https://en.wikibooks.org/wiki/Super_NES_Programming/)
-
-# Current release #
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/license/mit/)
+[![Discord](https://img.shields.io/badge/chat-on%20discord-blue.svg)](https://discord.gg/DzEFnhB)
 [![Current Release](https://img.shields.io/github/v/release/alekmaul/pvsneslib?label=Current%20Release)](https://github.com/alekmaul/pvsneslib/releases/latest)
-![Downloads](https://img.shields.io/github/downloads/alekmaul/pvsneslib/total?label=Total%20Downloads)
+[![Downloads](https://img.shields.io/github/downloads/alekmaul/pvsneslib/total?label=Total%20Downloads)](https://github.com/alekmaul/pvsneslib/releases)
+[![Build](https://github.com/alekmaul/pvsneslib/actions/workflows/pvsneslib_build_package.yml/badge.svg?branch=develop)](https://github.com/alekmaul/pvsneslib/actions/workflows/pvsneslib_build_package.yml)
+
+PVSnesLib bundles a compiler/linker toolchain and a library (with full source) that gives you ready-made functions for backgrounds, sprites, controller input, and music/sound on real SNES hardware — plus example projects that show how it all fits together. 
+
+It was started for the SNES's 20th anniversary in 2012, building on Ulrich Hecht's earlier SNES [SDK](http://code.google.com/p/snes-sdk/), and has since grown into a mostly assembler-optimized library that's just as usable directly from asm if you'd rather skip C entirely.  
+
+## Table of contents
+
+- [Features](#features)
+- [Quickstart](#quickstart)
+- [Before you start](#before-you-start)
+- [Installation](#installation)
+- [Building from source / Docker](#building-from-source--docker)
+- [Editor integration](#editor-integration)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [Made with PVSnesLib](#made-with-pvsneslib)
+- [Support the project](#support-the-project)
+- [Special thanks](#special-thanks)
+
+## Features
+
+- **Backgrounds** — tile and map loading, multiple BG modes
+- **Sprites** — OAM management helpers for animated sprites
+- **Input** — controller/pad and mouse/superscope reading
+- **Sound & music** — SPC700 audio driver integration
+- **Toolchain included** — C compiler (816-tcc) and linker, no separate install needed
+- **C or assembly** — write your whole game in C, drop into asm where you need the speed, or skip C altogether
+- **HiROM / FastROM support**
+- **Cross-platform** — prebuilt releases for Windows, Linux, and macOS
+- **Example projects** included, covering common techniques (including a Mode 7 demo and a full map/platformer engine example)
+
+## Quickstart
+
+Get a project compiling before you dive into the details.
+
+1. **Download** the release for your OS from [the latest release page](https://github.com/alekmaul/pvsneslib/releases/latest), and unzip it.
+2. **Set the environment variable** the toolchain expects (adjust the path to where you unzipped it):
+
+   ```bash
+   export PVSNESLIB_HOME="/path/to/pvsneslib"
+   ```
+
+3. **Write the classic Hello World**, following [this tutorial](https://github.com/alekmaul/pvsneslib/wiki/Compiling-helloworld-example).
 
 
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.3.0/pvsneslib_430_64b_windows_release.zip"><img src="https://img.shields.io/badge/Windows-97C40F?style=for-the-badge&logo=windows&logoColor=white" alt="PVSnesLib Windows Release"></a> 
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.3.0/pvsneslib_430_64b_linux_release.zip"><img src="https://img.shields.io/badge/Linux-F48041?style=for-the-badge&logo=linux&logoColor=white" alt="PVSnesLib Linux Release"></a>
-<a href="https://github.com/alekmaul/pvsneslib/releases/download/4.3.0/pvsneslib_430_64b_darwin_release.zip"><img src="https://img.shields.io/badge/mac%20os-0E7FC0?style=for-the-badge&logo=apple&logoColor=white" alt="PVSnesLib MacOS Release"></a>
+For the full walkthrough — Makefile setup, folder layout, and flashing to real hardware — see the [Wiki](https://github.com/alekmaul/pvsneslib/wiki).
 
-To install the library, please download the latest [release](https://github.com/alekmaul/pvsneslib/releases/latest) or with the link below and follow instructions on the [Wiki pages](https://github.com/alekmaul/pvsneslib/wiki).
+## Before you start
 
-You can also see the [documentation](https://alekmaul.github.io/pvsneslib/) generated from sources.
+PVSnesLib assumes you're **already comfortable with C**. Trying to learn C and SNES programming at the same time will slow you down a lot — get comfortable with C first. A **solid grasp of the SNES hardware** itself also goes a long way. Good starting points:
 
-# Visual Studio Code #
+- [SFC Development Wiki](https://wiki.superfamicom.org/)
+- [SNESdev Wiki](https://snes.nesdev.org/wiki/SNESdev_Wiki)
+- [Super NES Programming (Wikibooks)](https://en.wikibooks.org/wiki/Super_NES_Programming/)
 
-You can find a Visual Studio Code template in the [vscode-template](https://github.com/alekmaul/pvsneslib/tree/master/vscode-template) folder to help PVSnesLib integration with it.
+## Installation
 
-# Build status #
+Prebuilt releases are available for:
 
-[![PVSNESLIB Build and Package](https://github.com/alekmaul/pvsneslib/actions/workflows/pvsneslib_build_package.yml/badge.svg?branch=develop)](https://github.com/alekmaul/pvsneslib/actions/workflows/pvsneslib_build_package.yml)
+[![Windows](https://img.shields.io/badge/Windows-download-blue?logo=windows)](https://github.com/alekmaul/pvsneslib/releases/download/4.6.0/pvsneslib_460_64b_windows_release.zip)
+[![Linux](https://img.shields.io/badge/Linux-download-orange?logo=linux)](https://github.com/alekmaul/pvsneslib/releases/download/4.6.0/pvsneslib_460_64b_linux_release.zip)
+[![macOS](https://img.shields.io/badge/macOS-download-lightgrey?logo=apple)](https://github.com/alekmaul/pvsneslib/releases/download/4.6.0/pvsneslib_460_64b_darwin_release.zip)
 
-You can find with the link below the last stable builds of PVSnesLib. They are development builds, you can have bugs not yet resolved with them.
+Download the archive for your platform, unzip it, and follow the setup steps on the [Wiki](https://github.com/alekmaul/pvsneslib/wiki).  
 
-# Dependencies and Docker #
+Generated API documentation is also available [here](https://alekmaul.github.io/pvsneslib/).
 
-PVSnesLib works on Windows, Linux and MacOS systems.
+## Building from source / Docker
 
-For people who cannot work with the current builds of PVSneslib, you can build your docker image by following instructions available in the docker folder. Please see [this wiki page](https://github.com/alekmaul/pvsneslib/wiki/Compiling-from-sources) to get all required dependencies.
+Prebuilt releases not working for your setup? You can build PVSnesLib from source.
 
+- On Windows, you'll need a unix-like environment such as **msys2**.
+- A ready-to-use **Docker image** is provided — see the [docker](https://github.com/alekmaul/pvsneslib/tree/master/docker)  folder for build instructions.
+- Full dependency list and build steps: [Compiling from sources (Wiki)](https://github.com/alekmaul/pvsneslib/wiki/Compiling-from-sources)
 
-To use it, you will need at least :
+PVSnesLib supports Windows, Linux, and macOS.
 
-- a unix-like environment like msys2 if you work on Windows
+## Editor integration
 
-If you want to compile the whole project, please see [this wiki page](https://github.com/alekmaul/pvsneslib/wiki/Compiling-from-sources) to get all required dependencies.
+A Visual Studio Code template is available in [vscode-template](https://github.com/alekmaul/pvsneslib/tree/master/vscode-template) to get syntax highlighting, build tasks, and debugging set up quickly.
 
+## Documentation
 
-# Contribution #
+- [API documentation](https://alekmaul.github.io/pvsneslib/) (generated from source)
+- [Project Wiki](https://github.com/alekmaul/pvsneslib/wiki) — setup, build details, and guides
+- [Discord community](https://discord.gg/DzEFnhB) — ask questions, share your project
 
-[GitHub project](https://github.com/alekmaul/pvsneslib)
+## Contributing
 
-To discuss about the library, your project or to request help, join us on [Discord](https://discord.gg/DzEFnhB).
+Bug reports, pull requests, and discussion are all welcome on the [GitHub project](https://github.com/alekmaul/pvsneslib) or on [Discord](https://discord.gg/DzEFnhB).
 
-PVSneslib and affiliated tools are distributed under the MIT license (see [pvsneslib_license](https://github.com/alekmaul/pvsneslib/blob/master/pvsneslib/pvsneslib_license.txt) file).
+PVSnesLib and its affiliated tools are distributed under the MIT license — see [`pvsneslib_license`](https://github.com/alekmaul/pvsneslib/blob/master/pvsneslib/pvsneslib_license.txt).
 
-# Support PVSneslib #
+## Made with PVSnesLib
 
-PVSneslib is free but you can donate to support its development:<br> <br>
-[![Paypal](https://www.paypalobjects.com/fr_FR/FR/i/btn/x-click-but04.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5USKF23DQVLC)
+A few of the games built on PVSnesLib *(non-exhaustive)*:
 
-# Powered by PVSneslib #
+|  |  |  |
+|:---:|:---:|:---:|
+|![Yo-Yo Shuriken](https://github.com/alekmaul/pvsneslib/raw/master/pvsneslib/docs/images/yoyoshuriken.gif) |![Eyra](https://github.com/alekmaul/pvsneslib/raw/master/pvsneslib/docs/images/eyra.gif) |![Sydney Hunter](https://github.com/alekmaul/pvsneslib/raw/master/pvsneslib/docs/images/sydneycod.gif) |
+| **Yo-Yo Shuriken** — [Dr. Ludos](https://drludos.itch.io/yo-yo-shuriken) | **Eyra** — [Second Dimension](https://www.second-dimension.com/store/eyra-the-crow-maiden-snes) | **Sydney Hunter** — [CollectorVision](https://collectorvision.com/store/shop/snes/snes-sydney-hunter-the-caverns-of-death-pal/) |
 
-These projects are based on PVSnesLib _(non-exhaustive list)_:
+## Support the project
 
-![alt text](pvsneslib/docs/images/yoyoshuriken.gif)
+PVSnesLib is free to use. If it's been useful to you and help you create a game, consider supporting development.   
 
-Yo-Yo Shuriken by [Dr. Ludos](https://drludos.itch.io/yo-yo-shuriken)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-yellow?logo=paypal)](https://paypal.me/GIRARD996)
 
-![alt text](pvsneslib/docs/images/eyra.gif)
+## Special thanks
 
-Eyra by [Second Dimension](https://www.second-dimension.com/store/eyra-the-crow-maiden-snes)
+PVSnesLib exists thanks to a long list of contributors and tool authors — from toolchain maintainers and optimizers to the artists behind the intro logo and everyone active on [Discord](https://discord.gg/DzEFnhB). 
 
-![alt text](pvsneslib/docs/images/sydneycod.gif)
+See the project's commit history and Discord community for the full cast of people who've helped it grow.
 
-Sydney Hunter by [CollectorVision](https://collectorvision.com/store/shop/snes/snes-sydney-hunter-the-caverns-of-death-pal/)
-
-
-# Special thanks #
-
-- [**RetroAntho**](https://github.com/RetroAntho) for his great help to move wla-dx to last version and also for all compilation optimizations in Makefile, snes_rules and, at least, for keeping me motivated to update PVSnesLib 😉.
-- [**Kobenairb**](https://github.com/kobenairb/) for the port of python optimiser to c version, docker images, building scripts harmonisation and cleaning and the tcc-816 upgrade.
-- [**Digifox**](https://github.com/malayli) and **lunoka** for their work on the intro logo.
-- **Ulrich Hecht** for [SNES C SDK](http://code.google.com/p/snes-sdk/).
-- **Byuu** for [bass](http://byuu.org/programming/), the assembler with SPC700 support.
-- **Mic_** for 816-tcc, [sixpack](http://jiggawatt.org/badc0de/sixpack/), [optimore](http://jiggawatt.org/optimore-816r2.zip) and constify.
-- **Neviksti** for pcx2snes.
-- [**Shiru**](http://shiru.untergrund.net/) for snesbmp idea & sound tools.
-- [**Mukunda**](http://snes.mukunda.com/) for smconv tool.
-- **RedBug** for constify tcc bug fix and tips for Linux and Docker.
-- [**Mills32**](https://github.com/mills32/) for his mode7 3D example.
-- [**N_Arno**](https://github.com/nArnoSNES/) for his help on Linux version.
-- [**DigiDwrf**](https://github.com/DigiDwrf/) for hirom / fastrom support and also mouse & superscope support.
-- [**undisbeliever**](https://github.com/undisbeliever/castle_platformer/) for the great update to vblank code and the map engine example.
-
-And, of course, all the [**discord community**](https://discord.gg/DzEFnhB) !
-
-Thanks !
+Thanks!

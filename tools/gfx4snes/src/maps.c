@@ -575,9 +575,9 @@ void map_save (const char *filename, unsigned short *map,int snesmode, int nbtil
 		fatal("can't allocate memory for map filename");
 	}
 	if (snesmode==7)
-        sprintf(outputname,"%s.mp7",filename);
+        snprintf(outputname, FILENAME_MAX, "%s.mp7", filename);
 	else
-        sprintf(outputname,"%s.map",filename);
+        snprintf(outputname, FILENAME_MAX, "%s.map", filename);
 
 	if (!isquiet) {
         if (priority) info("saving map file [%s] of (%dx%d) tiles with offset %d and high priority...",outputname,nbtilex,nbtiley,tileoffset);
@@ -618,7 +618,3 @@ void map_save (const char *filename, unsigned short *map,int snesmode, int nbtil
 	fclose(fp);
 	free (outputname);
 }
-
-// for flipping
-// https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-support/png2asset/tiles.cpp#L17
-// add near line 200

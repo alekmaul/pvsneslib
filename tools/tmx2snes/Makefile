@@ -1,50 +1,53 @@
 # Set version and date strings for the build
-VERSION    := 1.0.1
+VERSION    := 1.1.0
 DATESTRING := $(shell date +%Y%m%d)
 
 # Set the C compiler to use and the compiler flags
 CC     := gcc
 CFLAGS := -g -O2 -Wall -Wno-implicit-function-declaration -Wno-unused-result -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-# Identify the source files and object files to be used in the build
-SOURCES := $(wildcard *.c)
-OBJS    := $(SOURCES:%.c=%.o)
+# Define the libraries and compilation flags to be used depending on the OS.
+ifeq ($(shell uname),Darwin)
+	EXT     :=
+else ifeq ($(OS),Windows_NT)
+    CFLAGS  += -static
+	EXT     :=.exe
+else
+	CFLAGS 	+= -static
+	EXT     :=
+endif
 
-# Define the name of the executable and the file extension to use
+# Source and object file locations
+SRC := src
+OBJ := build
+SOURCES := $(wildcard $(SRC)/*.c)
+OBJS    := $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SOURCES))
+
+# Executable binary file name
 EXE     := tmx2snes
 
-ifeq ($(OS),Windows_NT)
-	EXT := .exe
-else
-	EXT :=
-endif
-
-# Define the targets to be built
+# Define the default target
 all: $(EXE)$(EXT)
 
-# Define the libraries to be used depending on the OS
-UNAME := $(shell uname -s)
-ifneq ($(UNAME), Darwin)
-	CFLAGS += -static
-endif
-
-# Define the rule to compile object files from source files
-$(EXE)$(EXT) : $(OBJS)
-	@echo "Linking $@"
+# Define the recipe for linking the executable
+$(EXE)$(EXT): $(OBJS)
+	@echo "Linking $<"
 	$(CC) $(CFLAGS) $(OBJS) -o $@
 
-# Define the rule to compile object files from source files
+# Define the recipe for compiling object files
 %.o : %.c
+$(OBJ)/%.o: $(SRC)/%.c
 	@echo "Compiling $<"
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -I$(SRC) -c $< -o $@
 
-# Define the install target to copy the executable to a specified location
-install:
+# Define the install target
+install: $(EXE)$(EXT)
 	@cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
 
-# Define the clean target to remove built files
+# Define the clean target
 clean:
-	@rm -f $(EXE)$(EXT) $(OBJS)
+	rm -rf ${OBJS}
+	rm -f $(EXE)$(EXT)
 
-# Declare the all, clean, and install targets as phony targets
+# Declare the phony targets
 .PHONY: all clean install

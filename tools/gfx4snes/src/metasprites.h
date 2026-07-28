@@ -5,6 +5,7 @@
 #include "common.h"
 
 //-------------------------------------------------------------------------------------------------
-extern void metasprite_save (const char *filename, unsigned short *sprites, int nbtilex, int nbtiley, int blocksize, int metasizex, int metasizey, int metaprio, int imgwidth, int imgheight, bool isquiet);
+//extern void metasprite_save (const char *filename, unsigned short *sprites, int nbtilex, int nbtiley, int blocksize, int metasizex, int metasizey, int metaprio, int metaflip, int imgwidth, int imgheight, bool isquiet);
+extern void metasprite_save (const char *filename, unsigned short *sprites, int nbtilex, int nbtiley, int blocksize, int metasizex, int metasizey, int metaprio, int metaflip, unsigned char *tilebuf, int imgwidth, int imgheight, bool isquiet);
 
 #endif

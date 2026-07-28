@@ -349,6 +349,15 @@ void bgInitTileSetData(u8 bgNumber, u8 *tileSource, u16 tileSize, u16 address);
 */
 void bgInitMapTileSet7(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 tileSize, u16 address);
 
+/**\brief Initializes a Tile & Map Set and Loads the Tiles compressed with LZ algo into VRAM & Map GFX into VRAM for Mode 7
+    \param tileSource	address of tile graphics entry compressed with LZ algo
+    \param mapSource	address of map entry
+    \param tilePalette	address of palette entry
+    \param tileSize	size of tile graphics
+    \param address	address of tile graphics (4K aligned)
+*/
+void bgInitMapTileSet7lz(u8 *tileSource, u8 *mapSource, u8 *tilePalette, u16 tileSize, u16 address);
+
 /**\brief Initializes a Map Set and loads it into SNES VRAM
     \param bgNumber	background number (0 to 3, 0xff to not change map pointer)
     \param mapSource	address of map entry

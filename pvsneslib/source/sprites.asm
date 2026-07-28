@@ -24,6 +24,13 @@
 
 .EQU REG_OBSEL					$2101
 
+
+
+.EQU VRAM_COST_8        		6      ; ; VRAM cost per sprite size 8x8 (in bytes, multiple of 6) 1 * 6
+.EQU VRAM_COST_16        		24     ; 4 * 6
+.EQU VRAM_COST_32        		96     ; 16 * 6
+.EQU OAM_ENTRY_SIZE     		6      ; bytes per queue entry
+
 ;.DEFINE GFXSPR0ADR 				$0000						  ; sprite graphics entry #0 & #1 (not used, for information purpose)
 ;.DEFINE GFXSPR1ADR 				$1000   					  ;
 
@@ -34,7 +41,9 @@
 .EQU OBJ_SIZE16_L32				$60							  ; (3<<5) default OAM size 16x16 (SM) and 32x32 (LG) pix for OBJSEL register (used for 16x16 sprite gfx entry)
 
 .EQU OBJ_QUEUELIST_SIZE			128							  ; 128 sprites of 8x8, 16x16 & 32x32 max in queue to update sprite graphics
-.EQU MAXSPRTRF					7*6					  	  	  ; 7 sprites max transferred each time to VRAM
+.EQU MAXSPRTRF					96*6				  	  	  ; 96 sprites max transferred each time to VRAM (safe value if we thing of only 32x32 sprites)
+															  ; 1 8x8 sprite is 32 bytes size to transfert
+															  ; WARNING : 1 32x32 will take 16 entries and 1 16x16 will take 4 entries
 
 .STRUCT t_oam
 oamx							DW							  ;	0 x position on the screen
@@ -62,6 +71,11 @@ oambuffer						INSTANCEOF t_oam 128		  ; oam struct in memory (128 sprites max f
 oamQueueEntry					DSB OBJ_QUEUELIST_SIZE*6	 ; each entry : graphic pointer (0..2), vram address (3..4), sprite size (5)
 
 oamqueuenumber					DW
+oamQueueBytes    			    DW 							  ; Number of bytes currently stored in oamQueueEntry (6 bytes per entry)
+ovquFrameBudget 				DW 							  ; How many VRAM bytes we are allowed to upload this frame
+ovquProcessed   				DW                            ; How many queue bytes we have already consumed this frame
+ovquRemain                      DW                            ; How many queue bytes are left after the budget runs out
+
 
 oamnumberperframe				DW							  ; number of sprite added during current frame (current, old)
 oamnumberperframeold			DW
@@ -820,6 +834,8 @@ lkup32oamS:  ; lookup table for 32x32 sprites in VRAM (16 sprites max $0000->$10
 	.word $2000,$2080,$2100,$2180,$2800,$2880,$2900,$2980,$3000,$3080,$3100,$3180,$3800,$3880,$3900,$3980
 	.word $4000,$4080,$4100,$4180,$4800,$4880,$4900,$4980,$5000,$5080,$5100,$5180,$5800,$5880,$5900,$5980
 	.word $6000,$6080,$6100,$6180,$6800,$6880,$6900,$6980,$7000,$7080,$7100,$7180,$7800,$7880,$7900,$7980
+	.word $8000,$8080,$8100,$8180,$8800,$8880,$8900,$8980,$9000,$9080,$9100,$9180,$9800,$9880,$9900,$9980
+	.word $A000,$A080,$A100,$A180,$A800,$A880,$A900,$A980,$B000,$B080,$B100,$B180,$B800,$B880,$B900,$B980
 lkup32idT:  ; lookup table for 32x32 sprites ID identification
 	.word $0000,$0004,$0008,$000C,$0040,$0044,$0048,$004C,$0080,$0084,$0088,$008C,$00C0,$00C4,$00C8,$00CC
 lkup32idB:  ; lookup table for 32x32 sprites block identification
@@ -859,6 +875,14 @@ lkup8oamS:  ; lookup table for 8x8 sprites in VRAM (128 sprites max $0000->$1000
 	.word $0A00,$0A20,$0A40,$0A60,$0A80,$0AA0,$0AC0,$0AE0,$0B00,$0B20,$0B40,$0B60,$0B80,$0BA0,$0BC0,$0BE0
 	.word $0C00,$0C20,$0C40,$0C60,$0C80,$0CA0,$0CC0,$0CE0,$0D00,$0D20,$0D40,$0D60,$0D80,$0DA0,$0DC0,$0DE0
 	.word $0E00,$0E20,$0E40,$0E60,$0E80,$0EA0,$0EC0,$0EE0,$0F00,$0F20,$0F40,$0F60,$0F80,$0FA0,$0FC0,$0FE0
+	.word $1000,$1020,$1040,$1060,$1080,$10A0,$10C0,$10E0,$1100,$1120,$1140,$1160,$1180,$11A0,$11C0,$11E0
+	.word $1200,$1220,$1240,$1260,$1280,$12A0,$12C0,$12E0,$1300,$1320,$1340,$1360,$1380,$13A0,$13C0,$13E0
+	.word $1400,$1420,$1440,$1460,$1480,$14A0,$14C0,$14E0,$1500,$1520,$1540,$1560,$1580,$15A0,$15C0,$15E0
+	.word $1600,$1620,$1640,$1660,$1680,$16A0,$16C0,$16E0,$1700,$1720,$1740,$1760,$1780,$17A0,$17C0,$17E0
+	.word $1800,$1820,$1840,$1860,$1880,$18A0,$18C0,$18E0,$1900,$1920,$1940,$1960,$1980,$19A0,$19C0,$19E0
+	.word $1A00,$1A20,$1A40,$1A60,$1A80,$1AA0,$1AC0,$1AE0,$1B00,$1B20,$1B40,$1B60,$1B80,$1BA0,$1BC0,$1BE0
+	.word $1C00,$1C20,$1C40,$1C60,$1C80,$1CA0,$1CC0,$1CE0,$1D00,$1D20,$1D40,$1D60,$1D80,$1DA0,$1DC0,$1DE0
+	.word $1E00,$1E20,$1E40,$1E60,$1E80,$1EA0,$1EC0,$1EE0,$1F00,$1F20,$1F40,$1F60,$1F80,$1FA0,$1FC0,$1FE0
 lkup8idT:  ; lookup table for 8x8 sprites ID identification
 	.word $0100,$0101,$0102,$0103,$0104,$0105,$0106,$0107,$0108,$0109,$010A,$010B,$010C,$010D,$010E,$010F
 	.word $0110,$0111,$0112,$0113,$0114,$0115,$0116,$0117,$0118,$0119,$011A,$011B,$011C,$011D,$011E,$011F
@@ -885,6 +909,14 @@ lkup8idB:  ; lookup table for 8x8 sprites block identification
 	.word $0500,$0510,$0520,$0530,$0540,$0550,$0560,$0570,$0580,$0590,$05A0,$05B0,$05C0,$05D0,$05E0,$05F0
 	.word $0600,$0610,$0620,$0630,$0640,$0650,$0660,$0670,$0680,$0690,$06A0,$06B0,$06C0,$06D0,$06E0,$06F0
 	.word $0700,$0710,$0720,$0730,$0740,$0750,$0760,$0770,$0780,$0790,$07A0,$07B0,$07C0,$07D0,$07E0,$07F0
+	.word $0800,$0810,$0820,$0830,$0840,$0850,$0860,$0870,$0880,$0890,$08A0,$08B0,$08C0,$08D0,$08E0,$08F0
+	.word $0900,$0910,$0920,$0930,$0940,$0950,$0960,$0970,$0980,$0990,$09A0,$09B0,$09C0,$09D0,$09E0,$09F0
+	.word $0A00,$0A10,$0A20,$0A30,$0A40,$0A50,$0A60,$0A70,$0A80,$0A90,$0AA0,$0AB0,$0AC0,$0AD0,$0AE0,$0AF0
+	.word $0B00,$0B10,$0B20,$0B30,$0B40,$0B50,$0B60,$0B70,$0B80,$0B90,$0BA0,$0BB0,$0BC0,$0BD0,$0BE0,$0BF0
+	.word $0C00,$0C10,$0C20,$0C30,$0C40,$0C50,$0C60,$0C70,$0C80,$0C90,$0CA0,$0CB0,$0CC0,$0CD0,$0CE0,$0CF0
+	.word $0D00,$0D10,$0D20,$0D30,$0D40,$0D50,$0D60,$0D70,$0D80,$0D90,$0DA0,$0DB0,$0DC0,$0DD0,$0DE0,$0DF0
+	.word $0E00,$0E10,$0E20,$0E30,$0E40,$0E50,$0E60,$0E70,$0E80,$0E90,$0EA0,$0EB0,$0EC0,$0ED0,$0EE0,$0EF0
+	.word $0F00,$0F10,$0F20,$0F30,$0F40,$0F50,$0F60,$0F70,$0F80,$0F90,$0FA0,$0FB0,$0FC0,$0FD0,$0FE0,$0FF0
 
 .ENDS
 
@@ -913,6 +945,7 @@ oamInitDynamicSprite:
 
 	rep #$20
 	stz.w oamqueuenumber				 					  ; init current entry in queue
+	stz.w oamQueueBytes
 
 	stz.w oamnumberperframeold				 				  ; init current oam per frame number
 	stz.w oamnumberperframe
@@ -1009,7 +1042,7 @@ oamInitDynamicSpriteEndFrame:
 	ldx	oamnumberperframe
 	txa
 	cmp oamnumberperframeold
-    bcs _oamIDSEndFrame2				; no, leave the function
+    bcs _oamIDSEndFrame2				; oamnumberperframe is greater than oamnumberperframeold, leave the function
 
 	;	change visibility of old frame sprites
 	phy
@@ -1061,7 +1094,7 @@ _oamIDSEndFrame1:
 _oamIDSEndFrame2:
 	lda oamnumberperframe
 	sta oamnumberperframeold
-    lda #$00
+    lda #$0000
 	sta oamnumberperframe
 
     lda oamnumberspr0Init
@@ -1076,216 +1109,249 @@ _oamIDSEndFrame2:
 
 ;---------------------------------------------------------------------------
 ; void oamVramQueueUpdate(void)
+; avg cyclce 3728, min 484
 oamVramQueueUpdate:
-	php
-	phb
-	phx
-	phy
+		php
+		phb
+		phx
+		phy
 
-	sep	#$20                          						 ; 8bit A
-	lda #$7e
-	pha
-	plb
+		sep	#$20                          						 ; 8bit A
+		lda #$7e
+		pha
+		plb
 
-	ldx oamqueuenumber                 					     ; something to transfer to vram ?
-	bne	_ovqug1
-    jmp _ovqug1z                   	 					     ; no, bye
+        rep     #$20
+        lda     oamQueueBytes                                    ; something to transfer to vram ?
+		bne	_ovquContinue
+		jmp _ovquExit                  	 					     ; no, bye
 
-_ovqug1:
-	lda	#$80
-	sta.l	$2115                     	 					 ; VRAM address increment value designation
+_ovquContinue:													 ; Main routine starts here
+        lda     oamqueuenumber									 ; frameBudget = min(oamqueuenumber, MAXSPRTRF)
+        cmp     #MAXSPRTRF
+        bcc     +
+        lda     #MAXSPRTRF
++       sta     ovquFrameBudget
+        lda     oamqueuenumber									 ; subtract what we will try to send this frame from global cost
+        sec
+        sbc     ovquFrameBudget
+        sta     oamqueuenumber
 
-	rep #$20
-    stz.w oamqueuenumber           						     ; currently, we consider we have enough time for all sprites during frame
-    txa                           							 ; A got now number of data queued
-    cmp #MAXSPRTRF
-    bcc _ovqug1m                    						 ; not the max per frame
-    ldx #MAXSPRTRF                							 ; limit to the max
-    sec
-    sbc  #MAXSPRTRF
-    sta.l oamqueuenumber           						     ; update to continue on next frame
+		lda	#$0080												 ; Setup DMA mode once; Setup DMA mode once
+		sta.l	$2115                     	 					 ; VRAM address increment value designation
 
-_ovqug1m:
-	lda	#$1801
-	sta.l	$4310           								 ; 1= word increment
-	sta.l	$4320           								 ; 1= word increment
-	sta.l	$4330           								 ; 1= word increment
-	sta.l	$4340           								 ; 1= word increment
+		lda	#$1801												 ; --- One-time DMA channel config (word increment, B-bus $18) ---
+		sta.l	$4310           								 ; 1= word increment
+		sta.l	$4320           								 ; 1= word increment
+		sta.l	$4330           								 ; 1= word increment
+		sta.l	$4340           								 ; 1= word increment
 
-	dex								   						 ; only first time, will be done at the end of loop after
+        ldx #0													 ; X = current entry offset (0,6,12,...)
+        stz ovquProcessed
 
-_gfxld8:
-    dex														 ; prepare next entry
-    dex
-    dex
-    dex
-	dex
+_ovquLoop:
+        rep #$20												 ; processed >= queueBytes ? done
+        lda ovquProcessed
+        cmp oamQueueBytes
+        bcc +
+		jmp _ovquAfterLoop
 
-	sep #$20
-	lda.l oamQueueEntry+5,x    							 	 ; get sprite size
-	cmp #OBJ_SPRITE8
-	bne +
-	jmp _ovqu8b												 ; sprite 8x8 transfer to VRAM
-+:	cmp #OBJ_SPRITE16
-	bne _ovqu32b
-	jmp _ovqu16b											 ; sprite 16x16 transfer to VRAM
++:		sep #$20
+		lda.l oamQueueEntry+5,x    							 	 ; get sprite size
+		cmp #OBJ_SPRITE8
+        beq _ovquDo8
+        cmp #OBJ_SPRITE16
+        beq _ovquDo16
+        jmp _ovquDo32											 ; else 32	
 
-_ovqu32b:												     ;-------------------------------------------------
-	rep	#$20												 ; 32x32 sprite transfer to VRAM
-    lda.l oamQueueEntry+3,x   				    			 ; get address
-    sta.l	$2116           								 ; address for VRAM write(or read)
+_ovquDo8:
+        rep #$20												 ; ------------------------------------------------------
+        lda ovquFrameBudget										 ; 8×8 entry
+        sec
+        sbc #VRAM_COST_8
+        bcs +
+		jmp _ovquAfterLoop
++:      sta ovquFrameBudget
 
-    lda.l oamQueueEntry,x      					    		 ; get tileSource (lower 16 bits)
-    sta.l	$4312           								 ; data offset in memory
-    clc
-    adc #$200
-    sta.l	$4322           								 ; data offset in memory
-    clc
-    adc #$200
-    sta.l	$4332           								 ; data offset in memory
-    clc
-    adc #$200
-    sta.l	$4342           								 ; data offset in memory
+		rep	#$20												 ; 8x8 sprite transfer to VRAM
+		lda.l oamQueueEntry+3,x    								 ; get address
+		sta.l	$2116                							 ; address for VRAM write(or read)
 
-    lda #$0080
-    sta.l	$4315           								 ; number of bytes to be copied
-    sta.l	$4325           								 ; number of bytes to be copied
-    sta.l	$4335           								 ; number of bytes to be copied
-    sta.l	$4345           								 ; number of bytes to be copied
+		lda.l oamQueueEntry,x      								 ; get tileSource (lower 8 bits)
+		sta.l	$4322         			 						 ; data offset in memory
 
-    sep #$20             									 ; 8bit A
-    lda.l oamQueueEntry+2,x    						    	 ; get tileSource (bank)
-    sta.l	$4314
-    sta.l	$4324
-    sta.l	$4334
-    sta.l	$4344
+		lda #$0020
+		sta.l	$4325           								 ; number of bytes to be copied
 
-    lda	#$02                  								 ; turn on bit 1 (channel 1) of DMA
-    sta.l	$420b
+		sep	#$20                								 ; 8bit A
+		lda.l oamQueueEntry+2,x    							 	 ; get tileSource (bank)
+		sta.l	$4324
 
-    rep	#$20												 ; second step
-    lda	#$100
-    clc
-    adc.l oamQueueEntry+3,x    					    		 ; get address
-    sta.l	$2116          									 ; address for VRAM write(or read)
-    sep	#$20                								 ; 8bit A
-    lda	#$04                  								 ; turn on bit 2 (channel 2) of DMA
-    sta.l	$420b
+		lda	#$04                  								 ; turn on bit 2 (channel 2) of DMA
+		sta.l	$420b
 
-    rep	#$20												 ; third step
-    lda #$200
-    clc
-    adc.l oamQueueEntry+3,x    			     				 ; get address
-    sta.l	$2116          									 ; address for VRAM write(or read)
-    sep	#$20                								 ; 8bit A
-    lda	#$08                  								 ; turn on bit 3 (channel 3) of DMA
-    sta.l	$420b
+        jmp _ovquAdvance
 
-    rep	#$20												 ; fourth step
-    lda #$300
-    clc
-    adc.l oamQueueEntry+3,x    			    				 ; get address
-    sta.l	$2116           								 ; address for VRAM write(or read)
-    sep	#$20                								 ; 8bit A
-    lda	#$10                  								 ; turn on bit 4 (channel 4) of DMA
-    sta.l	$420b
+_ovquDo16:
+        rep #$20												 ; ------------------------------------------------------
+        lda ovquFrameBudget										 ; 16×16 entry
+        sec
+        sbc #VRAM_COST_16
+        bcs +
+		jmp _ovquAfterLoop
++:      sta ovquFrameBudget
 
-    dex
-	bpl +
-	jmp _ovqug1z0
-+:	beq +
-	jmp _gfxld8
-+:	jmp _ovqug1z0
+		rep	#$20												 ; 16x16 sprite transfer to VRAM
+		lda.l oamQueueEntry+3,x    							 	 ; get address
+		sta.l	$2116                							 ; address for VRAM write(or read)
 
-_ovqu16b:												     ;-------------------------------------------------
-	rep	#$20												 ; 16x16 sprite transfer to VRAM
-    lda.l oamQueueEntry+3,x    							 	 ; get address
-    sta.l	$2116                							 ; address for VRAM write(or read)
-
-    lda.l oamQueueEntry,x      							 	 ; get tileSource (lower 16 bits)
-    sta.l	$4322         			 						 ; data offset in memory
-    clc
-    adc #$200
-    sta.l	$4332           								 ; data offset in memory
+		lda.l oamQueueEntry,x      							 	 ; get tileSource (lower 16 bits)
+		sta.l	$4322         			 						 ; data offset in memory
+		clc
+		adc #$200
+		sta.l	$4332           								 ; data offset in memory
 
 
-    lda #$0040
-    sta.l	$4325           								 ; number of bytes to be copied
-    sta.l	$4335           								 ; number of bytes to be copied
+		lda #$0040
+		sta.l	$4325           								 ; number of bytes to be copied
+		sta.l	$4335           								 ; number of bytes to be copied
 
-    sep	#$20                								 ; 8bit A
-    lda.l oamQueueEntry+2,x    							 	 ; get tileSource (bank)
-    sta.l	$4324
-    sta.l	$4334
+		sep	#$20                								 ; 8bit A
+		lda.l oamQueueEntry+2,x    							 	 ; get tileSource (bank)
+		sta.l	$4324
+		sta.l	$4334
 
-    lda	#$04                  								 ; turn on bit 2 (channel 2) of DMA
-    sta.l	$420b
+		lda	#$04                  								 ; turn on bit 2 (channel 2) of DMA
+		sta.l	$420b
 
-    ; second step
-    rep	#$20
-    lda.l oamQueueEntry+3,x    							 	 ; get address
-    ora #$100
-    sta.l	$2116           								 ; address for VRAM write(or read)
+		; second step
+		rep	#$20
+		lda.l oamQueueEntry+3,x    							 	 ; get address
+		ora #$100
+		sta.l	$2116           								 ; address for VRAM write(or read)
 
-    sep	#$20                								 ; 8bit A
-    lda	#$08                  								 ; turn on bit 3 (channel 3) of DMA
-    sta.l	$420b
+		sep	#$20                								 ; 8bit A
+		lda	#$08                  								 ; turn on bit 3 (channel 3) of DMA
+		sta.l	$420b
+		
+		jmp _ovquAdvance
 
-    dex
-    bmi _ovqug1z0
-	beq +
-	jmp _gfxld8
-+:	jmp _ovqug1z0
+_ovquDo32:														 
+        rep #$20												 ; ------------------------------------------------------
+        lda ovquFrameBudget									 ; 16×16 entry
+        sec
+        sbc #VRAM_COST_32
+        bcs +
+		jmp _ovquAfterLoop
++:      sta ovquFrameBudget
 
-_ovqu8b:													 ;-------------------------------------------------
-    rep	#$20												 ; 8x8 sprite transfer to VRAM
-    lda.l oamQueueEntry+3,x    								 ; get address
-    sta.l	$2116                							 ; address for VRAM write(or read)
+		rep	#$20												 ; 32x32 sprite transfer to VRAM
+		lda.l oamQueueEntry+3,x   				    			 ; get address
+		sta.l	$2116           								 ; address for VRAM write(or read)
 
-    lda.l oamQueueEntry,x      								 ; get tileSource (lower 8 bits)
-    sta.l	$4322         			 						 ; data offset in memory
+		lda.l oamQueueEntry,x      					    		 ; get tileSource (lower 16 bits)
+		sta.l	$4312           								 ; data offset in memory
+		clc
+		adc #$200
+		sta.l	$4322           								 ; data offset in memory
+		clc
+		adc #$200
+		sta.l	$4332           								 ; data offset in memory
+		clc
+		adc #$200
+		sta.l	$4342           								 ; data offset in memory
 
-    lda #$0020
-    sta.l	$4325           								 ; number of bytes to be copied
+		lda #$0080
+		sta.l	$4315           								 ; number of bytes to be copied
+		sta.l	$4325           								 ; number of bytes to be copied
+		sta.l	$4335           								 ; number of bytes to be copied
+		sta.l	$4345           								 ; number of bytes to be copied
 
-    sep	#$20                								 ; 8bit A
-    lda.l oamQueueEntry+2,x    							 	 ; get tileSource (bank)
-    sta.l	$4324
+		sep #$20             									 ; 8bit A
+		lda.l oamQueueEntry+2,x    						    	 ; get tileSource (bank)
+		sta.l	$4314
+		sta.l	$4324
+		sta.l	$4334
+		sta.l	$4344
 
-    lda	#$04                  								 ; turn on bit 2 (channel 2) of DMA
-    sta.l	$420b
+		lda	#$02                  								 ; turn on bit 1 (channel 1) of DMA
+		sta.l	$420b
 
-    dex
-    bmi _ovqug1z0
-	beq _ovqug1z0
-	jmp _gfxld8
+		rep	#$20												 ; second step
+		lda	#$100
+		clc
+		adc.l oamQueueEntry+3,x    					    		 ; get address
+		sta.l	$2116          									 ; address for VRAM write(or read)
+		sep	#$20                								 ; 8bit A
+		lda	#$04                  								 ; turn on bit 2 (channel 2) of DMA
+		sta.l	$420b
 
+		rep	#$20												 ; third step
+		lda #$200
+		clc
+		adc.l oamQueueEntry+3,x    			     				 ; get address
+		sta.l	$2116          									 ; address for VRAM write(or read)
+		sep	#$20                								 ; 8bit A
+		lda	#$08                  								 ; turn on bit 3 (channel 3) of DMA
+		sta.l	$420b
 
-_ovqug1z0:
-    rep #$20
-    lda oamqueuenumber
-    beq _ovqug1z          									 ; if more than max sprite to transfer, put them on top of queue
-    ldy #$0000
-    ldx #MAXSPRTRF
-_ovqug1z1:
-    pha
-    lda.l oamQueueEntry,x
-    sta.w oamQueueEntry,y
-    iny
-    inx
-    pla
-    dea
-    bmi _ovqug1z
-    jmp _ovqug1z1
+		rep	#$20												 ; fourth step
+		lda #$300
+		clc
+		adc.l oamQueueEntry+3,x    			    				 ; get address
+		sta.l	$2116           								 ; address for VRAM write(or read)
 
-_ovqug1z:
+		sep	#$20                								 ; 8bit A
+		lda	#$10                  								 ; turn on bit 4 (channel 4) of DMA
+		sta.l	$420b
+		
+_ovquAdvance:
+        rep #$20												 ; Advance to next entry
+        lda ovquProcessed
+        clc
+        adc #OAM_ENTRY_SIZE
+        sta ovquProcessed
 
-	ply
-	plx
-    plb
-	plp
-	rtl
+        txa
+        clc
+        adc #OAM_ENTRY_SIZE
+        tax
 
+        jmp _ovquLoop
+
+_ovquAfterLoop:
+        rep #$20												 ; After loop: compact remaining entries
+        lda oamQueueBytes
+        sec
+        sbc ovquProcessed
+        sta ovquRemain
+
+        beq _ovquClearQueue
+
+        ldx ovquProcessed										 ; move remaining bytes down
+        ldy #0
+
+_ovquMoveLoop:
+        lda.l oamQueueEntry,x
+        sta.w oamQueueEntry,y
+        inx
+        iny
+        cpy ovquRemain
+        bne _ovquMoveLoop
+
+        lda ovquRemain
+        sta oamQueueBytes
+        bra _ovquExit
+
+_ovquClearQueue:
+        stz oamQueueBytes
+_ovquExit:
+
+		ply
+		plx
+		plb
+		plp
+		rtl
 
 .ENDS
 
@@ -1329,11 +1395,15 @@ oamDynamic32Draw:
 	adc.w oambuffer.1.oamgraphics,y
 	sta.w sprit_val2
 
-    lda.l oamqueuenumber									  ; oamAddGfxQueue16(pgfx,GFXSPR0.1ADR+idBlock16);
+    lda.l oamQueueBytes									      ; add to graphic queue
 	tax														  ; go to next graphic entry
 	clc
-	adc #$0006
-	sta.l oamqueuenumber
+	adc #OAM_ENTRY_SIZE
+	sta.l oamQueueBytes
+	lda #VRAM_COST_32
+    clc
+    adc oamqueuenumber
+    sta oamqueuenumber
 
     phx
     lda oamnumberspr0                             			  ;  get address
@@ -1583,11 +1653,15 @@ oamDynamic16Draw:
 	adc.w oambuffer.1.oamgraphics,y
 	sta.w sprit_val2
 
-    lda.l oamqueuenumber									  ; oamAddGfxQueue16(pgfx,GFXSPR0.1ADR+idBlock16);
+    lda.l oamQueueBytes									      ; add to graphic queue
 	tax														  ; go to next graphic entry
 	clc
-	adc #$0006
-	sta.l oamqueuenumber
+	adc #OAM_ENTRY_SIZE
+	sta.l oamQueueBytes
+	lda #VRAM_COST_16
+    clc
+    adc oamqueuenumber
+    sta oamqueuenumber
 
     phx
 	lda spr16addrgfx										  ; if large sprite, adjust address
@@ -1882,11 +1956,15 @@ oamDynamic8Draw:
 	adc.w oambuffer.1.oamgraphics,y
 	sta.w sprit_val2
 
-    lda.l oamqueuenumber									  ; oamAddGfxQueue8(pgfx,GFXSPR0.1ADR+idBlock8);
+    lda.l oamQueueBytes									      ; add to graphic queue
 	tax														  ; go to next graphic entry
 	clc
-	adc #$0006
-	sta.l oamqueuenumber
+	adc #OAM_ENTRY_SIZE
+	sta.l oamQueueBytes
+	lda #VRAM_COST_8
+    clc
+    adc oamqueuenumber
+    sta oamqueuenumber
 
     phx
     lda oamnumberspr1                             			  ;  get address
@@ -2197,7 +2275,7 @@ _oMTDRepChx8_16p:
 	bne _oMTDRepChx32_8p
 	jmp _oMTDRepChx_8p
 
-_oMTDRepChx32_8p
+_oMTDRepChx32_8p:
 		;--------------draw 32 pix sprite
 		sep #$20
 		lda oambuffer.1.oamrefresh,y						      ; check if we need to update graphics
@@ -2215,11 +2293,15 @@ _oMTDRepChx32_8p
 		adc.w oambuffer.1.oamgraphics,y
 		sta.w sprit_val2
 
-		lda.l oamqueuenumber									  ; oamAddGfxQueue16(pgfx,GFXSPR0.1ADR+idBlock16);
+		lda.l oamQueueBytes									      ; add to graphic queue
 		tax														  ; go to next graphic entry
 		clc
-		adc #$0006
-		sta.l oamqueuenumber
+		adc #OAM_ENTRY_SIZE
+		sta.l oamQueueBytes
+		lda #VRAM_COST_32
+		clc
+		adc oamqueuenumber
+		sta oamqueuenumber
 
 		phx
 		lda oamnumberspr0                             			  ;  get address
@@ -2331,11 +2413,15 @@ _oMTDRepChx_16p:
 		adc.w oambuffer.1.oamgraphics,y
 		sta.w sprit_val2
 
-		lda.l oamqueuenumber									  ; oamAddGfxQueue16(pgfx,GFXSPR0.1ADR+idBlock16);
+		lda.l oamQueueBytes									      ; add to graphic queue
 		tax														  ; go to next graphic entry
 		clc
-		adc #$0006
-		sta.l oamqueuenumber
+		adc #OAM_ENTRY_SIZE
+		sta.l oamQueueBytes
+		lda #VRAM_COST_16
+		clc
+		adc oamqueuenumber
+		sta oamqueuenumber
 
 		phx
 		lda spr16addrgfx										  ; if large sprite, adjust address
@@ -2473,11 +2559,15 @@ _oMTDRepChx_16p:
 		adc.w oambuffer.1.oamgraphics,y
 		sta.w sprit_val2
 
-		lda.l oamqueuenumber									  ; oamAddGfxQueue8(pgfx,GFXSPR0.1ADR+idBlock8);
+		lda.l oamQueueBytes									      ; add to graphic queue
 		tax														  ; go to next graphic entry
 		clc
-		adc #$0006
-		sta.l oamqueuenumber
+		adc #OAM_ENTRY_SIZE
+		sta.l oamQueueBytes
+		lda #VRAM_COST_8
+		clc
+		adc oamqueuenumber
+		sta oamqueuenumber
 
 		phx
 		lda oamnumberspr1                             			  ;  get address
@@ -2604,97 +2694,10 @@ _oMTDRepEnd0p:
 .SECTION ".spritesc_text" SUPERFREE
 
 ;---------------------------------------------------------------------------------
-; void oamSort(u8 id)
-; 10
-oamSort:
-	php
-	phb
-	phx
-
-	sep #$20
-	lda #$7e
-	pha
-	plb
-
-;	lda #TABLE_SIZE - 1  ; Initialize high index
-;  	ldx #0  ; Initialize low index
-
-  	jsr quicksort  											  ; Perform quicksort
-
-	plx
-	plb
-	plp
-
-	rtl
-
-quicksort:													  ; Quicksort algorithm
-	pha 													  ; Save registers
-	phx
-  	phy
-
-;  LDX #VAR1_OFFSET  ; Sort based on VAR1
-
-;  LDA HIGH_IDX  ; Load high index
-;  STA TEMP_HIGH
-
-;  LDA LOW_IDX  ; Load low index
-;  STA TEMP_LOW
-
-;  LDX TEMP_LOW  ; Load low index into X
-
-;  INX  ; Increment low index
-
-;  LDA TABLE, X  ; Load pivot element
-;  STA PIVOT
-
-  ; Partition the table
-partition_loop:
-;  LDA TABLE, X  ; Load element for comparison
-;  CMP PIVOT
-
-  BCC increment_low_index  ; If element is less than pivot, increment low index
-
-  ; Swap elements
-;  LDA TABLE, X
-;  STA TABLE, TEMP_HIGH
-;  LDA TABLE, TEMP_LOW
-;  STA TABLE, X
-
-;  DEC TEMP_HIGH  ; Decrement high index
-;  DEY  ; Decrement Y
-
-  ; Check if all elements have been partitioned
-;  CPX TEMP_HIGH
-;  BCC partition_loop  ; If not, continue partitioning
-
-  ; Swap pivot element into its correct position
-;  LDA TABLE, X
-;  STA TABLE, TEMP_HIGH
-;  LDA PIVOT
-;  STA TABLE, X
-
-  ; Recursive calls to quicksort
-;  LDA TEMP_LOW
-;  CMP LOW_IDX
-;  BCC skip_left
-;  STA HIGH_IDX
-;  JSR quicksort
-
-skip_left:
-;  LDA TEMP_HIGH
-;  CMP HIGH_IDX
-;  BCC skip_right
-;  STA LOW_IDX
-;  JSR quicksort
-
-skip_right:
-	ply
-	plx
-	pla
-
-	rts  ; Return from subroutine
-
-
+;void oamZOrder(u16 firstSprite):
+; 5-6
+	
+; TODO 
 .ENDS
 
 .SECTION ".spritesmt1_text" SUPERFREE
@@ -2801,11 +2804,15 @@ _oMTDD32Rep0p_ok:
 		adc.w oambuffer.1.oamgraphics,y
 		sta.w sprit_val2
 
-		lda.l oamqueuenumber									  ; oamAddGfxQueue16(pgfx,GFXSPR0.1ADR+idBlock16);
+		lda.l oamQueueBytes									      ; add to graphic queue
 		tax														  ; go to next graphic entry
 		clc
-		adc #$0006
-		sta.l oamqueuenumber
+		adc #OAM_ENTRY_SIZE
+		sta.l oamQueueBytes
+		lda #VRAM_COST_32
+		clc
+		adc oamqueuenumber
+		sta oamqueuenumber
 
 		phx                                                       ; for large sprite, adjust address
         lda oamnumberspr0                             			  ;  get address for large
@@ -2952,6 +2959,13 @@ oamMetaDraw32:
 	lda #0
 	tay														  ; y is now the id of meta sprite buffer
 
+	lda 20,s 												  ; get graphic offset for sprite (default is 0x0000)
+	lsr a 													  ; transform into id
+	lsr a 
+	lsr a 
+	lsr a 
+	sta.w sprit_val2									      ; save graphic offset into memory
+
 	lda 12,s												  ; save x coordinate
 	sta sprit_mxsvg
 	lda 14,s												  ; save y coordinate
@@ -3003,14 +3017,18 @@ _oMTD32Rep0p_ok:
 	phx														  ; because we will need it at the end for the table
 	tay														  ; id normaly passed as argument of drawing function
 	
-	lda sprit_val0 				                              ; get current graphic number 
+	lda sprit_val0 				                              ; get current graphic number
 	pha														  ; will be restore in x
-	lsr a													  ; for lookup spriteid entry (nb>>4 *2)
+	
+	lda oambuffer.1.oamframeid,y                              ; get tile index from metasprite data
+	asl a													  ; multiply by 2 for word array indexing (lkup16idT is .word array)
 	tax
 	lda.l lkup32idT,x
 
 	plx
-	sta.w oamMemory+2,x										  ; store in oam memory 
+	clc
+	adc sprit_val2											  ; add graphic offset of sprite (0x0000 or something else)
+	sta.w oamMemory+2,x										  ; store in oam memory
 
 	lda oambuffer.1.oamx,y				                      ; get x coordinate
 	xba														  ; save it
@@ -3070,7 +3088,7 @@ _oMTD32Rep3p_16p:
 	ora oamMemory,y
 	sta oamMemory,y               							  ; store new value in oam table #2
 
-    rep #$20                                                  ; for large sprite, adjust address (20+2+2)
+    rep #$20                                                  ; 
 	lda sprit_val0											  ; go to next sprite entry (x4 multiplier)
 	clc
 	adc #$0004
@@ -3208,11 +3226,15 @@ _oMTDDRep0p_ok:
 		adc.w oambuffer.1.oamgraphics,y
 		sta.w sprit_val2
 
-		lda.l oamqueuenumber									  ; oamAddGfxQueue16(pgfx,GFXSPR0.1ADR+idBlock16);
+		lda.l oamQueueBytes									      ; add to graphic queue
 		tax														  ; go to next graphic entry
 		clc
-		adc #$0006
-		sta.l oamqueuenumber
+		adc #OAM_ENTRY_SIZE
+		sta.l oamQueueBytes
+		lda #VRAM_COST_16
+		clc
+		adc oamqueuenumber
+		sta oamqueuenumber
 
 		phx
 		lda 30,s         										  ; if large sprite, adjust address (24+2+2+2)
@@ -3380,6 +3402,13 @@ oamMetaDraw16:
 	lda #0
 	tay														  ; y is now the id of meta sprite buffer
 
+	lda 22,s 												  ; get graphic offset for sprite (default is 0x0000)
+	lsr a 													  ; transform into id
+	lsr a 
+	lsr a 
+	lsr a 
+	sta.w sprit_val2									      ; save graphic offset into memory
+
 	lda 12,s												  ; save x coordinate
 	sta sprit_mxsvg
 	lda 14,s												  ; save y coordinate
@@ -3439,9 +3468,11 @@ _oMTD16Rep0p_ok:
 	phx														  ; because we will need it at the end for the table
 	tay														  ; id normaly passed as argument of drawing function
 	
-	lda sprit_val0 				                              ; get current graphic number 
-	pha														  ; will be restore in x
-	lsr a													  ; for lookup spriteid entry (nb>>4 *2)
+	lda sprit_val0 				                              ; get current OAM entry offset
+	pha														  ; will be restored to x for OAM memory access
+
+	lda oambuffer.1.oamframeid,y                              ; get tile index from metasprite data
+	asl a													  ; multiply by 2 for word array indexing (lkup16idT is .word array)
 	tax
 
 	lda 24,s 										 		  ; if large sprite, adjust address (20+2+2)
@@ -3452,6 +3483,9 @@ _oMTD16Rep0p_ok:
 +:  lda.l lkup16idT0,x
 _oMTD16Rep1p_16p:
 	plx
+	
+	clc
+	adc sprit_val2											  ; add graphic offset of sprite (0x0000 or something else)
 	sta.w oamMemory+2,x										  ; store in oam memory 
 
 	lda oambuffer.1.oamx,y				                      ; get x coordinate
@@ -3565,8 +3599,6 @@ oamMetaDrawDyn8:
 	asl a
 	asl a
 	tax														  ; x is now the id of oam buffer
-	lda #0
-	tay														  ; y is now the id of meta sprite buffer
 
 	lda 12,s												  ; save x coordinate
 	sta sprit_mxsvg
@@ -3575,7 +3607,6 @@ oamMetaDrawDyn8:
 
 	lda 16,s
 	sta tcc__r0                          				  	  ; tcc_r0 = meta sprite source address
-
 	sep #$20												  
 	lda 18,s												  ; bank of meta sprite source address
 	sta tcc__r0h
@@ -3583,6 +3614,8 @@ oamMetaDrawDyn8:
 	lda oambuffer.1.oamrefresh,x							  ; get 1st sprite refresh value, which will be the default
 	sta sprit_val0
 
+    ;rep #$20
+    ldy  #0 ; ---- Y = 0: offset into meta sprite table
 
 _oMTDD8Rep0p:
 	rep #$20												  ; mandatory because of the loop
@@ -3616,14 +3649,14 @@ _oMTDD8Rep0p_ok:
 	iny
 	ora #$1
 	sta oambuffer.1.oamattribute,x
-	rep #$20
 
+	rep #$20
 	lda	20,s        										  ; get graphic address
 	sta oambuffer.1.oamgraphics,x
 	lda	22, s 										           ; get graphic address (bank)
 	sta oambuffer.1.oamgraphics+2,x
-	phy														  ; because we will need it at the end for the table
 
+	phy														  ; because we will need it at the end for the table
 	txa														  ; push sprite id (must be in 0..127 range)
 	phx														  ; because we will need it at the end for the table
 	tay														  ; id normaly passed as argument of drawing function
@@ -3633,7 +3666,7 @@ _oMTDD8Rep0p_ok:
 	sta oambuffer.1.oamrefresh,y							  ; save initial sprite refresh value
 
 	;--------------push 16 pix sprite graphic on queue if needed
-	lda oambuffer.1.oamrefresh,y						      ; check if we need to update graphics
+	;lda oambuffer.1.oamrefresh,y						      ; check if we need to update graphics
 	beq _oMTDD8Rep1_16p
 		lda #$00
 		sta oambuffer.1.oamrefresh,y                              ; reinit it
@@ -3647,14 +3680,17 @@ _oMTDD8Rep0p_ok:
 		adc.w oambuffer.1.oamgraphics,y
 		sta.w sprit_val2
 
-		lda.l oamqueuenumber									  ; oamAddGfxQueue16(pgfx,GFXSPR0.1ADR+idBlock16);
+		lda.l oamQueueBytes									      ; add to graphic queue
 		tax														  ; go to next graphic entry
 		clc
-		adc #$0006
-		sta.l oamqueuenumber
+		adc #OAM_ENTRY_SIZE
+		sta.l oamQueueBytes
+		lda #VRAM_COST_8
+		clc
+		adc oamqueuenumber
+		sta oamqueuenumber
 
 		phx
-
 		lda oamnumberspr1                             			  ;  get address for small
 		asl a
 		tax
@@ -3689,7 +3725,6 @@ _oMTDD8Rep1p_16p:
 	xba														  ; save it
 	sep #$20                  								  ; A 8 bits
 	ror a                         						      ; x msb into carry (saved if x>255)
-
 	lda oambuffer.1.oamy,y                     				  ; get y coordinate
 	xba
 	rep #$20                      							  ; A 16 bits
@@ -3741,6 +3776,7 @@ _oMTDD8Rep3p_16p:
 
 	rep #$20
 	inc.w oamnumberspr1										  ; one more sprite 8x8 small
+
 _oMTDD8Rep1p:
 	lda oamnumberperframe									  ; go to next sprite entry (x4 multiplier)
 	clc
@@ -3764,7 +3800,7 @@ _oMTDD8RepEnd0p:
 	plp
 
 	rtl
-    
+
 .ENDS
 
 .SECTION ".spritesmt6_text" SUPERFREE
@@ -3793,6 +3829,13 @@ oamMetaDraw8:
 	tax														  ; x is now the id of oam buffer
 	lda #0
 	tay														  ; y is now the id of meta sprite buffer
+
+	lda 22,s 												  ; get graphic offset for sprite (default is 0x0000)
+	lsr a 													  ; transform into id
+	lsr a 
+	lsr a 
+	lsr a 
+	sta.w sprit_val2									      ; save graphic offset into memory
 
 	lda 12,s												  ; save x coordinate
 	sta sprit_mxsvg
@@ -3846,20 +3889,18 @@ _oMTD8Rep0p_ok:
 	phx														  ; because we will need it at the end for the table
 	tay														  ; id normaly passed as argument of drawing function
 	
-	lda sprit_val0 				                              ; get current graphic number 
+	lda sprit_val0 				                              ; get current graphic number
 	pha														  ; will be restore in x
-	lsr a													  ; for lookup spriteid entry (nb>>4 *2)
+
+	lda oambuffer.1.oamframeid,y                              ; get tile index from metasprite data
+	asl a													  ; multiply by 2 for word array indexing (lkup16idT is .word array)
 	tax
-
-	lda 26,s 										 		  ; if large sprite, adjust address (20+2+2+2)
-	bne +
 	lda.l lkup8idT,x
-	bra _oMTD8Rep1p_16p
 
-+:  lda.l lkup16idT0,x
-_oMTD8Rep1p_16p:
 	plx
-	sta.w oamMemory+2,x										  ; store in oam memory 
+	clc
+	adc sprit_val2											  ; add graphic offset of sprite (0x0000 or something else)
+	sta.w oamMemory+2,x										  ; store in oam memory
 
 	lda oambuffer.1.oamx,y				                      ; get x coordinate
 	xba														  ; save it

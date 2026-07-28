@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-    Copyright (C) 2012-2024
+    Copyright (C) 2012-2026
 
     This software is provided 'as-is', without any express or implied
     warranty.  In no event will the authors be held liable for any
@@ -58,7 +58,8 @@
  \section engine_api Engine API functions
  - \ref object.h "Objects management"
  - \ref map.h "map management"
-
+ - \ref gamestates.h "game states management"
+ 
  \section misc_api Miscellaneous functions
  - \ref scores.h "Scoring management"
 
@@ -75,6 +76,7 @@
  - <a href="http://code.google.com/p/neo-myth-menu/">Neoflash Menu google code. </a>
  - <a href="http://www.devkitpro.org/">Devkitpro team for pvsneslib structure (lib, makefile, examples, and so on ...). </a>
  - <a href="https://github.com/undisbeliever/castle_platformer">undisbeliever for his great platform code example on github. </a>
+ - <a href="https://github.com/k0b3n4irb">Kobenairb for the port of python optimiser to c version, docker images, building scripts harmonisation and cleaning and the tcc-816 upgrade. </a>
  - <a href="https://github.com/DigiDwrf">digidwrf for fastrom / hirom support, mouse and superscope support. </a>
 */
 
@@ -96,13 +98,14 @@
     \example graphics/Backgrounds/Mode3/Mode3.c
     \example graphics/Backgrounds/Mode5/Mode5.c
     \example graphics/Backgrounds/Mode7/Mode7.c
+    \example graphics/Backgrounds/Mode7LZ77/src/Mode7LZ77.c
     \example graphics/Backgrounds/Mode7Perspective/Mode7Perspective.c
 
     <!-- effects -->
     \example graphics/Effects/Fading/Fading.c
     \example graphics/Effects/GradientColors/GradientColors.c
     \example graphics/Effects/HDMAGradient/HDMAGradient.c
-    \example graphics/Effects/MosaicShading/MosaicShading.c
+    \example graphics/Effects/Mosaic/Mosaic.c
     \example graphics/Effects/ParallaxScrolling/ParallaxScrolling.c
     \example graphics/Effects/Transparency/Transparency.c
     \example graphics/Effects/TransparentWindow/src/main.c
@@ -115,6 +118,7 @@
     \example graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c
     \example graphics/Sprites/DynamicSprite/DynamicSprite.c
     \example graphics/Sprites/ObjectSize/ObjectSize.c
+    \example graphics/Sprites/MetaSprite/MetaSprite.c
     \example graphics/Sprites/SimpleSprite/SimpleSprite.c
 
     <!-- palettes -->
@@ -126,12 +130,9 @@
     \example input/multiplay5/multiplay5.c
     \example input/superscope/superscope.c
 
-    <!-- timing -->
-    \example timer/timer.c
-
     <!-- games -->
-    \example games/likemario/LikeMario.c
-    \example games/breakout/breakout.c
+    \example systems/games/likemario/src/LikeMario.c
+    \example systems/games/breakout/breakout.c
 
     <!-- audio -->
     \example audio/effects/effects.c
@@ -141,33 +142,35 @@
     \example audio/musicGreaterThan32k/musicGreaterThan32k.c
 
     <!-- maps -->
-    \example maps/mapscroll/mapscroll.c
-    \example maps/tiled/tiled.c
+    \example graphics/maps/mapscroll/mapscroll.c
+    \example graphics/maps/tiled/tiled.c
+    \example graphics/maps/slopemario/slopemario.c
 
     <!-- objects -->
-    \example objects/mapandobjects/mapandobjects.c
-    \example objects/moveobjects/moveobjects.c
-    \example objects/nogravityobject/nogravityobjects.c
+    \example systems/objects/mapandobjects/mapandobjects.c
+    \example systems/objects/moveobjects/moveobjects.c
+    \example systems/objects/nogravityobject/nogravityobjects.c
 
     <!-- debugging -->
-    \example debug/debug.c
-    \example breakpoints/src/breakpoints.c
-
-    <!-- random display -->
-    \example random/random.c
+    \example systems/debug/src/debug.c
+    \example systems/breakpoints/src/breakpoints.c
 
     <!-- sram -->
-    \example sram/sramoffset/sramoffset.c
-    \example sram/sramsimple/sram.c
-
-    <!-- scoring -->
-    \example scoring/scoring.c
+    \example systems/sram/sramoffset/src/sramoffset.c
+    \example systems/sram/sramsimple/src/sram.c
 
     <!-- region test, console type and rom type -->
-    \example testregion/testregion.c
-    \example typeconsole/src/pal_ntsc.c
-    \example memory_mapping/src/memory_mapping.c
+    \example systems/testregion/src/testregion.c
+    \example systems/typeconsole/src/pal_ntsc.c
+    \example systems/memory_mapping/src/memory_mapping.c
 
+    <!-- variable width font examples -->
+    \example systems/textvwfont/src/textvwfont.c
+
+    <!-- misc examples -->
+    \example systems/random/src/random.c
+    \example systems/scoring/src/scoring.c
+    \example systems/timer/src/timer.c
 */
 
 #ifndef SNES_INCLUDE
@@ -178,12 +181,15 @@
 #include "snes/background.h"
 #include "snes/console.h"
 #include "snes/dma.h"
+#include "snes/fixed.h"
+#include "snes/gamestates.h"
 #include "snes/input.h"
 #include "snes/interrupt.h"
 #include "snes/map.h"
 #include "snes/object.h"
 #include "snes/scores.h"
 #include "snes/sound.h"
+#include "snes/textfont.h"
 #include "snes/sprite.h"
 #include "snes/video.h"
 

@@ -47,50 +47,90 @@
 .BASE $00
 .RAMSECTION ".reg_cons7e" BANK $7E SLOT RAMSLOT_0
 
-snes_50hz               DB                                  ; 1 if PAL console (50 Hz) instead of NTSC (60Hz)
-snes_fps                DB                                  ; 50 if PAL console (50 Hz) or 60 if NTSC console (60Hz)
+snes_50hz               DB                                          ; 1 if PAL console (50 Hz) instead of NTSC (60Hz)
+snes_fps                DB                                          ; 50 if PAL console (50 Hz) or 60 if NTSC console (60Hz)
 
-scr_txt_dirty           DB                                  ; 1 if we need to refresh screen
-txt_pal_adr             DB                                  ; text attribute (palette, high priority ...)
-txt_vram_bg             DW                                  ; vram address of BG for text
-txt_vram_adr            DW                                  ; vram address of graphics for text
-txt_vram_offset         DW                                  ; offset for text display (useful if graphics not store at BG entry)
+text_buffer             DSB 128                                     ; text formatted with argument
 
-text_buffer             DSB 128                             ; text formatted with argument
-
-cons_val1               DSB 2                               ; save value #1
-
-scr_txt_font_map        DSW $800                            ; text to display on screen
+cons_val1               DSB 2                                       ; save value #1
 
 .ENDS
 
 .RAMSECTION ".consfp" bank 0 slot 1
-snes_rand_seed1:        DSB 2
-snes_rand_seed2:        DSB 2
+snes_rand_seed          DW
 .ENDS
 
 .BASE BASE_0
 .SECTION ".consoles0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
-;u16 rand(void);
-rand:
+;void srand(u16 seed);
+; 5-6
+srand:
     php
 
-    rep #$30
+    rep #$20
+    lda 5,s
+    bne _rng1
 
-    lda.w snes_rand_seed2
-    lsr a
-    adc.w snes_rand_seed1
-    sta.w snes_rand_seed1
-    eor.w #$00ff
-    sta.w tcc__r0
-    lda.w snes_rand_seed2
-    sbc.w tcc__r0
-    sta.w snes_rand_seed2
+    lda #$ACE1
+
+_rng1:
+    sta.l snes_rand_seed
 
     plp
     rtl
+
+;---------------------------------------------------------------------------
+;u16 rand(void); // based on 16-bit LFSR pseudo-random number generator
+rand:
+    php
+    phb
+
+    sep #$20
+    lda #$0
+    pha
+    plb                                                             ; change bank address to 0
+
+    rep #$20                                                        ; Polynomial: x^16 + x^14 + x^13 + x^11 + 1
+    lda snes_rand_seed
+    sta tcc__r0
+    lsr a                                                           ; Compute feedback bit
+    lsr a
+    eor tcc__r0
+    sta tcc__r0h
+    lda tcc__r0
+    lsr a
+    lsr a
+    lsr a
+    eor tcc__r0h
+    sta tcc__r0h
+
+    lda tcc__r0
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    eor tcc__r0h
+    and #1
+    beq _rndcar
+    sec
+    bra _rndshft
+
+_rndcar:
+    clc
+
+_rndshft:
+    lda snes_rand_seed
+    ror A                                                           ; carry becomes bit 15
+    sta snes_rand_seed
+    sta tcc__r0
+
+    plb
+    plp
+    rtl
+
 .ENDS
 
 ;---------------------------------------------------------------------------
@@ -447,9 +487,7 @@ consoleInit:
     plb
     rep #$20
     lda.w #1
-    sta snes_rand_seed1                                       ; For rand function
-    lda.w #5
-    sta snes_rand_seed2                                       ; For rand function
+    sta snes_rand_seed                                        ; For rand function
     plb
 
     lda.w #$0000                                              ; Init background address
@@ -503,8 +541,7 @@ consoleInit:
     lda #TXT_VRAMOFFSET
     sta txt_vram_offset
 
-    ; Set nmi_handler, enable VBlank interrupts, enable joypad auto-read.
-    pea :consoleVblank
+    pea :consoleVblank                                              ; Set nmi_handler, enable VBlank interrupts, enable joypad auto-read.
     pea consoleVblank
     jsl nmiSet
     pla
@@ -518,463 +555,6 @@ consoleInit:
 .ENDS
 
 .SECTION ".consoles5_text" SUPERFREE
-
-;---------------------------------------------------------------------------
-;void consoleInitText(u8 palnum, u8 palsize, u8 *tilfont, u8 *palfont)
-; 6 7 8-11 12-15
-consoleInitText:
-    php
-    phb
-
-    sep #$20                                                  ; 8bit A
-    lda #$7e
-    pha
-    plb
-
-    rep #$20
-    phx
-    ldx #$0000                                                ; Init map for text with no character
-    lda #$0000                                                ; So copy data to VRAM (also clear screen)
--   sta scr_txt_font_map,x
-    inx
-    inx
-    cpx #$0800
-    bne -
-    plx
-
-    sep #$20
-    lda #0
-    pha
-    jsl setBrightness                                         ; Force VBlank Interrupt (value 0)
-    rep #$20
-    tsa
-    clc
-    adc #1
-    tas
-
-    rep #$20
-    lda #3072                                                 ; size of text (48*8*8)
-    pha
-    lda txt_vram_adr                                          ; put text at VRAM address
-    pha
-    lda 14,s                                                  ; get bank address of tiles (10+2+2)
-    pha
-    lda 14,s                                                  ; get data address of tiles (8+2+2+2)
-    pha
-    jsl dmaCopyVram
-    tsa
-    clc
-    adc #8
-    tas
-
-
-    lda #$0000
-    sep #$20
-    lda 7,s                                                  ; get palette size
-    rep #$20
-    sta.l   $4305
-    lda 12,s                                                  ; src (lower 16 bits)
-    sta.l   $4302
-    sep #$20
-    lda 14,s                                                  ; src bank
-    sta.l   $4304
-    lda 6,s                                                   ; address of palette
-    asl a
-    asl a
-    asl a
-    asl a
-    sta.l   $2121
-    lda #0
-    sta.l   $4300
-    lda #$22
-    sta.l   $4301
-    lda #1
-    sta.l   $420b
-
-    lda 6,s                                                   ; address of palette
-    asl a
-    asl a
-    ora #(1<<5)                                              ; (10-7) because only high byte are addressed
-    sta txt_pal_adr
-
-    plb
-    plp
-    rtl
-
-;---------------------------------------------------------------------------
-;void consoleSetTextGfxPtr(u16 vramfont)
-; 6-7
-consoleSetTextGfxPtr:
-    php
-    phb
-
-
-    rep #$20
-    lda 6,s                                                  ; store graphic address of text
-    sta.l txt_vram_adr
-
-    plb
-    plp
-    rtl
-
-;---------------------------------------------------------------------------
-;void consoleSetTextMapPtr(u16 vrambgfont)
-; 6-7
-consoleSetTextMapPtr:
-    php
-    phb
-
-    rep #$20
-    lda 6,s                                                  ; store BG graphic address of text
-    sta.l txt_vram_bg
-
-    plb
-    plp
-    rtl
-
-;---------------------------------------------------------------------------
-;void consoleSetTextOffset(u16 offsetfont)
-; 6-7
-consoleSetTextOffset:
-    php
-    phb
-
-
-    rep #$20
-    lda 6,s                                                  ; store BG graphic address of text
-    sta.l txt_vram_offset
-
-    plb
-    plp
-    rtl
-
-.ENDS
-
-.SECTION ".consoles6_text" SUPERFREE
-
-;---------------------------------------------------------------------------
-; void consoleSetTextPal(u8 paloffset, u8 *palfont, u8 palsize)
-; 5 6-9 10
-consoleSetTextPal:
-    php
-
-    lda 10,s                                                  ; get palette size
-    sta.l   $4305
-    lda 6,s                                                   ; src (lower 16 bits)
-    sta.l   $4302
-    sep #$20
-    lda 8,s                                                   ; src bank
-    sta.l   $4304
-    lda 5,s                                                   ; address of cgram
-    sta.l   $2121
-    lda #0
-    sta.l   $4300
-    lda #$22
-    sta.l   $4301
-    lda #1
-    sta.l   $420b
-
-    plp
-    rtl
-
-.ENDS
-
-
-.SECTION ".consoles7_text" SUPERFREE
-
-;---------------------------------------------------------------------------
-; void print_screen_map(u16 x, u16 y, unsigned char  *map, u8 attributes, unsigned char *buffer)
-; 6-7 8-9 10-13 14 15-18
-print_screen_map:
-    php
-    phb
-
-    sep #$20                                                  ; 8bit A
-    lda #$7e
-    pha
-    plb
-
-    rep #$20
-    lda 8,s                                                 ; get y
-    phy
-    ldy.w #5
--   asl a
-    dey
-    bne -                                                   ; y*0x20
-    ply
-    clc
-    adc 6,s                                                 ; get x and x+y*0x20
-    sta cons_val1
-
-    clc
-    adc 10,s                                                 ; add to map data address
-    sta tcc__r2
-    lda 12,s                                                ; store map
-    sta tcc__r2h
-
-    lda 17,s                                                ; get buffer bank address
-    sta tcc__r3h
-    lda 15,s                                                ; get buffer data address
-    sta tcc__r3
-
-    sep #$20
-_psm_nextchar:
-    lda [tcc__r3]                                           ; while (*buffer)
-    beq _psm_return
-    cmp #13                                                 ; Do a Carriage Return & Linefeed simulation
-    bne +
-    lda tcc__r2
-    clc
-    adc #32*2
-    bra _psm_continue
-
-+   sec                                                     ; Write char to screen with attributes
-    sbc #32                                                 ; High     Low      Legend->  c: Starting character (tile) number
-    clc                                                     ; vhopppcc cccccccc           h: horizontal flip  v: vertical flip p: palette number   o: priority bit
-    adc txt_vram_offset                                     ; add vram offset in 8 bits format
-    sta [tcc__r2]
-    inc.w tcc__r2
-    lda 14,s
-    adc txt_vram_offset+1
-    sta [tcc__r2]
-    rep #$20                                                ; bad hack to add a 16bit value
-    lda tcc__r2
-    ina
-    sta tcc__r2
-    sep #$20
-_psm_continue:
-    inc tcc__r3
-    bra _psm_nextchar
-
-_psm_return:
-    plb
-    plp
-    rtl
-
-;---------------------------------------------------------------------------
-; void consoleDrawText(u16 x, u16 y, char *fmt, ...)
-; 5-6 7-8 9-12 13-...
-consoleDrawText:
-    php
-
-    sep #$20
-    lda #2
-    sta scr_txt_dirty
-
-    rep #$20
-    tsa
-    clc
-    adc.w #0009                                  ; get data address of fmt (9+0)
-    clc
-    adc.w #0004                                   ; add size to do va_start(ap, last) ap = ((char*)&(last)) + sizeof(last)
-    sta tcc__r0
-    lda.w #0000                                  ; get bank address of fmt (should be 0)
-    pha                                          ; push bank + data address of 1st non mandatory values
-    pei (tcc__r0)
-    lda 15,s                                     ; get bank address fmt (11+2+2)
-    pha
-    lda 15,s                                     ; get data address fmt (9+2+2+2)
-    pha
-    pea.w :text_buffer
-    pea.w text_buffer
-    jsr.l vsprintf
-    tsa
-    clc
-    adc #12
-    tas
-
-    pea.w :text_buffer
-    pea.w text_buffer
-    sep #$20
-    lda txt_pal_adr
-    pha
-    rep #$20
-    pea.w :scr_txt_font_map
-    pea.w scr_txt_font_map
-    lda 16,s                                    ; get y (7+2+2+1+2+2)
-    asl a
-    pha
-    lda 16,s                                    ; get x (5+2+2+2+1+2+2)
-    asl a
-    pha
-    jsl print_screen_map                        ; print_screen_map(x*2,y*2, scr_txt_font_map, txt_pal_adr, text_buffer);
-    tsa
-    clc
-    adc #13
-    tas
-
-    sep #$20
-    lda #1
-    sta scr_txt_dirty
-
-    plp
-    rtl
-
-.ENDS
-
-.SECTION ".consoles8_text" SUPERFREE
-
-;---------------------------------------------------------------------------
-;void consoleDrawTextMap(u16 x, u16 y, u8 *map, u8 attributes, char *fmt, ...)
-; 5-6 7-8 9-12 13 14-17 18-...
-consoleDrawTextMap:
-    php
-
-    rep #$20
-    tsa
-    clc
-    adc.w #0020                                  ; get data address of fmt (20+0)
-    clc
-    adc.w #0004                                   ; add size to do va_start(ap, last) ap = ((char*)&(last)) + sizeof(last)
-    sta tcc__r0
-    lda.w #0000                                  ; get bank address of fmt (should be 0)
-    pha                                          ; push bank + data address of 1st non mandatory values
-    pei (tcc__r0)
-    lda 20,s                                     ; get bank address fmt (16+2+2)
-    pha
-    lda 20,s                                     ; get data address fmt (14+2+2+2)
-    pha
-    pea.w :text_buffer
-    pea.w text_buffer
-    jsr.l vsprintf
-    tsa
-    clc
-    adc #12
-    tas
-
-    pea.w :text_buffer
-    pea.w text_buffer
-    sep #$20
-    lda 17,s                                    ; get attributes (13+2+2)
-    pha
-    rep #$20
-    pea.w :scr_txt_font_map
-    pea.w scr_txt_font_map
-    lda 16,s                                    ; get y (7+2+2+1+2+2)
-    asl a
-    pha
-    lda 16,s                                    ; get x (5+2+2+2+1+2+2)
-    asl a
-    pha
-    jsl print_screen_map                        ; print_screen_map(x*2,y*2, scr_txt_font_map, attributes, text_buffer);
-    tsa
-    clc
-    adc #13
-    tas
-
-    plp
-    rtl
-
-;---------------------------------------------------------------------------
-;void consoleDrawTextMapCenter(u16 y, u16 *map, u8 attributes, char *fmt, ...)
-; 5-6 7-10 11 12-15 16-...
-consoleDrawTextMapCenter:
-    php
-
-    rep #$20
-    tsa
-    clc
-    adc.w #0018                                  ; get data address of fmt (18+0)
-    clc
-    adc.w #0004                                   ; add size to do va_start(ap, last) ap = ((char*)&(last)) + sizeof(last)
-    sta tcc__r0
-    lda.w #0000                                  ; get bank address of fmt (should be 0)
-    pha                                          ; push bank + data address of 1st non mandatory values
-    pei (tcc__r0)
-    lda 18,s                                     ; get bank address fmt (14+2+2)
-    pha
-    lda 18,s                                     ; get data address fmt (12+2+2+2)
-    pha
-    pea.w :text_buffer
-    pea.w text_buffer
-    jsr.l vsprintf
-    tsa
-    clc
-    adc #12
-    tas
-
-    pea.w :text_buffer                          ; x = 16 - strlen(text_buffer)/2
-    pea.w text_buffer
-    jsr.l strlen
-    tsa
-    clc
-    adc #4
-    tas
-    lsr.b tcc__r0
-    lda.w #16
-    sec
-    sbc.b tcc__r0
-    sta.b tcc__r0
-
-    pea.w :text_buffer
-    pea.w text_buffer
-    sep #$20
-    lda 15,s                                    ; get attributes (11+2+2)
-    pha
-    rep #$20
-    pea.w :scr_txt_font_map
-    pea.w scr_txt_font_map
-    lda 14,s                                    ; get y (5+2+2+1+2+2)
-    asl a
-    pha
-    lda tcc__r0                                 ; get x (5+2+2+2+1+2+2)
-    asl a
-    pha
-    jsl print_screen_map                        ; print_screen_map(x*2,y*2, scr_txt_font_map, attributes, text_buffer);
-    tsa
-    clc
-    adc #13
-    tas
-
-    plp
-    rtl
-
-.ENDS
-
-.SECTION ".consoles9_text" SUPERFREE
-
-;---------------------------------------------------------------------------
-;void consoleUpdate(void) {
-consoleUpdate:
-    php
-
-    sep #$20
-    lda scr_txt_dirty                       ; if buffer need to be update, do it !
-    cmp #1
-    bne +
-
-    lda #0
-    pha
-    jsl setBrightness                           ; Force VBlank Interrupt (value 0)
-    rep #$20
-    tsa
-    clc
-    adc #1
-    tas
-
-    rep #$20
-    lda #$0800                                  ; size of text (32*32*2)
-    pha
-    lda #$0800                                  ; put text at VRAM address 0800
-    pha
-    pea.w :scr_txt_font_map
-    pea.w scr_txt_font_map
-    jsl dmaCopyVram
-    tsa
-    clc
-    adc #8
-    tas
-    sep #$20
-    lda #$0
-    sta scr_txt_dirty                       ; if buffer need to be update, do it !
-
-+   plp
-    rtl
-
-.ENDS
-
-
-.SECTION ".consoles10_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ;u8 consoleRegionIsOK(void) {

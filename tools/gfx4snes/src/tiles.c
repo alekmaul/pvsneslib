@@ -27,6 +27,7 @@
 	
 ***************************************************************************/
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -63,15 +64,23 @@ unsigned char *tiles_convertsnes (unsigned char *imgbuf, int imgwidth, int imghe
     }
     if (!isquiet) info("convert image from %dx%d to %dx%d...",imgwidth,imgheight,newwidth,rows*blksizex);
 
-    // get memory for the new buffer
-    buffer = (unsigned char *) malloc(rows * blksizex * newwidth);
+    // get memory for the new buffer (with overflow check)
+    size_t bufsize = (size_t)rows * blksizex;
+    if (rows != 0 && bufsize / rows != (size_t)blksizex) {
+        fatal("image dimensions too large (overflow in tiles_convertsnes)");
+    }
+    bufsize *= newwidth;
+    if (newwidth != 0 && bufsize / newwidth != (size_t)rows * blksizex) {
+        fatal("image dimensions too large (overflow in tiles_convertsnes)");
+    }
+    buffer = (unsigned char *) malloc(bufsize);
     if (buffer == NULL)
     {
         fatal("can't allocate enough memory for the buffer in tiles_convertsnes");
     }
 
     // initially clear the buffer, so if there are empty image blocks or incomplete blocks, the empty parts will be blank
-    memset(buffer, 0, rows * blksizex * newwidth);
+    memset(buffer, 0, bufsize);
 
     // position in new buffer (x,y) where x and y are in pixel co-ordinates
     x = 0; y = 0;
@@ -134,7 +143,7 @@ void tiles_save (const char *filename, unsigned char *tiles,int nbtiles, int nbc
 	{
 		fatal("can't allocate memory for tiles filename");
 	}
-	sprintf(outputname,"%s.pic",filename);
+	snprintf(outputname, FILENAME_MAX, "%s.pic", filename);
 
     // find the number of bitplanes (default is 8 for 128 & 256 colors)
     bitplanes = 8;
@@ -256,20 +265,23 @@ void tiles_save (const char *filename, unsigned char *tiles,int nbtiles, int nbc
 // tiles = graphic tile buffer
 // tilesnumber = number of tiles to write to file
 // addblank = 1 if we need to add a blank tile
+// lzcompress = 1 if we want lz77 compression for mode 7
 // isquiet = 0 if we want some messages in console
-void tiles_savepacked (const char *filename, unsigned char *tiles,int tilesnumber, bool addblank, bool isquiet)
+void tiles_savepacked (const char *filename, unsigned char *tiles,int tilesnumber, bool addblank, bool lzcompress, bool isquiet)
 {
 	char *outputname;
 	FILE *fp;
 	int i;
-
+	int t, nbbytestowrite, bufsize, bufsizeout;
+	unsigned char *buftolzin, *buftolzout;
+	
 	// remove extension and put the ".map/mp7" to filename
 	outputname=(char *) malloc(FILENAME_MAX); //malloc(strlen(filename)+4);						// 4 to be sure to have enough for extension
 	if(outputname==NULL)
 	{
 		fatal("can't allocate memory for packed tiles filename");
 	}
-	sprintf(outputname,"%s.pc7",filename);
+	snprintf(outputname, FILENAME_MAX, "%s.pc7", filename);
 
 	if (!isquiet) info("saving packed tiles file [%s]...",outputname);
 
@@ -281,47 +293,65 @@ void tiles_savepacked (const char *filename, unsigned char *tiles,int tilesnumbe
         free (outputname);
         exit(EXIT_FAILURE);
     }
-        
-	// remember to add the blank if its needed....
-    if (addblank) {
-		for (i = 0; i < 64; i++) {
-			fputc(0, fp);
-		}
-	}
 
-	// add graphics to file
-    fwrite(tiles, 64 * tilesnumber, 1, fp);
+   	// Prepare outside buffer if lz77
+    if (lzcompress) {
+        // Prepare tiles in mode 7 packed format
+		nbbytestowrite = (addblank ? 64 : 0) + (tilesnumber * 64);
+		buftolzin = (unsigned char *) malloc(nbbytestowrite);
+		if (buftolzin == NULL) {
+			fclose(fp);
+			free(outputname);
+			fatal("can't allocate enough memory for the packed tiles buffer");
+		}
+		nbbytestowrite = 0;
+		if (addblank) {
+			for (i = 0; i < 64; i++, nbbytestowrite++) {
+				buftolzin[nbbytestowrite] = 0;
+			}
+		}
+		for (t = 0; t < tilesnumber * 64; t++, nbbytestowrite++) {
+			buftolzin[nbbytestowrite] = tiles[t];
+		}
+
+        // Prepare outside buffer if lz77
+		if (!isquiet) info("compress mode7 tileset in lz77 format...");
+		bufsizeout = nbbytestowrite + (nbbytestowrite>>3) + 16;
+		buftolzout = (unsigned char *) malloc(bufsizeout);
+		if (buftolzout == NULL) {
+			free(buftolzin);
+			fclose(fp);
+			free(outputname);
+			fatal("can't allocate enough memory for the packed tiles buffer compression");
+		}
+
+		bufsize = Convert2PicLZ77(buftolzin, nbbytestowrite, buftolzout, isquiet);
+		if (bufsize == 0) {
+			free(buftolzout);
+			free(buftolzin);
+			fclose(fp);
+			free(outputname);
+			fatal("error during lz77 compression of mode7 tileset");
+		}
+
+    	// add graphics to file
+		fwrite(buftolzout, bufsize, 1, fp);
+
+		free(buftolzout);
+		free(buftolzin);
+	} 
+    else { 
+        // remember to add the blank if its needed....
+		if (addblank) {
+			for (i = 0; i < 64; i++) {
+				fputc(0, fp);
+			}
+		}
+    	// add graphics to file
+		fwrite(tiles, 64 * tilesnumber, 1, fp);
+	}
 
 	// close file and leave
 	fclose(fp);
 	free (outputname);
 }
-
-/*
-Tile FlipH(const Tile& tile)
-{
-    Tile ret;
-    for(int j = (int)tile.data.size() - 8; j >= 0; j -= 8)
-    {
-        for(int i = 0; i < 8; ++i)
-        {
-            ret.data.push_back(tile.data[j + i]);
-        }
-    }
-    ret.pal = tile.pal;
-    return ret;
-}
-
-Tile FlipV(const Tile& tile)
-{
-    Tile ret;
-    for(int j = 0; j < (int)tile.data.size(); j += 8)
-    {
-        for(int i = 7; i >= 0; --i)
-        {
-            ret.data.push_back(tile.data[j + i]);
-        }
-    }
-    ret.pal = tile.pal;
-    return ret;
-}*/

@@ -70,6 +70,8 @@
 ; process for 5 scanlines
 .define PROCESS_TIME 5
 .define INIT_DATACOPY 13
+; loop1 watchdog timeout (~1/4 NTSC frame); loops 2/3 arm with stz
+.define SPC_WDOG_INIT 0FFFFh
 
 ;======================================================================
 ;zeropage
@@ -83,6 +85,7 @@ spc_bank:	DS 1
 
 spc1:		DS 2
 spc2:		DS 2
+spc_wdog:	DS 2	; SFX stream handshake watchdog
 
 spc_fread:	DS 1
 spc_fwrite:	DS 1
@@ -1077,8 +1080,13 @@ spcProcessStream:
 	ora	#128			;
 	sta	REG_APUIO0		;
 ;-----------------------------------------------------------------------
--:	bit	REG_APUIO0		; wait for SPC
-	bpl	-			;
+	ldx	#SPC_WDOG_INIT		; watchdog: X counts down (free here)
+-:	bit	REG_APUIO0		; wait for SPC to ack the stream
+	bmi	@stream_ready		;
+	dex				;
+	bne	-			;
+	jmp	@stream_abort		; SPC never answered -> recover
+@stream_ready:
 ;-----------------------------------------------------------------------
 	stz	REG_APUIO1		; if digi_init then:
 	lda	digi_init		;   clear digi_init
@@ -1136,8 +1144,13 @@ spcProcessStream:
 	sta	spc2
 	rep	#20h			; read 2 bytes
 	lda	[digi_src], y		;
+	stz	spc_wdog		; arm (0; first dec wraps to FFFF; keeps A)
 -:	cpx	REG_APUIO0		;-sync with spc
+	beq	@block_ready		;
+	dec	spc_wdog		;
 	bne	-			;
+	jmp	@stream_abort		; SPC stalled -> recover
+@block_ready:
 	inx				; increment v
 	sta	REG_APUIO2		; write 2 bytes
 	sep	#20h			;
@@ -1150,8 +1163,16 @@ spcProcessStream:
 	dec	spc1			; decrement block counter
 	bne	@next_block		;
 ;-----------------------------------------------------------------------
+	rep	#20h			; final wait, watchdogged
+	stz	spc_wdog		;
 -:	cpx	REG_APUIO0		; wait for spc
+	beq	@fin_ok		;
+	dec	spc_wdog		;
 	bne	-			;
+	jmp	@stream_abort		; SPC stalled -> recover
+@fin_ok:
+	sep	#20h			;
+@stream_restore:
 ;-----------------------------------------------------------------------:
 	lda	spc_pr+0		; restore port data
 	sta	REG_APUIO0		;
@@ -1172,7 +1193,12 @@ spcProcessStream:
 	sta	digi_src2		;
 	sep	#20h			;
 ;-----------------------------------------------------------------------
-	rts
+	rts				;
+;-----------------------------------------------------------------------
+@stream_abort:				; SPC did not respond: drop effect, recover
+	sep	#20h			;
+	stz	digi_active		; stop re-entry (digi_remain left; gated by active)
+	bra	@stream_restore		; share the port restore (digi_src fix-up is harmless)
 
 digi_rates:
 	.db	0, 3, 5, 7, 9, 11, 13

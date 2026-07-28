@@ -778,7 +778,9 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
             if (!s)
                 s = "<NULL>";
 
-            len = strlen(s); // FIXME: implement strnlen(s, precision);
+            len = strlen(s);
+            if (precision >= 0 && len > (unsigned int)precision)
+                len = precision;  // Limit output to precision characters
 
             if (!(flags & LEFT))
             {
@@ -816,8 +818,10 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
             continue;
 
         case 'n':
-            /* FIXME:
-             * What does C99 say about the overflow case here? */
+            /* C99 7.19.6.1: %n stores characters written so far.
+             * Overflow behavior is undefined per spec.
+             * On 65816 (16-bit int), counts > 32767 will overflow.
+             * This matches standard library behavior (no runtime check). */
             if (qualifier == 'l')
             {
                 long *ip = va_arg(args, long *);

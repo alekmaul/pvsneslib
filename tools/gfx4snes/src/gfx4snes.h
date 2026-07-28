@@ -16,6 +16,7 @@
 #include "tiles.h"
 #include "incgener.h"
 #include "metasprites.h"
+#include "gradients.h"
 
 #ifndef __BUILD_VERSION
 #include "config.h"
@@ -51,6 +52,7 @@ typedef struct
     int metaheight;                                                             // height of the metasprite
 	int metapriority;                                                           // sprite priority (0..3)
 	int metalarge;                                                              // 1 = use large sprite size attribute
+	int metaflip;                                                               // metasprite flip: 0=none 1=flipx 2=flipy 3=flipx+flipy (separate variants) 4=flipxy (single combined variant)
 
     int paletteoutput;	            											// -1= not managed, number of color for palette output 
     int paletteentry;		        											// value of palette entry (0 to 15)
@@ -58,6 +60,7 @@ typedef struct
     int palettesave;		           											// 1 = save the palette
     int paletteround;                  											// 1 = round palette up & down
     int paletterearrange;				    									// 1 = compute palette to fit with snes capabilities
+    int palettegradient;				    									// 1 = do a palette gradient entry only
 } t_gfx4snes_args;
 
 //-------------------------------------------------------------------------------------------------

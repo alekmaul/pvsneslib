@@ -32,7 +32,7 @@ int main(void)
     psprmen->oamx = 128-8;
     psprmen->oamy = 112-8;
     psprmen->oamframeid = 0;
-    psprmen->oamattribute = OBJ_PAL(0); // 	16x16 main player and palette0 for new graphics  byte OBJ*4+3: vhoopppN
+    psprmen->oamattribute = OBJ_PAL(0) | OBJ_SIZEL; // 	16x16 (large) main player and palette0 for new graphics  byte OBJ*4+3: vhoopppN
     psprmen->oamgraphics=&sprites_til;
     psprmen->oamrefresh = 1;
 

@@ -10,6 +10,7 @@
 
 .include "spritehero32_data.as"
 .include "spritehero16_data.as"
+.include "spritehero16_1_data.as"
 .include "spritehero8_data.as"
 
 .ends

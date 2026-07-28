@@ -77,4 +77,4 @@ tcc-update:
 	git submodule update --remote --merge tcc
 
 # Define phony targets
-.PHONY: all clean install tcc-configure tcc wla
+.PHONY: all clean install tcc-configure tcc tcc-clean tcc-install wla wla-clean wla-install wla-update tcc-update

@@ -25,27 +25,30 @@ else
 	$(error Unsupported operating system)
 endif
 
-# default target
-all: clean
-
-# build compiler
-	$(MAKE) -C $(COMPILER_PATH)
-	$(MAKE) -C $(COMPILER_PATH) install
-
-# build tools
-	$(MAKE) -C $(TOOLS_PATH)
-	$(MAKE) -C $(TOOLS_PATH) install
-
-# build pvsneslib
-	$(MAKE) -C $(PVSNESLIB_PATH)
-
-# build snes-examples and install them
-	$(MAKE) -C $(SNES_EXAMPLES_PATH)
-	$(MAKE) -C $(SNES_EXAMPLES_PATH) install
-
+# default target - dependencies allow parallel builds with make -j
+all: compiler tools pvsneslib examples
 	@echo
 	@echo "* Build finished successfully !"
 	@echo
+
+# build compiler (tcc and wla-dx can build in parallel within this target)
+compiler:
+	$(MAKE) -C $(COMPILER_PATH)
+	$(MAKE) -C $(COMPILER_PATH) install
+
+# build tools (independent of compiler, can run in parallel)
+tools:
+	$(MAKE) -C $(TOOLS_PATH)
+	$(MAKE) -C $(TOOLS_PATH) install
+
+# build pvsneslib (requires compiler to be installed)
+pvsneslib: compiler
+	$(MAKE) -C $(PVSNESLIB_PATH)
+
+# build snes-examples (requires pvsneslib and tools)
+examples: pvsneslib tools
+	$(MAKE) -C $(SNES_EXAMPLES_PATH)
+	$(MAKE) -C $(SNES_EXAMPLES_PATH) install
 
 # clean everything
 clean:
@@ -88,7 +91,7 @@ version:
 	@$(MAKE) --version | head -n 1
 
 # define phony targets
-.PHONY: version all
+.PHONY: version all clean release compiler tools pvsneslib examples
 
 # Set the default target
 .DEFAULT_GOAL := all

@@ -6,6 +6,9 @@ ifeq ($(strip $(PVSNESLIB_HOME)),)
 $(error "Please create an environment variable PVSNESLIB_HOME by following this guide: https://github.com/alekmaul/pvsneslib/wiki/Installation")
 endif
 
+# no default hdr.asm generation
+AUTOHDR := 0
+
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 #---------------------------------------------------------------------------------
@@ -19,6 +22,7 @@ CFLAGS	+=	-I${PVSNESLIB_HOME}/devkitsnes/include \
 
 export SNESOBJS = crt0_snes.obj libm.obj libtcc.obj libc.obj
 
+export PVSSPCDIR = ${PVSNESLIB_HOME}/pvsneslib/snesmod
 
 #---------------------------------------------------------------------------------
 %.ps: %.c
@@ -37,7 +41,7 @@ else
 	$(CC) $(CFLAGS) -Wall -c $< -o $@
 endif
 endif
-	sed -i 's/.include "hdr.asm"//' $@
+	@sed 's/.include "hdr.asm"//' $@ > $@.tmp && mv $@.tmp $@
 
 reset_comp:
 	@echo "; HIROM / FASTROM definitions" > comp_defs.asm
@@ -68,16 +72,10 @@ endif
 	@rm -f *.ps
 
 #---------------------------------------------------------------------------------
-libc.obj: libc.asm libc_c.asm
-libc_c.asm: libc_c.c $(C_SRC) sm_spc.asm
+libc.obj: libc.asm libc_c.asm 
+libc_c.asm: libc_c.c $(C_SRC) 
 libc_c.c: $(C_SRC)
 libm.obj: libm.asm
-
-#---------------------------------------------------------------------------------
-#sm_spc.asm : sm_spc2.as7
-#	$(AS700) -i -o sm_spc.obj $<
-#	$(TXCONV) -ca sm_spc.obj
-#	@rm sm_spc.obj
 
 #---------------------------------------------------------------------------------
 clean:

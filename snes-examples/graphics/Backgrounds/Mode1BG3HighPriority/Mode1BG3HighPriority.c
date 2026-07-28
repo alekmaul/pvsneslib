@@ -11,17 +11,9 @@
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
 
-extern char BG1_tiles, BG1_tiles_end;
-extern char BG1_pal, BG1_pal_end;
-extern char BG1_map, BG1_map_end;
-
-extern char BG2_tiles, BG2_tiles_end;
-extern char BG2_pal, BG1_pal_end;
-extern char BG2_map, BG1_map_end;
-
-extern char BG3_tiles, BG3_tiles_end;
-extern char BG3_pal, BG3_pal_end;
-extern char BG3_map, BG3_map_end;
+#include "BG1.inc"
+#include "BG2.inc"
+#include "BG3.inc"
 
 //---------------------------------------------------------------------------------
 int main(void)
@@ -37,15 +29,17 @@ int main(void)
     // BG2 point to vram address 0x0000 and with one pages of 32 tiles (32x32)
     bgSetMapPtr(2, 0x0000 + 2048, SC_32x32);
 
-    // copy BG0 tiles to vram 0x2000 and palette
-    bgInitTileSet(0, &BG2_tiles, &BG1_pal, 2, (&BG2_tiles_end - &BG2_tiles), 16 * 2, BG_16COLORS, 0x2000);
-    bgInitTileSet(1, &BG1_tiles, &BG2_pal, 4, (&BG1_tiles_end - &BG1_tiles), 16 * 2, BG_16COLORS, 0x3000);
-    bgInitTileSet(2, &BG3_tiles, &BG3_pal, 0, (&BG3_tiles_end - &BG3_tiles), 4 * 2, BG_16COLORS, 0x4000);
+    // BG0 tiles to vram 0x2000 and palette #2, top of screen
+    // BG1 (vram 0x3000) is for background image with palette #4, background screen
+    // BG2 (vram 0x4000) is HUD, on top of other backgrounds, with palette 0 (as palettes with 4 colors must be first entries)
+    bgInitTileSet(0, &BG1_til, &BG1_pal, 2, (&BG1_tilend - &BG1_til), 16 * 2, BG_16COLORS, 0x2000);
+    bgInitTileSet(1, &BG2_til, &BG2_pal, 4, (&BG2_tilend - &BG2_til), 16 * 2, BG_16COLORS, 0x3000);
+    bgInitTileSet(2, &BG3_til, &BG3_pal, 0, (&BG3_tilend - &BG3_til), 4 * 2, BG_4COLORS, 0x4000);
 
     // copy background maps
     WaitForVBlank();
-    dmaCopyVram(&BG2_map, 0x0000, 2048);
-    dmaCopyVram(&BG1_map, 0x0000 + 1024, 2048);
+    dmaCopyVram(&BG1_map, 0x0000, 2048);
+    dmaCopyVram(&BG2_map, 0x0000 + 1024, 2048);
     dmaCopyVram(&BG3_map, 0x0000 + 2048, 2048);
 
     // IMPORTANT - use mode1 with BG3_MODE1_PRIORITY_HIGH otherwise your HUD will not have the highest priority

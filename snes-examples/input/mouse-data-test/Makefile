@@ -2,7 +2,6 @@ ifeq ($(strip $(PVSNESLIB_HOME)),)
 $(error "Please create an environment variable PVSNESLIB_HOME by following this guide: https://github.com/alekmaul/pvsneslib/wiki/Installation")
 endif
 
-
 export ROMNAME := mouse-data-test
 
 FASTROM := 1
@@ -12,13 +11,11 @@ FASTROM := 1
 # This variable MUST MATCH hdr.asm
 HIROM := 0
 
-
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 .PHONY: bitmaps all
 
 #---------------------------------------------------------------------------------
-
 all: bitmaps $(ROMNAME).sfc
 
 clean: cleanBuildRes cleanRom cleanGfx

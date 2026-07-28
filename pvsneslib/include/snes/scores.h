@@ -50,6 +50,12 @@ void scoreClear(scoMemory *source);
 */
 void scoreAdd(scoMemory *source, u16 value);
 
+/*! \brief substract a value to a score memory
+    \param source the source to clear from
+    \param value the value to add
+*/
+void scoreSub(scoMemory *source, u16 value);
+
 /*! \brief copy a score memory to another score memory
     \param source the source to copy from
     \param dest the destination to copy to
@@ -62,5 +68,13 @@ void scoreCpy(scoMemory *source, scoMemory *dest);
     \return	0 if equals, 0xFF if source greater than destination, 1 otherwise
 */
 u8 scoreCmp(scoMemory *source, scoMemory *dest);
+
+/*! \brief convert a score memory into a string
+    \param source the score to convert
+    \param buf the destination string
+    
+    String version of scrore will be 00000000 with first digit of hi score and then lo score
+*/
+void scoreToStr(scoMemory *source, char *buf);
 
 #endif // SNES_SCORE_INCLUDE
