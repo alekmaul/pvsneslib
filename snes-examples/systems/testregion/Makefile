@@ -5,18 +5,14 @@ endif
 # ROMNAME is used in snes_rules file
 export ROMNAME := testregion
 
+export COUNTRY := 03
+
 include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
-.PHONY: bitmaps all
+.PHONY: all
 
 #---------------------------------------------------------------------------------
-all: bitmaps $(ROMNAME).sfc
+all: $(ROMNAME).sfc
 
 clean: cleanBuildRes cleanRom cleanGfx
 
-#---------------------------------------------------------------------------------
-pvsneslibfont.pic: pvsneslibfont.bmp
-	@echo convert font with no tile reduction ... $(notdir $@)
-	$(GFXCONV) -s 8 -o 2 -u 16 -p -t bmp -i $<
-
-bitmaps : pvsneslibfont.pic
