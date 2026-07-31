@@ -24,7 +24,7 @@ typedef enum {
 } RomMode;
 
 typedef enum { 
-    MEM_ROM, MEM_WRAM, MEM_SRAM, MEM_UNKNOWN 
+    MEM_ROM, MEM_WRAM, MEM_LORAM, MEM_SRAM, MEM_UNKNOWN
 } MemType;
 
 //-------------------------------------------------------------------------------------------------

@@ -20,7 +20,7 @@ where `file.symfull` is the symbol file wlalink writes out next to your `.sfc` R
 
 ## Options
 ### Display options
-- `-t` show the largest N largest sections (default is 15)
+- `-t` show the largest N largest sections (default and minimum is 15)
 - `-s` dump every parsed section (bank/type/range/size)
 
 ### ROM options
@@ -52,9 +52,11 @@ ROM bank $00   ROM    0x8000-0xFFFF   32768   12274    37%   20494    63%  |####
 ROM bank $01   ROM    0x8000-0xFFFF   32768    4218    13%   28550    87%  |###.........................|
 WRAM bank $7E  WRAM   0x0000-0xFFFF   65536   10818    17%   54718    83%  |####........................|
 WRAM bank $7F  WRAM   0x0000-0xFFFF   65536       0     0%   65536   100%  |............................|
+LowRAM ($7E)   LORAM  0x0000-0x1FFF    8192     197     2%    7995    98%  |............................|
 -------------- ------ ------------- ------- ------- ------ ------- ------
 TOTAL ROM      ROM    0x0000-0x0000   65536   16492    25%   49044    75%  |#######.....................|
 TOTAL WRAM     WRAM   0x0000-0x0000  131072   10818     8%  120254    92%  |##..........................|
+TOTAL LORAM    LORAM  0x0000-0x0000    8192     197     2%    7995    98%  |............................|
 
 snesromusage: processed in 6ms
 ```
@@ -62,6 +64,7 @@ snesromusage: processed in 6ms
 ## acknowledgments
 
 snesromusage was inspired by [bbbbbr/romusage](https://github.com/bbbbbr/romusage) for GBDK.  
+Adapted for the SNES memory map (LoROM / HiROM https://en.wikibooks.org/wiki/Super_NES_Programming/SNES_memory_map).  
 
 snesromusage uses the following libraries:
 * [AsciiArt](https://patorjk.com/software/taag/#p=display&f=Doom&t=gfx4snes%0A) gfx4snes logo with Doom font

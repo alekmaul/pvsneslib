@@ -44,7 +44,7 @@ static cmdp_command_st snesromusage_command = {
     .options =
         (cmdp_option_st[]){
             {0, 0, "Display options:\n", CMDP_TYPE_NONE, NULL,NULL},
-			{'t', "top-sections", "show the largest N largest scetcion (default is 15)", CMDP_TYPE_INT4, &snesromusage_args.topsections},
+			{'t', "top-sections", "show the largest N largest scetcion (default and min is 15)", CMDP_TYPE_INT4, &snesromusage_args.topsections},
             {'s', "all-sections","dump every parsed section (bank/type/range/size)", CMDP_TYPE_BOOL, &snesromusage_args.allsections},
             {0, 0, "ROM options:\n", CMDP_TYPE_NONE, NULL,NULL},
             {'r', "rom-type", "Force rom to lorom, hirom, exhirom", CMDP_TYPE_STRING_PTR, &snesromusage_args.romtype, .type_name = "<lorom,hirom,exhirom>"},

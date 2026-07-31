@@ -225,6 +225,19 @@ void build_sections(bool isquiet)
 // SNES memory map classification                                      
 // Classifies one section by its start address (a section never crosses a bank boundary in practice
 //  for wla-dx/pvsneslib output; if it did,  we still charge the whole size to the bank it starts in). 
+/* $0000-$1FFF of every "system" bank is hard-wired to shadow the first
+ * 8KB of WRAM (bank $7E) - see the "LowRAM" rows of the LoROM/HiROM memory
+ * maps at https://en.wikibooks.org/wiki/Super_NES_Programming/SNES_memory_map
+ *   LoROM : banks $00-$3F (mirrored at $80-$BF)
+ *   HiROM : banks $00-$1F (mirrored at $80-$9F)
+ * pvsneslib/wla-dx routinely places direct-page variables there (a
+ * dedicated MEMORYMAP SLOT of its own), so it's reported as its own
+ * LORAM row rather than lumped in with WRAM. */
+static int is_loram_bank(RomMode mode, unsigned bank) {
+    if (mode == MODE_LOROM) return (bank <= 0x3F) || (bank >= 0x80 && bank <= 0xBF);
+    return (bank <= 0x1F) || (bank >= 0x80 && bank <= 0x9F); /* HiROM / ExHiROM */
+}
+
 static void classify_section(t_section *s, RomMode mode) 
 {
     unsigned bank = (s->start_addr >> 16) & 0xFF;
@@ -236,15 +249,9 @@ static void classify_section(t_section *s, RomMode mode)
         return;
     }
 
-    /* $0000-$1FFF of every "system" bank ($00-$3F/$80-$BF, and also
-     * $40-$7D/$C0-$FF under HiROM) is hard-wired to shadow the first two
-     * pages of WRAM (bank $7E). This is true in BOTH LoROM and HiROM, and
-     * pvsneslib/wla-dx routinely places direct-page variables there, so
-     * fold it onto the real WRAM bank $7E instead of flagging it unknown. */
-    int is_system_bank = (bank <= 0x3F) || (bank >= 0x80 && bank <= 0xBF);
-    if (is_system_bank && off < 0x2000) {
-        s->type = MEM_WRAM;
-        s->bank = 0x7E;
+    if (off < 0x2000 && is_loram_bank(mode, bank)) {
+        s->type = MEM_LORAM;
+        s->bank = -1; /* single aggregated pool, not a distinct physical bank */
         return;
     }
 
@@ -286,6 +293,7 @@ static void classify_section(t_section *s, RomMode mode)
 static const char *memtype_name(MemType t) {
     switch (t) {
         case MEM_ROM:  return "ROM";
+        case MEM_LORAM: return "LORAM";
         case MEM_WRAM: return "WRAM";
         case MEM_SRAM: return "SRAM";
         default:       return "?";
@@ -321,11 +329,13 @@ void display_symbols(int forcemode, RomMode moderom, int topsection, bool showse
     int rom_bank_seen[256]; 
     unsigned int wram_used_7e = 0, wram_used_7f = 0;
     unsigned int sram_used_total = 0;
+    unsigned int loram_used_total = 0;
     unsigned int unknown_used_total = 0;
     int max_bank = -1;
     unsigned int tot_rom_size = 0, tot_rom_used = 0;
     unsigned int tot_wram_size = 0, tot_wram_used = 0;
     unsigned int tot_sram_size = 0, tot_sram_used = 0;
+    unsigned int tot_loram_size = 0, tot_loram_used = 0;
 
     memset(rom_used, 0, sizeof(rom_used));
     memset(rom_bank_seen, 0, sizeof(rom_bank_seen));
@@ -357,6 +367,9 @@ void display_symbols(int forcemode, RomMode moderom, int topsection, bool showse
             case MEM_WRAM:
                 if (s->bank == 0x7E) wram_used_7e += s->size;
                 else if (s->bank == 0x7F) wram_used_7f += s->size;
+                break;
+            case MEM_LORAM:
+                loram_used_total += s->size;
                 break;
             case MEM_SRAM:
                 sram_used_total += s->size;
@@ -390,6 +403,13 @@ void display_symbols(int forcemode, RomMode moderom, int topsection, bool showse
     row_push("WRAM bank $7E", "WRAM", 0x0000, 0xFFFF, 0x10000, wram_used_7e);
     row_push("WRAM bank $7F", "WRAM", 0x0000, 0xFFFF, 0x10000, wram_used_7f);
 
+    /* LowRAM: the $0000-$1FFF shadow of bank $7E present in every system
+     * bank (see is_loram_bank()). Reported as its own row/type since
+     * pvsneslib/wla-dx treat it as a distinct MEMORYMAP slot (typically
+     * used for direct-page variables), even though physically it's the
+     * same chip as WRAM bank $7E. */
+    row_push("LowRAM ($7E)", "LORAM", 0x0000, 0x1FFF, 0x2000, loram_used_total);
+    
     // SRAM:  auto-sized to the next convenient size that fits what's actually used 
     if (sram_used_total > 0) {
         unsigned int cap;
@@ -410,6 +430,7 @@ void display_symbols(int forcemode, RomMode moderom, int topsection, bool showse
         print_row(&g_rows[i]);
         if (!strcmp(g_rows[i].type, "ROM"))  { tot_rom_size += g_rows[i].size; tot_rom_used += g_rows[i].used; }
         if (!strcmp(g_rows[i].type, "WRAM")) { tot_wram_size += g_rows[i].size; tot_wram_used += g_rows[i].used; }
+        if (!strcmp(g_rows[i].type, "LORAM")) { tot_loram_size += g_rows[i].size; tot_loram_used += g_rows[i].used; }
         if (!strcmp(g_rows[i].type, "SRAM")) { tot_sram_size += g_rows[i].size; tot_sram_used += g_rows[i].used; }
     }
 
@@ -420,6 +441,10 @@ void display_symbols(int forcemode, RomMode moderom, int topsection, bool showse
     }
     if (tot_wram_size) {
         row_push("TOTAL WRAM", "WRAM", 0, 0, tot_wram_size, tot_wram_used);
+        print_row(&g_rows[g_row_count - 1]);
+    }
+    if (tot_loram_size) {
+        row_push("TOTAL LORAM", "LORAM", 0, 0, tot_loram_size, tot_loram_used);
         print_row(&g_rows[g_row_count - 1]);
     }
     if (tot_sram_size) {
