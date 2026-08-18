@@ -382,7 +382,7 @@ _mapDAS1:
 
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -492,7 +492,7 @@ _phb1:
     tax
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -554,7 +554,7 @@ _pvb1:
     tax
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -982,7 +982,7 @@ mapGetMetaTile:
 
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -1033,7 +1033,7 @@ mapGetMetaTilesProp:
 
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
