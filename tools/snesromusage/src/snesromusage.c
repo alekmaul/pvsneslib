@@ -46,6 +46,7 @@ static cmdp_command_st snesromusage_command = {
             {0, 0, "Display options:\n", CMDP_TYPE_NONE, NULL,NULL},
 			{'t', "top-sections", "show the largest N largest scetcion (default and min is 15)", CMDP_TYPE_INT4, &snesromusage_args.topsections},
             {'s', "all-sections","dump every parsed section (bank/type/range/size)", CMDP_TYPE_BOOL, &snesromusage_args.allsections},
+			{'g', "usage-graph","show a small usage graph per bank", CMDP_TYPE_BOOL, &snesromusage_args.usagegraph},
             {0, 0, "ROM options:\n", CMDP_TYPE_NONE, NULL,NULL},
             {'r', "rom-type", "Force rom to lorom, hirom, exhirom", CMDP_TYPE_STRING_PTR, &snesromusage_args.romtype, .type_name = "<lorom,hirom,exhirom>"},
             {0, 0, "Files options:\n", CMDP_TYPE_NONE, NULL,NULL},
@@ -114,7 +115,7 @@ int main(int argc, char **argv) {
     }
 
     // display all regarding options
-    display_symbols(snesromusage_args.forcerommode, snesromusage_args.rommode,snesromusage_args.topsections, snesromusage_args.allsections, snesromusage_args.quietmode);
+    display_symbols(snesromusage_args.forcerommode, snesromusage_args.rommode,snesromusage_args.topsections, snesromusage_args.allsections,snesromusage_args.usagegraph, snesromusage_args.quietmode);
 
 	// display time processing
 	endimgconv=clock();

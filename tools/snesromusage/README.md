@@ -22,6 +22,8 @@ where `file.symfull` is the symbol file wlalink writes out next to your `.sfc` R
 ### Display options
 - `-t` show the largest N largest sections (default and minimum is 15)
 - `-s` dump every parsed section (bank/type/range/size)
+- `-g` show a small usage graph per bank
+
 
 ### ROM options
 - `-r` Force rom to lorom, hirom, exhirom

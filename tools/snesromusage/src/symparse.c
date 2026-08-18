@@ -308,7 +308,7 @@ void print_bar(unsigned int used, unsigned int size) {
     fputc('|',stdout);
 }
 
-void print_row(const t_reportrow *r) {
+void print_row(const t_reportrow *r, bool showbar) {
     unsigned int free_b = (r->size >= r->used) ? (r->size - r->used) : 0;
     double used_pct = r->size ? (100.0 * r->used / r->size) : 0.0;
     double free_pct = r->size ? (100.0 * free_b / r->size) : 0.0;
@@ -316,13 +316,14 @@ void print_row(const t_reportrow *r) {
     snprintf(range, sizeof(range), "0x%04X-0x%04X", r->range_lo, r->range_hi);
     fprintf(stdout,"%-14s %-6s %-13s %7u %7u %5.0f%% %7u %5.0f%%  ", r->label, r->type, range,
            r->size, r->used, used_pct, free_b, free_pct);
-    print_bar(r->used, r->size);
+    if (showbar)
+        print_bar(r->used, r->size);
     fputc('\n',stdout);
 }
 
 //-------------------------------------------------------------------------------------------------
 // display results
-void display_symbols(int forcemode, RomMode moderom, int topsection, bool showsection, bool isquiet)
+void display_symbols(int forcemode, RomMode moderom, int topsection, bool showsection, bool showgraph, bool isquiet)
 {
     RomMode mode = moderom;
     unsigned int rom_used[256]; 
@@ -427,7 +428,7 @@ void display_symbols(int forcemode, RomMode moderom, int topsection, bool showse
     fprintf(stdout,"-------------- ------ ------------- ------- ------- ------ ------- ------\n");
 
     for (int i = 0; i < g_row_count; i++) {
-        print_row(&g_rows[i]);
+        print_row(&g_rows[i],showgraph);
         if (!strcmp(g_rows[i].type, "ROM"))  { tot_rom_size += g_rows[i].size; tot_rom_used += g_rows[i].used; }
         if (!strcmp(g_rows[i].type, "WRAM")) { tot_wram_size += g_rows[i].size; tot_wram_used += g_rows[i].used; }
         if (!strcmp(g_rows[i].type, "LORAM")) { tot_loram_size += g_rows[i].size; tot_loram_used += g_rows[i].used; }
@@ -437,19 +438,19 @@ void display_symbols(int forcemode, RomMode moderom, int topsection, bool showse
     fprintf(stdout,"-------------- ------ ------------- ------- ------- ------ ------- ------\n");
     if (tot_rom_size) {
         row_push("TOTAL ROM", "ROM", 0, 0, tot_rom_size, tot_rom_used);
-        print_row(&g_rows[g_row_count - 1]);
+        print_row(&g_rows[g_row_count - 1],showgraph);
     }
     if (tot_wram_size) {
         row_push("TOTAL WRAM", "WRAM", 0, 0, tot_wram_size, tot_wram_used);
-        print_row(&g_rows[g_row_count - 1]);
+        print_row(&g_rows[g_row_count - 1],showgraph);
     }
     if (tot_loram_size) {
         row_push("TOTAL LORAM", "LORAM", 0, 0, tot_loram_size, tot_loram_used);
-        print_row(&g_rows[g_row_count - 1]);
+        print_row(&g_rows[g_row_count - 1],showgraph);
     }
     if (tot_sram_size) {
         row_push("TOTAL SRAM", "SRAM", 0, 0, tot_sram_size, tot_sram_used);
-        print_row(&g_rows[g_row_count - 1]);
+        print_row(&g_rows[g_row_count - 1],showgraph);
     }
     fprintf(stdout," \n");
 

@@ -66,6 +66,6 @@ extern size_t   g_section_count;
 //-------------------------------------------------------------------------------------------------
 extern void load_sym_file(const char *path, bool isquiet);
 extern void build_sections(bool isquiet);
-extern void display_symbols(int forcemode, RomMode moderom, int topsection, bool showsection, bool isquiet);
+extern void display_symbols(int forcemode, RomMode moderom, int topsection, bool showsection, bool showgraph, bool isquiet);
 
 #endif
