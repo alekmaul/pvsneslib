@@ -92,7 +92,7 @@ TileInfoNumber              DB                  ; stores the latest tilenumber s
     adc maptile_L1d
     sta tcc__r1
     sep #$30
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     sta tcc__r1h
     rep #$30
     lda [tcc__r1]
