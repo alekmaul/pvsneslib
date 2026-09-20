@@ -106,6 +106,7 @@ export TXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/bin2txt
 export SNTOOLS	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snestools
 export TMXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/tmx2snes
 export OPT		:=	$(PVSNESLIB_HOME)/devkitsnes/tools/816-opt
+export ROMUSE	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snesromusage
 
 #---------------------------------------------------------------------------------
 # Add default flag for compiling
@@ -183,7 +184,7 @@ endif
 #---------------------------------------------------------------------------------
 %.asm: %.ps
 	@echo Assembling ... $(notdir $<)
-	$(OPT) -i $< -o $@
+	$(OPT) -q -i $< -o $@
 ifeq ($(DEBUG),1)
 	cp $*.asm $*.opt.02.dbg
 endif
@@ -284,5 +285,4 @@ buildWithSummary:
 	@echo "--- COMPILATION SUMMARY ---"
 	@grep -E "warning|error" $(BUILD_LOG) || echo "No warnings or errors found."
 	@echo "---------------------------"
-	@grep -E " free" $(BUILD_LOG); 
 	@if grep -q "error" $(BUILD_LOG); then exit 1; fi
