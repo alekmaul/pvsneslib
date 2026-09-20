@@ -1202,7 +1202,7 @@ updateFadeEffect:
     bcc ++
     dec fade_level
     bra ufetsfa
-++: bcs +++                                                 ; if (fade_level < fade_target) fade_level++
+++: bcs ufetsfa                                             ; if (fade_level < fade_target) fade_level++
     inc fade_level
     
 ufetsfa: lda fade_level                                     ; setBrightness(fade_level);
@@ -1285,6 +1285,7 @@ setFadeEffectSpeed:
 setFadeEffectOut:
     php
     
+    sep #$20
     lda #$0
     sta.l fade_target                                        ; init target values
     sta.l fade_tick
