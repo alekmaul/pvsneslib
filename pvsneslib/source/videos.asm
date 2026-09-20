@@ -83,6 +83,17 @@ mirrorINIDISP       DSB 1
 
 .ENDS
 
+
+.RAMSECTION ".fadeeffect7e" BANK $7E SLOT RAMSLOT_0
+
+fade_level          DSB 1       // current brightness -> default 15
+fade_target         DSB 1       // fading end value
+fade_stepframes     DSB 1       // increment each n frames
+fade_tick           DSB 1       // used with step frame for delay
+fade_active         DSB 1       // 1 is fade effect
+
+.ENDS
+
 .RAMSECTION ".reg_video7e_matrix" BANK $7E SLOT RAMSLOT_0
 
 m7ma                DSB 2
@@ -104,7 +115,6 @@ m7_md               DSB (225-64)*3              ; 483 bytes
 .ENDS
 
 
-; getFPScounter() variables
 .RAMSECTION ".getfpscounter_lowram" BANK 0 SLOT 1
 
 snes_vblank_count_svg   dsb 2  ; for comparing snes_vblank_count
@@ -113,8 +123,8 @@ snes_frame_count_svg    dsb 2  ; same thing for saving purpose
 
 .ENDS
 
-
 .BASE BASE_0
+
 .SECTION ".videos0_text" SUPERFREE
 
 .ACCU 16
@@ -1143,4 +1153,168 @@ _sfctr1:
     rtl
 
 .ENDS
+
+.SECTION ".videosfad_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+; void setFadeEffectInit(void)
+setFadeEffectInit:
+    php
+
+    sep #$20
+    lda #$15
+    sta.l fade_level
+    sta.l fade_target
+    lda #$1
+    sta.l fade_stepframes
+    lda #0
+    sta.l fade_active
+    sta.l fade_tick
+
+    plp
+    rtl
+
+
+; void updateFadeEffect(void)
+updateFadeEffect:
+    php
+    phb
+
+    sep #$20
+    lda #$7e                                                 ; bank 7e for variables
+    pha
+    plb
+
+    lda fade_active                                          ; no fade effect, go out
+    beq ufeex
+
+    lda fade_stepframes                                      ; update fade tick regarding speed
+    beq +
+    inc fade_tick
+    lda fade_tick
+    cmp fade_stepframes
+    bcc ufeex
+    lda #$0
+    sta fade_tick
+
++:  lda fade_level                                          ; if (fade_level > fade_target) fade_level--
+    cmp fade_target
+    bcc ++
+    dec fade_level
+    bra ufetsfa
+++: bcs +++                                                 ; if (fade_level < fade_target) fade_level++
+    inc fade_level
+    
+ufetsfa: lda fade_level                                     ; setBrightness(fade_level);
+    pha
+    jsl setBrightness
+    pla
+    cmp fade_target
+    bne  ufeex
+    stz fade_active
+
+ufeex:
+    plb
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosfad1_text" SUPERFREE
+
+; u8 getFadeEffectLevel(void)
+getFadeEffectLevel:
+    php
+    phb 
+
+    sep #$20
+    lda #$7e                                                  ; bank 7e for variables
+    pha
+    plb
+
+    lda fade_level
+    sta.l tcc__r0
+
+    plb
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosfad2_text" SUPERFREE
+
+; u8 IsFadeEffectActive(void)
+IsFadeEffectActive:
+    php
+    phb 
+
+    sep #$20
+    lda #$7e                                                  ; bank 7e for variables
+    pha
+    plb
+
+    lda fade_active
+    sta.l tcc__r0
+
+    plb
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosfad3_text" SUPERFREE
+
+
+; void setFadeEffectSpeed(u8 speed)
+; 5
+setFadeEffectSpeed:
+    php
+
+    sep #$20
+    lda.b   5,s                                              ; get speed      
+    sta.l fade_stepframes
+
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosfad4_text" SUPERFREE
+
+; void setFadeEffectOut(void)
+setFadeEffectOut:
+    php
+    
+    lda #$0
+    sta.l fade_target                                        ; init target values
+    sta.l fade_tick
+
+    lda #$1                                                  ; go for a fading effect
+    sta.l fade_active
+
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosfad5_text" SUPERFREE
+
+; void setFadeEffectIn(void)
+setFadeEffectIn:
+    php
+
+    sep #$20
+    lda #$15
+    sta.l fade_target                                        ; init target values
+    lda #$0
+    sta.l fade_tick
+
+    lda #$1                                                  ; go for a fading effect
+    sta.l fade_active
+
+    plp
+    rtl
+
+.ENDS
+
 
