@@ -2,7 +2,7 @@
 
     Video registers and defines
 
-    Copyright (C) 2012-2017
+    Copyright (C) 2012-2026
         Alekmaul
 
     This software is provided 'as-is', without any express or implied
@@ -30,14 +30,12 @@
 */
 #ifndef SNES_VIDEO_INCLUDE
 #define SNES_VIDEO_INCLUDE
-
 #include <snes/snestypes.h>
 
 /*!	\brief Bit defines for the video control registers */
 typedef enum
 {
     DSP_FORCEVBL = BIT(7), /*!< \brief Forced Blanking (0=Normal, 1=Screen Black) */
-
     VRAM_INCLOW = (0 << 7), /*!< \brief Increment VRAM Address after accessing High/Low byte (0=Low, 1=High) */
     VRAM_INCHIGH = (1 << 7),
     VRAM_ADRTR_0B = (0 << 2),     /*!< \brief Address Translation    (0..3 = 0bit/None, 8bit, 9bit, 10bit) */
@@ -57,7 +55,6 @@ typedef enum
 #define MOSAIC_BG2 (1 << 1)
 #define MOSAIC_BG3 (1 << 2)
 #define MOSAIC_BG4 (1 << 3)
-
 #define CM_DIRCOLOR (1 << 0) /*!< \brief  Color Math Control Register A & B bits */
 #define CM_SUBBGOBJ_ENABLE (1 << 1)
 #define CM_ALWAYS_ENABLE (0 << 4)
@@ -68,7 +65,6 @@ typedef enum
 #define CM_SCBLK_MATWIN_ENABLE (1 << 6)
 #define CM_SCBLK_NOMATWIN_ENABLE (2 << 6)
 #define CM_SCBLK_NEVER_ENABLE (3 << 6)
-
 #define CM_SUB_MAINSUB (1 << 7)
 #define CM_DIV2_DIVIDE (1 << 6)
 #define CM_MSCR_BACK (1 << 5)
@@ -81,13 +77,11 @@ typedef enum
 #define CM_APPLY_BLUE (1 << 7)
 #define CM_APPLY_GREEN (1 << 6)
 #define CM_APPLY_RED (1 << 5)
-
 #define M7_HFLIP (1 << 0)    /*!< \brief Mode7 screen H-Flip (0=Normal, 1=Flipped) flip 256x256 "screen"*/
 #define M7_VFLIP (1 << 1)    /*!< \brief Mode7 screen V-Flip (0=Normal, 1=Flipped) flip 256x256 "screen"*/
 #define M7_WRAP (1 << 6)     /*!< \brief Mode7 Wrap within 128x128 tile area */
 #define M7_OUTTRANS (2 << 6) /*!< \brief Outside 128x128 tile area is Transparent */
 #define M7_OUTTILE (3 << 6)  /*!< \brief Outside 128x128 tile area is filled by Tile 00h */
-
 #define PPU_50HZ (1 << 4) /*!< \brief Frame Rate (PPU2.Pin30)  (0=NTSC/60Hz, 1=PAL/50Hz) */
 
 /*! \def REG_INIDISP
@@ -95,27 +89,24 @@ typedef enum
     7     Forced Blanking (0=Normal, 1=Screen Black)
     6-4   Not used
     3-0   Master Brightness (0=Screen Black, or N=1..15: Brightness*(N+1)/16)
-
     In Forced Blank, VRAM, OAM and CGRAM can be freely accessed (otherwise it's
     accessible only during Vblank). Even when in forced blank, the TV Set keeps
     receiving Vsync/Hsync signals (thus producing a stable black picture). And,
     the CPU keeps receiving Hblank/Vblank signals (so any enabled video NMIs, IRQs,
     HDMAs are kept generated).
-
     Forced blank doesn't apply immediately... so one must wait whatever
     (maybe a scanline) before VRAM can be freely accessed... or is it only
     vice-versa: disabling forced blank doesn't apply immediately/shows garbage
     pixels?
-*/
+ */
 #define REG_INIDISP (*(vuint8 *)0x2100)
 
 /*! \def REG_VMAIN
-    \brief VRAM Address Increment Mode (W)
+    \brief  VRAM Address Increment Mode (W)
     7     Increment VRAM Address after accessing High/Low byte (0=Low, 1=High)
     6-4   Not used
     3-2   Address Translation    (0..3 = 0bit/None, 8bit, 9bit, 10bit)
     1-0   Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128)
-
     The address translation is intended for bitmap graphics (where one would have filled the BG Map
     by increasing Tile numbers), technically it does thrice left-rotate the lower 8, 9, or 10 bits
     of the Word-address:
@@ -123,25 +114,22 @@ typedef enum
     8bit rotate  4-color; 1 word/plane    aaaaaaaaYYYxxxxx --> aaaaaaaaxxxxxYYY
     9bit rotate  16-color; 2 words/plane  aaaaaaaYYYxxxxxP --> aaaaaaaxxxxxPYYY
     10bit rotate 256-color; 4 words/plane aaaaaaYYYxxxxxPP --> aaaaaaxxxxxPPYYY
-
     Where "aaaaa" would be the normal address MSBs, "YYY" is the Y-index (within a 8x8 tile),
     "xxxxx" selects one of the 32 tiles per line, "PP" is the bit-plane index (for BGs with more
     than one Word per plane). For the intended result (writing rows of 256 pixels) the Translation
     should be combined with Increment Step=1.
     For Mode 7 bitmaps one could eventually combine step 32/128 with 8bit/10bit rotate:
-
   8bit-rotate/step32   aaaaaaaaXXXxxYYY --> aaaaaaaaxxYYYXXX
   10bit-rotate/step128 aaaaaaXXXxxxxYYY --> aaaaaaxxxxYYYXXX
 
     Though the SNES can't access enough VRAM for fullscreen Mode 7 bitmaps.
     Step 32 (without translation) is useful for updating BG Map columns (eg. after horizontal scrolling).
-*/
+ */
 #define REG_VMAIN (*(vuint8 *)0x2115)
 
 /*! \def REG_VMADDLH
     \brief  VMADDL - VRAM Address (lower 8bit) (W)
             VMADDH - VRAM Address (upper 8bit) (W)
-
     VRAM Address for reading/writing. This is a WORD address (2-byte steps),
     the PPU could theoretically address up to 64K-words (128K-bytes), in practice,
     only 32K-words (64K-bytes) are installed in SNES consoles (VRAM address bit15
@@ -151,14 +139,14 @@ typedef enum
     feature is applied only "temporarily" upon memory accesses, it doesn't affect the
     value in Port 2116h-17h).
     Writing to 2116h/2117h does prefetch 16bit data from the new address (for later reading).
-*/
+ */
 #define REG_VMADDLH (*(vuint16 *)0x2116)
 
 /*
     Writing to 2118h or 2119h does simply modify the LSB or MSB of the currently addressed VRAM
     word (with optional Address Translation applied). Depending on the Increment Mode the address
     does (or doesn't) get automatically incremented after the write.
-*/
+ */
 #define REG_VMDATAL (*(vuint8 *)0x2118)   /*!< \brief VRAM Data Write (lower 8bit) (W) */
 #define REG_VMDATAH (*(vuint8 *)0x2119)   /*!< \brief VRAM Data Write (upper 8bit) (W) */
 #define REG_VMDATALH (*(vuint16 *)0x2118) /*!< \brief VRAM Data Write (lower and upper 8bit) (W) */
@@ -169,27 +157,24 @@ typedef enum
     Color index (0..255). This is a WORD-address (2-byte steps), allowing to access
     256 words (512 bytes). Writing to this register resets the 1st/2nd access
     flipflop (for 2122h/213Bh) to 1st access.
-*/
+ */
 #define REG_CGADD (*(vuint8 *)0x2121)
 
 /*! \def CGRAM_PALETTE
     \brief Palette CGRAM Data Write (W)
     1st Access: Lower 8 bits (even address)
     2nd Access: Upper 7 bits (odd address) (upper 1bit = PPU2 open bus)
-
     Reads and Writes to EVEN and ODD byte-addresses work as follows:
     Write to EVEN address  -->  set Cgram_Lsb = Data    ;memorize value
     Write to ODD address   -->  set WORD[addr-1] = Data*256 + Cgram_Lsb
     Read from ANY address  -->  return BYTE[addr]
 
     The address is automatically incremented after every read or write access.
-
     256-Color Palette Entries
     15    Not used (should be zero) (read: PPU2 Open Bus)
     14-10 Blue
     9-5   Green
     4-0   Red
-
     Palette Indices
     00h      Main Backdrop color (used when all BG/OBJ pixels are transparent)
     01h-FFh  256-color BG palette (when not using direct-color mode)
@@ -201,7 +186,7 @@ typedef enum
     61h-7Fh  Eight 4-color BG palettes (BG4 in Mode 0 only)
     81h-FFh  Eight 16-color OBJ palettes (half of them with color-math disabled)
     N/A      Sub Backdrop color (not in CGRAM, set via COLDATA, Port 2132h)
-*/
+ */
 #define CGRAM_PALETTE ((u8 *)0x2122)
 
 /*! \def REG_CGWSEL
@@ -211,7 +196,7 @@ typedef enum
     3-2  Not used
     1    Sub Screen BG/OBJ Enable    (0=No/Backdrop only, 1=Yes/Backdrop+BG+OBJ)
     0    Direct Color (for 256-color BGs)  (0=Use Palette, 1=Direct Color)
-*/
+ */
 #define REG_CGWSEL (*(vuint8 *)0x2130)
 
 /*! \def REG_CGADSUB
@@ -225,7 +210,7 @@ typedef enum
     2    Color Math when Main Screen = BG3             (0=Off, 1=On) ; ON: Show
     1    Color Math when Main Screen = BG2             (0=Off, 1=On) ; Main+/-Sub
     0    Color Math when Main Screen = BG1             (0=Off, 1=On) ;/
-*/
+ */
 #define REG_CGADSUB (*(vuint8 *)0x2131)
 
 /*! \def REG_COLDATA
@@ -236,7 +221,7 @@ typedef enum
     6    Apply Green (0=No change, 1=Apply Intensity as Green)
     5    Apply Red   (0=No change, 1=Apply Intensity as Red)
     4-0  Intensity   (0..31)
-*/
+ */
 #define REG_COLDATA (*(vuint8 *)0x2132)
 
 /*! \def REG_M7SEL
@@ -245,18 +230,17 @@ typedef enum
     5-2   Not used
     1     Screen V-Flip (0=Normal, 1=Flipped)     ; flip 256x256 "screen"
     0     Screen H-Flip (0=Normal, 1=Flipped)     ;
-
     Screen Over (when exceeding the 128x128 tile BG Map size):
     0=Wrap within 128x128 tile area
     1=Wrap within 128x128 tile area (same as 0)
     2=Outside 128x128 tile area is Transparent
     3=Outside 128x128 tile area is filled by Tile 00h
-*/
+ */
 #define REG_M7SEL (*(vuint8 *)0x211A)
 
 /* 1st Write: Lower 8bit  ;\1st/2nd write mechanism uses "M7_old"
   2nd Write: Upper 8bit  ;/
-*/
+ */
 #define REG_M7A (*(vuint8 *)0x211B)    /*!< \brief Rotation/Scaling Parameter A (and Maths 16bit operand) (W) */
 #define REG_M7B (*(vuint8 *)0x211C)    /*!< \brief Rotation/Scaling Parameter B (and Maths 16bit operand) (W) */
 #define REG_M7C (*(vuint8 *)0x211D)    /*!< \brief Rotation/Scaling Parameter C (W) */
@@ -269,7 +253,7 @@ typedef enum
 /* After writing to 211Bh or 211Ch, the result can be read immediately from 2134h-2136h (the 21xxh Ports
   are rapidly clocked by the PPU, there's no delay needed when reading via "MOV A,[211Ch]" or via
   "MOV A,[1Ch]" (with D=2100h), both works even when the CPU runs at 3.5MHz).
-*/
+ */
 #define REG_MPYL (*(vuint8 *)0x2134)   /*!< \brief Signed Multiply Result (lower 8bit) (R) */
 #define REG_MPYM (*(vuint8 *)0x2135)   /*!< \brief Signed Multiply Result (middle 8bit) (R) */
 #define REG_MPYH (*(vuint8 *)0x2136)   /*!< \brief Signed Multiply Result (upper 8bit) (R) */
@@ -282,11 +266,10 @@ typedef enum
     5    Master/Slave Mode (PPU1.Pin25) (0=Normal=Master)
     4    Not used (PPU1 open bus) (same as last value read from PPU1)
     3-0  PPU1 5C77 Version Number (only version 1 exists as far as I know)
-
-The overflow flags are cleared at end of V-Blank, but NOT during forced blank!
-The overflow flags are set (regardless of OBJ enable/disable in 212Ch), at following
-    times: Bit6 when V=OBJ.YLOC/H=OAM.INDEX*2, bit7 when V=OBJ.YLOC+1/H=0.
-*/
+    The overflow flags are cleared at end of V-Blank, but NOT during forced blank!
+    The overflow flags are set (regardless of OBJ enable/disable in 212Ch), at following
+    times: bit6 when V=OBJ.YLOC/H=OAM.INDEX*2, bit7 when V=OBJ.YLOC+1/H=0.
+ */
 #define REG_STAT77 (*(vuint8 *)0x213E)
 
 /*! \def REG_STAT78
@@ -296,14 +279,13 @@ The overflow flags are set (regardless of OBJ enable/disable in 212Ch), at follo
     5    Not used (PPU2 open bus) (same as last value read from PPU2)
     4    Frame Rate (PPU2.Pin30)  (0=NTSC/60Hz, 1=PAL/50Hz)
     3-0  PPU2 5C78 Version Number (version 1..3 exist as far as I know)
-*/
+ */
 #define REG_STAT78 (*(vuint8 *)0x213F)
 
 // macro creates a 15 bit color from 3x5 bit components
 /** \brief  Macro to convert 5 bits or 8 bits r g b components into a single 15 bit RGB triplet */
 #define RGB8(r, g, b) (((r) >> 3) | (((g) >> 3) << 5) | (((b) >> 3) << 10))
 #define RGB5(r, g, b) ((r) | ((g) << 5) | ((b) << 10))
-
 #define SCREEN_HEIGHT 224 /** \brief  Screen height in pixels */
 #define SCREEN_WIDTH 256  /** \brief  Screen width in pixels */
 
@@ -314,17 +296,16 @@ extern u16 snes_frame_count; /*!< \brief Number of frame per second (need a call
 
 extern u8 mirrorINIDISP;  /*!< \brief Current value of REG_INIDISP in RAM to know if screen is on or not */
 
-
-/*! \fn  setBrightness(u8 level)
-    \brief sets the screens brightness.
-    \param level	15 = full brightness, 0= black
+/*! \fn setBrightness(u8 level)
+    \brief Sets the screen brightness.
+    \param level 15 = full brightness, 0 = black.
 */
 void setBrightness(u8 level);
 
-/*! \fn  setMode(u8 mode, u8 size)
+/*! \fn setMode(u8 mode, u8 size)
     \brief Set the SNES hardware to operate in new display mode.
-    \param mode	0..7 for available Snes display mode
-    \param size	Tile Size (8x8 or 16x16) of each BG in this mode (if available)
+    \param mode 0..7 for available SNES display mode.
+    \param size Tile Size (8x8 or 16x16) of each BG in this mode (if available).
 
     Mode   BG1         BG2         BG3         BG4
     0      4-color     4-color     4-color     4-color   ;Normal
@@ -335,134 +316,205 @@ void setBrightness(u8 level);
     5      16-color    4-color     -           -         ;512-pix-hires
     6      16-color    -           (o.p.t)     -         ;512-pix plus Offs-p-t
     7      256-color   EXTBG       -           -         ;Rotation/Scaling
-*/
+ */
 void setMode(u8 mode, u8 size);
 
-/*! \fn  setScreenOn(void)
-    \brief Put screen On.
+/*! \fn setScreenOn(void)
+    \brief Put screen on.
 
-    Calls WaitForVBlank() before enabling the screen to flush VBlank buffers/queues and minimise glitches.
-*/
+    Calls WaitForVBlank() before enabling the screen to flush VBlank
+    buffers/queues and minimise glitches.
+ */
 void setScreenOn(void);
 
-/*! \fn  setScreenOff(void)
-    \brief Put screen Off.
-*/
+/*! \fn setScreenOff(void)
+    \brief Put screen off.
+ */
 void setScreenOff(void);
 
-/*! \fn  setFadeEffect(u8 mode)
-    \brief Do a fadein or fadeout effect.
-    \param mode	(FADE_IN  = black to complete light, FADE_OUT = light to black)
-*/
+/*! \fn setFadeEffect(u8 mode)
+    \brief Perform a blocking fade-in or fade-out effect.
+
+    The function waits for VBlank while the fade is being performed.
+
+    \param mode FADE_IN = black to full brightness,
+                FADE_OUT = full brightness to black.
+ */
 void setFadeEffect(u8 mode);
 
-/*! \fn  setFadeEffectEx(u8 mode, u8 framesNumber)
-    \brief Do a fadein or fadeout effect.
-    \param mode	(FADE_IN  = black to complete light, FADE_OUT = light to black)
-    \param framesNumber the number of frames
-*/
+/*! \fn setFadeEffectEx(u8 mode, u8 framesNumber)
+    \brief Perform a blocking fade-in or fade-out effect with a configurable step delay.
+
+    \param mode FADE_IN = black to full brightness,
+                FADE_OUT = full brightness to black.
+    \param framesNumber Number of VBlanks to wait between brightness changes.
+ */
 void setFadeEffectEx(u8 mode, u8 framesNumber);
 
-/*! \fn  setMosaicEffect(u8 mode, u8 bgNumbers)
+/*! \fn setFadeEffectInit(void)
+    \brief Initialize the software fade effect state.
+
+    This initializes the internal fade level, target level, update speed
+    and activity state. It should normally be called once before using
+    the non-blocking fade functions.
+ */
+void setFadeEffectInit(void);
+
+/*! \fn updateFadeEffect(void)
+    \brief Update the software fade effect.
+
+    This function performs one step of a non-blocking fade operation.
+    It should typically be called once per frame, for example from the
+    main game loop.
+
+    The function updates the current fade level toward its target and
+    automatically stops the effect when the target is reached.
+ */
+void updateFadeEffect(void);
+
+/*! \fn getFadeEffectLevel(void)
+    \brief Return the current software fade level.
+
+    \return Current internal fade level.
+ */
+u8 getFadeEffectLevel(void);
+
+/*! \fn IsFadeEffectActive(void)
+    \brief Check whether the software fade effect is active.
+
+    \return 1 if a fade operation is active, 0 otherwise.
+ */
+u8 IsFadeEffectActive(void);
+
+/*! \fn setFadeEffectSpeed(u8 speed)
+    \brief Set the update speed of the software fade effect.
+
+    \param speed Number of updateFadeEffect() calls between brightness
+                 changes. A value of 0 updates the brightness on every
+                 call. A value of 1 also updates on every call.
+
+    \note For values greater than 1, the fade level is changed once
+          every \p speed calls to updateFadeEffect().
+ */
+void setFadeEffectSpeed(u8 speed);
+
+/*! \fn setFadeEffectOut(void)
+    \brief Start a non-blocking fade-out effect.
+
+    Sets the fade target to black and activates the software fade.
+    The actual brightness update is performed by updateFadeEffect().
+ */
+void setFadeEffectOut(void);
+
+/*! \fn setFadeEffectIn(void)
+    \brief Start a non-blocking fade-in effect.
+
+    Sets the fade target to the full software fade level and activates
+    the software fade. The actual brightness update is performed by
+    updateFadeEffect().
+ */
+void setFadeEffectIn(void);
+
+/*! \fn setMosaicEffect(u8 mode, u8 bgNumbers)
     \brief Do a mosaic in or out effect.
-    \param bgNumbers	(MOSAIC_BG1 to MOSAIC_BG4 depending of which background to use for effect)
-    \param mode	(MOSAIC_IN  = normal to mosaic, MOSAIC_OUT = mosaic to normal)
-*/
+    \param bgNumbers (MOSAIC_BG1 to MOSAIC_BG4 depending of which background to use for effect)
+    \param mode (MOSAIC_IN = normal to mosaic, MOSAIC_OUT = mosaic to normal)
+ */
 void setMosaicEffect(u8 mode, u8 bgNumbers);
 
-/*! \fn  setColorEffect(u8 colorMathA, u8 colorMathB)
+/*! \fn setColorEffect(u8 colorMathA, u8 colorMathB)
     \brief Do addition or other color effects.
-    \param colorMathA	value for color math A register (REG_CGWSEL)
-    \param colorMathB	value for color math B register (REG_CGADSUB)
-*/
+    \param colorMathA value for color math A register (REG_CGWSEL)
+    \param colorMathB value for color math B register (REG_CGADSUB)
+ */
 void setColorEffect(u8 colorMathA, u8 colorMathB);
 
-/*! \fn  setColorIntensity(u8 colorApply, u8 intensity)
-    \brief Change intensity for transparency
-    \param colorApply	with component is affect (red, green, blue)
-    \param intensity	value for intensity
-*/
+/*! \fn setColorIntensity(u8 colorApply, u8 intensity)
+    \brief Change intensity for transparency.
+    \param colorApply which component is affected (red, green, blue)
+    \param intensity value for intensity
+ */
 void setColorIntensity(u8 colorApply, u8 intensity);
 
-/*! \fn  setPalette(palette, paletteEntry, paletteSize)
+/*! \fn setPalette(palette, paletteEntry, paletteSize)
     \brief Change a palette in CGRAM.
-    \param palette	address of palette
+    \param palette address of palette
     \param paletteEntry palette entry (0..16 for 16 colors mode) of the beginning of each colors
-    \param paletteSize	size of palette
-*/
+    \param paletteSize size of palette
+ */
 #define setPalette(palette, paletteEntry, paletteSize) dmaCopyCGram(palette, paletteEntry, paletteSize)
 
-/*! \fn  setPaletteColor(paletteEntry, paletteColor)
+/*! \fn setPaletteColor(paletteEntry, paletteColor)
     \brief Change a color palette in CGRAM.
     \param paletteEntry palette color number (0..255)
-    \param paletteColor	RGB5 color
-*/
+    \param paletteColor RGB5 color
+ */
 #define setPaletteColor(paletteEntry, paletteColor) \
     REG_CGADD = paletteEntry;                       \
     *CGRAM_PALETTE = (paletteColor)&0xFF;           \
     *CGRAM_PALETTE = (paletteColor) >> 8;
 
-/*! \fn  getPalette(u8 paletteEntry, u8 paletteSize, u16 *paletteColors)
+/*! \fn getPalette(u8 paletteEntry, u8 paletteSize, u16 *paletteColors)
     \brief Get a palette from CGRAM.
     \param paletteEntry 1st entry in palette (0..255 for 16 colors mode)
-    \param paletteSize	size of palette to get
-    \param paletteColors	RGB5 color to save all values
-*/
+    \param paletteSize size of palette to get
+    \param paletteColors RGB5 color to save all values
+ */
 void getPalette(u8 paletteEntry, u8 paletteSize, u16 *paletteColors);
 
-/*! \fn  getPaletteColor(u8 paletteEntry, u16 *paletteColor)
+/*! \fn getPaletteColor(u8 paletteEntry, u16 *paletteColor)
     \brief Get a color palette from CGRAM.
     \param paletteEntry palette color number (0..255)
-    \param paletteColor	RGB5 color to save value
-*/
+    \param paletteColor RGB5 color to save value
+ */
 void getPaletteColor(u8 paletteEntry, u16 *paletteColor);
 
-/*! \fn  setMode7(u8 mode)
+/*! \fn setMode7(u8 mode)
     \brief Put screen in mode 7 with generic init.
-    \param mode	Rotation/Scaling Mode Settings (see REG_M7SEL)
-*/
+    \param mode Rotation/Scaling Mode Settings (see REG_M7SEL)
+ */
 void setMode7(u8 mode);
 
-/*! \fn  setMode7Rot(u8 angle)
+/*! \fn setMode7Rot(u8 angle)
     \brief Change angle view in mode 7 with matrix transformation.
-    \param angle : 0..255 value
-*/
+    \param angle 0..255 value
+ */
 void setMode7Rot(u8 angle);
 
-/*! \fn  setMode7MoveForwardBack(u8 z8)
+/*! \fn setMode7MoveForwardBack(u8 z8)
     \brief Change perspective view forward/backward in mode 7 without changing matrix.
-    \param z8 : 0..255 value
-*/
+    \param z8 0..255 value
+ */
 void setMode7MoveForwardBack(u8 z8);
 
-/*! \fn  setMode7MoveLeftRight(u8 z8)
+/*! \fn setMode7MoveLeftRight(u8 z8)
     \brief Change perspective view left/right in mode 7 without changing matrix.
-    \param z8 : 0..255 value
-*/
+    \param z8 0..255 value
+ */
 void setMode7MoveLeftRight(u8 z8);
 
-/*! \fn  setMode7Angle(u8 angle)
+/*! \fn setMode7Angle(u8 angle)
     \brief Change angle view in mode 7 without changing matrix.
-    \param angle : 0..255 value
-*/
+    \param angle 0..255 value
+ */
 void setMode7Angle(u8 angle);
 
-/*! \fn  setMode7Scale(u16 xscale, u16 yscale)
+/*! \fn setMode7Scale(u16 xscale, u16 yscale)
     \brief Change scaling effect of screen in mode 7.
-    \param xscale : scaling for x 
-    \param yscale : scaling for y 
-*/
+    \param xscale scaling for x
+    \param yscale scaling for y
+ */
 void setMode7Scale(u16 xscale, u16 yscale);
 
-/*! \fn  getFPScounter(void)
+/*! \fn getFPScounter(void)
     \brief Return number of frames per second.
     \return unsigned short of the current frame per second counter
-*/
+ */
 unsigned short getFPScounter(void);
 
-/*! \fn  showFPScounter(void)
+/*! \fn showFPScounter(void)
     \brief Show on current text BG, at location 1,1 the number of frames per second.
-*/
+ */
 void showFPScounter(void);
 
 #endif // SNES_VIDEO_INCLUDE
