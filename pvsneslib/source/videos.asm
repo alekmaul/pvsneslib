@@ -1162,7 +1162,7 @@ setFadeEffectInit:
     php
 
     sep #$20
-    lda #$15
+    lda #15
     sta.l fade_level
     sta.l fade_target
     lda #$1
@@ -1304,7 +1304,7 @@ setFadeEffectIn:
     php
 
     sep #$20
-    lda #$15
+    lda #15
     sta.l fade_target                                        ; init target values
     lda #$0
     sta.l fade_tick
