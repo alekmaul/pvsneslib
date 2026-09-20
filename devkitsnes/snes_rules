@@ -109,6 +109,12 @@ export OPT		:=	$(PVSNESLIB_HOME)/devkitsnes/tools/816-opt
 export ROMUSE	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snesromusage
 
 #---------------------------------------------------------------------------------
+# Specific flags for quiet mode
+#---------------------------------------------------------------------------------
+GFXCONVFLAGS ?=
+OPTFLAGS ?=
+
+#---------------------------------------------------------------------------------
 # Add default flag for compiling
 #---------------------------------------------------------------------------------
 CFLAGS += -I$(PVSNESLIB_HOME)/pvsneslib/include -I$(PVSNESLIB_HOME)/devkitsnes/include -I$(CURDIR)
@@ -184,7 +190,7 @@ endif
 #---------------------------------------------------------------------------------
 %.asm: %.ps
 	@echo Assembling ... $(notdir $<)
-	$(OPT) -q -i $< -o $@
+	$(OPT) $(OPTFLAGS) -i $< -o $@
 ifeq ($(DEBUG),1)
 	cp $*.asm $*.opt.02.dbg
 endif
@@ -226,7 +232,7 @@ endif
 #---------------------------------------------------------------------------------
 %.pic: %.bmp
 	@echo convert bitmap ... $(notdir $<)
-	$(GFXCONV) -s 8 -o 16 -u 16 -e 0 -p -m -t bmp -i $<
+	$(GFXCONV) $(GFXCONVFLAGS) -s 8 -o 16 -u 16 -e 0 -p -m -t bmp -i $<
 
 #---------------------------------------------------------------------------------
 %.brr: %.wav
