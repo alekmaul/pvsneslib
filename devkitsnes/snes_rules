@@ -207,7 +207,7 @@ endif
 	@echo Linking ... $(notdir $@)
 	@rm -f $(ROMNAME).sym
 # -c should be removed ASAP ! It allow duplicate labels and definitions
-	$(LD) -d -s -v -A -c -L ${LIBDIRSOBJS} linkfile $@
+	$(LD) -d -s -A -c -L ${LIBDIRSOBJS} linkfile $@
 
 # remove unattended characters (use temp file for macOS/BSD sed compatibility)
 	@sed 's/://' $(ROMNAME).sym > $(ROMNAME).sym.tmp && mv $(ROMNAME).sym.tmp $(ROMNAME).sym
