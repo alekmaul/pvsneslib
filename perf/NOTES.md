@@ -173,6 +173,33 @@ L'outillage de test de `mos2wla` (émulateur sans interface, comparaison d'écra
   - **les deux outils vont ensemble** : ce 816-opt avec un ancien 816-tcc élargirait aussi les lectures `volatile` faites par pointeur ;
   - test `voltest` : lit `$217F` par un pointeur `volatile`, puis vérifie que l'adresse du port `$2180` n'a pas avancé (2 erreurs si tcc ne marque pas le `volatile`) ; test assembleur `byte_read`.
 
+  Puis motifs de boucles de jeu (19 octobre), repérés dans **chipschallenge** (jeu sur grille, boucles à compteurs `u8` globaux et tableaux de structures d'objets) : rick1 87 → 82 lignes par étape (−6 %) ; chipschallenge −5 % de code (36 010 → 34 135 lignes d'assembleur, 84 → 228 accès indexés) ; banc inchangé (173 frames, ses noyaux sont des fonctions `static` sans compteur `u8`) :
+  - **type de retour déclaré** (`816-gen.c` + `flow.c`) : tcc écrit `.define __f_ret N` avant chaque fonction (0 `void`, 1 entier dans r0, 2 pointeur r0/r0h, 3 `long long`, 4 flottant, 5 inconnu). 816-opt ne garde vivants à la sortie que ces registres, au lieu de r0 à f0h, pour **toutes** les fonctions et pas seulement les `static`. C'était la limite qui bloquait le plus de réécritures (un pointeur temporaire restait « vivant » jusqu'au `rtl`) ;
+  - **comparaison d'un `u8` à une constante** (`unsignedCompares`) : `sec / sbc #c / [beq] / bvc + / eor #$8000 / + / bmi|bpl T` devient `cmp #c / [beq] / bcc|bcs T` quand A est prouvé dans 0..`$7FFF` (octet lu) et `c` aussi : ordres signé et non signé identiques. Pas pour un `s8` ;
+  - **`++`/`--` d'un `u8`** (`byteIncrements`) : `lda #0 / sep / lda V / rep / sta rT / inc rT / sep / lda rT / sta V / rep` devient `sep / inc V / rep` (ou `lda / inc a / sta` en 8 bits pour une case de pile ou une adresse longue), si A et rT sont morts ensuite ;
+  - **champ d'un tableau de structures** (`indexArrays`) : le décalage du champ (`inc a` ou `clc / adc #C`) entre l'indice et le pointeur passe dans l'accès, `lda.l SYM + C,x`, avec la même limite qu'avant pour un indice négatif ;
+  - **les deux outils vont ensemble** : un ancien 816-opt refuse d'analyser une fonction qui contient la ligne `.define` (directive inconnue) et perd alors toutes les optimisations de flot ; ce 816-opt avec un ancien tcc garde l'hypothèse prudente (tous les registres de retour) ;
+  - test `structtest` (25 vérifications : rebouclage 255 → 0, comparaisons aux bornes, `s8`, champs, retours `u8`/`u16`/pointeur ROM et RAM/`long long`/`void`). Sensibilité vérifiée : sans la preuve 0..`$7FFF`, 1 erreur ; sans la banque du pointeur renvoyé, 3 erreurs. Tests assembleur `ucmp`, `byte_inc` ;
+  - chipschallenge construit dans une copie : écrans identiques à la chaîne installée jusqu'au titre (au-delà, le jeu reste sur un écran violet dans le snes9x sans affichage, y compris la ROM d'origine de l'auteur). rick1 : écrans identiques frame à frame jusqu'au défilement ;
+  - `byteRead` regarde aussi au-delà d'un épilogue (`.ifgr`/`.endif`) et d'un saut inconditionnel vers une étiquette nommée, pour trouver l'instruction qui lirait N. Sur les 84 fichiers C des exemples : 32 448 → 31 151 instructions (−4 %), 35 fichiers plus petits, aucun plus gros ;
+  - abtest : aucun écran différent, sauf le logo Konami à 300 frames, identique à 600 et 900 frames (décalage dans le temps).
+
+  **Vitesse sur trois jeux (19 octobre)**, même bibliothèque instrumentée (`WaitForVBlank` relève la ligne de balayage) pour les trois chaînes ; « origine » = `816-tcc.orig` + `816-opt.orig`, donc gain du compilateur seul, hors niveau 1 :
+
+  | Jeu, passage | Mesure | Origine | Chaîne du 1er oct. | Chaîne du 19 oct. | Gain total |
+  |---|---|---:|---:|---:|---:|
+  | rick1, marche + puits (PAL) | lignes par étape de jeu | 124 | 87 | 82 | −34 % |
+  | rick1 | charge médiane par frame | 128 | 88 | 84 | −34 % |
+  | rick1 | frames en retard | 35 | 24 | 23 | −34 % |
+  | geeklife, niveau 1 en marchant (NTSC) | charge médiane par frame | 118 | 115 | 114 | −3 % |
+  | geeklife, intro mode 7 | charge médiane par frame | 10 | 9 | 9 | — |
+  | chipschallenge, intro | charge médiane par frame | 10 | 10 | 10 | — |
+  | chipschallenge, niveau 1, Chip qui se déplace (NTSC, FastROM, après correction du jeu) | charge médiane (moyenne) par frame | 70 (73,2) | 62 (65,1) | 61 (64,0) | −13 % |
+
+  - geeklife suit exactement le même déroulé avec les trois chaînes (écran identique à la frame 4500). Sa charge part surtout dans la bibliothèque en assembleur (moteur de sprites, OAM, DMA), que le compilateur ne touche pas ;
+  - chipschallenge : l'écran violet après Start venait d'un bug du jeu, pas de l'émulateur. La routine VBlank (`vlanbks.asm`) lisait ses drapeaux (`dorefresh`…, `num_vbl`), placés en banque `$7F`, en adressage absolu avec DBR = `$7E` : elle lisait `metatiles` à `$7E:8000` et ne transférait jamais le texte. Corrigé par l'auteur le 20 octobre ; le jeu est alors mesurable (scénario : Start 2300, 3000, 3300, 3600, A 3900, Start 4300, puis Chip se déplace de 4500 à 5000). Écran identique à la frame 5000 avec les trois chaînes. Code : −5 % d'instructions, 2,7 fois plus d'accès indexés ;
+  - rappel pour le code assembleur des jeux : le C compilé par tcc + 816-opt suppose **DBR = `$7E`** (816-opt écrit en `.w` les accès aux globales C de la section `.bss`). Une routine qui change de banque doit la remettre à `$7E` avant d'appeler une fonction C.
+
 ## 6. Prochaines étapes possibles
 
 ### Sur la piste retenue (optimiser 816-tcc)

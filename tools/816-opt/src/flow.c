@@ -72,6 +72,7 @@ typedef struct {
 
 static int findSlot(const char *name, size_t len);
 static regset slotBits(const char *names);
+static long immValue(const char *op);
 /* return value: r0 (+ r0h for pointers), r1/r1h for 32-bit values, f0 for floats */
 #define RETREGS slotBits("r0 r0h r1 r1h f0 f0h")
 
@@ -494,7 +495,7 @@ static int analyse(Line *f, int n)
                 depth++;
             else if ((startWith(t, ".endif") || startWith(t, ".ENDIF")) && depth > 0)
                 depth--;
-            else if (!startWith(t, ".else") && !startWith(t, ".ELSE")) {
+            else if (!startWith(t, ".else") && !startWith(t, ".ELSE") && !startWith(t, ".define ")) {
                 DBG("directive inconnue: %s", t);
                 return 0; // data or unknown directive inside the code
             }
@@ -722,11 +723,35 @@ static int xHolds(Line *f, int at, const char *src)
 }
 
 /* Global array access through a pointer register:
-        lda.w #:SYM / sta.b tcc__rKh ... lda.w #SYM + 0 / clc / adc.b tcc__rP / sta.b tcc__rK
-        ... lda.b [tcc__rK] / sta.b [tcc__rK]
+        lda.w #:SYM / sta.b tcc__rKh ... lda.w #SYM + 0 / clc / adc.b tcc__rP
+        [/ field offset] / sta.b tcc__rK ... lda.b [tcc__rK] / sta.b [tcc__rK]
    The index is copied to X before the addition and the accesses become
-   lda.l SYM,x / sta.l SYM,x; the address computation is then dead. */
+   lda.l SYM + C,x / sta.l SYM + C,x; the address computation is then dead.
+   The field offset C of an array of structures (tab[i].field) is added after
+   the index, as "inc a" (C <= 4) or "clc / adc.w #C" (C < $8000). */
 
+/* Field offset lines after the index addition at line i: returns the line of
+   the store into the pointer register and sets *field (0 when none). */
+static int fieldAfterIndex(Line *f, int n, int i, long *field)
+{
+    int k = i + 1;
+    *field = 0;
+    while (k < n && f[k].isInsn && strcmp(f[k].text, "inc a") == 0 && !f[k].anon[0] && !f[k].busy
+           && !f[k].insBefore && !f[k].deleted && f[k].m == M_16 && *field < 4) {
+        (*field)++;
+        k++;
+    }
+    if (!*field && k + 1 < n && f[k].isInsn && is(&f[k], "clc") && !f[k].anon[0] && !f[k].busy
+        && !f[k].insBefore && f[k + 1].isInsn && is(&f[k + 1], "adc") && !f[k + 1].anon[0] && !f[k + 1].busy
+        && !f[k + 1].insBefore && f[k + 1].m == M_16) {
+        long c = immValue(f[k + 1].op);
+        if (c > 0 && c < 0x8000) {
+            *field = c;
+            k += 2;
+        }
+    }
+    return k;
+}
 
 static int indexArrays(Line *f, int n)
 {
@@ -734,7 +759,11 @@ static int indexArrays(Line *f, int n)
     char sym[256], buf[300];
 
     for (int i = 2; i + 1 < n; i++) {
-        Line *adc = &f[i], *clc = &f[i - 1], *st = &f[i + 1];
+        long field;
+        int s = fieldAfterIndex(f, n, i, &field);
+        if (s >= n)
+            continue;
+        Line *adc = &f[i], *clc = &f[i - 1], *st = &f[s];
         if (!adc->isInsn || !is(adc, "adc") || adc->size != 'b' || adc->m != M_16 || adc->anon[0]
             || !clc->isInsn || !is(clc, "clc") || clc->anon[0] || clc->insBefore || clc->busy
             || adc->busy || st->busy || !st->isInsn
@@ -794,7 +823,7 @@ static int indexArrays(Line *f, int n)
         char derefOp[64];
         snprintf(derefOp, sizeof(derefOp), "[tcc__%s]", kName);
         int deref[32], nderef = 0, ok = 0, xChanged = 0, xFree = 1, xLive = 0, j;
-        for (j = i + 2; j < n; j++) {
+        for (j = s + 1; j < n; j++) {
             Line *l = &f[j];
             if (!(l->in & ptr)) {
                 ok = 1; // pointer dead from here
@@ -849,6 +878,8 @@ static int indexArrays(Line *f, int n)
             }
             clc->deleted = 1;
             adc->deleted = 1;
+            for (int k = i + 1; k < s; k++)
+                f[k].deleted = 1; // the field offset goes into the access
             for (int k = 0; k < nderef; k++) {
                 snprintf(buf, sizeof(buf), "ldx.b tcc__%s", kName);
                 f[deref[k]].insBefore = strdup(buf);
@@ -858,7 +889,10 @@ static int indexArrays(Line *f, int n)
         }
         for (int k = 0; k < nderef; k++) {
             Line *l = &f[deref[k]];
-            snprintf(buf, sizeof(buf), "%s.l %s,x", l->mn, sym);
+            if (field)
+                snprintf(buf, sizeof(buf), "%s.l %s + %ld,x", l->mn, sym, field);
+            else
+                snprintf(buf, sizeof(buf), "%s.l %s,x", l->mn, sym);
             DBG("idx L%d %s: %s -> %s (L%d)", i, reuse ? "reuse" : clc->insBefore && !clc->deleted ? "direct" : "index", l->text, buf, deref[k]);
             setText(l, buf);
         }
@@ -1404,6 +1438,154 @@ static int redundantValues(Line *f, int n)
         sep #$20 / lda E / ora V / sta V / rep #$20
    (same for and, eor). rT must be dead after, A and N/Z too (their values
    change), V a stack slot or pseudo register, E must not use rT. */
+/* Value of an immediate operand "#123" / "#$7B", -1 if not a plain number */
+static long immValue(const char *op)
+{
+    char *e;
+    long v;
+    if (op[0] != '#')
+        return -1;
+    v = op[1] == '$' ? strtol(op + 2, &e, 16) : strtol(op + 1, &e, 10);
+    return (*e == 0 && e != op + 1) ? v : -1;
+}
+
+/* A is known to be in [0, $7FFF] just before line i: the previous instruction
+   (same block) is "and #N" with N < $8000, or the end of a zero-extended byte
+   read (lda #0 / sep #$20 / lda X / rep #$20). */
+static int aIsSmall(Line *f, int i)
+{
+    int k[4], nk = 0;
+    for (int j = i - 1; j >= 0 && nk < 4; j--) {
+        if (f[j].deleted)
+            continue;
+        if (!f[j].isInsn || f[j].anon[0] || f[j].inIf || f[j].insBefore)
+            break;
+        k[nk++] = j;
+    }
+    if (nk < 1)
+        return 0;
+    Line *p = &f[k[0]];
+    if (is(p, "and") && p->m == M_16) {
+        long mask = immValue(p->op);
+        return mask >= 0 && mask < 0x8000;
+    }
+    return nk == 4 && strcmp(p->text, "rep #$20") == 0 && is(&f[k[1]], "lda") && f[k[1]].m == M_8
+           && strcmp(f[k[2]].text, "sep #$20") == 0 && is(&f[k[3]], "lda") && strcmp(f[k[3]].op, "#0") == 0;
+}
+
+/* Signed comparison of a value known to be in [0, $7FFF] with a constant in
+   [0, $7FFF] (a u8 promoted to int, "for (i = 0; i < 64; i++)"): signed and
+   unsigned orders agree, so the overflow test of the signed form goes away:
+        sec / sbc #c / [beq L /] bvc + / eor #$8000 / + / bmi T  (bpl T)
+        =>  cmp #c / [beq L /] bcc T  (bcs T)
+   C is the same after cmp as after sec / sbc, Z too (A == c); A, N, V and Z
+   must be dead after the last branch (A keeps its value instead of A - c). */
+static int unsignedCompares(Line *f, int n)
+{
+    int done = 0;
+    char buf[300];
+
+    for (int i = 1; i + 5 < n; i++) {
+        Line *sec = &f[i], *sbc = &f[i + 1];
+        if (!sec->isInsn || !is(sec, "sec") || sec->anon[0] || !sbc->isInsn || !is(sbc, "sbc") || sbc->anon[0]
+            || sbc->m != M_16)
+            continue;
+        long c = immValue(sbc->op);
+        if (c < 0 || c >= 0x8000)
+            continue;
+        int j = i + 2;
+        if (f[j].isInsn && is(&f[j], "beq") && !f[j].anon[0])
+            j++; // the equality test reads Z, the same after cmp
+        if (j + 3 >= n)
+            continue;
+        Line *bvc = &f[j], *eor = &f[j + 1], *plus = &f[j + 2], *br = &f[j + 3];
+        if (!bvc->isInsn || !is(bvc, "bvc") || strcmp(bvc->op, "+") != 0 || bvc->anon[0] || !eor->isInsn
+            || !is(eor, "eor") || immValue(eor->op) != 0x8000 || eor->anon[0] || plus->isInsn
+            || strcmp(plus->anon, "+") != 0 || !br->isInsn || br->anon[0] || !(is(br, "bmi") || is(br, "bpl")))
+            continue;
+        int bad = 0;
+        for (int k = i; k <= j + 3; k++)
+            if (f[k].deleted || f[k].busy || f[k].insBefore || f[k].keep || f[k].inIf)
+                bad = 1;
+        if (bad || (br->out & (BIT(R_A) | BIT(R_N) | BIT(R_V) | BIT(R_Z))) || !aIsSmall(f, i))
+            continue;
+        /* the "+" label goes away: no other branch may target it */
+        for (int k = j - 1; k >= 0 && strcmp(f[k].anon, "+") != 0; k--)
+            if (f[k].isInsn && strcmp(f[k].op, "+") == 0)
+                bad = 1;
+        if (bad)
+            continue;
+        snprintf(buf, sizeof(buf), "cmp.w #%ld", c);
+        DBG("comparaison non signee: %s / %s -> %s", sbc->text, br->text, buf);
+        sec->deleted = 1;
+        setText(sbc, buf);
+        bvc->deleted = eor->deleted = 1;
+        plus->deleted = 1;
+        plus->dropLabel = 1;
+        snprintf(buf, sizeof(buf), "%s %s", is(br, "bmi") ? "bcc" : "bcs", br->op);
+        setText(br, buf);
+        done++;
+        i = j + 3;
+    }
+    return done;
+}
+
+/* Increment or decrement of a byte variable ("u8 v; v++"): tcc zero-extends
+   it into a pseudo register, increments the register and stores the low byte:
+        lda.w #0 / sep #$20 / lda V / rep #$20 / sta.b rT / inc.b rT
+        / sep #$20 / lda.b rT / sta V / rep #$20
+   becomes, in 8 bits:
+        sep #$20 / inc V / rep #$20                 (V absolute or direct page)
+        sep #$20 / lda V / inc a / sta V / rep #$20 (V long or a stack slot)
+   N and Z end the same (set by the 8-bit result in both cases), C is not
+   touched; A and rT must be dead after (A keeps another value). */
+static int byteIncrements(Line *f, int n)
+{
+    int done = 0;
+    char buf[300];
+
+    for (int i = 0; i + 9 < n; i++) {
+        Line *z = &f[i];
+        if (!(z->isInsn && is(z, "lda") && strcmp(z->op, "#0") == 0 && z->m == M_16))
+            continue;
+        int bad = 0;
+        for (int j = i; j <= i + 9; j++)
+            if (!f[j].isInsn || f[j].anon[0] || f[j].busy || f[j].insBefore || f[j].deleted || f[j].keep
+                || f[j].inIf)
+                bad = 1;
+        if (bad)
+            continue;
+        Line *ld = &f[i + 2], *st = &f[i + 4], *op = &f[i + 5], *ld2 = &f[i + 7], *sv = &f[i + 8],
+             *rep = &f[i + 9];
+        if (strcmp(f[i + 1].text, "sep #$20") != 0 || !is(ld, "lda") || strcmp(f[i + 3].text, "rep #$20") != 0
+            || !is(st, "sta") || st->size != 'b' || !(is(op, "inc") || is(op, "dec")) || op->size != 'b'
+            || strcmp(op->op, st->op) != 0 || strcmp(f[i + 6].text, "sep #$20") != 0 || !is(ld2, "lda")
+            || ld2->size != 'b' || strcmp(ld2->op, st->op) != 0 || !is(sv, "sta") || strcmp(rep->text, "rep #$20") != 0)
+            continue;
+        /* same variable, same addressing, not a pointer nor indexed */
+        if (strcmp(ld->op, sv->op) != 0 || ld->size != sv->size || strchr(ld->op, '[') || strchr(ld->op, '(')
+            || ld->op[0] == '#' || strstr(ld->op, "tcc__") || (strchr(ld->op, ',') && !endWith(ld->op, ",s")))
+            continue;
+        regset slots;
+        int ind;
+        if (operandSlots(st->op, &slots, &ind) != 1 || ind || (rep->out & (slots | BIT(R_A))))
+            continue;
+        const char *rmw = is(op, "inc") ? "inc" : "dec";
+        int direct = !endWith(ld->op, ",s") && (ld->size == 'w' || ld->size == 'b');
+        for (int j = i; j <= i + 9; j++)
+            f[j].deleted = 1;
+        if (direct)
+            snprintf(buf, sizeof(buf), "sep #$20\n%s.%c %s\nrep #$20", rmw, ld->size, ld->op);
+        else
+            snprintf(buf, sizeof(buf), "sep #$20\n%s\n%s a\n%s\nrep #$20", ld->text, rmw, sv->text);
+        f[i].insBefore = strdup(buf);
+        DBG("octet %s: %s", rmw, ld->op);
+        done++;
+        i += 9;
+    }
+    return done;
+}
+
 static int byteOps(Line *f, int n)
 {
     int done = 0;
@@ -1540,7 +1722,36 @@ typedef struct {
     int isStatic;      // tccs_ symbol: every call is in this file
     int addrTaken;     // name used otherwise than by a call
     regset retLive;    // return registers read by the callers
+    regset retMax;     // return registers of the declared return type
 } Func;
+
+/* Return registers of a function from the ".define __NAME_ret N" that tcc
+   writes before its label (see gfunc_prolog in 816-gen.c); all of them when
+   the line is missing (older tcc, hand-written assembler). */
+static regset declaredReturn(const Func *c)
+{
+    char key[300];
+    snprintf(key, sizeof(key), ".define __%s_ret ", c->name);
+    for (int k = 0; k < c->n; k++) {
+        if (!startWith(c->f[k].text, key))
+            continue;
+        switch (atoi(c->f[k].text + strlen(key))) {
+        case 0:
+            return 0;
+        case 1:
+            return slotBits("r0");
+        case 2:
+            return slotBits("r0 r0h");
+        case 3:
+            return slotBits("r0 r0h r1 r1h");
+        case 4:
+            return slotBits("f0 f0h");
+        default:
+            return RETREGS;
+        }
+    }
+    return RETREGS;
+}
 
 static int isCallTo(const Line *l, const char *name)
 {
@@ -1565,6 +1776,8 @@ static void optimizeFunc(Func *fn, size_t *total, size_t *totalIdx)
         x += unrollShifts(fn->f, fn->n);
         x += fieldOffsets(fn->f, fn->n);
         x += byteOps(fn->f, fn->n);
+        x += unsignedCompares(fn->f, fn->n);
+        x += byteIncrements(fn->f, fn->n);
         int r = x ? 0 : removeDead(fn->f, fn->n);
         if (!x && !r)
             x = redundantValues(fn->f, fn->n);
@@ -1647,7 +1860,7 @@ dynArray flowOptimize(dynArray file, size_t quiet)
             }
         }
         c->isStatic = startWith(c->name, "tccs_");
-        c->retLive = RETREGS;
+        c->retLive = c->retMax = declaredReturn(c);
         i = e;
     }
 
@@ -1715,7 +1928,7 @@ dynArray flowOptimize(dynArray file, size_t quiet)
                 for (int g = 0; g < nfn; g++)
                     for (int i = 0; i < fn[g].n; i++)
                         if (isCallTo(&fn[g].f[i], fn[k].name))
-                            live |= fn[g].f[i].out & RETREGS;
+                            live |= fn[g].f[i].out & fn[k].retMax;
                 if (live != fn[k].retLive) {
                     DBG("retour %s : %llx -> %llx", fn[k].name, fn[k].retLive, live);
                     fn[k].retLive = live;
@@ -1729,7 +1942,7 @@ dynArray flowOptimize(dynArray file, size_t quiet)
         if (!stable) { // no fixpoint reached: back to the safe assumption
             for (int k = 0; k < nfn; k++)
                 if (eligible[k])
-                    fn[k].retLive = RETREGS;
+                    fn[k].retLive = fn[k].retMax;
             for (int k = 0; k < nfn; k++)
                 analyseFunc(&fn[k]);
         }

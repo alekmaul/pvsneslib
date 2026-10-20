@@ -1,0 +1,35 @@
+; comparaison signee d'un octet lu (0..255) a une constante : devient cmp / bcc ;
+; inchangee si A n'est pas prouve dans 0..$7FFF (lda.l g) ou s'il est relu apres
+.SECTION ".f_text" SUPERFREE
+f:
+lda.w #0
+sep #$20
+lda.l g + 0
+rep #$20
+sec
+sbc.w #64
+bvc +
+eor #$8000
++
+bmi L1
+lda.l g + 0
+sec
+sbc.w #64
+bvc +
+eor #$8000
++
+bmi L1
+lda.w #0
+sep #$20
+lda.l g + 0
+rep #$20
+sec
+sbc.w #64
+bvc +
+eor #$8000
++
+bpl L1
+sta.l h + 0
+L1:
+rtl
+.ENDS

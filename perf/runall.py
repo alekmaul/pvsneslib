@@ -10,7 +10,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-FRAMES = {"bench": 900, "torture": 900, "divtest": 8000, "nmitest": 1800, "multest": 20000, "cmptest": 3000, "arrtest": 3000, "shifttest": 3000, "localtest": 3000, "sdivtest": 3000, "ptrtest": 3000, "bytetest": 3000, "cmultest": 3000, "pinctest": 3000, "vatest": 3000, "voltest": 3000}
+FRAMES = {"bench": 900, "torture": 900, "divtest": 8000, "nmitest": 1800, "multest": 20000, "cmptest": 3000, "arrtest": 3000, "shifttest": 3000, "localtest": 3000, "sdivtest": 3000, "ptrtest": 3000, "bytetest": 3000, "cmultest": 3000, "pinctest": 3000, "vatest": 3000, "voltest": 3000, "structtest": 3000}
 
 
 def posix(path):

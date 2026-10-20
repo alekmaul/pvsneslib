@@ -399,7 +399,26 @@ static size_t byteRead(const dynArray file, size_t i, dynArray *out)
         return 0;
     if (ldy && !(pointer && endWith(op, ",y")))
         return 0;
-    const char *nx = file.arr[k + 3];
+    /* next instruction, past the .ifgr / .endif of an epilogue */
+    size_t m = k + 3;
+    while (m < file.used && (startWith(file.arr[m], ".ifgr ") || matchStr(file.arr[m], ".endif")))
+        m++;
+    if (m >= file.used)
+        return 0;
+    const char *nx = file.arr[m];
+    /* an unconditional jump to a named label: look at the first instruction
+       there (a compare or a load recomputes N) */
+    const char *to = jumpTarget(nx);
+    if (to && to[0] != '+' && to[0] != '-') {
+        char def[MAXLEN_LINE];
+        size_t j;
+        snprintf(def, sizeof(def), "%s:", to);
+        for (j = 0; j < file.used && !matchStr(file.arr[j], def); j++)
+            ;
+        if (j + 1 >= file.used)
+            return 0;
+        nx = file.arr[j + 1];
+    }
     if ((nx[0] == 'b' && !startWith(nx, "bit")) || endWith(nx, ":") || nx[0] == '+' || nx[0] == '-'
         || nx[0] == '.')
         return 0;
