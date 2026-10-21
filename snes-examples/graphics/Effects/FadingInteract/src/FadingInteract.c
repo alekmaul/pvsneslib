@@ -48,7 +48,7 @@ int main(void)
     setFadeEffectOut();
     consoleDrawText(8, 2, " FADE OUT EFFECT ");
 
-    while (IsFadeEffectActive()) {
+    while (isFadeEffectActive()) {
         updateFadeEffect();
 
         WaitForVBlank();
@@ -60,7 +60,7 @@ int main(void)
     setFadeEffectIn();
     consoleDrawText(8, 2, " FADE IN  EFFECT ");
 
-    while (IsFadeEffectActive())
+    while (isFadeEffectActive())
     {
         updateFadeEffect();
 
@@ -77,7 +77,7 @@ int main(void)
     // Fade out.
     setFadeEffectOut();
 
-    while (IsFadeEffectActive())
+    while (isFadeEffectActive())
     {
         updateFadeEffect();
 
@@ -90,7 +90,7 @@ int main(void)
     setFadeEffectIn();
     consoleDrawText(5, 2, " FADE SPEED EFFECT IN  ");
 
-    while (IsFadeEffectActive())
+    while (isFadeEffectActive())
     {
         updateFadeEffect();
 
