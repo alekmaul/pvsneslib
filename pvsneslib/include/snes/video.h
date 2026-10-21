@@ -354,9 +354,7 @@ void setFadeEffectEx(u8 mode, u8 framesNumber);
 /*! \fn setFadeEffectInit(void)
     \brief Initialize the software fade effect state.
 
-    This initializes the internal fade level, target level, update speed
-    and activity state. It should normally be called once before using
-    the non-blocking fade functions.
+    This initializes the internal fade level, target level, update speed and activity state.
  */
 void setFadeEffectInit(void);
 
@@ -364,8 +362,7 @@ void setFadeEffectInit(void);
     \brief Update the software fade effect.
 
     This function performs one step of a non-blocking fade operation.
-    It should typically be called once per frame, for example from the
-    main game loop.
+    It should typically be called once per frame.
 
     The function updates the current fade level toward its target and
     automatically stops the effect when the target is reached.
@@ -379,12 +376,12 @@ void updateFadeEffect(void);
  */
 u8 getFadeEffectLevel(void);
 
-/*! \fn IsFadeEffectActive(void)
+/*! \fn isFadeEffectActive(void)
     \brief Check whether the software fade effect is active.
 
     \return 1 if a fade operation is active, 0 otherwise.
  */
-u8 IsFadeEffectActive(void);
+u8 isFadeEffectActive(void);
 
 /*! \fn setFadeEffectSpeed(u8 speed)
     \brief Set the update speed of the software fade effect.
@@ -421,6 +418,47 @@ void setFadeEffectIn(void);
     \param mode (MOSAIC_IN = normal to mosaic, MOSAIC_OUT = mosaic to normal)
  */
 void setMosaicEffect(u8 mode, u8 bgNumbers);
+
+/*! \fn setMosaicInit(void)
+    \brief Initialize the software mosaic effect state.
+
+    This initializes the internal mosaic size, target level, update speed and activity state. 
+ */
+void setMosaicInit(void);
+
+/*! \fn updateMosaicEffect(void)
+    \brief Update the software mosaic effect.
+
+    This function performs one step of a non-blocking fade operation.
+    It should typically be called once per frame.
+
+    The function updates the current fade level toward its target and
+    automatically stops the effect when the target is reached.
+ */
+void updateMosaicEffect(void);
+
+/*! \fn isMosaicActive(void)
+    \brief Check whether the software mosaic effect is active.
+
+    \return 1 if a mosaic operation is in progress, 0 otherwise.
+ */
+u8 isMosaicActive(void);
+
+/*! \fn setMosaicEffectSpeed(u8 speed)
+    \brief Set the update speed of the software mosaic effect.
+
+    \param speed Number of updateMosaicEffect() calls between mosaic changes. 
+ */
+void setMosaicEffectSpeed(u8 speed);
+
+/*! \fn setMosaicTo(u8 size, u8 bgMask)
+    \brief Set the mosaic size and mask
+
+    \param size Size of mosaic square. 
+    \param bgMask BG affected by effect. 
+ */
+void setMosaicTo(u8 size, u8 bgMask);
+
 
 /*! \fn setColorEffect(u8 colorMathA, u8 colorMathB)
     \brief Do addition or other color effects.

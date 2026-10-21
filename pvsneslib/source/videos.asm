@@ -94,6 +94,17 @@ fade_active         DSB 1       // 1 is fade effect
 
 .ENDS
 
+.RAMSECTION ".mosaiceffect7e" BANK $7E SLOT RAMSLOT_0
+
+mosaic_size         DSB 1       // current mosaic size, 0..15 */
+mosaic_target       DSB 1       // mosaic end value
+mosaic_mask         DSB 1       // REG_MOSAIC bits 0-3 for the active ramp 
+mosaic_stepframes   DSB 1       // increment each n frame
+mosaic_tick         DSB 1       // used with step frame for delay
+mosaic_active       DSB 1       // 1 is fade effect
+
+.ENDS
+
 .RAMSECTION ".reg_video7e_matrix" BANK $7E SLOT RAMSLOT_0
 
 m7ma                DSB 2
@@ -1035,6 +1046,8 @@ getPaletteColor:
 
 ;---------------------------------------------------------------------------
 ; unsigned short getFPScounter(void)
+;---------------------------------------------------------------------------
+; unsigned short getFPScounter(void)
 getFPScounter:
     php
     phb
@@ -1045,30 +1058,31 @@ getFPScounter:
     plb
 
     rep #$20
-    lda snes_vblank_count
-    cmp snes_vblank_count_svg                           ; is svg < current counter, exit (normaly, never occurs)
-    bcc _gfctr1
-    sec
-    sbc.l snes_vblank_count_svg                         ; check if we reach fps (50 or 60)        
-    sbc.l snes_fps    
-    bcc _gfctr
+    lda.l snes_fps                                      ; snes_fps is a u8: read 16 bits,
+    and.w #$00FF                                        ; then drop the next byte
+    sta.b tcc__r0                                       ; r0 as temporary (overwritten at the end)
 
-    lda snes_vblank_count                               ; save vblank count
+    lda snes_vblank_count
+    sec
+    sbc snes_vblank_count_svg                           ; VBlanks since the last update (mod 65536,
+    cmp.b tcc__r0                                       ; so the counter wrap needs no special case)
+    bcc _gfctr                                          ; less than one second: keep counting
+
+    lda snes_vblank_count                               ; one second elapsed: publish
     sta snes_vblank_count_svg
-    
-    lda snes_frame_count_svg                            ; init again frame counter
+
+    lda snes_frame_count_svg
     cmp #99                                             ; no more than 99 fps (don't be mad ;) )
     bcc +
     lda #99
-    
 +:  sta snes_frame_count
     stz snes_frame_count_svg
-_gfctr:
-    inc.w snes_frame_count_svg                          ; increment current frame counter
 
-_gfctr1:
+_gfctr:
+    inc snes_frame_count_svg                            ; increment current frame counter
+
     lda snes_frame_count                                ; return current value
-    sta.w tcc__r0
+    sta.b tcc__r0
 
     plb
     plp
@@ -1263,7 +1277,9 @@ getFadeEffectLevel:
     pha
     plb
 
-    lda fade_level
+    rep #$20
+    lda fade_level                                            ; u8 returned in a 16-bit register:
+    and.w #$00FF                                              ; clear the high byte
     sta.l tcc__r0
 
     plb
@@ -1274,8 +1290,8 @@ getFadeEffectLevel:
 
 .SECTION ".videosfad2_text" SUPERFREE
 
-; u8 IsFadeEffectActive(void)
-IsFadeEffectActive:
+; u8 isFadeEffectActive(void)
+isFadeEffectActive:
     php
     phb 
 
@@ -1284,7 +1300,9 @@ IsFadeEffectActive:
     pha
     plb
 
-    lda fade_active
+    rep #$20
+    lda fade_active                                           ; u8 returned in a 16-bit register
+    and.w #$00FF                                              ; clear the high byte
     sta.l tcc__r0
 
     plb
@@ -1349,4 +1367,140 @@ setFadeEffectIn:
 
 .ENDS
 
+.SECTION ".videosmosaic_text" SUPERFREE
 
+;---------------------------------------------------------------------------
+; void setMosaicInit(void)
+setMosaicInit:
+    php
+
+    sep #$20
+    lda #0
+    sta.l mosaic_size
+    sta.l mosaic_target
+    sta.l mosaic_mask
+    sta.l mosaic_active
+    sta.l mosaic_tick
+    sta.l REG_MOSAIC
+    lda #$1
+    sta.l mosaic_stepframes
+
+    plp
+    rtl
+
+
+; void updateMosaicEffect(void)
+updateMosaicEffect:
+    php
+    phb
+
+    sep #$20
+    lda #$7e                                                 ; bank 7e for variables
+    pha
+    plb
+
+    lda mosaic_active                                        ; no mosaic effect, go out
+    beq umcex
+
+    lda mosaic_stepframes                                    ; wait mosaic_stepframes calls between steps
+    beq umcstep
+    inc mosaic_tick
+    lda mosaic_tick
+    cmp mosaic_stepframes
+    bcc umcex
+    stz mosaic_tick
+
+umcstep:
+    lda mosaic_size                                          ; one step toward the target
+    cmp mosaic_target
+    beq umcset                                               ; already there: just write it
+    bcs umcdec
+    inc mosaic_size                                          ; size < target
+    bra umcset
+umcdec:
+    dec mosaic_size                                          ; size > target
+
+umcset:
+    lda mosaic_size                                          ; REG_MOSAIC = size (bits 7-4) | BG mask (bits 3-0)
+    asl a
+    asl a
+    asl a
+    asl a
+    ora mosaic_mask
+    sta.l REG_MOSAIC
+
+    lda mosaic_size                                          ; target reached: stop
+    cmp mosaic_target
+    bne umcex
+    stz mosaic_active
+
+umcex:
+    plb
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosmosaic1_text" SUPERFREE
+
+; u8 isMosaicActive(void)
+isMosaicActive:
+    php
+    phb 
+
+    sep #$20
+    lda #$7e                                                  ; bank 7e for variables
+    pha
+    plb
+
+    rep #$20
+    lda mosaic_active                                         ; u8 returned in a 16-bit register:
+    and.w #$00FF                                              ; clear the high byte
+    sta.l tcc__r0
+
+    plb
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosmosaic2_text" SUPERFREE
+
+
+; void setMosaicEffectSpeed(u8 speed)
+; 5
+setMosaicEffectSpeed:
+    php
+
+    sep #$20
+    lda.b   5,s                                              ; get speed      
+    sta.l mosaic_stepframes
+
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosmosaic3_text" SUPERFREE
+
+; void setMosaicTo(u8 size, u8 bgMask)
+; 5 6
+setMosaicTo:
+    php
+
+    sep #$20
+    lda 5,s
+    sta.l mosaic_target                                      ; ramp toward this size
+    lda 6,s
+    sta.l mosaic_mask
+
+    lda #$0
+    sta.l mosaic_tick
+
+    lda #$1                                                  ; start the mosaic ramp
+    sta.l mosaic_active
+
+    plp
+    rtl
+
+.ENDS
