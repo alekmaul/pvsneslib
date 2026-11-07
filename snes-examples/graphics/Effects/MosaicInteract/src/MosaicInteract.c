@@ -1,5 +1,5 @@
 /*---------------------------------------------------------------------------------
-    Interactive Fading effect demo
+    Interactive Mosaic effect demo
     -- alekmaul
 ---------------------------------------------------------------------------------*/
 #include <snes.h>
@@ -32,67 +32,45 @@ int main(void)
     bgSetDisable(1);
     bgSetDisable(2);
 
-    consoleDrawText(9, 1, "Fading effect!");
+    consoleDrawText(9, 1, "Mosaic effect!");
 
     setScreenOn();
 
-    // Initialize the software fade system.
-    setFadeEffectInit();
+    // Initialize the software mosaic system.
+    setMosaicInit();
     consoleDrawText(11, 2, "PRESS A KEY");
+    consoleDrawText(11, 6, "PRESS A KEY");
+    consoleDrawText(11, 12, "PRESS A KEY");
     WaitForKey();
 
-    // Fade out.
+    // mosaic effect.
     //
-    // setFadeEffectOut() only starts the fade.
-    // updateFadeEffect() performs the actual progression.
-    setFadeEffectOut();
-    consoleDrawText(8, 2, " FADE OUT EFFECT ");
-
-    while (isFadeEffectActive()) {
-        updateFadeEffect();
+    // setMosaicTo() only starts the mosaic effect.
+    // updateMosaicEffect() performs the actual progression.
+    setMosaicTo(15,MOSAIC_BG1);
+    while (isMosaicActive()) {
+        updateMosaicEffect();
 
         WaitForVBlank();
     }
     WaitForKey();
 
-
-    // Fade in.
-    setFadeEffectIn();
-    consoleDrawText(8, 2, " FADE IN  EFFECT ");
-
-    while (isFadeEffectActive())
-    {
-        updateFadeEffect();
-
-        WaitForVBlank();
-    }
+    // Change the number of updateMosaicEffect() calls between
+    // mosaic changes.
+    setMosaicEffect(MOSAIC_IN , MOSAIC_BG1);
+    WaitForVBlank();
     WaitForKey();
 
-
-    // Change the number of updateFadeEffect() calls between
-    // brightness changes.
-    setFadeEffectSpeed(4);
-    consoleDrawText(5, 2, " FADE SPEED EFFECT OUT ");
-
-    // Fade out.
-    setFadeEffectOut();
-
-    while (isFadeEffectActive())
-    {
-        updateFadeEffect();
-
-        WaitForVBlank();
-    }
+    setMosaicEffectSpeed(20);
+    consoleDrawText(5, 2, " MOSAIC SPEED EFFECT OUT ");
     WaitForKey();
 
+    // mosaic effect
+    setMosaicTo(15,MOSAIC_BG1);
 
-    // Fade in.
-    setFadeEffectIn();
-    consoleDrawText(5, 2, " FADE SPEED EFFECT IN  ");
-
-    while (isFadeEffectActive())
+    while (isMosaicActive())
     {
-        updateFadeEffect();
+        updateMosaicEffect();
 
         WaitForVBlank();
     }
