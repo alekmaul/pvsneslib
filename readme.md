@@ -66,9 +66,9 @@ PVSnesLib assumes you're **already comfortable with C**. Trying to learn C and S
 
 Prebuilt releases are available for:
 
-[![Windows](https://img.shields.io/badge/Windows-download-blue?logo=windows)](https://github.com/alekmaul/pvsneslib/releases/download/4.6.0/pvsneslib_460_64b_windows_release.zip)
-[![Linux](https://img.shields.io/badge/Linux-download-orange?logo=linux)](https://github.com/alekmaul/pvsneslib/releases/download/4.6.0/pvsneslib_460_64b_linux_release.zip)
-[![macOS](https://img.shields.io/badge/macOS-download-lightgrey?logo=apple)](https://github.com/alekmaul/pvsneslib/releases/download/4.6.0/pvsneslib_460_64b_darwin_release.zip)
+[![Windows](https://img.shields.io/badge/Windows-download-blue?logo=windows)](https://github.com/alekmaul/pvsneslib/releases/download/4.7.0/pvsneslib_470_64b_windows_release.zip)
+[![Linux](https://img.shields.io/badge/Linux-download-orange?logo=linux)](https://github.com/alekmaul/pvsneslib/releases/download/4.7.0/pvsneslib_470_64b_linux_release.zip)
+[![macOS](https://img.shields.io/badge/macOS-download-lightgrey?logo=apple)](https://github.com/alekmaul/pvsneslib/releases/download/4.7.0/pvsneslib_470_64b_darwin_release.zip)
 
 Download the archive for your platform, unzip it, and follow the setup steps on the [Wiki](https://github.com/alekmaul/pvsneslib/wiki).  
 
