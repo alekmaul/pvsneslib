@@ -1,0 +1,11 @@
+; apres un pha, 5,s ne designe plus la meme case : le lda 5,s doit rester
+.SECTION ".f_text" SUPERFREE
+f:
+ldx 5,s
+stx.w g
+pha
+lda 5,s
+sta.b tcc__r0
+pla
+rtl
+.ENDS

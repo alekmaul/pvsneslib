@@ -1,0 +1,14 @@
+f:
+sep #$20
+inc.w g + 0
+rep #$20
+lda.w g + 1
+and.w #$00FF
+sta.b tcc__r2
+dec.b tcc__r2
+sep #$20
+lda.b tcc__r2
+sta.w g + 1
+rep #$20
+sta.l h + 0
+rtl

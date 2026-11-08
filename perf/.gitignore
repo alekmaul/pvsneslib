@@ -1,0 +1,17 @@
+# cache Python des scripts
+__pycache__/
+
+# coeur libretro snes9x (binaire telecharge, voir run_rom.py)
+cores/
+
+# produits de build des tests
+tests/*/*.sfc
+tests/*/*.sym
+tests/*/*.symfull
+tests/*/linkfile
+tests/*/src/*.obj
+tests/*/src/*.ps
+tests/*/src/*.asm
+
+# fragments assembleur de asmtest.py (le .gitignore racine ignore *.ps)
+!asmtests/*.ps

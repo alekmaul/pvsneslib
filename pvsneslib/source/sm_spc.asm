@@ -1,12 +1,12 @@
 ;----------------------------------------------------------------------
 ; bin2txt converted binary data
 ; binary file size: 5522 bytes
-; converted the Thu Apr  9 05:29:29 2026
+; converted the Tue Jul 28 06:19:42 2026
 ;----------------------------------------------------------------------
 
 .SECTION ".sm_spc" SUPERFREE
 
-.define SM_SPC_SIZE 1592h
+.define SM_SPC_SIZE $1592
 
 SM_SPC:
 	.byte $CD, $00, $E8, $00, $AF, $C8, $F0, $D0, $FB, $8F, $00, $F5, $8F, $00, $F6, $8F, $00, $F7, $8F, $00, $F1, $8F, $FF, $FB, $8F, $FF, $14, $8F, $FF, $15, $3F, $6D

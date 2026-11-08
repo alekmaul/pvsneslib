@@ -10,6 +10,7 @@
 
 #include "helpers.h"
 #include "optimizer.h"
+#include "flow.h"
 
 #ifndef __BUILD_VERSION
 #include "config.h"

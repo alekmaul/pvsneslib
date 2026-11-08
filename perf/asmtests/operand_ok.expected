@@ -1,0 +1,8 @@
+f:
+lda.w #3
+clc
+adc 5,s
+sec
+sbc.w #7
+sta.w g
+rtl

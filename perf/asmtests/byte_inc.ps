@@ -1,0 +1,27 @@
+; v++ sur un octet : sep / inc / rep si A et le registre sont morts ensuite ;
+; inchange si A est relu apres
+.SECTION ".f_text" SUPERFREE
+f:
+lda.w #0
+sep #$20
+lda.w g + 0
+rep #$20
+sta.b tcc__r2
+inc.b tcc__r2
+sep #$20
+lda.b tcc__r2
+sta.w g + 0
+rep #$20
+lda.w #0
+sep #$20
+lda.w g + 1
+rep #$20
+sta.b tcc__r2
+dec.b tcc__r2
+sep #$20
+lda.b tcc__r2
+sta.w g + 1
+rep #$20
+sta.l h + 0
+rtl
+.ENDS

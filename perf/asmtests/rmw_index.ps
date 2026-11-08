@@ -1,0 +1,20 @@
+; chaine terminee par ldx.b : sur A puis tax si A est mort ensuite ; dans la
+; seconde, A est relu apres le ldx (lda 5,s) : la valeur stockee doit rester
+; celle de 5,s et non 5,s * 2
+.SECTION ".f_text" SUPERFREE
+f:
+lda 5,s
+sta.b tcc__r2
+inc.b tcc__r2
+asl.b tcc__r2
+ldx.b tcc__r2
+lda 7,s
+sta.l g,x
+lda 5,s
+sta.b tcc__r3
+asl.b tcc__r3
+ldx.b tcc__r3
+lda 5,s
+sta.l g,x
+rtl
+.ENDS

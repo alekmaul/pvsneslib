@@ -1,0 +1,17 @@
+; une ecriture par pointeur peut modifier une case de pile dont l'adresse est prise :
+; le lda 5,s final doit rester un lda (et non devenir txa)
+.SECTION ".f_text" SUPERFREE
+f:
+tsa
+clc
+adc #5
+sta.b tcc__r1
+stz.b tcc__r1h
+ldx 5,s
+stx.w g
+lda.w #9
+sta.b [tcc__r1]
+lda 5,s
+sta.b tcc__r0
+rtl
+.ENDS

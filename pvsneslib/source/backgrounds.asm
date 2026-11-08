@@ -410,24 +410,23 @@ bgInitTileSet:
     php
     phb
 
-    sep #$20                    ; fix bank to avoid issues
+    sep #$20                                                ; fix bank to avoid issues
     lda #$7E
     pha
     plb
 
-    ; If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
-    rep #$20
-    lda 20,s                    ; get colorMode
+    
+    rep #$20                                                ; If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
+    stz bkgrd_val1                                          ; fix it in 16 bit mode to avoid issue when reading
+    lda 20,s                                                ; get colorMode
     cmp #BG_4COLORS0
     bne +
-    sep #$20                    ; palEntry = bgNumber*32 + paletteEntry*BG_4COLORS;
-    
-    lda 15,s                    ; get paletteEntry
+    sep #$20                                                ; palEntry = bgNumber*32 + paletteEntry*BG_4COLORS;
+    lda 15,s                                                ; get paletteEntry
     asl a
     asl a
     sta bkgrd_val1
-
-    lda 6,s                     ; bg number
+    lda 6,s                                                 ; bg number
     asl a
     asl a
     asl a
@@ -437,17 +436,17 @@ bgInitTileSet:
     rep #$20
     sta bkgrd_val1
     bra _bITS1
-+   sep #$20                    ; palEntry = paletteEntry*colorMode;
++   sep #$20                                                ; palEntry = paletteEntry*colorMode;
     stz bkgrd_val1
-    lda 15,s                    ; get paletteEntry
+    lda 15,s                                                ; get paletteEntry
     rep #$20
-    and #$F                     ; from 0..16
+    and #$F                                                 ; from 0..16
     tax
     beq _bITS1
-    lda 20,s                    ; get colorMode
+    lda 20,s                                                ; get colorMode
     cmp #BG_256COLORS
     beq +
-    lda.w #$0                   ; to begin at 16
+    lda.w #$0                                               ; to begin at 16
 -   clc
     adc #16
     dex
@@ -458,7 +457,7 @@ _bITS1:
     sep #$20
     lda #0
     pha
-    jsl setBrightness           ; Force VBlank Interrupt (value 0)
+    jsl setBrightness                                       ; Force VBlank Interrupt (value 0)
     rep #$20
     tsa
     clc
@@ -466,13 +465,13 @@ _bITS1:
     tas
     wai
 
-    lda 16,s                    ; get tilesize
+    lda 16,s                                                ; get tilesize
     pha
-    lda 24,s                    ; get address (21+2)
+    lda 24,s                                                ; get address (21+2)
     pha
-    lda 13,s                     ; get tileSource bank address (6+4)
+    lda 13,s                                                ; get tileSource bank address (6+4)
     pha
-    lda 13,s                     ; get tileSource data address (7+6)
+    lda 13,s                                                ; get tileSource data address (7+6)
     pha
     jsl dmaCopyVram
     tsa
@@ -480,13 +479,13 @@ _bITS1:
     adc #8
     tas
 
-    lda 18,s                    ; get paletteSize
+    lda 18,s                                                ; get paletteSize
     pha
     lda bkgrd_val1
     pha
-    lda 17,s                    ; get tilePalette bank address (13+4)
+    lda 17,s                                                ; get tilePalette bank address (13+4)
     pha
-    lda 17,s                    ; get tilePalette data address (11+6)
+    lda 17,s                                                ; get tilePalette data address (11+6)
     pha
     jsl dmaCopyCGram
     tsa
@@ -494,10 +493,10 @@ _bITS1:
     adc #8
     tas
 
-    lda 22,s                    ; get address
+    lda 22,s                                                ; get address
     pha
     sep #$20
-    lda 8,s                     ; get bgNumber (6+2)
+    lda 8,s                                                 ; get bgNumber (6+2)
     pha
     rep #$20
     jsl bgSetGfxPtr
@@ -521,13 +520,14 @@ bgInitTileSetLz:
     php
     phb
 
-    sep #$20                    ; fix bank to avoid issues
+    sep #$20                                                 ; fix bank to avoid issues
     lda #$7E
     pha
     plb
 
-    ; If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
+                                                            ; If mode 0, compute palette entry with separate subpalettes in entries 0-31, 32-63, 64-95, and 96-127
     rep #$20
+    stz bkgrd_val1                                          ; fix it in 16 bit mode to avoid issue when reading
     lda 18,s                    ; get colorMode
     cmp #BG_4COLORS0
     bne +

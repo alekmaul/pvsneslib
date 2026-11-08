@@ -1,0 +1,14 @@
+; apres un pha, 5,s ne designe plus la meme case : adc.b tcc__r2 ne doit pas
+; devenir adc 5,s
+.SECTION ".f_text" SUPERFREE
+f:
+lda 5,s
+sta.b tcc__r2
+pha
+lda.w #3
+clc
+adc.b tcc__r2
+sta.w g
+pla
+rtl
+.ENDS

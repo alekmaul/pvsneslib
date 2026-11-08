@@ -1,0 +1,8 @@
+f:
+ldx 5,s
+stx.w g
+lda.w #9
+sta 6,s
+lda 5,s
+sta.b tcc__r0
+rtl

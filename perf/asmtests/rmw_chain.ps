@@ -1,0 +1,13 @@
+; operations successives sur un pseudo-registre qui vaut deja A, puis relu :
+; elles se font sur A (inc a / asl a / rol a), le registre mort disparait
+.SECTION ".f_text" SUPERFREE
+f:
+lda 5,s
+sta.b tcc__r2
+inc.b tcc__r2
+asl.b tcc__r2
+rol.b tcc__r2
+lda.b tcc__r2
+sta.w g
+rtl
+.ENDS

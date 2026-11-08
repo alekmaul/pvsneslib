@@ -1,0 +1,23 @@
+f:
+lda.l g + 0
+and.w #$00FF
+cmp.w #64
+bcc L1
+lda.l g + 0
+sec
+sbc.w #64
+bvc +
+eor #$8000
++
+bmi L1
+lda.l g + 0
+and.w #$00FF
+sec
+sbc.w #64
+bvc +
+eor #$8000
++
+bpl L1
+sta.l h + 0
+L1:
+rtl

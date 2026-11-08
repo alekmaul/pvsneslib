@@ -1,0 +1,10 @@
+f:
+lda 5,s
+sta.b tcc__r2
+pha
+lda.w #3
+clc
+adc.b tcc__r2
+sta.w g
+pla
+rtl

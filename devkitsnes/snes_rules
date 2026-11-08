@@ -106,6 +106,13 @@ export TXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/bin2txt
 export SNTOOLS	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snestools
 export TMXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/tmx2snes
 export OPT		:=	$(PVSNESLIB_HOME)/devkitsnes/tools/816-opt
+export ROMUSE	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snesromusage
+
+#---------------------------------------------------------------------------------
+# Specific flags for quiet mode
+#---------------------------------------------------------------------------------
+GFXCONVFLAGS ?=
+OPTFLAGS ?=
 
 #---------------------------------------------------------------------------------
 # Add default flag for compiling
@@ -183,7 +190,7 @@ endif
 #---------------------------------------------------------------------------------
 %.asm: %.ps
 	@echo Assembling ... $(notdir $<)
-	$(OPT) -i $< -o $@
+	$(OPT) $(OPTFLAGS) -i $< -o $@
 ifeq ($(DEBUG),1)
 	cp $*.asm $*.opt.02.dbg
 endif
@@ -207,7 +214,7 @@ endif
 	@echo Linking ... $(notdir $@)
 	@rm -f $(ROMNAME).sym
 # -c should be removed ASAP ! It allow duplicate labels and definitions
-	$(LD) -d -s -v -A -c -L ${LIBDIRSOBJS} linkfile $@
+	$(LD) -d -s -A -c -L ${LIBDIRSOBJS} linkfile $@
 
 # remove unattended characters (use temp file for macOS/BSD sed compatibility)
 	@sed 's/://' $(ROMNAME).sym > $(ROMNAME).sym.tmp && mv $(ROMNAME).sym.tmp $(ROMNAME).sym
@@ -225,7 +232,7 @@ endif
 #---------------------------------------------------------------------------------
 %.pic: %.bmp
 	@echo convert bitmap ... $(notdir $<)
-	$(GFXCONV) -s 8 -o 16 -u 16 -e 0 -p -m -t bmp -i $<
+	$(GFXCONV) $(GFXCONVFLAGS) -s 8 -o 16 -u 16 -e 0 -p -m -t bmp -i $<
 
 #---------------------------------------------------------------------------------
 %.brr: %.wav
@@ -284,5 +291,4 @@ buildWithSummary:
 	@echo "--- COMPILATION SUMMARY ---"
 	@grep -E "warning|error" $(BUILD_LOG) || echo "No warnings or errors found."
 	@echo "---------------------------"
-	@grep -E " free" $(BUILD_LOG); 
 	@if grep -q "error" $(BUILD_LOG); then exit 1; fi

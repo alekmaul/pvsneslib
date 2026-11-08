@@ -1,0 +1,16 @@
+; un pseudo-registre qui contient une case de pile (et mort ensuite) ou une
+; constante : l'operation lit directement la case ou la constante
+.SECTION ".f_text" SUPERFREE
+f:
+lda 5,s
+sta.b tcc__r2
+lda.w #7
+sta.b tcc__r3
+lda.w #3
+clc
+adc.b tcc__r2
+sec
+sbc.b tcc__r3
+sta.w g
+rtl
+.ENDS

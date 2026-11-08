@@ -1,0 +1,135 @@
+--- a/src/game.c
++++ b/src/game.c
+@@ -1,4 +1,5 @@
+ #include "game.h"
++extern void perf_mark(u16 id); extern void perf_begin(void); extern void perf_end(u16 id); extern void perf_reset(void);
+ #include "entities.h"
+ #include "maps.h"
+ #include "panel.h"
+@@ -89,9 +90,11 @@
+ 
+ 	while(1) {
+ 		process_controls();
++		perf_reset(); perf_mark(0);
+ 
+ 		if (pause_game == 0) {
+ 			draw_panel_all();
++			perf_mark(1);
+ 
+ 			if (flag_rick_dying == 0) {
+ 				if (tab_entities[ENT_rick].y <= 95) {
+@@ -117,7 +120,9 @@
+ 
+ 			//ALK 1404 DO NOTHING restore_back_entities();
+ 			draw_entities();
++			perf_mark(2);
+ 			update_score();
++			perf_mark(3);
+ 			flip();
+ 
+ 			if (flag_rick_dying)
+--- a/src/entities.c
++++ b/src/entities.c
+@@ -1,6 +1,11 @@
+ #include <stdint.h>
+ 
+ #include "entities.h"
++extern void perf_mark(u16 id); extern void perf_begin(u16 id); extern void perf_end(u16 id); extern void perf_reset(void);
++u8 test_rick_col_map(s16 x, s16 y);
++bool test_col_vs_rick(psEntity pt_ent);
++bool test_col_bbox(psEntity pt_ent, s16 x, s16 y);
++bool test_nmi_col_map(s16 x, s16 y);
+ #include "intro.h"
+ #include "game.h"
+ #include "maps.h"
+@@ -390,7 +395,10 @@
+ 			ptab_entities->bbox_y2+=val_scroll;
+ 		}
+ 		else {
++			{ u16 ptype = ptab_entities->type;
++			perf_begin(ptype == ENT_rick ? 0 : 1);
+ 			(tab_anim_entities[ptab_entities->type-1])(&tab_entities[bclei]);
++			perf_end(ptype == ENT_rick ? 0 : 1); }
+ 			if (ptab_entities->type == 0)
+ 				continue;
+ 		}
+@@ -418,9 +426,13 @@
+ 		sprx=xde;
+ 		spry=yde;
+ 		sprnum=sprde;
++		perf_begin(2);
+ 		draw_sprite();
++		perf_end(2);
+ 	}
++	perf_begin(3);
+ 	aff_sprites_oam();
++	perf_end(3);
+ }
+ 
+ //----------------------------------------------------------------------------------------
+@@ -438,7 +450,7 @@
+ }
+ 
+ //----------------------------------------------------------------------------------------
+-u8 test_rick_col_map(s16 x, s16 y) {
++u8 test_rick_col_map_real(s16 x, s16 y) {
+ 	psEntity	pt_ent=&tab_entities[ENT_slot0];
+ 	u8			flag0, flag1;
+ 	u8			*pt_map;
+@@ -585,6 +597,7 @@
+ 
+ 	return 0x00;
+ }
++u8 test_rick_col_map(s16 x, s16 y) { u8 r; perf_begin(4); r = test_rick_col_map_real(x, y); perf_end(4); return r; }
+ 
+ //----------------------------------------------------------------------------------------
+ void gere_rick_die(psEntity pt_ent) {
+@@ -1052,7 +1065,7 @@
+ }
+ 
+ //----------------------------------------------------------------------------------------
+-bool test_col_vs_rick(psEntity pt_ent) {
++bool test_col_vs_rick_real(psEntity pt_ent) {
+ 	psEntity pt_rick=&tab_entities[ENT_rick];
+ 	s16	x,y;
+ 
+@@ -1080,6 +1093,7 @@
+ 
+ 	return 0xFF;
+ }
++bool test_col_vs_rick(psEntity pt_ent) { bool r; perf_begin(5); r = test_col_vs_rick_real(pt_ent); perf_end(5); return r; }
+ 
+ //----------------------------------------------------------------------------------------
+ bool test_bullet_col_map(s16 x, s16 y) {
+@@ -1282,7 +1296,7 @@
+ }
+ 
+ //----------------------------------------------------------------------------------------
+-bool test_nmi_col_map(s16 x, s16 y)
++bool test_nmi_col_map_real(s16 x, s16 y)
+ {
+ 	psEntity	pt_ent=&tab_entities[ENT_slot0];
+ 	u8			flag0, flag1;
+@@ -1406,6 +1420,7 @@
+ 
+ 	return 0x00;
+ }
++bool test_nmi_col_map(s16 x, s16 y) { bool r; perf_begin(7); r = test_nmi_col_map_real(x, y); perf_end(7); return r; }
+ 
+ //----------------------------------------------------------------------------------------
+ void gere_nmi(psEntity pt_ent, s16 type) {
+@@ -1914,12 +1929,13 @@
+ }
+ 
+ //----------------------------------------------------------------------------------------
+-bool test_col_bbox(psEntity pt_ent, s16 x, s16 y) {
++bool test_col_bbox_real(psEntity pt_ent, s16 x, s16 y) {
+ 	if ((x < pt_ent->bbox_x1) || (y < pt_ent->bbox_y1) || (x > pt_ent->bbox_x2) || (y > pt_ent->bbox_y2))
+ 		return 0x00;
+ 
+ 	return 0xFF;
+ }
++bool test_col_bbox(psEntity pt_ent, s16 x, s16 y) { bool r; perf_begin(6); r = test_col_bbox_real(pt_ent, x, y); perf_end(6); return r; }
+ 
+ //----------------------------------------------------------------------------------------
+ void gere_trigger1(psEntity pt_ent) {

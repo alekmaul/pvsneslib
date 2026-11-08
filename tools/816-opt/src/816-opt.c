@@ -107,6 +107,20 @@ int main(int argc, char **argv)
     // ASM Optimization
     dynArray optAsm = optimizeAsm(file, bss, f816opt_args.quietmode);
 
+    // Flow analysis (dead code), then peephole again on its result.
+    // OPT816_NOFLOW=1 disables it (to compare).
+    const char *noflow = getenv("OPT816_NOFLOW");
+    if (!noflow || strcmp(noflow, "1") != 0) {
+        dynArray flowAsm = flowOptimize(optAsm, f816opt_args.quietmode);
+        freedynArray(optAsm);
+        if (getenv("OPT816_NOPEEP2")) // debug: flow output as is
+            optAsm = flowAsm;
+        else {
+            peepAfterFlow = 1; // A may now be reused: no rule that assumes it is not
+            optAsm = optimizeAsm(flowAsm, bss, f816opt_args.quietmode);
+        }
+    }
+
     // write to file
     FILE *fp = fopen(f816opt_args.fileoptim, "w");
     if (!fp) {

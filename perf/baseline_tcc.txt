@@ -1,0 +1,74 @@
+Reference tcc avant optimisation - 2026-09-28
+Chaine : devkitsnes/bin/816-tcc.exe + devkitsnes/tools/816-opt.exe (version 20260818)
+         + wla-65816/wlalink (binaires du 18/08/2026), lib reconstruite le 28/09/2026
+ROM : LoROM SlowROM ; emulateur snes9x libretro (buildbot, nightly du 28/09/2026)
+Commande : python perf/bench.py perf/tests/bench/bench.sfc 900   (resultat deterministe)
+
+Noyau     Frames  Controle
+SORT       101    33013
+PHYSICS     56    2476
+MAP         59    9055
+FIB18       26    2584
+COPY       115    6161   (devrait etre 17 : bug tcc u8 variadique)
+MATH        60    61302
+Total      417
+
+Niveau 1 (libtcc.asm : multiplicateur/diviseur materiels + verrou tcc__hwlock) - 2026-09-28
+Noyau     Ref   N1   (LoROM SlowROM)
+SORT      101  100
+PHYSICS    56   51
+MAP        59   59
+FIB18      26   26
+COPY      115  115
+MATH       60   21   (x2,9)
+Total     417  372   (-11 %)
+Controles identiques. multest (nouveau) : MUL/DIV/SDIV/MUL32 ERR 0, stress + NMI ERR 0.
+Sans le verrou, le stress test trouve 39 erreurs (test sensible).
+
+Niveau 2 (816-opt : fusion comparaison + branchement, branchement par-dessus brl,
+suivi des chaines de sauts) - 2026-09-28
+Noyau     Ref   N1   N2   (LoROM SlowROM)
+SORT      101  100   92
+PHYSICS    56   51   45
+MAP        59   59   55
+FIB18      26   26   23
+COPY      115  115  102
+MATH       60   21   20
+Total     417  372  337   (-19 % depuis la reference)
+HiROM FastROM N2 : total 290.
+Tests : tous OK dans les 4 modes (cmptest nouveau : 27905 comparaisons, 3 formes).
+abtest.py (snes-examples, 300 frames) : 3 ROM identiques + 67 ecrans identiques,
+0 difference ; DynamicMap ne se construit pas (gfx4snes echoue aussi en reference).
+
+Niveau 3 (816-opt, src/flow.c : analyse de flot et de duree de vie ; code mort,
+tableaux globaux en adressage long indexe, registres de retour des fonctions static)
+Noyau     Ref   N1   N2   N3   (LoROM SlowROM)
+SORT      101  100   92   67
+PHYSICS    56   51   45   43
+MAP        59   59   55   48
+FIB18      26   26   23   21
+COPY      115  115  102   53
+MATH       60   21   20   19
+Total     417  372  337  251   (-40 % depuis la reference)
+FastROM N3 : total 216. Tous les tests OK dans les 4 modes (arrtest nouveau).
+abtest (N3 contre N2) : 3 ROM identiques + 67 ecrans identiques, 0 difference.
+
+Niveau 3, suite (decalages deroules, champs de structures en [ptr],y,
+valeurs disponibles : rechargements/stockages redondants supprimes)
+Noyau     N3   N3b
+SORT       67   65
+PHYSICS    43   31
+MAP        48   35
+FIB18      21   21
+COPY       53   44
+MATH       19   19
+Total     251  215   (-48 % depuis la reference 417) ; FastROM : 185
+Tests OK dans les 4 modes (+ shifttest, localtest ; asmtest.py : 4 cas d'alias).
+abtest (N3b contre N3) : 6 ROM identiques, 62 ecrans identiques, 2 differents
+(logos capcom/konami : animation en avance de ~3 frames, identiques a 600+).
+
+Autres tests (memes outils) :
+torture : END OK
+divtest : 7200 tests, U16/S16/U8 ERR 0, OK (il faut ~8000 frames)
+nmitest : LOOPS 299 ERR 0, OK (NMI COUNT/SCROLL partent de ~0x5555 :
+          globales non initialisees non mises a zero, WRAM snes9x = 0x55)

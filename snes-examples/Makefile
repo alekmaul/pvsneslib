@@ -1,6 +1,9 @@
 SUBDIRS    := $(shell ls | grep -Ev '^(CVS|tests)$$')
 DATESTRING := $(shell date +%Y%m%d)
 
+export GFXCONVFLAGS := -q
+export OPTFLAGS := -q
+
 .PHONY: all install clean
 
 all:

@@ -35,7 +35,7 @@ char errormessage_arg[256];				    								// error message if argument is not c
 //-------------------------------------------------------------------------------------------------
 void argument_set_default_values(void) 
 {
-	if (!snesromusage_args.topsections) snesromusage_args.topsections=15; 
+	if ((snesromusage_args.topsections>0) && (snesromusage_args.topsections<15) ) snesromusage_args.topsections=15; 
 	snesromusage_args.forcerommode=0; 
     snesromusage_args.rommode=MODE_AUTO;
 }

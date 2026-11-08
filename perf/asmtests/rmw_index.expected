@@ -1,0 +1,13 @@
+f:
+lda 5,s
+inc a
+asl a
+tax
+lda 7,s
+sta.l g,x
+lda 5,s
+asl a
+tax
+lda 5,s
+sta.l g,x
+rtl

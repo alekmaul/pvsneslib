@@ -83,6 +83,28 @@ mirrorINIDISP       DSB 1
 
 .ENDS
 
+
+.RAMSECTION ".fadeeffect7e" BANK $7E SLOT RAMSLOT_0
+
+fade_level          DSB 1       // current brightness -> default 15
+fade_target         DSB 1       // fading end value
+fade_stepframes     DSB 1       // increment each n frames
+fade_tick           DSB 1       // used with step frame for delay
+fade_active         DSB 1       // 1 is fade effect
+
+.ENDS
+
+.RAMSECTION ".mosaiceffect7e" BANK $7E SLOT RAMSLOT_0
+
+mosaic_size         DSB 1       // current mosaic size, 0..15 */
+mosaic_target       DSB 1       // mosaic end value
+mosaic_mask         DSB 1       // REG_MOSAIC bits 0-3 for the active ramp 
+mosaic_stepframes   DSB 1       // increment each n frame
+mosaic_tick         DSB 1       // used with step frame for delay
+mosaic_active       DSB 1       // 1 is fade effect
+
+.ENDS
+
 .RAMSECTION ".reg_video7e_matrix" BANK $7E SLOT RAMSLOT_0
 
 m7ma                DSB 2
@@ -104,7 +126,6 @@ m7_md               DSB (225-64)*3              ; 483 bytes
 .ENDS
 
 
-; getFPScounter() variables
 .RAMSECTION ".getfpscounter_lowram" BANK 0 SLOT 1
 
 snes_vblank_count_svg   dsb 2  ; for comparing snes_vblank_count
@@ -113,8 +134,8 @@ snes_frame_count_svg    dsb 2  ; same thing for saving purpose
 
 .ENDS
 
-
 .BASE BASE_0
+
 .SECTION ".videos0_text" SUPERFREE
 
 .ACCU 16
@@ -1025,6 +1046,8 @@ getPaletteColor:
 
 ;---------------------------------------------------------------------------
 ; unsigned short getFPScounter(void)
+;---------------------------------------------------------------------------
+; unsigned short getFPScounter(void)
 getFPScounter:
     php
     phb
@@ -1035,30 +1058,31 @@ getFPScounter:
     plb
 
     rep #$20
-    lda snes_vblank_count
-    cmp snes_vblank_count_svg                           ; is svg < current counter, exit (normaly, never occurs)
-    bcc _gfctr1
-    sec
-    sbc.l snes_vblank_count_svg                         ; check if we reach fps (50 or 60)        
-    sbc.l snes_fps    
-    bcc _gfctr
+    lda.l snes_fps                                      ; snes_fps is a u8: read 16 bits,
+    and.w #$00FF                                        ; then drop the next byte
+    sta.b tcc__r0                                       ; r0 as temporary (overwritten at the end)
 
-    lda snes_vblank_count                               ; save vblank count
+    lda snes_vblank_count
+    sec
+    sbc snes_vblank_count_svg                           ; VBlanks since the last update (mod 65536,
+    cmp.b tcc__r0                                       ; so the counter wrap needs no special case)
+    bcc _gfctr                                          ; less than one second: keep counting
+
+    lda snes_vblank_count                               ; one second elapsed: publish
     sta snes_vblank_count_svg
-    
-    lda snes_frame_count_svg                            ; init again frame counter
+
+    lda snes_frame_count_svg
     cmp #99                                             ; no more than 99 fps (don't be mad ;) )
     bcc +
     lda #99
-    
 +:  sta snes_frame_count
     stz snes_frame_count_svg
-_gfctr:
-    inc.w snes_frame_count_svg                          ; increment current frame counter
 
-_gfctr1:
+_gfctr:
+    inc snes_frame_count_svg                            ; increment current frame counter
+
     lda snes_frame_count                                ; return current value
-    sta.w tcc__r0
+    sta.b tcc__r0
 
     plb
     plp
@@ -1102,39 +1126,70 @@ _sfctr:
     inc.w snes_frame_count_svg                          ; increment current frame counter
 
 _sfctr1:
+    ; fps / 10 -> x (tens), fps mod 10 -> y (units)
+    ; The hardware divider is shared with tcc__udiv (libtcc.asm): take its lock,
+    ; and divide by software if it is in use (we interrupted a division).
+    rep #$20
+    lda.l tcc__hwlock
+    bne _sfsoft
+    inc a
+    sta.l tcc__hwlock
     sep #$20
     lda.l snes_frame_count
     sta.l $4204
     lda.l snes_frame_count+1                            ; Write $fps to dividend
     sta.l $4205
-    LDA #10                                             ; Write 10 to divisor (to have fps/10 for 1st char)
-    sta.l $4206                                         ; Wait 16 machine cycles after (done by code)
- 
-    lda #$80	                                        ; VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1  set address in VRam for read or write ($2116) + block size transfer ($2115)
+    lda.b #10                                           ; Write 10 to divisor (to have fps/10 for 1st char)
+    sta.l $4206                                         ; Wait 16 machine cycles after
+    rep #$20
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    lda.l $4214                                         ; quotient (fps / 10)
+    tax
+    lda.l $4216                                         ; remainder (fps mod 10)
+    tay
+    lda.w #0
+    sta.l tcc__hwlock
+    bra _sfdraw
+
+_sfsoft:
+    lda.l snes_frame_count                              ; <= 99: repeated subtraction
+    ldx.w #0
+-   cmp.w #10
+    bcc +
+    sbc.w #10                                           ; carry is set by cmp
+    inx
+    bra -
++   tay
+
+_sfdraw:
+    sep #$20
+    lda.b #$80	                                        ; VRAM_INCHIGH | VRAM_ADRTR_0B | VRAM_ADRSTINC_1  set address in VRam for read or write ($2116) + block size transfer ($2115)
     sta.l $2115
     rep #$20
     lda.l txt_vram_bg
-    clc 
-    adc #(1*32+1)                                       ; will put at location 1,1 on character vram BG
+    clc
+    adc.w #(1*32+1)                                     ; will put at location 1,1 on character vram BG
     sta.l $2116
 
-    sep #$20
-    lda.l $4214                                         ; A = result low byte ($4215 result high byte)
+    txa                                                 ; tens
+    and.w #$00FF
     clc
-    adc #$10                                            ; to have number 0 of graphic
-	rep #$20
-    and #$00FF
-    clc 
-    adc.l txt_vram_offset                                 ; add text offset and put 16 bit value to VRAM
+    adc.w #$10                                          ; to have number 0 of graphic
+    clc
+    adc.l txt_vram_offset                               ; add text offset and put 16 bit value to VRAM
     sta.l $2118
 
-    sep #$20
-    lda.l $4216                                         ; A = remainder low byte ($4216 remainder high byte) (so fps mod 10)
+    tya                                                 ; units
+    and.w #$00FF
     clc
-    adc #$10                                            ; to have number 0 of graphic
-	rep #$20
-    and #$00FF
-    clc 
+    adc.w #$10                                          ; to have number 0 of graphic
+    clc
     adc.l txt_vram_offset
 	sta.l $2118                                         ; add text offset and put 16 bit value to VRAM
 
@@ -1144,3 +1199,308 @@ _sfctr1:
 
 .ENDS
 
+.SECTION ".videosfad_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+; void setFadeEffectInit(void)
+setFadeEffectInit:
+    php
+
+    sep #$20
+    lda #15
+    sta.l fade_level
+    sta.l fade_target
+    lda #$1
+    sta.l fade_stepframes
+    lda #0
+    sta.l fade_active
+    sta.l fade_tick
+
+    plp
+    rtl
+
+
+; void updateFadeEffect(void)
+updateFadeEffect:
+    php
+    phb
+
+    sep #$20
+    lda #$7e                                                 ; bank 7e for variables
+    pha
+    plb
+
+    lda fade_active                                          ; no fade effect, go out
+    beq ufeex
+
+    lda fade_stepframes                                      ; update fade tick regarding speed
+    beq +
+    inc fade_tick
+    lda fade_tick
+    cmp fade_stepframes
+    bcc ufeex
+    lda #$0
+    sta fade_tick
+
++:  lda fade_level                                          ; if (fade_level > fade_target) fade_level--
+    cmp fade_target
+    bcc ++
+    dec fade_level
+    bra ufetsfa
+++: bcs ufetsfa                                             ; if (fade_level < fade_target) fade_level++
+    inc fade_level
+    
+ufetsfa: lda fade_level                                     ; setBrightness(fade_level);
+    pha
+    jsl setBrightness
+    pla
+    cmp fade_target
+    bne  ufeex
+    stz fade_active
+
+ufeex:
+    plb
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosfad1_text" SUPERFREE
+
+; u8 getFadeEffectLevel(void)
+getFadeEffectLevel:
+    php
+    phb 
+
+    sep #$20
+    lda #$7e                                                  ; bank 7e for variables
+    pha
+    plb
+
+    rep #$20
+    lda fade_level                                            ; u8 returned in a 16-bit register:
+    and.w #$00FF                                              ; clear the high byte
+    sta.l tcc__r0
+
+    plb
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosfad2_text" SUPERFREE
+
+; u8 isFadeEffectActive(void)
+isFadeEffectActive:
+    php
+    phb 
+
+    sep #$20
+    lda #$7e                                                  ; bank 7e for variables
+    pha
+    plb
+
+    rep #$20
+    lda fade_active                                           ; u8 returned in a 16-bit register
+    and.w #$00FF                                              ; clear the high byte
+    sta.l tcc__r0
+
+    plb
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosfad3_text" SUPERFREE
+
+
+; void setFadeEffectSpeed(u8 speed)
+; 5
+setFadeEffectSpeed:
+    php
+
+    sep #$20
+    lda.b   5,s                                              ; get speed      
+    sta.l fade_stepframes
+
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosfad4_text" SUPERFREE
+
+; void setFadeEffectOut(void)
+setFadeEffectOut:
+    php
+    
+    sep #$20
+    lda #$0
+    sta.l fade_target                                        ; init target values
+    sta.l fade_tick
+
+    lda #$1                                                  ; go for a fading effect
+    sta.l fade_active
+
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosfad5_text" SUPERFREE
+
+; void setFadeEffectIn(void)
+setFadeEffectIn:
+    php
+
+    sep #$20
+    lda #15
+    sta.l fade_target                                        ; init target values
+    lda #$0
+    sta.l fade_tick
+
+    lda #$1                                                  ; go for a fading effect
+    sta.l fade_active
+
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosmosaic_text" SUPERFREE
+
+;---------------------------------------------------------------------------
+; void setMosaicInit(void)
+setMosaicInit:
+    php
+
+    sep #$20
+    lda #0
+    sta.l mosaic_size
+    sta.l mosaic_target
+    sta.l mosaic_mask
+    sta.l mosaic_active
+    sta.l mosaic_tick
+    sta.l REG_MOSAIC
+    lda #$1
+    sta.l mosaic_stepframes
+
+    plp
+    rtl
+
+
+; void updateMosaicEffect(void)
+updateMosaicEffect:
+    php
+    phb
+
+    sep #$20
+    lda #$7e                                                 ; bank 7e for variables
+    pha
+    plb
+
+    lda mosaic_active                                        ; no mosaic effect, go out
+    beq umcex
+
+    lda mosaic_stepframes                                    ; wait mosaic_stepframes calls between steps
+    beq umcstep
+    inc mosaic_tick
+    lda mosaic_tick
+    cmp mosaic_stepframes
+    bcc umcex
+    stz mosaic_tick
+
+umcstep:
+    lda mosaic_size                                          ; one step toward the target
+    cmp mosaic_target
+    beq umcset                                               ; already there: just write it
+    bcs umcdec
+    inc mosaic_size                                          ; size < target
+    bra umcset
+umcdec:
+    dec mosaic_size                                          ; size > target
+
+umcset:
+    lda mosaic_size                                          ; REG_MOSAIC = size (bits 7-4) | BG mask (bits 3-0)
+    asl a
+    asl a
+    asl a
+    asl a
+    ora mosaic_mask
+    sta.l REG_MOSAIC
+
+    lda mosaic_size                                          ; target reached: stop
+    cmp mosaic_target
+    bne umcex
+    stz mosaic_active
+
+umcex:
+    plb
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosmosaic1_text" SUPERFREE
+
+; u8 isMosaicActive(void)
+isMosaicActive:
+    php
+    phb 
+
+    sep #$20
+    lda #$7e                                                  ; bank 7e for variables
+    pha
+    plb
+
+    rep #$20
+    lda mosaic_active                                         ; u8 returned in a 16-bit register:
+    and.w #$00FF                                              ; clear the high byte
+    sta.l tcc__r0
+
+    plb
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosmosaic2_text" SUPERFREE
+
+
+; void setMosaicEffectSpeed(u8 speed)
+; 5
+setMosaicEffectSpeed:
+    php
+
+    sep #$20
+    lda.b   5,s                                              ; get speed      
+    sta.l mosaic_stepframes
+
+    plp
+    rtl
+
+.ENDS
+
+.SECTION ".videosmosaic3_text" SUPERFREE
+
+; void setMosaicTo(u8 size, u8 bgMask)
+; 5 6
+setMosaicTo:
+    php
+
+    sep #$20
+    lda 5,s
+    sta.l mosaic_target                                      ; ramp toward this size
+    lda 6,s
+    sta.l mosaic_mask
+
+    lda #$0
+    sta.l mosaic_tick
+
+    lda #$1                                                  ; start the mosaic ramp
+    sta.l mosaic_active
+
+    plp
+    rtl
+
+.ENDS

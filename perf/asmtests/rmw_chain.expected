@@ -1,0 +1,7 @@
+f:
+lda 5,s
+inc a
+asl a
+rol a
+sta.w g
+rtl

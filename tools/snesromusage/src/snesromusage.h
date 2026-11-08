@@ -28,6 +28,7 @@ typedef struct
 
     char *romtype;                                                              // force rom type to lorom, hirom, exhirom
     int forcerommode;                                                           // 1 = rommode in parameter
+    int usagegraph;                                                             // 1 = show usage graph
     int rommode;                                                                // type of rom mode
     int topsections;                                                            // number of top sections displayed
     int allsections;                                                            // 1 = display all sections

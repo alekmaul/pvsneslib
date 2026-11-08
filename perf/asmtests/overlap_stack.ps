@@ -1,0 +1,11 @@
+; une ecriture 16 bits dans 6,s modifie l'octet haut de 5,s : le lda 5,s doit rester
+.SECTION ".f_text" SUPERFREE
+f:
+ldx 5,s
+stx.w g
+lda.w #9
+sta 6,s
+lda 5,s
+sta.b tcc__r0
+rtl
+.ENDS

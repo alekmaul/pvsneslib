@@ -309,6 +309,10 @@ fast_start:
     stz.b tcc__r0
     stz.b tcc__r1
 
+    ; hardware multiplier/divider free (see libtcc.asm)
+    lda.w #0
+    sta.l tcc__hwlock
+
     stz.w lag_frame_counter
 
     stz.w snes_vblank_count

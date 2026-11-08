@@ -1016,7 +1016,7 @@ _oicm1:
     tax
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -1036,7 +1036,7 @@ _oicm2:
     tax
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -1173,7 +1173,7 @@ _oicmtstyn:												   ; ----------------------------------------------------
     tax
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -1192,7 +1192,7 @@ _oicmtstyn1:
     tax
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -1307,7 +1307,7 @@ _oicmtstx13:
     tax
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -1407,7 +1407,7 @@ _oicmtstxnc:
     tax
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -1533,7 +1533,7 @@ _oicm1d1:
     tax
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -1553,7 +1553,7 @@ _oicm1d2:
     tax
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -1680,7 +1680,7 @@ _oicm1dtstyn:
     tax
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -1699,7 +1699,7 @@ _oicm1dtstyn1:
     tax
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -1796,7 +1796,7 @@ _oicm1dtstx13:
     tax
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -1889,7 +1889,7 @@ _oicm1dtstxnc:
     tax
     phb
     sep #$20
-    lda maptile_L1b.b
+    lda.l maptile_L1b.b
     pha
     plb
     rep #$20
@@ -2268,7 +2268,7 @@ _lutcolInv:; x - height lut for h-flipped slopes
     tax
     phb                                     ; push current bank to stack
     sep #$20                                ; 8bit mode
-    lda maptile_L1b.b                       ; load rom bank address from maptile definitions
+    lda.l maptile_L1b.b                       ; load rom bank address from maptile definitions
     pha                                     ; push rom bank address to stack
     plb                                     ; set net bank address
     rep #$20                                ; 16 bit mode

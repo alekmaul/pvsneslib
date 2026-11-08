@@ -1,0 +1,47 @@
+; lecture d'un octet etendue a 16 bits (lda.w #0 / sep / lda / rep, forme que
+; tcc n'emet que pour un octet non volatile) : lda X / and.w #$00FF pour une
+; globale, une case de pile ou un pointeur (avec ou sans ldy) ; inchangee pour
+; la forme volatile de tcc (sep / lda / rep / and), a une adresse numerique
+; (registre materiel) ou suivie d'un branchement (N differe)
+.SECTION ".f_text" SUPERFREE
+f:
+lda.w #0
+sep #$20
+lda.l g + 0
+rep #$20
+sta.l h + 0
+lda.w #0
+sep #$20
+lda 5,s
+rep #$20
+sta.l h + 2
+lda.w #0
+sep #$20
+lda.b [tcc__r2]
+rep #$20
+sta.l h + 4
+lda.w #0
+ldy #3
+sep #$20
+lda.b [tcc__r2],y
+rep #$20
+sta.l h + 6
+sep #$20
+lda.b [tcc__r3]
+rep #$20
+and.w #$00FF
+sta.l h + 8
+lda.w #0
+sep #$20
+lda.l 16912
+rep #$20
+sta.l h + 10
+lda.w #0
+sep #$20
+lda.l g + 1
+rep #$20
+bmi +
+sta.l h + 12
++
+rtl
+.ENDS

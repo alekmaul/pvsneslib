@@ -1,0 +1,11 @@
+; cas sur : aucune ecriture entre les deux, le second lda 5,s devient txa
+.SECTION ".f_text" SUPERFREE
+f:
+ldx 5,s
+stx.w g
+lda.w #9
+sta.w h
+lda 5,s
+sta.b tcc__r0
+rtl
+.ENDS

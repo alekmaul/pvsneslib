@@ -1,0 +1,32 @@
+f:
+lda.l g + 0
+and.w #$00FF
+sta.l h + 0
+lda 5,s
+and.w #$00FF
+sta.l h + 2
+lda.b [tcc__r2]
+and.w #$00FF
+sta.l h + 4
+ldy #3
+lda.b [tcc__r2],y
+and.w #$00FF
+sta.l h + 6
+sep #$20
+lda.b [tcc__r3]
+rep #$20
+and.w #$00FF
+sta.l h + 8
+lda.w #0
+sep #$20
+lda.l 16912
+rep #$20
+sta.l h + 10
+lda.w #0
+sep #$20
+lda.l g + 1
+rep #$20
+bmi +
+sta.l h + 12
++
+rtl
