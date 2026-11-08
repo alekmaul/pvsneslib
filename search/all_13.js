@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['useful_20links_0',['Useful links',['../index.html#external_links',1,'']]],
-  ['user_20input_20output_1',['User Input/output',['../index.html#user_io_api',1,'']]]
+  ['updatefadeeffect_0',['updateFadeEffect',['../video_8h.html#ad8761d0f3fde3cf2cfdc02e4d9a360a6',1,'video.h']]],
+  ['updatemosaiceffect_1',['updateMosaicEffect',['../video_8h.html#a24709aabb2b6a535be4b2f36ba71d710',1,'video.h']]],
+  ['useful_20links_2',['Useful links',['../index.html#external_links',1,'']]],
+  ['user_20input_20output_3',['User Input/output',['../index.html#user_io_api',1,'']]]
 ];

@@ -9,5 +9,7 @@ var searchData=
   ['int_5fjoypad_5fenable_6',['INT_JOYPAD_ENABLE',['../interrupt_8h.html#ab4a66ed24f182a8d056f7db1cab6eb82',1,'interrupt.h']]],
   ['int_5fvblenable_7',['INT_VBLENABLE',['../interrupt_8h.html#a435380b6460ebd669f2b344ea79316d6',1,'interrupt.h']]],
   ['interrupt_2eh_8',['interrupt.h',['../interrupt_8h.html',1,'']]],
-  ['introduction_9',['Introduction',['../index.html#intro',1,'']]]
+  ['introduction_9',['Introduction',['../index.html#intro',1,'']]],
+  ['isfadeeffectactive_10',['isFadeEffectActive',['../video_8h.html#ae7d519faa9f0c0d7192e031ca5124020',1,'video.h']]],
+  ['ismosaicactive_11',['isMosaicActive',['../video_8h.html#a697fefc81346373af3210077384d0302',1,'video.h']]]
 ];

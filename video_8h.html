@@ -39,7 +39,7 @@
   <td id="projectlogo"><img alt="Logo" src="pvsicon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PVSnesLib
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">Documentation to code in C or ASM for the Nintendo SNES</div>
   </td>
@@ -122,7 +122,7 @@ $(document).ready(function(){initNavTree('video_8h.html',''); initResizable(); }
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:afe3cc8b2ea5f41a791be1b3a3cf04cb2" id="r_afe3cc8b2ea5f41a791be1b3a3cf04cb2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#afe3cc8b2ea5f41a791be1b3a3cf04cb2">CGRAM_PALETTE</a>&#160;&#160;&#160;((u8 *)0x2122)</td></tr>
-<tr class="memdesc:afe3cc8b2ea5f41a791be1b3a3cf04cb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Palette CGRAM Data Write (W) 1st Access: Lower 8 bits (even address) 2nd Access: Upper 7 bits (odd address) (upper 1bit = PPU2 open bus)  <br /></td></tr>
+<tr class="memdesc:afe3cc8b2ea5f41a791be1b3a3cf04cb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Palette CGRAM Data Write (W) 1st Access: Lower 8 bits (even address) 2nd Access: Upper 7 bits (odd address) (upper 1bit = PPU2 open bus) Reads and Writes to EVEN and ODD byte-addresses work as follows: Write to EVEN address --&gt; set Cgram_Lsb = Data ;memorize value Write to ODD address --&gt; set WORD[addr-1] = Data*256 + Cgram_Lsb Read from ANY address --&gt; return BYTE[addr].  <br /></td></tr>
 <tr class="separator:afe3cc8b2ea5f41a791be1b3a3cf04cb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afbe2b768602914630a49573d20359eb1" id="r_afbe2b768602914630a49573d20359eb1"><td class="memItemLeft" align="right" valign="top"><a id="afbe2b768602914630a49573d20359eb1" name="afbe2b768602914630a49573d20359eb1"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CM_DIRCOLOR</b>&#160;&#160;&#160;(1 &lt;&lt; 0)</td></tr>
@@ -167,8 +167,9 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>REG_COLDATA</b>&#160;&#160;&#160;(*(vuint8 *)0x2132)</td></tr>
 <tr class="memdesc:a40b0af5f9d5abe1a520205d5a99c86ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Color Math Sub Screen Backdrop Color (W) This 8bit port allows to manipulate some (or all) bits of a 15bit RGB value. Examples: Black: write E0h (R,G,B=0), Cyan: write 20h (R=0) and DFh (G,B=1Fh). 7 Apply Blue (0=No change, 1=Apply Intensity as Blue) 6 Apply Green (0=No change, 1=Apply Intensity as Green) 5 Apply Red (0=No change, 1=Apply Intensity as Red) 4-0 Intensity (0..31) <br /></td></tr>
 <tr class="separator:a40b0af5f9d5abe1a520205d5a99c86ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abec6eb1bc9f87a1143464c7418c96388" id="r_abec6eb1bc9f87a1143464c7418c96388"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#abec6eb1bc9f87a1143464c7418c96388">REG_INIDISP</a>&#160;&#160;&#160;(*(vuint8 *)0x2100)</td></tr>
-<tr class="memdesc:abec6eb1bc9f87a1143464c7418c96388"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display Control 1 (W) 7 Forced Blanking (0=Normal, 1=Screen Black) 6-4 Not used 3-0 Master Brightness (0=Screen Black, or N=1..15: Brightness*(N+1)/16)  <br /></td></tr>
+<tr class="memitem:abec6eb1bc9f87a1143464c7418c96388" id="r_abec6eb1bc9f87a1143464c7418c96388"><td class="memItemLeft" align="right" valign="top"><a id="abec6eb1bc9f87a1143464c7418c96388" name="abec6eb1bc9f87a1143464c7418c96388"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>REG_INIDISP</b>&#160;&#160;&#160;(*(vuint8 *)0x2100)</td></tr>
+<tr class="memdesc:abec6eb1bc9f87a1143464c7418c96388"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display Control 1 (W) 7 Forced Blanking (0=Normal, 1=Screen Black) 6-4 Not used 3-0 Master Brightness (0=Screen Black, or N=1..15: Brightness*(N+1)/16) In Forced Blank, VRAM, OAM and CGRAM can be freely accessed (otherwise it's accessible only during Vblank). Even when in forced blank, the TV Set keeps receiving Vsync/Hsync signals (thus producing a stable black picture). And, the CPU keeps receiving Hblank/Vblank signals (so any enabled video NMIs, IRQs, HDMAs are kept generated). Forced blank doesn't apply immediately... so one must wait whatever (maybe a scanline) before VRAM can be freely accessed... or is it only vice-versa: disabling forced blank doesn't apply immediately/shows garbage pixels? <br /></td></tr>
 <tr class="separator:abec6eb1bc9f87a1143464c7418c96388"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19771159f16c9467e0c0e039e5f88a87" id="r_a19771159f16c9467e0c0e039e5f88a87"><td class="memItemLeft" align="right" valign="top"><a id="a19771159f16c9467e0c0e039e5f88a87" name="a19771159f16c9467e0c0e039e5f88a87"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>REG_M7A</b>&#160;&#160;&#160;(*(vuint8 *)0x211B)</td></tr>
@@ -190,8 +191,9 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>REG_M7HOFS</b>&#160;&#160;&#160;(*(vuint8 *)0x210D)</td></tr>
 <tr class="memdesc:a149770d8a7300cb577f99ff1198978bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">BG1 Horizontal Scroll (X) (W) <br /></td></tr>
 <tr class="separator:a149770d8a7300cb577f99ff1198978bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68fd672e1ea4124fbb5a895c2bc551e7" id="r_a68fd672e1ea4124fbb5a895c2bc551e7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a68fd672e1ea4124fbb5a895c2bc551e7">REG_M7SEL</a>&#160;&#160;&#160;(*(vuint8 *)0x211A)</td></tr>
-<tr class="memdesc:a68fd672e1ea4124fbb5a895c2bc551e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotation/Scaling Mode Settings (W) 7-6 Screen Over (see below) 5-2 Not used 1 Screen V-Flip (0=Normal, 1=Flipped) ; flip 256x256 "screen" 0 Screen H-Flip (0=Normal, 1=Flipped) ;.  <br /></td></tr>
+<tr class="memitem:a68fd672e1ea4124fbb5a895c2bc551e7" id="r_a68fd672e1ea4124fbb5a895c2bc551e7"><td class="memItemLeft" align="right" valign="top"><a id="a68fd672e1ea4124fbb5a895c2bc551e7" name="a68fd672e1ea4124fbb5a895c2bc551e7"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>REG_M7SEL</b>&#160;&#160;&#160;(*(vuint8 *)0x211A)</td></tr>
+<tr class="memdesc:a68fd672e1ea4124fbb5a895c2bc551e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotation/Scaling Mode Settings (W) 7-6 Screen Over (see below) 5-2 Not used 1 Screen V-Flip (0=Normal, 1=Flipped) ; flip 256x256 "screen" 0 Screen H-Flip (0=Normal, 1=Flipped) ; Screen Over (when exceeding the 128x128 tile BG Map size): 0=Wrap within 128x128 tile area 1=Wrap within 128x128 tile area (same as 0) 2=Outside 128x128 tile area is Transparent 3=Outside 128x128 tile area is filled by Tile 00h. <br /></td></tr>
 <tr class="separator:a68fd672e1ea4124fbb5a895c2bc551e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a485cdf5dd265cf6d9a808550365da845" id="r_a485cdf5dd265cf6d9a808550365da845"><td class="memItemLeft" align="right" valign="top"><a id="a485cdf5dd265cf6d9a808550365da845" name="a485cdf5dd265cf6d9a808550365da845"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>REG_M7VOFS</b>&#160;&#160;&#160;(*(vuint8 *)0x210E)</td></tr>
@@ -221,18 +223,20 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>REG_MPYMH</b>&#160;&#160;&#160;(*(vuint16 *)0x2135)</td></tr>
 <tr class="memdesc:aa31a9a2df80d490fd67a67f9a3d27215"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signed Multiply Result (middle +upper 8bit) (R) <br /></td></tr>
 <tr class="separator:aa31a9a2df80d490fd67a67f9a3d27215"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e8398519a24701e4d3041e4f02edc00" id="r_a4e8398519a24701e4d3041e4f02edc00"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a4e8398519a24701e4d3041e4f02edc00">REG_STAT77</a>&#160;&#160;&#160;(*(vuint8 *)0x213E)</td></tr>
-<tr class="memdesc:a4e8398519a24701e4d3041e4f02edc00"><td class="mdescLeft">&#160;</td><td class="mdescRight">PPU1 Status and Version Number (R) 7 OBJ Time overflow (0=Okay, 1=More than 8x34 OBJ pixels per scanline) 6 OBJ Range overflow (0=Okay, 1=More than 32 OBJs per scanline) 5 Master/Slave Mode (PPU1.Pin25) (0=Normal=Master) 4 Not used (PPU1 open bus) (same as last value read from PPU1) 3-0 PPU1 5C77 Version Number (only version 1 exists as far as I know)  <br /></td></tr>
+<tr class="memitem:a4e8398519a24701e4d3041e4f02edc00" id="r_a4e8398519a24701e4d3041e4f02edc00"><td class="memItemLeft" align="right" valign="top"><a id="a4e8398519a24701e4d3041e4f02edc00" name="a4e8398519a24701e4d3041e4f02edc00"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>REG_STAT77</b>&#160;&#160;&#160;(*(vuint8 *)0x213E)</td></tr>
+<tr class="memdesc:a4e8398519a24701e4d3041e4f02edc00"><td class="mdescLeft">&#160;</td><td class="mdescRight">PPU1 Status and Version Number (R) 7 OBJ Time overflow (0=Okay, 1=More than 8x34 OBJ pixels per scanline) 6 OBJ Range overflow (0=Okay, 1=More than 32 OBJs per scanline) 5 Master/Slave Mode (PPU1.Pin25) (0=Normal=Master) 4 Not used (PPU1 open bus) (same as last value read from PPU1) 3-0 PPU1 5C77 Version Number (only version 1 exists as far as I know) The overflow flags are cleared at end of V-Blank, but NOT during forced blank! The overflow flags are set (regardless of OBJ enable/disable in 212Ch), at following times: bit6 when V=OBJ.YLOC/H=OAM.INDEX*2, bit7 when V=OBJ.YLOC+1/H=0. <br /></td></tr>
 <tr class="separator:a4e8398519a24701e4d3041e4f02edc00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d49034fd405fed8f5f42df44fa2b3a8" id="r_a4d49034fd405fed8f5f42df44fa2b3a8"><td class="memItemLeft" align="right" valign="top"><a id="a4d49034fd405fed8f5f42df44fa2b3a8" name="a4d49034fd405fed8f5f42df44fa2b3a8"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>REG_STAT78</b>&#160;&#160;&#160;(*(vuint8 *)0x213F)</td></tr>
 <tr class="memdesc:a4d49034fd405fed8f5f42df44fa2b3a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">PPU2 Status and Version Number (R) 7 Current Interlace-Frame (0=1st, 1=2nd Frame) 6 H/V-Counter/Lightgun/Joypad2.Pin6 Latch Flag (0=No, 1=New Data Latched) 5 Not used (PPU2 open bus) (same as last value read from PPU2) 4 Frame Rate (PPU2.Pin30) (0=NTSC/60Hz, 1=PAL/50Hz) 3-0 PPU2 5C78 Version Number (version 1..3 exist as far as I know) <br /></td></tr>
 <tr class="separator:a4d49034fd405fed8f5f42df44fa2b3a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a962038681293a309df2c26f1e9a7d7e9" id="r_a962038681293a309df2c26f1e9a7d7e9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a962038681293a309df2c26f1e9a7d7e9">REG_VMADDLH</a>&#160;&#160;&#160;(*(vuint16 *)0x2116)</td></tr>
-<tr class="memdesc:a962038681293a309df2c26f1e9a7d7e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">VMADDL - VRAM Address (lower 8bit) (W) VMADDH - VRAM Address (upper 8bit) (W)  <br /></td></tr>
+<tr class="memitem:a962038681293a309df2c26f1e9a7d7e9" id="r_a962038681293a309df2c26f1e9a7d7e9"><td class="memItemLeft" align="right" valign="top"><a id="a962038681293a309df2c26f1e9a7d7e9" name="a962038681293a309df2c26f1e9a7d7e9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>REG_VMADDLH</b>&#160;&#160;&#160;(*(vuint16 *)0x2116)</td></tr>
+<tr class="memdesc:a962038681293a309df2c26f1e9a7d7e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">VMADDL - VRAM Address (lower 8bit) (W) VMADDH - VRAM Address (upper 8bit) (W) VRAM Address for reading/writing. This is a WORD address (2-byte steps), the PPU could theoretically address up to 64K-words (128K-bytes), in practice, only 32K-words (64K-bytes) are installed in SNES consoles (VRAM address bit15 is not connected, so addresses 8000h-FFFFh are mirrors of 0-7FFFh). After reading/writing VRAM Data, the Word-address can be automatically incremented by 1,32,128 (depending on the Increment Mode in Port 2115h) (Note: the Address Translation feature is applied only "temporarily" upon memory accesses, it doesn't affect the value in Port 2116h-17h). Writing to 2116h/2117h does prefetch 16bit data from the new address (for later reading). <br /></td></tr>
 <tr class="separator:a962038681293a309df2c26f1e9a7d7e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09d7fb089889aaa434f7c88ebccb5190" id="r_a09d7fb089889aaa434f7c88ebccb5190"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a09d7fb089889aaa434f7c88ebccb5190">REG_VMAIN</a>&#160;&#160;&#160;(*(vuint8 *)0x2115)</td></tr>
-<tr class="memdesc:a09d7fb089889aaa434f7c88ebccb5190"><td class="mdescLeft">&#160;</td><td class="mdescRight">VRAM Address Increment Mode (W) 7 Increment VRAM Address after accessing High/Low byte (0=Low, 1=High) 6-4 Not used 3-2 Address Translation (0..3 = 0bit/None, 8bit, 9bit, 10bit) 1-0 Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128)  <br /></td></tr>
+<tr class="memdesc:a09d7fb089889aaa434f7c88ebccb5190"><td class="mdescLeft">&#160;</td><td class="mdescRight">VRAM Address Increment Mode (W) 7 Increment VRAM Address after accessing High/Low byte (0=Low, 1=High) 6-4 Not used 3-2 Address Translation (0..3 = 0bit/None, 8bit, 9bit, 10bit) 1-0 Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128) The address translation is intended for bitmap graphics (where one would have filled the BG Map by increasing Tile numbers), technically it does thrice left-rotate the lower 8, 9, or 10 bits of the Word-address: Translation Bitmap Type Port [2116h/17h] VRAM Word-Address 8bit rotate 4-color; 1 word/plane aaaaaaaaYYYxxxxx --&gt; aaaaaaaaxxxxxYYY 9bit rotate 16-color; 2 words/plane aaaaaaaYYYxxxxxP --&gt; aaaaaaaxxxxxPYYY 10bit rotate 256-color; 4 words/plane aaaaaaYYYxxxxxPP --&gt; aaaaaaxxxxxPPYYY Where "aaaaa" would be the normal address MSBs, "YYY" is the Y-index (within a 8x8 tile), "xxxxx" selects one of the 32 tiles per line, "PP" is the bit-plane index (for BGs with more than one Word per plane). For the intended result (writing rows of 256 pixels) the Translation should be combined with Increment Step=1. For Mode 7 bitmaps one could eventually combine step 32/128 with 8bit/10bit rotate: 8bit-rotate/step32 aaaaaaaaXXXxxYYY --&gt; aaaaaaaaxxYYYXXX 10bit-rotate/step128 aaaaaaXXXxxxxYYY --&gt; aaaaaaxxxxYYYXXX.  <br /></td></tr>
 <tr class="separator:a09d7fb089889aaa434f7c88ebccb5190"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8cd1d05c2abc19978d533f927f2e738" id="r_aa8cd1d05c2abc19978d533f927f2e738"><td class="memItemLeft" align="right" valign="top"><a id="aa8cd1d05c2abc19978d533f927f2e738" name="aa8cd1d05c2abc19978d533f927f2e738"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>REG_VMDATAH</b>&#160;&#160;&#160;(*(vuint8 *)0x2119)</td></tr>
@@ -279,6 +283,9 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:aa32453c6d6d3f72b94163b6aa3798fd0" id="r_aa32453c6d6d3f72b94163b6aa3798fd0"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#aa32453c6d6d3f72b94163b6aa3798fd0">getFadeEffectLevel</a> (void)</td></tr>
+<tr class="memdesc:aa32453c6d6d3f72b94163b6aa3798fd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the current software fade level.  <br /></td></tr>
+<tr class="separator:aa32453c6d6d3f72b94163b6aa3798fd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73861f0742d53e6f44385a673504c83c" id="r_a73861f0742d53e6f44385a673504c83c"><td class="memItemLeft" align="right" valign="top">unsigned short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a73861f0742d53e6f44385a673504c83c">getFPScounter</a> (void)</td></tr>
 <tr class="memdesc:a73861f0742d53e6f44385a673504c83c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return number of frames per second.  <br /></td></tr>
 <tr class="separator:a73861f0742d53e6f44385a673504c83c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -288,8 +295,14 @@ Functions</h2></td></tr>
 <tr class="memitem:acbf8deabd274fb30b9448036296efb8d" id="r_acbf8deabd274fb30b9448036296efb8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#acbf8deabd274fb30b9448036296efb8d">getPaletteColor</a> (u8 paletteEntry, u16 *paletteColor)</td></tr>
 <tr class="memdesc:acbf8deabd274fb30b9448036296efb8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a color palette from CGRAM.  <br /></td></tr>
 <tr class="separator:acbf8deabd274fb30b9448036296efb8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7d519faa9f0c0d7192e031ca5124020" id="r_ae7d519faa9f0c0d7192e031ca5124020"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#ae7d519faa9f0c0d7192e031ca5124020">isFadeEffectActive</a> (void)</td></tr>
+<tr class="memdesc:ae7d519faa9f0c0d7192e031ca5124020"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the software fade effect is active.  <br /></td></tr>
+<tr class="separator:ae7d519faa9f0c0d7192e031ca5124020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a697fefc81346373af3210077384d0302" id="r_a697fefc81346373af3210077384d0302"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a697fefc81346373af3210077384d0302">isMosaicActive</a> (void)</td></tr>
+<tr class="memdesc:a697fefc81346373af3210077384d0302"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the software mosaic effect is active.  <br /></td></tr>
+<tr class="separator:a697fefc81346373af3210077384d0302"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c257abebd75e4653441e8afe672bb5e" id="r_a4c257abebd75e4653441e8afe672bb5e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a4c257abebd75e4653441e8afe672bb5e">setBrightness</a> (u8 level)</td></tr>
-<tr class="memdesc:a4c257abebd75e4653441e8afe672bb5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets the screens brightness.  <br /></td></tr>
+<tr class="memdesc:a4c257abebd75e4653441e8afe672bb5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the screen brightness.  <br /></td></tr>
 <tr class="separator:a4c257abebd75e4653441e8afe672bb5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87d6cb8ec2433c908666a0a7f2306cb4" id="r_a87d6cb8ec2433c908666a0a7f2306cb4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a87d6cb8ec2433c908666a0a7f2306cb4">setColorEffect</a> (u8 colorMathA, u8 colorMathB)</td></tr>
 <tr class="memdesc:a87d6cb8ec2433c908666a0a7f2306cb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do addition or other color effects.  <br /></td></tr>
@@ -298,11 +311,23 @@ Functions</h2></td></tr>
 <tr class="memdesc:aedc79f1675778d0573d181fe22a0902d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change intensity for transparency.  <br /></td></tr>
 <tr class="separator:aedc79f1675778d0573d181fe22a0902d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac34bd13a8556c8ac8e1eeeded15f7632" id="r_ac34bd13a8556c8ac8e1eeeded15f7632"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#ac34bd13a8556c8ac8e1eeeded15f7632">setFadeEffect</a> (u8 mode)</td></tr>
-<tr class="memdesc:ac34bd13a8556c8ac8e1eeeded15f7632"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a fadein or fadeout effect.  <br /></td></tr>
+<tr class="memdesc:ac34bd13a8556c8ac8e1eeeded15f7632"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a blocking fade-in or fade-out effect.  <br /></td></tr>
 <tr class="separator:ac34bd13a8556c8ac8e1eeeded15f7632"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad58e188357569ae06c08b2fc33ed5aa2" id="r_ad58e188357569ae06c08b2fc33ed5aa2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#ad58e188357569ae06c08b2fc33ed5aa2">setFadeEffectEx</a> (u8 mode, u8 framesNumber)</td></tr>
-<tr class="memdesc:ad58e188357569ae06c08b2fc33ed5aa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a fadein or fadeout effect.  <br /></td></tr>
+<tr class="memdesc:ad58e188357569ae06c08b2fc33ed5aa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a blocking fade-in or fade-out effect with a configurable step delay.  <br /></td></tr>
 <tr class="separator:ad58e188357569ae06c08b2fc33ed5aa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c0b9389aa30b42a24fa28892d2549ee" id="r_a9c0b9389aa30b42a24fa28892d2549ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a9c0b9389aa30b42a24fa28892d2549ee">setFadeEffectIn</a> (void)</td></tr>
+<tr class="memdesc:a9c0b9389aa30b42a24fa28892d2549ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a non-blocking fade-in effect.  <br /></td></tr>
+<tr class="separator:a9c0b9389aa30b42a24fa28892d2549ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51399fa5924608e9c8dcb5523357ead1" id="r_a51399fa5924608e9c8dcb5523357ead1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a51399fa5924608e9c8dcb5523357ead1">setFadeEffectInit</a> (void)</td></tr>
+<tr class="memdesc:a51399fa5924608e9c8dcb5523357ead1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the software fade effect state.  <br /></td></tr>
+<tr class="separator:a51399fa5924608e9c8dcb5523357ead1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8b3270ce78a505794993256ea65e879" id="r_ab8b3270ce78a505794993256ea65e879"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#ab8b3270ce78a505794993256ea65e879">setFadeEffectOut</a> (void)</td></tr>
+<tr class="memdesc:ab8b3270ce78a505794993256ea65e879"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a non-blocking fade-out effect.  <br /></td></tr>
+<tr class="separator:ab8b3270ce78a505794993256ea65e879"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f6613163647142b6b7649e19e77e0ef" id="r_a2f6613163647142b6b7649e19e77e0ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a2f6613163647142b6b7649e19e77e0ef">setFadeEffectSpeed</a> (u8 speed)</td></tr>
+<tr class="memdesc:a2f6613163647142b6b7649e19e77e0ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the update speed of the software fade effect.  <br /></td></tr>
+<tr class="separator:a2f6613163647142b6b7649e19e77e0ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd9e46ae627d055dd8c98a4b0ebb73b1" id="r_afd9e46ae627d055dd8c98a4b0ebb73b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#afd9e46ae627d055dd8c98a4b0ebb73b1">setMode</a> (u8 mode, u8 size)</td></tr>
 <tr class="memdesc:afd9e46ae627d055dd8c98a4b0ebb73b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the SNES hardware to operate in new display mode.  <br /></td></tr>
 <tr class="separator:afd9e46ae627d055dd8c98a4b0ebb73b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -327,17 +352,32 @@ Functions</h2></td></tr>
 <tr class="memitem:aa14785c4eb1ce08cc02eb98d26c98c44" id="r_aa14785c4eb1ce08cc02eb98d26c98c44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#aa14785c4eb1ce08cc02eb98d26c98c44">setMosaicEffect</a> (u8 mode, u8 bgNumbers)</td></tr>
 <tr class="memdesc:aa14785c4eb1ce08cc02eb98d26c98c44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a mosaic in or out effect.  <br /></td></tr>
 <tr class="separator:aa14785c4eb1ce08cc02eb98d26c98c44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50ccbc844d66f9436b16498054d1491f" id="r_a50ccbc844d66f9436b16498054d1491f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a50ccbc844d66f9436b16498054d1491f">setMosaicEffectSpeed</a> (u8 speed)</td></tr>
+<tr class="memdesc:a50ccbc844d66f9436b16498054d1491f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the update speed of the software mosaic effect.  <br /></td></tr>
+<tr class="separator:a50ccbc844d66f9436b16498054d1491f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9498fee20fc4daf527469877f8a6e35" id="r_ac9498fee20fc4daf527469877f8a6e35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#ac9498fee20fc4daf527469877f8a6e35">setMosaicInit</a> (void)</td></tr>
+<tr class="memdesc:ac9498fee20fc4daf527469877f8a6e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the software mosaic effect state.  <br /></td></tr>
+<tr class="separator:ac9498fee20fc4daf527469877f8a6e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab103bcb87bb3ae9154a10a501f9f0997" id="r_ab103bcb87bb3ae9154a10a501f9f0997"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#ab103bcb87bb3ae9154a10a501f9f0997">setMosaicTo</a> (u8 size, u8 bgMask)</td></tr>
+<tr class="memdesc:ab103bcb87bb3ae9154a10a501f9f0997"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the mosaic size and mask.  <br /></td></tr>
+<tr class="separator:ab103bcb87bb3ae9154a10a501f9f0997"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaeaea299a3cfb90fa5232b842f7f7cd0" id="r_aaeaea299a3cfb90fa5232b842f7f7cd0"><td class="memItemLeft" align="right" valign="top"><a id="aaeaea299a3cfb90fa5232b842f7f7cd0" name="aaeaea299a3cfb90fa5232b842f7f7cd0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setScreenOff</b> (void)</td></tr>
-<tr class="memdesc:aaeaea299a3cfb90fa5232b842f7f7cd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Put screen Off. <br /></td></tr>
+<tr class="memdesc:aaeaea299a3cfb90fa5232b842f7f7cd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Put screen off. <br /></td></tr>
 <tr class="separator:aaeaea299a3cfb90fa5232b842f7f7cd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc7d4ef8ebc22f5b710927909bb3f144" id="r_abc7d4ef8ebc22f5b710927909bb3f144"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#abc7d4ef8ebc22f5b710927909bb3f144">setScreenOn</a> (void)</td></tr>
-<tr class="memdesc:abc7d4ef8ebc22f5b710927909bb3f144"><td class="mdescLeft">&#160;</td><td class="mdescRight">Put screen On.  <br /></td></tr>
+<tr class="memdesc:abc7d4ef8ebc22f5b710927909bb3f144"><td class="mdescLeft">&#160;</td><td class="mdescRight">Put screen on.  <br /></td></tr>
 <tr class="separator:abc7d4ef8ebc22f5b710927909bb3f144"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab6725b8e64d0d2bb9f2dd62b6ca0d44" id="r_aab6725b8e64d0d2bb9f2dd62b6ca0d44"><td class="memItemLeft" align="right" valign="top"><a id="aab6725b8e64d0d2bb9f2dd62b6ca0d44" name="aab6725b8e64d0d2bb9f2dd62b6ca0d44"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>showFPScounter</b> (void)</td></tr>
 <tr class="memdesc:aab6725b8e64d0d2bb9f2dd62b6ca0d44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Show on current text BG, at location 1,1 the number of frames per second. <br /></td></tr>
 <tr class="separator:aab6725b8e64d0d2bb9f2dd62b6ca0d44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8761d0f3fde3cf2cfdc02e4d9a360a6" id="r_ad8761d0f3fde3cf2cfdc02e4d9a360a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#ad8761d0f3fde3cf2cfdc02e4d9a360a6">updateFadeEffect</a> (void)</td></tr>
+<tr class="memdesc:ad8761d0f3fde3cf2cfdc02e4d9a360a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the software fade effect.  <br /></td></tr>
+<tr class="separator:ad8761d0f3fde3cf2cfdc02e4d9a360a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24709aabb2b6a535be4b2f36ba71d710" id="r_a24709aabb2b6a535be4b2f36ba71d710"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8h.html#a24709aabb2b6a535be4b2f36ba71d710">updateMosaicEffect</a> (void)</td></tr>
+<tr class="memdesc:a24709aabb2b6a535be4b2f36ba71d710"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the software mosaic effect.  <br /></td></tr>
+<tr class="separator:a24709aabb2b6a535be4b2f36ba71d710"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -373,11 +413,8 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
       </table>
 </div><div class="memdoc">
 
-<p>Palette CGRAM Data Write (W) 1st Access: Lower 8 bits (even address) 2nd Access: Upper 7 bits (odd address) (upper 1bit = PPU2 open bus) </p>
-<p>Reads and Writes to EVEN and ODD byte-addresses work as follows: Write to EVEN address --&gt; set Cgram_Lsb = Data ;memorize value Write to ODD address --&gt; set WORD[addr-1] = Data*256 + Cgram_Lsb Read from ANY address --&gt; return BYTE[addr]</p>
-<p>The address is automatically incremented after every read or write access.</p>
-<p>256-Color Palette Entries 15 Not used (should be zero) (read: PPU2 Open Bus) 14-10 Blue 9-5 Green 4-0 Red</p>
-<p>Palette Indices 00h Main Backdrop color (used when all BG/OBJ pixels are transparent) 01h-FFh 256-color BG palette (when not using direct-color mode) 01h-7Fh 128-color BG palette (BG2 in Mode 7) 01h-7Fh Eight 16-color BG palettes 01h-1Fh Eight 4-color BG palettes (except BG2-4 in Mode 0) 21h-3Fh Eight 4-color BG palettes (BG2 in Mode 0 only) 41h-5Fh Eight 4-color BG palettes (BG3 in Mode 0 only) 61h-7Fh Eight 4-color BG palettes (BG4 in Mode 0 only) 81h-FFh Eight 16-color OBJ palettes (half of them with color-math disabled) N/A Sub Backdrop color (not in CGRAM, set via COLDATA, Port 2132h) </p>
+<p>Palette CGRAM Data Write (W) 1st Access: Lower 8 bits (even address) 2nd Access: Upper 7 bits (odd address) (upper 1bit = PPU2 open bus) Reads and Writes to EVEN and ODD byte-addresses work as follows: Write to EVEN address --&gt; set Cgram_Lsb = Data ;memorize value Write to ODD address --&gt; set WORD[addr-1] = Data*256 + Cgram_Lsb Read from ANY address --&gt; return BYTE[addr]. </p>
+<p>The address is automatically incremented after every read or write access. 256-Color Palette Entries 15 Not used (should be zero) (read: PPU2 Open Bus) 14-10 Blue 9-5 Green 4-0 Red Palette Indices 00h Main Backdrop color (used when all BG/OBJ pixels are transparent) 01h-FFh 256-color BG palette (when not using direct-color mode) 01h-7Fh 128-color BG palette (BG2 in Mode 7) 01h-7Fh Eight 16-color BG palettes 01h-1Fh Eight 4-color BG palettes (except BG2-4 in Mode 0) 21h-3Fh Eight 4-color BG palettes (BG2 in Mode 0 only) 41h-5Fh Eight 4-color BG palettes (BG3 in Mode 0 only) 61h-7Fh Eight 4-color BG palettes (BG4 in Mode 0 only) 81h-FFh Eight 16-color OBJ palettes (half of them with color-math disabled) N/A Sub Backdrop color (not in CGRAM, set via COLDATA, Port 2132h) </p>
 
 </div>
 </div>
@@ -400,75 +437,6 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
 
 </div>
 </div>
-<a id="abec6eb1bc9f87a1143464c7418c96388" name="abec6eb1bc9f87a1143464c7418c96388"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abec6eb1bc9f87a1143464c7418c96388">&#9670;&#160;</a></span>REG_INIDISP</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define REG_INIDISP&#160;&#160;&#160;(*(vuint8 *)0x2100)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Display Control 1 (W) 7 Forced Blanking (0=Normal, 1=Screen Black) 6-4 Not used 3-0 Master Brightness (0=Screen Black, or N=1..15: Brightness*(N+1)/16) </p>
-<p>In Forced Blank, VRAM, OAM and CGRAM can be freely accessed (otherwise it's accessible only during Vblank). Even when in forced blank, the TV Set keeps receiving Vsync/Hsync signals (thus producing a stable black picture). And, the CPU keeps receiving Hblank/Vblank signals (so any enabled video NMIs, IRQs, HDMAs are kept generated).</p>
-<p>Forced blank doesn't apply immediately... so one must wait whatever (maybe a scanline) before VRAM can be freely accessed... or is it only vice-versa: disabling forced blank doesn't apply immediately/shows garbage pixels? </p>
-
-</div>
-</div>
-<a id="a68fd672e1ea4124fbb5a895c2bc551e7" name="a68fd672e1ea4124fbb5a895c2bc551e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68fd672e1ea4124fbb5a895c2bc551e7">&#9670;&#160;</a></span>REG_M7SEL</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define REG_M7SEL&#160;&#160;&#160;(*(vuint8 *)0x211A)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Rotation/Scaling Mode Settings (W) 7-6 Screen Over (see below) 5-2 Not used 1 Screen V-Flip (0=Normal, 1=Flipped) ; flip 256x256 "screen" 0 Screen H-Flip (0=Normal, 1=Flipped) ;. </p>
-<p>Screen Over (when exceeding the 128x128 tile BG Map size): 0=Wrap within 128x128 tile area 1=Wrap within 128x128 tile area (same as 0) 2=Outside 128x128 tile area is Transparent 3=Outside 128x128 tile area is filled by Tile 00h </p>
-
-</div>
-</div>
-<a id="a4e8398519a24701e4d3041e4f02edc00" name="a4e8398519a24701e4d3041e4f02edc00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e8398519a24701e4d3041e4f02edc00">&#9670;&#160;</a></span>REG_STAT77</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define REG_STAT77&#160;&#160;&#160;(*(vuint8 *)0x213E)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>PPU1 Status and Version Number (R) 7 OBJ Time overflow (0=Okay, 1=More than 8x34 OBJ pixels per scanline) 6 OBJ Range overflow (0=Okay, 1=More than 32 OBJs per scanline) 5 Master/Slave Mode (PPU1.Pin25) (0=Normal=Master) 4 Not used (PPU1 open bus) (same as last value read from PPU1) 3-0 PPU1 5C77 Version Number (only version 1 exists as far as I know) </p>
-<p>The overflow flags are cleared at end of V-Blank, but NOT during forced blank! The overflow flags are set (regardless of OBJ enable/disable in 212Ch), at following times: Bit6 when V=OBJ.YLOC/H=OAM.INDEX*2, bit7 when V=OBJ.YLOC+1/H=0. </p>
-
-</div>
-</div>
-<a id="a962038681293a309df2c26f1e9a7d7e9" name="a962038681293a309df2c26f1e9a7d7e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a962038681293a309df2c26f1e9a7d7e9">&#9670;&#160;</a></span>REG_VMADDLH</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define REG_VMADDLH&#160;&#160;&#160;(*(vuint16 *)0x2116)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>VMADDL - VRAM Address (lower 8bit) (W) VMADDH - VRAM Address (upper 8bit) (W) </p>
-<p>VRAM Address for reading/writing. This is a WORD address (2-byte steps), the PPU could theoretically address up to 64K-words (128K-bytes), in practice, only 32K-words (64K-bytes) are installed in SNES consoles (VRAM address bit15 is not connected, so addresses 8000h-FFFFh are mirrors of 0-7FFFh). After reading/writing VRAM Data, the Word-address can be automatically incremented by 1,32,128 (depending on the Increment Mode in Port 2115h) (Note: the Address Translation feature is applied only "temporarily" upon memory accesses, it doesn't affect the value in Port 2116h-17h). Writing to 2116h/2117h does prefetch 16bit data from the new address (for later reading). </p>
-
-</div>
-</div>
 <a id="a09d7fb089889aaa434f7c88ebccb5190" name="a09d7fb089889aaa434f7c88ebccb5190"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a09d7fb089889aaa434f7c88ebccb5190">&#9670;&#160;</a></span>REG_VMAIN</h2>
 
@@ -481,10 +449,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
       </table>
 </div><div class="memdoc">
 
-<p>VRAM Address Increment Mode (W) 7 Increment VRAM Address after accessing High/Low byte (0=Low, 1=High) 6-4 Not used 3-2 Address Translation (0..3 = 0bit/None, 8bit, 9bit, 10bit) 1-0 Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128) </p>
-<p>The address translation is intended for bitmap graphics (where one would have filled the BG Map by increasing Tile numbers), technically it does thrice left-rotate the lower 8, 9, or 10 bits of the Word-address: Translation Bitmap Type Port [2116h/17h] VRAM Word-Address 8bit rotate 4-color; 1 word/plane aaaaaaaaYYYxxxxx --&gt; aaaaaaaaxxxxxYYY 9bit rotate 16-color; 2 words/plane aaaaaaaYYYxxxxxP --&gt; aaaaaaaxxxxxPYYY 10bit rotate 256-color; 4 words/plane aaaaaaYYYxxxxxPP --&gt; aaaaaaxxxxxPPYYY</p>
-<p>Where "aaaaa" would be the normal address MSBs, "YYY" is the Y-index (within a 8x8 tile), "xxxxx" selects one of the 32 tiles per line, "PP" is the bit-plane index (for BGs with more than one Word per plane). For the intended result (writing rows of 256 pixels) the Translation should be combined with Increment Step=1. For Mode 7 bitmaps one could eventually combine step 32/128 with 8bit/10bit rotate:</p>
-<p>8bit-rotate/step32 aaaaaaaaXXXxxYYY --&gt; aaaaaaaaxxYYYXXX 10bit-rotate/step128 aaaaaaXXXxxxxYYY --&gt; aaaaaaxxxxYYYXXX</p>
+<p>VRAM Address Increment Mode (W) 7 Increment VRAM Address after accessing High/Low byte (0=Low, 1=High) 6-4 Not used 3-2 Address Translation (0..3 = 0bit/None, 8bit, 9bit, 10bit) 1-0 Address Increment Step (0..3 = Increment Word-Address by 1,32,128,128) The address translation is intended for bitmap graphics (where one would have filled the BG Map by increasing Tile numbers), technically it does thrice left-rotate the lower 8, 9, or 10 bits of the Word-address: Translation Bitmap Type Port [2116h/17h] VRAM Word-Address 8bit rotate 4-color; 1 word/plane aaaaaaaaYYYxxxxx --&gt; aaaaaaaaxxxxxYYY 9bit rotate 16-color; 2 words/plane aaaaaaaYYYxxxxxP --&gt; aaaaaaaxxxxxPYYY 10bit rotate 256-color; 4 words/plane aaaaaaYYYxxxxxPP --&gt; aaaaaaxxxxxPPYYY Where "aaaaa" would be the normal address MSBs, "YYY" is the Y-index (within a 8x8 tile), "xxxxx" selects one of the 32 tiles per line, "PP" is the bit-plane index (for BGs with more than one Word per plane). For the intended result (writing rows of 256 pixels) the Translation should be combined with Increment Step=1. For Mode 7 bitmaps one could eventually combine step 32/128 with 8bit/10bit rotate: 8bit-rotate/step32 aaaaaaaaXXXxxYYY --&gt; aaaaaaaaxxYYYXXX 10bit-rotate/step128 aaaaaaXXXxxxxYYY --&gt; aaaaaaxxxxYYYXXX. </p>
 <p>Though the SNES can't access enough VRAM for fullscreen Mode 7 bitmaps. Step 32 (without translation) is useful for updating BG Map columns (eg. after horizontal scrolling). </p>
 
 </div>
@@ -563,8 +528,8 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
 <b>Value:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="video_8h.html#a47b1bf21d0ed441344efcaf573350c46">REG_CGADD</a> = paletteEntry;                       \</div>
 <div class="line">    *<a class="code hl_define" href="video_8h.html#afe3cc8b2ea5f41a791be1b3a3cf04cb2">CGRAM_PALETTE</a> = (paletteColor)&amp;0xFF;           \</div>
 <div class="line">    *<a class="code hl_define" href="video_8h.html#afe3cc8b2ea5f41a791be1b3a3cf04cb2">CGRAM_PALETTE</a> = (paletteColor) &gt;&gt; 8;</div>
-<div class="ttc" id="avideo_8h_html_a47b1bf21d0ed441344efcaf573350c46"><div class="ttname"><a href="video_8h.html#a47b1bf21d0ed441344efcaf573350c46">REG_CGADD</a></div><div class="ttdeci">#define REG_CGADD</div><div class="ttdoc">Palette CGRAM Address (Color Generator Memory) (W) Color index (0..255). This is a WORD-address (2-by...</div><div class="ttdef"><b>Definition</b> video.h:173</div></div>
-<div class="ttc" id="avideo_8h_html_afe3cc8b2ea5f41a791be1b3a3cf04cb2"><div class="ttname"><a href="video_8h.html#afe3cc8b2ea5f41a791be1b3a3cf04cb2">CGRAM_PALETTE</a></div><div class="ttdeci">#define CGRAM_PALETTE</div><div class="ttdoc">Palette CGRAM Data Write (W) 1st Access: Lower 8 bits (even address) 2nd Access: Upper 7 bits (odd ad...</div><div class="ttdef"><b>Definition</b> video.h:205</div></div>
+<div class="ttc" id="avideo_8h_html_a47b1bf21d0ed441344efcaf573350c46"><div class="ttname"><a href="video_8h.html#a47b1bf21d0ed441344efcaf573350c46">REG_CGADD</a></div><div class="ttdeci">#define REG_CGADD</div><div class="ttdoc">Palette CGRAM Address (Color Generator Memory) (W) Color index (0..255). This is a WORD-address (2-by...</div><div class="ttdef"><b>Definition</b> video.h:161</div></div>
+<div class="ttc" id="avideo_8h_html_afe3cc8b2ea5f41a791be1b3a3cf04cb2"><div class="ttname"><a href="video_8h.html#afe3cc8b2ea5f41a791be1b3a3cf04cb2">CGRAM_PALETTE</a></div><div class="ttdeci">#define CGRAM_PALETTE</div><div class="ttdoc">Palette CGRAM Data Write (W) 1st Access: Lower 8 bits (even address) 2nd Access: Upper 7 bits (odd ad...</div><div class="ttdef"><b>Definition</b> video.h:190</div></div>
 </div><!-- fragment -->
 <p>Change a color palette in CGRAM. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -617,6 +582,27 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="aa32453c6d6d3f72b94163b6aa3798fd0" name="aa32453c6d6d3f72b94163b6aa3798fd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa32453c6d6d3f72b94163b6aa3798fd0">&#9670;&#160;</a></span>getFadeEffectLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">getFadeEffectLevel </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the current software fade level. </p>
+<dl class="section return"><dt>Returns</dt><dd>Current internal fade level. </dd></dl>
+
+</div>
+</div>
 <a id="a73861f0742d53e6f44385a673504c83c" name="a73861f0742d53e6f44385a673504c83c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a73861f0742d53e6f44385a673504c83c">&#9670;&#160;</a></span>getFPScounter()</h2>
 
@@ -721,6 +707,48 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
 
 </div>
 </div>
+<a id="ae7d519faa9f0c0d7192e031ca5124020" name="ae7d519faa9f0c0d7192e031ca5124020"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7d519faa9f0c0d7192e031ca5124020">&#9670;&#160;</a></span>isFadeEffectActive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">isFadeEffectActive </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check whether the software fade effect is active. </p>
+<dl class="section return"><dt>Returns</dt><dd>1 if a fade operation is active, 0 otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a697fefc81346373af3210077384d0302" name="a697fefc81346373af3210077384d0302"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a697fefc81346373af3210077384d0302">&#9670;&#160;</a></span>isMosaicActive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">isMosaicActive </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check whether the software mosaic effect is active. </p>
+<dl class="section return"><dt>Returns</dt><dd>1 if a mosaic operation is in progress, 0 otherwise. </dd></dl>
+
+</div>
+</div>
 <a id="a4c257abebd75e4653441e8afe672bb5e" name="a4c257abebd75e4653441e8afe672bb5e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4c257abebd75e4653441e8afe672bb5e">&#9670;&#160;</a></span>setBrightness()</h2>
 
@@ -737,10 +765,10 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
       </table>
 </div><div class="memdoc">
 
-<p>sets the screens brightness. </p>
+<p>Sets the screen brightness. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">level</td><td>15 = full brightness, 0= black </td></tr>
+    <tr><td class="paramname">level</td><td>15 = full brightness, 0 = black. </td></tr>
   </table>
   </dd>
 </dl>
@@ -817,7 +845,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
 <p>Change intensity for transparency. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">colorApply</td><td>with component is affect (red, green, blue) </td></tr>
+    <tr><td class="paramname">colorApply</td><td>which component is affected (red, green, blue) </td></tr>
     <tr><td class="paramname">intensity</td><td>value for intensity </td></tr>
   </table>
   </dd>
@@ -841,10 +869,11 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
       </table>
 </div><div class="memdoc">
 
-<p>Do a fadein or fadeout effect. </p>
+<p>Perform a blocking fade-in or fade-out effect. </p>
+<p>The function waits for VBlank while the fade is being performed.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">mode</td><td>(FADE_IN = black to complete light, FADE_OUT = light to black) </td></tr>
+    <tr><td class="paramname">mode</td><td>FADE_IN = black to full brightness, FADE_OUT = full brightness to black. </td></tr>
   </table>
   </dd>
 </dl>
@@ -879,16 +908,106 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
       </table>
 </div><div class="memdoc">
 
-<p>Do a fadein or fadeout effect. </p>
+<p>Perform a blocking fade-in or fade-out effect with a configurable step delay. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">mode</td><td>(FADE_IN = black to complete light, FADE_OUT = light to black) </td></tr>
-    <tr><td class="paramname">framesNumber</td><td>the number of frames </td></tr>
+    <tr><td class="paramname">mode</td><td>FADE_IN = black to full brightness, FADE_OUT = full brightness to black. </td></tr>
+    <tr><td class="paramname">framesNumber</td><td>Number of VBlanks to wait between brightness changes. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="graphics_2_effects_2_fading_2_fading_8c-example.html#a7">graphics/Effects/Fading/Fading.c</a>.</dd>
 </dl>
+
+</div>
+</div>
+<a id="a9c0b9389aa30b42a24fa28892d2549ee" name="a9c0b9389aa30b42a24fa28892d2549ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c0b9389aa30b42a24fa28892d2549ee">&#9670;&#160;</a></span>setFadeEffectIn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">setFadeEffectIn </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Start a non-blocking fade-in effect. </p>
+<p>Sets the fade target to the full software fade level and activates the software fade. The actual brightness update is performed by <a class="el" href="video_8h.html#ad8761d0f3fde3cf2cfdc02e4d9a360a6" title="Update the software fade effect.">updateFadeEffect()</a>. </p>
+
+</div>
+</div>
+<a id="a51399fa5924608e9c8dcb5523357ead1" name="a51399fa5924608e9c8dcb5523357ead1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51399fa5924608e9c8dcb5523357ead1">&#9670;&#160;</a></span>setFadeEffectInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">setFadeEffectInit </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize the software fade effect state. </p>
+<p>This initializes the internal fade level, target level, update speed and activity state. </p>
+
+</div>
+</div>
+<a id="ab8b3270ce78a505794993256ea65e879" name="ab8b3270ce78a505794993256ea65e879"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8b3270ce78a505794993256ea65e879">&#9670;&#160;</a></span>setFadeEffectOut()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">setFadeEffectOut </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Start a non-blocking fade-out effect. </p>
+<p>Sets the fade target to black and activates the software fade. The actual brightness update is performed by <a class="el" href="video_8h.html#ad8761d0f3fde3cf2cfdc02e4d9a360a6" title="Update the software fade effect.">updateFadeEffect()</a>. </p>
+
+</div>
+</div>
+<a id="a2f6613163647142b6b7649e19e77e0ef" name="a2f6613163647142b6b7649e19e77e0ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f6613163647142b6b7649e19e77e0ef">&#9670;&#160;</a></span>setFadeEffectSpeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">setFadeEffectSpeed </td>
+          <td>(</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>speed</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the update speed of the software fade effect. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">speed</td><td>Number of <a class="el" href="video_8h.html#ad8761d0f3fde3cf2cfdc02e4d9a360a6" title="Update the software fade effect.">updateFadeEffect()</a> calls between brightness changes. A value of 0 updates the brightness on every call. A value of 1 also updates on every call.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>For values greater than 1, the fade level is changed once every <code>speed</code> calls to <a class="el" href="video_8h.html#ad8761d0f3fde3cf2cfdc02e4d9a360a6" title="Update the software fade effect.">updateFadeEffect()</a>. </dd></dl>
 
 </div>
 </div>
@@ -921,8 +1040,8 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
 <p>Set the SNES hardware to operate in new display mode. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">mode</td><td>0..7 for available Snes display mode </td></tr>
-    <tr><td class="paramname">size</td><td>Tile Size (8x8 or 16x16) of each BG in this mode (if available)</td></tr>
+    <tr><td class="paramname">mode</td><td>0..7 for available SNES display mode. </td></tr>
+    <tr><td class="paramname">size</td><td>Tile Size (8x8 or 16x16) of each BG in this mode (if available).</td></tr>
   </table>
   </dd>
 </dl>
@@ -979,7 +1098,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
 <p>Change angle view in mode 7 without changing matrix. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">angle</td><td>: 0..255 value </td></tr>
+    <tr><td class="paramname">angle</td><td>0..255 value </td></tr>
   </table>
   </dd>
 </dl>
@@ -1005,7 +1124,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
 <p>Change perspective view forward/backward in mode 7 without changing matrix. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">z8</td><td>: 0..255 value </td></tr>
+    <tr><td class="paramname">z8</td><td>0..255 value </td></tr>
   </table>
   </dd>
 </dl>
@@ -1031,7 +1150,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
 <p>Change perspective view left/right in mode 7 without changing matrix. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">z8</td><td>: 0..255 value </td></tr>
+    <tr><td class="paramname">z8</td><td>0..255 value </td></tr>
   </table>
   </dd>
 </dl>
@@ -1057,7 +1176,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
 <p>Change angle view in mode 7 with matrix transformation. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">angle</td><td>: 0..255 value </td></tr>
+    <tr><td class="paramname">angle</td><td>0..255 value </td></tr>
   </table>
   </dd>
 </dl>
@@ -1095,8 +1214,8 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
 <p>Change scaling effect of screen in mode 7. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">xscale</td><td>: scaling for x </td></tr>
-    <tr><td class="paramname">yscale</td><td>: scaling for y </td></tr>
+    <tr><td class="paramname">xscale</td><td>scaling for x </td></tr>
+    <tr><td class="paramname">yscale</td><td>scaling for y </td></tr>
   </table>
   </dd>
 </dl>
@@ -1142,6 +1261,90 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
 
 </div>
 </div>
+<a id="a50ccbc844d66f9436b16498054d1491f" name="a50ccbc844d66f9436b16498054d1491f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50ccbc844d66f9436b16498054d1491f">&#9670;&#160;</a></span>setMosaicEffectSpeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">setMosaicEffectSpeed </td>
+          <td>(</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>speed</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the update speed of the software mosaic effect. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">speed</td><td>Number of <a class="el" href="video_8h.html#a24709aabb2b6a535be4b2f36ba71d710" title="Update the software mosaic effect.">updateMosaicEffect()</a> calls between mosaic changes. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac9498fee20fc4daf527469877f8a6e35" name="ac9498fee20fc4daf527469877f8a6e35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9498fee20fc4daf527469877f8a6e35">&#9670;&#160;</a></span>setMosaicInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">setMosaicInit </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize the software mosaic effect state. </p>
+<p>This initializes the internal mosaic size, target level, update speed and activity state. </p>
+
+</div>
+</div>
+<a id="ab103bcb87bb3ae9154a10a501f9f0997" name="ab103bcb87bb3ae9154a10a501f9f0997"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab103bcb87bb3ae9154a10a501f9f0997">&#9670;&#160;</a></span>setMosaicTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">setMosaicTo </td>
+          <td>(</td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8&#160;</td>
+          <td class="paramname"><em>bgMask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the mosaic size and mask. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>Size of mosaic square. </td></tr>
+    <tr><td class="paramname">bgMask</td><td>BG affected by effect. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="abc7d4ef8ebc22f5b710927909bb3f144" name="abc7d4ef8ebc22f5b710927909bb3f144"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abc7d4ef8ebc22f5b710927909bb3f144">&#9670;&#160;</a></span>setScreenOn()</h2>
 
@@ -1158,10 +1361,54 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
       </table>
 </div><div class="memdoc">
 
-<p>Put screen On. </p>
+<p>Put screen on. </p>
 <p>Calls <a class="el" href="interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b" title="Waits for a VBlank interrupt.">WaitForVBlank()</a> before enabling the screen to flush VBlank buffers/queues and minimise glitches. </p>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="audio_2effects_2effects_8c-example.html#a13">audio/effects/effects.c</a>, <a class="el" href="audio_2effectsandmusic_2effectsandmusic_8c-example.html#a15">audio/effectsandmusic/effectsandmusic.c</a>, <a class="el" href="audio_2music_2_music_8c-example.html#a12">audio/music/Music.c</a>, <a class="el" href="audio_2music_greater_than32k_2music_greater_than32k_8c-example.html#a12">audio/musicGreaterThan32k/musicGreaterThan32k.c</a>, <a class="el" href="audio_2tada_2_tada_8c-example.html#a12">audio/tada/Tada.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode0_2_mode0_8c-example.html#a3">graphics/Backgrounds/Mode0/Mode0.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_2_mode1_8c-example.html#a4">graphics/Backgrounds/Mode1/Mode1.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_b_g3_high_priority_2_mode1_b_g3_high_priority_8c-example.html#a5">graphics/Backgrounds/Mode1BG3HighPriority/Mode1BG3HighPriority.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_continuos_scroll_2_mode1_continuos_scroll_8c-example.html#a17">graphics/Backgrounds/Mode1ContinuosScroll/Mode1ContinuosScroll.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_l_z77_2_mode1_l_z77_8c-example.html#a4">graphics/Backgrounds/Mode1LZ77/Mode1LZ77.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_mixed_scroll_2_mode1_mixed_scroll_8c-example.html#a4">graphics/Backgrounds/Mode1MixedScroll/Mode1MixedScroll.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_png_2_mode1_8c-example.html#a4">graphics/Backgrounds/Mode1Png/Mode1.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode1_scroll_2_mode1_scroll_8c-example.html#a10">graphics/Backgrounds/Mode1Scroll/Mode1Scroll.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode3_2_mode3_8c-example.html#a6">graphics/Backgrounds/Mode3/Mode3.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode5_2_mode5_8c-example.html#a5">graphics/Backgrounds/Mode5/Mode5.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode7_2_mode7_8c-example.html#a2">graphics/Backgrounds/Mode7/Mode7.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode7_l_z77_2src_2_mode7_l_z77_8c-example.html#a2">graphics/Backgrounds/Mode7LZ77/src/Mode7LZ77.c</a>, <a class="el" href="graphics_2_backgrounds_2_mode7_perspective_2_mode7_perspective_8c-example.html#a10">graphics/Backgrounds/Mode7Perspective/Mode7Perspective.c</a>, <a class="el" href="graphics_2_effects_2_fading_2_fading_8c-example.html#a6">graphics/Effects/Fading/Fading.c</a>, <a class="el" href="graphics_2_effects_2_gradient_colors_2_gradient_colors_8c-example.html#a4">graphics/Effects/GradientColors/GradientColors.c</a>, <a class="el" href="graphics_2_effects_2_h_d_m_a_gradient_2_h_d_m_a_gradient_8c-example.html#a5">graphics/Effects/HDMAGradient/HDMAGradient.c</a>, <a class="el" href="graphics_2_effects_2_mosaic_2_mosaic_8c-example.html#a6">graphics/Effects/Mosaic/Mosaic.c</a>, <a class="el" href="graphics_2_effects_2_parallax_scrolling_2_parallax_scrolling_8c-example.html#a4">graphics/Effects/ParallaxScrolling/ParallaxScrolling.c</a>, <a class="el" href="graphics_2_effects_2_transparency_2_transparency_8c-example.html#a4">graphics/Effects/Transparency/Transparency.c</a>, <a class="el" href="graphics_2_effects_2_transparent_window_2src_2main_8c-example.html#a5">graphics/Effects/TransparentWindow/src/main.c</a>, <a class="el" href="graphics_2_effects_2_waves_2_waves_8c-example.html#a4">graphics/Effects/Waves/Waves.c</a>, <a class="el" href="graphics_2_effects_2_window_2_window_8c-example.html#a5">graphics/Effects/Window/Window.c</a>, <a class="el" href="graphics_2_palette_2_get_colors_2_get_colors_8c-example.html#a8">graphics/Palette/GetColors/GetColors.c</a>, <a class="el" href="graphics_2_sprites_2_animated_sprite_2_animated_sprite_8c-example.html#a7">graphics/Sprites/AnimatedSprite/AnimatedSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_meta_sprite_2_dynamic_engine_meta_sprite_8c-example.html#a18">graphics/Sprites/DynamicEngineMetaSprite/DynamicEngineMetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_engine_sprite_2_dynamic_engine_sprite_8c-example.html#a13">graphics/Sprites/DynamicEngineSprite/DynamicEngineSprite.c</a>, <a class="el" href="graphics_2_sprites_2_dynamic_sprite_2_dynamic_sprite_8c-example.html#a17">graphics/Sprites/DynamicSprite/DynamicSprite.c</a>, <a class="el" href="graphics_2_sprites_2_meta_sprite_2_meta_sprite_8c-example.html#a8">graphics/Sprites/MetaSprite/MetaSprite.c</a>, <a class="el" href="graphics_2_sprites_2_object_size_2_object_size_8c-example.html#a21">graphics/Sprites/ObjectSize/ObjectSize.c</a>, <a class="el" href="graphics_2_sprites_2_simple_sprite_2_simple_sprite_8c-example.html#a6">graphics/Sprites/SimpleSprite/SimpleSprite.c</a>, <a class="el" href="graphics_2maps_2mapscroll_2mapscroll_8c-example.html#a9">graphics/maps/mapscroll/mapscroll.c</a>, <a class="el" href="graphics_2maps_2slopemario_2slopemario_8c-example.html#a61">graphics/maps/slopemario/slopemario.c</a>, <a class="el" href="graphics_2maps_2tiled_2tiled_8c-example.html#a4">graphics/maps/tiled/tiled.c</a>, <a class="el" href="hello_world_2src_2hello_world_8c-example.html#a6">hello_world/src/hello_world.c</a>, <a class="el" href="input_2controller_2controller_8c-example.html#a9">input/controller/controller.c</a>, <a class="el" href="input_2mouse_2mouse_8c-example.html#a17">input/mouse/mouse.c</a>, <a class="el" href="input_2multiplay5_2multiplay5_8c-example.html#a11">input/multiplay5/multiplay5.c</a>, <a class="el" href="input_2superscope_2superscope_8c-example.html#a19">input/superscope/superscope.c</a>, <a class="el" href="systems_2breakpoints_2src_2breakpoints_8c-example.html#a7">systems/breakpoints/src/breakpoints.c</a>, <a class="el" href="systems_2debug_2src_2debug_8c-example.html#a3">systems/debug/src/debug.c</a>, <a class="el" href="systems_2games_2breakout_2breakout_8c-example.html#a14">systems/games/breakout/breakout.c</a>, <a class="el" href="systems_2games_2likemario_2src_2_like_mario_8c-example.html#a60">systems/games/likemario/src/LikeMario.c</a>, <a class="el" href="systems_2memory_mapping_2src_2memory_mapping_8c-example.html#a6">systems/memory_mapping/src/memory_mapping.c</a>, <a class="el" href="systems_2objects_2mapandobjects_2mapandobjects_8c-example.html#a12">systems/objects/mapandobjects/mapandobjects.c</a>, <a class="el" href="systems_2objects_2moveobjects_2moveobjects_8c-example.html#a20">systems/objects/moveobjects/moveobjects.c</a>, <a class="el" href="systems_2objects_2nogravityobject_2nogravityobjects_8c-example.html#a12">systems/objects/nogravityobject/nogravityobjects.c</a>, <a class="el" href="systems_2sram_2sramoffset_2src_2sramoffset_8c-example.html#a8">systems/sram/sramoffset/src/sramoffset.c</a>, <a class="el" href="systems_2sram_2sramsimple_2src_2sram_8c-example.html#a6">systems/sram/sramsimple/src/sram.c</a>, <a class="el" href="systems_2testregion_2src_2testregion_8c-example.html#a6">systems/testregion/src/testregion.c</a>, <a class="el" href="systems_2textvwfont_2src_2textvwfont_8c-example.html#a7">systems/textvwfont/src/textvwfont.c</a>, <a class="el" href="systems_2timer_2src_2timer_8c-example.html#a8">systems/timer/src/timer.c</a>, and <a class="el" href="systems_2typeconsole_2src_2pal_ntsc_8c-example.html#a7">systems/typeconsole/src/pal_ntsc.c</a>.</dd>
 </dl>
+
+</div>
+</div>
+<a id="ad8761d0f3fde3cf2cfdc02e4d9a360a6" name="ad8761d0f3fde3cf2cfdc02e4d9a360a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8761d0f3fde3cf2cfdc02e4d9a360a6">&#9670;&#160;</a></span>updateFadeEffect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">updateFadeEffect </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Update the software fade effect. </p>
+<p>This function performs one step of a non-blocking fade operation. It should typically be called once per frame.</p>
+<p>The function updates the current fade level toward its target and automatically stops the effect when the target is reached. </p>
+
+</div>
+</div>
+<a id="a24709aabb2b6a535be4b2f36ba71d710" name="a24709aabb2b6a535be4b2f36ba71d710"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24709aabb2b6a535be4b2f36ba71d710">&#9670;&#160;</a></span>updateMosaicEffect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">updateMosaicEffect </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Update the software mosaic effect. </p>
+<p>This function performs one step of a non-blocking fade operation. It should typically be called once per frame.</p>
+<p>The function updates the current fade level toward its target and automatically stops the effect when the target is reached. </p>
 
 </div>
 </div>
@@ -1171,7 +1418,7 @@ u8&#160;</td><td class="memItemRight" valign="bottom"><b>videoModeSub</b></td></
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1fce5620edc95505dc9b3bb80528afca.html">snes</a></li><li class="navelem"><a class="el" href="video_8h.html">video.h</a></li>
-    <li class="footer">Generated on Tue Jul 28 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
+    <li class="footer">Generated on Sun Nov 8 2026       Generated by <a href="https://www.doxygen.org/index.html">doxygen</a> 1.9.8 </li>
 </div>
 </body>
 </html>

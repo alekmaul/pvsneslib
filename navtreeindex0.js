@@ -125,8 +125,8 @@ var NAVTREEINDEX0 =
 "gamestates_8h.html#a644eb7ca003e111d16c636335d43ceeb":[2,0,0,0,4,0],
 "gamestates_8h.html#aef4ec626e0fd0c8c40c27fb5fa0c6949":[2,0,0,0,4,2],
 "gamestates_8h_source.html":[2,0,0,0,4],
-"globals.html":[2,1,0],
 "globals.html":[2,1,0,0],
+"globals.html":[2,1,0],
 "globals_b.html":[2,1,0,1],
 "globals_c.html":[2,1,0,2],
 "globals_d.html":[2,1,0,3],
@@ -147,10 +147,11 @@ var NAVTREEINDEX0 =
 "globals_s.html":[2,1,0,14],
 "globals_t.html":[2,1,0,15],
 "globals_type.html":[2,1,3],
-"globals_v.html":[2,1,0,16],
+"globals_u.html":[2,1,0,16],
+"globals_v.html":[2,1,0,17],
 "globals_vars.html":[2,1,2],
-"globals_w.html":[2,1,0,17],
-"globals_y.html":[2,1,0,18],
+"globals_w.html":[2,1,0,18],
+"globals_y.html":[2,1,0,19],
 "graphics_2_backgrounds_2_mode0_2_mode0_8c-example.html":[3,1],
 "graphics_2_backgrounds_2_mode1_2_mode1_8c-example.html":[3,2],
 "graphics_2_backgrounds_2_mode1_b_g3_high_priority_2_mode1_b_g3_high_priority_8c-example.html":[3,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "input_8h.html#a94007e33999d3f93ada2a2e42a2e1951":[2,0,0,0,5,33],
 "input_8h.html#aa198072f87b95ed8de962cfb04081dd8":[2,0,0,0,5,29],
 "input_8h.html#aa27cad8fa018a58930b6622783a83072":[2,0,0,0,5,8],
-"input_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd":[2,0,0,0,5,8,7],
-"input_8h.html#aa27cad8fa018a58930b6622783a83072a10072b5ee7aa1faf316434ecc9e2bb3a":[2,0,0,0,5,8,1]
+"input_8h.html#aa27cad8fa018a58930b6622783a83072a0848a442d907968b211b97bc2bd88acd":[2,0,0,0,5,8,7]
 };

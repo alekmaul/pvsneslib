@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['waitforvblank_0',['WaitForVBlank',['../interrupt_8h.html#abd33830487e4764e5ec22ec98b749f4b',1,'interrupt.h']]],
-  ['waitnvblank_1',['WaitNVBlank',['../interrupt_8h.html#ac0150594ed1a86784c4cd96b1ff11a0e',1,'interrupt.h']]]
+  ['updatefadeeffect_0',['updateFadeEffect',['../video_8h.html#ad8761d0f3fde3cf2cfdc02e4d9a360a6',1,'video.h']]],
+  ['updatemosaiceffect_1',['updateMosaicEffect',['../video_8h.html#a24709aabb2b6a535be4b2f36ba71d710',1,'video.h']]]
 ];
