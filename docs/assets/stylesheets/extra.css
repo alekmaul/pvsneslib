@@ -1,0 +1,114 @@
+/* PVSnesLib documentation: restrained SNES-inspired identity */
+:root {
+  --pvsnes-ink: #17243a;
+  --pvsnes-ink-light: #263b59;
+  --pvsnes-gold: #d5ad52;
+  --pvsnes-paper: #f6f5f1;
+}
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: var(--pvsnes-ink);
+  --md-accent-fg-color: #b88624;
+  --md-default-bg-color: var(--pvsnes-paper);
+}
+.md-header { background: var(--pvsnes-ink); }
+.md-tabs { background: #223451; }
+
+.hero {
+  margin: .8rem 0 1.4rem;
+  padding: clamp(1.5rem, 3vw, 2.6rem);
+  border-radius: 1rem;
+  color: #fff;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(213,173,82,.22), transparent 28%),
+    linear-gradient(125deg, #17243a, #30496b);
+}
+.md-typeset .hero h1 {
+  color: #fff;
+  max-width: 22ch;
+  margin: .45rem 0 .8rem;
+  font-size: clamp(2rem, 3.2vw, 2.8rem) !important;
+  line-height: 1.12;
+  font-weight: 700;
+  letter-spacing: -.025em;
+}
+.hero-eyebrow {
+  display: inline-block;
+  color: #f0d58e;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .13em;
+}
+.md-typeset .hero p {
+  max-width: 58ch;
+  margin: 0 0 1rem;
+  color: rgba(255,255,255,.86);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.hero .md-button {
+  margin: .25rem .35rem .1rem 0;
+  font-size: .78rem;
+}
+.hero .md-button--primary {
+  background: var(--pvsnes-gold);
+  border-color: var(--pvsnes-gold);
+  color: #17243a;
+}
+.hero .md-button:not(.md-button--primary) {
+  color: #fff;
+  border-color: rgba(255,255,255,.65);
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .8rem;
+  margin: 1.2rem 0 2rem;
+}
+.stat {
+  padding: .8rem 1rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .75rem;
+  text-align: center;
+  background: var(--md-default-bg-color);
+}
+.stat-number {
+  display: block;
+  color: #b88624;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+.stat-label {
+  display: block;
+  color: var(--md-default-fg-color--light);
+  font-size: .75rem;
+}
+.md-typeset .grid.cards > ul > li { border-radius: .8rem; }
+.md-typeset .grid.cards > ul > li > p:first-child .lg {
+  color: #b88624;
+}
+.workflow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .75rem;
+  margin: 1rem 0 2rem;
+}
+.workflow-step {
+  padding: 1rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .8rem;
+  background: var(--md-default-bg-color);
+}
+.workflow-number {
+  display: inline-block;
+  margin-bottom: .5rem;
+  color: #b88624;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+.workflow-step p { margin-bottom: 0; font-size: .82rem; }
+@media (max-width: 900px) {
+  .workflow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .stats, .workflow { grid-template-columns: 1fr; }
+}
