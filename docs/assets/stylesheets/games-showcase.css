@@ -1,0 +1,95 @@
+/* PVSnesLib homepage game showcase */
+.home-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  margin: 1.2rem 0 2rem;
+}
+
+.home-feature-grid,
+.game-showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1rem;
+  margin: 1.2rem 0 2.2rem;
+}
+
+.home-feature,
+.game-showcase-card {
+  overflow: hidden;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .65rem;
+  background: var(--md-code-bg-color);
+}
+
+.home-feature {
+  display: block;
+  padding: 1rem 1.1rem;
+  color: var(--md-default-fg-color) !important;
+  text-decoration: none !important;
+  transition: border-color .18s ease, transform .18s ease;
+}
+
+.home-feature:hover,
+.game-showcase-card:hover {
+  border-color: #d6a93a;
+  transform: translateY(-2px);
+}
+
+.home-feature strong,
+.home-feature span {
+  display: block;
+}
+
+.home-feature strong {
+  margin-bottom: .35rem;
+  color: var(--md-default-fg-color);
+}
+
+.home-feature span,
+.game-showcase-copy span {
+  color: var(--md-default-fg-color--light);
+  font-size: .88rem;
+}
+
+.game-showcase-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  transition: border-color .18s ease, transform .18s ease;
+}
+
+.game-showcase-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  background: #080d20;
+  margin: 0;
+}
+
+/* GIFs are ordinary image elements: their animations play continuously. */
+.game-showcase-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .35rem;
+  padding: .85rem 1rem 1rem;
+}
+
+.game-showcase-copy strong {
+  color: var(--md-default-fg-color);
+}
+
+.game-showcase-copy a {
+  margin-top: .35rem;
+  font-size: .85rem;
+  font-weight: 600;
+}
+
+@media (min-width: 900px) {
+  .game-showcase-grid--examples {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
