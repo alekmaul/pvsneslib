@@ -1,8 +1,8 @@
 # Getting started
 
-Welcome to PVSnesLib! This section takes you from preparing your development environment to building and running your first Super Nintendo ROM.
+PVSnesLib lets you create homebrew games and applications for the Super Nintendo **in the C programming language**. This section takes you from preparing the development environment to building and running your first ROM.
 
-You do not need to understand every detail of the SNES hardware before starting. Follow the steps in order, then use the tutorials and examples as you add features to your project.
+You write the game's application logic in C and call PVSnesLib functions to work with SNES features such as backgrounds, sprites, controller input and audio. The supplied toolchain builds the project into a ROM for the console. Some low-level library and platform components use 65816 assembly; you do not need to write assembly to follow the first-project guide.
 
 ## Your first steps
 
@@ -16,11 +16,11 @@ You do not need to understand every detail of the SNES hardware before starting.
 
     [Installation guide](installation.md)
 
--   :material-console: **2. Build your first ROM**
+-   :material-console: **2. Build your first C project**
 
     ---
 
-    Compile the supplied `hello_world` example and run the resulting ROM.
+    Compile the supplied `hello_world` C example and run the resulting ROM.
 
     [First project](first-project.md)
 
@@ -28,7 +28,7 @@ You do not need to understand every detail of the SNES hardware before starting.
 
     ---
 
-    Learn how to add backgrounds, sprites, controller input, and audio.
+    Learn how to add backgrounds, sprites, controller input, and audio to your C project.
 
     [Tutorial overview](../tutorials/index.md)
 
@@ -36,7 +36,7 @@ You do not need to understand every detail of the SNES hardware before starting.
 
     ---
 
-    Browse working projects and learn from their source code.
+    Browse working C projects and learn from their source code.
 
     [Examples](../examples/index.md)
 
@@ -59,12 +59,12 @@ The documentation is organized by task:
 
 | Section | Use it when you want to… |
 | --- | --- |
-| Getting started | Install PVSnesLib and build your first ROM. |
-| Tutorials | Learn a practical development technique. |
+| Getting started | Install PVSnesLib and build your first C project and ROM. |
+| Tutorials | Learn a practical technique for your game. |
 | API reference | Look up functions, types, constants, and declarations in Doxygen. |
 | SNES hardware | Understand the console resources and hardware constraints. |
 | Tools | Learn the role of the asset converters and build utilities. |
-| Examples | Find source projects that demonstrate specific features. |
+| Examples | Find C source projects that demonstrate specific features. |
 | FAQ | Find answers to common documentation and project questions. |
 | Community Wiki | Explore community tips, troubleshooting, and historical material. |
 
@@ -78,6 +78,6 @@ A useful learning path is:
 2. Add an object using [Sprites](../tutorials/sprites.md).
 3. Read the controller using [Controller input](../tutorials/input.md).
 4. Add music or sound effects using [Audio](../tutorials/audio.md).
-5. Compare your work with the projects in [Examples](../examples/index.md).
+5. Compare your work with the C projects in [Examples](../examples/index.md).
 
-For function signatures and complete API details, use the [generated Doxygen reference](https://alekmaul.github.io/pvsneslib/). The [GitHub Wiki](https://github.com/alekmaul/pvsneslib/wiki) remains a complementary community resource.
+For function signatures and complete API details, use the [generated Doxygen reference](../api/index.md). The [GitHub Wiki](https://github.com/alekmaul/pvsneslib/wiki) remains a complementary community resource.

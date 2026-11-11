@@ -1,6 +1,8 @@
-# Make games for the Super Nintendo.
+# Create your own Super Nintendo games in C.
 
-PVSnesLib is a development library for creating homebrew games and applications for the Super Nintendo Entertainment System.
+PVSnesLib is an open-source development library and toolchain for creating homebrew games and applications for the Super Nintendo Entertainment System (SNES) **using the C programming language**.
+
+Write your game's logic in C, use PVSnesLib's APIs for graphics, sprites, controller input and audio, then build a ROM for the SNES. The library also includes low-level assembly components and tools that support the 65816-based development toolchain.
 
 <div class="home-hero-actions">
   <a class="md-button md-button--primary" href="getting-started/installation/">Get started</a>
@@ -9,16 +11,16 @@ PVSnesLib is a development library for creating homebrew games and applications 
 
 <div class="home-feature-grid">
   <a class="home-feature" href="getting-started/">
-    <strong>Get started</strong>
-    <span>Set up your toolchain and build your first SNES project.</span>
+    <strong>Build SNES games in C</strong>
+    <span>Install the toolchain, compile a C project and run your first Super Nintendo ROM.</span>
   </a>
   <a class="home-feature" href="tutorials/">
-    <strong>Guides</strong>
-    <span>Explore practical tutorials for graphics, sprites, input and audio.</span>
+    <strong>Use the SNES hardware</strong>
+    <span>Explore practical guides for backgrounds, sprites, controller input and audio.</span>
   </a>
-  <a class="home-feature" href="https://alekmaul.github.io/pvsneslib/">
-    <strong>API reference</strong>
-    <span>Browse the generated Doxygen documentation.</span>
+  <a class="home-feature" href="api/">
+    <strong>Explore the API</strong>
+    <span>Browse the generated Doxygen reference for PVSnesLib functions and declarations.</span>
   </a>
 </div>
 
@@ -52,7 +54,7 @@ A few projects created with the library. These games are showcases; their source
 
 ## Learn from the source
 
-These example games are included in the PVSnesLib repository. Explore their source code and use them to understand how a complete game is structured.
+These example games are included in the PVSnesLib repository. Explore their C source code and use them to understand how a complete game is structured.
 
 <div class="game-showcase-grid game-showcase-grid--examples">
   <article class="game-showcase-card">
@@ -83,4 +85,4 @@ The community-maintained Wiki gallery brings together screenshots and informatio
 
 ## Start building
 
-Follow the getting-started guide, then explore the tutorials and examples to create your own SNES projects.
+You can start with the supplied C `hello_world` project, then learn how to add backgrounds, sprites, controller input and sound. Follow the [Getting started](getting-started/index.md) to build your first ROM.

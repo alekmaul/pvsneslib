@@ -1,10 +1,10 @@
-# Your first PVSnesLib project
+# Your first PVSnesLib project: a SNES game in C
 
-This guide takes the smallest reliable route from an installed PVSnesLib toolchain to a first Super Nintendo ROM: build the `hello_world` example shipped with PVSnesLib, inspect how it works, then use it as the starting point for your own project.
+This guide takes the smallest reliable route from an installed PVSnesLib toolchain to a first Super Nintendo ROM: build the `hello_world` example shipped with PVSnesLib, inspect its C source, then use it as the starting point for your own project.
 
 > **Before you begin:** PVSnesLib must already be installed and `PVSNESLIB_HOME` must point to its installation directory. On Windows, use the MSYS2 UCRT64 terminal for the build commands.
 
-## 1. Start from the supplied example
+## 1. Start from the supplied C example
 
 PVSnesLib includes its examples in the `snes-examples` directory. Open:
 
@@ -12,7 +12,7 @@ PVSnesLib includes its examples in the `snes-examples` directory. Open:
 <PVSNESLIB_HOME>/snes-examples/hello_world
 ```
 
-The example is a useful starting point because it already contains a working Makefile and the source code needed to build a ROM. Keep the original example intact; make a copy of the whole `hello_world` directory when you want to experiment.
+The example contains a C source file, a Makefile and the resources needed to build a ROM. Keep the original example intact; make a copy of the whole `hello_world` directory when you want to experiment.
 
 ## 2. Understand the project files
 
@@ -30,7 +30,7 @@ include ${PVSNESLIB_HOME}/devkitsnes/snes_rules
 
 Since PVSnesLib 4.6, `snes_rules` generates the ROM header automatically from the Makefile settings. You do not need to create or edit `hdr.asm` for a normal project. Manual header control is possible with `AUTOHDR := 0`, but it is not needed for this first build.
 
-## 3. Read the Hello World program
+## 3. Read the C program
 
 The example uses the PVSnesLib API from `snes.h`:
 
@@ -68,7 +68,7 @@ int main(void)
 }
 ```
 
-The example illustrates a few essential ideas:
+This is ordinary C application code using PVSnesLib functions to configure and use SNES hardware features. The example illustrates a few essential ideas:
 
 - `main()` is the program entry point.
 - `consoleInitDefaultText(0)` initializes the text console and its default font.
@@ -78,7 +78,7 @@ The example illustrates a few essential ideas:
 - `setScreenOn()` enables the display.
 - `WaitForVBlank()` keeps the main loop synchronized with the SNES video frame.
 
-The SNES runtime initialization is handled automatically. The example therefore starts directly with the application logic.
+The SNES runtime initialization is handled automatically. The example therefore starts directly with the application logic; you do not need to write the startup assembly for this first project.
 
 ## 4. Build the ROM
 
