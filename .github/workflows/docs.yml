@@ -5,13 +5,6 @@ on:
     branches:
       - develop
       - master
-    paths:
-      - "docs/**"
-      - "mkdocs.yml"
-      - "requirements-docs.txt"
-      - "pvsneslib/**"
-      - ".github/workflows/docs.yml"
-      - ".github/workflows/doxygen-gh-pages.yml"
   workflow_dispatch:
 
 permissions:
