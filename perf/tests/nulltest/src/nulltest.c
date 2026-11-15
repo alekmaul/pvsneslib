@@ -2,8 +2,8 @@
    816-tcc : gtst teste aussi le mot de banque) et conversion d'un entier non
    constant en pointeur (correction D : banque 0).
    Un pointeur $7F:0000 n'est pas NULL : !p, if (p), p ? : et sprintf("%s")
-   doivent le voir non nul. Les comparaisons p == 0 / p == q (corrections B et
-   C, reportees) ne sont pas testees ici. */
+   doivent le voir non nul, et p == 0 / p != NULL aussi (correction B limitee
+   a la comparaison avec 0). p == q compare encore 16 bits : non teste. */
 #include <snes.h>
 #include <string.h>
 
@@ -24,6 +24,10 @@ u16 is_set(char *s) { if (s) return 1; return 0; }
 u16 tern(char *s) { return s ? 1 : 0; }
 u16 loop_count(char *s) { u16 c = 0; while (s && c < 3) c++; return c; }
 u16 and_and(char *s, u16 x) { return (s && x) ? 1 : 0; }
+u16 eq_zero(char *s) { if (s == 0) return 1; return 0; }
+u16 ne_null(char *s) { return s != NULL; }
+u16 zero_eq(char *s) { return 0 == s; }
+u16 sum_eq(char *s, u16 x) { return x + (s == NULL); }
 u16 bank_of(char *s) { ptr_u u; u.p = s; return u.w[1]; }
 char *from_u16(u16 i) { return (char *) i; }
 char *from_u8(u8 i) { return (char *) i; }
@@ -53,6 +57,10 @@ int main(void)
     check(loop_count(u.p), 3);
     check(and_and(u.p, one), 1);
     check(!u.p, 0);
+    check(eq_zero(u.p), 0);
+    check(ne_null(u.p), 1);
+    check(zero_eq(u.p), 0);
+    check(sum_eq(u.p, 5), 5);
 
     /* sprintf("%s") sur $7F:0000 : la chaine, pas "<NULL>" */
     memcpy(save, u.p, 4);
@@ -68,6 +76,10 @@ int main(void)
     check(tern(u.p), 0);
     check(loop_count(u.p), 0);
     check(and_and(u.p, one), 0);
+    check(eq_zero(u.p), 1);
+    check(ne_null(u.p), 0);
+    check(zero_eq(u.p), 1);
+    check(sum_eq(u.p, 5), 6);
     sprintf(buf, "%s", u.p);
     check(strcmp(buf, "<NULL>"), 0);
 
@@ -88,7 +100,7 @@ int main(void)
 
     consoleDrawText(1, 1, "NULL TESTS %u", n);
     consoleDrawText(1, 2, "NULL ERR %u", err);
-    consoleDrawText(1, 4, (err || n != 20) ? "ECHEC" : "OK");
+    consoleDrawText(1, 4, (err || n != 28) ? "ECHEC" : "OK");
     while (1) WaitForVBlank();
     return 0;
 }
