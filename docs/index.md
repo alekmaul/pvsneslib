@@ -18,7 +18,7 @@ Write your game's logic in C, use PVSnesLib's APIs for graphics, sprites, contro
     <strong>Use the SNES hardware</strong>
     <span>Explore practical guides for backgrounds, sprites, controller input and audio.</span>
   </a>
-  <a class="home-feature" href="api/">
+  <a class="home-feature" href="api/" target="_blank" rel="noopener noreferrer">
     <strong>Explore the API</strong>
     <span>Browse the generated Doxygen reference for PVSnesLib functions and declarations.</span>
   </a>
