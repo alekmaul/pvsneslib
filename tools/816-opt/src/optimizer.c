@@ -1168,7 +1168,16 @@ dynArray optimizeAsm(dynArray file, const dynArray bss, const size_t quietdisp)
                     if (!endWith(reg, "h") && startWith(file.arr[i + 2], "lda")
                         && !endWith(file.arr[i + 2], reg)
                         && startWith(file.arr[i + 3], "sta.b tcc__r")
-                        && endWith(file.arr[i + 3], "h") && endWith(file.arr[i + 4], reg)) {
+                        && endWith(file.arr[i + 3], "h") && endWith(file.arr[i + 4], reg)
+                        /* the next line must not read A: after the swap A holds
+                           the other value (ora.b tcc__rX comes from the
+                           store/load/op fusion). Loads and read-modify-write of
+                           memory (inc.b tcc__rX...) do not read A */
+                        && (startWith(file.arr[i + 4], "ld") || startWith(file.arr[i + 4], "inc")
+                            || startWith(file.arr[i + 4], "dec") || startWith(file.arr[i + 4], "asl")
+                            || startWith(file.arr[i + 4], "lsr") || startWith(file.arr[i + 4], "rol")
+                            || startWith(file.arr[i + 4], "ror") || startWith(file.arr[i + 4], "st"))
+                        && !startWith(file.arr[i + 4], "sta")) {
                         text_opt = pushToArray(text_opt, file.arr[i + 2]);
                         text_opt = pushToArray(text_opt, file.arr[i + 3]);
                         text_opt = pushToArray(text_opt, file.arr[i]);
