@@ -2,8 +2,10 @@
 """Test A/B de non-regression sur snes-examples : chaque projet est compile avec
 deux chaines (A = reference, B = modifiee), lance N frames, et les ecrans compares.
 Travaille sur une copie des exemples (--work) pour ne pas salir le depot.
-Usage : abtest.py --work DIR [--opt-b 816-opt] [--cc-b 816-tcc] [--opt-a ...]
-                  [--cc-a ...] [--frames 300] [filtre...]"""
+Usage : abtest.py --work DIR [--opt-b 816-opt] [--cc-b 816-tcc] [--lib-b DIR] [--opt-a ...]
+                  [--cc-a ...] [--lib-a ...] [--frames 300] [filtre...]
+--lib-x : dossier lib d'une autre bibliotheque (ses variantes LoROM_SlowROM...),
+la variante est choisie par make selon le mode de chaque exemple."""
 import argparse
 import filecmp
 import os
@@ -48,6 +50,7 @@ def main():
     for side in "ab":
         ap.add_argument(f"--opt-{side}")
         ap.add_argument(f"--cc-{side}")
+        ap.add_argument(f"--lib-{side}")
     ap.add_argument("--frames", type=int, default=300)
     ap.add_argument("filters", nargs="*")
     args = ap.parse_args()
@@ -70,6 +73,10 @@ def main():
             v = getattr(args, f"{key}_{side}")
             if v:
                 o.append(f"{var}=" + os.path.abspath(v).replace("\\", "/"))
+        lib = getattr(args, f"lib_{side}")
+        if lib:
+            # recursive make variable: $(ROMTYPE)_$(SPEEDTYPE) is expanded by snes_rules
+            o.append("LIBDIRSOBJS=" + posix(lib) + "/$(ROMTYPE)_$(SPEEDTYPE)")
         return o
 
     projects = []
