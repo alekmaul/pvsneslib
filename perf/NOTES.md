@@ -62,7 +62,7 @@ Tous ces gains ont été obtenus **en mode 16 bits** (`+mos-a16 +mos-xy16`), qui
 - CPU en 16 bits (A/X/Y), DBR = `$7E`, D = 0. Les registres tcc sont en page directe `$00-$2F`.
 - Dans tcc, `int` et `long` font **2 octets**, `long long` 4. PVSnesLib définit `u32` comme `unsigned long long`.
 - `crt0` appelle `main` par `jsr.l` avec A/X/Y en 16 bits.
-- La chaîne actuelle de `snes_rules` : 816-tcc → 816-opt → wla-65816 (constify n'est plus utilisé).
+- La chaîne actuelle de `snes_rules` : 816-tcc → 816-opt → constify → wla-65816. constify (`tools/constify`, réécrit en C le 17 novembre 2026) déplace vers `.rodata` les `const` que tcc a placés en `.data`.
 
 ### Fork llvm-mos-65816 (wbniv)
 

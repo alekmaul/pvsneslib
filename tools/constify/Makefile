@@ -2,9 +2,9 @@
 VERSION    := 4.0.0
 DATESTRING := $(shell date +%Y%m%d)
 
-# Define the C++ compiler and flags to be used
-CC      := g++
-CFLAGS  := -g -O2 -Wall -Wno-literal-suffix -Wno-overflow
+# Define the C compiler and flags to be used
+CC      := gcc
+CFLAGS  := -g -O2 -Wall -Wno-overflow
 DEFINES := -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
 # Define the libraries to be used depending on the OS
@@ -14,8 +14,8 @@ ifneq ($(UNAME), Darwin)
 endif
 
 # Define the source files, object files, and executable name
-SOURCES := $(wildcard *.cpp)
-OBJS    := $(SOURCES:%.cpp=%.o)
+SOURCES := $(wildcard *.c)
+OBJS    := $(SOURCES:%.c=%.o)
 EXE     := constify
 
 ifeq ($(OS),Windows_NT)
@@ -33,7 +33,7 @@ $(EXE)$(EXT): $(OBJS)
 	$(CC) $(CFLAGS) $(DEFINES) $(OBJS) -o $@
 
 # Compile the source files to create the object files
-%.o: %.cpp
+%.o: %.c
 	@echo "compiling $<"
 	$(CC) $(CFLAGS) $(DEFINES) -c $< -o $@
 
