@@ -62,7 +62,7 @@ Tous ces gains ont été obtenus **en mode 16 bits** (`+mos-a16 +mos-xy16`), qui
 - CPU en 16 bits (A/X/Y), DBR = `$7E`, D = 0. Les registres tcc sont en page directe `$00-$2F`.
 - Dans tcc, `int` et `long` font **2 octets**, `long long` 4. PVSnesLib définit `u32` comme `unsigned long long`.
 - `crt0` appelle `main` par `jsr.l` avec A/X/Y en 16 bits.
-- La chaîne actuelle de `snes_rules` : 816-tcc → 816-opt → constify → wla-65816. constify (`tools/constify`, réécrit en C le 17 novembre 2026) déplace vers `.rodata` les `const` que tcc a placés en `.data`.
+- La chaîne actuelle de `snes_rules` : 816-tcc → 816-opt → constify → wla-65816. constify (`tools/constify`, réécrit en C le 17 novembre 2026) déplace vers `.rodata` les `const` que tcc a placés en `.data`. tcc place lui-même en `.rodata` les tableaux `const` à une dimension ; ce sont surtout les tableaux à plusieurs dimensions et de structures qui passent par constify. Deux défauts de la version d'origine corrigés ensuite : un tableau dont l'accolade ouvrante était en fin de ligne (`={` ou `= {`, données sur les lignes suivantes) restait en RAM, car la profondeur de bloc était comptée à la fin de la ligne ; un espace avant `[` ou `=` (`tab [2]`) donnait un nom vide, et constify déplaçait en ROM la première variable du fichier, quelle qu'elle soit (échec de l'édition de liens). Test `ctftest`. Limite restante : constify compte aussi les accolades des commentaires et des chaînes ; une accolade non refermée dans un commentaire au niveau global l'empêche de reconnaître les `const` qui suivent.
 
 ### Fork llvm-mos-65816 (wbniv)
 

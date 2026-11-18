@@ -171,13 +171,27 @@ static long find_word(const char *s, const char *word)
     return NOT_FOUND;
 }
 
-static void check_for_const(const char *s)
+// lineDepth: block depth at the start of the line
+static void check_for_const(const char *s, int lineDepth)
 {
-    long i, j, len = (long) strlen(s);
+    long i, j, e, len = (long) strlen(s);
+    long constPos = find_word(s, "const");
     char name[1024];
+    int depth = lineDepth;
+
+    // block depth where "const" stands: braces of the line before it count,
+    // not those after it ("const u16 tab[][2]={" opens the initializer)
+    if (constPos != NOT_FOUND)
+        for (i = 0; i < constPos; i++)
+        {
+            if (s[i] == '{')
+                depth++;
+            else if (s[i] == '}')
+                depth--;
+        }
 
     // We are only interested in global consts that are initialized in this file
-    if ((find_word(s, "const") != NOT_FOUND) && (find(s, "extern") == NOT_FOUND) && (blockDepth == 0))
+    if ((constPos != NOT_FOUND) && (find(s, "extern") == NOT_FOUND) && (depth == 0))
     {
         for (i = 0; i < len; i++)
         {
@@ -192,25 +206,23 @@ static void check_for_const(const char *s)
             long star = find(s, "*");
             if ((star == NOT_FOUND) || (rfind(s, "const") > star))
             {
-                while ((i > 0) && is_whitespace((signed char) s[i]))
+                // the name ends before the '=' or '[', spaces and tabs skipped
+                // ("name =", "name [2]")
+                e = i;
+                while ((e > 0) && is_whitespace((signed char) s[e - 1]))
                 {
-                    i--;
+                    e--;
                 }
-                j = i - 1;
-                if ((s[i] == '=') && (j >= 0) && (s[j] == ' ')) // Alek : to avoid breaking with name =
-                {
-                    j--;
-                    i--;
-                }
+                j = e - 1;
                 while ((j >= 0) && (!is_whitespace((signed char) s[j])) && (s[j] != '*'))
                 {
                     j--;
                 }
 
-                // name = s.substr(j + 1, i - j - 1)
-                long nlen = i - j - 1;
-                if (nlen < 0)
-                    nlen = 0;
+                // name = s[j + 1 .. e - 1]; an empty name would match any line
+                long nlen = e - j - 1;
+                if (nlen <= 0)
+                    return;
                 if (nlen > (long) sizeof(name) - 6)
                     nlen = (long) sizeof(name) - 6;
                 name[0] = 0;
@@ -369,6 +381,7 @@ int main(int argc, char **argv)
         exit(1);
     }
     str_clear(&oneLine);
+    int lineDepth = 0; // block depth at the start of the current line
     while (1)
     {
         if ((ch = fgetc(cFile)) != EOF)
@@ -376,8 +389,9 @@ int main(int argc, char **argv)
             if ((ch == 10) || (ch == 13))
             {
                 lineNum += (ch == 10) ? 1 : 0;
-                check_for_const(str_c(&oneLine));
+                check_for_const(str_c(&oneLine), lineDepth);
                 str_clear(&oneLine);
+                lineDepth = blockDepth;
             }
             else
             {
@@ -390,7 +404,7 @@ int main(int argc, char **argv)
         }
         else
         {
-            check_for_const(str_c(&oneLine));
+            check_for_const(str_c(&oneLine), lineDepth);
             break;
         }
     }
