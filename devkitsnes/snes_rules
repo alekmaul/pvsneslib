@@ -94,7 +94,7 @@ endif
 #---------------------------------------------------------------------------------
 export CC		:= $(PVSNESLIB_HOME)/devkitsnes/bin/816-tcc
 export AS		:= $(PVSNESLIB_HOME)/devkitsnes/bin/wla-65816
-export AS700		:= $(PVSNESLIB_HOME)/devkitsnes/bin/wla-spc700
+export AS700	:= $(PVSNESLIB_HOME)/devkitsnes/bin/wla-spc700
 export LD		:= $(PVSNESLIB_HOME)/devkitsnes/bin/wlalink
 
 export GFXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/gfx4snes
@@ -106,6 +106,7 @@ export TXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/bin2txt
 export SNTOOLS	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snestools
 export TMXCONV	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/tmx2snes
 export OPT		:=	$(PVSNESLIB_HOME)/devkitsnes/tools/816-opt
+export CTF		:=	$(PVSNESLIB_HOME)/devkitsnes/tools/constify
 export ROMUSE	:=	$(PVSNESLIB_HOME)/devkitsnes/tools/snesromusage
 
 #---------------------------------------------------------------------------------
@@ -190,10 +191,16 @@ endif
 #---------------------------------------------------------------------------------
 %.asm: %.ps
 	@echo Assembling ... $(notdir $<)
-	$(OPT) $(OPTFLAGS) -i $< -o $@
+	$(OPT) $(OPTFLAGS) -i $< -o $*.asp
 ifeq ($(DEBUG),1)
-	cp $*.asm $*.opt.02.dbg
+	cp $*.asp $*.opt.02.dbg
 endif
+	@echo Moving constants ... $(notdir $<)
+	$(CTF) $*.c $*.asp $@
+ifeq ($(DEBUG),1)
+	cp $*.asp $*.ctf.03.dbg
+endif
+	@rm $*.asp
 
 %.obj: %.asm
 	@echo Doing obj files from asm ... $(fname)
