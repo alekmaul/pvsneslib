@@ -380,6 +380,12 @@ int main(int argc, char **argv)
         printf("\nconstify: error 'Cannot open file %s'\n", cFilebase);
         exit(1);
     }
+    /* The C lines are analysed without their comments and the contents of
+       their string and character literals, replaced by spaces (positions are
+       kept): a brace or a "const" there must not count. A block comment may
+       span lines; a literal or a line comment ends with the line. */
+    enum { CODE, LINE_COMMENT, BLOCK_COMMENT, STRING, CHARLIT } state = CODE;
+    int prev = 0; // previous character of the line (comment and escape detection)
     str_clear(&oneLine);
     int lineDepth = 0; // block depth at the start of the current line
     while (1)
@@ -392,14 +398,55 @@ int main(int argc, char **argv)
                 check_for_const(str_c(&oneLine), lineDepth);
                 str_clear(&oneLine);
                 lineDepth = blockDepth;
+                if (state != BLOCK_COMMENT)
+                    state = CODE;
+                prev = 0;
             }
             else
             {
-                str_addc(&oneLine, (char) ch);
-                if (ch == '{')
-                    blockDepth++;
-                else if (ch == '}')
-                    blockDepth--;
+                char out = ' ';
+                switch (state)
+                {
+                case CODE:
+                    if (prev == '/' && (ch == '/' || ch == '*'))
+                    {
+                        oneLine.s[oneLine.len - 1] = ' '; // the '/' was a comment start
+                        state                      = (ch == '/') ? LINE_COMMENT : BLOCK_COMMENT;
+                        ch                         = 0; // a "/*/" does not close it
+                        break;
+                    }
+                    out = (char) ch;
+                    if (ch == '"')
+                        state = STRING;
+                    else if (ch == '\'')
+                        state = CHARLIT;
+                    else if (ch == '{')
+                        blockDepth++;
+                    else if (ch == '}')
+                        blockDepth--;
+                    break;
+                case LINE_COMMENT:
+                    break;
+                case BLOCK_COMMENT:
+                    if (prev == '*' && ch == '/')
+                    {
+                        state = CODE;
+                        ch    = 0; // a "*//" does not start a comment
+                    }
+                    break;
+                case STRING:
+                case CHARLIT:
+                    if (prev == '\\')
+                        ch = 0; // escaped character: it does not end the literal
+                    else if ((state == STRING && ch == '"') || (state == CHARLIT && ch == '\''))
+                    {
+                        out   = (char) ch;
+                        state = CODE;
+                    }
+                    break;
+                }
+                str_addc(&oneLine, out);
+                prev = ch;
             }
         }
         else

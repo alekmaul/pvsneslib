@@ -3,12 +3,19 @@
    declaration ; une variable ordinaire declaree avant reste en RAM et
    modifiable. constify reconnaissait mal l accolade ouvrante en fin de ligne (le tableau
    restait en RAM) et un espace avant le crochet (il deplacait alors la premiere
-   variable du fichier en ROM). */
+   variable du fichier en ROM). Les accolades et les mots "const" des
+   commentaires, des chaines et des caracteres ne comptent pas : { ici. */
 #include <snes.h>
 
 typedef union { const void *p; u16 w[2]; } ptr_u;
 
 u16 score[2] = {10, 20};
+u16 counter[2] = {30, 40};   // pas const : reste en RAM [x] = {
+const char *brace_str = "a\"{";   /* chaine avec accolade */
+u8 brace_chr = '{';
+/* commentaire sur plusieurs lignes {
+   const u16 fake[][2] = {{0, 0}};
+*/
 
 const u16 t_nextline[][2]=
 {
@@ -67,7 +74,13 @@ int main(void)
     check(bank(t_space_bracket) < 0x7E, 1);
     check(bank(t_tab) < 0x7E, 1);
 
-    /* la variable ordinaire reste en RAM, initialisee et modifiable */
+    /* variables ordinaires : en RAM, initialisees et modifiables */
+    check(bank(counter) >= 0x7E, 1);
+    check(counter[1], 40);
+    counter[1]++;
+    check(counter[1], 41);
+    check(brace_chr, '{');
+    check(brace_str[2], '{');
     check(bank(score) >= 0x7E, 1);   /* WRAM, banque $7E ou $7F */
     check(score[0], 10);
     check(score[1], 20);
@@ -76,7 +89,7 @@ int main(void)
 
     consoleDrawText(1, 1, "CTF TESTS %u", n);
     consoleDrawText(1, 2, "CTF ERR %u", err);
-    consoleDrawText(1, 4, (err || n != 16) ? "ECHEC" : "OK");
+    consoleDrawText(1, 4, (err || n != 21) ? "ECHEC" : "OK");
     while (1) WaitForVBlank();
     return 0;
 }
