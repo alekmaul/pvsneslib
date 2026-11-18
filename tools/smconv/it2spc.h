@@ -3,175 +3,118 @@
 
 #include "itloader.h"
 
-namespace IT2SPC {
+//---------------------------------------------
+// BRR sample data
+typedef struct
+{
+    //---------------------------------------------
+    u16 Length;
+    u16 Loop;
+    u8 *Data;
 
-	//---------------------------------------------
-	class Source {
-	//---------------------------------------------
-	private:
-		u16		Length;
-		u16		Loop;
-		u8		*Data;
+    double TuningFactor;
 
-		double	TuningFactor;
+    const char *id; // never set, kept for the soundbank definitions
+} Source;
 
-	public:
-		Source(
-			const ITLoader::SampleData & );
-		~Source();
+Source *source_new(const ITSampleData *source);
+void source_free(Source *s);
+bool source_compare(const Source *a, const Source *b);
+void source_export(const Source *s, File *file, bool spc_direct);
 
-		std::string id;
+//---------------------------------------------
+typedef struct
+{
+    //---------------------------------------------
+    u8 DefaultVolume;
+    u8 GlobalVolume;
+    u16 PitchBase;
+    u8 DirectoryIndex;
+    u8 SetPan;
+} Sample;
 
-		bool	Compare( const Source& ) const;
-		void	Export( IO::File &, bool ) const;
+typedef struct
+{
+    u8 y;
+    u8 duration;
+    s16 delta;
+} EnvelopeNode;
 
-		int		GetDataLength() const {
-			return Length;
-		}
+//---------------------------------------------
+typedef struct
+{
+    //---------------------------------------------
+    u8 Fadeout;
+    u8 SampleIndex;
+    u8 GlobalVolume;
+    u8 SetPan;
+    u8 EnvelopeLength;
+    u8 EnvelopeSustain;
+    u8 EnvelopeLoopStart;
+    u8 EnvelopeLoopEnd;
+    EnvelopeNode *EnvelopeData;
+} Instrument;
 
-		int GetLoopPoint() const {
-			return Loop;
-		}
+//---------------------------------------------
+typedef struct
+{
+    //---------------------------------------------
+    u8 Rows;
 
-		double GetTuningFactor() const {
-			return TuningFactor;
-		}
-	};
+    u8 *Data;
+    int DataSize;
+    int DataCapacity;
+} Pattern;
 
-	//---------------------------------------------
-	class Sample {
-	//---------------------------------------------
-	private:
-		u8		DefaultVolume;
-		u8		GlobalVolume;
-		u16		PitchBase;
-		u8		DirectoryIndex;
-		u8		SetPan;
+//---------------------------------------------
+typedef struct
+{
+    //---------------------------------------------
+    u8 InitialVolume;
+    u8 InitialTempo;
+    u8 InitialSpeed;
+    u8 InitialChannelVolume[8];
+    u8 InitialChannelPanning[8];
 
-	public:
-		Sample( const ITLoader::Sample &, int, double );
+    u8 EchoVolumeL;
+    u8 EchoVolumeR;
+    u8 EchoDelay;
+    u8 EchoFeedback;
+    u8 EchoFIR[8];
+    u8 EchoEnable;
 
-		void Export( IO::File & ) const;
-	};
+    u8 Sequence[200];
 
-	typedef struct{
-		u8	y;
-		u8	duration;
-		s16 delta;
-	} EnvelopeNode;
+    // <pointers>
+    Pattern **Patterns;
+    int PatternCount;
+    Instrument **Instruments;
+    int InstrumentCount;
+    Sample **Samples;
+    int SampleCount;
 
-	//---------------------------------------------
-	class Instrument {
-	//---------------------------------------------
-	private:
-		u8		Fadeout;
-		u8		SampleIndex;
-		u8		GlobalVolume;
-		u8		SetPan;
-		u8		EnvelopeLength;
-		u8		EnvelopeSustain;
-		u8		EnvelopeLoopStart;
-		u8		EnvelopeLoopEnd;
-		EnvelopeNode *EnvelopeData;
+    char *id;
+    u16 *SourceList;
+    int SourceCount;
+    u32 totalsize;
+} Module;
 
-	public:
-		Instrument( const ITLoader::Instrument & );
-		~Instrument();
+//---------------------------------------------
+typedef struct
+{
+    //---------------------------------------------
+    Module **Modules;
+    int ModuleCount;
+    Source **Sources;
+    int SourceCount;
 
-		int GetExportSize() const {
-			return 5 + (!EnvelopeLength) ? 0 : (3 + (EnvelopeLength/4) * 4);
-		}
+    bool HiROM;
+} Bank;
 
-		void Export( IO::File & ) const;
-	};
+void bank_init(Bank *bank, const ITBank *itbank, bool hirom, bool chksfx);
+void bank_free(Bank *bank);
 
-	//---------------------------------------------
-	class Pattern {
-	//---------------------------------------------
-	private:
-		u8		Rows;
-
-		std::vector<u8> Data;
-	public:
-		Pattern( ITLoader::Pattern & );
-		~Pattern();
-
-		int GetExportSize() {
-			return 1 + Data.size();
-		}
-
-		void Export( IO::File &file ) const;
-	};
-
-	//---------------------------------------------
-	class Module {
-	//---------------------------------------------
-		u8	InitialVolume;
-		u8	InitialTempo;
-		u8	InitialSpeed;
-		u8	InitialChannelVolume[8];
-		u8	InitialChannelPanning[8];
-
-		u8	EchoVolumeL;
-		u8	EchoVolumeR;
-		u8	EchoDelay;
-		u8	EchoFeedback;
-		u8	EchoFIR[8];
-		u8	EchoEnable;
-
-		u8	Sequence[200];
-
-		// <pointers>
-		std::vector<Pattern*> Patterns;
-		std::vector<Instrument*> Instruments;
-		std::vector<Sample*> Samples;
-
-
-		void ParseSMOption( const char * );
-		void ParseSMOptions( const ITLoader::Module & );
-
-	public:
-		Module(
-			const ITLoader::Module &,
-			const std::vector<u16> &,
-			const std::vector<u8> &,
-			const std::vector<Source*> & );
-
-		~Module();
-
-		std::string id;
-		std::vector<u16> SourceList;
-		u32 totalsize;
-
-		int GetExportSize_Header() const {
-			return 616;
-		}
-
-		void Export( IO::File &file, bool ) const;
-	};
-
-	//---------------------------------------------
-	class Bank {
-	//---------------------------------------------
-		std::vector<Module*> Modules;
-		std::vector<Source*> Sources;
-
-	public:
-		Bank( const ITLoader::Bank &, bool, bool );
-		~Bank();
-
-		void AddModule( const ITLoader::Module & );
-		int AddSource( Source * );
-		void AddSource( const ITLoader::SampleData & );
-
-		bool HiROM;
-
-		void Export( const char * ) const;
-		void ExportASM( const char *, const char * ) const;
-		void ExportINC( const char * ) const;
-
-		void MakeSPC( const char * ) const;
-	};
-}
+void bank_export(const Bank *bank, const char *output);
+void bank_make_spc(const Bank *bank, const char *spcfile);
 
 #endif // IT2SPC_H

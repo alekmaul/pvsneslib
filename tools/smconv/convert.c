@@ -1,26 +1,20 @@
 /******************************************************************************
  * snesmod converter
  * (C) 2009 Mukunda Johnson
- * Modifications by Alekmaul, 2012-2016
+ * Modifications by Alekmaul, 2012-2025
  ******************************************************************************/
 
-#include <string>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "inputdata.h"
 #include "itloader.h"
 #include "it2spc.h"
 
-// DEFINES
-#define ERRORRED(STRING) "\x1B[31m" STRING "\033[0m"
-#define ERRORPINK(STRING) "\x1B[35m" STRING "\033[0m"
-#define ERRORBRIGHT(STRING) "\x1B[97m" STRING "\033[0m"
-
-
 #define SMCONVVERSION __BUILD_VERSION
 #define SMCONVDATE __BUILD_DATE
 
-const char USAGE[] = {
+static const char USAGE[] = {
     "\nUsage : smconv [options] [input]...\n"
     "\n\nSoundbank options:"
     "\n-s                Soundbank creation mode"
@@ -47,78 +41,84 @@ const char USAGE[] = {
     "\n  smconv input.it"
     "\n\nUse -V to view how much RAM the modules will use.\n"};
 
-const char VERSION[] = {
+static const char VERSION[] = {
     "smconv (" SMCONVDATE ") version " SMCONVVERSION ""
     "\nCopyright (c) 2012-2024 Alekmaul "
     "\nBased on SNESMOD (C) 2009 Mukunda Johnson (www.mukunda.com)\n"};
 
-std::string PATH;
 bool VERBOSE;
 int BANKNUM;
 
 int main(int argc, char *argv[])
 {
-    ConversionInput::OperationData od(argc, argv);
+    OperationData od;
+    ITBank bank;
+    Bank result;
+
+    operation_data_init(&od, argc, argv);
 
     VERBOSE = od.verbose_mode;
     BANKNUM = od.banknumber;
 
     if (od.show_help)
     {
-        printf(USAGE);
+        printf("%s", USAGE);
         exit(0);
     }
 
     if (od.show_version)
     {
-        printf(VERSION);
+        printf("%s", VERSION);
         exit(0);
     }
 
     if (argc < 2)
     {
-        printf(USAGE);
-        exit (EXIT_FAILURE); 
+        printf("%s", USAGE);
+        exit(EXIT_FAILURE);
     }
 
-    if (od.output.empty())
+    if (od.output == NULL || od.output[0] == 0)
     {
-        printf ("%s: " ERRORRED("fatal error") ": missing output file\n", ERRORBRIGHT("smconv"));
-        exit (EXIT_FAILURE);  
+        printf("%s: " ERRORRED("fatal error") ": missing output file\n", ERRORBRIGHT("smconv"));
+        exit(EXIT_FAILURE);
     }
 
-    if (od.files.empty())
+    if (od.file_count == 0)
     {
-        printf ("%s: " ERRORRED("fatal error") ": missing input file\n", ERRORBRIGHT("smconv"));
-        exit (EXIT_FAILURE); 
+        printf("%s: " ERRORRED("fatal error") ": missing input file\n", ERRORBRIGHT("smconv"));
+        exit(EXIT_FAILURE);
     }
 
     if (VERBOSE)
     {
-        printf ("%s: Loading modules...\n", ERRORBRIGHT("smconv"));
+        printf("%s: Loading modules...\n", ERRORBRIGHT("smconv"));
         fflush(stdout);
     }
 
-    ITLoader::Bank bank(od.files);
+    itbank_init(&bank, od.files, od.file_count);
 
     if (VERBOSE)
     {
-        printf ("%s: Starting conversion...\n", ERRORBRIGHT("smconv"));
+        printf("%s: Starting conversion...\n", ERRORBRIGHT("smconv"));
         fflush(stdout);
     }
 
-    IT2SPC::Bank result(bank, od.hirom, od.check_effect_size);
-
+    bank_init(&result, &bank, od.hirom, od.check_effect_size);
 
     // export products
     if (od.spc_mode)
     {
-        result.MakeSPC(od.output.c_str());
+        bank_make_spc(&result, od.output);
     }
     else
     {
-        result.Export(od.output.c_str());
+        bank_export(&result, od.output);
     }
+
+    bank_free(&result);
+    itbank_free(&bank);
+    operation_data_free(&od);
 
     return 0;
 }

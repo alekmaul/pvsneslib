@@ -2,15 +2,14 @@
 VERSION := 2.1.0
 DATESTRING := $(shell date +%Y%m%d)
 
-# Define compilers and flags
-CP       := g++
-CFLAGS   := -O2 -Wall -Wno-unused-result -fpermissive -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
-# Flags for both C and C++ files
-CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions  # Flags only for C++ files
+# Define compiler and flags
+CC       := gcc
+CFLAGS   := -std=c99 -O2 -Wall -Wextra -pedantic -Wno-unused-result -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
+LIBS     := -lm
 
 # Define sources, objects and executable name
-SOURCES := $(wildcard *.cpp)
-OBJS    := $(SOURCES:%.cpp=%.o)
+SOURCES := $(wildcard *.c)
+OBJS    := $(SOURCES:%.c=%.o)
 EXE     := smconv
 
 # Set extension for the executable based on the OS
@@ -32,12 +31,12 @@ endif
 # Link the object files to create the executable
 $(EXE)$(EXT) : $(OBJS)
 	@echo "linking $@"
-	$(CP) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@ $(LIBS)
 
 # Compile the source files to create the object files
-%.o: %.cpp
+%.o: %.c
 	@echo "compiling $<"
-	$(CP) $(CFLAGS) $(CXXFLAGS) -c $<
+	$(CC) $(CFLAGS) -c $<
 
 # Clean up the object files and executable
 clean:

@@ -1,4 +1,4 @@
-// a class to read a binary file with stdio
+// read and write a binary file with stdio
 
 #ifndef __IO_H
 #define __IO_H
@@ -6,58 +6,47 @@
 #include <stdio.h>
 #include "basetypes.h"
 
-namespace IO
+typedef enum
 {
+    MODE_READ,
+    MODE_WRITE
+} FileAccessMode;
 
-    typedef enum
-    {
-        MODE_READ,
-        MODE_WRITE
-    } FileAccessMode;
+typedef struct
+{
+    FILE *file;
+    bool isOpen;
+    FileAccessMode mode;
+} File;
 
-    class File
-    {
+// open a file (the structure does not need to be initialized before)
+bool file_open(File *f, const char *filename, FileAccessMode m);
+void file_close(File *f);
 
-    private:
-        FILE *file;
-        bool isOpen;
-        FileAccessMode mode;
+u8 file_read8(File *f);
+u16 file_read16(File *f);
+u32 file_read32(File *f);
 
-    public:
-        File();
-        File(const char *, FileAccessMode);
-        ~File();
-        bool Open(const char *, FileAccessMode);
-        void Close();
+void file_write8(File *f, u8 data);
+void file_write16(File *f, u16 data);
+void file_write32(File *f, u32 data);
 
-        u8 Read8();
-        u16 Read16();
-        u32 Read32();
+// write non-terminated ascii
+void file_write_ascii(File *f, const char *str);
 
-        void Write8(u8);
-        void Write16(u16);
-        void Write32(u32);
+// write fixed length string (zero padded)
+void file_write_asciif(File *f, const char *str, int length);
 
-        // write non-terminated ascii
-        void WriteAscii(const char *);
+void file_zero_fill(File *f, int amount);
 
-        // write fixed length string (zero padded)
-        void WriteAsciiF(const char *, int);
+void file_write_align(File *f, u32 boundary);
 
-        void ZeroFill(int);
+void file_skip(File *f, s32 amount);
+u32 file_tell(File *f);
+void file_seek(File *f, u32 offset);
 
-        void WriteAlign(u32 boundary);
+bool file_is_open(File *f);
 
-        void Skip(s32 amount);
-        u32 Tell();
-        void Seek(u32 offset);
-
-        bool IsOpen();
-    };
-
-    bool FileExists();
-    u32 FileSize(const char *filename);
-
-};
+u32 file_size(const char *filename);
 
 #endif

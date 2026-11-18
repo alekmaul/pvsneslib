@@ -4,190 +4,164 @@
 #include "inputdata.h"
 #include "io.h"
 
-namespace ITLoader {
+typedef struct
+{
+    u16 DataLength;
+    u16 Rows;
+    u8 *Data;
+} ITPattern;
 
-	class Pattern {
+typedef struct
+{
+    bool Bits16;
+    int Length;
+    int LoopStart;
+    int LoopEnd;
+    int C5Speed;
+    int SustainStart;
+    int SustainEnd;
+    bool Loop;
+    bool Sustain;
+    bool BidiLoop;
+    bool BidiSustain;
 
-	public:
-		Pattern( IO::File &file );
-		Pattern();
-		~Pattern();
+    union {
+        s8 *Data8;
+        s16 *Data16;
+    } d;
+} ITSampleData;
 
-		u16 DataLength;
-		u16 Rows;
-		u8 *Data;
-	};
+typedef struct
+{
+    char Name[27];
+    char DOSFilename[13];
 
-	class SampleData {
+    u8 GlobalVolume;
 
-	public:
+    bool HasSample;
+    bool Stereo;
+    bool Compressed;
 
-		SampleData();
-		SampleData( const char* );
+    u8 DefaultVolume;
+    u8 DefaultPanning;
+    u8 Convert;
 
-		bool Bits16;
-		int Length;
-		int LoopStart;
-		int LoopEnd;
-		int C5Speed;
-		int SustainStart;
-		int SustainEnd;
-		bool Loop;
-		bool Sustain;
-		bool BidiLoop;
-		bool BidiSustain;
+    u8 VibratoSpeed;
+    u8 VibratoDepth;
+    u8 VibratoForm;
+    u8 VibratoRate;
 
-		union {
-			s8* Data8;
-			s16* Data16;
-		};
-	};
+    ITSampleData Data;
+} ITSample;
 
-	class Sample {
+typedef struct
+{
+    u8 Note;
+    u8 Sample;
+} NotemapEntry;
 
-		void LoadData( IO::File &f );
-	public:
-		Sample( IO::File &f );
-		~Sample();
+typedef struct
+{
+    u8 y;
+    u16 x;
+} EnvelopeEntry;
 
-		char Name[27];
-		char DOSFilename[13];
+typedef struct
+{
+    bool Enabled;
+    bool Loop;
+    bool Sustain;
+    bool IsFilter;
 
-		u8 GlobalVolume;
+    int Length;
 
-		bool HasSample;
-		bool Stereo;
-		bool Compressed;
+    int LoopStart;
+    int LoopEnd;
+    int SustainStart;
+    int SustainEnd;
 
+    EnvelopeEntry Nodes[25];
+} ITEnvelope;
 
-		u8 DefaultVolume;
-		u8 DefaultPanning;
-		u8 Convert;
+typedef struct
+{
+    char Name[27];
+    char DOSFilename[13];
 
-		u8 VibratoSpeed;
-		u8 VibratoDepth;
-		u8 VibratoForm;
-		u8 VibratoRate;
+    u8 NewNoteAction;
+    u8 DuplicateCheckType;
+    u8 DuplicateCheckAction;
 
-		SampleData Data;
-	};
+    u16 Fadeout;
+    u8 PPS;
+    u8 PPC;
+    u8 GlobalVolume;
+    u8 DefaultPan;
+    u8 RandomVolume;
+    u8 RandomPanning;
+    u16 TrackerVersion;
+    u8 NumberOfSamples;
+    u8 InitialFilterCutoff;
+    u8 InitialFilterResonance;
 
-	typedef struct {
-		u8	Note;
-		u8	Sample;
-	} NotemapEntry;
+    u8 MidiChannel;
+    u8 MidiProgram;
+    u16 MidiBank;
 
-	typedef struct {
-		u8	y;
-		u16	x;
-	} EnvelopeEntry;
+    NotemapEntry Notemap[120];
 
-	class Envelope {
+    ITEnvelope VolumeEnvelope;
+    ITEnvelope PanningEnvelope;
+    ITEnvelope PitchEnvelope;
+} ITInstrument;
 
-	public:
-		Envelope( IO::File & );
-		bool Enabled;
-		bool Loop;
-		bool Sustain;
-		bool IsFilter;
+typedef struct
+{
+    char *Filename;
 
-		int Length;
+    char Title[26];
 
-		int LoopStart;
-		int LoopEnd;
-		int SustainStart;
-		int SustainEnd;
+    u16 PatternHighlight;
+    u16 Length;
+    u16 InstrumentCount;
+    u16 SampleCount;
+    u16 PatternCount;
+    u16 Cwtv;
+    u16 Cmwt;
+    int Flags;
+    int Special;
+    u8 GlobalVolume;
+    u8 MixingVolume;
+    u8 InitialSpeed;
+    u8 InitialTempo;
+    u8 Sep;
+    u8 PWD;
 
-		EnvelopeEntry Nodes[25];
-	};
+    u16 MessageLength;
+    char *Message;
 
-	class Instrument {
+    int ChannelPan[64];
+    int ChannelVolume[64];
 
-	public:
-		Instrument( IO::File & );
-		~Instrument();
+    int Orders[256];
 
-		char Name[27];
-		char DOSFilename[13];
+    ITInstrument **Instruments;
+    ITSample **Samples;
+    ITPattern **Patterns;
+} ITModule;
 
-		u8	NewNoteAction;
-		u8	DuplicateCheckType;
-		u8	DuplicateCheckAction;
+// conversion data handler
+typedef struct
+{
+    ITModule **modules;
+    int module_count;
+    ITSampleData **sounds;
+    int sound_count;
+} ITBank;
 
-		u16	Fadeout;
-		u8	PPS;
-		u8	PPC;
-		u8	GlobalVolume;
-		u8	DefaultPan;
-		u8	RandomVolume;
-		u8	RandomPanning;
-		u16	TrackerVersion;
-		u8	NumberOfSamples;
-		u8	InitialFilterCutoff;
-		u8	InitialFilterResonance;
-
-		u8	MidiChannel;
-		u8	MidiProgram;
-		u16 MidiBank;
-
-		NotemapEntry Notemap[ 120 ];
-
-		Envelope *VolumeEnvelope;
-		Envelope *PanningEnvelope;
-		Envelope *PitchEnvelope;
-	};
-
-	class Module {
-
-	public:
-		Module( const char *filename );
-		~Module();
-
-		std::string Filename;
-
-		char Title[26];
-
-		u16 PatternHighlight;
-		u16 Length;
-		u16 InstrumentCount;
-		u16 SampleCount;
-		u16 PatternCount;
-		u16 Cwtv;
-		u16 Cmwt;
-		int Flags;
-		int Special;
-		u8 GlobalVolume;
-		u8 MixingVolume;
-		u8 InitialSpeed;
-		u8 InitialTempo;
-		u8 Sep;
-		u8 PWD;
-
-		u16 MessageLength;
-		char *Message;
-
-		int ChannelPan[64];
-		int ChannelVolume[64];
-
-		int Orders[256];
-
-		Instrument **Instruments;
-		Sample **Samples;
-		Pattern **Patterns;
-	};
-
-	// conversion data handler
-	class Bank {
-
-	public:
-		Bank( const std::vector<const char *> &files );
-		~Bank();
-		void AddModule( const char *filename );
-		void AddSound( const char *filename );
-
-		std::vector<Module*> modules;
-		std::vector<SampleData*> sounds;
-	};
-};
+void itbank_init(ITBank *bank, const char **files, int file_count);
+void itbank_free(ITBank *bank);
+void itbank_add_module(ITBank *bank, const char *filename);
+void itbank_add_sound(ITBank *bank, const char *filename);
 
 #endif
