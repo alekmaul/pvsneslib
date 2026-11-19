@@ -56,6 +56,7 @@ static const char *const types[] = {
     "ROM, DSP-3",
     "ROM, DSP-4",
     "ROM, Super FX / FX2",
+    "ROM, Super FX3",
     "ROM, SA-1",
     "ROM, S-DD1",
     "ROM, OBC-1",
@@ -79,6 +80,7 @@ enum
     HAS_DSP3,
     HAS_DSP4,
     HAS_SUPERFX,
+    HAS_SUPERFX3,
     HAS_SA1,
     HAS_SDD1,
     HAS_OBC1,
@@ -107,7 +109,9 @@ static const int memory_amount[] = {
     /*$09 => $80000 bytes == 512 kilobytes, amount of ROM in Super Mario World */ 512,
     /*$0a => $100000 bytes == 1 megabyte, amount of ROM in Mario Paint */ 1024,
     /*$0b => $200000 bytes == 2 megabytes */ 2048,
-    /*$0c => $400000 bytes == 4 megabytes */ 4096
+    /*$0c => $400000 bytes == 4 megabytes */ 4096,
+    /*$0d => $800000 bytes == 8 megabytes */ 8192,
+    /*$0e => $1000000 bytes == 16 megabytes (128 Mbit) */ 16384
 };
 
 /* Some known countries */
@@ -536,6 +540,11 @@ int find_addon_chip(snes_header *head)
             supported_type = HAS_SUPERFX;
         break;
 
+    case 0x17: // FX3 without persistent save
+    case 0x18: // FX3 with persistent save
+        supported_type = HAS_SUPERFX3;
+        break;
+
     case 0x25:
         supported_type = HAS_OBC1;
         break;
@@ -656,11 +665,11 @@ int show_header(char *filename, FILE *fp)
     title[21] = '\0';
 
     // RAM
-    if (((snesheader.cardtype & 0xf) == 1) || ((snesheader.cardtype & 0xf) == 2) || ((snesheader.cardtype & 0xf) == 4) || ((snesheader.cardtype & 0xf) == 5))
+    if (((snesheader.cardtype & 0xf) == 1) || ((snesheader.cardtype & 0xf) == 2) || ((snesheader.cardtype & 0xf) == 4) || ((snesheader.cardtype & 0xf) == 5) || (snesheader.cardtype == 0x17) || (snesheader.cardtype == 0x18))
         has_ram = 1;
 
     // SRAM
-    if (((snesheader.cardtype & 0xf) == 2) || ((snesheader.cardtype & 0xf) == 5) || ((snesheader.cardtype & 0xf) == 6))
+    if (((snesheader.cardtype & 0xf) == 2) || ((snesheader.cardtype & 0xf) == 5) || ((snesheader.cardtype & 0xf) == 6) || (snesheader.cardtype == 0x18))
         has_sram = 1;
 
     // chip
@@ -881,10 +890,9 @@ int change_romsize(char *filename, FILE *fp, char *romsize)
     // $0A	8 Megabits
     // $0B	16 Megabits
     // $0C	32 Megabits
-    if ((romsize[1] >= '0') && (romsize[1] <= '9'))
-        romsiz += (romsize[1] - '0');
-    else if ((romsize[1] >= 'A') && (romsize[1] <= 'C'))
-        romsiz += (romsize[1] - 'A') + 10;
+    // $0D	64 Megabits
+    // $0E	128 Megabits
+    romsiz = (char_to_int_conv(toupper(romsize[0])) << 4) + char_to_int_conv(toupper(romsize[1]));
     fseek(fp, addr, SEEK_SET);
     fputc(romsiz, fp);
 

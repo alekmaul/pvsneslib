@@ -36,7 +36,7 @@ SRAMSIZE      ?= 00
 COUNTRY       ?= 01
 LICENSEECODE  ?= 00
 VERSION       ?= 00
-ROMBANKS      ?= 8
+ROMBANKS      ?= 2 ^ (0x$(strip $(ROMSIZE)) - $(if $(HIROM),6,5))
 
 ifeq ($(HIROM),1)
   ROMMODE  := HIROM
