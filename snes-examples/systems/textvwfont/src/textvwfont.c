@@ -33,7 +33,7 @@ int main(void)
     // Draw a wonderful text :P
     consoleSetvwTextClearLine(0);consoleSetvwTextClearLine(1);
     consoleDrawvwText(0, 12, 1, "Hello World!");
-    consoleDrawvwText(1, 28, 2, "Welcome to PVSnesLib:)");
+    consoleDrawvwText(1, 13, 2, "Welcome to PVSnesLib:)");
 
 
     // Wait for nothing :P
