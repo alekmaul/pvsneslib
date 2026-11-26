@@ -1,15 +1,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "io.h"
+#include "fileio.h"
+#include "errors.h"
 
 void *xmalloc(size_t size)
 {
     void *p = malloc(size ? size : 1);
     if (!p)
     {
-        printf("%s: " ERRORRED("fatal error") ": out of memory\n", ERRORBRIGHT("smconv"));
-        exit(EXIT_FAILURE);
+        fatal("out of memory");
     }
     return p;
 }
@@ -19,8 +19,7 @@ void *xcalloc(size_t count, size_t size)
     void *p = calloc(count ? count : 1, size ? size : 1);
     if (!p)
     {
-        printf("%s: " ERRORRED("fatal error") ": out of memory\n", ERRORBRIGHT("smconv"));
-        exit(EXIT_FAILURE);
+        fatal("out of memory");
     }
     return p;
 }
@@ -30,8 +29,7 @@ void *xrealloc(void *ptr, size_t size)
     void *p = realloc(ptr, size ? size : 1);
     if (!p)
     {
-        printf("%s: " ERRORRED("fatal error") ": out of memory\n", ERRORBRIGHT("smconv"));
-        exit(EXIT_FAILURE);
+        fatal("out of memory");
     }
     return p;
 }

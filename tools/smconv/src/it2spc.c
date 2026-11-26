@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "smconv.h"
 #include "it2spc.h"
 #include "itloader.h"
 
@@ -27,8 +28,6 @@ static bool ChkSfx;
 
 static int spc_program_size = sizeof(spc_program);
 
-extern bool VERBOSE;
-extern int BANKNUM;
 
 enum
 {
@@ -49,7 +48,7 @@ static void module_parse_sm_option(Module *m, const char *text);
 static void module_parse_sm_options(Module *m, const ITModule *mod);
 static void module_export(const Module *m, File *file, bool write_header);
 
-static Pattern *pattern_new(const ITPattern *source);
+static Pattern *pattern_new(const ITPattern *source, const char *filename, int index);
 static void pattern_free(Pattern *p);
 static int pattern_export_size(const Pattern *p);
 static void pattern_export(const Pattern *p, File *file);
@@ -111,7 +110,7 @@ void bank_init(Bank *bank, const ITBank *itbank, bool HIROM, bool CHKSFX)
         bank_add_source_data(bank, itbank->sounds[i]);
     }
 
-    if (VERBOSE)
+    if (smconv_args.verbose)
     {
         printf("-----------------------------------------------------------------------\n");
         printf("  Total Modules Size: [%6i bytes]\n", totabanksize);
@@ -135,7 +134,7 @@ static void bank_add_module(Bank *bank, const ITModule *mod)
 {
     int size = file_size(mod->Filename);
 
-    if (VERBOSE)
+    if (smconv_args.verbose)
     {
         printf("-----------------------------------------------------------------------\n");
         printf("Adding module, Filename: <%s>\n", mod->Filename);
@@ -294,7 +293,7 @@ static Module *module_new(const ITModule *mod, const u16 *source_list, int sourc
     m->Patterns = (Pattern **)xcalloc(mod->PatternCount, sizeof(Pattern *));
     for (int i = 0; i < mod->PatternCount; i++)
     {
-        m->Patterns[m->PatternCount++] = pattern_new(mod->Patterns[i]);
+        m->Patterns[m->PatternCount++] = pattern_new(mod->Patterns[i], mod->Filename, i);
     }
 
     m->Instruments = (Instrument **)xcalloc(mod->InstrumentCount, sizeof(Instrument *));
@@ -312,7 +311,7 @@ static Module *module_new(const ITModule *mod, const u16 *source_list, int sourc
                        sources[source_list[directory[i]]]->TuningFactor);
     }
 
-    if (VERBOSE)
+    if (smconv_args.verbose)
     {
         int pattsize = 0;
         for (int i = 0; i < mod->PatternCount; i++)
@@ -370,7 +369,7 @@ static Module *module_new(const ITModule *mod, const u16 *source_list, int sourc
 
         if (m->totalsize > spc_ram_size)
         {
-            printf("%s: " ERRORRED("error") ": Module is too big. Maximum is %i bytes\n", ERRORBRIGHT("smconv"), spc_ram_size);
+            errorcontinue("module %s is too big, maximum is %i bytes", mod->Filename, spc_ram_size);
         }
     }
 
@@ -597,7 +596,7 @@ static void module_free(Module *m)
  *
  ***********************************************************************************************/
 
-static Pattern *pattern_new(const ITPattern *source)
+static Pattern *pattern_new(const ITPattern *source, const char *filename, int index)
 {
     Pattern *p = (Pattern *)xcalloc(1, sizeof(Pattern));
     ByteBuffer data = {NULL, 0, 0};
@@ -642,8 +641,7 @@ static Pattern *pattern_new(const ITPattern *source)
             data_bits |= 1 << channel;
             if (channel > 7)
             {
-                printf("%s: " ERRORRED("error") ": More than 8 channels. Found channel %i\n", ERRORBRIGHT("smconv"), channel + 1);
-                break;
+                fatal("more than 8 channels, channel %i found in pattern %i of %s", channel + 1, index, filename);
             }
 
             u8 maskvar;
@@ -769,7 +767,7 @@ static Instrument *instrument_new(const ITInstrument *source)
                 {
                     ed->delta = 64;
                     ed->duration = 255;
-                    printf("\nsmconv: warning 'Volume envelope for instrument %i must have more\n               than one node to play properly'\n\n", CurrentInstrument);
+                    warning("volume envelope for instrument %i must have more than one node to play properly", CurrentInstrument);
                 }
             }
             else
@@ -854,7 +852,8 @@ void bank_make_spc(const Bank *bank, const char *spcfile)
 {
     File file;
 
-    file_open(&file, spcfile, MODE_WRITE);
+    if (!file_open(&file, spcfile, MODE_WRITE))
+        fatal("cannot create file %s", spcfile);
 
     file_write_ascii(&file, "SNES-SPC700 Sound File Data v0.30");
     file_write8(&file, 26); // 26,26
@@ -955,7 +954,8 @@ void bank_export(const Bank *bank, const char *output)
     char *bin_output = concat(output, ".bnk");
     File file;
 
-    file_open(&file, bin_output, MODE_WRITE);
+    if (!file_open(&file, bin_output, MODE_WRITE))
+        fatal("cannot create file %s", bin_output);
 
     file_write16(&file, bank->SourceCount);
     file_write16(&file, bank->ModuleCount);
@@ -1049,8 +1049,7 @@ static void bank_export_inc(const Bank *bank, const char *output)
 
     if (!f)
     {
-        printf("%s: " ERRORRED("error") ": can't create %s\n", ERRORBRIGHT("smconv"), output);
-        return;
+        fatal("cannot create file %s", output);
     }
 
     fprintf(f,
@@ -1089,8 +1088,7 @@ static void bank_export_asm(const Bank *bank, const char *inputfile, const char 
 
     if (!f)
     {
-        printf("%s: " ERRORRED("error") ": can't create %s\n", ERRORBRIGHT("smconv"), outputfile);
-        return;
+        fatal("cannot create file %s", outputfile);
     }
 
     int size = file_size(inputfile);
@@ -1127,7 +1125,7 @@ static void bank_export_asm(const Bank *bank, const char *inputfile, const char 
                 ".BANK %i\n"
                 ".SECTION \"SOUNDBANK\" ; need dedicated bank(s)\n\n"
                 "SOUNDBANK__:\n",
-                BANKNUM);
+                smconv_args.banknumber);
 
         fprintf(f, ".incbin \"%s\"\n", foo);
 
@@ -1142,7 +1140,7 @@ static void bank_export_asm(const Bank *bank, const char *inputfile, const char 
                     ".BANK %i\n"
                     ".SECTION \"SOUNDBANK%i\" ; need dedicated bank(s)\n\n"
                     "SOUNDBANK__%i:\n",
-                    (int)(BANKNUM + j), (int)j, (int)j);
+                    (int)(smconv_args.banknumber + j), (int)j, (int)j);
 
             if (bank->HiROM)
             {
@@ -1194,6 +1192,7 @@ void source_export(const Source *s, File *file, bool spc_direct)
 static void module_export(const Module *m, File *file, bool write_header)
 {
     int HeaderStart = file_tell(file);
+    bool too_big = false;
 
     if (write_header)
     {
@@ -1248,7 +1247,7 @@ static void module_export(const Module *m, File *file, bool write_header)
         u32 ptr = file_tell(file) - ModuleStart;
 
         if (ptr > SPC_RAM_SIZE)
-            printf("\nERROR: Module is too big.");
+            too_big = true;
 
         pattern_ptr[i] = (u16)ptr;
         pattern_export(m->Patterns[i], file);
@@ -1259,7 +1258,7 @@ static void module_export(const Module *m, File *file, bool write_header)
         u32 ptr = file_tell(file) - ModuleStart;
 
         if (ptr > SPC_RAM_SIZE)
-            printf("\nERROR: Module is too big.");
+            too_big = true;
 
         instrument_ptr[i] = (u16)ptr;
         instrument_export(m->Instruments[i], file);
@@ -1270,13 +1269,16 @@ static void module_export(const Module *m, File *file, bool write_header)
         u32 ptr = file_tell(file) - ModuleStart;
 
         if (ptr > SPC_RAM_SIZE)
-            printf("\nERROR: Module is too big.");
+            too_big = true;
 
         sample_ptr[i] = (u16)ptr;
         sample_export(m->Samples[i], file);
     }
 
     u32 end_of_mod = file_tell(file);
+
+    if (too_big)
+        errorcontinue("module %s is too big, data beyond %i bytes", m->id, SPC_RAM_SIZE);
 
     if (write_header)
     {

@@ -1,7 +1,7 @@
 // read and write a binary file with stdio
 
-#ifndef __IO_H
-#define __IO_H
+#ifndef __FILEIO_H
+#define __FILEIO_H
 
 #include <stdio.h>
 #include "basetypes.h"

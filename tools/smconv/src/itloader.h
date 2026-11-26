@@ -1,8 +1,11 @@
 #ifndef ITLOADER_H
 #define ITLOADER_H
 
-#include "inputdata.h"
-#include "io.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "basetypes.h"
+#include "fileio.h"
 
 typedef struct
 {

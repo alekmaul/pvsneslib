@@ -2,7 +2,8 @@
 #include <string.h>
 
 #include "itloader.h"
-#include "io.h"
+#include "fileio.h"
+#include "errors.h"
 
 // IT file format found here : https://fileformats.fandom.com/wiki/Impulse_tracker
 
@@ -360,9 +361,7 @@ static void itsample_load_data(ITSample *s, File *file, const char *filename, in
     else
     {
         // TODO : accept compressed samples.
-        printf("%s: " ERRORRED("fatal error") ": samples must not be compressed (sample %i '%s' in %s)\n",
-               ERRORBRIGHT("smconv"), index, s->Name, filename);
-        exit(EXIT_FAILURE);
+        fatal("samples must not be compressed (sample %i '%s' in %s)", index, s->Name, filename);
     }
 }
 
@@ -474,9 +473,7 @@ static ITSampleData *itsampledata_new_wav(const char *filename)
             // check compression code (1 = PCM)
             if (file_read16(&file) != 1)
             {
-                printf("%s: " ERRORRED("fatal error") ": Unsupported WAV format\n", ERRORBRIGHT("smconv"));
-                file_close(&file);
-                return d;
+                fatal("unsupported WAV format in %s", filename);
             }
 
             // read # of channels
@@ -493,9 +490,7 @@ static ITSampleData *itsampledata_new_wav(const char *filename)
             bit_depth = file_read16(&file);
             if (bit_depth != 8 && bit_depth != 16)
             {
-                printf("%s: " ERRORRED("fatal error") ": WAV bit depth must be 8 or 16\n", ERRORBRIGHT("smconv"));
-                file_close(&file);
-                return d; // LOADWAV_UNSUPPORTED_BD;
+                fatal("WAV bit depth must be 8 or 16 in %s", filename);
             }
 
             if (bit_depth == 16)
@@ -517,9 +512,7 @@ static ITSampleData *itsampledata_new_wav(const char *filename)
 
             if (!hasformat)
             {
-                printf("%s: " ERRORRED("fatal error") ": CORRUPT WAV FILE...\n", ERRORBRIGHT("smconv"));
-                file_close(&file);
-                return d; // LOADWAV_CORRUPT;
+                fatal("corrupt WAV file %s", filename);
             }
 
             // clip chunk size against end of file (for some borked wavs...)
