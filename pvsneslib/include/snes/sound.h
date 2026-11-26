@@ -173,6 +173,18 @@ void spcEffect(u16 pitch, u16 sfxIndex, u8 volpan);
 */
 u8 spcGetMusicPosition(void);
 
+/*! \fn  spcSetMusicLoop(u8 loop)
+    \brief Set what happens at the end of the module (applies to the next spcPlay)
+    \param loop	1 = restart from the beginning (default), 0 = play once and stop
+*/
+void spcSetMusicLoop(u8 loop);
+
+/*! \fn  spcIsMusicPlaying(void)
+    \brief Check if a module is playing. Updated by spcProcess.
+    \return 1 from spcPlay/spcResumeMusic until the module is stopped, paused or has ended
+*/
+u8 spcIsMusicPlaying(void);
+
 /*! \fn  spcSetSoundTable(u16 sndTableAddr,u8 sndTableBank)
     \brief set the address of the SOUND TABLE
     \param sndTableAddr	address of sound table

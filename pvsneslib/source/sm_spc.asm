@@ -1,7 +1,7 @@
 ;----------------------------------------------------------------------
 ; bin2txt converted binary data
 ; binary file size: 5522 bytes
-; converted the Tue Jul 28 06:19:42 2026
+; converted the Sun Nov 15 14:30:39 2026
 ;----------------------------------------------------------------------
 
 .SECTION ".sm_spc" SUPERFREE
