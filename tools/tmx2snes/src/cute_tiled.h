@@ -1564,6 +1564,75 @@ cute_tiled_err:
 		CUTE_TILED_FAIL_IF(!cute_tiled_skip_array_internal(m)); \
 	} while (0)
 
+// Skips any JSON value (number, string, true/false/null, object or array), strings included: braces, brackets and commas inside a string do not count.
+// Stops before the ',' '}' or ']' that ends the value.
+static int cute_tiled_skip_value_internal(cute_tiled_map_internal_t* m)
+{
+	int depth = 0;
+	cute_tiled_peak(m);
+
+	for (;;)
+	{
+		char c;
+		CUTE_TILED_CHECK(m->in < m->end, "Attempted to read passed input buffer (is this a valid JSON file?).");
+		c = *m->in;
+
+		if (depth == 0 && (c == ',' || c == '}' || c == ']')) break;
+
+		if (c == '"')
+		{
+			m->in++;
+			while (m->in < m->end && *m->in != '"')
+			{
+				if (*m->in == '\\') m->in++;
+				m->in++;
+			}
+			CUTE_TILED_CHECK(m->in < m->end, "Unterminated string (is this a valid JSON file?).");
+			m->in++;
+			continue;
+		}
+
+		if (c == '{' || c == '[') depth++;
+		else if (c == '}' || c == ']') depth--;
+		else if (c == '\n') cute_tiled_error_line++;
+		m->in++;
+	}
+
+	return 1;
+
+cute_tiled_err:
+	return 0;
+}
+
+#define cute_tiled_skip_value(m) \
+	do { \
+		CUTE_TILED_FAIL_IF(!cute_tiled_skip_value_internal(m)); \
+	} while (0)
+
+// Newer versions of Tiled add fields to the JSON format (for example "opacity" in objects since Tiled 1.12). 
+// A field that tmx2snes does not know is ignored  with a warning, given once per field name, instead of stopping the loading.
+static void cute_tiled_warn_unknown_key(cute_tiled_map_internal_t* m)
+{
+	static CUTE_TILED_U64 warned[64];
+	static int warned_count = 0;
+	static char msg[CUTE_TILED_INTERNAL_BUFFER_MAX + 64];
+	CUTE_TILED_U64 h = cute_tiled_FNV1a(m->scratch, m->scratch_len + 1);
+	int i;
+
+	for (i = 0; i < warned_count; ++i)
+		if (warned[i] == h) return;
+	if (warned_count < 64) warned[warned_count++] = h;
+
+	snprintf(msg, sizeof(msg), "Unknown field \"%s\" ignored.", m->scratch);
+	CUTE_TILED_WARNING(msg);
+}
+
+#define cute_tiled_skip_unknown(m) \
+	do { \
+		cute_tiled_warn_unknown_key(m); \
+		cute_tiled_skip_value(m); \
+	} while (0)
+
 static int cute_tiled_read_string_internal(cute_tiled_map_internal_t* m)
 {
 	int count = 0;
@@ -1874,101 +1943,131 @@ int cute_tiled_read_properties_internal(cute_tiled_map_internal_t* m, cute_tiled
 	while (cute_tiled_peak(m) != ']')
 	{
 		cute_tiled_property_t prop;
-		char type_char;
+		char type_char = 0;
 		char c;
 		cute_tiled_expect(m, '{');
 
+		CUTE_TILED_MEMSET(&prop, 0, sizeof(prop));
 		prop.type = CUTE_TILED_PROPERTY_NONE;
 
-		// Read in the property name.
-		cute_tiled_skip_until_after(m, ':');
-		cute_tiled_intern_string(m, &prop.name);
-
-		// Read in the property type. The value type is deduced while parsing, this is only used for float because the JSON format omits decimals on round floats.
-		cute_tiled_skip_until_after(m, ':');
-		cute_tiled_expect(m, '"');
-		type_char = cute_tiled_next(m);
-
-		// Skip extraneous JSON information and go find the actual value data.
-		cute_tiled_skip_until_after(m, ':');
-
-		c = cute_tiled_peak(m);
-
-		if (((c == 't') | (c == 'T')) | ((c == 'f') | (c == 'F')))
+		// Read the fields by name: Tiled writes "name", then "propertytype" for
+		// custom types (Tiled 1.8+), "type", and "value" last.
+		while (cute_tiled_peak(m) != '}')
 		{
-			cute_tiled_read_bool(m, &prop.data.boolean);
-			prop.type = CUTE_TILED_PROPERTY_BOOL;
-		}
+			CUTE_TILED_U64 h;
+			cute_tiled_read_string(m);
+			cute_tiled_expect(m, ':');
+			h = cute_tiled_FNV1a(m->scratch, m->scratch_len + 1);
 
-		else if (c == '"')
-		{
-			char* s = m->in + 1;
-			int is_hex_color = 1;
-
-			if (*s++ != '#') is_hex_color = 0;
-			else
+			switch (h)
 			{
-				while ((c = *s++) != '"')
-				{
-					switch (c)
-					{
-					case '0': case '1': case '2': case '3': case '4': case '5': case '6':
-					case '7': case '8': case '9': case 'a': case 'b': case 'c': case 'd':
-					case 'e': case 'f': case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
-						break;
+			case 12661511911333414066U: // name
+				cute_tiled_intern_string(m, &prop.name);
+				break;
 
-					case '\\':
-						++s;
-						break;
-
-					default:
-						is_hex_color = 0;
-						break;
-					}
-
-					if (!is_hex_color) break;
-				}
-			}
-
-			if (is_hex_color)
-			{
+			case 13509284784451838071U: // type
+				// The value type is deduced while parsing, this is only used for float because the JSON format omits decimals on round floats.
 				cute_tiled_expect(m, '"');
-				cute_tiled_read_hex_int(m, &prop.data.color);
-				cute_tiled_expect(m, '"');
-				prop.type = CUTE_TILED_PROPERTY_COLOR;
-			}
+				type_char = *m->in;
+				m->in--;
+				cute_tiled_skip_value(m);
+				break;
 
-			else
-			{
-				cute_tiled_intern_string(m, &prop.data.string);
-				prop.type = CUTE_TILED_PROPERTY_STRING;
-			}
-		}
-
-		else
-		{
-			char* s = m->in;
-			int is_float = 0;
-			while ((c = *s++) != ',')
-			{
-				if (c == '.')
+			case 2389103317214949790U: // value
+				c = cute_tiled_peak(m);
+				if (c == '{' || c == '[')
 				{
-					is_float = 1;
+					// class property (an object of members): not supported, kept with no value
+					cute_tiled_skip_value(m);
 					break;
 				}
+
+				c = cute_tiled_peak(m);
+
+				if (((c == 't') | (c == 'T')) | ((c == 'f') | (c == 'F')))
+				{
+					cute_tiled_read_bool(m, &prop.data.boolean);
+					prop.type = CUTE_TILED_PROPERTY_BOOL;
+				}
+
+				else if (c == '"')
+				{
+					char* s = m->in + 1;
+					int is_hex_color = 1;
+
+					if (*s++ != '#') is_hex_color = 0;
+					else
+					{
+						while ((c = *s++) != '"')
+						{
+							switch (c)
+							{
+							case '0': case '1': case '2': case '3': case '4': case '5': case '6':
+							case '7': case '8': case '9': case 'a': case 'b': case 'c': case 'd':
+							case 'e': case 'f': case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
+								break;
+
+							case '\\':
+								++s;
+								break;
+
+							default:
+								is_hex_color = 0;
+								break;
+							}
+
+							if (!is_hex_color) break;
+						}
+					}
+
+					if (is_hex_color)
+					{
+						cute_tiled_expect(m, '"');
+						cute_tiled_read_hex_int(m, &prop.data.color);
+						cute_tiled_expect(m, '"');
+						prop.type = CUTE_TILED_PROPERTY_COLOR;
+					}
+
+					else
+					{
+						cute_tiled_intern_string(m, &prop.data.string);
+						prop.type = CUTE_TILED_PROPERTY_STRING;
+					}
+				}
+
+				else
+				{
+					char* s = m->in;
+					int is_float = 0;
+					while ((c = *s++) != ',' && c != '}' && c != '\n')
+					{
+						if (c == '.')
+						{
+							is_float = 1;
+							break;
+						}
+					}
+
+					if (is_float || type_char == 'f')
+					{
+						cute_tiled_read_float(m, &prop.data.floating);
+						prop.type = CUTE_TILED_PROPERTY_FLOAT;
+					}
+
+					else
+					{
+						cute_tiled_read_int(m, &prop.data.integer);
+						prop.type = CUTE_TILED_PROPERTY_INT;
+					}
+				}
+				break;
+
+			default: // propertytype, ...
+				cute_tiled_skip_value(m);
+				break;
 			}
 
-			if (is_float || type_char == 'f')
-			{
-				cute_tiled_read_float(m, &prop.data.floating);
-				prop.type = CUTE_TILED_PROPERTY_FLOAT;
-			}
-
-			else
-			{
-				cute_tiled_read_int(m, &prop.data.integer);
-				prop.type = CUTE_TILED_PROPERTY_INT;
-			}
+			cute_tiled_try(m, ',');
 		}
 
 		if (count == capacity)
@@ -2063,8 +2162,7 @@ cute_tiled_object_t* cute_tiled_read_object(cute_tiled_map_internal_t* m)
 
 		case 7758770083360183834U: // text
 			CUTE_TILED_WARNING("Text field of Tiled objects is not yet supported. Ignoring field.");
-			while (cute_tiled_peak(m) != ',' && cute_tiled_peak(m) != '}') cute_tiled_next(m);
-			if (cute_tiled_peak(m) == '}')	continue;
+			cute_tiled_skip_value(m);
 			break;
 
 		case 13509284784451838071U: // type
@@ -2092,8 +2190,12 @@ cute_tiled_object_t* cute_tiled_read_object(cute_tiled_map_internal_t* m)
 			cute_tiled_intern_string(m, &object->type);
 			break;
 
+		case 456440020256644209U: // template
+			CUTE_TILED_CHECK(0, "Objects created from a template (.tx file) are not supported, detach them from their template in Tiled.");
+			break;
+
 		default:
-			CUTE_TILED_CHECK(0, "Unknown identifier found.");
+			cute_tiled_skip_unknown(m);
 		}
 
 		cute_tiled_try(m, ',');
@@ -2265,7 +2367,7 @@ cute_tiled_layer_t* cute_tiled_layers(cute_tiled_map_internal_t* m)
 		break;
 
 		default:
-			CUTE_TILED_CHECK(0, "Unknown identifier found.");
+			cute_tiled_skip_unknown(m);
 		}
 
 		cute_tiled_try(m, ',');
@@ -2390,7 +2492,7 @@ cute_tiled_tile_descriptor_t* cute_tiled_read_tile_descriptor(cute_tiled_map_int
 			break;
 
 		default:
-			CUTE_TILED_CHECK(0, "Unknown identifier found.");
+			cute_tiled_skip_unknown(m);
 		}
 
 		cute_tiled_try(m, ',');
@@ -2427,7 +2529,7 @@ int cute_tiled_read_point_internal(cute_tiled_map_internal_t* m, int* point_x, i
 			break;
 
 		default:
-			CUTE_TILED_CHECK(0, "Unknown identifier found.");
+			cute_tiled_skip_unknown(m);
 		}
 
 		cute_tiled_try(m, ',');
@@ -2614,7 +2716,7 @@ cute_tiled_tileset_t* cute_tiled_tileset(cute_tiled_map_internal_t* m)
 			break;
 
 		default:
-			CUTE_TILED_CHECK(0, "Unknown identifier found.");
+			cute_tiled_skip_unknown(m);
 		}
 
 		cute_tiled_try(m, ',');
@@ -2663,6 +2765,7 @@ static int cute_tiled_dispatch_map_internal(cute_tiled_map_internal_t* m)
 
 	case 16529928297377797591U: // infinite
 		cute_tiled_read_bool(m, &m->map.infinite);
+		CUTE_TILED_CHECK(!m->map.infinite, "Infinite maps are not supported, uncheck Infinite in the map properties of Tiled.");
 		break;
 
 	case 4566956252693479661U: // layers
@@ -2745,7 +2848,7 @@ static int cute_tiled_dispatch_map_internal(cute_tiled_map_internal_t* m)
 		break;
 
 	default:
-		CUTE_TILED_CHECK(0, "Unknown identifier found.");
+		cute_tiled_skip_unknown(m);
 	}
 
 	return 1;

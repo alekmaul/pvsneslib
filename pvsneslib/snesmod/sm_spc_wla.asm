@@ -171,6 +171,7 @@ mod_position dsb 1
 mod_bpm dsb 1
 mod_speed dsb 1
 mod_active dsb 1
+mod_loop dsb 1				; 1 = loop at end of sequence (default), 0 = stop
 mod_gvol dsb 1
 
 patt_addr dsb 2
@@ -477,6 +478,8 @@ _clrmem:
 	mov	SPC_TIMER1, #255	; reset fade timer
 	mov	module_vol, #255	; reset mvol
 	mov	module_fadeT, #255	; 
+	mov	mod_loop, #1		; default, it is looping
+
 					;----------------
 	call !ResetSound		;
 					;----------------
@@ -584,7 +587,8 @@ CommandTable:
 	.DW CMD_SSIZE		; $09 - set stream size
 	.DW CMD_PAUSE		; $0A - pause module
 	.DW CMD_RESUME		; $0B - resume module
-	
+	.DW CMD_LOOP		; $0C - module loop on/off
+
 ;********************************************************
 CMD_LOAD:
 ;********************************************************
@@ -706,6 +710,7 @@ CMD_PLAY:
 	call !Module_Stop
 	mov	a, SPC_PORT3
 	and	STATUS, #~STATUS_P
+	and	STATUS, #~STATUS_E	; new read, not yet finished
 	mov	SPC_PORT2, STATUS
 	mov	SPC_PORT1, comms_v
 	jmp !Module_Start
@@ -772,6 +777,12 @@ CMD_RESUME:
 	mov	SPC_PORT2, STATUS
 	mov	SPC_PORT1, comms_v
 	jmp !Module_Resume
+
+;********************************************************
+CMD_LOOP:
+;********************************************************
+	mov	mod_loop, SPC_PORT3	; 1 = loop, 0 = play once
+	jmp !CommandRet
 
 ;********************************************************
 ; Setup echo...
@@ -916,6 +927,7 @@ Module_Stop:
 	call !ResetSound
 	mov	SPC_CONTROL, #%00000110
 	mov	mod_active, #0
+	and	STATUS, #~STATUS_P	; no more playing
 	ret
 	
 ;********************************************************
@@ -978,6 +990,9 @@ _cpan_normal:
 Module_Resume:
 	mov	mod_active, #1
 
+	or	STATUS, #STATUS_P	; back to play
+	mov	SPC_PORT2, STATUS
+
 	; start timer
 	mov	SPC_CONTROL, #%00000111
 	
@@ -996,12 +1011,17 @@ _skip_pattern:
 	mov	a, !MODULE+MOD_SEQU+y
 	cmp	a, #254			; skip +++
 	bne	_not_plusplusplus	;
-	inc	y			;
+	inc	y					;
 	bra	_skip_pattern		;
 _not_plusplusplus:
-	cmp	a, #255			; restart on ---
-	bne	_not_end		;
-	mov	y, #0			;
+	cmp	a, #255			; end of sequence  (---)
+	bne	_not_end			;
+	or	STATUS, #STATUS_E	; end of module reached
+	cmp	mod_loop, #0		; play once?
+	bne	_restart			;
+	jmp	!Module_Stop		; stop (mod_active = 0, P cleared)
+_restart:
+	mov	y, #0				; no, go back to loop
 	bra	_skip_pattern		;
 _not_end:
 	mov	mod_position, y

@@ -64,6 +64,7 @@
 .define CMD_SSIZE	09h
 .define CMD_PAUSE	0Ah
 .define CMD_RESUME	0Bh
+.define CMD_LOOP	0Ch
 
 ;----------------------------------------------------------------------
 
@@ -79,32 +80,36 @@
 
 .BASE $00
 .RAMSECTION ".fp" BANK 0 SLOT 1
-spc_ptr:	DS 3
-spc_v:		DS 1
-spc_bank:	DS 1
 
-spc1:		DS 2
-spc2:		DS 2
-spc_wdog:	DS 2	; SFX stream handshake watchdog
+spc_playing:	DS 1	; 1 = module en lecture (play/resume), 0 = arrêté
+spc_seen:		DS 1	; 1 = SPC confirmed strat of play (bit P read with 1)
 
-spc_fread:	DS 1
-spc_fwrite:	DS 1
+spc_ptr:		DS 3
+spc_v:			DS 1
+spc_bank:		DS 1
+
+spc1:			DS 2
+spc2:			DS 2
+spc_wdog:		DS 2	; SFX stream handshake watchdog
+
+spc_fread:		DS 1
+spc_fwrite:		DS 1
 
 ; port record [for interruption]
-spc_pr:		DS 4
+spc_pr:			DS 4
 
-digi_src:	DS 3
-digi_src2:	DS 3
+digi_src:		DS 3
+digi_src2:		DS 3
 
-SoundTable:	DS 3
+SoundTable:		DS 3
 
-spc_fifo:	DS 256	; 128-byte command fifo
+spc_fifo:		DS 256	; 128-byte command fifo
 spc_sfx_next:	DS 1
-spc_q:		DS 1
+spc_q:			DS 1
 
-digi_init:	DS 1
-digi_pitch:	DS 1
-digi_vp:	DS 1
+digi_init:		DS 1
+digi_pitch:		DS 1
+digi_vp:		DS 1
 digi_remain:	DS 2
 digi_active:	DS 1
 digi_copyrate:	DS 1
@@ -211,6 +216,9 @@ sb_start:
 	stz	spc_ptr+2
 	stz spc_bank
 
+	stz	spc_playing
+	stz	spc_seen
+
 	stz spc1+0
 	stz spc1+1
 	stz spc2+0
@@ -297,6 +305,9 @@ spcLoad:
 	lda #$0
 	pha
 	plb ; change bank address to 0
+
+	stz	spc_playing
+	stz	spc_seen
 
 	rep #$30
 	lda	6,s	; module_id
@@ -673,6 +684,19 @@ spcProcess:
 	pha
 	plb 				; change bank address to 0
 
+-:	lda	REG_APUIO2		; SPC state (read : SPC can write)
+	cmp	REG_APUIO2		;
+	bne	-			;
+	and	#$20			; bit P (module in read state)
+	beq	+			;
+	sta	spc_seen		; SPC is currently playing
+	bra	++			;
++:	lda	spc_seen		; P to 0 after read to 1 :
+	beq	++			    ; module stopped or finished
+	stz	spc_seen		;
+	stz	spc_playing		;
+++:
+
 	lda	digi_active
 	beq	spcProcessMessages
 	jsr	spcProcessStream
@@ -741,6 +765,10 @@ spcPlay:
 	pha
 	plb 				; change bank address to 0
 
+	lda	#1
+	sta	spc_playing		; request : playing
+	stz	spc_seen		; wait SPC confirmation
+
 	lda	6,s				; module_id
 
 	sta	spc1+1			; id -- xx
@@ -757,6 +785,9 @@ spcStop:
 	pha
 	plb ; change bank address to 0
 
+	stz	spc_playing
+	stz	spc_seen
+
 	lda	#CMD_STOP
 	jmp	QueueMessage
 
@@ -770,6 +801,9 @@ spcPauseMusic:
 	pha
 	plb
 
+	stz	spc_playing
+	stz	spc_seen
+
 	lda	#CMD_PAUSE
 	jmp	QueueMessage
 
@@ -782,6 +816,10 @@ spcResumeMusic:
 	lda #$0
 	pha
 	plb
+
+	lda	#1
+	sta	spc_playing		; request : playing
+	stz	spc_seen		; wait SPC confirmation
 
 	lda	#CMD_RESUME
 	jmp	QueueMessage
@@ -869,6 +907,32 @@ spcGetMusicPosition:
 	plp
 	rtl
 
+;---------------------------------------------------------------------------------
+; void spcSetMusicLoop(u8 loop)
+spcSetMusicLoop:
+	php
+	phb
+	sep #$20
+	lda #$0
+	pha
+	plb				; change bank address to 0
+
+	lda	6,s			; loop : 1 = loop, 0 = once
+	sta	spc1+1			; -> port3
+	lda	#CMD_LOOP
+	jmp	QueueMessage
+
+;---------------------------------------------------------------------------------
+; u8 spcIsMusicPlaying(void)
+spcIsMusicPlaying:
+	php
+	sep	#$20
+	stz.b	tcc__r0+1
+	lda.l	spc_playing
+	sta.b	tcc__r0
+	plp
+	rtl
+
 ;======================================================================
 ;
 ; STREAMING
@@ -905,6 +969,9 @@ spcAllocateSoundRegion:
 	lda #$0
 	pha
 	plb 				; change bank address to 0
+
+	stz	spc_playing
+	stz	spc_seen
 
 	lda	6,s				; size of buffer
 	pha					; flush command queue

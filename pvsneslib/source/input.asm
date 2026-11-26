@@ -359,7 +359,7 @@ initMouse:
 	sta     snes_mouse
 
 	plp
-	rts
+	rtl
 
 .ENDS
 

@@ -1,51 +1,54 @@
-# Define variables
-VERSION := 2.1.0
+# Version number and build date string
+VERSION    := 3.0.0
 DATESTRING := $(shell date +%Y%m%d)
 
-# Define compilers and flags
-CP       := g++
-CFLAGS   := -O2 -Wall -Wno-unused-result -fpermissive -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
-# Flags for both C and C++ files
-CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions  # Flags only for C++ files
+# Compiler and compiler flags
+CC      := gcc
+CFLAGS  := -g -O2 -Wall -pedantic -Wno-unused-result -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
+LIBS    := -lm
 
-# Define sources, objects and executable name
-SOURCES := $(wildcard *.cpp)
-OBJS    := $(SOURCES:%.cpp=%.o)
+# Define the libraries and compilation flags to be used depending on the OS.
+ifeq ($(shell uname),Darwin)
+	EXT     :=
+else ifeq ($(OS),Windows_NT)
+    CFLAGS  += -static
+	EXT     :=.exe
+else
+	CFLAGS 	+= -static
+	EXT     :=
+endif
+
+# Source and object file locations
+SRC := src
+OBJ := build
+SOURCES := $(wildcard $(SRC)/*.c)
+OBJS    := $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SOURCES))
+
+# Executable binary file name
 EXE     := smconv
 
-# Set extension for the executable based on the OS
-ifeq ($(OS),Windows_NT)
-	EXT := .exe
-else
-	EXT :=
-endif
-
-# Define targets
+# Define the default target
 all: $(EXE)$(EXT)
 
-# Define the libraries to be used depending on the OS
-UNAME := $(shell uname -s)
-ifneq ($(UNAME), Darwin)
-	CFLAGS += -static
-endif
+# Define the recipe for linking the executable
+$(EXE)$(EXT): $(OBJS)
+	@echo "Linking $@"
+	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LIBS)
 
-# Link the object files to create the executable
-$(EXE)$(EXT) : $(OBJS)
-	@echo "linking $@"
-	$(CP) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@
+# Define the recipe for compiling object files
+%.o : %.c
+$(OBJ)/%.o: $(SRC)/%.c
+	@echo "Compiling $<"
+	$(CC) $(CFLAGS) -I$(SRC) -c $< -o $@
 
-# Compile the source files to create the object files
-%.o: %.cpp
-	@echo "compiling $<"
-	$(CP) $(CFLAGS) $(CXXFLAGS) -c $<
+# Define the install target
+install: $(EXE)$(EXT)
+	@cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
 
-# Clean up the object files and executable
+# Define the clean target
 clean:
-	rm -f $(EXE)$(EXT) $(OBJS)
+	@rm -rf ${OBJS}
+	@rm -f $(EXE)$(EXT)
 
-# Define the install target to copy the executable to a specified location
-install:
-	cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
-
-# Declare the all, clean, and install targets as phony targets
+# Declare the phony targets
 .PHONY: all clean install

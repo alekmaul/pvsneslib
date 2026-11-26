@@ -341,7 +341,7 @@ vwf_draw_text_lineok:
     lda 13,s                                                        ; y (tile row, u8) (8+2+2+1)
     rep #$20
     and #$00FF
-.REPT 6                                                             ; y * 64  (32 cols * 2 bytes/entry)
+.REPT 5                                                             ; y * 32  (32 map entries per row; a VRAM address counts words)
     asl a
 .ENDR
     clc
