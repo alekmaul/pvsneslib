@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------
 
-    Copyright (C) 2012-2021
+    Copyright (C) 2012-2026
         Alekmaul
 
     This software is provided 'as-is', without any express or implied
@@ -23,7 +23,7 @@
     Moves const data from .data/.ram.data to .rodata
     Based on Constify from Mic
 
-    C version of the original C++ tool: same command line, same output.
+    C version of the original C++ tool, command line parsed with cmdparser.
 
 ---------------------------------------------------------------------------------*/
 /*
@@ -36,12 +36,30 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define CONSTIFYVERSION __BUILD_VERSION
-#define CONSTIFYDATE __BUILD_DATE
+#include "constify.h"
 
 #define NOT_FOUND (-1L)
 
-int quietmode = 0; // 0 = not quiet, 1 = i can't say anything :P
+//-------------------------------------------------------------------------------------------------
+static cmdp_command_st constify_command = {
+    .doc = "Usage: constify [options] cfile asmfile output\n"
+           "  where cfile is the C source file, asmfile the assembly file generated from it\n"
+           "  and output the assembly file to create"
+           "\n",
+    .options =
+        (cmdp_option_st[]){
+            {0, 0, "Section options:\n", CMDP_TYPE_NONE, NULL, NULL},
+            {'s', "section", "use the .name section (SUPERFREE) instead of .rodata", CMDP_TYPE_STRING_PTR, &constify_args.sectname, .type_name = "<name>"},
+            {0, 0, "Miscellaneous options:\n", CMDP_TYPE_NONE, NULL, NULL},
+            {'q', "quiet", "quiet mode", CMDP_TYPE_BOOL, &constify_args.quietmode},
+            {'v', "version", "display version information", CMDP_TYPE_BOOL, &constify_args.dispversion},
+            {0},
+        },
+    .fn_process = argument_callback,
+};
+
+cmdp_ctx constify_ctx = {0};                                                                       // context for command line options
+t_constify_args constify_args = {0};                                                               // generic struct for all arguments
 
 //////////////////////////////////////////////////////////////////////////////
 // Dynamic string and array of strings
@@ -63,8 +81,7 @@ static void *xrealloc(void *p, size_t size)
     void *q = realloc(p, size);
     if (q == NULL)
     {
-        printf("\nconstify: error 'Out of memory'\n");
-        exit(1);
+        fatal("out of memory");
     }
     return q;
 }
@@ -254,131 +271,67 @@ static int data_bytes(const char *line)
     return count;
 }
 
-//////////////////////////////////////////////////////////////////////////////
-void PrintOptions(const char *str)
-{
-    fprintf(stdout, "\n\nUsage: constify.exe [options] cfile asmfile output...");
-
-    if (str[0] != 0)
-        printf("\n\nconstify: error 'The [%s] parameter is not recognized'\n", str);
-
-    printf("\n\nSection options:");
-    printf("\n-s#name           Change default .rodata to .#name section");
-    printf("\n\nMisc options:");
-    printf("\n-h                Display this information");
-    printf("\n-q                Quiet mode");
-    printf("\n-v                Display constify version information");
-    printf("\n");
-}
-
-//////////////////////////////////////////////////////////////////////////////
-void PrintVersion(void)
+//-------------------------------------------------------------------------------------------------
+void display_version(void)
 {
     printf("constify (" CONSTIFYDATE ") version " CONSTIFYVERSION "");
-    printf("\nCopyright (c) 2013-2021 Alekmaul");
-    printf("\nBased on constify by Mic\n");
+    printf("\nCopyright (c) 2013-2026 Alekmaul");
+    printf("\nBased on constify by Mic\n\n");
+    exit(EXIT_SUCCESS);
 }
 
 /// M A I N ////////////////////////////////////////////////////////////
-int main(int argc, char **argv)
+int main(int argc, const char **argv)
 {
     FILE *cFile, *asmFile, *outFile;
-    str_t oneLine        = {NULL, 0, 0};
-    const char *sectName = "";
-    int saveCode;
+    str_t oneLine = {NULL, 0, 0};
+    const char *sectName;
+    int saveCode, parseret;
     size_t i, j;
-    int k;
     int varOffs, varSize = 0, varsMoved, bytesMoved, ch, currSection;
-    const char *cFilebase   = NULL;
-    const char *asmFilebase = NULL;
-    const char *outFilebase = NULL;
+    const char *cFilebase;
+    const char *asmFilebase;
+    const char *outFilebase;
 
-    // parse the arguments
-    for (k = 1; k < argc; k++)
+    // check if no parameters
+    if (argc <= 1)
     {
-        if (argv[k][0] == '-')
-        {
-            if (argv[k][1] == 'v') // show version
-            {
-                PrintVersion();
-                exit(0);
-            }
-            else if (argv[k][1] == 'h') // show help
-            {
-                PrintOptions("");
-                exit(0);
-            }
-            else if (argv[k][1] == 'q') // quiet mode
-            {
-                quietmode = 1;
-            }
-            else if (argv[k][1] == 's') // section name
-            {
-                sectName = &argv[k][2];
-            }
-            else // invalid option
-            {
-                PrintOptions(argv[k]);
-                exit(1);
-            }
-        }
-        else
-        {
-            // check we have the correct number of arguments
-            if (argc < 4)
-            {
-                printf("\nconstify: error 'Not enough parameters'");
-                PrintOptions("");
-                exit(1);
-            }
+        cmdp_help(&constify_command);
+        return (EXIT_FAILURE);
+    }
 
-            // its not an option flag, so it must be the filenames
-            if (cFilebase != NULL) // if already defined... check other file
-            {
-                if (asmFilebase != NULL) // if already defined... check other file
-                {
-                    if (outFilebase != NULL) // if already defined... problem :/
-                    {
-                        PrintOptions(argv[k]);
-                        return 1;
-                    }
-                    else
-                        outFilebase = argv[k];
-                }
-                else
-                    asmFilebase = argv[k];
-            }
-            else
-                cFilebase = argv[k];
-        }
-    } // for(k=1;k<argc;k++)
+    // get command line options (argument_callback is called by default)
+    cmdp_set_default_context(&constify_ctx);
+    parseret = cmdp_run(argc - 1, (char **) (argv + 1), &constify_command, &constify_ctx);
 
-    // check filenames
-    if (cFilebase == NULL)
+    // go out if error
+    if (parseret)
     {
-        printf("\nconstify: error 'You must specify a c source filename'");
-        PrintOptions("");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
-    if (outFilebase == NULL)
+
+    // specific arguments for version number and leave tool
+    if (constify_args.dispversion)
     {
-        printf("\nconstify: error 'You must specify an output source filename'");
-        PrintOptions("");
-        exit(1);
+        display_version();
     }
-    if (asmFilebase == NULL)
+
+    // help displayed (-h): nothing else to do
+    if (constify_args.cfile == NULL)
     {
-        printf("\nconstify: error 'You must specify an asm output source filename'");
-        PrintOptions("");
-        exit(1);
+        exit(EXIT_SUCCESS);
     }
+
+    cFilebase   = constify_args.cfile;
+    asmFilebase = constify_args.asmfile;
+    outFilebase = constify_args.outfile;
+    sectName    = constify_args.sectname ? constify_args.sectname : "";
 
     // Find all const variables that and store them in constVars
     cFile = fopen(cFilebase, "rb");
     if (cFile == NULL)
     {
-        printf("\nconstify: error 'Cannot open file %s'\n", cFilebase);
-        exit(1);
+        fatal("cannot open file %s", cFilebase);
     }
     /* The C lines are analysed without their comments and the contents of
        their string and character literals, replaced by spaces (positions are
@@ -460,14 +413,12 @@ int main(int argc, char **argv)
     asmFile = fopen(asmFilebase, "rb");
     if (asmFile == NULL)
     {
-        printf("\nconstify: error 'Cannot open file %s'\n", asmFilebase);
-        exit(1);
+        fatal("cannot open file %s", asmFilebase);
     }
     outFile = fopen(outFilebase, "wb");
     if (outFile == NULL)
     {
-        printf("\nconstify: error 'Cannot create file %s'\n", outFilebase);
-        exit(1);
+        fatal("cannot create file %s", outFilebase);
     }
 
     str_clear(&oneLine);
@@ -597,7 +548,10 @@ int main(int argc, char **argv)
         }
     }
 
-    printf("constify: Done 'Moved %d variables (%d bytes)'\n", varsMoved, bytesMoved);
+    if (!constify_args.quietmode)
+    {
+        info("moved %d variables (%d bytes)", varsMoved, bytesMoved);
+    }
     for (i = 0; i < 3; i++)
     {
         for (j = 0; j < asmSections[i].n; j++)

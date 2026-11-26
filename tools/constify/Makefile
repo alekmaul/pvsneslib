@@ -4,25 +4,27 @@ DATESTRING := $(shell date +%Y%m%d)
 
 # Define the C compiler and flags to be used
 CC      := gcc
-CFLAGS  := -g -O2 -Wall -Wno-overflow
-DEFINES := -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
+CFLAGS  := -g -O2 -Wall -Wno-overflow -D__BUILD_DATE="\"$(DATESTRING)\"" -D__BUILD_VERSION="\"$(VERSION)\""
 
-# Define the libraries to be used depending on the OS
-UNAME := $(shell uname -s)
-ifneq ($(UNAME), Darwin)
-	CFLAGS += -static -lm
+# Define the libraries and compilation flags to be used depending on the OS.
+ifeq ($(shell uname),Darwin)
+	EXT     :=
+else ifeq ($(OS),Windows_NT)
+    CFLAGS  += -static
+	EXT     :=.exe
+else
+	CFLAGS 	+= -static
+	EXT     :=
 endif
 
 # Define the source files, object files, and executable name
-SOURCES := $(wildcard *.c)
-OBJS    := $(SOURCES:%.c=%.o)
-EXE     := constify
+SRC := src
+OBJ := build
+SOURCES := $(wildcard $(SRC)/*.c)
+OBJS    := $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SOURCES))
 
-ifeq ($(OS),Windows_NT)
-	EXT := .exe
-else
-	EXT :=
-endif
+# Executable binary file name
+EXE     := constify
 
 # Default target for the Makefile
 all: $(EXE)$(EXT)
@@ -30,20 +32,22 @@ all: $(EXE)$(EXT)
 # Link the object files to create the executable
 $(EXE)$(EXT): $(OBJS)
 	@echo "linking $@"
-	$(CC) $(CFLAGS) $(DEFINES) $(OBJS) -o $@
+	$(CC) $(CFLAGS) $(OBJS) -o $@
 
-# Compile the source files to create the object files
-%.o: %.c
-	@echo "compiling $<"
-	$(CC) $(CFLAGS) $(DEFINES) -c $< -o $@
+# Define the recipe for compiling object files
+%.o : %.c
+$(OBJ)/%.o: $(SRC)/%.c
+	@echo "Compiling $<"
+	$(CC) $(CFLAGS) -I$(SRC) -c $< -o $@
 
-# Install the executable to a specified directory
+# Define the install target
 install: $(EXE)$(EXT)
 	@cp $(EXE)$(EXT) ../../devkitsnes/tools/$(EXE)$(EXT)
 
-# Clean up the object files and executable
+# Define the clean target
 clean:
-	@rm -f $(EXE)$(EXT) $(OBJS)
+	@rm -rf ${OBJS}
+	@rm -f $(EXE)$(EXT)
 
 # Declare the phony targets
 .PHONY: all clean install
