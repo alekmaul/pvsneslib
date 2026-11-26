@@ -1,5 +1,5 @@
 # Version number and build date string
-VERSION    := 4.0.0
+VERSION    := 5.0.0
 DATESTRING := $(shell date +%Y%m%d)
 
 # Define the C compiler and flags to be used
