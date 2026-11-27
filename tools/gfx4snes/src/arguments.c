@@ -148,7 +148,7 @@ cmdp_action_t argument_callback(cmdp_process_param_st *params)
 			fatal("incorrect value for metasprite width [%d]\nconversion terminated.", gfx4snes_args.metawidth); // exit gfx4snes at this point
 		}
 		if ( (gfx4snes_args.metaheight<=0) || (gfx4snes_args.metaheight>128) ) {
-			fatal("incorrect value for metasprite height [%d]\nconversion terminated.", gfx4snes_args.metawidth); // exit gfx4snes at this point
+			fatal("incorrect value for metasprite height [%d]\nconversion terminated.", gfx4snes_args.metaheight); // exit gfx4snes at this point
 		}
 		if ( (gfx4snes_args.metapriority<0) || (gfx4snes_args.metapriority>3) ) {
 			fatal("incorrect value for metasprite spriority [%d]\nconversion terminated.", gfx4snes_args.metapriority); // exit gfx4snes at this point

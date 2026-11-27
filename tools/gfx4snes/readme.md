@@ -29,12 +29,12 @@ where filename is a 256 color PNG or BMP file
 - `-H` Height of image blocks in pixels [8] (do not use with -s option) 
 
 ### Metasprites options 
-- `-T (S8_16|S8_32|S16_32)` Include metasprite definition for output (-s is mandatory for this)
-- `-X (0..128)` Width of the metasprite
-- `-Y (0..128)` Height of the metasprite
+- `-T` Include metasprite definition for output (-s is mandatory for this)
+- `-Z (S8_16|S8_32|S16_32)` Metasprites mixing two sprite sizes (for oamMetaDrawMix, implies -T, -s is ignored)
+- `-X (1..128)` Width of the metasprite (a multiple of the small size with -Z)
+- `-Y (1..128)` Height of the metasprite (a multiple of the small size with -Z)
 - `-P (0..3)` Priority of the metasprite 
 - `-L (1..7)` Flipped metasprite variants: bit1=flipx bit2=flipy bit3=flipx+flipy (you can combine)
-
 ### Map options
 - `-f (0..2047)` Generate the whole picture with an offset for tile number {0..2047}
 - `-m` Include map for output  
@@ -66,6 +66,11 @@ gfx4snes -o 16 -s 8 -c 16 -e 0 -f png -p -m -b -i myimage.png
 ```
  This will convert a myimage png file to a map/pal/pic files with 16 colors,palette entry #0,  8x8 tiles, a blank tile, a map, no border, 16 colors output.  
  
+```
+gfx4snes -Z S8_32 -X 64 -Y 64 -P 2 -u 16 -o 16 -i hero.png
+```
+This will cut hero.png into 64x64 metasprites mixing 8x8 and 32x32 sprites with priority 2, and save their definitions (hero_meta.inc), the large and small sprite graphics (hero_l.pic, hero_s.pic) and a 16 colors palette (hero.pal).  
+
 ## future work
 [.] things I think to add ;)
 
