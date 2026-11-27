@@ -18,8 +18,10 @@ UNAME := $(shell uname -s)
 # Debian 12 or Mint 21. tcc links with $(CFLAGS) (its Makefile ignores
 # LDFLAGS), so -static goes through --extra-cflags, which replaces the
 # default -O2.
+# 816-tcc and WLA-DX are linked statically on Linux
 ifeq ($(UNAME), Linux)
   TCC_CONFIGURE_FLAGS := --extra-cflags="-O2 -static"
+  WLA_CMAKE_FLAGS := -DCMAKE_EXE_LINKER_FLAGS=-static
 endif
 
 # Set default number of jobs to run in parallel based on available CPU cores
@@ -65,7 +67,7 @@ tcc-install:
 # Define the wla target
 wla:
 	cd $(WLA_DIR) && \
-	cmake -G "$(CMAKE_TYPE)" . && \
+	cmake -G "$(CMAKE_TYPE)" $(WLA_CMAKE_FLAGS) . && \
 	$(MAKE) wla-65816 wla-spc700 wlalink
 
 # Define the wla-clean target
