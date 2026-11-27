@@ -13,6 +13,15 @@ BIN_DIR    := ../devkitsnes/bin
 # Define variables for System
 UNAME := $(shell uname -s)
 
+# On Linux, 816-tcc is linked statically: linked against the glibc of the build
+# machine (2.38+ on recent distributions), it would not start on Ubuntu 22.04,
+# Debian 12 or Mint 21. tcc links with $(CFLAGS) (its Makefile ignores
+# LDFLAGS), so -static goes through --extra-cflags, which replaces the
+# default -O2.
+ifeq ($(UNAME), Linux)
+  TCC_CONFIGURE_FLAGS := --extra-cflags="-O2 -static"
+endif
+
 # Set default number of jobs to run in parallel based on available CPU cores
 ifeq ($(OS),Windows_NT)
   # Set NUM_JOBS to the number of processors on Windows
@@ -39,7 +48,7 @@ install: tcc-install wla-install
 
 # Configure tcc target
 tcc-configure:
-	@cd $(TCC_DIR) && ./configure
+	@cd $(TCC_DIR) && ./configure $(TCC_CONFIGURE_FLAGS)
 
 # Define the tcc target
 tcc: tcc-configure
