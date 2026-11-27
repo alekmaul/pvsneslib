@@ -2,7 +2,7 @@
 
     sprite.h -- definitions for SNES sprites
 
-    Copyright (C) 2012-2025
+    Copyright (C) 2012-2026
         Alekmaul
 
     This software is provided 'as-is', without any express or implied
@@ -59,6 +59,9 @@
 #define OBJ_FLIPY (0x80) /*!<brief sprite flip y attribute */
 #define OBJ_PRIO(prio) (prio << 4) /*!<brief sprite priority attribute */
 
+/*! A t_metasprite entry for oamMetaDrawMix: the 5th byte, "unused" in t_metasprite, is the sprite type (OBJ_SPRITE8, OBJ_SPRITE16 or OBJ_SPRITE32) */
+#define METASPR_MIX_ITEM(dx, dy, dt, a, type) {(dx), (dy), (dt), (a), (type)}
+
 /*!	\struct t_sprites
     \brief Dynamic sprite definition (16 bytes)
 */
@@ -106,7 +109,7 @@ typedef struct {
     u16 dx, dy;
     u16 dtile;
     u8 props;
-    u8 unused; // to be sure to align on 16 bits
+    u8 unused; // sprite type for oamMetaDrawMix (OBJ_SPRITE8, 16 or 32), ignored by oamMetaDraw8/16/32; keeps the item 8 bytes long
 } t_metasprite;
 
 #define metasprite_end -128
@@ -454,5 +457,24 @@ void oamMetaDrawDyn8(u16 id, s16 x,s16 y, u8 *sprmeta,u8 *gfxptr);
         You need to have graphics of Metasprite in VRAM before using this function.
 */
 void oamMetaDraw8(u16 id, s16 x,s16 y, u8 *sprmeta, u16 ofsgfx);
+
+/*!\brief Add a meta sprite mixing sprites of the two sizes of the current
+    object size mode (8x8, 16x16 or 32x32).
+    \param id the first oam number to be used [0 - 127]
+    \param x x coordinate of the metasprite
+    \param y y coordinate of the metasprite
+    \param sprmeta pointer to t_metasprite entries, ended by METASPR_TERM
+    \param sprlarge the sprite type which is the large size of the current
+        object size mode (OBJ_SPRITE16 with OBJ_SIZE8_L16, OBJ_SPRITE32 with
+        OBJ_SIZE8_L32 and OBJ_SIZE16_L32)
+    \param ofsgfx offset of graphics related to the initial sprite graphic
+        offset, as for oamMetaDraw16
+    \return the next free oam number
+    \note dtile is the number of the block in the graphic sheet (0-15 for
+        32x32); small sprites use the second name table. A sprite entirely off
+        screen is hidden and keeps its oam number. The graphics must be in
+        VRAM.
+*/
+u16 oamMetaDrawMix(u16 id, s16 x, s16 y, u8 *sprmeta, u16 sprlarge, u16 ofsgfx);
 
 #endif // SNES_SPRITES_INCLUDE
