@@ -3830,7 +3830,7 @@ oamMetaDraw8:
 	lda #0
 	tay														  ; y is now the id of meta sprite buffer
 
-	lda 22,s 												  ; get graphic offset for sprite (default is 0x0000)
+	lda 20,s 												  ; get graphic offset for sprite (default is 0x0000)
 	lsr a 													  ; transform into id
 	lsr a 
 	lsr a 
@@ -3956,9 +3956,6 @@ _oMTD8Rep3p_16p:
 	and.l oamSetExand,x
 	sta oamMemory,y              							  ; store new value in oam table #2
 
-	lda.l oamSizeshift,x         							  ; get shifted value of hide (<<1, <<3, <<5, <<7
-	ora oamMemory,y
-	sta oamMemory,y               							  ; store new value in oam table #2
 
     rep #$20
 	lda sprit_val0											  ; go to next sprite entry (x4 multiplier)
