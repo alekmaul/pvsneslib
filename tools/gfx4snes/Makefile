@@ -1,5 +1,5 @@
 # Version number and build date string
-VERSION    := 2.2.0
+VERSION    := 2.3.0
 DATESTRING := $(shell date +%Y%m%d)
 
 # Compiler and compiler flags

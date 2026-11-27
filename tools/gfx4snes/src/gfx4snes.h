@@ -16,6 +16,7 @@
 #include "tiles.h"
 #include "incgener.h"
 #include "metasprites.h"
+#include "metasprites_mix.h"
 #include "gradients.h"
 
 #ifndef __BUILD_VERSION
@@ -52,6 +53,9 @@ typedef struct
     int metaheight;                                                             // height of the metasprite
 	int metapriority;                                                           // sprite priority (0..3)
 	int metalarge;                                                              // 1 = use large sprite size attribute
+    char *metasizes;                                                            // "S8_16", "S8_32" or "S16_32": metasprites mixing two sizes
+    int metasizesmall;                                                          // the two sizes read from metasizes
+    int metasizelarge;
 	int metaflip;                                                               // metasprite flip: 0=none 1=flipx 2=flipy 3=flipx+flipy (separate variants) 4=flipxy (single combined variant)
 
     int paletteoutput;	            											// -1= not managed, number of color for palette output 

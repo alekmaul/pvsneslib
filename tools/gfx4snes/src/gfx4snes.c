@@ -50,6 +50,7 @@ static cmdp_command_st gfx4snes_command = {
 			{'Y', "meta-width","Height of the metasprite {0..128}",CMDP_TYPE_INT4, &gfx4snes_args.metaheight},
 			{'P', "meta-priority","priority of the metasprite {0..3}",CMDP_TYPE_INT4, &gfx4snes_args.metapriority},
 			{'L', "meta-flip",   "generate flipped metasprite variants: b1=flipx b2=flipy b3=flipx+flipy",CMDP_TYPE_INT4, &gfx4snes_args.metaflip},
+			{'Z', "meta-sizes", "metasprites mixing two sprite sizes, for oamMetaDrawMix {S8_16 S8_32 S16_32}", CMDP_TYPE_STRING_PTR, &gfx4snes_args.metasizes},
             {0, 0, "Maps options:\n", CMDP_TYPE_NONE, NULL,NULL},
 			{'f', "map-offset", "generate the whole picture with an offset for tile number {0..2047}", CMDP_TYPE_INT4, &gfx4snes_args.tileoffset},
 			{'m', "map-output", "include map for output", CMDP_TYPE_BOOL, &gfx4snes_args.mapoutput},
@@ -152,8 +153,17 @@ int main(int argc, const char **argv)
 		nbtiles++;
 	}
 
+	// metasprites mixing two sprite sizes: their own tile files and tables
+	if (gfx4snes_args.metasizes)
+	{
+		metasprite_mix_save (gfx4snes_args.filebase, snesimage.buffer, snesimage.header.width, snesimage.header.height, gfx4snes_args.metasizesmall, gfx4snes_args.metasizelarge, gfx4snes_args.metawidth, gfx4snes_args.metaheight, gfx4snes_args.metapriority, gfx4snes_args.metaflip, gfx4snes_args.paletteentry, gfx4snes_args.palettesave, gfx4snes_args.tilelzpacked, gfx4snes_args.quietmode);
+		if (gfx4snes_args.palettesave)
+		{
+			palette_save (gfx4snes_args.filebase,(int *) &palette_snes,gfx4snes_args.paletteoutput , gfx4snes_args.quietmode);
+		}
+	}
 	// if we generate gradient
-	if (gfx4snes_args.palettegradient) 
+	else if (gfx4snes_args.palettegradient) 
 	{
 		gradient_extractcolors(&snesimage,gfx4snes_args.quietmode);
 		gradient_save(gfx4snes_args.filebase,gfx4snes_args.quietmode);

@@ -29,7 +29,7 @@ where filename is a 256 color PNG or BMP file
 - `-H` Height of image blocks in pixels [8] (do not use with -s option) 
 
 ### Metasprites options 
-- `-T` Include metasprite definition for output (-s is mandatory for this)
+- `-T (S8_16|S8_32|S16_32)` Include metasprite definition for output (-s is mandatory for this)
 - `-X (0..128)` Width of the metasprite
 - `-Y (0..128)` Height of the metasprite
 - `-P (0..3)` Priority of the metasprite 

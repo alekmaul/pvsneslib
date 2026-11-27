@@ -80,6 +80,34 @@ cmdp_action_t argument_callback(cmdp_process_param_st *params)
 		}
 	}
 	
+	// Metasprites mixing two sizes: they imply -T, and -s is the small size
+	if (gfx4snes_args.metasizes)
+	{
+		if (!strcmp(gfx4snes_args.metasizes,"S8_16")) {
+			gfx4snes_args.metasizesmall=8;
+			gfx4snes_args.metasizelarge=16;
+		}
+		else if (!strcmp(gfx4snes_args.metasizes,"S8_32")) {
+			gfx4snes_args.metasizesmall=8;
+			gfx4snes_args.metasizelarge=32;
+		}
+		else if (!strcmp(gfx4snes_args.metasizes,"S16_32")) {
+			gfx4snes_args.metasizesmall=16;
+			gfx4snes_args.metasizelarge=32;
+		}
+		else {
+			fatal("incorrect value for meta sizes [%s], must be S8_16, S8_32 or S16_32\nconversion terminated.", gfx4snes_args.metasizes); // exit gfx4snes at this point
+		}
+		if (gfx4snes_args.mapoutput || gfx4snes_args.palettegradient || gfx4snes_args.tilepacked) {
+			fatal("meta sizes can't be used with a map, a gradient or packed pixels\nconversion terminated.");
+		}
+		if (gfx4snes_args.palettecolors!=16) {
+			fatal("sprites use 16 colors: meta sizes needs -u 16\nconversion terminated.");
+		}
+		gfx4snes_args.metasprite=1;
+		gfx4snes_args.tilesize=gfx4snes_args.tilewidth=gfx4snes_args.tileheight=gfx4snes_args.metasizesmall;
+	}
+
 	// Tiles options -----------------------------------------------
 	// check size of image block parameter (default is 8)
 	if ( (gfx4snes_args.tilesize!=8) && (gfx4snes_args.tilesize!=16) && (gfx4snes_args.tilesize!=32) && (gfx4snes_args.tilesize!=64) )
@@ -124,6 +152,9 @@ cmdp_action_t argument_callback(cmdp_process_param_st *params)
 		}
 		if ( (gfx4snes_args.metapriority<0) || (gfx4snes_args.metapriority>3) ) {
 			fatal("incorrect value for metasprite spriority [%d]\nconversion terminated.", gfx4snes_args.metapriority); // exit gfx4snes at this point
+		}
+		if ( gfx4snes_args.metasizes && ((gfx4snes_args.metawidth % gfx4snes_args.metasizesmall) || (gfx4snes_args.metaheight % gfx4snes_args.metasizesmall)) ) {
+			fatal("the metasprite width and height must be multiples of %d\nconversion terminated.", gfx4snes_args.metasizesmall); // exit gfx4snes at this point
 		}
 		if ( (gfx4snes_args.metaflip<0) || (gfx4snes_args.metaflip>7) ) {
 			fatal("incorrect value for metasprite flip [%d], must be 0..7\nconversion terminated.", gfx4snes_args.metaflip); // exit gfx4snes at this point
