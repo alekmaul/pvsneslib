@@ -3982,3 +3982,245 @@ _oMTD8RepEnd0p:
 	rtl
     
 .ENDS
+
+.SECTION ".spritesmtmix_text" SUPERFREE
+
+;---------------------------------------------------------------------------------
+; u16 oamMetaDrawMix(u16 id, s16 x, s16 y, u8 *sprmeta, u16 sprlarge, u16 ofsgfx)
+; 10-11 12-13 14-15 16-19 20-21 22-23
+; tcc__r0/r0h  pointer to the table    tcc__r3  screen y
+; tcc__r1      graphics offset         tcc__r4  dtile, then tile | attr << 8
+; tcc__r1h     oam offset (saved)      tcc__r5  props | type << 8, then high bits
+; tcc__r2      screen x                tcc__r2h temporary, high table mask
+oamMetaDrawMix:
+    php
+    phb
+    phx
+    phy
+
+    sep #$20
+    lda #$7e
+    pha
+    plb
+    rep #$30
+
+    lda 16,s
+    sta.b tcc__r0
+    lda 18,s
+    sta.b tcc__r0h                  ; the bank is the low byte
+
+    lda 22,s                        ; graphics offset, in tiles
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    sta.b tcc__r1
+
+    lda 10,s                        ; x = oam offset (id * 4)
+    asl a
+    asl a
+    tax
+    ldy.w #0                        ; y = offset in the table
+
+_omdmNext:
+    lda.b [tcc__r0],y               ; dx
+    cmp.w #$ff80                    ; metasprite_end
+    bne +
+    jmp _omdmEnd
++   cpx.w #512                      ; no oam entry left
+    bcc +
+    jmp _omdmEnd
++   clc
+    adc 12,s
+    sta.b tcc__r2
+    iny
+    iny
+    lda.b [tcc__r0],y               ; dy
+    clc
+    adc 14,s
+    sta.b tcc__r3
+    iny
+    iny
+    lda.b [tcc__r0],y               ; dtile
+    sta.b tcc__r4
+    iny
+    iny
+    lda.b [tcc__r0],y               ; props, type
+    sta.b tcc__r5
+    iny
+    iny                             ; y = next entry
+
+    stx.b tcc__r1h
+    lda.b tcc__r4
+    asl a
+    tax                             ; x = index in the tile lookup tables
+
+    lda.b tcc__r5
+    xba
+    and.w #$00ff                    ; type
+    cmp.w #4                        ; OBJ_SPRITE8
+    bne _omdmNot8
+
+; ---- 8x8
+    lda.b tcc__r2                   ; visible when -7 <= x < 256
+    clc
+    adc.w #7
+    cmp.w #256+7
+    bcs _omdmHideNear
+    lda.b tcc__r3                   ; visible when -7 <= y < 224
+    clc
+    adc.w #7
+    cmp.w #224+7
+    bcs _omdmHideNear
+    lda.l lkup8idT,x                ; always in the second name table
+    bra _omdmTile
+
+_omdmHideNear:
+    jmp _omdmHide
+
+_omdmNot8:
+    cmp.w #1                        ; OBJ_SPRITE32
+    bne _omdm16
+
+; ---- 32x32
+    lda.b tcc__r2                   ; visible when -31 <= x < 256
+    clc
+    adc.w #31
+    cmp.w #256+31
+    bcs _omdmHideNear
+    lda.b tcc__r3                   ; visible when -31 <= y < 224
+    clc
+    adc.w #31
+    cmp.w #224+31
+    bcs _omdmHideNear
+    lda.l lkup32idT,x               ; large or small: the name table bit is
+    bra _omdmTile                   ; set below from the size
+
+; ---- 16x16
+_omdm16:
+    lda.b tcc__r2
+    clc
+    adc.w #15
+    cmp.w #256+15
+    bcs _omdmHideNear
+    lda.b tcc__r3
+    clc
+    adc.w #15
+    cmp.w #224+15
+    bcs _omdmHideNear
+    lda 20,s
+    cmp.w #2                        ; is OBJ_SPRITE16 the large size ?
+    beq +
+    lda.l lkup16idT,x               ; no: second name table
+    bra _omdmTile
++   lda.l lkup16idT0,x              ; yes: first name table
+
+; ---- A = tile of the block
+_omdmTile:
+    clc
+    adc.b tcc__r1
+    and.w #$00ff
+    sta.b tcc__r4
+
+    lda.b tcc__r5
+    xba
+    and.w #$00ff                    ; type
+    cmp 20,s
+    beq _omdmLarge
+    lda.b tcc__r5                   ; small: attributes, bit 0 set
+    xba
+    and.w #$ff00
+    ora.w #$0100
+    ora.b tcc__r4
+    sta.b tcc__r4
+    lda.w #0
+    bra _omdmWrite
+_omdmLarge:
+    lda.b tcc__r5
+    xba
+    and.w #$ff00
+    ora.b tcc__r4
+    sta.b tcc__r4
+    lda.w #2
+
+; ---- A = size bit of the high table
+_omdmWrite:
+    sta.b tcc__r5
+    lda.b tcc__r2
+    and.w #$0100                    ; bit 8 of x
+    beq +
+    inc.b tcc__r5
++   ldx.b tcc__r1h
+    lda.b tcc__r3
+    xba
+    and.w #$ff00
+    sta.b tcc__r2h
+    lda.b tcc__r2
+    and.w #$00ff
+    ora.b tcc__r2h
+    sta.w oamMemory,x               ; x, y
+    lda.b tcc__r4
+    sta.w oamMemory+2,x             ; tile, attributes
+    bra _omdmHigh
+
+_omdmHide:
+    ldx.b tcc__r1h
+    lda.w #$f001                    ; as oamSetVisible(OBJ_HIDE): x = -255, y = 240
+    sta.w oamMemory,x
+    lda.w #1
+    sta.b tcc__r5
+
+; ---- high table: 2 bits per sprite in byte 512 + offset / 16
+_omdmHigh:
+    txa
+    and.w #$000c                    ; (id & 3) * 4
+    ora.b tcc__r5                   ; + x bit 8 | large << 1
+    tax
+    sep #$20
+    lda.l _omdmBits,x
+    sta.b tcc__r5
+    lda.l _omdmClear,x
+    sta.b tcc__r2h
+    rep #$20
+    lda.b tcc__r1h
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    tax
+    sep #$20
+    lda.w oamMemory+512,x
+    and.b tcc__r2h
+    ora.b tcc__r5
+    sta.w oamMemory+512,x
+    rep #$20
+    lda.b tcc__r1h
+    clc
+    adc.w #4
+    tax
+    jmp _omdmNext
+
+_omdmEnd:
+    txa
+    lsr a
+    lsr a
+    sta.b tcc__r0                   ; return the next free oam number
+
+    ply
+    plx
+    plb
+    plp
+    rtl
+
+_omdmBits:
+    .db $00, $01, $02, $03
+    .db $00, $04, $08, $0c
+    .db $00, $10, $20, $30
+    .db $00, $40, $80, $c0
+_omdmClear:
+    .db $fc, $fc, $fc, $fc
+    .db $f3, $f3, $f3, $f3
+    .db $cf, $cf, $cf, $cf
+    .db $3f, $3f, $3f, $3f
+
+.ENDS
